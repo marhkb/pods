@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-10-12 08:59+0000\n"
-"Last-Translator: Yesionio <yesionio@vivaldi.net>\n"
+"PO-Revision-Date: 2026-02-12 07:09+0000\n"
+"Last-Translator: milk potatoes <milkpotatoes+weblate@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/pods/main/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -1200,7 +1200,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
 msgid "Marcus Behrendt"
-msgstr ""
+msgstr "Marcus Behrendt"
 
 #: src/application.rs:190
 msgid "translator-credits"
@@ -1680,8 +1680,9 @@ msgid "Artifact has been deleted"
 msgstr ""
 
 #: src/view/action_page.ui:103 src/view/connection_creation_page.ui:89
+#, fuzzy
 msgid "_Abort"
-msgstr ""
+msgstr "_Abort"
 
 #: src/view/action_page.ui:118
 msgid "_View"
@@ -1729,8 +1730,9 @@ msgid "Actions"
 msgstr ""
 
 #: src/view/actions_sidebar.ui:26
+#, fuzzy
 msgid "Clear Finished Actions"
-msgstr ""
+msgstr "清空已完成的操作"
 
 #: src/view/actions_sidebar.ui:48
 msgid "No Actions"
@@ -1755,7 +1757,7 @@ msgstr ""
 #: src/view/volumes_panel.ui:67 src/view/volumes_panel.ui:138
 #: src/view/volumes_panel.ui:324 src/view/volumes_row.ui:22
 msgid "Volumes"
-msgstr ""
+msgstr "存储卷"
 
 #: src/view/client_view.rs:256 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
@@ -1782,7 +1784,7 @@ msgstr ""
 #: src/view/client_view.ui:57 src/view/client_view.ui:179
 #: src/view/connections_sidebar.ui:18
 msgid "Connections"
-msgstr ""
+msgstr "连接"
 
 #: src/view/client_view.ui:82
 msgctxt "app name"
@@ -1937,7 +1939,7 @@ msgstr ""
 
 #: src/view/connection_custom_info_page.ui:59
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://somewhere:8081"
 
 #: src/view/connection_custom_info_page.ui:80
 msgid "Podman Root Connection"
@@ -1959,9 +1961,10 @@ msgid "Enable the service by issuing the command:"
 msgstr "通过使用以下命令启用服务:"
 
 #: src/view/connection_custom_info_page.ui:265
+#, fuzzy
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
+msgstr "使用下面的链接创建连接"
 
 #: src/view/connection_row.rs:98
 msgid "Local connection"
@@ -1974,7 +1977,7 @@ msgstr ""
 #: src/view/pods_panel.ui:401 src/view/volumes_panel.ui:297
 #: src/view/volumes_panel.ui:299
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #: src/view/connection.rs:22
 msgid "There are ongoing actions whose progress will be irretrievably lost"
@@ -1994,7 +1997,7 @@ msgstr ""
 
 #: src/view/connections_sidebar.ui:26
 msgid "New Connection (Ctrl+Shift+N)"
-msgstr ""
+msgstr "添加连接 (Ctrl+Shift+N)"
 
 #: src/view/container_card.rs:544 src/view/container_row.rs:250
 msgid "Container {}"
@@ -2052,7 +2055,7 @@ msgstr ""
 #: src/view/container_details_page.ui:141 src/view/containers_panel.ui:386
 #: src/view/pod_details_page.ui:135 src/view/pods_panel.ui:384
 msgid "Pause"
-msgstr ""
+msgstr "暂停"
 
 #: src/view/container_commit_page.rs:98
 msgid "Change"
@@ -2102,7 +2105,7 @@ msgstr ""
 
 #: src/view/container_commit_page.ui:104
 msgid "Tag"
-msgstr ""
+msgstr "标签"
 
 #: src/view/container_commit_page.ui:110
 msgid "Format"
@@ -2114,7 +2117,7 @@ msgstr ""
 
 #: src/view/container_commit_page.ui:134
 msgid "Changes"
-msgstr ""
+msgstr "更改"
 
 #: src/view/container_commit_page.ui:135
 msgid ""
@@ -2203,22 +2206,23 @@ msgstr "内存限制"
 
 #: src/view/container_creation_page.ui:220
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: src/view/container_creation_page.ui:221
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/view/container_creation_page.ui:222
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/view/container_creation_page.ui:251
 #: src/view/container_creation_page.ui:363
 #: src/view/container_health_check_page.ui:53 src/view/image_details_page.ui:93
 #: src/view/pod_creation_page.ui:310
+#, fuzzy
 msgid "Command"
-msgstr ""
+msgstr "命令"
 
 #: src/view/container_creation_page.ui:259 src/view/pod_creation_page.ui:142
 #: src/view/pod_creation_page.ui:319
@@ -3994,11 +3998,11 @@ msgstr ""
 
 #: src/widget/date_time_row.ui:89
 msgid "AM"
-msgstr ""
+msgstr "上午"
 
 #: src/widget/date_time_row.ui:90
 msgid "PM"
-msgstr ""
+msgstr "下午"
 
 #: src/widget/main_menu_button.ui:7
 msgid "_Keyboard Shortcuts"
@@ -4021,12 +4025,13 @@ msgid "{} of {}"
 msgstr ""
 
 #: src/widget/source_view_search_widget.ui:23
+#, fuzzy
 msgid "Previous (Ctrl+Shift+G)"
-msgstr ""
+msgstr "上一个 (Ctrl+Shift+G)"
 
 #: src/widget/source_view_search_widget.ui:30
 msgid "Next (Ctrl+G)"
-msgstr ""
+msgstr "下一个 (Ctrl+G)"
 
 #: src/widget/text_search_entry.ui:41
 msgid "Regular Expression"
