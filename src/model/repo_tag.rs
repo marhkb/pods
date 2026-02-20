@@ -64,10 +64,25 @@ impl RepoTag {
     }
 
     pub(crate) fn repo(&self) -> String {
-        self.full().split_once(':').unwrap().0.to_owned()
+        split_repo_tag(&self.full()).0.to_owned()
     }
 
     pub(crate) fn tag(&self) -> String {
-        self.full().split_once(':').unwrap().1.to_owned()
+        split_repo_tag(&self.full()).1.to_owned()
     }
+}
+
+fn split_repo_tag(full: &str) -> (&str, &str) {
+    if let Some((repo, tag)) = full.rsplit_once(':') {
+        let split_at = repo.len();
+        if full
+            .rfind('/')
+            .map(|index| index < split_at)
+            .unwrap_or(true)
+        {
+            return (repo, tag);
+        }
+    }
+
+    (full, "")
 }
