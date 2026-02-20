@@ -50,6 +50,10 @@
                     <property name="margin-end">36</property>
                     <signal name="search-started" handler="on_filter_started" swapped="true"/>
                     <signal name="search-changed" handler="on_filter_changed" swapped="true"/>
+                    <accessibility>
+                      <property name="label" translatable="yes">Filter tags</property>
+                      <property name="description" translatable="yes">Type to filter tags. Press Enter to select the highlighted tag.</property>
+                    </accessibility>
 
                     <child>
                       <object class="GtkEventControllerKey">
@@ -100,6 +104,7 @@
                             </style>
                             <property name="icon-name">system-search-symbolic</property>
                             <property name="title" translatable="yes">Fetching Tags</property>
+                            <property name="description" translatable="yes">Loading available tags for the selected image</property>
 
                             <child>
                               <object class="AdwSpinner" id="spinner">

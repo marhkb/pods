@@ -45,6 +45,10 @@
                         <property name="activates-default">True</property>
                         <property name="max-width-chars">28</property>
                         <property name="placeholder-text" translatable="yes">Enter image search term</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Image search term</property>
+                          <property name="description" translatable="yes">Type an image name and press Enter to search</property>
+                        </accessibility>
 
                         <child>
                           <object class="GtkEventControllerKey">
@@ -106,6 +110,7 @@
                                     </style>
                                     <property name="icon-name">system-search-symbolic</property>
                                     <property name="title" translatable="yes">Searching</property>
+                                    <property name="description" translatable="yes">Looking up matching images on remote registries</property>
 
                                     <child>
                                       <object class="AdwSpinner" id="spinner">

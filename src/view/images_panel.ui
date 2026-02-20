@@ -111,6 +111,9 @@
                     <property name="valign">center</property>
                     <property name="height-request">30</property>
                     <property name="width-request">30</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Loading images</property>
+                    </accessibility>
                   </object>
                 </child>
 
@@ -197,6 +200,9 @@
                                 </style>
                                 <property name="can-shrink">True</property>
                                 <property name="menu-model">selection-menu</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Selected images</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -205,9 +211,9 @@
                                 <property name="active">True</property>
                                 <property name="action-name">images-panel.exit-selection-mode</property>
                                 <property name="icon-name">selection-mode-symbolic</property>
-                                <property name="tooltip-text" translatable="yes">Start Multi-Selection</property>
+                                <property name="tooltip-text" translatable="yes">Exit Multi-Selection</property>
                                 <accessibility>
-                                  <property name="label" translatable="yes">Start Multi-Selection</property>
+                                  <property name="label" translatable="yes">Exit Multi-Selection</property>
                                 </accessibility>
                               </object>
                             </child>
@@ -317,6 +323,9 @@
                         <property name="width-request">200</property>
                         <property name="tooltip-text" translatable="yes">Delete</property>
                         <property name="valign">center</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Delete selected images</property>
+                        </accessibility>
                       </object>
                     </child>
 

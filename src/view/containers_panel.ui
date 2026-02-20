@@ -96,6 +96,9 @@
                     <property name="valign">center</property>
                     <property name="height-request">30</property>
                     <property name="width-request">30</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Loading containers</property>
+                    </accessibility>
                   </object>
                 </child>
 
@@ -186,6 +189,9 @@
                                 </style>
                                 <property name="can-shrink">True</property>
                                 <property name="menu-model">selection-menu</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Selected containers</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -339,6 +345,9 @@
                                         <property name="action-name">containers-panel.start-or-resume-selection</property>
                                         <property name="tooltip-text" translatable="yes">Start/Resume</property>
                                         <property name="valign">center</property>
+                                        <accessibility>
+                                          <property name="label" translatable="yes">Start or resume selected containers</property>
+                                        </accessibility>
 
                                         <child>
                                           <object class="GtkImage">
@@ -357,6 +366,9 @@
                                         <property name="action-name">containers-panel.stop-selection</property>
                                         <property name="tooltip-text" translatable="yes">Stop</property>
                                         <property name="valign">center</property>
+                                        <accessibility>
+                                          <property name="label" translatable="yes">Stop selected containers</property>
+                                        </accessibility>
 
                                         <child>
                                           <object class="GtkImage">

@@ -92,6 +92,9 @@
                 <property name="valign">center</property>
                 <property name="height-request">30</property>
                 <property name="width-request">30</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Loading content</property>
+                </accessibility>
               </object>
             </child>
 
@@ -123,6 +126,10 @@
                         <property name="monospace">True</property>
                         <property name="show-line-numbers">True</property>
                         <property name="wrap-mode">char</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Inspection output</property>
+                          <property name="description" translatable="yes">Use Control+F to search content. Press Escape to close search. Use Control+Plus, Control+Minus, and Control+0 to adjust zoom.</property>
+                        </accessibility>
                       </object>
                     </child>
 

@@ -51,6 +51,10 @@
                     <signal name="search-started" handler="on_filter_started" swapped="true"/>
                     <signal name="search-changed" handler="on_filter_changed" swapped="true"/>
                     <property name="max-width-chars">32</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Filter connections</property>
+                      <property name="description" translatable="yes">Type to filter connections. Press Enter to open the first result.</property>
+                    </accessibility>
 
                     <child>
                       <object class="GtkEventControllerKey">

@@ -18,6 +18,10 @@
             <signal name="changed" handler="on_key_entry_changed" swapped="true"/>
             <property name="hexpand">True</property>
             <property name="placeholder-text" translatable="yes">Key</property>
+            <accessibility>
+              <property name="label" translatable="yes">Key</property>
+              <property name="description" translatable="yes">Environment variable or label key</property>
+            </accessibility>
           </object>
         </child>
 
@@ -26,6 +30,10 @@
             <signal name="changed" handler="on_value_entry_changed" swapped="true"/>
             <property name="hexpand">True</property>
             <property name="placeholder-text" translatable="yes">Value</property>
+            <accessibility>
+              <property name="label" translatable="yes">Value</property>
+              <property name="description" translatable="yes">Value for the current key</property>
+            </accessibility>
           </object>
         </child>
 

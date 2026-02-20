@@ -91,6 +91,9 @@
                     <property name="valign">center</property>
                     <property name="height-request">30</property>
                     <property name="width-request">30</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Loading volumes</property>
+                    </accessibility>
                   </object>
                 </child>
 
@@ -178,6 +181,9 @@
                                 </style>
                                 <property name="can-shrink">True</property>
                                 <property name="menu-model">selection-menu</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Selected volumes</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -298,6 +304,9 @@
                         <property name="width-request">200</property>
                         <property name="tooltip-text" translatable="yes">Delete</property>
                         <property name="valign">center</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Delete selected volumes</property>
+                        </accessibility>
                       </object>
                     </child>
 

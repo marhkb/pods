@@ -92,6 +92,9 @@
                     <property name="valign">center</property>
                     <property name="height-request">30</property>
                     <property name="width-request">30</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Loading pods</property>
+                    </accessibility>
                   </object>
                 </child>
 
@@ -178,6 +181,9 @@
                                 </style>
                                 <property name="can-shrink">True</property>
                                 <property name="menu-model">selection-menu</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Selected pods</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -349,6 +355,9 @@
                                         <property name="action-name">pods-panel.start-or-resume-selection</property>
                                         <property name="tooltip-text" translatable="yes">Start/Resume</property>
                                         <property name="valign">center</property>
+                                        <accessibility>
+                                          <property name="label" translatable="yes">Start or resume selected pods</property>
+                                        </accessibility>
 
                                         <child>
                                           <object class="GtkImage">
@@ -367,6 +376,9 @@
                                         <property name="action-name">pods-panel.stop-selection</property>
                                         <property name="tooltip-text" translatable="yes">Stop</property>
                                         <property name="valign">center</property>
+                                        <accessibility>
+                                          <property name="label" translatable="yes">Stop selected pods</property>
+                                        </accessibility>
 
                                         <child>
                                           <object class="GtkImage">
