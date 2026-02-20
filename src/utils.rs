@@ -123,10 +123,39 @@ pub(crate) fn human_friendly_duration(mut seconds: i64) -> String {
     }
 }
 
+fn normalize_unix_timestamp(timestamp: i64) -> i64 {
+    let abs = timestamp.unsigned_abs();
+    if abs >= 1_000_000_000_000_000_000 {
+        timestamp / 1_000_000_000
+    } else if abs >= 1_000_000_000_000_000 {
+        timestamp / 1_000_000
+    } else if abs >= 1_000_000_000_000 {
+        timestamp / 1_000
+    } else {
+        timestamp
+    }
+}
+
+pub(crate) fn date_time_from_unix_local(timestamp: i64) -> Option<glib::DateTime> {
+    let normalized = normalize_unix_timestamp(timestamp);
+    match glib::DateTime::from_unix_local(normalized) {
+        Ok(date_time) => Some(date_time),
+        Err(err) => {
+            log::warn!(
+                "Invalid unix timestamp '{timestamp}' (normalized to '{normalized}'): {err}"
+            );
+            None
+        }
+    }
+}
+
 pub(crate) fn timespan_now(timestamp: i64) -> glib::TimeSpan {
-    glib::DateTime::now_utc()
-        .unwrap()
-        .difference(&glib::DateTime::from_unix_local(timestamp).unwrap())
+    let now = glib::DateTime::now_utc().unwrap();
+    now.difference(
+        &date_time_from_unix_local(timestamp)
+            // Keep UI stable when podman returns an invalid/out-of-range timestamp.
+            .unwrap_or_else(|| now.clone()),
+    )
 }
 
 pub(crate) fn human_friendly_timespan(timespan: glib::TimeSpan) -> String {
