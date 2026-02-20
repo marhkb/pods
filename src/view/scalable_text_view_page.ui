@@ -46,6 +46,9 @@
                 <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
                 <property name="icon-name">system-search-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Search</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Search</property>
+                </accessibility>
               </object>
             </child>
 
@@ -57,6 +60,10 @@
               <object class="GtkMenuButton" id="menu_button">
                 <property name="icon-name">view-more-symbolic</property>
                 <property name="menu-model">menu</property>
+                <property name="tooltip-text" translatable="yes">Menu</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Menu</property>
+                </accessibility>
               </object>
             </child>
 

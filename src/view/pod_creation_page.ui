@@ -90,7 +90,7 @@
                               <object class="AdwToggle">
                                 <property name="name">details</property>
                                 <property name="icon-name">build-configure-symbolic</property>
-                                <property name="label" translatable="yes">Details</property>
+                                <property name="tooltip" translatable="yes">Details</property>
                               </object>
                             </child>
 
@@ -98,7 +98,7 @@
                               <object class="AdwToggle">
                                 <property name="name">integration</property>
                                 <property name="icon-name">puzzle-piece-symbolic</property>
-                                <property name="label" translatable="yes">Integration</property>
+                                <property name="tooltip" translatable="yes">Integration</property>
                               </object>
                             </child>
 
@@ -106,7 +106,7 @@
                               <object class="AdwToggle">
                                 <property name="name">infra</property>
                                 <property name="icon-name">city-symbolic</property>
-                                <property name="label" translatable="yes">Infra</property>
+                                <property name="tooltip" translatable="yes">Infra</property>
                               </object>
                             </child>
                           </object>

@@ -108,6 +108,9 @@
                                 <property name="action-name">container-card.rename</property>
                                 <property name="icon-name">document-edit-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Rename</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Rename</property>
+                                </accessibility>
                               </object>
                             </property>
 
@@ -459,6 +462,9 @@
                     <property name="action-name">container-card.kill</property>
                     <property name="icon-name">skull-symbolic</property>
                     <property name="tooltip-text" translatable="yes">Kill</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Kill</property>
+                    </accessibility>
                     <property name="valign">center</property>
                   </object>
                 </property>
@@ -477,6 +483,9 @@
                         <property name="action-name">container-card.restart</property>
                         <property name="icon-name">view-refresh-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Restart</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Restart</property>
+                        </accessibility>
                         <property name="valign">center</property>
                       </object>
                     </child>
@@ -543,6 +552,9 @@
                         <property name="action-name">container-card.pause</property>
                         <property name="icon-name">media-playback-pause-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Pause</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Pause</property>
+                        </accessibility>
                         <property name="valign">center</property>
                       </object>
                     </child>
@@ -559,6 +571,9 @@
                     <property name="action-name">container-card.delete</property>
                     <property name="icon-name">user-trash-symbolic</property>
                     <property name="tooltip-text" translatable="yes">Delete</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Delete</property>
+                    </accessibility>
                     <property name="valign">center</property>
                   </object>
                 </property>

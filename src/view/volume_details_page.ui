@@ -38,6 +38,9 @@
                     <property name="icon-name">user-trash-symbolic</property>
                     <property name="margin-bottom">6</property>
                     <property name="tooltip-text" translatable="yes">Delete Volume</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Delete Volume</property>
+                    </accessibility>
                   </object>
                 </property>
 

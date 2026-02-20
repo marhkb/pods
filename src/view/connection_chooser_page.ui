@@ -22,6 +22,9 @@
               <object class="GtkToggleButton" id="filter_button">
                 <property name="icon-name">system-search-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Filter</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Filter</property>
+                </accessibility>
                 <signal name="toggled" handler="on_filter_button_toggled" swapped="true"/>
               </object>
             </child>

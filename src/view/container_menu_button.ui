@@ -54,6 +54,10 @@
       <object class="GtkMenuButton" id="menu_button">
         <property name="icon-name">view-more-symbolic</property>
         <property name="menu-model">menu</property>
+        <property name="tooltip-text" translatable="yes">Container Actions</property>
+        <accessibility>
+          <property name="label" translatable="yes">Container Actions</property>
+        </accessibility>
       </object>
     </child>
 

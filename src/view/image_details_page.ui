@@ -64,6 +64,9 @@
                         <property name="action-name">image-details-page.delete-image</property>
                         <property name="icon-name">user-trash-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Delete Image</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Delete Image</property>
+                        </accessibility>
                       </object>
                     </child>
 

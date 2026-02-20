@@ -36,6 +36,10 @@
             </style>
             <property name="action-name">key-val-row.remove</property>
             <property name="icon-name">edit-delete-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Remove</property>
+            <accessibility>
+              <property name="label" translatable="yes">Remove</property>
+            </accessibility>
           </object>
         </child>
 

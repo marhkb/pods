@@ -16,6 +16,9 @@
                 <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
                 <property name="icon-name">system-search-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Search</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Search</property>
+                </accessibility>
               </object>
             </child>
 

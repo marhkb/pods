@@ -68,6 +68,9 @@
                         <property name="action-name">volume-selection-page.create-volume</property>
                         <property name="icon-name">list-add-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Create Volume</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Create Volume</property>
+                        </accessibility>
                       </object>
                     </child>
 
@@ -75,6 +78,9 @@
                       <object class="GtkToggleButton" id="filter_button">
                         <property name="icon-name">system-search-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Filter</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Filter</property>
+                        </accessibility>
                         <signal name="toggled" handler="on_filter_button_toggled" swapped="true"/>
                       </object>
                     </child>

@@ -57,6 +57,9 @@
   <object class="GtkMenuButton" id="create_image_menu_button">
     <property name="icon-name">list-add-symbolic</property>
     <property name="tooltip-text" translatable="yes">Create Image</property>
+    <accessibility>
+      <property name="label" translatable="yes">Create Image</property>
+    </accessibility>
     <property name="menu-model">create-menu</property>
   </object>
 
@@ -64,6 +67,9 @@
     <property name="action-name">images-panel.prune-unused-images</property>
     <property name="icon-name">eraser5-symbolic</property>
     <property name="tooltip-text" translatable="yes">Prune Unused Images</property>
+    <accessibility>
+      <property name="label" translatable="yes">Prune Unused Images</property>
+    </accessibility>
   </object>
 
   <object class="AdwSplitButton" id="view_options_split_button">
@@ -136,6 +142,9 @@
                                 <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
                                 <property name="icon-name">system-search-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Search</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Search</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -158,6 +167,9 @@
                                 <property name="action-name">images-panel.enter-selection-mode</property>
                                 <property name="icon-name">selection-mode-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Start Multi-Selection</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Start Multi-Selection</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -194,6 +206,9 @@
                                 <property name="action-name">images-panel.exit-selection-mode</property>
                                 <property name="icon-name">selection-mode-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Start Multi-Selection</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Start Multi-Selection</property>
+                                </accessibility>
                               </object>
                             </child>
 

@@ -100,7 +100,7 @@
                               <object class="AdwToggle">
                                 <property name="name">details</property>
                                 <property name="icon-name">build-configure-symbolic</property>
-                                <property name="label" translatable="yes">Details</property>
+                                <property name="tooltip" translatable="yes">Details</property>
                               </object>
                             </child>
 
@@ -108,7 +108,7 @@
                               <object class="AdwToggle">
                                 <property name="name">integration</property>
                                 <property name="icon-name">puzzle-piece-symbolic</property>
-                                <property name="label" translatable="yes">Integration</property>
+                                <property name="tooltip" translatable="yes">Integration</property>
                               </object>
                             </child>
 
@@ -116,7 +116,7 @@
                               <object class="AdwToggle">
                                 <property name="name">health-check</property>
                                 <property name="icon-name">ambulance-symbolic</property>
-                                <property name="label" translatable="yes">Health Check</property>
+                                <property name="tooltip" translatable="yes">Health Check</property>
                               </object>
                             </child>
                           </object>
@@ -165,6 +165,10 @@
                                                 </style>
                                                 <property name="action-name">container-creation-page.clear-pod</property>
                                                 <property name="icon-name">edit-delete-symbolic</property>
+                                                <property name="tooltip-text" translatable="yes">Clear Pod</property>
+                                                <accessibility>
+                                                  <property name="label" translatable="yes">Clear Pod</property>
+                                                </accessibility>
                                                 <property name="valign">center</property>
                                                 <property name="visible" bind-source="clear_pod_button" bind-property="sensitive" bind-flags="sync-create"/>
                                               </object>
