@@ -375,7 +375,12 @@ where
     match files {
         Ok(files) => op(files),
         Err(e) => {
-            if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
+            if !matches!(
+                &e,
+                ashpd::Error::Portal(ashpd::PortalError::Cancelled(_))
+                    | ashpd::Error::Response(ashpd::desktop::ResponseError::Cancelled)
+            ) {
+                log::warn!("File chooser portal request failed: {e}");
                 show_error_toast(
                     widget,
                     &gettext("Error on open file dialog"),
