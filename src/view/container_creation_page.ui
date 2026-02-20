@@ -88,10 +88,37 @@
                       <object class="AdwPreferencesGroup">
 
                         <child>
-                          <object class="AdwInlineViewSwitcher">
-                            <property name="display-mode">icons</property>
-                            <property name="stack">stack</property>
+                          <object class="AdwToggleGroup">
+                            <property name="active-name" bind-source="stack" bind-property="visible-child-name" bind-flags="sync-create|bidirectional"/>
+                            <property name="homogeneous">True</property>
                             <property name="margin-top">12</property>
+                            <style>
+                              <class name="round"/>
+                            </style>
+
+                            <child>
+                              <object class="AdwToggle">
+                                <property name="name">details</property>
+                                <property name="icon-name">build-configure-symbolic</property>
+                                <property name="label" translatable="yes">Details</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="AdwToggle">
+                                <property name="name">integration</property>
+                                <property name="icon-name">puzzle-piece-symbolic</property>
+                                <property name="label" translatable="yes">Integration</property>
+                              </object>
+                            </child>
+
+                            <child>
+                              <object class="AdwToggle">
+                                <property name="name">health-check</property>
+                                <property name="icon-name">ambulance-symbolic</property>
+                                <property name="label" translatable="yes">Health Check</property>
+                              </object>
+                            </child>
                           </object>
                         </child>
 
@@ -107,6 +134,7 @@
 
                             <child>
                               <object class="AdwViewStackPage">
+                                <property name="name">details</property>
                                 <property name="title" translatable="yes">Details</property>
                                 <property name="icon-name">build-configure-symbolic</property>
 
@@ -276,6 +304,7 @@
 
                             <child>
                               <object class="AdwViewStackPage">
+                                <property name="name">integration</property>
                                 <property name="title" translatable="yes">Integration</property>
                                 <property name="icon-name">puzzle-piece-symbolic</property>
 
@@ -352,6 +381,7 @@
 
                             <child>
                               <object class="AdwViewStackPage">
+                                <property name="name">health-check</property>
                                 <property name="title" translatable="yes">Health Check</property>
                                 <property name="icon-name">ambulance-symbolic</property>
 
