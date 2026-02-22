@@ -1,0 +1,36 @@
+[
+  {
+    "label": "flatpak: clean",
+    "command": "rm -rf ./.flatpak ./.flatpak-builder ./_build",
+    "hide": "on_success",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "flatpak: init",
+    "command": "flatpak build-init ./.flatpak com.github.marhkb.Pods.Devel org.gnome.Sdk//49 org.gnome.Platform//49 49",
+    "hide": "on_success",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "flatpak: build dependencies",
+    "command": "flatpak-builder --ccache --force-clean --disable-updates --build-only --keep-build-dirs --state-dir=./.flatpak/flatpak-builder --stop-at=pods ./.flatpak/repo build-aux/com.github.marhkb.Pods.Devel.json",
+    "hide": "on_success",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "flatpak: run",
+    "command": "flatpak-builder --run --filesystem=$XDG_RUNTIME_DIR/podman:ro ./.flatpak/repo build-aux/com.github.marhkb.Pods.Devel.json .zed/run.sh --state-dir=./.flatpak/flatpak-builder",
+    "hide": "on_success",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "terminal: flatpak build env",
+    "command": "flatpak-builder --run ./.flatpak/repo build-aux/com.github.marhkb.Pods.Devel.json bash",
+    "use_new_terminal": true,
+    "hide": "on_success"
+  }
+]

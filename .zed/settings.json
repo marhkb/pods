@@ -1,0 +1,33 @@
+{
+  "lsp": {
+    "rust-analyzer": {
+      "binary": {
+        "path": ".zed/rust-analyzer-wrapper.sh"
+      },
+      "initialization_options": {
+        "files": {
+          "exclude": [
+            ".flatpak",
+            ".flatpak-builder",
+            "_build",
+            "build",
+            "builddir",
+            "**/target/**"
+          ],
+          "watcherExclude": [
+            "**/.git/objects/**",
+            "**/.git/subtree-cache/**",
+            "**/.flatpak/**",
+            "**/.flatpak-builder/**",
+            "**/_build/**",
+            "**/target/**"
+          ]
+        },
+        "cargo": {
+          "extraArgs": ["--target-dir=_build/src"]
+        },
+        "showUnlinkedFileNotification": false
+      }
+    }
+  }
+}
