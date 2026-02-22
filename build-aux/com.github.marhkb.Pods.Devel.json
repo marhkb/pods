@@ -1,84 +1,77 @@
 {
-    "id": "com.github.marhkb.Pods.Devel",
-    "runtime": "org.gnome.Platform",
-    "runtime-version": "49",
-    "sdk": "org.gnome.Sdk",
-    "sdk-extensions": [
-        "org.freedesktop.Sdk.Extension.rust-stable",
-        "org.freedesktop.Sdk.Extension.llvm21"
-    ],
-    "command": "pods",
-    "finish-args": [
-        "--socket=fallback-x11",
-        "--socket=wayland",
-        "--share=network",
-        "--share=ipc",
-        "--device=dri",
-        "--env=RUST_BACKTRACE=1",
-        "--filesystem=/run/systemd/journal",
-        "--filesystem=xdg-run/podman:ro"
-    ],
-    "build-options": {
-        "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm21/bin",
-        "env": {
-            "CARGO_REGISTRIES_CRATES_IO_PROTOCOL": "sparse",
-            "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER": "clang",
-            "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold",
-            "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER": "clang",
-            "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
-        },
-        "build-args": [
-            "--share=network"
-        ],
-        "test-args": [
-            "--socket=x11",
-            "--share=network"
-        ]
+  "id": "com.github.marhkb.Pods.Devel",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "49",
+  "sdk": "org.gnome.Sdk",
+  "sdk-extensions": [
+    "org.freedesktop.Sdk.Extension.rust-stable",
+    "org.freedesktop.Sdk.Extension.llvm21"
+  ],
+  "command": "pods",
+  "finish-args": [
+    "--socket=fallback-x11",
+    "--socket=wayland",
+    "--share=network",
+    "--share=ipc",
+    "--device=dri",
+    "--env=RUST_BACKTRACE=1",
+    "--filesystem=/run/systemd/journal",
+    "--filesystem=xdg-run/podman:ro"
+  ],
+  "build-options": {
+    "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm21/bin",
+    "env": {
+      "CARGO_REGISTRIES_CRATES_IO_PROTOCOL": "sparse",
+      "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER": "clang",
+      "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold",
+      "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER": "clang",
+      "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold"
     },
-    "cleanup": [
-        "/include",
-        "/lib/pkgconfig",
-        "/man",
-        "/share/doc",
-        "/share/gtk-doc",
-        "/share/man",
-        "/share/pkgconfig",
-        "*.la",
-        "*.a"
-    ],
-    "modules": [
+    "build-args": ["--share=network"],
+    "test-args": ["--socket=x11", "--share=network"]
+  },
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/man",
+    "/share/doc",
+    "/share/gtk-doc",
+    "/share/man",
+    "/share/pkgconfig",
+    "*.la",
+    "*.a"
+  ],
+  "modules": [
+    {
+      "name": "vte",
+      "config-opts": [
+        "-Dgir=false",
+        "-Dglade=false",
+        "-Dgtk3=false",
+        "-Dgtk4=true",
+        "-D_systemd=false",
+        "-Dvapi=false"
+      ],
+      "buildsystem": "meson",
+      "sources": [
         {
-            "name" : "vte",
-            "config-opts" : [
-                "-Dgir=false",
-                "-Dglade=false",
-                "-Dgtk3=false",
-                "-Dgtk4=true",
-                "-D_systemd=false",
-                "-Dvapi=false"
-            ],
-            "buildsystem" : "meson",
-            "sources" : [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/vte.git",
-                    "tag": "0.80.4"
-                }
-            ]
-        },
-        {
-            "name": "pods",
-            "buildsystem": "meson",
-            "run-tests": true,
-            "config-opts": [
-                "-Dprofile=development"
-            ],
-            "sources": [
-                {
-                    "type": "dir",
-                    "path": "../"
-                }
-            ]
+          "type": "git",
+          "url": "https://gitlab.gnome.org/GNOME/vte.git",
+          "tag": "0.80.4"
         }
-    ]
+      ]
+    },
+    {
+      "name": "pods",
+      "buildsystem": "meson",
+      "run-tests": true,
+      "config-opts": ["-Dprofile=development"],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "../"
+        }
+      ]
+    }
+  ]
 }
