@@ -67,11 +67,27 @@ You can also grab the latest CI build from [here](https://nightly.link/marhkb/po
 Then you need to unzip the archive's content and install the application with the command `flatpak install pods.flatpak`.
 Keep in mind that you have to manually repeat this procedure to update the application.
 
-## 🏗️ Building from source
+## 🏗️ Developing
+
+### Devcontainer
+
+This repository includes a devcontainer setup, providing effective isolation between the host and the development environment.
+It also simplifies development in any editor that supports devcontainers.
+
+### Zed Editor
+
+Thanks to the devcontainer setup, Zed can be used to develop Pods effortlessly. There are predefined Zed tasks that streamline the process.
+Initially, the following three tasks need to be executed sequentially:
+
+1. flatpak: init
+2. flatpak: build dependencies
+3. flatpak: run
+
+Afterward, during development, only the last task needs to be executed.
 
 ### GNOME Builder
 
-GNOME Builder is the environment used for developing this application.
+GNOME Builder is an plug and play method developing this application.
 It can use Flatpak manifests to create a consistent building and running
 environment cross-distro. Thus, it is highly recommended you use it.
 
