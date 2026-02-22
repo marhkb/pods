@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 PREFIX="$(pwd)/.flatpak/app"
 
