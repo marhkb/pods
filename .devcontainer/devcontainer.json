@@ -1,0 +1,55 @@
+{
+  "name": "pods_devcontainer",
+  "dockerFile": "./Dockerfile",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "SSH_AUTH_SOCK": "/tmp/ssh/sock",
+    "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+    "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=${localEnv:XDG_RUNTIME_DIR}/bus",
+    "XDG_CURRENT_DESKTOP": "${localEnv:XDG_CURRENT_DESKTOP}"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:1": {},
+    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
+  },
+  "runArgs": [
+    "--pid=host",
+    "--name=pods_devcontainer",
+    "--privileged",
+    "--net=host",
+    "-v=/tmp/.X11-unix:/tmp/.X11-unix",
+    "-v=${localEnv:XDG_RUNTIME_DIR}:${localEnv:XDG_RUNTIME_DIR}"
+  ],
+  "mounts": [
+    {
+      "source": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
+      "target": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:SSH_AUTH_SOCK}",
+      "target": "/tmp/ssh/sock",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:HOME}/.gitconfig",
+      "target": "/home/vscode/.gitconfig",
+      "type": "bind",
+      "readOnly": true
+    },
+    {
+      "source": "${localEnv:HOME}/.config/dconf",
+      "target": "/home/vscode/.config/dconf",
+      "type": "bind",
+      "consistency": "cached"
+    },
+    {
+      "source": "/dev/dri",
+      "target": "/dev/dri",
+      "type": "bind"
+    }
+  ]
+}
