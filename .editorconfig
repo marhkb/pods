@@ -6,10 +6,10 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 charset = utf-8
 
-[*.{build,css,doap,scss,ui,xml,xml.in,xml.in.in,yaml,yml}]
+[*.{build,css,doap,json,scss,ui,xml,xml.in,xml.in.in,yaml,yml}]
 indent_size = 2
 
-[*.{json,py,rs}]
+[*.{py,rs}]
 indent_size = 4
 
 [*.{c,h,h.in}]
