@@ -23,9 +23,6 @@
             "**/target/**"
           ]
         },
-        "cargo": {
-          "extraArgs": ["--target-dir=_build/src"]
-        },
         "showUnlinkedFileNotification": false
       }
     }
