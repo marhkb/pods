@@ -4,26 +4,35 @@
   "service": "devcontainer",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "containerEnv": {
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=${localEnv:XDG_RUNTIME_DIR}/bus",
+    "DESKTOP_SESSION": "${localEnv:DESKTOP_SESSION}",
     "DISPLAY": "${localEnv:DISPLAY}",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
     "SSH_AUTH_SOCK": "/tmp/ssh/sock",
     "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+    "XDG_CURRENT_DESKTOP": "${localEnv:XDG_CURRENT_DESKTOP}",
     "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
-    "DBUS_SESSION_BUS_ADDRESS": "unix:path=${localEnv:XDG_RUNTIME_DIR}/bus",
-    "XDG_CURRENT_DESKTOP": "${localEnv:XDG_CURRENT_DESKTOP}"
-  },
-  "features": {
-    "ghcr.io/devcontainers/features/common-utils:1": {},
-    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
+    "XDG_SESSION_DESKTOP": "${localEnv:XDG_SESSION_DESKTOP}",
+    "XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}"
   },
   "runArgs": [
     "--pid=host",
     "--name=pods_devcontainer",
     "--privileged",
-    "--net=host",
-    "-v=/tmp/.X11-unix:/tmp/.X11-unix",
-    "-v=${localEnv:XDG_RUNTIME_DIR}:${localEnv:XDG_RUNTIME_DIR}"
+    "--net=host"
   ],
   "mounts": [
+    {
+      "source": "/tmp/.X11-unix",
+      "target": "/tmp/.X11-unix",
+      "type": "bind"
+    },
+    {
+      "source": "${localEnv:XDG_RUNTIME_DIR}",
+      "target": "${localEnv:XDG_RUNTIME_DIR}",
+      "type": "bind"
+    },
     {
       "source": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
       "target": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
@@ -51,5 +60,9 @@
       "target": "/dev/dri",
       "type": "bind"
     }
-  ]
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:1": {},
+    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
+  }
 }
