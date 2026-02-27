@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2025-05-07 17:06+0000\n"
-"Last-Translator: Fedorov Alexei <aleksejfedorov963@gmail.com>\n"
+"PO-Revision-Date: 2026-02-18 07:09+0000\n"
+"Last-Translator: alevtina-karashokova <karashokovaaa@basealt.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/main/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -30,11 +30,11 @@ msgstr "Капсулы"
 #: data/com.github.marhkb.Pods.desktop.in.in:4
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Manage your Podman containers"
-msgstr "Управляйте контейнерами podman"
+msgstr "Управляйте контейнерами Podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:9
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr "Gnome;GTK;libadwaita;Podman;Containerization; Контейнеры;"
+msgstr "Gnome;GTK;libadwaita;Podman;Containerization;Контейнеры;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -59,19 +59,17 @@ msgid "The last used view"
 msgstr "Последний использованный вид"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
-#, fuzzy
 msgid "Whether to hide intermediate images"
-msgstr "Показывать ли промежуточные образы"
+msgstr "Скрывать ли промежуточные образы"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 msgid "The last used container file path"
-msgstr "Последний использованный путь файла контейнера"
+msgstr "Последний использованный путь к файлу контейнера"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 #: src/view/images_prune_page.ui:70
 msgid "Remove all images not in use by containers, not just dangling ones"
-msgstr ""
-"Удалить все образы, не используемые контейнерами, а не только болтающиеся"
+msgstr "Удалить все образы, не используемые контейнерами, а не только ожидающие"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 #: src/view/images_prune_page.ui:77
@@ -84,16 +82,15 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 msgid "Whether to show only running containers"
-msgstr "Показывать только запущенные контейнеры"
+msgstr "Показывать ли только запущенные контейнеры"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to show only running pods"
 msgstr "Показывать ли только запущенные капсулы"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
-#, fuzzy
 msgid "Whether to show only used volumes"
-msgstr "Показывать ли только запущенные капсулы"
+msgstr "Показывать ли только используемые тома"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to show a timestamp for each log line"
@@ -125,21 +122,21 @@ msgid ""
 "Pods is a frontend for podman. It uses libadwaita for its user interface and "
 "strives to meet the design principles of GNOME."
 msgstr ""
-"Капсулы - это фронтенд для podman. Он использует libadwaita для своего "
-"пользовательского интерфейса и стремится соответствовать принципам дизайна "
-"GNOME."
+"«Капсулы» — это фронтенд для Podman. Он использует библиотеку libadwaita для "
+"своего пользовательского интерфейса и стремится соответствовать принципам "
+"дизайна GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "С помощью приложения \"Капсулы\" вы можете, помимо прочего:"
+msgstr "С помощью приложения «Капсулы» вы можете, помимо прочего:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman instances."
-msgstr "Подключаться к локальным и удаленным экземплярам Podman."
+msgstr "Подключаться к локальным и удалённым экземплярам Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr "С легкостью просматривать образы, контейнеры и капсулы."
+msgstr "С лёгкостью просматривать образы, контейнеры и капсулы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
@@ -172,7 +169,7 @@ msgid ""
 "etc.)."
 msgstr ""
 "Управлять жизненным циклом контейнеров и капсул (в массовом порядке) "
-"(запуск, остановка, пауза и т.д.)."
+"(запуск, остановка, пауза и т. д.)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
@@ -187,245 +184,279 @@ msgid "Rename containers."
 msgstr "Переименовывать контейнеры."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:30
-#, fuzzy
 msgid "Container Overview"
 msgstr "Обзор контейнеров"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Containers Details in Compact Mode"
-msgstr "Контейнер был создан"
+msgstr "Сведения о контейнерах в компактном режиме"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:38
-#, fuzzy
 msgid "Search Results"
-msgstr "Поиск"
+msgstr "Результаты поиска"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
 msgid "Pods 2.1.0 contains the following changes:"
-msgstr ""
+msgstr "«Капсулы» 2.1.0 содержит следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
 msgid "Features"
-msgstr ""
+msgstr "Возможности"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:50
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
 msgstr ""
+"Теперь правильно поддерживаются акцентные цвета. (#804, #807, #809, #811)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
 msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
 msgstr ""
+"Все диалоговые окна были перенесены в AdwDialog для улучшения адаптивности. "
+"(#810)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Containers are now represented by cards in the container panel. (#778)"
-msgstr ""
+msgstr "Контейнеры представлены карточками на панели контейнеров. (#778)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:53
 msgid ""
 "The image search has been completely revised and is now much more "
 "streamlined. In addition, the tags of an image are suggested. (#758)"
 msgstr ""
+"Поиск образов был полностью переработан и стал намного более "
+"оптимизированным. Кроме того, предлагаются метки образа. (#758)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:57
 msgid "Port mappings can now be configured when creating pods. (#772)"
-msgstr ""
+msgstr "При создании капсул можно настраивать сопоставление портов. (#772)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
-#, fuzzy
 msgid "Enable searching for container and pod processes. (#747)"
-msgstr "Удалять образы, контейнеры и капсулы (в массовом порядке)."
+msgstr "Включена возможность поиска процессов контейнеров и капсул. (#747)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:59
 msgid "Killing container processes is now supported. (#748)"
-msgstr ""
+msgstr "Поддерживается завершение процессов контейнеров. (#748)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:60
 msgid ""
 "The image search results now have an \"verified\" icon if an image is "
 "official. (#761)"
 msgstr ""
+"В результатах поиска образов теперь отображается значок «подтверждено», если "
+"образ является официальным. (#761)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:61
 msgid "Logs are now sent to both std and syslog. (#763)"
-msgstr ""
+msgstr "Журналы теперь отправляются как в std, так и в syslog. (#763)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
 msgid "Make it possible to create privileged containers. (#753)"
-msgstr ""
+msgstr "Добавлена возможность создавать привилегированные контейнеры. (#753)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:63
 msgid ""
 "Better handling of empty states when selecting images, pods and volumes for "
 "a container to be created. (#769)"
 msgstr ""
+"Улучшена обработка пустых состояний при выборе образов, капсул и томов для "
+"создаваемого контейнера. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
 msgid "Unification of status and health status in the container row. (#774)"
 msgstr ""
+"Объединение статуса и состояния работоспособности в строке контейнера. (#774)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:65
 msgid ""
 "The recently introduced libadwaita Spinner now replaces all gtk Spinners. "
 "(#802)"
 msgstr ""
+"Недавно введённый спиннер libadwaita теперь заменяет все спиннеры gtk. (#802)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:67
 msgid "Fixes"
-msgstr ""
+msgstr "Исправления"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:69
 msgid ""
 "All remaining processes are now closed after a container terminal exits. "
 "(#744)"
 msgstr ""
+"Все оставшиеся процессы закрываются после выхода из терминала контейнера. "
+"(#744)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:70
 msgid ""
 "Streams are now closed correctly so that they do not run forever when the "
 "user changes the connection. (#764)"
 msgstr ""
+"Потоки закрываются правильно, чтобы они не работали бесконечно, когда "
+"пользователь меняет соединение. (#764)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:71
 msgid ""
 "A bug was fixed where the content of the container log page was initially "
 "too large. (#769)"
 msgstr ""
+"Исправлена ошибка, из-за которой содержимое журнала контейнера изначально "
+"было слишком большим. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:72
 msgid "Stop filtering out containers, pods and volumes by default. (#770)"
-msgstr ""
+msgstr "Прекращена фильтрация контейнеров, капсул и томов по умолчанию. (#770)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
 msgid "Improvements"
-msgstr ""
+msgstr "Улучшения"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:76
 msgid "We now use appdata to construct the about dialog. (#743)"
 msgstr ""
+"Для построения диалогового окна «О программе» теперь используется appdata. "
+"(#743)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
 msgid ""
 "Improve performance by utilizing the <em>SignalListItemFactory::setup</em> "
 "signal. (#745)"
 msgstr ""
+"Улучшение производительности за счёт использования сигнала <em>"
+"SignalListItemFactory::setup</em>. (#745)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
 msgid "Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)"
-msgstr ""
+msgstr "Перенос <em>GtkTreeView</em> в <em>GtkColumnView</em>. (#746)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:79
 msgid ""
 "After the last connection has been removed from the page with the connection "
 "selection, the home page is displayed again. (#760)"
 msgstr ""
+"После удаления последнего соединения со страницы с выбором соединений снова "
+"отображается домашняя страница. (#760)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:83
 msgid ""
 "The same background color is now used for list views as for the window. "
 "(#769)"
 msgstr ""
+"Теперь для списков используется тот же цвет фона, что и для окна. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:84
 msgid ""
 "We have moved the banner from the bottom to the top in the container log "
 "page. (#769)"
 msgstr ""
+"Мы переместили баннер из нижней части в верхнюю на странице журнала "
+"контейнера. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:85
 msgid "Some titles have been shortened. (#769)"
-msgstr ""
+msgstr "Некоторые заголовки были сокращены. (#769)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:86
 msgid "We now use AboutDialog instead of AboutWindow. (803)"
-msgstr ""
+msgstr "AboutDialog используется вместо AboutWindow. (803)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:87
 msgid "Various style improvements (#741, #757)"
-msgstr ""
+msgstr "Различные улучшения оформления (#741, #757)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr ""
+msgstr "«Капсулы» 1.2.1 содержит следующие исправления ошибок и улучшения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:95
 msgid ""
 "Fixed a bug that caused the application to crash when the keyring could not "
 "be accessed."
 msgstr ""
+"Исправлена ошибка, которая приводила к сбою приложения, когда набор ключей "
+"не мог быть доступен."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:96
 msgid ""
 "Some languages like Romanian were not correctly included. This should be "
 "fixed now."
 msgstr ""
+"Некоторые языки, такие как румынский, были включены некорректно. Теперь это "
+"должно быть исправлено."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:97
 msgid ""
 "Fixed a regression where the container list was not re-sorted once a "
 "container was renamed."
 msgstr ""
+"Исправлена регрессия, при которой не выполняется пересортировка списка "
+"контейнеров после переименования контейнера."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
 msgid "Minor cleanup work has been done in the code."
-msgstr ""
+msgstr "В коде была проведена небольшая очистка."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
 msgid "Pods 1.2.0 contains the following new features:"
-msgstr ""
+msgstr "«Капсулы» 1.2.0 содержит следующие новые возможности:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
 msgid "Usabilty and UX has been improved in many places."
-msgstr ""
+msgstr "Во многих местах было улучшено удобство использования и UX."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
-#, fuzzy
 msgid "Pruning of containers and pods is now possible."
-msgstr "Обрезка контейнеров не удалась"
+msgstr "Теперь возможно удаление контейнеров и капсул."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
 msgid "Container terminals are now detachable and can be used in parallel."
 msgstr ""
+"Терминалы контейнеров теперь можно отсоединять и использовать параллельно."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:109
 msgid "Images can be pushed to a registry."
-msgstr ""
+msgstr "Образы могут быть отправлены в реестр."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
 msgid "The CPU utilization now takes the number of cores into account."
-msgstr ""
+msgstr "Использование ЦП теперь учитывает количество ядер."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
 msgstr ""
+"«Капсулы» 1.1.0 содержит следующие возможности, исправления ошибок и "
+"улучшения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:118
 msgid ""
 "Dependencies have been updated. This includes the update to GNOME 44 "
 "libraries."
 msgstr ""
+"Зависимости были обновлены. Это включает обновление до библиотек GNOME 44."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:119
 msgid "AdwBanner is now used in the container log page instead of GtkInfoBar."
 msgstr ""
+"AdwBanner используется на странице журнала контейнера вместо GtkInfoBar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:120
 msgid "The GNOME Coc is acknowledged in the README.md."
-msgstr ""
+msgstr "Правила поведения GNOME упоминаются в README.md."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:121
 msgid "The main window and all dialogs can now be closed with Ctrl+W."
-msgstr ""
+msgstr "Главное окно и все диалоговые окна можно закрыть с помощью Ctrl+W."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:122
 msgid "The memory icon has been improved, thanks to @daudix-UFO."
-msgstr ""
+msgstr "Значок памяти был улучшен благодаря @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:123
 msgid ""
 "Internal code improvements have landed, like the port to glib-rs' new "
 "properties proc macro."
 msgstr ""
+"Реализованы внутренние улучшения кода, такие как перенос в новый proc-макрос "
+"glib-rs."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:143
@@ -434,15 +465,16 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:193
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:204
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:218
-#, fuzzy
 msgid "Translations have been updated."
-msgstr "Переводчики"
+msgstr "Обновлены переводы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:130
 msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"«Капсулы» 1.1.0-beta.4 содержит следующие возможности, исправления ошибок и "
+"улучшения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:132
 msgid ""
@@ -450,60 +482,77 @@ msgid ""
 "the connection name in the connection overview, instead of a vertical bar at "
 "the beginning."
 msgstr ""
+"Цвет соединения теперь отображается с помощью цветной точки перед названием "
+"соединения в обзоре соединений, а не вертикальной полосы в начале."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:133
 msgid ""
 "The penguin icon to the left of the Podman version has been removed from the "
 "status bar."
-msgstr ""
+msgstr "Значок пингвина слева от версии Podman был удалён из строки состояния."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:134
 msgid ""
 "The Podman menu button in the status bar now shows a loading indicator until "
 "the Podman version is determined."
 msgstr ""
+"Кнопка меню Podman в строке состояния теперь отображает индикатор загрузки "
+"до тех пор, пока не будет определена версия Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:135
 msgid ""
 "The label to show the version of the Podman menu button in the status bar "
 "now uses the <em>numeric</em> style class, which looks more harmonious."
 msgstr ""
+"Метка для отображения версии кнопки меню Podman в строке состояния теперь "
+"использует стилевой класс <em>numeric</em>, который выглядит более "
+"гармонично."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:136
 msgid ""
 "To eliminate the blur, the icons in the status bar now all have a size of 16 "
 "pixels instead of 12 pixels."
 msgstr ""
+"Чтобы устранить размытие, все значки в строке состояния теперь имеют размер "
+"16, а не 12 пикселей."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:137
 msgid "The desktop entry now uses the updated short description as comment."
 msgstr ""
+"Desktop-файл теперь использует обновлённое краткое описание в качестве "
+"комментария."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
 msgid "Some appropriate categories have been added to the desktop entry."
-msgstr ""
+msgstr "В desktop-файл были добавлены некоторые соответствующие категории."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:139
 msgid ""
 "Fixed a bug where the Id of a container was replaced by the name once the "
 "name of the container was changed."
 msgstr ""
+"Исправлена ошибка, при которой идентификатор контейнера заменялся на имя "
+"после изменения имени контейнера."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:140
 msgid ""
 "The container status <em>configured</em> was not handled before. This is now "
 "fixed."
 msgstr ""
+"Состояние контейнера <em>настроен</em> ранее не обрабатывалось. Теперь это "
+"исправлено."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:141
 msgid ""
 "The spinner within the container log page did not disappear earlier if the "
 "log was empty. This is fixed now."
 msgstr ""
+"Ранее спиннер на странице журнала контейнера не исчезал, если журнал был "
+"пустым. Теперь эта проблема устранена."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:142
 msgid "The code has been improved in some places."
-msgstr ""
+msgstr "Код был улучшен в некоторых местах."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:144
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:162
@@ -511,53 +560,67 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:194
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:219
 msgid "Dependencies have been updated."
-msgstr ""
+msgstr "Зависимости были обновлены."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:150
 msgid ""
 "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"«Капсулы» 1.1.0-beta.3 содержит следующие возможности, исправления ошибок и "
+"улучшения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:152
 msgid ""
 "The connection menu has received an entry for disconnecting the current "
 "Podman connection."
 msgstr ""
+"В меню подключения появилась опция для отключения текущего подключения "
+"Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:153
 msgid ""
 "The status bar now has a menu button that shows the current Podman version."
 msgstr ""
+"В строке состояния теперь есть кнопка меню, которая теперь показывает "
+"текущую версию Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:154
 msgid ""
 "The menu item to open the Podman information window has been moved from the "
 "main menu to the Podman menu in the status bar."
 msgstr ""
+"Пункт меню для открытия информационного окна Podman был перемещён из "
+"главного меню в меню Podman в строке состояния."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:155
 msgid ""
 "A new widget has been implemented that allows you to control the zoom level "
 "of text."
 msgstr ""
+"Реализован новый виджет, позволяющий контролировать уровень масштабирования "
+"текста."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:156
 msgid ""
 "On all pages with text, such as the inspection page, the download button has "
 "been moved to a menu in the header bar together with the zoom control widget."
 msgstr ""
+"На всех страницах с текстом, таких как страница инспектирования, кнопка "
+"загрузки была перемещена в меню в строке заголовка вместе с виджетом "
+"управления масштабом."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:157
 msgid ""
 "On the container log page some buttons together with zoom control widget are "
 "moved to a menu in the header bar."
 msgstr ""
+"На странице журнала контейнера некоторые кнопки вместе с виджетом управления "
+"масштабом перемещены в меню в строке заголовка."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:158
-#, fuzzy
 msgid "The text in the container terminal can now be zoomed."
-msgstr "Подключиться к терминалу контейнера."
+msgstr "Теперь можно масштабировать текст в терминале контейнера."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:159
 msgid ""
@@ -565,6 +628,9 @@ msgid ""
 "the default ANSI escape sequence. This resulted in text not being readable "
 "in the light theme under certain circumstances."
 msgstr ""
+"Исправлена ошибка на странице контейнера, где для стандартной управляющей "
+"последовательности ANSI был установлен явный цвет. Это приводило к тому, что "
+"текст был нечитаемым в светлой теме при определённых обстоятельствах."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:160
 msgid ""
@@ -572,274 +638,333 @@ msgid ""
 "there is an error. For example, this would be the case if the cube YAML "
 "could not be generated."
 msgstr ""
+"Текстовые представления, такие как страница инспектирования, теперь сразу "
+"закрываются, если возникает ошибка. Например, это может произойти, если YAML "
+"куба не может быть сгенерирован."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:168
 msgid ""
 "Pods 1.1.0-beta.2 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"«Капсулы» 1.1.0-beta.2 содержит следующие возможности, исправления ошибок и "
+"улучшения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:170
 msgid ""
 "It is now possible to assign colors to connections. Then, when the "
 "connection is active, the status bar is colored accordingly."
 msgstr ""
+"Теперь можно назначать цвета соединениям. Затем, когда соединение активно, "
+"строка состояния окрашивается соответствующим цветом."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:171
 msgid "The progress bar in the status bar has been replaced by a label."
-msgstr ""
+msgstr "Индикатор выполнения в строке состояния был заменён меткой."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:172
 msgid "The formatting of the container log is now correctly kept across lines."
 msgstr ""
+"Форматирование журнала контейнера теперь правильно сохраняется по строкам."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
 msgid ""
 "Some strings has been marked as translatable that where previously forgotten."
-msgstr ""
+msgstr "Некоторые строки, которые были забыты, были помечены как переводимые."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:174
 msgid "Some strings has been changed to be more accurate."
-msgstr ""
+msgstr "Некоторые строки были изменены для большей точности."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:175
 msgid ""
 "A workaround and a fix have been implemented specifically for crashes that "
 "led to crashes when using podman 3.0."
 msgstr ""
+"Были реализованы обходной путь и исправление специально для сбоев, которые "
+"приводили к сбоям при использовании Podman 3.0."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:176
 msgid ""
 "Fixed a style bug that caused the inner scrollbar on the connection "
 "selection page to have an offset."
 msgstr ""
+"Исправлена ошибка оформления, которая приводила к смещению внутренней полосы "
+"прокрутки на странице выбора соединения."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:184
 msgid ""
 "Pods 1.1.0-beta.1 contains the following features, bug fixes and "
 "improvements:"
 msgstr ""
+"«Капсулы» 1.1.0-beta.1 содержит следующие возможности, исправления ошибок и "
+"улучшения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:186
 msgid ""
 "The fonts in all text views, such as those in the inspection pages, are now "
 "scalable using typical shortcuts."
 msgstr ""
+"Шрифты во всех текстовых представлениях, таких как страницы инспектирования, "
+"теперь масштабируются с помощью стандартных быстрых клавиш."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:187
 msgid ""
 "It is now prevented that actions in subpages like the container inspection "
 "subpage can be triggered via shortcuts (e.g. the action to download files)."
 msgstr ""
+"Предотвращается запуск действий на подстраницах, таких как подстраница "
+"инспектирования контейнера, с помощью быстрых клавиш (например, действие по "
+"загрузке файлов)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:188
 msgid ""
 "More ANSI escape sequences like background colors and bright colors has been "
 "added to the container log page."
 msgstr ""
+"На страницу журнала контейнера добавлено больше управляющих "
+"последовательностей ANSI, таких как цвета фона и яркие цвета."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:189
 msgid "Fixed a bug that caused some containers to not display most log lines."
 msgstr ""
+"Исправлена ошибка, из-за которой некоторые контейнеры не отображали "
+"большинство строк журнала."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:190
 msgid ""
 "The name of the container is now also displayed as a subtitle in the health "
 "check page."
 msgstr ""
+"Название контейнера теперь также отображается в качестве подзаголовка на "
+"странице проверки работоспособности."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:191
 msgid "The README file has been updated and improved."
-msgstr ""
+msgstr "Файл README был обновлён и улучшен."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:192
 msgid "There were a lot of internal improvements to the code."
-msgstr ""
+msgstr "Было внесено много внутренних улучшений в код."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:200
 msgid "Pods 1.0.2 contains the following changes:"
-msgstr ""
+msgstr "«Капсулы» 1.0.2 содержит следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
 msgid ""
 "The search behavior has been adjusted so that pressing <em>Ctrl+F</em> again "
 "resets the search and that <em>Escape</em> closes it."
 msgstr ""
+"Поведение поиска было скорректировано таким образом, что повторное нажатие "
+"<em>Ctrl+F</em> сбрасывает поиск, а <em>Escape</em> закрывает его."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:203
 msgid ""
 "The application icon and symbolic icons have been further improved, thanks "
 "to @daudix-UFO."
 msgstr ""
+"Значок приложения и символические значки были дополнительно улучшены "
+"благодаря @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:210
 msgid ""
 "The stable 1.0 release of Pods includes the following changes since the last "
 "RC:"
 msgstr ""
+"Стабильная версия 1.0 приложения «Капсулы» включает следующие изменения с "
+"момента выпуска последней RC-версии:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:212
 msgid ""
 "The welcome page now has a very attractive, colorful illustration, thanks to "
 "@daudix-UFO."
 msgstr ""
+"Страница приветствия теперь имеет очень привлекательную, красочную "
+"иллюстрацию благодаря @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:213
 msgid "Switching the Podman connection now no longer blocks the GUI."
-msgstr ""
+msgstr "Переключение соединения Podman не блокирует графический интерфейс."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:214
 msgid ""
 "Creating new Podman connections can now be canceled during the connection "
 "attempt."
 msgstr ""
+"Создание новых соединений Podman можно отменить во время попытки подключения."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:215
 msgid ""
 "Copying and pasting text from/to the container terminal now works with "
 "<em>Ctrl+Shift+C</em> and <em>Ctrl+Shift+V</em>, respectively."
 msgstr ""
+"Копирование и вставка текста из/в терминал контейнера теперь работает с "
+"помощью<em>Ctrl+Shift+C</em> и <em>Ctrl+Shift+V</em> соответственно."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:216
-#, fuzzy
 msgid "The container terminal now has a simple context menu."
-msgstr "Контейнер должен быть запущен, чтобы использовать терминал."
+msgstr "Терминал контейнера теперь имеет простое контекстное меню."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:217
 msgid "The animation of the internal spinner widget has been beautified."
-msgstr ""
+msgstr "Анимация внутреннего виджета спиннера была улучшена."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:225
 msgid "The third 1.0 release candidate of Pods contains the following changes:"
-msgstr ""
+msgstr "Третья кандидатская версия «Капсул» 1.0 содержит следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
 msgid ""
 "The application icon and symbolic icons have been improved, thanks to "
 "@daudix-UFO"
 msgstr ""
+"Значок приложения и символические значки были улучшены благодаря @daudix-UFO."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:228
 msgid ""
 "Actions, such as creating a container, can now be repeated initially if they "
 "fail."
 msgstr ""
+"Действия, такие как создание контейнера, теперь могут повторяться вначале, "
+"если произошла ошибка."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:229
 msgid ""
 "Fixed a bug that prevented the label displaying the id of an image from "
 "being striked through if the image was being deleted."
 msgstr ""
+"Исправлена ошибка, из-за которой метка, отображающая идентификатор образа, "
+"не зачёркивалась при удалении образа."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:230
 msgid "Repository tags are now selectable within the image details page."
-msgstr ""
+msgstr "Ярлыки репозитория можно выбирать на странице сведений об образе."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:231
 msgid "Translations have been updated. Thanks to all who contributed."
-msgstr ""
+msgstr "Обновлены переводы. Спасибо всем, кто участвовал в этой работе."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:232
 msgid ""
 "Internal code improvements have been made, such as reducing dependencies and "
 "enabling LTO for release builds."
 msgstr ""
+"Были внесены внутренние улучшения кода, такие как уменьшение зависимостей и "
+"включение LTO для релизных сборок."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:238
 msgid ""
 "This is a hotfix release that prevents the application from crashing when "
 "disconnected from Podman."
-msgstr ""
+msgstr "Это исправление предотвращает сбой приложения при отключении от Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:243
 msgid ""
 "All features for version 1.0 are now implemented and Pods is thus in the "
 "release candidate phase. Among the changes since the last release are:"
 msgstr ""
+"Все функции версии 1.0 теперь реализованы, и «Капсулы» находится в фазе "
+"релиз-кандидата. Среди изменений с момента последнего выпуска:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:245
 msgid ""
 "Actions such as downloading an image or creating a container now take place "
 "in dialogs instead of in the main window."
 msgstr ""
+"Такие действия, как загрузка образа или создание контейнера выполняются в "
+"диалоговых окнах, а не в главном окне."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:246
 msgid ""
 "Image Rows have been revised to better reflect the presence of multiple repo "
 "tags."
 msgstr ""
+"Строки образов были переработаны, чтобы лучше отображать наличие нескольких "
+"ярлыков репозитория."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:247
 msgid "Repo tags can now be removed and added within the image details page."
 msgstr ""
+"Ярлыки репозитория можно удалять и добавлять на странице сведений об образе."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:248
 msgid ""
 "The subtitle property of the header bars is now used to display the image "
 "id, or the name of the container or pod."
 msgstr ""
+"Свойство подзаголовка панелей заголовка теперь используется для отображения "
+"идентификатора образа или имени контейнера или капсулы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:249
 msgid ""
 "The style of the container details page has been adjusted. Thus, some action "
 "rows have been moved to the properties."
 msgstr ""
+"Оформление страницы сведений о контейнере было изменено. Таким образом, "
+"некоторые строки действий были перемещены в свойства."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:250
 msgid "Shortcuts have been added to the container details page."
-msgstr ""
+msgstr "На страницу сведений о контейнере были добавлены быстрые клавиши."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:251
 msgid "Small improvements in the spirit of the GNOME HIG took place."
-msgstr ""
+msgstr "Были внесены небольшие улучшения в духе GNOME HIG."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:252
 msgid ""
 "The usual changes such as improving the source code and updating the "
 "dependencies."
 msgstr ""
+"Обычные изменения, такие как улучшение исходного кода и обновление "
+"зависимостей."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:253
 msgid ""
 "Translations have been updated and all translatable strings are now "
 "considered frozen."
 msgstr ""
+"Переводы были обновлены, и все переводимые строки теперь считаются "
+"замороженными."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:259
 msgid ""
 "The ninth beta of Pods in an important step towards the stable first "
 "version. It contains the following changes:"
 msgstr ""
+"Девятая бета-версия «Капсул» — важный шаг на пути к стабильной первой "
+"версии. Она содержит следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:261
 msgid "It is now possible to have a terminal in a container."
-msgstr ""
+msgstr "Теперь контейнер может содержать терминал."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:262
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:274
 msgid "libpanel"
-msgstr ""
+msgstr "libpanel"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
 msgid "AdwMessageDialog"
-msgstr ""
+msgstr "AdwMessageDialog"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:264
 msgid "The style of the container series was tweaked in many ways."
-msgstr ""
+msgstr "Оформление серии контейнеров было изменено во многих отношениях."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:265
 msgid "Some minor internal code improvements have landed."
-msgstr ""
+msgstr "Реализованы незначительные внутренние улучшения кода."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:266
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:286
 msgid "Dependencies and translations have been updated."
-msgstr ""
+msgstr "Обновлены зависимости и переводы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
 msgid "The eight beta release of Pods 1.0.0 includes the following changes:"
-msgstr ""
+msgstr "Восьмая бета-версия «Капсул» 1.0.0 включает следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:275
 msgid ""
@@ -847,62 +972,75 @@ msgid ""
 "Podman UNIX socket and a small example on how to use the Podman root "
 "instance."
 msgstr ""
+"При создании нового соединения теперь отображается подсказка о том, как "
+"включить сокет UNIX в Podman, а также небольшой пример использования "
+"корневого экземпляра Podman."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:276
 msgid "The history of an image can now be inspected."
-msgstr ""
+msgstr "Теперь можно просматривать историю образа."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:277
 msgid ""
 "The design of the port bindings in the container details page has been "
 "revised."
 msgstr ""
+"Был переработан дизайн привязок портов на странице сведений о контейнере."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:278
 msgid "Kubernetes YAML files can now be generated for containers and pods."
-msgstr ""
+msgstr "Для контейнеров и капсул можно генерировать YAML-файлы Kubernetes."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:279
 msgid ""
 "Files can now be downloaded from a container as well as uploaded to a "
 "container."
-msgstr ""
+msgstr "Файлы можно не только загружать в контейнер, но и скачивать из него."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:280
 msgid ""
 "The design of the circular progress bar for displaying container resources "
 "has been adjusted to be more consistent with the rest of the application."
 msgstr ""
+"Дизайн кругового индикатора выполнения для отображения ресурсов контейнера "
+"был изменён для лучшего соответствия остальной части приложения."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:281
 msgid ""
 "There is now a rotating animation when a container or pod is in a state "
 "transition (start, stop, pause)."
 msgstr ""
+"Теперь при переходе контейнера или капсулы в другое состояние (запуск, "
+"остановка, пауза) отображается вращающаяся анимация."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:282
 msgid ""
 "If a container is in a pod, it will now get a badge with the pod name in the "
 "container list."
 msgstr ""
+"Если контейнер находится в капсуле, он получает метку с именем капсулы в "
+"списке контейнеров."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:283
 msgid ""
 "Logs, the result of the inspection of images, containers, and pods, and the "
 "result Kubernetes YAML generation can now be saved directly as a file."
 msgstr ""
+"Журналы, результаты проверки образов, контейнеров и капсул, а также "
+"результаты генерации YAML-файлов Kubernetes теперь можно сохранять "
+"непосредственно в виде файла."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:284
 msgid "Headerbar titles were adjusted to be shorter and more concise"
-msgstr ""
+msgstr "Заголовки были сокращены и сделаны более лаконичными."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:285
 msgid "Many minor internal code improvements have landed"
-msgstr ""
+msgstr "Было внесено множество незначительных внутренних улучшений."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:292
 msgid "The seventh beta release of Pods 1.0.0 includes the following changes:"
-msgstr ""
+msgstr "Седьмая бета-версия «Капсул» 1.0.0 включает следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:294
 msgid ""
@@ -910,6 +1048,9 @@ msgid ""
 "can quickly see how long a container has been running or how many days ago "
 "an image was created."
 msgstr ""
+"Относительное время теперь используется повсеместно в приложении. Например, "
+"вы можете быстро увидеть, как долго работает контейнер или сколько дней "
+"назад был создан образ."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:295
 msgid ""
@@ -917,12 +1058,17 @@ msgid ""
 "instead of text. Icons have also been added to the resource monitor in the "
 "container details page."
 msgstr ""
+"Для кругового индикатора выполнения в строке контейнера теперь используются "
+"значки вместо текста. Значки также были добавлены в монитор ресурсов на "
+"странице сведений о контейнере."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:296
 msgid ""
 "The text field for searching in the container logs and the inspection page "
 "has been completely redesigned visually."
 msgstr ""
+"Текстовое поле для поиска в журналах контейнера и страница инспектирования "
+"были полностью переработаны визуально."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:297
 msgid ""
@@ -930,10 +1076,14 @@ msgid ""
 "running. The info bar also offers the possibility to start or resume the "
 "container."
 msgstr ""
+"На странице журнала контейнера теперь отображается информационная панель, "
+"если контейнер не работает. Информационная панель также предлагает "
+"возможность запустить или возобновить работу контейнера."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:298
 msgid "Desktop notifications are now triggered on actions."
 msgstr ""
+"Теперь при выполнении действий срабатывают уведомления на рабочем столе."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:299
 msgid ""
@@ -941,49 +1091,62 @@ msgid ""
 "For example, the list of images is sorted and image names are no longer "
 "ellipsized."
 msgstr ""
+"Улучшен выбор образа на странице создания контейнера. Например, список "
+"образов отсортирован, а имена образов больше не сокращаются."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:300
 msgid ""
 "Also the selection of a pod in the container creation page has been improved "
 "similarly to the image selection."
 msgstr ""
+"Также улучшен выбор капсулы на странице создания контейнера аналогично "
+"выбору образа."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:301
 msgid ""
 "The image row now shows the tag of an image in the accent color to the right "
 "of the image id."
 msgstr ""
+"В строке образа справа от идентификатора образа отображается метка образа "
+"акцентным цветом."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:302
 msgid ""
 "The container row now displays the mapped host port of a container next to "
 "the container name, if there is one."
 msgstr ""
+"В строке контейнера теперь рядом с именем контейнера отображается "
+"сопоставленный порт хоста, если он есть."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:303
 msgid ""
 "Port Bindings in the container details page are now shown inside an "
 "AdwExpanderRow"
 msgstr ""
+"Привязки портов на странице сведений о контейнере теперь отображаются внутри "
+"AdwExpanderRow."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:304
-#, fuzzy
 msgid ""
 "The multi-selection mode of images, containers and pods is now animated a "
 "bit more nicely."
-msgstr "Удалять образы, контейнеры и капсулы (в массовом порядке)."
+msgstr ""
+"Режим множественного выбора образов, контейнеров и капсул теперь анимирован "
+"немного лучше."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
 msgid ""
 "The sizes of all GtkSpinners have been standardized throughout the "
 "application."
-msgstr ""
+msgstr "Размеры всех спиннеров Gtk были стандартизированы во всём приложении."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:306
 msgid ""
 "The gtk-rs library was updated to version 0.5, which made many internal code "
 "improvements possible."
 msgstr ""
+"Библиотека gtk-rs была обновлена до версии 0.5, что позволило внести "
+"множество внутренних улучшений в код."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:307
 msgid ""
@@ -991,234 +1154,281 @@ msgid ""
 "internal code improvements, and translation updates that have not been "
 "mentioned here."
 msgstr ""
+"Как всегда, было исправлено множество мелких ошибок, внесены визуальные "
+"улучшения, внутренние улучшения кода и обновления переводов, которые не были "
+"упомянуты здесь."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:313
 msgid "The sixth beta release of Pods 1.0.0 includes the following changes:"
-msgstr ""
+msgstr "Шестая бета-версия «Капсул» 1.0.0 включает следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
 msgid ""
 "The duration for individual actions such as downloading an image is now "
 "displayed."
 msgstr ""
+"Теперь отображается продолжительность отдельных действий, таких как загрузка "
+"образа."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:316
 msgid ""
 "In the overview for all images, individual images can now be updated via the "
 "context menu."
 msgstr ""
+"В обзоре всех образов отдельные образы теперь можно обновлять через "
+"контекстное меню."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
 msgid "Missing settings for creating pods have been added, thanks to @vv9k."
 msgstr ""
+"Благодаря @vv9k были добавлены недостающие параметры для создания капсул."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
 msgid ""
 "A simple progress bar is now displayed in the action menu button under the "
 "bell icon to indicate how many actions are currently running."
 msgstr ""
+"Теперь в кнопке меню действий под значком колокольчика отображается простой "
+"индикатор выполнения, показывающий, сколько действий выполняется в данный "
+"момент."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:319
 msgid ""
 "The icon of the button to return to the main view has been changed to a home "
 "symbol, thanks to @vv9k."
 msgstr ""
+"Значок кнопки для возврата к главному виду был изменён на символ дома "
+"благодаря @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:320
 msgid ""
 "The container details page and pod details page have been revised: The menus "
 "have been removed and instead there is now a control bar."
 msgstr ""
+"Страница сведений о контейнере и страница сведений о капсуле были "
+"переработаны: меню были удалены, и вместо них теперь есть панель управления."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:321
 msgid ""
 "Renaming a container within a container detail page must now be done via a "
 "button in the name row."
 msgstr ""
+"Переименование контейнера на странице сведений о контейнере теперь "
+"необходимо выполнять с помощью кнопки в строке имени."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:322
 msgid ""
 "Fixed a bug in the container log page that caused that no more than 512 log "
 "lines could be loaded and date were truncated."
 msgstr ""
+"Исправлена ошибка на странице журнала контейнера, из-за которой можно было "
+"загрузить не более 512 строк журнала, а даты были усечены."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:323
 msgid ""
 "The progress bars for CPU and memory in the container details page are now "
 "animated."
 msgstr ""
+"Индикаторы выполнения для ЦП и памяти на странице сведений о контейнере "
+"теперь анимированы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:324
 msgid ""
 "The animations of the circular progress bars for CPU and memory in the "
 "overview of all containers now use better easing."
 msgstr ""
+"Анимация круговых индикаторов выполнения для ЦП и памяти в обзоре всех "
+"контейнеров теперь использует более плавную динамику."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:325
 msgid ""
 "The icons and descriptions for actions like downloading an image have been "
 "made clearer."
 msgstr ""
+"Значки и описания действий, таких как загрузка образа, стали более понятными."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:326
 msgid ""
 "Committing a new image from a container can now be done in a fine-grained "
 "way, in a dedicated page."
 msgstr ""
+"Сохранение нового образа из контейнера теперь можно выполнять более точнона "
+"специальной странице."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:327
 msgid ""
 "As always, there were a number of minor bug fixes, visual improvements, "
 "internal code improvements and translation updates."
 msgstr ""
+"Как всегда, было исправлено несколько мелких ошибок, улучшен внешний "
+"вид,выполнены внутренние улучшения кода и обновлены переводы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:333
 msgid "The fifth beta release of Pods 1.0.0 includes the following changes:"
-msgstr ""
+msgstr "Пятая бета-версия «Капсул» 1.0.0 включает следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
 msgid "Some typos were fixed, thanks to @kianmeng."
-msgstr ""
+msgstr "Исправлены опечатки благодаря @kianmeng."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:336
 msgid ""
 "A tab to specify infra settings were added to the pod creation page, thanks "
 "to @vv9k."
 msgstr ""
+"На страницу создания капсулы добавлена вкладка для указания параметров "
+"инфраструктуры благодаря @vv9k."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
 msgid ""
 "There is now a widget that provides an overview of actions, such as building "
 "an image. Thus, the state of most actions can now be tracked."
 msgstr ""
+"Теперь есть виджет, который предоставляет обзор действий, таких как создание "
+"образа. Таким образом, можно отслеживать состояние большинства действий."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:338
-#, fuzzy
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
-msgstr "Удалять образы, контейнеры и капсулы (в массовом порядке)."
+msgstr ""
+"Локальный поиск образов, контейнеров и капсул теперь нечувствителен к "
+"регистру."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
 msgid "There were small visual adjustments all over the place."
-msgstr ""
+msgstr "Были внесены небольшие визуальные изменения по всему интерфейсу."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:340
 msgid "Minor bug fixes"
-msgstr ""
+msgstr "Исправления мелких ошибок"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:341
 msgid "Internal code improvements"
-msgstr ""
+msgstr "Внутренние исправления кода"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:342
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:360
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:373
-#, fuzzy
 msgid "Translation updates"
-msgstr "Переводчики"
+msgstr "Обновления перевода"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:348
 msgid ""
 "Here comes the fourth beta release of Pods 1.0.0 with the following changes:"
 msgstr ""
+"Представляем четвёртую бета-версию «Капсул» 1.0.0 со следующими изменениями:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:350
 msgid ""
 "The blurry symbolic application icon has been fixed, thanks to "
 "@allaeddineomc."
-msgstr ""
+msgstr "Размытый значок приложения был исправлен благодаря @allaeddineomc."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:351
 msgid ""
 "A status page is now displayed if there are no images, containers or pods."
 msgstr ""
+"Теперь отображается страница состояния, если нет образов, контейнеров или "
+"капсул."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:352
 msgid ""
 "The style has been improved, in particular, there is now better "
 "differentiation between light, dark and high contrast modes."
 msgstr ""
+"Улучшено оформление, в частности, теперь лучше различаются светлый, тёмный и "
+"высококонтрастный режимы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:353
 msgid ""
 "The feature for coloring the header bar has been removed. It will hopefully "
 "come back when there is API support for it."
 msgstr ""
+"Функция окрашивания панели заголовка была удалена. Надеемся, что она "
+"вернётся, когда появится поддержка для неё."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid ""
 "A lot of smaller UI improvements have been implemented to give Pods a more "
 "polished look."
 msgstr ""
+"Реализовано множество мелких улучшений пользовательского интерфейса, чтобы "
+"придать «Капсулам» более утончённый вид."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:355
 msgid "The flatpak runtime has been updated to version 43"
-msgstr ""
+msgstr "Среда выполнения flatpack обновлена до версии 43."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:356
 msgid ""
 "Improvements in infrastructure like an issue template have landed, thanks to "
 "@vv9k."
 msgstr ""
+"Благодаря @vv9k были внедрены улучшения в инфраструктуре, такие как шаблон "
+"проблемы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:357
-#, fuzzy
 msgid "Image downloads can now be aborted."
-msgstr "Загрузка образа была прервана"
+msgstr "Теперь можно прерывать загрузку образа."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
-msgstr ""
+msgstr "Благодаря @vvk9 можно добавлять аргументы к команде контейнера."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:359
 msgid ""
 "It's now possible to set labels on images, containers and pods, thanks to "
 "@vv9k."
 msgstr ""
+"Благодаря @vvk9 можно устанавливать метки на образы, контейнеры и капсулы."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
 msgid "The third beta release of Pods 1.0.0 contains the following changes:"
-msgstr ""
+msgstr "Третья бета-версия «Капсул» 1.0.0 содержит следующие изменения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:368
 msgid ""
 "A periodic refresh interval to track entities which were created outside of "
 "podman (e.g. with buildah)"
 msgstr ""
+"Интервал периодического обновления для отслеживания объектов, которые были "
+"созданы вне Podman (например, с помощью Buildah)."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:369
 msgid ""
 "Containers now provide a detailed view of health configuration and health "
 "status"
 msgstr ""
+"Контейнеры теперь предоставляют подробный обзор конфигурации и состояния "
+"работоспособности."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:370
 msgid "Several smaller UI improvements"
-msgstr ""
+msgstr "Несколько небольших улучшений пользовательского интерфейса."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:371
 msgid "Several smaller bugfixes and internal code improvements"
-msgstr ""
+msgstr "Несколько небольших исправлений ошибок и внутренних улучшений кода."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:372
 msgid "Updated screenshots"
-msgstr ""
+msgstr "Обновлены снимки экрана."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:379
 msgid "A small update with app data fixes:"
-msgstr ""
+msgstr "Небольшое обновление с исправлениями данных приложения:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:381
 msgid "Updated app data content rating"
-msgstr ""
+msgstr "Обновлена оценка содержимого данных приложения"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:382
 msgid "Added releases in app data"
-msgstr ""
+msgstr "Добавлены выпуски в данные приложения"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
 msgid "This is the first 1.0.0 beta release of Pods."
-msgstr ""
+msgstr "Это первая бета-версия «Капсул» 1.0.0."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
 msgid "Marcus Behrendt"
@@ -1226,7 +1436,9 @@ msgstr "Маркус Берендт"
 
 #: src/application.rs:190
 msgid "translator-credits"
-msgstr "Давид Лапшин <ddaudix@gmail.com>"
+msgstr ""
+"Давид Лапшин <ddaudix@gmail.com> Алевтина Карашокова "
+"<alevkarash@altlinux.org>"
 
 #: src/application.rs:192
 msgid "Translators"
@@ -1242,27 +1454,27 @@ msgstr "Указать минимальный уровень журналиро�
 
 #: src/model/action.rs:134
 msgid "Prune unused images"
-msgstr "Очищать неиспользуемые образы"
+msgstr "Удалить неиспользуемые образы"
 
 #: src/model/action.rs:172
 msgid "Pull image <b>{}</b>"
-msgstr "Извлечь изображение <b>{}</b>"
+msgstr "Получить образ <b>{}</b>"
 
 #: src/model/action.rs:210
 msgid "Push image <b>{}</b>"
-msgstr "Отправьте изображение <b>{}</b>"
+msgstr "Передать образ <b>{}</b>"
 
 #: src/model/action.rs:265
 msgid "Build image <b>{}</b>"
-msgstr "Создать образ <b>{}</b>"
+msgstr "Собрать образ <b>{}</b>"
 
 #: src/model/action.rs:269
 msgid "Generating tarball of context directory..."
-msgstr "Создание архива tar из каталога контекста..."
+msgstr "Создание архива tar из контекстного каталога..."
 
 #: src/model/action.rs:336
 msgid "Prune stopped containers"
-msgstr "Обрезать остановившиеся контейнеры"
+msgstr "Удалить остановленные контейнеры"
 
 #: src/model/action.rs:376
 msgid "Start new container <b>{}</b>"
@@ -1278,7 +1490,7 @@ msgstr "ничего"
 
 #: src/model/action.rs:404
 msgid "Commit image <b>{}</b> ({})"
-msgstr "Зафиксировать изображение <b>{}</b> ({})"
+msgstr "Зафиксировать образ <b>{}</b> ({})"
 
 #: src/model/action.rs:418 src/model/action.rs:523 src/model/action.rs:611
 #: src/model/action.rs:927
@@ -1287,7 +1499,7 @@ msgstr "Завершено"
 
 #: src/model/action.rs:460
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr "Загрузите <b>{}</b> в <b>{}:{}</b>"
+msgstr "Отправить <b>{}</b> в <b>{}:{}</b>"
 
 #: src/model/action.rs:467
 msgid "Creating tar archive…"
@@ -1327,22 +1539,19 @@ msgstr "Создать модуль <b>{}</b>"
 
 #: src/model/action.rs:652
 msgid "Prune stopped pods"
-msgstr "Обрезаем остановившиеся стручки"
+msgstr "Удалить остановленные капсулы"
 
 #: src/model/action.rs:843
-#, fuzzy
 msgid "Create volume <b>{}</b>"
-msgstr "Создать модуль <b>{}</b>"
+msgstr "Создать том <b>{}</b>"
 
 #: src/model/action.rs:891
-#, fuzzy
 msgid "Prune unused volumes"
-msgstr "Очищать неиспользуемые образы"
+msgstr "Удалить неиспользуемые тома"
 
 #: src/model/connection_manager.rs:203
-#, fuzzy
 msgid "Connection '{}' already exists"
-msgstr "Подключение '{}' уже существует."
+msgstr "Подключение «{}» уже существует"
 
 #: src/model/container.rs:69
 msgid "Configured"
@@ -1356,7 +1565,7 @@ msgstr "Создано"
 
 #: src/model/container.rs:71 src/model/pod.rs:68
 msgid "Dead"
-msgstr "Мёртв"
+msgstr "Отключён"
 
 #: src/model/container.rs:72 src/model/pod.rs:71
 msgid "Exited"
@@ -1480,273 +1689,220 @@ msgid "Error on open file dialog"
 msgstr "Ошибка открытия файлового диалога"
 
 #: src/view/action_page.rs:143
-#, fuzzy
 msgid "Pruning Images"
-msgstr "Очистить образы"
+msgstr "Удаление образов"
 
 #: src/view/action_page.rs:144
-#, fuzzy
 msgid "Downloading Image"
-msgstr "Загрузить образ"
+msgstr "Загрузка образа"
 
 #: src/view/action_page.rs:145
-#, fuzzy
 msgid "Building Image"
 msgstr "Сборка образа"
 
 #: src/view/action_page.rs:146
-#, fuzzy
 msgid "Pushing Image"
-msgstr "Нажмите изображение"
+msgstr "Передача образа"
 
 #: src/view/action_page.rs:147
-#, fuzzy
 msgid "Pruning Containers"
-msgstr "Показывать только запущенные контейнеры"
+msgstr "Удаление контейнеров"
 
 #: src/view/action_page.rs:148
-#, fuzzy
 msgid "Creating Container"
-msgstr "Создать контейнер"
+msgstr "Создание контейнера"
 
 #: src/view/action_page.rs:149
-#, fuzzy
 msgid "Starting Container"
-msgstr "Ошибка запуска контейнера"
+msgstr "Запуск контейнера"
 
 #: src/view/action_page.rs:150
-#, fuzzy
 msgid "Committing Image"
-msgstr "Сделать коммит контейнера"
+msgstr "Фиксация образа"
 
 #: src/view/action_page.rs:151
-#, fuzzy
 msgid "Copying Files"
-msgstr "Конфигурационный файл"
+msgstr "Копирование файлов"
 
 #: src/view/action_page.rs:152
-#, fuzzy
 msgid "Pruning Pods"
-msgstr "Показывать ли только запущенные капсулы"
+msgstr "Удаление капсул"
 
 #: src/view/action_page.rs:153
-#, fuzzy
 msgid "Creating Pod"
-msgstr "Создать капсулу"
+msgstr "Создание капсулы"
 
 #: src/view/action_page.rs:154
-#, fuzzy
 msgid "Creating Volume"
-msgstr "Создать изображение"
+msgstr "Создание тома"
 
 #: src/view/action_page.rs:155
-#, fuzzy
 msgid "Pruning Volumes"
-msgstr "Очистить образы"
+msgstr "Удаление томов"
 
 #: src/view/action_page.rs:161
-#, fuzzy
 msgid "Images Pruned"
-msgstr "Образы: <b>Очистить</b>"
+msgstr "Образы удалены"
 
 #: src/view/action_page.rs:162
-#, fuzzy
 msgid "Image Downloaded"
-msgstr "Образ был загружен"
+msgstr "Образ загружен"
 
 #: src/view/action_page.rs:163
-#, fuzzy
 msgid "Image Built"
-msgstr "Образ был собран"
+msgstr "Образ собран"
 
 #: src/view/action_page.rs:164
-#, fuzzy
 msgid "Image Pushed"
-msgstr "Изображение было перемещено"
+msgstr "Образ был передан"
 
 #: src/view/action_page.rs:165
-#, fuzzy
 msgid "Containers Pruned"
-msgstr "Контейнеров не найдено"
+msgstr "Контейнеры удалены"
 
 #: src/view/action_page.rs:166
-#, fuzzy
 msgid "Container Created"
-msgstr "Контейнер был создан"
+msgstr "Контейнер создан"
 
 #: src/view/action_page.rs:167
-#, fuzzy
 msgid "Container Started"
-msgstr "Хранилище контейнеров"
+msgstr "Контейнер запущен"
 
 #: src/view/action_page.rs:168
-#, fuzzy
 msgid "Image Committed"
-msgstr "Создание коммита образа не удалось"
+msgstr "Образ зафиксирован"
 
 #: src/view/action_page.rs:169
-#, fuzzy
 msgid "Files Copied"
-msgstr "Файлы были скопированы"
+msgstr "Файлы скопированы"
 
 #: src/view/action_page.rs:170
-#, fuzzy
 msgid "Pods Pruned"
-msgstr "Стручки были обрезаны"
+msgstr "Капсулы удалены"
 
 #: src/view/action_page.rs:171
-#, fuzzy
 msgid "Pod Created"
-msgstr "Создано"
+msgstr "Капсула создана"
 
 #: src/view/action_page.rs:172
-#, fuzzy
 msgid "Volume Created"
-msgstr "Капсула была создана"
+msgstr "Том создан"
 
 #: src/view/action_page.rs:173
-#, fuzzy
 msgid "Volumes Pruned"
-msgstr "Образы были очищены"
+msgstr "Тома удалены"
 
 #: src/view/action_page.rs:179
-#, fuzzy
 msgid "Image Pruning Aborted"
-msgstr "Отправка изображения прервана"
+msgstr "Удаление образа прервано"
 
 #: src/view/action_page.rs:180
-#, fuzzy
 msgid "Image Download Aborted"
-msgstr "Загрузка образа была прервана"
+msgstr "Загрузка образа прервана"
 
 #: src/view/action_page.rs:181
-#, fuzzy
 msgid "Image Built Aborted"
-msgstr "Сборка образа была прервана"
+msgstr "Сборка образа прервана"
 
 #: src/view/action_page.rs:182
-#, fuzzy
 msgid "Image Push Aborted"
-msgstr "Отправка изображения прервана"
+msgstr "Передача образа прервана"
 
 #: src/view/action_page.rs:183
-#, fuzzy
 msgid "Container Pruning Aborted"
-msgstr "Хранилище контейнеров"
+msgstr "Удаление контейнера прервано"
 
 #: src/view/action_page.rs:184
-#, fuzzy
 msgid "Container Creation Aborted"
-msgstr "Создание контейнера было прервано"
+msgstr "Создание контейнера прервано"
 
 #: src/view/action_page.rs:185
-#, fuzzy
 msgid "Container Start Aborted"
 msgstr "Запуск контейнера прерван"
 
 #: src/view/action_page.rs:186
-#, fuzzy
 msgid "Image Commit Aborted"
-msgstr "Создание коммита образа было прервано"
+msgstr "Фиксация образа прервана"
 
 #: src/view/action_page.rs:187
-#, fuzzy
 msgid "File Copying Aborted"
-msgstr "Копирование файлов было прервано"
+msgstr "Копирование файлов прервано"
 
 #: src/view/action_page.rs:188
-#, fuzzy
 msgid "Pod Pruning Aborted"
-msgstr "Создание капсулы было прервано"
+msgstr "Удаление капсулы прервано"
 
 #: src/view/action_page.rs:189
-#, fuzzy
 msgid "Pod Creation Aborted"
-msgstr "Создание капсулы было прервано"
+msgstr "Создание капсулы прервано"
 
 #: src/view/action_page.rs:190
-#, fuzzy
 msgid "Volume Creation Aborted"
-msgstr "Создание капсулы было прервано"
+msgstr "Создание тома прервано"
 
 #: src/view/action_page.rs:191
-#, fuzzy
 msgid "Volume Pruning Aborted"
-msgstr "Создание капсулы было прервано"
+msgstr "Удаление тома прервано"
 
 #: src/view/action_page.rs:197
-#, fuzzy
 msgid "Pruning Image Failed"
-msgstr "Очистка образов не удалась"
+msgstr "Не удалось удалить образ"
 
 #: src/view/action_page.rs:198
-#, fuzzy
 msgid "Downloading Image Failed"
-msgstr "Загрузить образ"
+msgstr "Не удалось загрузить образ"
 
 #: src/view/action_page.rs:199
-#, fuzzy
 msgid "Building Image Failed"
-msgstr "Очистка образов не удалась"
+msgstr "Не удалось собрать образа"
 
 #: src/view/action_page.rs:200
-#, fuzzy
 msgid "Pushing Image Failed"
-msgstr "Очистка образов не удалась"
+msgstr "Не удалось передать образ"
 
 #: src/view/action_page.rs:201
-#, fuzzy
 msgid "Pruning Containers Failed"
-msgstr "Обрезка контейнеров не удалась"
+msgstr "Не удалось удалить контейнеры"
 
 #: src/view/action_page.rs:202
-#, fuzzy
 msgid "Creating Container Failed"
-msgstr "Обрезка контейнеров не удалась"
+msgstr "Не удалось создать контейнеры"
 
 #: src/view/action_page.rs:203
-#, fuzzy
 msgid "Starting Container Failed"
-msgstr "Обрезка контейнеров не удалась"
+msgstr "Не удалось запустить контейнер"
 
 #: src/view/action_page.rs:204
-#, fuzzy
 msgid "Committing Image Failed"
-msgstr "Создание коммита образа не удалось"
+msgstr "Не удалось зафиксировать образ"
 
 #: src/view/action_page.rs:205
-#, fuzzy
 msgid "Copying Files Failed"
-msgstr "Копирование файлов не удалось"
+msgstr "Не удалось копировать файлы"
 
 #: src/view/action_page.rs:206
-#, fuzzy
 msgid "Pruning Pods Failed"
-msgstr "Обрезка стручков не удалась"
+msgstr "Не удалось удалить капсулы"
 
 #: src/view/action_page.rs:207
-#, fuzzy
 msgid "Creating Pod Failed"
-msgstr "Создание капсулы не удалось"
+msgstr "Не удалось создать капсулу"
 
 #: src/view/action_page.rs:208
-#, fuzzy
 msgid "Creating Volume Failed"
-msgstr "Очистка образов не удалась"
+msgstr "Не удалось создать том"
 
 #: src/view/action_page.rs:209
-#, fuzzy
 msgid "Pruning Volumes Failed"
-msgstr "Очистка образов не удалась"
+msgstr "Не удалось удалить тома"
 
 #: src/view/action_page.rs:253
 msgid "After {}"
 msgstr "После {}"
 
 #: src/view/action_page.rs:293
-#, fuzzy
 msgid "Action"
-msgstr "Действия"
+msgstr "Действие"
 
 #: src/view/action_page.rs:302
 msgid "Error on opening artifact"
@@ -1782,7 +1938,7 @@ msgstr "Неудачное действие с капсулой"
 
 #: src/view/action_row.rs:207
 msgid "Finished Pods Action"
-msgstr "Завершенное действие с капсулой"
+msgstr "Завершённое действие с капсулой"
 
 #: src/view/action_row.rs:257
 msgid "Ongoing ({})"
@@ -1793,9 +1949,8 @@ msgid "Finished after {}"
 msgstr "Завершено после {}"
 
 #: src/view/action_row.rs:272
-#, fuzzy
 msgid "Aborted after {}"
-msgstr "Неудача после {}"
+msgstr "Прервано после {}"
 
 #: src/view/action_row.rs:273
 msgid "Failed after {}"
@@ -1808,7 +1963,7 @@ msgstr "Действия"
 
 #: src/view/actions_sidebar.ui:26
 msgid "Clear Finished Actions"
-msgstr "Очистить завершенные действия"
+msgstr "Очистить завершённые действия"
 
 #: src/view/actions_sidebar.ui:48
 msgid "No Actions"
@@ -1833,12 +1988,12 @@ msgstr "Образы"
 #: src/view/volumes_panel.ui:67 src/view/volumes_panel.ui:138
 #: src/view/volumes_panel.ui:324 src/view/volumes_row.ui:22
 msgid "Volumes"
-msgstr "Хранилища"
+msgstr "Тома"
 
 #: src/view/client_view.rs:256 src/view/info_panel.ui:24
 #: src/view/info_row.ui:22
 msgid "Info"
-msgstr ""
+msgstr "Информация"
 
 #: src/view/client_view.rs:257 src/view/container_log_page.ui:60
 #: src/view/containers_panel.ui:109 src/view/images_panel.ui:134
@@ -1851,11 +2006,11 @@ msgstr "Поиск"
 #. .Translators: The maximum sidebar width
 #: src/view/client_view.ui:30
 msgid "280"
-msgstr ""
+msgstr "280"
 
 #: src/view/client_view.ui:37 src/view/client_view.ui:45
 msgid "Home"
-msgstr ""
+msgstr "Домашняя страница"
 
 #: src/view/client_view.ui:57 src/view/client_view.ui:179
 #: src/view/connections_sidebar.ui:18
@@ -1863,29 +2018,25 @@ msgid "Connections"
 msgstr "Подключения"
 
 #: src/view/client_view.ui:82
-#, fuzzy
 msgctxt "app name"
 msgid "Pods"
 msgstr "Капсулы"
 
 #: src/view/client_view.ui:223
-#, fuzzy
 msgid "Content"
-msgstr "Контейнер"
+msgstr "Содержимое"
 
 #: src/view/connection_chooser_page.rs:106
-#, fuzzy
 msgid "Error on establishing connection"
-msgstr "Ошибка смены подключения"
+msgstr "Ошибка при установлении соединения"
 
 #: src/view/connection_chooser_page.ui:26
 msgid "Connect to Podman"
 msgstr "Подключиться к Podman"
 
 #: src/view/connection_chooser_page.ui:27
-#, fuzzy
 msgid "Choose an existing connection or create a new one"
-msgstr "Либо выберите существующее соединение, либо создайте новое."
+msgstr "Выберите существующее соединение или создайте новое"
 
 #: src/view/connection_creation_page.rs:140
 msgid "official documentation"
@@ -1939,9 +2090,8 @@ msgid "URL"
 msgstr "URL"
 
 #: src/view/connection_creation_page.ui:129
-#, fuzzy
 msgid "Choose how to connect to Podman"
-msgstr "Выберите, как вы хотите подключиться к Podman."
+msgstr "Выберите, как вы хотите подключиться к Podman"
 
 #: src/view/connection_creation_page.ui:133
 msgid "Unix Socket"
@@ -1957,7 +2107,7 @@ msgid ""
 "You can enable it permanently by issuing the following command:"
 msgstr ""
 "Чтобы подключиться к локальному экземпляру Podman, сокет systemd должен быть "
-"включен. Вы можете включить его перманентно, выполнив следующую команду:"
+"включён. Вы можете включить его перманентно, выполнив следующую команду:"
 
 #: src/view/connection_creation_page.ui:225
 #: src/view/connection_custom_info_page.ui:140
@@ -1972,39 +2122,36 @@ msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
-"Чтобы подключиться к локальному root экземпляру Podman, создайте собственное "
+"Чтобы подключиться к локальному root-экземпляру Podman, создайте собственное "
 "подключение (прочитайте там подсказки)."
 
 #: src/view/connection_creation_page.ui:266
-#, fuzzy
 msgid "Custom URL"
-msgstr "Пользовательский"
+msgstr "Пользовательский URL-адрес"
 
 #: src/view/connection_creation_page.ui:304
 msgid "Color"
 msgstr "Цвет"
 
 #: src/view/connection_creation_page.ui:305
-#, fuzzy
 msgid "Set the color of this connection"
-msgstr "Установите цвет строки состояния, когда это соединение активно."
+msgstr "Установите цвет этого соединения"
 
 #: src/view/connection_creation_page.ui:351
-#, fuzzy
 msgid "Custom Connection Info"
-msgstr "Пользовательское соединение"
+msgstr "Сведения о пользовательском соединении"
 
 #: src/view/connection_custom_info_page.rs:131
 msgid "systemd unit path copied"
-msgstr "путь юнита systemd скопирован"
+msgstr "Путь юнита systemd скопирован"
 
 #: src/view/connection_custom_info_page.rs:139
 msgid "systemd unit content copied"
-msgstr "содержимое юнита systemd скопировано"
+msgstr "Содержимое юнита systemd скопировано"
 
 #: src/view/connection_custom_info_page.rs:149
 msgid "socket activation command copied"
-msgstr "команда активации с помощью сокета скопирована"
+msgstr "Команда активации с помощью сокета скопирована"
 
 #: src/view/connection_custom_info_page.rs:158
 msgid "URL copied"
@@ -2020,7 +2167,7 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
-"Вы можете подключиться к экземпляру Podman используя протоколы <span "
+"Вы можете подключиться к экземпляру Podman, используя протоколы <span "
 "weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span> и <span "
 "weight=\"bold\">UNIX</span>. Например, строка подключения может выглядеть "
 "так:"
@@ -2031,7 +2178,7 @@ msgstr "http://somewhere:8081"
 
 #: src/view/connection_custom_info_page.ui:80
 msgid "Podman Root Connection"
-msgstr "Root подключение Podman"
+msgstr "Root-подключение Podman"
 
 #: src/view/connection_custom_info_page.ui:91
 msgid ""
@@ -2040,14 +2187,14 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
-"К сожалению, в настоящее время невозможно напрямую подключиться к root "
-"экземпляру Podman, так как <span weight=\"bold\">/run/podman/podman.sock</"
-"span> не читается обычными пользователями. Однако есть обходной путь с "
-"использованием модуля systemd. Сохраните следующий фрагмент:"
+"В настоящее время невозможно напрямую подключиться к root-экземпляру Podman, "
+"так как <span weight=\"bold\">/run/podman/podman.sock</span> не читается "
+"обычными пользователями. Однако есть обходной путь с использованием модуля "
+"systemd. Сохраните следующий фрагмент:"
 
 #: src/view/connection_custom_info_page.ui:205
 msgid "Enable the service by issuing the command:"
-msgstr "Включите службу выполнив команду:"
+msgstr "Включите службу, выполнив команду:"
 
 #: src/view/connection_custom_info_page.ui:265
 msgid ""
@@ -2068,9 +2215,8 @@ msgid "Delete"
 msgstr "Удалить"
 
 #: src/view/connection.rs:22
-#, fuzzy
 msgid "There are ongoing actions whose progress will be irretrievably lost"
-msgstr "Выполняются действия, чей прогресс будет необратимо утрачен."
+msgstr "Выполняются действия, чей прогресс будет необратимо утрачен"
 
 #: src/view/connection.rs:29 src/view/container_card.rs:565
 msgid "_Confirm"
@@ -2089,20 +2235,20 @@ msgid "New Connection (Ctrl+Shift+N)"
 msgstr "Новое соединение (Ctrl+Shift+N)"
 
 #: src/view/container_card.rs:544 src/view/container_row.rs:250
-#, fuzzy
 msgid "Container {}"
-msgstr "Контейнер"
+msgstr "Контейнер {}"
 
 #: src/view/container_card.rs:556
-#, fuzzy
 msgid "Delete Container?"
-msgstr "Выбран {} контейнер"
+msgstr "Удалить контейнер?"
 
 #: src/view/container_card.rs:559
 msgid ""
 "All settings and all changes made within the container will be irreversibly "
 "lost"
 msgstr ""
+"Все настройки и все изменения, внесённые в контейнере, будут безвозвратно "
+"утеряны"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container_card.rs:626 src/view/container_resources.rs:276
@@ -2110,14 +2256,12 @@ msgid "{} / s"
 msgstr "{} / с"
 
 #: src/view/container_card.ui:110
-#, fuzzy
 msgid "Rename"
 msgstr "Переименовать"
 
 #: src/view/container_card.ui:406
-#, fuzzy
 msgid "No Ports Mappings"
-msgstr "Сопоставление портов"
+msgstr "Нет сопоставлений портов"
 
 #: src/view/container_card.ui:464 src/view/container_details_page.ui:54
 #: src/view/containers_panel.ui:309 src/view/pod_details_page.ui:48
@@ -2135,7 +2279,7 @@ msgstr "Перезапустить"
 #: src/view/containers_panel.ui:346 src/view/pod_details_page.ui:80
 #: src/view/pods_panel.ui:344
 msgid "Start/Resume"
-msgstr "Запустить/Возобновить"
+msgstr "Запустить/возобновить работу"
 
 #: src/view/container_card.ui:510 src/view/container_details_page.ui:105
 #: src/view/containers_panel.ui:364 src/view/pod_details_page.ui:99
@@ -2165,19 +2309,19 @@ msgstr "Ошибка получения имени пользователя"
 #: src/view/pods_prune_page.ui:22 src/view/repo_tag_push_page.ui:25
 #: src/view/volume_creation_page.ui:22 src/view/volumes_prune_page.ui:22
 msgid "Preferences"
-msgstr ""
+msgstr "Параметры"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
-msgstr "Сделать коммит контейнера"
+msgstr "Зафиксировать контейнер"
 
 #: src/view/container_commit_page.ui:52
 msgid "_Commit"
-msgstr "_Коммит"
+msgstr "_Фиксация"
 
 #: src/view/container_commit_page.ui:65
 msgid "General Commit Options"
-msgstr "Общие параметры коммита"
+msgstr "Общие параметры фиксации"
 
 #: src/view/container_commit_page.ui:70
 msgid "Author"
@@ -2204,22 +2348,20 @@ msgid "Format"
 msgstr "Формат"
 
 #: src/view/container_commit_page.ui:125
-#, fuzzy
 msgid "Pause the container before committing it"
-msgstr "Приостановить контейнер перед его коммитом."
+msgstr "Приостановить контейнер перед его фиксацией"
 
 #: src/view/container_commit_page.ui:134
 msgid "Changes"
 msgstr "Изменения"
 
 #: src/view/container_commit_page.ui:135
-#, fuzzy
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
 "foo\")"
 msgstr ""
-"Инструкции для применения при коммите в формате Dockerfile (например \"CMD=/"
-"bin/foo\")."
+"Инструкции для применения при фиксации в формате Dockerfile (например, «CMD=/"
+"bin/foo»)"
 
 #: src/view/container_creation_page.rs:197 src/view/pod_creation_page.rs:197
 #: src/view/pod_creation_page.rs:207 src/view/value_row.ui:4
@@ -2228,30 +2370,25 @@ msgstr "Аргумент"
 
 #: src/view/container_creation_page.rs:200 src/view/pod_creation_page.rs:200
 #: src/view/pod_creation_page.rs:210
-#, fuzzy
 msgid "Add Argument"
-msgstr "Аргумент"
+msgstr "Добавить аргумент"
 
 #: src/view/container_creation_page.rs:211 src/view/pod_creation_page.rs:180
-#, fuzzy
 msgid "Add Port Mapping"
-msgstr "Сопоставление портов"
+msgstr "Добавить сопоставление портов"
 
 #: src/view/container_creation_page.rs:219
-#, fuzzy
 msgid "Add Volume"
-msgstr "Хранилища"
+msgstr "Добавить том"
 
 #: src/view/container_creation_page.rs:229
-#, fuzzy
 msgid "Add Environment Variable"
-msgstr "Переменные среды"
+msgstr "Добавить переменную среды"
 
 #: src/view/container_creation_page.rs:239 src/view/image_build_page.rs:115
 #: src/view/pod_creation_page.rs:154
-#, fuzzy
 msgid "Add Label"
-msgstr "Метки"
+msgstr "Добавить метку"
 
 #: src/view/container_creation_page.rs:524
 msgid "Failed to create container"
@@ -2285,9 +2422,8 @@ msgid "Pod"
 msgstr "Капсула"
 
 #: src/view/container_creation_page.ui:155 src/view/pod_creation_page.ui:290
-#, fuzzy
 msgid "Pull Latest Image"
-msgstr "Скачать новейший образ"
+msgstr "Получить последний образ"
 
 #: src/view/container_creation_page.ui:161
 #: src/view/container_details_page.ui:237
@@ -2296,16 +2432,15 @@ msgstr "Терминал"
 
 #: src/view/container_creation_page.ui:168
 msgid "Privileged"
-msgstr ""
+msgstr "Привилегированные"
 
 #: src/view/container_creation_page.ui:169
 msgid "Give extended privileges to container"
-msgstr ""
+msgstr "Предоставить расширенные привилегии контейнеру"
 
 #: src/view/container_creation_page.ui:176
-#, fuzzy
 msgid "Memory Limit"
-msgstr "Лимит памяти"
+msgstr "Ограничение памяти"
 
 #: src/view/container_creation_page.ui:220
 msgid "KB"
@@ -2361,7 +2496,7 @@ msgstr "Интервал"
 
 #: src/view/container_creation_page.ui:370
 msgid "Health check interval in seconds"
-msgstr ""
+msgstr "Интервал проверки работоспособности в секундах"
 
 #: src/view/container_creation_page.ui:386
 #: src/view/container_health_check_page.ui:71
@@ -2370,18 +2505,16 @@ msgstr "Тайм-аут"
 
 #: src/view/container_creation_page.ui:387
 msgid "Seconds allowed to complete the command before it fails"
-msgstr ""
+msgstr "Время в секундах, отведённое на выполнение команды перед её сбоем"
 
 #: src/view/container_creation_page.ui:403
-#, fuzzy
 msgid "Start Period"
 msgstr "Начальный период"
 
 #: src/view/container_creation_page.ui:404
-#, fuzzy
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
-msgstr "Время инициализации, необходимое для начальной загрузки контейнера."
+msgstr "Время инициализации, необходимое для начальной загрузки контейнера"
 
 #: src/view/container_creation_page.ui:420
 #: src/view/container_health_check_page.ui:65
@@ -2389,11 +2522,10 @@ msgid "Retries"
 msgstr "Попытки"
 
 #: src/view/container_creation_page.ui:421
-#, fuzzy
 msgid "Number of retries allowed before a healthcheck fails"
 msgstr ""
-"Количество попыток, разрешенных до того, как проверка работоспособности "
-"будет считаться неудачной."
+"Количество попыток, разрешённых до того, как проверка работоспособности "
+"будет считаться неудачной"
 
 #: src/view/container_details_page.rs:235
 msgid "Error on loading container details"
@@ -2401,7 +2533,7 @@ msgstr "Ошибка загрузки деталей контейнера"
 
 #: src/view/container_details_page.rs:239
 msgid "Container '{}' has been deleted"
-msgstr "Контейнер '{}' был удалён"
+msgstr "Контейнер «{}» был удалён"
 
 #: src/view/container_details_page.ui:16
 msgid "Container"
@@ -2418,45 +2550,40 @@ msgid "Inspection"
 msgstr "Инспекция"
 
 #: src/view/container_details_page.ui:204
-#, fuzzy
 msgid "View all container properties in a structured text form"
-msgstr "Просмотр всех свойств контейнера в структурированной текстовой форме."
+msgstr "Просмотр всех свойств контейнера в структурированной текстовой форме"
 
 #: src/view/container_details_page.ui:220 src/view/pod_details_page.ui:250
 msgid "Kube"
 msgstr "Kube"
 
 #: src/view/container_details_page.ui:221
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this container"
-msgstr "Создать YAML Kubernetes на основе этого контейнера."
+msgstr "Создать YAML Kubernetes на основе этого контейнера"
 
 #: src/view/container_details_page.ui:238
-#, fuzzy
 msgid "Connect to the container's terminal"
-msgstr "Подключиться к терминалу контейнера."
+msgstr "Подключиться к терминалу контейнера"
 
 #: src/view/container_details_page.ui:254
 msgid "Logs"
 msgstr "Журналы"
 
 #: src/view/container_details_page.ui:255
-#, fuzzy
 msgid "View and search through container logs"
-msgstr "Просмотр и поиск в журналах контейнера."
+msgstr "Просмотр и поиск в журналах контейнера"
 
 #: src/view/container_details_page.ui:271 src/view/pod_details_page.ui:267
 msgid "Processes"
 msgstr "Процессы"
 
 #: src/view/container_details_page.ui:272
-#, fuzzy
 msgid "View and manage processes of the container"
-msgstr "Просматривать и искать в журналах контейнеров."
+msgstr "Просмотр и управление процессами контейнера"
 
 #: src/view/container_files_get_page.rs:148
 msgid "Select Host Destination Path"
-msgstr "Выбрать целевой путь хоста"
+msgstr "Выбрать целевой путь к хосту"
 
 #: src/view/container_files_get_page.ui:42
 msgid "Download Files"
@@ -2470,22 +2597,21 @@ msgstr "_Загрузить"
 #: src/view/container_files_get_page.ui:69
 #: src/view/container_files_put_page.ui:97
 msgid "Container Path ('/' if empty)"
-msgstr "Путь контейнера ('/' если пустой)"
+msgstr "Путь к контейнеру («/» если пустой)"
 
 #: src/view/container_files_get_page.ui:76
 #: src/view/container_files_put_page.ui:78 src/view/device_row.ui:63
 #: src/view/mount_row.ui:105
 msgid "Host Path"
-msgstr "Путь хоста"
+msgstr "Путь к хосту"
 
 #: src/view/container_files_get_page.ui:77
-#, fuzzy
 msgid "Select a destination tar archive on the host"
-msgstr "Выберите местоположение архива tar на хосте."
+msgstr "Выберите местоположение архива tar на хосте"
 
 #: src/view/container_files_get_page.ui:82
 msgid "Select _Path…"
-msgstr "Выбрать _Путь…"
+msgstr "Выбрать _путь…"
 
 #: src/view/container_files_put_page.rs:161
 msgid "Select Host Directory"
@@ -2497,24 +2623,23 @@ msgstr "Выбрать файл хоста"
 
 #: src/view/container_files_put_page.ui:15
 msgid "Select _Directory…"
-msgstr "Выбрать _Каталог…"
+msgstr "Выбрать _каталог…"
 
 #: src/view/container_files_put_page.ui:51
 msgid "Upload Files"
-msgstr "Загрузить файлы"
+msgstr "Отправить файлы"
 
 #: src/view/container_files_put_page.ui:61
 msgid "_Upload"
-msgstr "_Выгрузить"
+msgstr "_Отправить"
 
 #: src/view/container_files_put_page.ui:79
-#, fuzzy
 msgid "Select a file or a directory from the host to upload"
-msgstr "Выберите либо файл, либо каталог хоста для выгрузки."
+msgstr "Выберите либо файл, либо каталог хоста для выгрузки"
 
 #: src/view/container_files_put_page.ui:84
 msgid "Select _File…"
-msgstr "Выбрать _Файл…"
+msgstr "Выбрать _файл…"
 
 #: src/view/container_health_check_log_row.rs:80
 msgid "Passed Health Run"
@@ -2565,9 +2690,8 @@ msgid "Log"
 msgstr "Журнал"
 
 #: src/view/container_health_check_page.ui:94
-#, fuzzy
 msgid "Rows describe the last 5 health check attempts and results"
-msgstr "Строки описывают последние 5 проверок работоспособности и результаты."
+msgstr "Строки описывают последние 5 проверок работоспособности и результаты"
 
 #: src/view/container_health_check_page.ui:99
 msgid "_Run Health Check"
@@ -2575,7 +2699,7 @@ msgstr "_Запустить проверку работоспособности"
 
 #: src/view/container_log_page.rs:480
 msgid "Error while following log"
-msgstr "Ошибка следования за журналом"
+msgstr "Ошибка при отслеживании журнала"
 
 #: src/view/container_log_page.rs:615
 msgid "Include timestamps"
@@ -2590,9 +2714,8 @@ msgid "Error on retrieving logs"
 msgstr "Ошибка получения журналов"
 
 #: src/view/container_log_page.rs:690
-#, fuzzy
 msgid "Log has been saved"
-msgstr "Журнал сохранен."
+msgstr "Журнал сохранён"
 
 #: src/view/container_log_page.rs:713
 msgid "Error starting container"
@@ -2600,7 +2723,7 @@ msgstr "Ошибка запуска контейнера"
 
 #: src/view/container_log_page.rs:719
 msgid "Error resuming container"
-msgstr "Ошибка возобновления контейнера"
+msgstr "Ошибка возобновления работы контейнера"
 
 #: src/view/container_log_page.ui:12 src/view/scalable_text_view_page.ui:12
 msgid "_Save as File"
@@ -2608,21 +2731,19 @@ msgstr "_Сохранить как файл"
 
 #: src/view/container_log_page.ui:18
 msgid "Show _Timestamps"
-msgstr "Показать _Timestamps"
+msgstr "Показать _временные метки"
 
 #: src/view/container_log_page.ui:66
 msgid "Container Logs"
 msgstr "Журналы контейнера"
 
 #: src/view/container_log_page.ui:105
-#, fuzzy
 msgid "Start/Resume Container"
-msgstr "Запустить/Возобновить контейнер."
+msgstr "Запустить/возобновить работу контейнера"
 
 #: src/view/container_log_page.ui:106
-#, fuzzy
 msgid "Streaming is disconnected because container is not running"
-msgstr "Потоковая передача отключена, поскольку контейнер не запущен."
+msgstr "Потоковая передача отключена, поскольку контейнер не запущен"
 
 #: src/view/container_log_page.ui:149
 msgid "Loading previous lines"
@@ -2646,7 +2767,7 @@ msgstr "П_ерезапустить"
 
 #: src/view/container_menu_button.ui:22 src/view/pod_menu_button.ui:28
 msgid "_Resume"
-msgstr "_Возобновить"
+msgstr "_Возобновить работу"
 
 #: src/view/container_menu_button.ui:27 src/view/pod_menu_button.ui:33
 msgid "_Pause"
@@ -2683,7 +2804,7 @@ msgstr "Идентификатор"
 
 #: src/view/container_properties_group.ui:80
 msgid "Commit (Ctrl+K)"
-msgstr "Коммит (Ctrl+K)"
+msgstr "Фиксация (Ctrl+K)"
 
 #: src/view/container_properties_group.ui:99
 msgid "Size"
@@ -2779,23 +2900,20 @@ msgid "No Terminal"
 msgstr "Нет терминала"
 
 #: src/view/container_terminal.ui:36
-#, fuzzy
 msgid "The container must be running to use the terminal"
-msgstr "Контейнер должен быть запущен, чтобы использовать терминал."
+msgstr "Контейнер должен быть запущен, чтобы использовать терминал"
 
 #: src/view/container_terminal.ui:46
 msgid "Start"
 msgstr "Запустить"
 
 #: src/view/container.rs:69 src/view/container.rs:100
-#, fuzzy
 msgid "Error renaming container"
-msgstr "Ошибка возобновления контейнера"
+msgstr "Ошибка переименования контейнера"
 
 #: src/view/container.rs:70
-#, fuzzy
 msgid "Container has been deleted"
-msgstr "Контейнер '{}' был удалён"
+msgstr "Контейнер был удалён"
 
 #: src/view/container.rs:79
 msgid "Rename Container"
@@ -2827,7 +2945,7 @@ msgstr "Ошибка приостановки контейнера"
 
 #: src/view/container.rs:137 src/view/containers_panel.rs:604
 msgid "Error on resuming container"
-msgstr "Ошибка при возобновлении контейнера"
+msgstr "Ошибка при возобновлении работы контейнера"
 
 #: src/view/container.rs:138 src/view/containers_panel.rs:687
 msgid "Error on deleting container"
@@ -2842,7 +2960,6 @@ msgid "1 container, stopped"
 msgstr "1 контейнер, остановлено"
 
 #: src/view/containers_panel.rs:241
-#, fuzzy
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
 msgstr[0] "{} контейнер всего, {} запущено"
@@ -2873,15 +2990,13 @@ msgid "_Create Container"
 msgstr "_Создать контейнер"
 
 #: src/view/containers_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Containers"
-msgstr "Обрезать остановившиеся контейнеры"
+msgstr "_Удалить остановленные контейнеры"
 
 #: src/view/containers_panel.ui:17 src/view/images_panel.ui:42
 #: src/view/pods_panel.ui:17 src/view/volumes_panel.ui:17
-#, fuzzy
 msgid "_Select Visible"
-msgstr "Выбрать файл хоста"
+msgstr "_Выбрать видимые"
 
 #: src/view/containers_panel.ui:21 src/view/images_panel.ui:46
 #: src/view/pods_panel.ui:21 src/view/volumes_panel.ui:21
@@ -2890,18 +3005,16 @@ msgstr "Очистить выбор"
 
 #: src/view/containers_panel.ui:125 src/view/containers_prune_page.ui:42
 msgid "Prune Stopped Containers"
-msgstr "Обрезать остановившиеся контейнеры"
+msgstr "Удалить остановленные контейнеры"
 
 #: src/view/containers_panel.ui:132 src/view/images_panel.ui:157
 #: src/view/pods_panel.ui:132 src/view/volumes_panel.ui:132
-#, fuzzy
 msgid "More Actions"
-msgstr "Нет действий"
+msgstr "Больше действий"
 
 #: src/view/containers_panel.ui:146 src/view/containers_panel.ui:192
-#, fuzzy
 msgid "Show Only Running Containers"
-msgstr "Показывать только запущенные контейнеры"
+msgstr "Показать только запущенные контейнеры"
 
 #: src/view/containers_panel.ui:154 src/view/images_panel.ui:179
 #: src/view/pods_panel.ui:154 src/view/volumes_panel.ui:154
@@ -2914,19 +3027,16 @@ msgid "Cancel"
 msgstr "Отменить"
 
 #: src/view/containers_panel.ui:260
-#, fuzzy
 msgid "No Running Containers"
-msgstr "Показывать только запущенные контейнеры"
+msgstr "Нет запущенных контейнеров"
 
 #: src/view/containers_panel.ui:270
-#, fuzzy
 msgid "_Show All Containers"
-msgstr "Показывать только запущенные контейнеры"
+msgstr "_Показать все контейнеры"
 
 #: src/view/containers_panel.ui:443
-#, fuzzy
 msgid "No Containers Available"
-msgstr "Контейнеров не найдено"
+msgstr "Нет доступных контейнеров"
 
 #: src/view/containers_prune_page.ui:52 src/view/images_prune_page.ui:52
 #: src/view/pods_prune_page.ui:52 src/view/volumes_prune_page.ui:52
@@ -2939,14 +3049,12 @@ msgid "Prune Options"
 msgstr "Параметры очистки"
 
 #: src/view/containers_prune_page.ui:69
-#, fuzzy
 msgid "Prune containers created before this timestamp"
-msgstr "Удалить контейнеры, созданные до этой отметки времени."
+msgstr "Удалить контейнеры, созданные до этой отметки времени"
 
 #: src/view/device_row.ui:69 src/view/mount_row.ui:139
-#, fuzzy
 msgid "Container Path"
-msgstr "Путь контейнера"
+msgstr "Путь к контейнеру"
 
 #: src/view/device_row.ui:75
 msgid "Readable"
@@ -2958,16 +3066,15 @@ msgstr "Запись"
 
 #: src/view/device_row.ui:87
 msgid "mknod"
-msgstr "мкнод"
+msgstr "mknod"
 
 #: src/view/image_build_page.rs:195
 msgid "Select Build Context Directory"
 msgstr "Выберите каталог контекста сборки"
 
 #: src/view/image_build_page.rs:234
-#, fuzzy
 msgid "Image name must not contain uppercase characters"
-msgstr "Имя образа не должно содержать символов в верхнем регистре."
+msgstr "Имя образа не должно содержать символы в верхнем регистре"
 
 #: src/view/image_build_page.ui:42
 msgid "Build Image"
@@ -3015,18 +3122,17 @@ msgstr "Ошибка загрузки деталей образа"
 
 #: src/view/image_details_page.rs:279
 msgid "Image '{}' has been deleted"
-msgstr "Образ '{}' был удалён"
+msgstr "Образ «{}» был удалён"
 
 #: src/view/image_details_page.ui:7
 msgid "Create Repository Tag"
-msgstr "Создать тег репозитория"
+msgstr "Создать ярлык репозитория"
 
 #: src/view/image_details_page.ui:66
 msgid "Delete Image"
-msgstr "Удалить изображение"
+msgstr "Удалить образ"
 
 #: src/view/image_details_page.ui:87
-#, fuzzy
 msgid "Disk Space"
 msgstr "Дисковое пространство"
 
@@ -3039,18 +3145,16 @@ msgid "Ports"
 msgstr "Порты"
 
 #: src/view/image_details_page.ui:122
-#, fuzzy
 msgid "View all image properties in a structured text form"
-msgstr "Просмотреть все свойства образа в форме структурированного текста."
+msgstr "Просмотреть все свойства образа в форме структурированного текста"
 
 #: src/view/image_details_page.ui:138
 msgid "History"
 msgstr "История"
 
 #: src/view/image_details_page.ui:139
-#, fuzzy
 msgid "View parent layers of this image"
-msgstr "Посмотреть родительские слои этого образа."
+msgstr "Посмотреть родительские слои этого образа"
 
 #: src/view/image_details_page.ui:158
 msgid "Repository Tags"
@@ -3081,7 +3185,7 @@ msgstr "Неизвестный размер"
 
 #: src/view/image_history_page.rs:144
 msgid "Created by"
-msgstr "Сделано"
+msgstr "Создано"
 
 #: src/view/image_history_page.rs:173
 msgid "Tags"
@@ -3104,9 +3208,8 @@ msgid "_Create Container…"
 msgstr "_Создать контейнер…"
 
 #: src/view/image_row.rs:207
-#, fuzzy
 msgid "Image {}"
-msgstr "Образ"
+msgstr "Образ {}"
 
 #: src/view/image_search_page.rs:202
 msgid "No Results For {}"
@@ -3117,68 +3220,60 @@ msgid "Failed to search for images"
 msgstr "Не удалось выполнить поиск образов"
 
 #: src/view/image_search_page.rs:330 src/view/repo_tag_selection_page.ui:35
-#, fuzzy
 msgid "Select Tag"
-msgstr "Выберите изображение"
+msgstr "Выберите метку"
 
 #: src/view/image_search_page.ui:47
-#, fuzzy
 msgid "Enter image search term"
-msgstr "не выбран образ"
+msgstr "Введите запрос для поиска образов"
 
 #: src/view/image_search_page.ui:64
 msgid "Next"
-msgstr ""
+msgstr "Следующий"
 
 #: src/view/image_search_page.ui:92
-#, fuzzy
 msgid "Find Remote Images"
-msgstr "Удаленный образ"
+msgstr "Найти удалённые образы"
 
 #: src/view/image_search_page.ui:93
-#, fuzzy
 msgid "Please start typing to look for remote images"
-msgstr "Пожалуйста, начните набирать текст для поиска образов."
+msgstr "Начните набирать текст для поиска удалённых образов"
 
 #: src/view/image_search_page.ui:108
-#, fuzzy
 msgid "Searching"
-msgstr "Поиск…"
+msgstr "Выполняется поиск"
 
 #: src/view/image_search_page.ui:133 src/view/repo_tag_selection_page.ui:124
 #: src/view/search_panel.ui:48
-#, fuzzy
 msgid "Please retry another term"
-msgstr "Пожалуйста, попробуйте другой запрос."
+msgstr "Попробуйте другой запрос"
 
 #: src/view/image_search_response_row.ui:40
 msgid "Official"
-msgstr ""
+msgstr "Официальный"
 
 #: src/view/image_selection_combo_row.rs:87
 msgid "Select Image"
-msgstr "Выберите изображение"
+msgstr "Выбрать образ"
 
 #: src/view/image_selection_combo_row.rs:88
 #: src/view/image_selection_combo_row.ui:4
 #: src/view/image_selection_combo_row.ui:15
 msgid "Local Image"
-msgstr "Локальное изображение"
+msgstr "Локальный образ"
 
 #: src/view/image_selection_combo_row.rs:89
 #: src/view/image_selection_combo_row.ui:28
 msgid "Remote Image"
-msgstr "Удаленный образ"
+msgstr "Удалённый образ"
 
 #: src/view/image_selection_combo_row.rs:150
-#, fuzzy
 msgid "Select"
-msgstr "_Выбор"
+msgstr "Выбор"
 
 #: src/view/image_selection_page.ui:25
-#, fuzzy
 msgid "No Local Images Available"
-msgstr "Локальное изображение"
+msgstr "Нет доступного локального образа"
 
 #: src/view/image_selection_page.ui:50 src/view/pod_selection_page.ui:77
 #: src/view/repo_tag_selection_page.ui:19 src/view/volume_selection_page.ui:77
@@ -3187,7 +3282,7 @@ msgstr "Фильтр"
 
 #: src/view/image_selection_page.ui:66
 msgid "Select Local Image"
-msgstr "Выберите локальное изображение"
+msgstr "Выбрать локальный образ"
 
 #: src/view/image_selection_page.ui:99 src/view/pod_selection_page.ui:126
 #: src/view/volume_selection_page.ui:126
@@ -3196,20 +3291,17 @@ msgstr "_Выбор"
 
 #: src/view/image_selection_page.ui:152 src/view/pod_selection_page.ui:179
 #: src/view/volume_selection_page.ui:180
-#, fuzzy
 msgid "No Results"
 msgstr "Результатов не найдено"
 
 #: src/view/image_selection_page.ui:163 src/view/pod_selection_page.ui:190
 #: src/view/volume_selection_page.ui:191
-#, fuzzy
 msgid "_Clear Filter"
-msgstr "Фильтр"
+msgstr "_Очистить фильтр"
 
 #: src/view/image.rs:16
-#, fuzzy
 msgid "Confirm Image Deletion"
-msgstr "Подтвердите принудительное удаление образа"
+msgstr "Подтвердите удаление образа"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/image.rs:20
@@ -3224,7 +3316,7 @@ msgstr ""
 #. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
 #: src/view/image.rs:53 src/view/images_panel.rs:510
 msgid "Error on deleting image '{}'"
-msgstr "Ошибка удаления образа '{}'"
+msgstr "Ошибка удаления образа «{}»"
 
 #: src/view/images_panel.rs:203
 msgid "1 image, used"
@@ -3235,12 +3327,11 @@ msgid "1 image, unused"
 msgstr "1 образ, не используется"
 
 #: src/view/images_panel.rs:209
-#, fuzzy
 msgid "{} image total ({}), {} unused ({})"
 msgid_plural "{} images total ({}), {} unused ({})"
-msgstr[0] "{} образ всего, {} {} не используется, {}"
-msgstr[1] "{} образа всего, {} {} не используется, {}"
-msgstr[2] "{} образов всего, {} {} не используется, {}"
+msgstr[0] "{} образ всего ({}), {} не используется ({})"
+msgstr[1] "{} образа всего ({}), {} не используется ({})"
+msgstr[2] "{} образов всего ({}), {} не используется ({})"
 
 #: src/view/images_panel.rs:228
 msgid "{} Selected Image"
@@ -3258,48 +3349,43 @@ msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
 msgstr ""
-"С этими образами могут быть связаны контейнеры, которые также будут удалены!"
+"С этими образами могут быть связаны контейнеры, которые также будут удалены."
 
 #: src/view/images_panel.ui:35
-#, fuzzy
 msgid "_Prune Unused Images"
-msgstr "Очищать неиспользуемые образы"
+msgstr "_Удалить неиспользуемые образы"
 
 #: src/view/images_panel.ui:141
 msgid "Create Image"
-msgstr "Создать изображение"
+msgstr "Создать образ"
 
 #: src/view/images_panel.ui:150
-#, fuzzy
 msgid "Prune Unused Images"
-msgstr "Очищать неиспользуемые образы"
+msgstr "Удалить неиспользуемые образы"
 
 #: src/view/images_panel.ui:171 src/view/images_panel.ui:217
-#, fuzzy
 msgid "Show Only Tagged Images"
-msgstr "Загрузить образ"
+msgstr "Показывать только помеченные образы"
 
 #: src/view/images_panel.ui:283
-#, fuzzy
 msgid "No Tagged Images"
-msgstr "Загрузить образ"
+msgstr "Нет помеченных образов"
 
 #: src/view/images_panel.ui:293
-#, fuzzy
 msgid "_Show All Images"
-msgstr "Загрузить образ"
+msgstr "_Показать все образы"
 
 #: src/view/images_panel.ui:358
 msgid "No Images Available"
-msgstr ""
+msgstr "Нет доступных образов"
 
 #: src/view/images_panel.ui:387
 msgid "_Download Image"
-msgstr "Загрузить изображение"
+msgstr "_Загрузить образ"
 
 #: src/view/images_panel.ui:400
 msgid "_Build Image"
-msgstr "_Построить изображение"
+msgstr "_Собрать образ"
 
 #: src/view/images_prune_page.ui:42
 msgid "Prune Images"
@@ -3307,16 +3393,15 @@ msgstr "Очистить образы"
 
 #: src/view/images_prune_page.ui:69
 msgid "Prune All"
-msgstr "Очистить всё"
+msgstr "Очистить все"
 
 #: src/view/images_prune_page.ui:76
 msgid "Prune External"
 msgstr "Очистить внешнее"
 
 #: src/view/images_prune_page.ui:83
-#, fuzzy
 msgid "Prune images created before this timestamp"
-msgstr "Очистить образы которые были созданы до этой временной метки."
+msgstr "Очистить образы, которые были созданы до этой временной метки"
 
 #. Translators: "{}" is a placeholder for a cardinal numbers.
 #: src/view/info_panel.rs:198
@@ -3351,9 +3436,8 @@ msgstr[1] "{} образа"
 msgstr[2] "{} образов"
 
 #: src/view/info_panel.rs:296
-#, fuzzy
 msgid "Error on retrieving info"
-msgstr "Ошибка получения журналов"
+msgstr "Ошибка получения сведений"
 
 #: src/view/info_panel.ui:60 src/view/info_panel.ui:94
 msgid "Version"
@@ -3369,7 +3453,7 @@ msgstr "Время сборки"
 
 #: src/view/info_panel.ui:76
 msgid "Git Commit"
-msgstr "Git Коммит"
+msgstr "Фиксация в Git"
 
 #: src/view/info_panel.ui:82
 msgid "Go Version"
@@ -3384,9 +3468,8 @@ msgid "Storage"
 msgstr "Хранилище"
 
 #: src/view/info_panel.ui:104
-#, fuzzy
 msgid "Describes the container storage and its attributes"
-msgstr "Описывает хранилище контейнера и его атрибуты."
+msgstr "Описывает хранилище контейнера и его атрибуты"
 
 #: src/view/info_panel.ui:108
 msgid "Config File"
@@ -3397,9 +3480,8 @@ msgid "Container Store"
 msgstr "Хранилище контейнеров"
 
 #: src/view/info_panel.ui:115
-#, fuzzy
 msgid "Describes the quantity of containers in the store by status"
-msgstr "Описывает количество контейнеров в хранилище по состоянию."
+msgstr "Описывает количество контейнеров в хранилище по состоянию"
 
 #: src/view/info_panel.ui:153
 msgid "Graph Driver Name"
@@ -3423,7 +3505,7 @@ msgstr "Хранилище образов"
 
 #: src/view/info_panel.ui:206
 msgid "Describes number of images"
-msgstr ""
+msgstr "Описывает количество образов"
 
 #: src/view/info_panel.ui:212
 msgid "Run Root"
@@ -3435,11 +3517,11 @@ msgstr "Путь к тому"
 
 #: src/view/info_panel.ui:237
 msgid "No Info"
-msgstr ""
+msgstr "Нет сведений"
 
 #: src/view/info_panel.ui:238
 msgid "There was an error while fetching the information"
-msgstr ""
+msgstr "Произошла ошибка при получении информации"
 
 #: src/view/key_val_row.rs:149 src/view/key_val_row.ui:20
 msgid "Key"
@@ -3452,21 +3534,20 @@ msgstr "Значение"
 
 #: src/view/mount_row.rs:187
 msgid "No volume selected (will create a new one)"
-msgstr ""
+msgstr "Том не выбран (будет создан новый)"
 
 #: src/view/mount_row.ui:76
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: src/view/mount_row.ui:88
 msgid "Bind"
-msgstr ""
+msgstr "Связать"
 
 #: src/view/mount_row.ui:94 src/view/mount_row.ui:111
 #: src/view/volume_details_page.ui:16
-#, fuzzy
 msgid "Volume"
-msgstr "Хранилища"
+msgstr "Том"
 
 #: src/view/mount_row.ui:151
 msgid "SELinux"
@@ -3487,21 +3568,19 @@ msgstr "Приватное"
 #: src/view/pod_creation_page.rs:162 src/view/pod_creation_page.ui:113
 #: src/view/pod_details_page.ui:220
 msgid "Hostname"
-msgstr "Имя узла"
+msgstr "Имя хоста"
 
 #: src/view/pod_creation_page.rs:163
 msgid "IP"
 msgstr "IP"
 
 #: src/view/pod_creation_page.rs:169
-#, fuzzy
 msgid "Add Host"
-msgstr "Узлы"
+msgstr "Добавить хост"
 
 #: src/view/pod_creation_page.rs:190
-#, fuzzy
 msgid "Add Device"
-msgstr "Устройства"
+msgstr "Добавить устройство"
 
 #: src/view/pod_creation_page.ui:42 src/view/pod_selection_page.ui:70
 #: src/view/pods_panel.ui:117
@@ -3526,7 +3605,7 @@ msgstr "Устройства"
 
 #: src/view/pod_creation_page.ui:203
 msgid "Hosts"
-msgstr "Узлы"
+msgstr "Хосты"
 
 #: src/view/pod_creation_page.ui:246
 msgid "Infra"
@@ -3546,22 +3625,19 @@ msgstr "Ошибка загрузки данных капсулы"
 
 #: src/view/pod_details_page.rs:233
 msgid "Pod '{}' has been deleted"
-msgstr "Капсула '{}' была удалена"
+msgstr "Капсула «{}» была удалена"
 
 #: src/view/pod_details_page.ui:234
-#, fuzzy
 msgid "View all pod properties in a structured text form"
-msgstr "Посмотреть все свойства капсулы в виде структурированного теста."
+msgstr "Посмотреть все свойства капсулы в виде структурированного текста"
 
 #: src/view/pod_details_page.ui:251
-#, fuzzy
 msgid "Generate Kubernetes YAML based on this pod"
-msgstr "Создать YAML Kubernetes на основе этой капсулы."
+msgstr "Создать YAML Kubernetes на основе этой капсулы"
 
 #: src/view/pod_details_page.ui:268
-#, fuzzy
 msgid "View processes of the pod"
-msgstr "Отслеживать процессы в контейнерах и капсулах."
+msgstr "Просмотреть процессы капсулы"
 
 #: src/view/pod_row.rs:269
 msgid "Pod Details"
@@ -3569,17 +3645,16 @@ msgstr "Детали капсулы"
 
 #: src/view/pod_selection_page.ui:29
 msgid "No Pod Available"
-msgstr ""
+msgstr "Нет доступных капсул"
 
 #: src/view/pod_selection_page.ui:40 src/view/pods_panel.ui:6
 #: src/view/pods_panel.ui:451
 msgid "_Create Pod"
-msgstr "_Создать модуль"
+msgstr "_Создать капсулу"
 
 #: src/view/pod_selection_page.ui:93
-#, fuzzy
 msgid "Select Pod"
-msgstr "Выбрана {} капсула"
+msgstr "Выбрать капсулу"
 
 #: src/view/pod.rs:39 src/view/pods_panel.rs:489
 msgid "Error on starting pod"
@@ -3610,9 +3685,8 @@ msgid "Error on deleting pod"
 msgstr "Ошибка удаления капсулы"
 
 #: src/view/pod.rs:54
-#, fuzzy
 msgid "Confirm Pod Deletion"
-msgstr "Подтвердите принудительное удаление капсулы"
+msgstr "Подтвердите удаление капсулы"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/pod.rs:58
@@ -3632,7 +3706,6 @@ msgid "1 pod, stopped"
 msgstr "1 капсула, остановлено"
 
 #: src/view/pods_panel.rs:235
-#, fuzzy
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
 msgstr[0] "{} капсула всего, {} запущено"
@@ -3652,39 +3725,35 @@ msgstr "Подтвердите принудительное удаление н�
 
 #: src/view/pods_panel.rs:582
 msgid "All associated containers will also be removed!"
-msgstr "Все связанные контейнеры также будут удалены!"
+msgstr "Все связанные контейнеры также будут удалены."
 
 #: src/view/pods_panel.ui:10
-#, fuzzy
 msgid "_Prune Stopped Pods"
-msgstr "Обрезать остановившиеся стручки"
+msgstr "_Удалить остановленные контейнеры"
 
 #: src/view/pods_panel.ui:125 src/view/pods_prune_page.ui:42
 msgid "Prune Stopped Pods"
-msgstr "Обрезать остановившиеся стручки"
+msgstr "Удалить остановленные капсулы"
 
 #: src/view/pods_panel.ui:146 src/view/pods_panel.ui:192
-#, fuzzy
 msgid "Show Only Running Pods"
-msgstr "Показывать ли только запущенные капсулы"
+msgstr "Показать только запущенные капсулы"
 
 #: src/view/pods_panel.ui:258
-#, fuzzy
 msgid "No Running Pods"
-msgstr "Показывать ли только запущенные капсулы"
+msgstr "Нет запущенных капсул"
 
 #: src/view/pods_panel.ui:268
-#, fuzzy
 msgid "_Show All Pods"
-msgstr "Показывать ли только запущенные капсулы"
+msgstr "_Показать все капсулы"
 
 #: src/view/pods_panel.ui:441
 msgid "No Pods Available"
-msgstr ""
+msgstr "Нет доступных капсул"
 
 #: src/view/port_mapping_row.ui:83
 msgid "Protocol"
-msgstr ""
+msgstr "Протокол"
 
 #: src/view/port_mapping_row.ui:87
 msgid "TCP"
@@ -3696,29 +3765,27 @@ msgstr "UDP"
 
 #: src/view/port_mapping_row.ui:89
 msgid "SCTP"
-msgstr ""
+msgstr "SCTP"
 
 #: src/view/port_mapping_row.ui:98
 msgid "IP Address"
-msgstr ""
+msgstr "IP-адрес"
 
 #: src/view/port_mapping_row.ui:104
-#, fuzzy
 msgid "Host Port"
-msgstr "Путь хоста"
+msgstr "Порт хоста"
 
 #: src/view/port_mapping_row.ui:105
 msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
-msgstr ""
+msgstr "Если 0, на хосте назначается случайный порт (гарантировано выше 1024)"
 
 #: src/view/port_mapping_row.ui:120
-#, fuzzy
 msgid "Container Port"
-msgstr "Хранилище контейнеров"
+msgstr "Порт контейнера"
 
 #: src/view/repo_tag_add_dialog.rs:98
 msgid "Repo tag must contain a colon “:”"
-msgstr "Ярлык репозитория должен содержать двоеточие “:”"
+msgstr "Ярлык репозитория должен содержать двоеточие «:»"
 
 #: src/view/repo_tag_add_dialog.ui:7
 msgid "Add Repository Tag"
@@ -3734,11 +3801,11 @@ msgstr "Ярлык репозитория"
 
 #: src/view/repo_tag_push_page.rs:169
 msgid "Error on accessing keyring"
-msgstr "Ошибка доступа к связке ключей"
+msgstr "Ошибка доступа к набору ключей"
 
 #: src/view/repo_tag_push_page.rs:263
 msgid "Error saving credentials"
-msgstr "Ошибка сохранения учетных данных"
+msgstr "Ошибка сохранения учётных данных"
 
 #: src/view/repo_tag_push_page.rs:264
 msgid "Secret Service is not available"
@@ -3746,11 +3813,11 @@ msgstr "Секретная служба недоступна"
 
 #: src/view/repo_tag_push_page.ui:45
 msgid "Push Image"
-msgstr "Нажмите изображение"
+msgstr "Передать образ"
 
 #: src/view/repo_tag_push_page.ui:55
 msgid "_Push"
-msgstr "_Толкать"
+msgstr "_Передать"
 
 #: src/view/repo_tag_push_page.ui:68
 msgid "Options"
@@ -3765,9 +3832,8 @@ msgid "Login"
 msgstr "Авторизоваться"
 
 #: src/view/repo_tag_push_page.ui:83
-#, fuzzy
 msgid "Some registries require authentication"
-msgstr "Некоторые реестры требуют аутентификации."
+msgstr "Некоторые реестры требуют аутентификации"
 
 #: src/view/repo_tag_push_page.ui:96
 msgid "Authentication"
@@ -3787,7 +3853,7 @@ msgstr "Имя пользователя"
 
 #: src/view/repo_tag_push_page.ui:152
 msgid "Save Credentials"
-msgstr "Сохранить учетные данные"
+msgstr "Сохранить учётные данные"
 
 #: src/view/repo_tag_row.rs:212
 msgid "Error on untagging image"
@@ -3795,7 +3861,7 @@ msgstr "Ошибка снятия ярлыка с образа"
 
 #: src/view/repo_tag_row.ui:32
 msgid "Pull Latest"
-msgstr "Скачать новейший"
+msgstr "Получить последний"
 
 #: src/view/repo_tag_row.ui:43
 msgid "Push to Registry"
@@ -3807,7 +3873,7 @@ msgstr "Снять ярлык"
 
 #: src/view/repo_tag_selection_page.ui:99
 msgid "Fetching Tags"
-msgstr ""
+msgstr "Получение ярлыков"
 
 #: src/view/scalable_text_view_page.rs:266
 msgid "Image Inspection"
@@ -3819,7 +3885,7 @@ msgstr "Инспектирование контейнера"
 
 #: src/view/scalable_text_view_page.rs:275
 msgid "Container Kube Generation"
-msgstr "Генерация Kube контейнера"
+msgstr "Генерация контейнера Kube"
 
 #: src/view/scalable_text_view_page.rs:285
 msgid "Pod Inspection"
@@ -3827,16 +3893,15 @@ msgstr "Инспектирование капсулы"
 
 #: src/view/scalable_text_view_page.rs:286
 msgid "Pod Kube Generation"
-msgstr "Генерация Kube капсулы"
+msgstr "Генерация капсулы Kube"
 
 #: src/view/scalable_text_view_page.rs:293
-#, fuzzy
 msgid "Volume Inspection"
-msgstr "Инспектирование образа"
+msgstr "Инспектирование тома"
 
 #: src/view/scalable_text_view_page.rs:319
 msgid "Could not set language to '{}'"
-msgstr "Не удалось изменить язык на '{}'"
+msgstr "Не удалось изменить язык на «{}»"
 
 #: src/view/scalable_text_view_page.rs:412
 msgid "Inspection error"
@@ -3847,9 +3912,8 @@ msgid "Kube generation error"
 msgstr "Ошибка генерации Kube"
 
 #: src/view/search_panel.ui:33
-#, fuzzy
 msgid "Start typing to look for results"
-msgstr "Пожалуйста, начните набирать текст, чтобы посмотреть результаты."
+msgstr "Начните набирать текст, чтобы посмотреть результаты"
 
 #: src/view/search_panel.ui:47
 msgid "No Results Found"
@@ -3876,16 +3940,14 @@ msgid "Quit"
 msgstr "Выйти"
 
 #: src/view/shortcuts.ui:38
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Close window"
-msgstr "Главное окно"
+msgstr "Закрыть окно"
 
 #: src/view/shortcuts.ui:45
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Close dialog"
-msgstr "Главное окно"
+msgstr "Закрыть диалоговое окно"
 
 #: src/view/shortcuts.ui:52
 msgctxt "shortcut window"
@@ -3920,7 +3982,7 @@ msgstr "Переименовать"
 #: src/view/shortcuts.ui:94
 msgctxt "shortcut window"
 msgid "Commit"
-msgstr "Коммит"
+msgstr "Фиксация"
 
 #: src/view/shortcuts.ui:101
 msgctxt "shortcut window"
@@ -3992,198 +4054,173 @@ msgstr "Процессы капсулы"
 
 #: src/view/top_page.rs:125
 msgid "USER"
-msgstr ""
+msgstr "ПОЛЬЗОВАТЕЛЬ"
 
 #: src/view/top_page.rs:132
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: src/view/top_page.rs:139
 msgid "PPID"
-msgstr ""
+msgstr "PPID"
 
 #: src/view/top_page.rs:146
 #, c-format
 msgid "%CPU"
-msgstr ""
+msgstr "%ЦП"
 
 #: src/view/top_page.rs:153
 msgid "ELAPSED"
-msgstr ""
+msgstr "ПРОШЛО"
 
 #: src/view/top_page.rs:160
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: src/view/top_page.rs:167
 msgid "TIME"
-msgstr ""
+msgstr "ВРЕМЯ"
 
 #: src/view/top_page.rs:174
 msgid "COMMAND"
-msgstr ""
+msgstr "КОМАНДА"
 
 #: src/view/top_page.rs:516
 msgid "Killing pod processes is not supported"
-msgstr ""
+msgstr "Завершение процессов капсул не поддерживается"
 
 #: src/view/volume_creation_page.ui:42 src/view/volume_selection_page.ui:70
 #: src/view/volumes_group.ui:12 src/view/volumes_panel.ui:117
-#, fuzzy
 msgid "Create Volume"
-msgstr "Создать изображение"
+msgstr "Создать том"
 
 #: src/view/volume_details_page.rs:177
-#, fuzzy
 msgid "Volume '{}' has been deleted"
-msgstr "Образ '{}' был удалён"
+msgstr "Том «{}» был удалён"
 
 #: src/view/volume_details_page.ui:40
-#, fuzzy
 msgid "Delete Volume"
-msgstr "Удалить изображение"
+msgstr "Удалить том"
 
 #: src/view/volume_details_page.ui:52
 msgid "Driver"
-msgstr ""
+msgstr "Драйвер"
 
 #: src/view/volume_details_page.ui:64
-#, fuzzy
 msgid "Mount Path"
-msgstr "Путь хоста"
+msgstr "Путь к монтированию"
 
 #: src/view/volume_details_page.ui:78
-#, fuzzy
 msgid "View all volume properties in a structured text form"
-msgstr "Просмотреть все свойства образа в форме структурированного текста."
+msgstr "Просмотреть все свойства тома в форме структурированного текста"
 
 #: src/view/volume_row.rs:174
 msgid "{} old"
-msgstr ""
+msgstr "{} старый"
 
 #: src/view/volume_row.rs:271
-#, fuzzy
 msgid "Volume {}"
-msgstr "Хранилища"
+msgstr "Том {}"
 
 #: src/view/volume_selection_page.ui:29
-#, fuzzy
 msgid "No Volume Available"
-msgstr "Изображения не найдены"
+msgstr "Нет доступного тома"
 
 #: src/view/volume_selection_page.ui:40 src/view/volumes_panel.ui:6
 #: src/view/volumes_panel.ui:343
-#, fuzzy
 msgid "_Create Volume"
-msgstr "_Создать модуль"
+msgstr "_Создать том"
 
 #: src/view/volume_selection_page.ui:93
-#, fuzzy
 msgid "Select Volume"
-msgstr "Очистить выбор"
+msgstr "Выбрать том"
 
 #: src/view/volume.rs:16
-#, fuzzy
 msgid "Confirm Volume Deletion"
-msgstr "Подтвердите принудительное удаление образа"
+msgstr "Подтвердите удаление тома"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:20
-#, fuzzy
 msgid ""
 "Volume is used by container <b>{}</b>. Deleting the volume will also delete "
 "these containers."
 msgstr ""
-"Образ используется контейнером <b>{}</b>. Удаление образа также удалит все "
+"Том используется контейнером <b>{}</b>. Удаление тома также удалит все "
 "связанные с ним контейнеры."
 
 #. Translators: The "{}" is a placeholder for the volume name.
 #: src/view/volume.rs:55 src/view/volumes_panel.rs:480
-#, fuzzy
 msgid "Error on deleting volume '{}'"
-msgstr "Ошибка удаления образа '{}'"
+msgstr "Ошибка удаления тома «{}»"
 
 #: src/view/volumes_panel.rs:195
-#, fuzzy
 msgid "1 volume, used"
-msgstr "1 образ, используется"
+msgstr "1 том, используется"
 
 #: src/view/volumes_panel.rs:197
-#, fuzzy
 msgid "1 volume, unused"
-msgstr "1 образ, не используется"
+msgstr "1 том, не используется"
 
 #: src/view/volumes_panel.rs:201
-#, fuzzy
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
-msgstr[0] "{} образ всего, {} {} не используется, {}"
-msgstr[1] "{} образа всего, {} {} не используется, {}"
-msgstr[2] "{} образов всего, {} {} не используется, {}"
+msgstr[0] "{} том всего, {} не используется"
+msgstr[1] "{} тома всего, {} не используется"
+msgstr[2] "{} томов всего, {} не используется"
 
 #: src/view/volumes_panel.rs:215
-#, fuzzy
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
-msgstr[0] "Выбран {} образ"
-msgstr[1] "Выбрано {} образа"
-msgstr[2] "Выбрано {} образов"
+msgstr[0] "Выбран {} том"
+msgstr[1] "Выбрано {} тома"
+msgstr[2] "Выбрано {} томов"
 
 #: src/view/volumes_panel.rs:452
-#, fuzzy
 msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr "Подтвердите принудительное удаление нескольких образов"
+msgstr "Подтвердите принудительное удаление нескольких томов"
 
 #: src/view/volumes_panel.rs:454
-#, fuzzy
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
 "be removed!"
 msgstr ""
-"С этими образами могут быть связаны контейнеры, которые также будут удалены!"
+"С этими томами могут быть связаны контейнеры, которые также будут удалены."
 
 #: src/view/volumes_panel.ui:10
-#, fuzzy
 msgid "_Prune Volumes"
-msgstr "Очистить образы"
+msgstr "_Удалить тома"
 
 #: src/view/volumes_panel.ui:125 src/view/volumes_prune_page.ui:42
-#, fuzzy
 msgid "Prune Volumes"
-msgstr "Очистить образы"
+msgstr "Удалить тома"
 
 #: src/view/volumes_panel.ui:146 src/view/volumes_panel.ui:192
 msgid "Show Only Used Volumes"
-msgstr ""
+msgstr "Показать только используемые тома"
 
 #: src/view/volumes_panel.ui:258
-#, fuzzy
 msgid "No Volumes in Use"
-msgstr "Изображения не найдены"
+msgstr "Нет используемых томов"
 
 #: src/view/volumes_panel.ui:268
-#, fuzzy
 msgid "_Show All Volumes"
-msgstr "Очистить выбор"
+msgstr "_Показать все тома"
 
 #: src/view/volumes_panel.ui:333
-#, fuzzy
 msgid "No Volumes Available"
-msgstr "Изображения не найдены"
+msgstr "Нет доступных томов"
 
 #: src/view/volumes_prune_page.ui:70
-#, fuzzy
 msgid "Prune volumes created before this timestamp"
-msgstr "Очистить образы которые были созданы до этой временной метки."
+msgstr "Удалить тома, которые были созданы до этой временной метки"
 
 #: src/view/welcome_page.ui:59
 msgid "Welcome to Pods"
-msgstr "Добро пожаловать в Капсулы"
+msgstr "Добро пожаловать в «Капсулы»"
 
 #: src/view/welcome_page.ui:68
-#, fuzzy
 msgid "Create a new connection to Podman to get started"
-msgstr "Используйте кнопку ниже, чтобы создать новое подключение к Podman."
+msgstr "Создайте новое подключение к Podman, чтобы начать"
 
 #: src/view/welcome_page.ui:82
 msgid "_New Connection"
@@ -4194,24 +4231,20 @@ msgid "Confirm Exiting The Application"
 msgstr "Подтвердите выход из приложения"
 
 #: src/view/window.rs:275
-#, fuzzy
 msgid "Error on loading images"
-msgstr "Ошибка загрузки деталей образа"
+msgstr "Ошибка загрузки образов"
 
 #: src/view/window.rs:276
-#, fuzzy
 msgid "Error on loading containers"
-msgstr "Ошибка загрузки деталей контейнера"
+msgstr "Ошибка загрузки контейнеров"
 
 #: src/view/window.rs:277
-#, fuzzy
 msgid "Error on loading pods"
-msgstr "Ошибка загрузки данных капсулы"
+msgstr "Ошибка загрузки капсул"
 
 #: src/view/window.rs:278
-#, fuzzy
 msgid "Error on loading volumes"
-msgstr "Ошибка загрузки {}"
+msgstr "Ошибка загрузки томов"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/widget/date_time_row.rs:131
@@ -4240,12 +4273,11 @@ msgstr "Комбинации _клавиш"
 
 #: src/widget/main_menu_button.ui:11
 msgid "_About Pods"
-msgstr "_О Капсулах"
+msgstr "_О «Капсулах»"
 
 #: src/widget/main_menu_button.ui:27
-#, fuzzy
 msgid "Main Menu"
-msgstr "Главный вид"
+msgstr "Главное меню"
 
 #: src/widget/source_view_search_widget.rs:155
 msgid "0 of {}"
@@ -4269,11 +4301,11 @@ msgstr "Регулярное выражение"
 
 #: src/widget/text_search_entry.ui:50
 msgid "Case Sensitive"
-msgstr "Чувствительный к регистру"
+msgstr "С учётом регистра"
 
 #: src/widget/text_search_entry.ui:59
 msgid "Whole Word"
-msgstr "Целое слово"
+msgstr "Слово целиком"
 
 #~ msgid ""
 #~ "Image is used by a container. Deleting the image will also delete all its "
