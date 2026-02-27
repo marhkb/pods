@@ -241,7 +241,14 @@ mod imp {
 
             network_expr
                 .chain_property::<model::Network>("action-ongoing")
-                .watch(Some(obj), clone!(@weak obj => move || obj.update_actions()));
+                .watch(
+                    Some(obj),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move || obj.update_actions()
+                    ),
+                );
         }
 
         fn dispose(&self) {

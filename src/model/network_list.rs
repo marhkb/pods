@@ -253,55 +253,59 @@ impl NetworkList {
                     .await
             }
         })
-        .defer(clone!(@weak self as obj => move |result| {
-            let imp = obj.imp();
+        .defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |result| {
+                let imp = obj.imp();
 
-            match result {
-                Ok(networks) => {
-                    if id.is_none() {
-                        let to_remove = imp
-                            .list
-                            .borrow()
-                            .keys()
-                            .filter(|id| {
-                                !networks
-                                    .iter()
-                                    .any(|network| network.id.as_ref() == Some(id))
-                            })
-                            .cloned()
-                            .collect::<Vec<_>>();
+                match result {
+                    Ok(networks) => {
+                        if id.is_none() {
+                            let to_remove = imp
+                                .list
+                                .borrow()
+                                .keys()
+                                .filter(|id| {
+                                    !networks
+                                        .iter()
+                                        .any(|network| network.id.as_ref() == Some(id))
+                                })
+                                .cloned()
+                                .collect::<Vec<_>>();
 
-                        to_remove.iter().for_each(|id| {
-                            obj.remove_network(id);
-                        });
-                    }
-
-                    networks.into_iter().for_each(|network| {
-                        let index = obj.len();
-
-                        let mut list = imp.list.borrow_mut();
-                        if let Entry::Vacant(e) = list.entry(network.id.to_owned().unwrap()) {
-                            let network = model::Network::new(&obj, network);
-                            e.insert(network.clone());
-
-                            drop(list);
-
-                            obj.items_changed(index, 0, 1);
-                            obj.network_added(&network);
+                            to_remove.iter().for_each(|id| {
+                                obj.remove_network(id);
+                            });
                         }
-                    });
 
-                    println!("network {}", imp.list.borrow().len());
+                        networks.into_iter().for_each(|network| {
+                            let index = obj.len();
+
+                            let mut list = imp.list.borrow_mut();
+                            if let Entry::Vacant(e) = list.entry(network.id.to_owned().unwrap()) {
+                                let network = model::Network::new(&obj, network);
+                                e.insert(network.clone());
+
+                                drop(list);
+
+                                obj.items_changed(index, 0, 1);
+                                obj.network_added(&network);
+                            }
+                        });
+
+                        println!("network {}", imp.list.borrow().len());
+                    }
+                    Err(e) => {
+                        log::error!("Error on retrieving networks: {}", e);
+                        err_op(super::RefreshError);
+                    }
                 }
-                Err(e) => {
-                    log::error!("Error on retrieving networks: {}", e);
-                    err_op(super::RefreshError);
-                }
+
+                imp.set_listing(false);
+                imp.set_as_initialized();
             }
-
-            imp.set_listing(false);
-            imp.set_as_initialized();
-        }));
+        ));
     }
 
     pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)

@@ -55,5 +55,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct NetworksRow(ObjectSubclass<imp::NetworksRow>) @extends gtk::Widget;
+    pub(crate) struct NetworksRow(ObjectSubclass<imp::NetworksRow>)
+        @extends gtk::Widget,
+        @implements gtk::Accessible, gtk::Buildable, gtk::Actionable, gtk::ConstraintTarget;
 }

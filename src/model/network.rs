@@ -70,11 +70,13 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
-            obj.container_list().connect_items_changed(
-                clone!(@weak obj => move |_, _, _, _| if let Some(network_list) = obj.network_list() {
+            obj.container_list().connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |_, _, _, _| if let Some(network_list) = obj.network_list() {
                     network_list.notify_num_networks();
-                }),
-            );
+                }
+            ));
         }
     }
 
