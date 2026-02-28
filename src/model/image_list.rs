@@ -324,7 +324,7 @@ impl ImageList {
             ),
             "untag" => self.untag(&event.actor.id, event.actor.attributes.get("name").unwrap()),
             "remove" => self.remove_image(&event.actor.id),
-            "build" | "pull" => self.refresh(err_op),
+            "build" | "pull" | "pull-error" => self.refresh(err_op),
             other => log::warn!("Unknown action: {other}"),
         }
     }

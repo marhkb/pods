@@ -37,12 +37,18 @@
     <property name="action-name">volumes-panel.create-volume</property>
     <property name="icon-name">list-add-symbolic</property>
     <property name="tooltip-text" translatable="yes">Create Volume</property>
+    <accessibility>
+      <property name="label" translatable="yes">Create Volume</property>
+    </accessibility>
   </object>
 
   <object class="GtkButton" id="prune_button">
     <property name="action-name">volumes-panel.prune-unused-volumes</property>
     <property name="icon-name">eraser5-symbolic</property>
     <property name="tooltip-text" translatable="yes">Prune Unused Volumes</property>
+    <accessibility>
+      <property name="label" translatable="yes">Prune Unused Volumes</property>
+    </accessibility>
   </object>
 
   <object class="AdwSplitButton" id="view_options_split_button">
@@ -85,6 +91,9 @@
                     <property name="valign">center</property>
                     <property name="height-request">30</property>
                     <property name="width-request">30</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Loading volumes</property>
+                    </accessibility>
                   </object>
                 </child>
 
@@ -116,6 +125,9 @@
                                 <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
                                 <property name="icon-name">system-search-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Search</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Search</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -139,6 +151,9 @@
                                 <property name="action-name">volumes-panel.enter-selection-mode</property>
                                 <property name="icon-name">selection-mode-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Start Multi-Selection</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Start Multi-Selection</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -166,6 +181,9 @@
                                 </style>
                                 <property name="can-shrink">True</property>
                                 <property name="menu-model">selection-menu</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Selected volumes</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -175,6 +193,9 @@
                                 <property name="action-name">volumes-panel.exit-selection-mode</property>
                                 <property name="icon-name">selection-mode-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Exit Multi-Selection</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Exit Multi-Selection</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -283,6 +304,9 @@
                         <property name="width-request">200</property>
                         <property name="tooltip-text" translatable="yes">Delete</property>
                         <property name="valign">center</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Delete selected volumes</property>
+                        </accessibility>
                       </object>
                     </child>
 

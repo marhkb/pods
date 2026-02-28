@@ -48,6 +48,9 @@
                       <object class="GtkToggleButton" id="filter_button">
                         <property name="icon-name">system-search-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Filter</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Filter</property>
+                        </accessibility>
                         <signal name="toggled" handler="on_filter_button_toggled" swapped="true"/>
                       </object>
                     </child>
@@ -77,6 +80,10 @@
                             <property name="margin-end">36</property>
                             <signal name="search-started" handler="on_filter_started" swapped="true"/>
                             <signal name="search-changed" handler="on_filter_changed" swapped="true"/>
+                            <accessibility>
+                              <property name="label" translatable="yes">Filter images</property>
+                              <property name="description" translatable="yes">Type to filter results. Press Enter to select the highlighted item.</property>
+                            </accessibility>
 
                             <child>
                               <object class="GtkEventControllerKey">

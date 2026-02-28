@@ -255,8 +255,24 @@ impl ActionPage {
         self.action_set_enabled(
             ACTION_RETRY,
             matches!(action.state(), Aborted | Failed)
-                && self.ancestor(gtk::Stack::static_type()).is_some(),
+                && (self.ancestor(gtk::Stack::static_type()).is_some()
+                    || self.ancestor(adw::NavigationView::static_type()).is_some()),
         );
+
+        if (matches!(action.state(), Aborted | Failed)
+            || (action.state() == Finished
+                && matches!(
+                    action.action_type(),
+                    CreateContainer | CreateAndRunContainer | Pod | Volume
+                )))
+            && let Some(navigation_view) = self
+                .ancestor(adw::NavigationView::static_type())
+                .and_then(|ancestor| ancestor.downcast::<adw::NavigationView>().ok())
+            && let Some(page) = navigation_view.visible_page()
+            && page.child().as_ref() == Some(self.upcast_ref())
+        {
+            page.set_property("can-pop", true);
+        }
     }
 
     fn set_description(&self, action: &model::Action) -> glib::ControlFlow {
@@ -333,6 +349,17 @@ impl ActionPage {
             .and_then(|ancestor| ancestor.downcast::<gtk::Stack>().ok())
         {
             stack.set_visible_child(&stack.first_child().unwrap());
+            return;
+        }
+
+        if let Some(navigation_view) = self
+            .ancestor(adw::NavigationView::static_type())
+            .and_then(|ancestor| ancestor.downcast::<adw::NavigationView>().ok())
+        {
+            if let Some(page) = navigation_view.visible_page() {
+                page.set_property("can-pop", true);
+            }
+            navigation_view.pop();
         }
     }
 }

@@ -62,6 +62,9 @@
                                     <property name="action-name">client-view.show-connections</property>
                                     <property name="icon-name">network-server-symbolic</property>
                                     <property name="tooltip-text" translatable="yes">Connections</property>
+                                    <accessibility>
+                                      <property name="label" translatable="yes">Connections</property>
+                                    </accessibility>
                                   </object>
                                 </child>
 
@@ -69,6 +72,10 @@
                                   <object class="GtkToggleButton" id="search_button">
                                     <signal name="toggled" handler="on_search_button_toggled" swapped="true"/>
                                     <property name="icon-name">system-search-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Search</property>
+                                    <accessibility>
+                                      <property name="label" translatable="yes">Search</property>
+                                    </accessibility>
                                   </object>
                                 </child>
 

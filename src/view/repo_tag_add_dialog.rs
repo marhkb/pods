@@ -78,7 +78,7 @@ mod imp {
             }
 
             let repo_tag = self.entry_row.text();
-            match repo_tag.split_once(':') {
+            match split_repo_tag(repo_tag.as_str()) {
                 Some((repo, tag)) => {
                     let repo = repo.trim().to_owned();
                     let tag = tag.trim().to_owned();
@@ -139,6 +139,16 @@ mod imp {
     impl WidgetImpl for RepoTagAddDialog {}
     impl WindowImpl for RepoTagAddDialog {}
     impl MessageDialogImpl for RepoTagAddDialog {}
+}
+
+fn split_repo_tag(repo_tag: &str) -> Option<(&str, &str)> {
+    repo_tag.rsplit_once(':').filter(|(repo, _)| {
+        let split_at = repo.len();
+        repo_tag
+            .rfind('/')
+            .map(|index| index < split_at)
+            .unwrap_or(true)
+    })
 }
 
 glib::wrapper! {

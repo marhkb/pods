@@ -269,6 +269,8 @@ mod imp {
         ) -> glib::Propagation {
             if key == gdk::Key::Escape {
                 self.obj().enable_search_mode(false);
+            } else if key == gdk::Key::Return || key == gdk::Key::KP_Enter {
+                self.obj().activate_action(ACTION_SELECT, None).unwrap();
             }
 
             glib::Propagation::Proceed
