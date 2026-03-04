@@ -569,7 +569,7 @@ impl ContainerCard {
         dialog.set_default_response(Some("cancel"));
         dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
 
-        if glib::MainContext::default().block_on(dialog.choose_future(self)) == "confirm" {
+        if glib::MainContext::default().block_on(dialog.choose_future(Some(self))) == "confirm" {
             view::container::delete(self, self.container())
         }
     }

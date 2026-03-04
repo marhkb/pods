@@ -9,7 +9,7 @@ astral-tokio-tar = { version = "0.5.6", default-features = false }
 adw = { version = "0.8", package = "libadwaita", features = ["v1_8"] }
 anyhow = "1"
 ashpd = { version = "0.12", default-features = false, features = ["gtk4", "tokio"] }
-futures = { version = "0.3", default-features = false }
+futures = { version = "0.3", default-features = false, features = ["std"] }
 gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
 gtk = { version = "0.10", package = "gtk4", features = ["gnome_48"] }
 indexmap = { version = "2", features = ["serde"] }
@@ -18,7 +18,7 @@ multi_log = "0.1"
 names = { version = "0.14", default-features = false }
 oo7 = { version = "0.5", default-features = false, features = ["native_crypto", "tokio"] }
 paste = "1"
-podman-api = { git = "https://github.com/vv9k/podman-api-rs.git", rev = "363d945b9b9905c50dfa0bfe0f9331f9fdeef079", default-features = false }
+podman-api = { version = "0.11", default-features = false }
 serde = "1"
 serde_json = "1"
 simplelog = { version = "0.12", features = ["paris"] }
