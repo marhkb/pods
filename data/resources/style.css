@@ -1,3 +1,8 @@
+flowbox.not-activatable flowboxchild:hover,
+flowbox.not-activatable flowboxchild:active {
+  background-color: transparent;
+}
+
 containercard.not-running {
   background-color: var(--secondary-sidebar-bg-color);
 }
@@ -11,7 +16,7 @@ containercard.not-running {
 }
 
 .dim-icon {
-  color: alpha(var(--window-fg-color), .75);
+  color: alpha(var(--window-fg-color), 0.75);
 }
 
 entry button {
@@ -33,7 +38,8 @@ button.large {
   padding: 9px 18px;
 }
 
-.destructive-button label, .destructive-button image {
+.destructive-button label,
+.destructive-button image {
   color: var(--destructive-color);
 }
 
@@ -175,12 +181,15 @@ connectionchooserpage connectionrow {
 .image-used,
 .pod-status-running,
 .volume-used {
-  background-color: alpha(var(--accent-color), .25);
+  background-color: alpha(var(--accent-color), 0.25);
   color: var(--accent-color);
 }
 
 .pod-status-degraded {
-  background-color: alpha(oklab(from var(--accent-yellow) var(--standalone-color-oklab)), .25);
+  background-color: alpha(
+    oklab(from var(--accent-yellow) var(--standalone-color-oklab)),
+    0.25
+  );
   color: oklab(from var(--accent-yellow) var(--standalone-color-oklab));
 }
 
@@ -191,12 +200,15 @@ connectionchooserpage connectionrow {
 .pod-status-unknown,
 .container-health-status-unhealthy,
 .container-health-status-unknown {
-  background-color: alpha(oklab(from var(--accent-red) var(--standalone-color-oklab)), .25);
+  background-color: alpha(
+    oklab(from var(--accent-red) var(--standalone-color-oklab)),
+    0.25
+  );
   color: oklab(from var(--accent-red) var(--standalone-color-oklab));
 }
 
 .rich-expander-row-header {
-  color: alpha(var(--window-fg-color), .75);
+  color: alpha(var(--window-fg-color), 0.75);
 }
 
 .rich-expander-row-header #badge {
@@ -221,11 +233,11 @@ progressbar.error progress {
   font-size: 0.85em;
 }
 
-.star>count {
+.star > count {
   font-size: 0.85em;
   font-feature-settings: "tnum";
 }
 
-.star>icon {
+.star > icon {
   color: var(--yellow-3);
 }

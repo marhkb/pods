@@ -1,7 +1,7 @@
 containercard separator {
-	background-color: var(--border-color);
+  background-color: var(--border-color);
 }
 
 containercard.not-running {
-	background-color: transparent;
+  background-color: transparent;
 }
