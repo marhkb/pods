@@ -24,6 +24,9 @@
                 <property name="action-name">actions-overview.clear-actions</property>
                 <property name="icon-name">edit-clear-all-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Clear Finished Actions</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Clear Finished Actions</property>
+                </accessibility>
                 <property name="visible" bind-source="clear_all_button" bind-property="sensitive" bind-flags="sync-create"/>
               </object>
             </child>

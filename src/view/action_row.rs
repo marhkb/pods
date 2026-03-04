@@ -164,11 +164,16 @@ mod imp {
             let id = self.notification_id.get().unwrap().to_owned();
 
             rt::Promise::new(async move {
-                let _ = ashpd::notification::NotificationProxy::new()
-                    .await
-                    .unwrap()
-                    .remove_notification(&id)
-                    .await;
+                match ashpd::notification::NotificationProxy::new().await {
+                    Ok(proxy) => {
+                        if let Err(e) = proxy.remove_notification(&id).await {
+                            log::warn!("Failed to remove desktop notification: {e}");
+                        }
+                    }
+                    Err(e) => {
+                        log::debug!("Desktop notification portal unavailable: {e}");
+                    }
+                }
             })
             .spawn();
         }
@@ -229,11 +234,18 @@ mod imp {
                             .default_action("");
 
                             rt::Promise::new(async move {
-                                let _ = ashpd::notification::NotificationProxy::new()
-                                    .await
-                                    .unwrap()
-                                    .add_notification(&id, notification)
-                                    .await;
+                                match ashpd::notification::NotificationProxy::new().await {
+                                    Ok(proxy) => {
+                                        if let Err(e) =
+                                            proxy.add_notification(&id, notification).await
+                                        {
+                                            log::warn!("Failed to send desktop notification: {e}");
+                                        }
+                                    }
+                                    Err(e) => {
+                                        log::debug!("Desktop notification portal unavailable: {e}");
+                                    }
+                                }
                             })
                             .spawn();
                         }

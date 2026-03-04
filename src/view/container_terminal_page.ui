@@ -30,6 +30,9 @@
                 <property name="action-name">container-terminal-page.pip-out</property>
                 <property name="icon-name">pip-out-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Detach Terminal</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Detach Terminal</property>
+                </accessibility>
                 <property name="visible" bind-source="detach_button" bind-property="sensitive" bind-flags="sync-create"/>
               </object>
             </child>

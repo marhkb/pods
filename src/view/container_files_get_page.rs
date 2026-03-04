@@ -154,9 +154,20 @@ impl From<&model::Container> for ContainerFilesGetPage {
 
 impl ContainerFilesGetPage {
     async fn select_path(&self) {
+        let container_name = self
+            .container()
+            .map(|container| container.name().to_string())
+            .unwrap_or_else(|| String::from("container"));
+
+        let suggested_archive_name = glib::DateTime::now_local()
+            .and_then(|now| now.format_iso8601())
+            .map(|date| format!("{container_name}-{date}.tar"))
+            .unwrap_or_else(|_| format!("{container_name}.tar"));
+
         let request = SaveFileRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
             .title(gettext("Select Host Destination Path").as_str())
+            .current_name(suggested_archive_name.as_str())
             .filter(FileFilter::new("Tar Archive").mimetype("application/x-tar"))
             .modal(true);
 

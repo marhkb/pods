@@ -68,6 +68,10 @@
                     <signal name="selection-changed" handler="on_terminal_selection_changed" swapped="true"/>
                     <property name="backspace-binding">ascii-delete</property>
                     <property name="bold-is-bright">True</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Container terminal</property>
+                      <property name="description" translatable="yes">Use Control+Shift+C to copy, Control+Shift+V to paste, and Control+Plus, Control+Minus, or Control+0 to adjust zoom.</property>
+                    </accessibility>
 
                     <child>
                       <object class="GtkEventControllerKey">

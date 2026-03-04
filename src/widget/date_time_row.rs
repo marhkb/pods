@@ -128,13 +128,17 @@ mod imp {
 
             Self::Type::this_expression("prune-until-timestamp")
                 .chain_closure::<String>(closure!(|_: Self::Type, unix: i64| {
-                    glib::DateTime::from_unix_local(unix)
-                        .unwrap()
-                        .format(
-                            // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                            &gettext("%x %H:%M %p"),
-                        )
-                        .unwrap_or_else(|_| gettext("Invalid date format").into())
+                    utils::date_time_from_unix_local(unix)
+                        .and_then(|date_time| {
+                            date_time
+                                .format(
+                                    // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
+                                    &gettext("%x %H:%M %p"),
+                                )
+                                .ok()
+                        })
+                        .map(|formatted| formatted.to_string())
+                        .unwrap_or_else(|| gettext("Invalid date format"))
                 }))
                 .bind(&*self.prune_until_label, "label", Some(obj));
 

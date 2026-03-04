@@ -24,6 +24,9 @@
                 <property name="action-name">win.create-connection</property>
                 <property name="icon-name">list-add-symbolic</property>
                 <property name="tooltip-text" translatable="yes">New Connection (Ctrl+Shift+N)</property>
+                <accessibility>
+                  <property name="label" translatable="yes">New Connection (Ctrl+Shift+N)</property>
+                </accessibility>
               </object>
             </child>
 

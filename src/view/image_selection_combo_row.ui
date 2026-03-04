@@ -13,6 +13,9 @@
         <property name="icon-name">computer-symbolic</property>
         <property name="valign">center</property>
         <property name="tooltip-text" translatable="yes">Local Image</property>
+        <accessibility>
+          <property name="label" translatable="yes">Local Image</property>
+        </accessibility>
       </object>
     </child>
 
@@ -26,6 +29,9 @@
         <property name="icon-name">network-server-symbolic</property>
         <property name="valign">center</property>
         <property name="tooltip-text" translatable="yes">Remote Image</property>
+        <accessibility>
+          <property name="label" translatable="yes">Remote Image</property>
+        </accessibility>
       </object>
     </child>
 

@@ -67,6 +67,10 @@
         </style>
         <property name="action-name">mount-row.remove</property>
         <property name="icon-name">edit-delete-symbolic</property>
+        <property name="tooltip-text" translatable="yes">Remove Mount</property>
+        <accessibility>
+          <property name="label" translatable="yes">Remove Mount</property>
+        </accessibility>
         <property name="valign">center</property>
       </object>
     </child>
@@ -120,6 +124,10 @@
             </style>
             <property name="action-name">mount-row.clear-volume</property>
             <property name="icon-name">edit-delete-symbolic</property>
+            <property name="tooltip-text" translatable="yes">Clear Volume</property>
+            <accessibility>
+              <property name="label" translatable="yes">Clear Volume</property>
+            </accessibility>
             <property name="valign">center</property>
             <property name="visible" bind-source="clear_volume_button" bind-property="sensitive" bind-flags="sync-create"/>
           </object>

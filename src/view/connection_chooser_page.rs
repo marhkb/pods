@@ -103,10 +103,11 @@ mod imp {
         ) -> glib::Propagation {
             if key == gdk::Key::Escape {
                 self.obj().enable_filter_mode(false);
+            } else if (key == gdk::Key::Return || key == gdk::Key::KP_Enter)
+                && let Some(row) = self.connection_list_box.row_at_index(0)
+            {
+                self.on_connection_list_box_activated(&row);
             }
-            // else if key == gdk::Key::KP_Enter {
-            //     self.obj().activate_action(ACTION_SELECT, None).unwrap();
-            // }
 
             glib::Propagation::Proceed
         }

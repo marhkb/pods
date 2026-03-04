@@ -21,6 +21,9 @@
                 </style>
                 <property name="margin-end">12</property>
                 <property name="valign">center</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Select volume</property>
+                </accessibility>
               </object>
             </child>
 
@@ -90,6 +93,10 @@
 
                     <property name="action-name">volume-row.delete-volume</property>
                     <property name="icon-name">user-trash-symbolic</property>
+                    <property name="tooltip-text" translatable="yes">Delete Volume</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Delete Volume</property>
+                    </accessibility>
                     <property name="valign">center</property>
                   </object>
                 </child>

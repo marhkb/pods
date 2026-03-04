@@ -43,6 +43,9 @@
                 <property name="action-name">container-details-page.rename</property>
                 <property name="icon-name">document-edit-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Rename (F2)</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Rename (F2)</property>
+                </accessibility>
                 <property name="valign">center</property>
               </object>
             </child>
@@ -78,6 +81,9 @@
                 <property name="action-name">container-details-page.commit</property>
                 <property name="icon-name">merge-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Commit (Ctrl+K)</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Commit (Ctrl+K)</property>
+                </accessibility>
                 <property name="valign">center</property>
               </object>
             </child>
@@ -141,6 +147,9 @@
             <property name="action-name">container-details-page.get-files</property>
             <property name="icon-name">get-symbolic</property>
             <property name="tooltip-text" translatable="yes">Download Files (Ctrl+D)</property>
+            <accessibility>
+              <property name="label" translatable="yes">Download Files (Ctrl+D)</property>
+            </accessibility>
             <property name="valign">center</property>
           </object>
         </child>
@@ -153,6 +162,9 @@
             <property name="action-name">container-details-page.put-files</property>
             <property name="icon-name">put-symbolic</property>
             <property name="tooltip-text" translatable="yes">Upload Files (Ctrl+U)</property>
+            <accessibility>
+              <property name="label" translatable="yes">Upload Files (Ctrl+U)</property>
+            </accessibility>
             <property name="valign">center</property>
           </object>
         </child>

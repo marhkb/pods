@@ -106,9 +106,9 @@ impl From<&model::Image> for ImageHistoryPage {
                                 .subtitle(
                                     entry
                                         .created
-                                        .map(|created| {
-                                            glib::DateTime::from_unix_local(created)
-                                                .unwrap()
+                                        .and_then(utils::date_time_from_unix_local)
+                                        .map(|date_time| {
+                                            date_time
                                                 .format(
                                                     // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
                                                     &gettext("%x %X"),

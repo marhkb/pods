@@ -30,6 +30,9 @@
             <property name="action-name">repo-tag-row.update</property>
             <property name="icon-name">folder-download-symbolic</property>
             <property name="tooltip-text" translatable="yes">Pull Latest</property>
+            <accessibility>
+              <property name="label" translatable="yes">Pull Latest</property>
+            </accessibility>
           </object>
         </child>
 
@@ -41,6 +44,9 @@
             <property name="action-name">repo-tag-row.push</property>
             <property name="icon-name">put-symbolic</property>
             <property name="tooltip-text" translatable="yes">Push to Registry</property>
+            <accessibility>
+              <property name="label" translatable="yes">Push to Registry</property>
+            </accessibility>
           </object>
         </child>
 
@@ -52,6 +58,9 @@
             <property name="action-name">repo-tag-row.untag</property>
             <property name="icon-name">edit-delete-symbolic</property>
             <property name="tooltip-text" translatable="yes">Untag</property>
+            <accessibility>
+              <property name="label" translatable="yes">Untag</property>
+            </accessibility>
           </object>
         </child>
 

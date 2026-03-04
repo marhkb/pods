@@ -147,6 +147,10 @@
                                   <class name="flat"/>
                                 </style>
                                 <property name="icon-name">dialog-information-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Socket Activation Info</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Socket Activation Info</property>
+                                </accessibility>
                                 <property name="valign">center</property>
 
                                 <property name="popover">
@@ -223,6 +227,9 @@
                                                 <property name="action-name">connection-creator-page.copy-socket-activation-command</property>
                                                 <property name="icon-name">edit-copy-symbolic</property>
                                                 <property name="tooltip-text" translatable="yes">Copy to Clipboard</property>
+                                                <accessibility>
+                                                  <property name="label" translatable="yes">Copy to Clipboard</property>
+                                                </accessibility>
                                               </object>
                                             </child>
 
@@ -289,6 +296,10 @@
                                 </style>
                                 <property name="action-name">connection-creation-page.show-custom-info-dialog</property>
                                 <property name="icon-name">dialog-information-symbolic</property>
+                                <property name="tooltip-text" translatable="yes">Custom Connection Info</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Custom Connection Info</property>
+                                </accessibility>
                                 <property name="valign">center</property>
                               </object>
                             </child>

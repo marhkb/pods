@@ -46,6 +46,9 @@
                 <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
                 <property name="icon-name">system-search-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Search</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Search</property>
+                </accessibility>
               </object>
             </child>
 
@@ -57,6 +60,10 @@
               <object class="GtkMenuButton" id="menu_button">
                 <property name="icon-name">view-more-symbolic</property>
                 <property name="menu-model">menu</property>
+                <property name="tooltip-text" translatable="yes">Menu</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Menu</property>
+                </accessibility>
               </object>
             </child>
 
@@ -85,6 +92,9 @@
                 <property name="valign">center</property>
                 <property name="height-request">30</property>
                 <property name="width-request">30</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Loading content</property>
+                </accessibility>
               </object>
             </child>
 
@@ -116,6 +126,10 @@
                         <property name="monospace">True</property>
                         <property name="show-line-numbers">True</property>
                         <property name="wrap-mode">char</property>
+                        <accessibility>
+                          <property name="label" translatable="yes">Inspection output</property>
+                          <property name="description" translatable="yes">Use Control+F to search content. Press Escape to close search. Use Control+Plus, Control+Minus, and Control+0 to adjust zoom.</property>
+                        </accessibility>
                       </object>
                     </child>
 

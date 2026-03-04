@@ -38,12 +38,18 @@
     <property name="action-name">pods-panel.create-pod</property>
     <property name="icon-name">list-add-symbolic</property>
     <property name="tooltip-text" translatable="yes">Create Pod</property>
+    <accessibility>
+      <property name="label" translatable="yes">Create Pod</property>
+    </accessibility>
   </object>
 
   <object class="GtkButton" id="prune_button">
     <property name="action-name">pods-panel.prune-pods</property>
     <property name="icon-name">eraser5-symbolic</property>
     <property name="tooltip-text" translatable="yes">Prune Stopped Pods</property>
+    <accessibility>
+      <property name="label" translatable="yes">Prune Stopped Pods</property>
+    </accessibility>
   </object>
 
   <object class="AdwSplitButton" id="view_options_split_button">
@@ -86,6 +92,9 @@
                     <property name="valign">center</property>
                     <property name="height-request">30</property>
                     <property name="width-request">30</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Loading pods</property>
+                    </accessibility>
                   </object>
                 </child>
 
@@ -117,6 +126,9 @@
                                 <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
                                 <property name="icon-name">system-search-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Search</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Search</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -139,6 +151,9 @@
                                 <property name="action-name">pods-panel.enter-selection-mode</property>
                                 <property name="icon-name">selection-mode-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Start Multi-Selection</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Start Multi-Selection</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -166,6 +181,9 @@
                                 </style>
                                 <property name="can-shrink">True</property>
                                 <property name="menu-model">selection-menu</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Selected pods</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -175,6 +193,9 @@
                                 <property name="action-name">pods-panel.exit-selection-mode</property>
                                 <property name="icon-name">selection-mode-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Exit Multi-Selection</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Exit Multi-Selection</property>
+                                </accessibility>
                               </object>
                             </child>
 
@@ -290,6 +311,9 @@
                                 <property name="action-name">pods-panel.kill-selection</property>
                                 <property name="icon-name">skull-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Kill</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Kill</property>
+                                </accessibility>
                                 <property name="valign">center</property>
                               </object>
                             </property>
@@ -309,6 +333,9 @@
                                     <property name="action-name">pods-panel.restart-selection</property>
                                     <property name="icon-name">view-refresh-symbolic</property>
                                     <property name="tooltip-text" translatable="yes">Restart</property>
+                                    <accessibility>
+                                      <property name="label" translatable="yes">Restart</property>
+                                    </accessibility>
                                     <property name="valign">center</property>
                                   </object>
                                 </child>
@@ -328,6 +355,9 @@
                                         <property name="action-name">pods-panel.start-or-resume-selection</property>
                                         <property name="tooltip-text" translatable="yes">Start/Resume</property>
                                         <property name="valign">center</property>
+                                        <accessibility>
+                                          <property name="label" translatable="yes">Start or resume selected pods</property>
+                                        </accessibility>
 
                                         <child>
                                           <object class="GtkImage">
@@ -346,6 +376,9 @@
                                         <property name="action-name">pods-panel.stop-selection</property>
                                         <property name="tooltip-text" translatable="yes">Stop</property>
                                         <property name="valign">center</property>
+                                        <accessibility>
+                                          <property name="label" translatable="yes">Stop selected pods</property>
+                                        </accessibility>
 
                                         <child>
                                           <object class="GtkImage">
@@ -367,6 +400,9 @@
                                     <property name="action-name">pods-panel.pause-selection</property>
                                     <property name="icon-name">media-playback-pause-symbolic</property>
                                     <property name="tooltip-text" translatable="yes">Pause</property>
+                                    <accessibility>
+                                      <property name="label" translatable="yes">Pause</property>
+                                    </accessibility>
                                     <property name="valign">center</property>
                                   </object>
                                 </child>
@@ -384,6 +420,9 @@
                                 <property name="action-name">pods-panel.delete-selection</property>
                                 <property name="icon-name">user-trash-symbolic</property>
                                 <property name="tooltip-text" translatable="yes">Delete</property>
+                                <accessibility>
+                                  <property name="label" translatable="yes">Delete</property>
+                                </accessibility>
                                 <property name="valign">center</property>
                               </object>
                             </property>

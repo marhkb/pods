@@ -93,6 +93,9 @@
                 <property name="action-target">''</property>
                 <property name="icon-name">user-trash-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Delete</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Delete</property>
+                </accessibility>
                 <property name="valign">center</property>
                 <property name="halign">center</property>
               </object>

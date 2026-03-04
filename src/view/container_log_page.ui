@@ -58,6 +58,9 @@
                 <property name="active" bind-source="search_bar" bind-property="search-mode-enabled" bind-flags="sync-create|bidirectional"/>
                 <property name="icon-name">system-search-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Search</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Search</property>
+                </accessibility>
               </object>
             </child>
 
@@ -76,6 +79,10 @@
               <object class="GtkMenuButton" id="menu_button">
                 <property name="icon-name">view-more-symbolic</property>
                 <property name="menu-model">menu</property>
+                <property name="tooltip-text" translatable="yes">Menu</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Menu</property>
+                </accessibility>
               </object>
             </child>
 
@@ -104,6 +111,10 @@
                 <property name="action-name">container-log-page.start-container</property>
                 <property name="button-label" translatable="yes">Start/Resume Container</property>
                 <property name="title" translatable="yes">Streaming is disconnected because container is not running</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Log streaming disconnected</property>
+                  <property name="description" translatable="yes">Container logs are unavailable until the container is running</property>
+                </accessibility>
               </object>
             </child>
 
@@ -116,6 +127,9 @@
                     <property name="valign">center</property>
                     <property name="height-request">30</property>
                     <property name="width-request">30</property>
+                    <accessibility>
+                      <property name="label" translatable="yes">Loading logs</property>
+                    </accessibility>
                   </object>
                 </child>
 
@@ -131,6 +145,9 @@
                           <object class="GtkRevealer" id="lines_loading_revealer">
                             <property name="reveal-child">False</property>
                             <property name="transition-type">slide-down</property>
+                            <accessibility>
+                              <property name="label" translatable="yes">Loading previous log lines</property>
+                            </accessibility>
 
                             <child>
                               <object class="GtkBox">
@@ -173,9 +190,10 @@
                                     <property name="action-name">container-log-page.scroll-down</property>
                                     <property name="halign">center</property>
                                     <property name="icon-name">go-bottom-symbolic</property>
+                                    <property name="tooltip-text" translatable="yes">Scroll to Bottom</property>
                                     <property name="valign">end</property>
                                     <accessibility>
-                                      <property name="label" translatable="yes">Scroll to bottom</property>
+                                      <property name="label" translatable="yes">Scroll to Bottom</property>
                                     </accessibility>
                                     <style>
                                       <class name="osd"/>
@@ -212,6 +230,10 @@
                                     <property name="monospace">True</property>
                                     <property name="show-line-numbers">True</property>
                                     <property name="wrap-mode">char</property>
+                                    <accessibility>
+                                      <property name="label" translatable="yes">Container log output</property>
+                                      <property name="description" translatable="yes">Use Control+F to search logs. Press Escape to close search. Use Control+Plus, Control+Minus, and Control+0 to adjust zoom.</property>
+                                    </accessibility>
                                   </object>
                                 </child>
 

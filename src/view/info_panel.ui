@@ -16,6 +16,10 @@
               <object class="GtkButton">
                 <property name="action-name">info-panel.refresh</property>
                 <property name="icon-name">view-refresh-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Refresh</property>
+                <accessibility>
+                  <property name="label" translatable="yes">Refresh</property>
+                </accessibility>
               </object>
             </child>
 
