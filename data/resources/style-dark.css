@@ -1,5 +1,5 @@
 containercard separator {
-	background-color: var(--window-bg-color);
+  background-color: var(--window-bg-color);
 }
 
 actionsbutton.finished .action-count-badge {
