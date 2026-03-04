@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 19:46+0200\n"
-"PO-Revision-Date: 2023-10-09 16:04+0000\n"
-"Last-Translator: Ikhwanul Labib <ikhwanul.labib@protonmail.com>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/main/id/"
-">\n"
+"PO-Revision-Date: 2026-02-27 06:08+0000\n"
+"Last-Translator: Eganatha <ega8642@gmail.com>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/main/id/>"
+"\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.1-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:112
@@ -1639,9 +1639,8 @@ msgid "Image Push Aborted"
 msgstr "Citra Telah Dihapus"
 
 #: src/view/action_page.rs:183
-#, fuzzy
 msgid "Container Pruning Aborted"
-msgstr "Port container"
+msgstr "Pemotongan Kontainer Dibatalkan"
 
 #: src/view/action_page.rs:184
 #, fuzzy
@@ -2126,9 +2125,8 @@ msgid "Rename"
 msgstr "_Ubah nama"
 
 #: src/view/container_card.ui:406
-#, fuzzy
 msgid "No Ports Mappings"
-msgstr "Pemetaan Port"
+msgstr "Tidak Ada Pemetaan Porta"
 
 #: src/view/container_card.ui:464 src/view/container_details_page.ui:54
 #: src/view/containers_panel.ui:309 src/view/pod_details_page.ui:48
@@ -2248,9 +2246,8 @@ msgid "Add Argument"
 msgstr ""
 
 #: src/view/container_creation_page.rs:211 src/view/pod_creation_page.rs:180
-#, fuzzy
 msgid "Add Port Mapping"
-msgstr "Pemetaan Port"
+msgstr "Tambah Pemetaan Porta"
 
 #: src/view/container_creation_page.rs:219
 #, fuzzy
@@ -2357,7 +2354,7 @@ msgstr ""
 
 #: src/view/container_creation_page.ui:288 src/view/pod_creation_page.ui:173
 msgid "Port Mappings"
-msgstr "Pemetaan Port"
+msgstr "Pemetaan Porta"
 
 #: src/view/container_creation_page.ui:318
 msgid "Environment Variables"
@@ -2638,9 +2635,8 @@ msgid "Show _Timestamps"
 msgstr "Alihkan tanda waktu"
 
 #: src/view/container_log_page.ui:66
-#, fuzzy
 msgid "Container Logs"
-msgstr "Port container"
+msgstr "Log Kontainer"
 
 #: src/view/container_log_page.ui:105
 #, fuzzy
@@ -2727,9 +2723,8 @@ msgid "Upload Files (Ctrl+U)"
 msgstr ""
 
 #: src/view/container_properties_group.ui:204
-#, fuzzy
 msgid "Port bindings"
-msgstr "Pemetaan Port"
+msgstr "Pengaitan Porta"
 
 #: src/view/container_properties_group.ui:249 src/view/image_details_page.ui:32
 msgid "Image"
@@ -3080,7 +3075,7 @@ msgstr ""
 
 #: src/view/image_details_page.ui:107
 msgid "Ports"
-msgstr ""
+msgstr "Porta"
 
 #: src/view/image_details_page.ui:122
 msgid "View all image properties in a structured text form"
@@ -3754,18 +3749,16 @@ msgid "IP Address"
 msgstr "Alamat IP"
 
 #: src/view/port_mapping_row.ui:104
-#, fuzzy
 msgid "Host Port"
-msgstr "Port host"
+msgstr "Porta Hos"
 
 #: src/view/port_mapping_row.ui:105
 msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
 
 #: src/view/port_mapping_row.ui:120
-#, fuzzy
 msgid "Container Port"
-msgstr "Port container"
+msgstr "Porta Kontainer"
 
 #: src/view/repo_tag_add_dialog.rs:98
 msgid "Repo tag must contain a colon “:”"
@@ -3871,14 +3864,12 @@ msgid "Image Inspection"
 msgstr "Rincian Citra"
 
 #: src/view/scalable_text_view_page.rs:274
-#, fuzzy
 msgid "Container Inspection"
-msgstr "Port container"
+msgstr "Inspeksi Kontainer"
 
 #: src/view/scalable_text_view_page.rs:275
-#, fuzzy
 msgid "Container Kube Generation"
-msgstr "Port container"
+msgstr "Pembuatan Kontainer Kube"
 
 #: src/view/scalable_text_view_page.rs:285
 msgid "Pod Inspection"
@@ -4098,7 +4089,7 @@ msgstr ""
 
 #: src/view/top_page.rs:516
 msgid "Killing pod processes is not supported"
-msgstr ""
+msgstr "Membunuh proses pod tidak didukung"
 
 #: src/view/volume_creation_page.ui:42 src/view/volume_selection_page.ui:70
 #: src/view/volumes_group.ui:12 src/view/volumes_panel.ui:117
@@ -4155,9 +4146,8 @@ msgid "Select Volume"
 msgstr "{} Citra"
 
 #: src/view/volume.rs:16
-#, fuzzy
 msgid "Confirm Volume Deletion"
-msgstr "Port container"
+msgstr "Konfirmasi Penghapusan Volume"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:20
