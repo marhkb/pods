@@ -12,6 +12,9 @@
 
         <child>
           <object class="GtkFlowBox" id="flow_box">
+            <style>
+              <class name="not-activatable"/>
+            </style>
             <property name="column-spacing">21</property>
             <property name="halign">center</property>
             <property name="homogeneous">True</property>

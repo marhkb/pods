@@ -1,3 +1,8 @@
+flowbox.not-activatable flowboxchild:hover,
+flowbox.not-activatable flowboxchild:active {
+  background-color: transparent;
+}
+
 containercard.not-running {
   background-color: var(--secondary-sidebar-bg-color);
 }
