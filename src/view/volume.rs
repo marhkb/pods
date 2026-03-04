@@ -36,7 +36,7 @@ where
             dialog.set_default_response(Some("cancel"));
             dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-            if "delete" == dialog.choose_future(widget).await {
+            if "delete" == dialog.choose_future(Some(widget)).await {
                 delete_volume(widget, volume, true).await;
             }
         }

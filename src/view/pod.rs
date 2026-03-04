@@ -71,7 +71,7 @@ where
                 dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
                 dialog.choose(
-                    widget,
+                    Some(widget),
                     gio::Cancellable::NONE,
                     clone!(
                         #[weak]
