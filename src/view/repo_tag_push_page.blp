@@ -72,22 +72,20 @@ template $PdsRepoTagPushPage: Widget {
                 sensitive: bind login_switch.active;
                 key: _("Authentication");
 
-                widget: Box {
+                widget: Adw.ToggleGroup {
                   styles [
-                    "linked",
+                    "round",
                   ]
 
                   homogeneous: true;
                   valign: center;
 
-                  ToggleButton password_toggle_button {
-                    active: true;
+                  Adw.Toggle password_toggle {
                     label: _("Password");
                   }
 
-                  ToggleButton token_toggle_button {
+                  Adw.Toggle token_toggle {
                     label: _("Token");
-                    group: password_toggle_button;
                   }
                 };
               }

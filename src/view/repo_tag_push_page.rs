@@ -49,9 +49,9 @@ mod imp {
         #[template_child]
         pub(super) login_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) password_toggle_button: TemplateChild<gtk::ToggleButton>,
+        pub(super) password_toggle: TemplateChild<adw::Toggle>,
         #[template_child]
-        pub(super) token_toggle_button: TemplateChild<gtk::ToggleButton>,
+        pub(super) token_toggle: TemplateChild<adw::Toggle>,
         #[template_child]
         pub(super) username_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -99,16 +99,16 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.password_toggle_button.connect_active_notify(clone!(
+            self.password_toggle.connect_enabled_notify(clone!(
                 #[weak]
                 obj,
                 move |button| {
-                    let is_active = button.is_active();
+                    let is_enabled = button.is_enabled();
 
                     let imp = obj.imp();
-                    imp.username_entry_row.set_visible(is_active);
-                    imp.password_entry_row.set_visible(is_active);
-                    imp.token_entry_row.set_visible(!is_active);
+                    imp.username_entry_row.set_visible(is_enabled);
+                    imp.password_entry_row.set_visible(is_enabled);
+                    imp.token_entry_row.set_visible(!is_enabled);
                 }
             ));
 
@@ -157,12 +157,12 @@ mod imp {
 
                                             match auth {
                                                 RegistryAuth::Password { username, password } => {
-                                                    imp.password_toggle_button.set_active(true);
+                                                    imp.password_toggle.set_enabled(true);
                                                     imp.username_entry_row.set_text(&username);
                                                     imp.password_entry_row.set_text(&password);
                                                 }
                                                 RegistryAuth::Token(token) => {
-                                                    imp.token_toggle_button.set_active(true);
+                                                    imp.token_toggle.set_enabled(true);
                                                     imp.token_entry_row.set_text(&token);
                                                 }
                                             }
@@ -252,7 +252,7 @@ impl RepoTagPushPage {
             if imp.save_credentials_switch_row.is_active() {
                 match crate::KEYRING.get() {
                     Some(keyring) => {
-                        let secret = if imp.password_toggle_button.is_active() {
+                        let secret = if imp.password_toggle.is_enabled() {
                             RegistryAuth::Password {
                                 username: imp.username_entry_row.text().into(),
                                 password: imp.password_entry_row.text().into(),
