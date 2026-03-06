@@ -1,0 +1,85 @@
+using Gtk 4.0;
+
+template $PdsImageRow: ListBoxRow {
+  action-name: "image-row.activate";
+
+  Box {
+    margin-top: 7;
+    margin-end: 12;
+    margin-bottom: 7;
+    margin-start: 12;
+
+    Revealer check_button_revealer {
+      transition-type: slide_right;
+
+      CheckButton check_button {
+        styles [
+          "selection-mode",
+        ]
+
+        margin-end: 12;
+        valign: center;
+
+        accessibility {
+          label: _("Select image");
+        }
+      }
+    }
+
+    Box {
+      spacing: 6;
+
+      Box {
+        hexpand: true;
+        valign: center;
+        orientation: vertical;
+        spacing: 1;
+        margin-bottom: 2;
+
+        Label id_label {
+          styles [
+            "numeric",
+          ]
+
+          use-markup: true;
+          xalign: 0;
+          yalign: 0;
+        }
+
+        ListBox repo_tags_list_box {
+          styles [
+            "repo-tags-small",
+          ]
+
+          selection-mode: none;
+        }
+      }
+
+      $PdsContainersCountBar {
+        container-list: bind template.image as <$Image>.container-list;
+      }
+    }
+
+    Revealer end_box_revealer {
+      transition-type: slide_left;
+
+      Box {
+        margin-start: 6;
+        spacing: 3;
+
+        $PdsImageMenuButton {
+          styles [
+            "flat",
+          ]
+
+          image: bind template.image;
+          valign: "center";
+        }
+
+        Image {
+          icon-name: "go-next-symbolic";
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsConnectionsSidebar: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
+      title-widget: Adw.WindowTitle {
+        title: _("Connections");
+      };
+
+      [end]
+      Button {
+        action-name: "win.create-connection";
+        icon-name: "list-add-symbolic";
+        tooltip-text: _("New Connection (Ctrl+Shift+N)");
+
+        accessibility {
+          label: _("New Connection (Ctrl+Shift+N)");
+        }
+      }
+    }
+
+    ScrolledWindow {
+      ListView {
+        styles [
+          "navigation-sidebar",
+        ]
+
+        activate => $on_list_view_activated() swapped;
+        single-click-activate: true;
+
+        model: SingleSelection selection {
+          autoselect: false;
+          model: bind template.connection-manager;
+        };
+
+        factory: BuilderListItemFactory {
+          template ListItem {
+            selectable: false;
+
+            child: $PdsConnectionRow {
+              connection: bind template.item as <$PdsConnectionRow>;
+            };
+          }
+        };
+      }
+    }
+  }
+}

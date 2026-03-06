@@ -1,0 +1,27 @@
+using Gtk 4.0;
+
+template $PdsSourceViewSearchWidget: Widget {
+  layout-manager: BinLayout {};
+
+  Box {
+    styles [
+      "linked",
+    ]
+
+    halign: center;
+
+    $PdsTextSearchEntry search_entry {}
+
+    Button {
+      action-name: "source-view-search-widget.search-backward";
+      icon-name: "go-up-symbolic";
+      tooltip-text: _("Previous (Ctrl+Shift+G)");
+    }
+
+    Button {
+      action-name: "source-view-search-widget.search-forward";
+      tooltip-text: _("Next (Ctrl+G)");
+      icon-name: "go-down-symbolic";
+    }
+  }
+}

@@ -1,0 +1,296 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu view-options-menu {
+  section {
+    label: "Sort";
+
+    item {
+      label: _("Name");
+      action: "volumes-panel.change-sort-attribute";
+      target: "name";
+    }
+
+    item {
+      label: _("Age");
+      action: "volumes-panel.change-sort-attribute";
+      target: "age";
+    }
+
+    item {
+      label: _("Containers");
+      action: "volumes-panel.change-sort-attribute";
+      target: "containers";
+    }
+  }
+}
+
+menu selection-menu {
+  item {
+    label: _("_Select Visible");
+    action: "volumes-panel.select-visible";
+  }
+
+  item {
+    label: _("Select None");
+    action: "volumes-panel.select-none";
+  }
+}
+
+Button create_volume_button {
+  action-name: "volumes-panel.create-volume";
+  icon-name: "list-add-symbolic";
+  tooltip-text: _("Create Volume");
+
+  accessibility {
+    label: _("Create Volume");
+  }
+}
+
+Button prune_button {
+  action-name: "volumes-panel.prune-unused-volumes";
+  icon-name: "eraser5-symbolic";
+  tooltip-text: _("Prune Unused Volumes");
+
+  accessibility {
+    label: _("Prune Unused Volumes");
+  }
+}
+
+Adw.SplitButton view_options_split_button {
+  action-name: "volumes-panel.toggle-sort-direction";
+  menu-model: view-options-menu;
+}
+
+template $PdsVolumesPanel: Widget {
+  layout-manager: BinLayout {};
+
+  notify::collapsed => $on_notify_collapsed();
+  notify::sort-attribute => $on_notify_sort_attribute();
+  notify::show-only-used-volumes => $on_notify_show_only_used_volumes();
+
+  Stack main_stack {
+    StackPage {
+      name: "spinner";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Volumes");
+          };
+        }
+
+        Adw.Spinner {
+          halign: center;
+          valign: center;
+          height-request: 30;
+          width-request: 30;
+
+          accessibility {
+            label: _("Loading volumes");
+          }
+        }
+      };
+    }
+
+    StackPage {
+      name: "volumes";
+
+      child: Adw.ToolbarView toolbar_view {
+        [top]
+        Stack header_stack {
+          StackPage {
+            name: "main";
+
+            child: Adw.HeaderBar {
+              [start]
+              ToggleButton {
+                active: bind search_bar.search-mode-enabled bidirectional;
+                icon-name: "system-search-symbolic";
+                tooltip-text: _("Search");
+
+                accessibility {
+                  label: _("Search");
+                }
+              }
+
+              [start]
+              Adw.Bin create_volume_menu_button_top_bin {}
+
+              [start]
+              Adw.Bin prune_button_top_bin {}
+
+              [title]
+              Adw.WindowTitle window_title {
+                title: _("Volumes");
+              }
+
+              [end]
+              Button {
+                action-name: "volumes-panel.enter-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Start Multi-Selection");
+
+                accessibility {
+                  label: _("Start Multi-Selection");
+                }
+              }
+
+              [end]
+              Adw.Bin view_options_split_button_top_bin {}
+            };
+          }
+
+          StackPage {
+            name: "selection";
+
+            child: Adw.HeaderBar {
+              [title]
+              MenuButton selected_volumes_button {
+                styles [
+                  "flat",
+                ]
+
+                can-shrink: true;
+                menu-model: selection-menu;
+
+                accessibility {
+                  label: _("Selected volumes");
+                }
+              }
+
+              [end]
+              ToggleButton {
+                active: true;
+                action-name: "volumes-panel.exit-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Exit Multi-Selection");
+
+                accessibility {
+                  label: _("Exit Multi-Selection");
+                }
+              }
+            };
+          }
+        }
+
+        [top]
+        SearchBar search_bar {
+          notify::search-mode-enabled => $on_notify_search_mode_enabled() swapped;
+
+          SearchEntry search_entry {
+            search-changed => $on_search_changed() swapped;
+            max-width-chars: 28;
+          }
+        }
+
+        Stack filter_stack {
+          StackPage {
+            name: "list";
+
+            child: Adw.PreferencesPage {
+              vexpand: true;
+
+              Adw.PreferencesGroup {
+                ListBox list_box {
+                  styles [
+                    "boxed-list",
+                  ]
+
+                  selection-mode: none;
+                }
+              }
+            };
+          }
+
+          StackPage {
+            name: "empty";
+
+            child: Adw.StatusPage {
+              icon-name: "drive-harddisk-symbolic";
+              title: _("No Matching Volumes");
+
+              Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "volumes-panel.show-all-volumes";
+                halign: center;
+                label: _("_Show All Volumes");
+                use-underline: true;
+              }
+            };
+          }
+        }
+
+        [bottom]
+        ActionBar {
+          revealed: bind template.volume-list as <$VolumeList>.selection-mode;
+
+          [center]
+          Button {
+            styles [
+              "destructive-action",
+              "pill",
+            ]
+
+            action-name: "volumes-panel.delete-selection";
+            label: _("Delete");
+            width-request: 200;
+            tooltip-text: _("Delete");
+            valign: center;
+
+            accessibility {
+              label: _("Delete selected volumes");
+            }
+          }
+        }
+
+        [bottom]
+        ActionBar overhang_action_bar {
+          [start]
+          Adw.Bin create_volume_menu_button_bottom_bin {}
+
+          [start]
+          Adw.Bin prune_button_bottom_bin {}
+
+          [end]
+          Adw.Bin view_options_split_button_bottom_bin {}
+        }
+      };
+    }
+
+    StackPage {
+      name: "empty";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Volumes");
+          };
+        }
+
+        Adw.StatusPage {
+          icon-name: "drive-harddisk-symbolic";
+          title: _("No Volumes Available");
+
+          Button {
+            styles [
+              "pill",
+              "suggested-action",
+            ]
+
+            action-name: "volumes-panel.create-volume";
+            halign: center;
+            label: _("_Create Volume");
+            use-underline: true;
+          }
+        }
+      };
+    }
+  }
+}

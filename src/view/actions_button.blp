@@ -1,0 +1,19 @@
+using Gtk 4.0;
+
+template $PdsActionsButton: Widget {
+  layout-manager: BinLayout {};
+
+  Button button {
+    styles [
+      "image-button",
+    ]
+
+    $PdsCountBadge {
+      child: Image image {
+        icon-name: "bell-outline-symbolic";
+      };
+
+      count: bind template.action-list as <$ActionList>.len;
+    }
+  }
+}

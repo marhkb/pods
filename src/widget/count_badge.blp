@@ -1,0 +1,36 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsCountBadge: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.Bin child_bin {
+    notify::child => $on_child_bin_notify_child() swapped;
+  }
+
+  Adw.Bin count_mask {
+    styles [
+      "action-count-mask",
+    ]
+
+    can-target: false;
+    halign: center;
+    valign: start;
+  }
+
+  Overlay count_badge {
+    styles [
+      "action-count-badge",
+    ]
+
+    can-target: false;
+    halign: center;
+    valign: start;
+
+    [overlay]
+    Label count_label {
+      halign: center;
+      valign: center;
+    }
+  }
+}

@@ -1,0 +1,104 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerRow: ListBoxRow {
+  notify::container => $on_notify_container();
+  action-name: "container-row.activate";
+
+  Box {
+    margin-top: 7;
+    margin-end: 12;
+    margin-bottom: 7;
+    margin-start: 10;
+
+    Revealer check_button_revealer {
+      transition-type: slide_right;
+
+      CheckButton check_button {
+        styles [
+          "selection-mode",
+        ]
+
+        margin-start: 2;
+        margin-end: 10;
+        valign: center;
+
+        accessibility {
+          label: _("Select container");
+        }
+      }
+    }
+
+    Box {
+      spacing: 6;
+
+      $PdsSpinner spinner {
+        margin-end: "4";
+      }
+
+      Box {
+        hexpand: true;
+        valign: center;
+        orientation: vertical;
+        spacing: 3;
+
+        Label name_label {
+          use-markup: true;
+          wrap: true;
+          wrap-mode: word_char;
+          xalign: 0;
+        }
+
+        Label repo_label {
+          styles [
+            "subtitle",
+          ]
+
+          use-markup: true;
+          wrap: true;
+          wrap-mode: word_char;
+          xalign: 0;
+        }
+
+        Adw.WrapBox ports_wrap_box {
+          child-spacing: 6;
+          line-spacing: 6;
+        }
+      }
+
+      Box stats_box {
+        spacing: 6;
+
+        $PdsCircularProgressBar cpu_bar {
+          icon-name: "processor-symbolic";
+        }
+
+        $PdsCircularProgressBar mem_bar {
+          icon-name: "memory-symbolic";
+        }
+      }
+    }
+
+    Revealer end_box_revealer {
+      transition-type: slide_left;
+
+      Box end_box {
+        margin-start: 6;
+        spacing: 3;
+
+        $PdsContainerMenuButton menu_button {
+          styles [
+            "flat",
+          ]
+
+          container: bind template.container;
+          valign: "center";
+        }
+
+        Image {
+          icon-name: "go-next-symbolic";
+        }
+      }
+    }
+  }
+}

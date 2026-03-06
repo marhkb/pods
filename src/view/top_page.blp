@@ -1,0 +1,40 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsTopPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView toolbar_view {
+    [top]
+    Adw.HeaderBar {
+      [start]
+      ToggleButton search_button {
+        active: bind search_bar.search-mode-enabled bidirectional;
+        icon-name: "system-search-symbolic";
+        tooltip-text: _("Search");
+
+        accessibility {
+          label: _("Search");
+        }
+      }
+
+      [title]
+      Adw.WindowTitle window_title {}
+    }
+
+    [top]
+    SearchBar search_bar {
+      SearchEntry search_entry {
+        search-started => $on_search_started() swapped;
+        search-changed => $on_search_changed() swapped;
+        max-width-chars: 28;
+      }
+    }
+
+    ScrolledWindow {
+      ColumnView column_view {
+        enable-rubberband: true;
+      }
+    }
+  }
+}

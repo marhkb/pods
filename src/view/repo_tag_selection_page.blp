@@ -1,0 +1,138 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsRepoTagSelectionPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
+      [start]
+      ToggleButton filter_button {
+        icon-name: "system-search-symbolic";
+        tooltip-text: _("Filter");
+
+        accessibility {
+          label: _("Filter");
+        }
+
+        toggled => $on_filter_button_toggled() swapped;
+      }
+
+      [title]
+      Stack title_stack {
+        hexpand: true;
+        transition-type: crossfade;
+
+        StackPage {
+          name: "title";
+
+          child: Adw.WindowTitle {
+            title: _("Select Tag");
+            subtitle: bind template.image-name no-sync-create;
+          };
+        }
+
+        SearchEntry filter_entry {
+          hexpand: true;
+          margin-start: 36;
+          margin-end: 36;
+          search-started => $on_filter_started() swapped;
+          search-changed => $on_filter_changed() swapped;
+
+          accessibility {
+            label: _("Filter tags");
+            description: _("Type to filter tags. Press Enter to select the highlighted tag.");
+          }
+
+          EventControllerKey {
+            key-pressed => $on_filter_key_pressed() swapped;
+          }
+        }
+      }
+
+      [end]
+      Button action_button {
+        styles [
+          "suggested-action",
+        ]
+
+        action-name: "repo-tag-selection-page.select";
+        use-underline: true;
+        label: bind template.action-button-name;
+      }
+    }
+
+    Stack stack {
+      StackPage {
+        name: "search";
+
+        child: Stack search_stack {
+          StackPage {
+            name: "searching";
+
+            child: Adw.StatusPage {
+              styles [
+                "compact",
+              ]
+
+              icon-name: "system-search-symbolic";
+              title: _("Fetching Tags");
+              description: _("Loading available tags for the selected image");
+
+              Adw.Spinner spinner {
+                halign: center;
+                valign: center;
+                height-request: 30;
+                width-request: 30;
+              }
+            };
+          }
+
+          StackPage {
+            name: "nothing";
+
+            child: Adw.StatusPage no_results_status_page {
+              styles [
+                "compact",
+              ]
+
+              icon-name: "emblem-important-symbolic";
+              description: _("Please retry another term");
+            };
+          }
+
+          StackPage {
+            name: "results";
+
+            child: ScrolledWindow scrolled_window {
+              hexpand: true;
+              vexpand: true;
+              hscrollbar-policy: never;
+
+              ListView list_view {
+                styles [
+                  "background",
+                ]
+
+                show-separators: true;
+
+                factory: SignalListItemFactory {
+                  setup => $on_signal_list_item_factory_setup() swapped;
+                  bind => $on_signal_list_item_factory_bind() swapped;
+                };
+
+                model: SingleSelection selection {};
+
+                activate => $on_image_activated() swapped;
+              }
+            };
+          }
+        };
+      }
+    }
+  }
+}

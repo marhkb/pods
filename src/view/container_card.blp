@@ -1,0 +1,448 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerCard: Widget {
+  styles [
+    "activatable",
+    "card",
+  ]
+
+  layout-manager: BinLayout {};
+
+  focusable: true;
+  width-request: 250;
+  notify::container => $on_notify_container();
+
+  GestureClick gesture_click {
+    button: 1;
+    propagation-phase: bubble;
+    released => $on_mouse_1_released();
+  }
+
+  EventControllerKey {
+    key-pressed => $on_key_pressed() swapped;
+  }
+
+  Adw.Clamp {
+    maximum-size: 250;
+    unit: px;
+
+    Box {
+      orientation: vertical;
+      spacing: 9;
+      margin-top: 9;
+      margin-bottom: 9;
+
+      Box {
+        margin-start: 12;
+        margin-end: 12;
+
+        Box {
+          spacing: 9;
+
+          $PdsSpinner spinner {
+            valign: "start";
+          }
+
+          Box {
+            hexpand: true;
+            orientation: vertical;
+            valign: start;
+
+            Label name_label {
+              styles [
+                "title",
+              ]
+
+              use-markup: true;
+              ellipsize: end;
+              xalign: 0;
+            }
+
+            Label repo_label {
+              styles [
+                "caption",
+                "dim-label",
+              ]
+
+              ellipsize: end;
+              height-request: 30;
+              lines: 2;
+              use-markup: true;
+              wrap: true;
+              wrap-mode: word_char;
+              xalign: 0;
+              yalign: 0;
+            }
+          }
+
+          Stack edit_select_stack {
+            transition-type: crossfade;
+            valign: start;
+
+            StackPage {
+              name: "edit";
+
+              child: Button {
+                styles [
+                  "circular",
+                ]
+
+                action-name: "container-card.rename";
+                icon-name: "document-edit-symbolic";
+                tooltip-text: _("Rename");
+
+                accessibility {
+                  label: _("Rename");
+                }
+              };
+            }
+
+            StackPage {
+              name: "select";
+
+              child: CheckButton selection_check_button {
+                styles [
+                  "selection-mode",
+                ]
+              };
+            }
+          }
+        }
+      }
+
+      Separator {}
+
+      Stack resources_status_stack {
+        StackPage {
+          name: "running";
+
+          child: Box {
+            styles [
+              "caption",
+              "numeric",
+            ]
+
+            orientation: vertical;
+            spacing: 6;
+            margin-start: 18;
+            margin-end: 18;
+
+            Box {
+              spacing: 9;
+
+              Image {
+                styles [
+                  "dim-label",
+                ]
+
+                icon-name: "processor-symbolic";
+              }
+
+              ProgressBar cpu_progress_bar {
+                fraction: 0.2;
+                valign: center;
+                hexpand: true;
+              }
+            }
+
+            Box {
+              spacing: 9;
+
+              Image {
+                styles [
+                  "dim-label",
+                ]
+
+                icon-name: "memory-symbolic";
+              }
+
+              ProgressBar memory_progress_bar {
+                fraction: 0.7;
+                valign: center;
+                hexpand: true;
+              }
+            }
+
+            Box {
+              Image {
+                styles [
+                  "dim-label",
+                ]
+
+                icon-name: "network-transmit-receive-symbolic";
+              }
+
+              Box {
+                homogeneous: true;
+
+                Box network_down_box {
+                  halign: center;
+                  hexpand: true;
+                  spacing: 3;
+
+                  Label {
+                    label: "↓";
+                  }
+
+                  Label network_down_label {
+                    halign: center;
+                    hexpand: true;
+                  }
+                }
+
+                Box network_up_box {
+                  halign: center;
+                  hexpand: true;
+                  spacing: 3;
+
+                  Label {
+                    label: "↑";
+                  }
+
+                  Label network_up_label {
+                    halign: center;
+                    hexpand: true;
+                  }
+                }
+              }
+            }
+
+            Box {
+              Image {
+                styles [
+                  "dim-label",
+                ]
+
+                icon-name: "drive-harddisk-symbolic";
+              }
+
+              Box {
+                homogeneous: true;
+
+                Box disk_write_box {
+                  halign: center;
+                  hexpand: true;
+                  spacing: 3;
+
+                  Label {
+                    label: "↑";
+                  }
+
+                  Label disk_write_label {
+                    halign: center;
+                    hexpand: true;
+                  }
+                }
+
+                Box disk_read_box {
+                  halign: center;
+                  hexpand: true;
+                  spacing: 3;
+
+                  Label {
+                    label: "↓";
+                  }
+
+                  Label disk_read_label {
+                    halign: center;
+                    hexpand: true;
+                  }
+                }
+              }
+            }
+          };
+        }
+
+        StackPage {
+          name: "not-running";
+
+          child: Label status_label {
+            styles [
+              "dim-label",
+            ]
+
+            halign: center;
+            valign: center;
+          };
+        }
+      }
+
+      Separator {}
+
+      Stack ports_pod_stack {
+        margin-start: 12;
+        margin-end: 12;
+        vexpand: true;
+
+        StackPage {
+          name: "ports";
+
+          child: Adw.WrapBox ports_wrap_box {
+            align: 0.5;
+            child-spacing: 6;
+            line-spacing: 6;
+            valign: center;
+          };
+        }
+
+        StackPage {
+          name: "no-ports";
+
+          child: Label {
+            styles [
+              "dim-label",
+            ]
+
+            label: _("No Ports Mappings");
+          };
+        }
+
+        StackPage {
+          name: "pod";
+
+          child: CenterBox pod_center_box {
+            styles [
+              "status-badge",
+            ]
+
+            halign: center;
+            valign: center;
+
+            start-widget: Image {
+              icon-name: "pods-symbolic";
+            };
+
+            center-widget: Label pod_name_label {
+              ellipsize: end;
+              margin-start: 6;
+            };
+          };
+        }
+      }
+
+      Separator {}
+
+      CenterBox action_center_box {
+        margin-start: 12;
+        margin-end: 12;
+        hexpand: true;
+
+        start-widget: Button {
+          styles [
+            "circular",
+          ]
+
+          action-name: "container-card.kill";
+          icon-name: "skull-symbolic";
+          tooltip-text: _("Kill");
+
+          accessibility {
+            label: _("Kill");
+          }
+
+          valign: center;
+        };
+
+        center-widget: Box {
+          halign: center;
+          hexpand: true;
+          spacing: 6;
+
+          Button {
+            styles [
+              "circular",
+            ]
+
+            action-name: "container-card.restart";
+            icon-name: "view-refresh-symbolic";
+            tooltip-text: _("Restart");
+
+            accessibility {
+              label: _("Restart");
+            }
+
+            valign: center;
+          }
+
+          Button start_or_resume_button {
+            styles [
+              "circular",
+            ]
+
+            action-name: "container-card.start";
+            tooltip-text: _("Start/Resume");
+            valign: center;
+
+            Image {
+              icon-name: "media-playback-start-symbolic";
+            }
+          }
+
+          Button stop_button {
+            styles [
+              "circular",
+            ]
+
+            action-name: "container-card.stop";
+            tooltip-text: _("Stop");
+            valign: center;
+
+            Image {
+              icon-name: "media-playback-stop-symbolic";
+            }
+          }
+
+          Button spinning_button {
+            styles [
+              "circular",
+            ]
+
+            sensitive: false;
+            valign: center;
+
+            Adw.Spinner {
+              halign: center;
+              valign: center;
+              width-request: 24;
+              height-request: 24;
+            }
+          }
+
+          Button {
+            styles [
+              "circular",
+            ]
+
+            action-name: "container-card.pause";
+            icon-name: "media-playback-pause-symbolic";
+            tooltip-text: _("Pause");
+
+            accessibility {
+              label: _("Pause");
+            }
+
+            valign: center;
+          }
+        };
+
+        end-widget: Button {
+          styles [
+            "circular",
+            "destructive-button",
+          ]
+
+          action-name: "container-card.delete";
+          icon-name: "user-trash-symbolic";
+          tooltip-text: _("Delete");
+
+          accessibility {
+            label: _("Delete");
+          }
+
+          valign: center;
+        };
+      }
+    }
+  }
+}

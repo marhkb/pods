@@ -1,0 +1,94 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsConnectionChooserPage: Widget {
+  layout-manager: BinLayout {};
+
+  notify::connection-manager => $on_notify_connection_manager();
+
+  EventControllerKey {
+    key-pressed => $on_filter_key_pressed() swapped;
+  }
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [start]
+      ToggleButton filter_button {
+        icon-name: "system-search-symbolic";
+        tooltip-text: _("Filter");
+
+        accessibility {
+          label: _("Filter");
+        }
+
+        toggled => $on_filter_button_toggled() swapped;
+      }
+
+      [title]
+      Stack title_stack {
+        transition-type: crossfade;
+
+        StackPage {
+          name: "title";
+
+          child: Adw.WindowTitle {
+            title: _("");
+          };
+        }
+
+        SearchEntry filter_entry {
+          search-started => $on_filter_started() swapped;
+          search-changed => $on_filter_changed() swapped;
+          max-width-chars: 32;
+
+          accessibility {
+            label: _("Filter connections");
+            description: _("Type to filter connections. Press Enter to open the first result.");
+          }
+
+          EventControllerKey {
+            key-pressed => $on_filter_key_pressed() swapped;
+          }
+        }
+      }
+
+      [end]
+      $PdsMainMenuButton {}
+    }
+
+    Adw.StatusPage {
+      title: _("Connect to Podman");
+      description: _("Choose an existing connection or create a new one");
+
+      Adw.Clamp {
+        maximum-size: 570;
+
+        Box {
+          orientation: vertical;
+          spacing: 12;
+
+          ListBox connection_list_box {
+            styles [
+              "boxed-list",
+            ]
+
+            selection-mode: none;
+            row-activated => $on_connection_list_box_activated() swapped;
+          }
+
+          Button {
+            styles [
+              "pill",
+            ]
+
+            action-name: "win.create-connection";
+            label: "New Connection";
+            halign: center;
+            valign: center;
+          }
+        }
+      }
+    }
+  }
+}

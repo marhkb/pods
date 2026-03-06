@@ -1,0 +1,17 @@
+using Gtk 4.0;
+
+template $PdsRepoTagSimpleRow: ListBoxRow {
+  activatable: false;
+  focusable: false;
+  selectable: false;
+
+  Label label {
+    styles [
+      "caption",
+    ]
+
+    xalign: 0;
+    wrap: true;
+    wrap-mode: word_char;
+  }
+}

@@ -1,0 +1,37 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsWindow: Adw.ApplicationWindow {
+  height-request: 180;
+  width-request: 360;
+
+  content: Adw.ToastOverlay toast_overlay {
+    Stack main_stack {
+      Adw.Bin {}
+
+      StackPage {
+        name: "welcome";
+
+        child: $PdsWelcomePage {
+          connection-manager: bind template.connection-manager;
+        };
+      }
+
+      StackPage {
+        name: "connection-chooser";
+
+        child: $PdsConnectionChooserPage connection_chooser_page {
+          connection-manager: bind template.connection-manager;
+        };
+      }
+
+      StackPage {
+        name: "client";
+
+        child: $PdsClientView client_view {
+          client: bind template.connection-manager as <$ConnectionManager>.client;
+        };
+      }
+    }
+  };
+}

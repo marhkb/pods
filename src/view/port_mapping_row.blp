@@ -1,0 +1,110 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsPortMappingRow: Adw.ExpanderRow {
+  activatable: false;
+  selectable: false;
+
+  [prefix]
+  Box {
+    styles [
+      "numeric",
+      "rich-expander-row-header",
+      "title-4",
+    ]
+
+    spacing: 9;
+    valign: center;
+
+    Box {
+      spacing: 2;
+
+      Label protocol_label {
+        name: "badge";
+      }
+
+      Label {
+        label: "://";
+      }
+
+      Label ip_address_label {
+        name: "badge";
+      }
+
+      Label {
+        label: ":";
+      }
+
+      Label host_port_label {
+        name: "badge";
+      }
+    }
+
+    Image {
+      icon-name: "arrow1-right-symbolic";
+      margin-start: 4;
+    }
+
+    Label container_port_label {
+      name: "badge";
+    }
+  }
+
+  [action]
+  Button {
+    styles [
+      "flat",
+    ]
+
+    action-name: "port-mapping-row.remove";
+    icon-name: "edit-delete-symbolic";
+    tooltip-text: _("Remove Port Mapping");
+
+    accessibility {
+      label: _("Remove Port Mapping");
+    }
+
+    valign: center;
+  }
+
+  Adw.ComboRow protocol_combo_row {
+    title: _("Protocol");
+
+    model: StringList {
+      strings [
+        _("TCP"),
+        _("UDP"),
+        _("SCTP"),
+      ]
+    };
+  }
+
+  Adw.EntryRow ip_address_entry_row {
+    title: _("IP Address");
+  }
+
+  Adw.SpinRow {
+    title: _("Host Port");
+    subtitle: _("If 0, a random port is assigned on the host (guaranteed above 1024)");
+    numeric: true;
+
+    adjustment: Adjustment host_port_adjustment {
+      lower: 0;
+      upper: 65536;
+      page-increment: 16;
+      step-increment: 1;
+    };
+  }
+
+  Adw.SpinRow {
+    title: _("Container Port");
+    numeric: true;
+
+    adjustment: Adjustment container_port_adjustment {
+      lower: 1;
+      upper: 65536;
+      page-increment: 16;
+      step-increment: 1;
+    };
+  }
+}

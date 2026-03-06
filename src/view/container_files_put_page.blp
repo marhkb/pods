@@ -1,0 +1,85 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    put_button,
+  ]
+}
+
+menu menu {
+  section {
+    item {
+      label: _("Select _Directory…");
+      action: "container-files-put-page.select-host-directory";
+    }
+  }
+}
+
+template $PdsContainerFilesPutPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.NavigationView navigation_view {
+    Adw.NavigationPage {
+      title: _("Preferences");
+
+      Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+
+          [start]
+          Button cancel_button {
+            action-name: "win.close";
+            label: _("_Cancel");
+            use-underline: true;
+          }
+
+          [title]
+          Adw.WindowTitle {
+            title: _("Upload Files");
+          }
+
+          [end]
+          Button put_button {
+            styles [
+              "suggested-action",
+            ]
+
+            action-name: "container-files-put-page.put";
+            label: _("_Upload");
+            use-underline: true;
+          }
+        }
+
+        Adw.PreferencesPage {
+          Adw.PreferencesGroup {
+            Adw.ActionRow host_path_row {
+              activatable: false;
+              title: _("Host Path");
+              subtitle: _("Select a file or a directory from the host to upload");
+
+              [suffix]
+              Adw.SplitButton {
+                action-name: "container-files-put-page.select-host-file";
+                label: _("Select _File…");
+                use-underline: true;
+                valign: center;
+                menu-model: menu;
+              }
+            }
+
+            Adw.EntryRow container_path_row {
+              activates-default: true;
+              title: _("Container Path ('/' if empty)");
+            }
+          }
+        }
+      }
+    }
+  }
+}

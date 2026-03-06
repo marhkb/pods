@@ -1,0 +1,26 @@
+using Gtk 4.0;
+
+menu menu {
+  section {
+    item {
+      label: _("_Keyboard Shortcuts");
+      action: "app.shortcuts";
+    }
+
+    item {
+      label: _("_About Pods");
+      action: "app.about";
+    }
+  }
+}
+
+template $PdsMainMenuButton: Widget {
+  layout-manager: BinLayout {};
+
+  MenuButton {
+    icon-name: "open-menu-symbolic";
+    menu-model: menu;
+    primary: true;
+    tooltip-text: _("Main Menu");
+  }
+}

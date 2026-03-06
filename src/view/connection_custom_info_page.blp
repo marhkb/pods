@@ -1,0 +1,281 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsConnectionCustomInfoPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [title]
+      Adw.WindowTitle {
+        title: _("Custom Connection");
+      }
+    }
+
+    ScrolledWindow {
+      Box {
+        orientation: vertical;
+        spacing: 12;
+        margin-top: 24;
+        margin-end: 24;
+        margin-bottom: 36;
+        margin-start: 24;
+
+        Label {
+          label: _(
+            "You can connect to a Podman instance using <span weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</span> protocols. For example, the connection string might look like this:"
+          );
+          use-markup: true;
+          wrap: true;
+          wrap-mode: word_char;
+          xalign: 0;
+        }
+
+        Adw.Bin {
+          styles [
+            "card",
+            "frame",
+            "linked",
+            "view",
+          ]
+
+          Label {
+            styles [
+              "monospace",
+            ]
+
+            label: _("http://somewhere:8081");
+            selectable: true;
+            margin-top: 6;
+            margin-end: 9;
+            margin-bottom: 6;
+            margin-start: 9;
+            hexpand: true;
+            wrap: true;
+            wrap-mode: word_char;
+            xalign: 0;
+          }
+        }
+
+        Label {
+          styles [
+            "title-4",
+          ]
+
+          label: _("Podman Root Connection");
+          margin-top: 15;
+          wrap: true;
+          wrap-mode: word_char;
+          xalign: 0.5;
+        }
+
+        Label {
+          label: _(
+            "Unfortunately, it is currently not possible to connect to the Podman root instance directly, as <span weight=\"bold\">/run/podman/podman.sock</span> is not readable for normal users. However, there is a workaround using a systemd unit. Save the following snippet:"
+          );
+          use-markup: true;
+          wrap: true;
+          wrap-mode: word_char;
+          xalign: 0;
+        }
+
+        Overlay {
+          [overlay]
+          Box {
+            styles [
+              "card",
+              "frame",
+              "linked",
+              "view",
+            ]
+
+            hexpand: true;
+            valign: start;
+            spacing: 12;
+            margin-top: 6;
+            margin-end: 6;
+            margin-start: 6;
+            overflow: hidden;
+
+            Label root_systemd_unit_path_label {
+              styles [
+                "monospace",
+              ]
+
+              label: "/etc/systemd/system/podman-tcp.service";
+              selectable: true;
+              margin-start: 9;
+              hexpand: true;
+              wrap: true;
+              wrap-mode: word_char;
+              xalign: 0;
+            }
+
+            Button {
+              styles [
+                "flat",
+              ]
+
+              action-name: "connection-custom-info-page.copy-root-systemd-unit-path";
+              icon-name: "edit-copy-symbolic";
+              tooltip-text: _("Copy to Clipboard");
+
+              accessibility {
+                label: _("Copy to Clipboard");
+              }
+            }
+          }
+
+          $GtkSourceView {
+            styles [
+              "card",
+              "frame",
+              "text-view",
+              "view",
+            ]
+
+            buffer: $GtkSourceBuffer root_systemd_unit_content_buffer {
+              highlight-matching-brackets: "False";
+              text: "[Unit]\nDescription=Podman TCP socket\nAfter=network.target\nStartLimitIntervalSec=0\n\n[Service]\nType=simple\nRestart=always\nRestartSec=1\nExecStart=/usr/bin/podman system service --time=0 tcp://0.0.0.0:37017\n\n[Install]\nWantedBy=multi-user.target";
+            };
+
+            background-pattern: "grid";
+            top-margin: "52";
+            right-margin: "9";
+            bottom-margin: "9";
+            left-margin: "9";
+            editable: "False";
+            monospace: "True";
+            wrap-mode: "word-char";
+          }
+
+          [overlay]
+          Button {
+            styles [
+              "circular",
+              "osd",
+            ]
+
+            halign: end;
+            valign: end;
+            margin-bottom: 6;
+            margin-end: 6;
+            action-name: "connection-custom-info-page.copy-root-systemd-unit-content";
+            icon-name: "edit-copy-symbolic";
+            tooltip-text: _("Copy to Clipboard");
+
+            accessibility {
+              label: _("Copy to Clipboard");
+            }
+          }
+        }
+
+        Label {
+          label: _("Enable the service by issuing the command:");
+          use-markup: true;
+          wrap: true;
+          wrap-mode: word_char;
+          xalign: 0;
+        }
+
+        Box {
+          styles [
+            "card",
+            "frame",
+            "linked",
+            "view",
+          ]
+
+          spacing: 12;
+          overflow: hidden;
+
+          Label {
+            styles [
+              "monospace",
+            ]
+
+            label: "$";
+            xalign: 0;
+            margin-start: 9;
+          }
+
+          Label root_socket_activation_command_label {
+            styles [
+              "monospace",
+            ]
+
+            label: "sudo systemctl enable --now podman-tcp.service";
+            selectable: true;
+            hexpand: true;
+            wrap: true;
+            wrap-mode: word_char;
+            xalign: 0;
+          }
+
+          Button {
+            styles [
+              "flat",
+            ]
+
+            action-name: "connection-custom-info-page.copy-root-socket-activation-command";
+            icon-name: "edit-copy-symbolic";
+            tooltip-text: _("Copy to Clipboard");
+
+            accessibility {
+              label: _("Copy to Clipboard");
+            }
+          }
+        }
+
+        Label {
+          label: _("Enter the following URL here into the text field and create the connection:");
+          use-markup: true;
+          wrap: true;
+          wrap-mode: word_char;
+          xalign: 0;
+        }
+
+        Box {
+          styles [
+            "card",
+            "frame",
+            "linked",
+            "view",
+          ]
+
+          spacing: 12;
+          overflow: hidden;
+
+          Label root_url_label {
+            styles [
+              "monospace",
+            ]
+
+            label: "tcp://127.0.0.1:37017";
+            selectable: true;
+            margin-start: 9;
+            hexpand: true;
+            wrap: true;
+            wrap-mode: word_char;
+            xalign: 0;
+          }
+
+          Button {
+            styles [
+              "flat",
+            ]
+
+            action-name: "connection-custom-info-page.copy-root-url";
+            icon-name: "edit-copy-symbolic";
+            tooltip-text: _("Copy to Clipboard");
+
+            accessibility {
+              label: _("Copy to Clipboard");
+            }
+          }
+        }
+      }
+    }
+  }
+}

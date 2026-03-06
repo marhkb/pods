@@ -1,0 +1,87 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsDateTimeRow: Adw.ExpanderRow {
+  title: _("Prune Until");
+  enable-expansion: false;
+  show-enable-switch: true;
+
+  [action]
+  Label prune_until_label {
+    styles [
+      "caption",
+      "dim-label",
+    ]
+
+    valign: center;
+    visible: bind template.enable-expansion;
+  }
+
+  Adw.PreferencesRow {
+    activatable: false;
+
+    Box date_time_box {
+      halign: center;
+      margin-bottom: 18;
+      margin-end: 3;
+      margin-start: 3;
+      margin-top: 18;
+      spacing: 18;
+      orientation: vertical;
+
+      Calendar calendar {
+        styles [
+          "card",
+        ]
+
+        overflow: hidden;
+      }
+
+      Box {
+        spacing: 6;
+        halign: center;
+        valign: center;
+
+        SpinButton hour_spin_button {
+          output => $on_spin_button_output();
+
+          adjustment: Adjustment hour_adjustment {
+            lower: 0;
+            page-increment: 4;
+            step-increment: 1;
+          };
+
+          wrap: true;
+        }
+
+        Label {
+          label: ":";
+        }
+
+        SpinButton minute_spin_button {
+          output => $on_spin_button_output();
+
+          adjustment: Adjustment {
+            lower: 0;
+            page-increment: 10;
+            step-increment: 1;
+            upper: 59;
+          };
+
+          wrap: true;
+        }
+
+        DropDown period_drop_down {
+          valign: center;
+
+          model: StringList {
+            strings [
+              _("AM"),
+              _("PM"),
+            ]
+          };
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,351 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    pull_button,
+    build_button,
+  ]
+}
+
+menu create-menu {
+  section {
+    item {
+      label: _("_Download");
+      action: "images-panel.pull-image";
+    }
+
+    item {
+      label: _("_Build");
+      action: "images-panel.build-image";
+    }
+  }
+}
+
+menu view-options-menu {
+  section {
+    label: "Sort";
+
+    item {
+      label: _("Name");
+      action: "images-panel.change-sort-attribute";
+      target: "name";
+    }
+
+    item {
+      label: _("Tag");
+      action: "images-panel.change-sort-attribute";
+      target: "tag";
+    }
+
+    item {
+      label: _("Containers");
+      action: "images-panel.change-sort-attribute";
+      target: "containers";
+    }
+  }
+}
+
+menu selection-menu {
+  item {
+    label: _("_Select Visible");
+    action: "images-panel.select-visible";
+  }
+
+  item {
+    label: _("Select None");
+    action: "images-panel.select-none";
+  }
+}
+
+MenuButton create_image_menu_button {
+  icon-name: "list-add-symbolic";
+  tooltip-text: _("Create Image");
+
+  accessibility {
+    label: _("Create Image");
+  }
+
+  menu-model: create-menu;
+}
+
+Button prune_button {
+  action-name: "images-panel.prune-unused-images";
+  icon-name: "eraser5-symbolic";
+  tooltip-text: _("Prune Unused Images");
+
+  accessibility {
+    label: _("Prune Unused Images");
+  }
+}
+
+Adw.SplitButton view_options_split_button {
+  action-name: "images-panel.toggle-sort-direction";
+  menu-model: view-options-menu;
+}
+
+template $PdsImagesPanel: Widget {
+  layout-manager: BinLayout {};
+
+  notify::collapsed => $on_notify_collapsed();
+  notify::sort-attribute => $on_notify_sort_attribute();
+
+  Stack main_stack {
+    StackPage {
+      name: "spinner";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Images");
+          };
+        }
+
+        Adw.Spinner {
+          halign: center;
+          valign: center;
+          height-request: 30;
+          width-request: 30;
+
+          accessibility {
+            label: _("Loading images");
+          }
+        }
+      };
+    }
+
+    StackPage {
+      name: "images";
+
+      child: Adw.ToolbarView toolbar_view {
+        [top]
+        Stack header_stack {
+          StackPage {
+            name: "main";
+
+            child: Adw.HeaderBar {
+              [start]
+              ToggleButton {
+                active: bind search_bar.search-mode-enabled bidirectional;
+                icon-name: "system-search-symbolic";
+                tooltip-text: _("Search");
+
+                accessibility {
+                  label: _("Search");
+                }
+              }
+
+              [start]
+              Adw.Bin create_image_menu_button_top_bin {}
+
+              [start]
+              Adw.Bin prune_button_top_bin {}
+
+              [title]
+              Adw.WindowTitle window_title {
+                title: _("Images");
+              }
+
+              [end]
+              Button {
+                action-name: "images-panel.enter-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Start Multi-Selection");
+
+                accessibility {
+                  label: _("Start Multi-Selection");
+                }
+              }
+
+              [end]
+              Adw.Bin view_options_split_button_top_bin {}
+            };
+          }
+
+          StackPage {
+            name: "selection";
+
+            child: Adw.HeaderBar {
+              [title]
+              MenuButton selected_images_button {
+                styles [
+                  "flat",
+                ]
+
+                can-shrink: true;
+                menu-model: selection-menu;
+
+                accessibility {
+                  label: _("Selected images");
+                }
+              }
+
+              [end]
+              ToggleButton {
+                active: true;
+                action-name: "images-panel.exit-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Exit Multi-Selection");
+
+                accessibility {
+                  label: _("Exit Multi-Selection");
+                }
+              }
+            };
+          }
+        }
+
+        [top]
+        SearchBar search_bar {
+          notify::search-mode-enabled => $on_notify_search_mode_enabled() swapped;
+
+          SearchEntry search_entry {
+            search-changed => $on_search_changed() swapped;
+            max-width-chars: 28;
+          }
+        }
+
+        Stack filter_stack {
+          StackPage {
+            name: "list";
+
+            child: Adw.PreferencesPage {
+              vexpand: true;
+
+              Adw.PreferencesGroup images_group {
+                ListBox list_box {
+                  styles [
+                    "boxed-list",
+                  ]
+
+                  selection-mode: none;
+                }
+              }
+            };
+          }
+
+          StackPage {
+            name: "empty";
+
+            child: Adw.StatusPage {
+              icon-name: "image-x-generic-symbolic";
+              title: _("No Matching Images");
+
+              Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "images-panel.show-all-images";
+                halign: center;
+                label: _("_Show All Images");
+                use-underline: true;
+              }
+            };
+          }
+        }
+
+        [bottom]
+        ActionBar {
+          revealed: bind template.image-list as <$ImageList>.selection-mode;
+
+          [center]
+          Button {
+            styles [
+              "destructive-action",
+              "pill",
+            ]
+
+            action-name: "images-panel.delete-selection";
+            label: _("Delete");
+            width-request: 200;
+            tooltip-text: _("Delete");
+            valign: center;
+
+            accessibility {
+              label: _("Delete selected images");
+            }
+          }
+        }
+
+        [bottom]
+        ActionBar overhang_action_bar {
+          [start]
+          Adw.Bin create_image_menu_button_bottom_bin {}
+
+          [start]
+          Adw.Bin prune_button_bottom_bin {}
+
+          [end]
+          Adw.Bin view_options_split_button_bottom_bin {}
+        }
+      };
+    }
+
+    StackPage {
+      name: "empty";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Images");
+          };
+        }
+
+        Adw.StatusPage {
+          icon-name: "image-x-generic-symbolic";
+          title: _("No Images Available");
+
+          Adw.BreakpointBin {
+            height-request: 1;
+            width-request: 336;
+
+            Adw.Breakpoint {
+              condition ("min-width: 500sp")
+
+              setters {
+                create_button_box.orientation: horizontal;
+              }
+            }
+
+            Box create_button_box {
+              orientation: vertical;
+              spacing: 18;
+              halign: center;
+
+              Button pull_button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "images-panel.pull-image";
+                can-shrink: true;
+                valign: center;
+                label: _("_Download Image");
+                use-underline: true;
+              }
+
+              Button build_button {
+                styles [
+                  "pill",
+                ]
+
+                action-name: "images-panel.build-image";
+                can-shrink: true;
+                valign: center;
+                label: _("_Build Image");
+                use-underline: true;
+              }
+            }
+          }
+        }
+      };
+    }
+  }
+}

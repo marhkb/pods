@@ -1,0 +1,61 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    create_button,
+  ]
+}
+
+template $PdsVolumeCreationPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.NavigationView navigation_view {
+    Adw.NavigationPage {
+      title: _("Preferences");
+
+      Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+
+          [start]
+          Button cancel_button {
+            action-name: "win.close";
+            label: _("_Cancel");
+            use-underline: true;
+          }
+
+          [title]
+          Adw.WindowTitle {
+            title: _("Create Volume");
+          }
+
+          [end]
+          Button create_button {
+            styles [
+              "suggested-action",
+            ]
+
+            action-name: "volume-creation-page.create-volume";
+            label: _("_Create");
+            use-underline: true;
+          }
+        }
+
+        Adw.PreferencesPage {
+          Adw.PreferencesGroup {
+            $PdsRandomNameEntryRow name_entry_row {
+              activates-default: "True";
+              title: _("Name");
+            }
+          }
+        }
+      }
+    }
+  }
+}

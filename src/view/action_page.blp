@@ -1,0 +1,119 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    abort_button,
+    view_artifact_button,
+  ]
+}
+
+template $PdsActionPage: Widget {
+  layout-manager: BinLayout {};
+
+  height-request: 450;
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      valign: start;
+      show-title: false;
+    }
+
+    Adw.StatusPage status_page {
+      styles [
+        "compact",
+      ]
+
+      margin-top: 12;
+
+      child: Box {
+        orientation: vertical;
+        spacing: 18;
+
+        Adw.Clamp {
+          margin-bottom: 9;
+
+          Adw.Clamp {
+            orientation: vertical;
+
+            child: Adw.Bin {
+              styles [
+                "card",
+                "text-box",
+              ]
+
+              overflow: hidden;
+
+              child: ScrolledWindow {
+                hscrollbar-policy: never;
+                hexpand: true;
+                vexpand: true;
+
+                TextView {
+                  styles [
+                    "text-view",
+                  ]
+
+                  buffer: bind template.action as <$Action>.output;
+                  top-margin: 12;
+                  bottom-margin: 12;
+                  left-margin: 12;
+                  right-margin: 12;
+                  cursor-visible: false;
+                  editable: false;
+                  monospace: true;
+                  wrap-mode: char;
+                }
+              };
+            };
+          }
+        }
+
+        Button abort_button {
+          styles [
+            "pill",
+            "destructive-action",
+          ]
+
+          action-name: "action-page.cancel";
+          halign: center;
+          label: _("_Abort");
+          use-underline: true;
+          visible: bind abort_button.sensitive;
+          width-request: 200;
+        }
+
+        Button view_artifact_button {
+          styles [
+            "pill",
+            "suggested-action",
+          ]
+
+          action-name: "action-page.view-artifact";
+          halign: center;
+          label: _("_View");
+          use-underline: true;
+          visible: bind view_artifact_button.sensitive;
+          width-request: 200;
+        }
+
+        Button retry_button {
+          styles [
+            "pill",
+            "suggested-action",
+          ]
+
+          action-name: "action-page.retry";
+          halign: center;
+          label: _("_Retry");
+          use-underline: true;
+          visible: bind retry_button.sensitive;
+          width-request: 200;
+        }
+      };
+    }
+  }
+}

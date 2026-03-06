@@ -1,0 +1,15 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsRandomNameEntryRow: Adw.EntryRow {
+  [suffix]
+  Button generate_button {
+    styles [
+      "flat",
+    ]
+
+    action-name: "random-name-entry-row.generate";
+    icon-name: "view-refresh-symbolic";
+    valign: center;
+  }
+}

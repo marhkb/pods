@@ -1,0 +1,64 @@
+using Gtk 4.0;
+
+menu menu {
+  section {
+    item {
+      label: _("_Create Container…");
+      action: "pod-menu-button.create-container";
+    }
+  }
+
+  section {
+    item {
+      label: _("_Start");
+      action: "pod-menu-button.start";
+      hidden-when: "action-disabled";
+    }
+
+    item {
+      label: _("S_top");
+      action: "pod-menu-button.stop";
+      hidden-when: "action-disabled";
+    }
+
+    item {
+      label: _("R_estart");
+      action: "pod-menu-button.restart";
+      hidden-when: "action-disabled";
+    }
+
+    item {
+      label: _("_Resume");
+      action: "pod-menu-button.resume";
+      hidden-when: "action-disabled";
+    }
+
+    item {
+      label: _("_Pause");
+      action: "pod-menu-button.pause";
+      hidden-when: "action-disabled";
+    }
+  }
+
+  section {
+    item {
+      label: _("_Delete");
+      action: "pod-menu-button.delete";
+      hidden-when: "action-disabled";
+    }
+  }
+}
+
+template $PdsPodMenuButton: Widget {
+  layout-manager: BinLayout {};
+
+  MenuButton menu_button {
+    icon-name: "view-more-symbolic";
+    menu-model: menu;
+    tooltip-text: _("Pod Actions");
+
+    accessibility {
+      label: _("Pod Actions");
+    }
+  }
+}

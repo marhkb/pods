@@ -1,0 +1,25 @@
+using Gtk 4.0;
+
+template $PdsContainersGridView: Widget {
+  layout-manager: BinLayout {};
+
+  ScrolledWindow {
+    FlowBox flow_box {
+      styles [
+        "not-activatable",
+      ]
+
+      column-spacing: 21;
+      halign: center;
+      homogeneous: true;
+      max-children-per-line: 5;
+      row-spacing: 21;
+      selection-mode: none;
+      valign: start;
+      margin-top: 30;
+      margin-bottom: 30;
+      margin-start: 36;
+      margin-end: 36;
+    }
+  }
+}

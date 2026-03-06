@@ -1,0 +1,100 @@
+using Gtk 4.0;
+
+template $PdsPodRow: ListBoxRow {
+  notify::pod => $on_notify_pod();
+  action-name: "pod-row.activate";
+
+  Box {
+    margin-top: 7;
+    margin-end: 12;
+    margin-bottom: 7;
+    margin-start: 10;
+
+    Revealer check_button_revealer {
+      transition-type: slide_right;
+
+      CheckButton check_button {
+        styles [
+          "selection-mode",
+        ]
+
+        margin-start: 2;
+        margin-end: 10;
+        valign: center;
+
+        accessibility {
+          label: _("Select pod");
+        }
+      }
+    }
+
+    Box {
+      spacing: 6;
+
+      $PdsSpinner spinner {
+        margin-end: "4";
+      }
+
+      Box {
+        hexpand: true;
+        valign: center;
+        orientation: vertical;
+        spacing: 3;
+
+        Label name_label {
+          use-markup: true;
+          wrap: true;
+          wrap-mode: word_char;
+          xalign: 0;
+        }
+
+        Label id_label {
+          styles [
+            "numeric",
+            "subtitle",
+          ]
+
+          use-markup: true;
+          wrap: true;
+          wrap-mode: word;
+          xalign: 0;
+        }
+
+        FlowBox ports_flow_box {
+          can-target: false;
+          column-spacing: 3;
+          row-spacing: 3;
+          margin-top: 6;
+          max-children-per-line: 96;
+          selection-mode: none;
+        }
+      }
+
+      $PdsContainersCountBar {
+        container-list: bind template.pod as <$Pod>.container-list;
+      }
+    }
+
+    Revealer end_box_revealer {
+      transition-type: slide_left;
+
+      Box {
+        margin-start: 6;
+        spacing: 3;
+
+        $PdsPodMenuButton menu_button {
+          styles [
+            "flat",
+          ]
+
+          pod: bind template.pod;
+          valign: "center";
+        }
+
+        Image {
+          icon-name: "go-next-symbolic";
+        }
+      }
+    }
+  }
+}

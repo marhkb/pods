@@ -1,0 +1,14 @@
+using Gtk 4.0;
+
+template $PdsSpinner: Widget {
+  styles [
+    "circle",
+  ]
+
+  halign: center;
+  valign: center;
+
+  Image image {
+    notify::icon-name => $on_image_notify_icon_name() swapped;
+  }
+}

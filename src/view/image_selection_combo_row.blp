@@ -1,0 +1,38 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsImageSelectionComboRow: Adw.ActionRow {
+  title: _("Local Image");
+
+  [suffix]
+  Button {
+    styles [
+      "flat",
+    ]
+
+    action-name: "container-creation-page.select-image";
+    icon-name: "computer-symbolic";
+    valign: center;
+    tooltip-text: _("Local Image");
+
+    accessibility {
+      label: _("Local Image");
+    }
+  }
+
+  [suffix]
+  Button {
+    styles [
+      "flat",
+    ]
+
+    action-name: "container-creation-page.search-image";
+    icon-name: "network-server-symbolic";
+    valign: center;
+    tooltip-text: _("Remote Image");
+
+    accessibility {
+      label: _("Remote Image");
+    }
+  }
+}

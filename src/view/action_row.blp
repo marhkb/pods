@@ -1,0 +1,48 @@
+using Gtk 4.0;
+
+template $PdsActionRow: Widget {
+  layout-manager: BoxLayout {
+    spacing: 6;
+  };
+
+  Image type_image {
+    name: "type";
+    valign: center;
+  }
+
+  Box {
+    orientation: vertical;
+    valign: center;
+
+    Label description_label {
+      ellipsize: end;
+      hexpand: true;
+      single-line-mode: true;
+      use-markup: true;
+      vexpand: true;
+      xalign: 0.0;
+    }
+
+    Label state_label {
+      styles [
+        "caption",
+      ]
+
+      ellipsize: end;
+      hexpand: true;
+      single-line-mode: true;
+      vexpand: true;
+      xalign: 0.0;
+    }
+  }
+
+  Button action_button {
+    styles [
+      "circular",
+    ]
+
+    name: "action";
+    action-name: "client-view.cancel-or-delete-action";
+    valign: center;
+  }
+}

@@ -1,0 +1,140 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsMountRow: Adw.ExpanderRow {
+  activatable: false;
+  selectable: false;
+
+  [prefix]
+  Box {
+    styles [
+      "rich-expander-row-header",
+      "title-4",
+    ]
+
+    spacing: 1;
+    valign: center;
+
+    Label type_label {
+      name: "badge";
+    }
+
+    Image {
+      icon-name: "arrow1-right-symbolic";
+      margin-end: 3;
+      margin-start: 6;
+    }
+
+    Label src_label {
+      name: "badge";
+    }
+
+    Label {
+      label: ":";
+    }
+
+    Label container_path_label {
+      name: "badge";
+    }
+
+    Label {
+      label: ":";
+    }
+
+    Label options_label {
+      name: "badge";
+    }
+  }
+
+  [action]
+  Button {
+    styles [
+      "flat",
+    ]
+
+    action-name: "mount-row.remove";
+    icon-name: "edit-delete-symbolic";
+    tooltip-text: _("Remove Mount");
+
+    accessibility {
+      label: _("Remove Mount");
+    }
+
+    valign: center;
+  }
+
+  $PdsPropertyWidgetRow mount_type_row {
+    key: _("Type");
+
+    widget: Box {
+      styles [
+        "linked",
+      ]
+
+      homogeneous: true;
+      valign: center;
+
+      ToggleButton mount_button {
+        label: _("Bind");
+      }
+
+      ToggleButton volume_button {
+        label: _("Volume");
+      }
+    };
+  }
+
+  Adw.EntryRow host_path_entry_row {
+    title: _("Host Path");
+  }
+
+  Adw.ActionRow volume_row {
+    title: _("Volume");
+    action-name: "mount-row.select-volume";
+    activatable: true;
+    use-markup: true;
+
+    [suffix]
+    Button clear_volume_button {
+      styles [
+        "flat",
+      ]
+
+      action-name: "mount-row.clear-volume";
+      icon-name: "edit-delete-symbolic";
+      tooltip-text: _("Clear Volume");
+
+      accessibility {
+        label: _("Clear Volume");
+      }
+
+      valign: center;
+      visible: bind clear_volume_button.sensitive;
+    }
+
+    [suffix]
+    Image {
+      icon-name: "go-next-symbolic";
+    }
+  }
+
+  Adw.EntryRow container_path_entry_row {
+    title: _("Container Path");
+  }
+
+  Adw.SwitchRow writable_switch_row {
+    title: _("Writable");
+  }
+
+  Adw.ComboRow selinux_combo_row {
+    title: _("SELinux");
+
+    model: StringList {
+      strings [
+        _("No label"),
+        _("Shared"),
+        _("Private"),
+      ]
+    };
+  }
+}

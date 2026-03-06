@@ -1,0 +1,97 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsConnectionRow: Widget {
+  layout-manager: BoxLayout {
+    spacing: 6;
+  };
+
+  Overlay overlay {
+    name: "selection-indicator";
+
+    Image image {
+      name: "background";
+      valign: center;
+    }
+
+    [overlay]
+    Image checkmark {
+      name: "checkmark";
+      halign: end;
+      valign: end;
+      icon-name: "success-small-symbolic";
+    }
+  }
+
+  Box {
+    orientation: vertical;
+    valign: center;
+
+    Label name_label {
+      label: bind template.connection as <$Connection>.name;
+      ellipsize: end;
+      hexpand: true;
+      single-line-mode: true;
+      vexpand: true;
+      xalign: 0.0;
+    }
+
+    Label url_label {
+      styles [
+        "caption",
+        "dim-label",
+      ]
+
+      ellipsize: end;
+      hexpand: true;
+      single-line-mode: true;
+      vexpand: true;
+      xalign: 0.0;
+    }
+  }
+
+  Adw.Bin color_bin {
+    name: "color";
+    valign: center;
+  }
+
+  Stack end_stack {
+    halign: end;
+    valign: center;
+
+    StackPage {
+      name: "delete";
+
+      child: Button delete_button {
+        styles [
+          "circular",
+        ]
+
+        name: "delete-button";
+        action-name: "win.remove-connection";
+        action-target: "''";
+        icon-name: "user-trash-symbolic";
+        tooltip-text: _("Delete");
+
+        accessibility {
+          label: _("Delete");
+        }
+
+        valign: center;
+        halign: center;
+      };
+    }
+
+    StackPage {
+      name: "connecting";
+
+      child: Adw.Spinner {
+        name: "connecting-spinner";
+        margin-top: 6;
+        margin-end: 6;
+        margin-bottom: 6;
+        margin-start: 6;
+      };
+    }
+  }
+}

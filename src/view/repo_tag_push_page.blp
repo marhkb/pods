@@ -1,0 +1,124 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    push_button,
+  ]
+}
+
+template $PdsRepoTagPushPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToastOverlay toast_overlay {
+    Adw.NavigationView navigation_view {
+      Adw.NavigationPage {
+        title: _("Preferences");
+
+        Adw.ToolbarView {
+          [top]
+          Adw.HeaderBar {
+            show-end-title-buttons: false;
+            show-start-title-buttons: false;
+
+            [start]
+            Button cancel_button {
+              action-name: "win.close";
+              label: _("_Cancel");
+              use-underline: true;
+            }
+
+            [title]
+            Adw.WindowTitle window_title {
+              title: _("Push Image");
+            }
+
+            [end]
+            Button push_button {
+              styles [
+                "suggested-action",
+              ]
+
+              action-name: "repo-tag-push-page.push";
+              label: _("_Push");
+              use-underline: true;
+            }
+          }
+
+          Adw.PreferencesPage {
+            Adw.PreferencesGroup {
+              title: _("Options");
+
+              Adw.SwitchRow tls_verify_switch_row {
+                title: _("TLS Verify");
+                subtitle: "Require TLS verification";
+              }
+            }
+
+            Adw.PreferencesGroup login_group {
+              title: _("Login");
+              description: _("Some registries require authentication");
+              sensitive: false;
+
+              header-suffix: Switch login_switch {
+                active: false;
+                valign: center;
+              };
+
+              $PdsPropertyWidgetRow {
+                sensitive: bind login_switch.active;
+                key: _("Authentication");
+
+                widget: Box {
+                  styles [
+                    "linked",
+                  ]
+
+                  homogeneous: true;
+                  valign: center;
+
+                  ToggleButton password_toggle_button {
+                    active: true;
+                    label: _("Password");
+                  }
+
+                  ToggleButton token_toggle_button {
+                    label: _("Token");
+                    group: password_toggle_button;
+                  }
+                };
+              }
+
+              Adw.EntryRow username_entry_row {
+                activates-default: true;
+                title: _("Username");
+                sensitive: bind login_switch.active;
+              }
+
+              Adw.PasswordEntryRow password_entry_row {
+                activates-default: true;
+                title: _("Password");
+                sensitive: bind login_switch.active;
+              }
+
+              Adw.PasswordEntryRow token_entry_row {
+                activates-default: true;
+                title: _("Token");
+                visible: false;
+                sensitive: bind login_switch.active;
+              }
+
+              Adw.SwitchRow save_credentials_switch_row {
+                title: _("Save Credentials");
+                sensitive: bind save_credentials_switch_row.active;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
