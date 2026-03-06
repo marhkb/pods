@@ -1,0 +1,25 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsPropertyRow: Adw.ActionRow {
+  notify::title => $on_notify_title() swapped;
+  notify::label => $on_notify_label() swapped;
+  notify::wrap-mode => $on_notify_wrap_mode() swapped;
+  activatable: false;
+
+  Label value_label {
+    styles [
+      "dim-label",
+    ]
+
+    hexpand: true;
+    justify: right;
+    margin-top: 3;
+    margin-bottom: 3;
+    margin-start: 9;
+    selectable: true;
+    wrap: true;
+    wrap-mode: word_char;
+    xalign: 1;
+  }
+}

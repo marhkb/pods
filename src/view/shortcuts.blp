@@ -1,0 +1,138 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.ShortcutsDialog shortcuts_dialog {
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "General");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Show Shortcuts");
+      action-name: "app.shortcuts";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Show menu");
+      accelerator: "F10";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Quit");
+      action-name: "app.quit";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Close window");
+      accelerator: "<ctrl>w";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Close dialog");
+      accelerator: "Escape";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Search");
+      accelerator: "<ctrl>f";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Navigation");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Go back");
+      accelerator: "<alt>Left";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Return to main view");
+      accelerator: "<alt>Home";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Container");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Rename");
+      accelerator: "F2";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Commit");
+      accelerator: "<ctrl>K";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Download files");
+      accelerator: "<ctrl>D";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Upload files");
+      accelerator: "<ctrl>U";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Text view");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Zoom in");
+      accelerator: "<ctrl>plus";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Zoom out");
+      accelerator: "<ctrl>minus";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Reset zoom");
+      accelerator: "<ctrl>0";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Terminal");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Zoom in");
+      accelerator: "<ctrl>plus";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Zoom out");
+      accelerator: "<ctrl>minus";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Reset zoom");
+      accelerator: "<ctrl>0";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Copy selection to\n              clipboard");
+      accelerator: "<ctrl><shift>C";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Paste from clipboard");
+      accelerator: "<ctrl><shift>V";
+    }
+  }
+
+  Adw.ShortcutsSection {
+    title: C_("shortcut window", "Podman");
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Add a new connection");
+      accelerator: "<ctrl><shift>N";
+    }
+
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Create a new entity");
+      accelerator: "<ctrl>N";
+    }
+  }
+}

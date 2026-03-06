@@ -1,0 +1,13 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerRenamer: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.PreferencesGroup {
+    $PdsRandomNameEntryRow entry_row {
+      activates-default: "True";
+      title: _("Name");
+    }
+  }
+}

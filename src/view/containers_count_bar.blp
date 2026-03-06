@@ -1,0 +1,61 @@
+using Gtk 4.0;
+
+template $PdsContainersCountBar: Widget {
+  layout-manager: BoxLayout {
+    spacing: 6;
+  };
+
+  Box dead_box {
+    styles [
+      "status-badge",
+      "container-status-dead",
+      "numeric",
+    ]
+
+    spacing: 4;
+    valign: center;
+
+    Label dead_label {}
+
+    Image {
+      icon-name: "package-x-generic-symbolic";
+      pixel-size: 14;
+    }
+  }
+
+  Box not_running_box {
+    styles [
+      "status-badge",
+      "container-status-not-running",
+      "numeric",
+    ]
+
+    spacing: 4;
+    valign: center;
+
+    Label not_running_label {}
+
+    Image {
+      icon-name: "package-x-generic-symbolic";
+      pixel-size: 14;
+    }
+  }
+
+  Box running_box {
+    styles [
+      "status-badge",
+      "container-status-running",
+      "numeric",
+    ]
+
+    spacing: 4;
+    valign: center;
+
+    Label running_label {}
+
+    Image {
+      icon-name: "package-x-generic-symbolic";
+      pixel-size: 14;
+    }
+  }
+}

@@ -1,0 +1,81 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsVolumeDetailsPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [title]
+      Adw.WindowTitle window_title {
+        title: _("Volume");
+      }
+    }
+
+    Adw.PreferencesPage {
+      Adw.PreferencesGroup {
+        title: _("Properties");
+
+        header-suffix: Button {
+          styles [
+            "circular",
+            "destructive-button",
+          ]
+
+          action-name: "volume-details-page.delete-volume";
+          icon-name: "user-trash-symbolic";
+          margin-bottom: 6;
+          tooltip-text: _("Delete Volume");
+
+          accessibility {
+            label: _("Delete Volume");
+          }
+        };
+
+        $PdsPropertyRow name_row {
+          key: _("Name");
+        }
+
+        $PdsPropertyRow driver_row {
+          key: _("Driver");
+        }
+
+        $PdsPropertyRow created_row {
+          key: _("Created");
+        }
+
+        $PdsPropertyRow mountpoint_row {
+          key: _("Mount Path");
+        }
+      }
+
+      Adw.PreferencesGroup {
+        title: _("Utilities");
+
+        Adw.ActionRow {
+          title: _("Inspection");
+          subtitle: _("View all volume properties in a structured text form");
+          activatable: true;
+          action-name: "volume-details-page.inspect-volume";
+          icon-name: "system-search-symbolic";
+
+          Image {
+            icon-name: "go-next-symbolic";
+          }
+        }
+      }
+
+      $PdsContainersGroup {
+        container-list: bind template.volume as <$Volume>.container-list;
+        title: _("Containers");
+
+        header-suffix: Adw.Spinner {
+          height-request: 21;
+          width-request: 21;
+          visible: bind template.volume as <$Volume>.searching-containers;
+        };
+      }
+    }
+  }
+}

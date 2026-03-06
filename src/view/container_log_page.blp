@@ -1,0 +1,210 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu menu {
+  section {
+    item {
+      custom: "zoom-control";
+    }
+  }
+
+  section {
+    item {
+      label: _("_Save as File");
+      action: "container-log-page.save-to-file";
+    }
+  }
+
+  section {
+    item {
+      label: _("Show _Timestamps");
+      action: "container-log-page.show-timestamps";
+    }
+  }
+}
+
+$PdsZoomControl zoom_control {
+  zoom-out-action-name: "container-log-page.zoom-out";
+  zoom-normal-action-name: "container-log-page.zoom-normal";
+  zoom-in-action-name: "container-log-page.zoom-in";
+  zoom-factor: bind scalable_text_view.font-scale;
+}
+
+$GtkSourceGutterRendererText timestamps_renderer {
+  query-data => $on_timestamps_renderer_query_data() swapped;
+  notify::visible => $on_timestamps_renderer_notify_visible() swapped;
+  margin-end: "6";
+}
+
+template $PdsContainerLogPage: Widget {
+  layout-manager: BinLayout {};
+
+  EventControllerScroll {
+    scroll => $on_scroll() swapped;
+    flags: vertical;
+    propagation-phase: capture;
+  }
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [start]
+      ToggleButton search_button {
+        active: bind search_bar.search-mode-enabled bidirectional;
+        icon-name: "system-search-symbolic";
+        tooltip-text: _("Search");
+
+        accessibility {
+          label: _("Search");
+        }
+      }
+
+      [title]
+      Adw.WindowTitle {
+        title: _("Container Logs");
+        subtitle: bind template.container as <$Container>.name;
+      }
+
+      [end]
+      MenuButton menu_button {
+        icon-name: "view-more-symbolic";
+        menu-model: menu;
+        tooltip-text: _("Menu");
+
+        accessibility {
+          label: _("Menu");
+        }
+      }
+    }
+
+    [top]
+    SearchBar search_bar {
+      notify::search-mode-enabled => $on_search_bar_search_mode_enabled() swapped;
+
+      child: $PdsSourceViewSearchWidget search_widget {
+        source-view: "scalable_text_view";
+      };
+    }
+
+    Box {
+      orientation: vertical;
+
+      Adw.Banner banner {
+        action-name: "container-log-page.start-container";
+        button-label: _("Start/Resume Container");
+        title: _("Streaming is disconnected because container is not running");
+
+        accessibility {
+          label: _("Log streaming disconnected");
+          description: _("Container logs are unavailable until the container is running");
+        }
+      }
+
+      Stack stack {
+        Adw.Spinner {
+          halign: center;
+          valign: center;
+          height-request: 30;
+          width-request: 30;
+
+          accessibility {
+            label: _("Loading logs");
+          }
+        }
+
+        StackPage {
+          name: "loaded";
+
+          child: Box {
+            orientation: vertical;
+
+            Revealer lines_loading_revealer {
+              reveal-child: false;
+              transition-type: slide_down;
+
+              accessibility {
+                label: _("Loading previous log lines");
+              }
+
+              Box {
+                margin-bottom: 12;
+                margin-top: 12;
+                halign: center;
+                valign: center;
+                spacing: 6;
+
+                Adw.Spinner {}
+
+                Label {
+                  label: _("Loading previous lines");
+                }
+              }
+            }
+
+            Overlay {
+              [overlay]
+              Revealer {
+                halign: end;
+                margin-bottom: 18;
+                margin-end: 18;
+                reveal-child: bind template.sticky inverted;
+                transition-type: crossfade;
+                valign: end;
+
+                Button {
+                  action-name: "container-log-page.scroll-down";
+                  halign: center;
+                  icon-name: "go-bottom-symbolic";
+                  tooltip-text: _("Scroll to Bottom");
+                  valign: end;
+
+                  accessibility {
+                    label: _("Scroll to Bottom");
+                  }
+
+                  styles [
+                    "osd",
+                    "circular",
+                  ]
+                }
+              }
+
+              ScrolledWindow scrolled_window {
+                hscrollbar-policy: never;
+                vexpand: true;
+
+                $PdsScalableTextView scalable_text_view {
+                  styles [
+                    "text-view",
+                  ]
+
+                  buffer: $GtkSourceBuffer source_buffer {
+                    cursor-moved => $on_source_buffer_cursor_moved() swapped;
+                    highlight-matching-brackets: "False";
+                  };
+
+                  top-margin: "12";
+                  bottom-margin: "12";
+                  right-margin: "12";
+                  cursor-visible: "False";
+                  editable: "False";
+                  highlight-current-line: "True";
+                  monospace: "True";
+                  show-line-numbers: "True";
+                  wrap-mode: "char";
+
+                  accessibility {
+                    label: _("Container log output");
+                    description: _(
+                      "Use Control+F to search logs. Press Escape to close search. Use Control+Plus, Control+Minus, and Control+0 to adjust zoom."
+                    );
+                  }
+                }
+              }
+            }
+          };
+        }
+      }
+    }
+  }
+}

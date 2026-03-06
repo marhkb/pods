@@ -1,0 +1,74 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsWelcomePage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-title: false;
+
+      [end]
+      $PdsMainMenuButton {}
+    }
+
+    ScrolledWindow {
+      hscrollbar-policy: never;
+      propagate-natural-height: true;
+
+      child: Box {
+        vexpand: true;
+        orientation: vertical;
+        valign: center;
+        spacing: 12;
+        margin-bottom: 24;
+        margin-start: 24;
+        margin-end: 24;
+
+        Adw.Clamp {
+          orientation: horizontal;
+          maximum-size: 450;
+          tightening-threshold: 450;
+          margin-bottom: 18;
+
+          child: Picture {
+            file: "resource:///com/github/marhkb/Pods/assets/welcome.svg";
+            height-request: 150;
+          };
+        }
+
+        Label {
+          styles [
+            "title-1",
+          ]
+
+          label: _("Welcome to Pods");
+          justify: center;
+          wrap: true;
+          wrap-mode: word_char;
+        }
+
+        Label {
+          label: _("Create a new connection to Podman to get started");
+          justify: center;
+          wrap: true;
+          wrap-mode: word_char;
+        }
+
+        Button {
+          styles [
+            "pill",
+            "suggested-action",
+          ]
+
+          action-name: "win.create-connection";
+          label: _("_New Connection");
+          halign: center;
+          margin-top: 24;
+          use-underline: true;
+        }
+      };
+    }
+  }
+}

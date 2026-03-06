@@ -1,0 +1,55 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu menu {
+  item {
+    custom: "zoom-control";
+  }
+}
+
+$PdsZoomControl zoom_control {
+  zoom-in-action-name: "container-terminal-page.zoom-in";
+  zoom-normal-action-name: "container-terminal-page.zoom-normal";
+  zoom-out-action-name: "container-terminal-page.zoom-out";
+  zoom-factor: bind terminal.font-scale;
+}
+
+template $PdsContainerTerminalPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView toolbar_view {
+    [top]
+    Adw.HeaderBar {
+      [start]
+      Button detach_button {
+        action-name: "container-terminal-page.pip-out";
+        icon-name: "pip-out-symbolic";
+        tooltip-text: _("Detach Terminal");
+
+        accessibility {
+          label: _("Detach Terminal");
+        }
+
+        visible: bind detach_button.sensitive;
+      }
+
+      [title]
+      Adw.WindowTitle {
+        title: _("Container Terminal");
+        subtitle: bind template.container as <$Container>.name;
+      }
+
+      [end]
+      MenuButton menu_button {
+        icon-name: "view-more-symbolic";
+        menu-model: menu;
+      }
+    }
+
+    $PdsContainerTerminal terminal {
+      terminated => $on_terminal_terminated() swapped;
+      vexpand: "True";
+      container: bind template.container;
+    }
+  }
+}

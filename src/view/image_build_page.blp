@@ -1,0 +1,142 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    build_button,
+  ]
+}
+
+template $PdsImageBuildPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.NavigationView navigation_view {
+    Adw.NavigationPage {
+      title: _("Preferences");
+
+      Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+
+          [start]
+          Button cancel_button {
+            action-name: "win.close";
+            label: _("_Cancel");
+            use-underline: true;
+          }
+
+          [title]
+          Adw.WindowTitle {
+            title: _("Build Image");
+          }
+
+          [end]
+          Button build_button {
+            styles [
+              "suggested-action",
+            ]
+
+            action-name: "image-build-page.build-image";
+            label: _("_Build");
+            use-underline: true;
+          }
+        }
+
+        Adw.PreferencesPage {
+          Adw.PreferencesGroup {
+            Adw.EntryRow tag_entry_row {
+              changed => $trigger_opts_changed() swapped;
+              activates-default: true;
+              title: _("Image Name");
+            }
+          }
+
+          Adw.PreferencesGroup {
+            Adw.ToggleGroup {
+              active-name: bind stack.visible-child-name bidirectional;
+              homogeneous: true;
+              margin-top: 12;
+
+              styles [
+                "round",
+              ]
+
+              Adw.Toggle {
+                name: "details";
+                icon-name: "build-configure-symbolic";
+                label: _("Details");
+              }
+
+              Adw.Toggle {
+                name: "integration";
+                icon-name: "puzzle-piece-symbolic";
+                label: _("Integration");
+              }
+            }
+          }
+
+          Adw.PreferencesGroup {
+            Adw.ViewStack stack {
+              vhomogeneous: false;
+
+              Adw.ViewStackPage {
+                name: "details";
+                title: _("Details");
+
+                child: Box {
+                  orientation: vertical;
+                  spacing: 18;
+
+                  Adw.PreferencesGroup {
+                    Adw.ActionRow context_dir_row {
+                      notify::subtitle => $trigger_opts_changed() swapped;
+                      activatable-widget: open_context_dir_button;
+                      title: _("Build Context Directory");
+
+                      [suffix]
+                      Button open_context_dir_button {
+                        action-name: "image-build-page.select-context-dir";
+                        label: _("Select…");
+                        valign: center;
+                      }
+                    }
+
+                    Adw.EntryRow container_file_path_entry_row {
+                      activates-default: true;
+                      title: _("Containerfile Path Relative to Build Context Directory");
+                    }
+                  }
+                };
+              }
+
+              Adw.ViewStackPage {
+                name: "integration";
+                title: _("Integration");
+
+                child: Box {
+                  orientation: vertical;
+                  spacing: 18;
+
+                  Adw.PreferencesGroup {
+                    title: _("Labels");
+
+                    ListBox labels_list_box {
+                      styles [
+                        "boxed-list",
+                      ]
+                    }
+                  }
+                };
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

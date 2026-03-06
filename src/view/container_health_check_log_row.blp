@@ -1,0 +1,36 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerHealthCheckLogRow: Adw.ExpanderRow {
+  [prefix]
+  Image exit_code_image {}
+
+  Adw.PreferencesRow {
+    activatable: false;
+
+    ScrolledWindow {
+      height-request: 100;
+      max-content-height: 300;
+      propagate-natural-height: true;
+
+      TextView output_text_view {
+        styles [
+          "text-view",
+        ]
+
+        buffer: TextBuffer output_text_buffer {};
+
+        cursor-visible: false;
+        editable: false;
+        monospace: true;
+      }
+    }
+  }
+
+  [action]
+  Label start_label {
+    styles [
+      "dim-label",
+    ]
+  }
+}

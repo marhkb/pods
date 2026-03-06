@@ -1,0 +1,69 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsActionsSidebar: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
+      title-widget: Adw.WindowTitle {
+        title: _("Actions");
+      };
+
+      [end]
+      Button clear_all_button {
+        action-name: "actions-overview.clear-actions";
+        icon-name: "edit-clear-all-symbolic";
+        tooltip-text: _("Clear Finished Actions");
+
+        accessibility {
+          label: _("Clear Finished Actions");
+        }
+
+        visible: bind clear_all_button.sensitive;
+      }
+    }
+
+    Stack stack {
+      StackPage {
+        name: "empty";
+
+        child: Adw.StatusPage {
+          styles [
+            "compact",
+          ]
+
+          icon-name: "action-unavailable-symbolic";
+          title: _("No Actions");
+        };
+      }
+
+      StackPage {
+        name: "actions";
+
+        child: ScrolledWindow {
+          ListView action_list_view {
+            styles [
+              "navigation-sidebar",
+            ]
+
+            activate => $activated() swapped;
+            single-click-activate: true;
+
+            factory: BuilderListItemFactory {
+              template ListItem {
+                child: $PdsActionRow {
+                  action: bind template.item as <$PdsActionRow>;
+                };
+              }
+            };
+          }
+        };
+      }
+    }
+  }
+}

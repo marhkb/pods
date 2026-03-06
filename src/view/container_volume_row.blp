@@ -1,0 +1,46 @@
+using Gtk 4.0;
+
+template $PdsContainerVolumeRow: ListBoxRow {
+  action-name: "container-volume-row.show-details";
+
+  Box {
+    margin-top: 7;
+    margin-end: 12;
+    margin-bottom: 7;
+    margin-start: 12;
+    spacing: 9;
+
+    Box {
+      spacing: 6;
+
+      Box {
+        hexpand: true;
+        valign: center;
+        orientation: vertical;
+        spacing: 3;
+
+        Label name_label {
+          use-markup: true;
+          xalign: 0;
+          yalign: 0;
+        }
+
+        Label path_label {
+          styles [
+            "caption",
+          ]
+
+          wrap: true;
+          wrap-mode: word;
+          xalign: 0;
+        }
+      }
+
+      $PdsContainersCountBar containers_count_bar {}
+    }
+
+    Image {
+      icon-name: "go-next-symbolic";
+    }
+  }
+}

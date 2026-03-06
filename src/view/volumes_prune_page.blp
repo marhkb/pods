@@ -1,0 +1,64 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    prune_button,
+  ]
+}
+
+template $PdsVolumesPrunePage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.NavigationView navigation_view {
+    Adw.NavigationPage {
+      title: _("Preferences");
+
+      Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+
+          [start]
+          Button cancel_button {
+            action-name: "win.close";
+            label: _("_Cancel");
+            use-underline: true;
+          }
+
+          [title]
+          Adw.WindowTitle {
+            title: _("Prune Volumes");
+          }
+
+          [end]
+          Button prune_button {
+            styles [
+              "destructive-action",
+            ]
+
+            action-name: "volumes-prune-page.prune";
+            label: _("_Prune");
+            use-underline: true;
+          }
+        }
+
+        Adw.PreferencesPage {
+          vexpand: true;
+
+          Adw.PreferencesGroup {
+            title: _("Prune Options");
+
+            $PdsDateTimeRow prune_until_row {
+              subtitle: _("Prune volumes created before this timestamp");
+            }
+          }
+        }
+      }
+    }
+  }
+}

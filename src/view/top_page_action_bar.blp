@@ -1,0 +1,20 @@
+using Gtk 4.0;
+
+ActionBar action_bar {
+  styles [
+    "view",
+  ]
+
+  [center]
+  Button {
+    styles [
+      "destructive-action",
+      "pill",
+      "raised",
+    ]
+
+    action-name: "top-page.kill";
+    label: _("Kill");
+    valign: center;
+  }
+}

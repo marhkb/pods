@@ -1,0 +1,37 @@
+using Gtk 4.0;
+
+template $PdsZoomControl: Widget {
+  layout-manager: BoxLayout {
+    spacing: 3;
+  };
+
+  margin-start: 6;
+  margin-end: 6;
+
+  Button zoom_out_button {
+    styles [
+      "circular",
+      "flat",
+    ]
+
+    icon-name: "zoom-out-symbolic";
+  }
+
+  Button zoom_normal_button {
+    styles [
+      "flat",
+    ]
+
+    icon-name: "zoom-original-symbolic";
+    width-request: 80;
+  }
+
+  Button zoom_in_button {
+    styles [
+      "circular",
+      "flat",
+    ]
+
+    icon-name: "zoom-in-symbolic";
+  }
+}

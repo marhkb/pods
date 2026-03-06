@@ -1,0 +1,29 @@
+using Gtk 4.0;
+
+menu menu {
+  item {
+    label: _("_Create Container…");
+    action: "image-menu-button.create-container";
+    hidden-when: "action-disabled";
+  }
+
+  item {
+    label: _("Delete");
+    action: "image-menu-button.delete-image";
+    hidden-when: "action-disabled";
+  }
+}
+
+template $PdsImageMenuButton: Widget {
+  layout-manager: BinLayout {};
+
+  MenuButton menu_button {
+    icon-name: "view-more-symbolic";
+    menu-model: menu;
+    tooltip-text: _("Image Actions");
+
+    accessibility {
+      label: _("Image Actions");
+    }
+  }
+}

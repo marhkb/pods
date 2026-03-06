@@ -1,0 +1,71 @@
+using Gtk 4.0;
+
+template $PdsImageSearchResponseRow: Widget {
+  layout-manager: BoxLayout {
+    spacing: 12;
+  };
+
+  hexpand: true;
+  margin-bottom: 9;
+  margin-end: 18;
+  margin-start: 18;
+  margin-top: 9;
+
+  Box {
+    orientation: vertical;
+    spacing: 1;
+    hexpand: true;
+
+    Box {
+      spacing: 3;
+
+      Label name_label {
+        use-markup: true;
+        wrap: true;
+        wrap-mode: word;
+        xalign: 0;
+      }
+
+      Image official_icon {
+        styles [
+          "accent",
+        ]
+
+        icon-name: "verified-checkmark-symbolic";
+        tooltip-text: _("Official");
+      }
+    }
+
+    Label description_label {
+      styles [
+        "dim-label",
+      ]
+
+      ellipsize: end;
+      lines: 3;
+      wrap: true;
+      wrap-mode: word;
+      xalign: 0;
+    }
+  }
+
+  Box stars_box {
+    styles [
+      "star",
+    ]
+
+    spacing: 6;
+    halign: end;
+    valign: center;
+
+    Label stars_label {
+      css-name: "count";
+      valign: end;
+    }
+
+    Image {
+      css-name: "icon";
+      icon-name: "starred-symbolic";
+    }
+  }
+}

@@ -1,0 +1,406 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu view-options-menu {
+  section {
+    label: "Sort";
+
+    item {
+      label: _("Name");
+      action: "containers-panel.change-sort-attribute";
+      target: "name";
+    }
+
+    item {
+      label: _("Image");
+      action: "containers-panel.change-sort-attribute";
+      target: "image";
+    }
+  }
+
+  section {
+    item {
+      label: _("_Show Running First");
+      action: "containers-panel.toggle-show-running-containers-first";
+    }
+  }
+}
+
+menu selection-menu {
+  item {
+    label: _("_Select Visible");
+    action: "containers-panel.select-visible";
+  }
+
+  item {
+    label: _("Select None");
+    action: "containers-panel.select-none";
+  }
+}
+
+Button create_container_button {
+  action-name: "containers-panel.create-container";
+  icon-name: "list-add-symbolic";
+  tooltip-text: _("Create Container");
+
+  accessibility {
+    label: _("Create Container");
+  }
+}
+
+Button prune_button {
+  action-name: "containers-panel.prune-unused-containers";
+  icon-name: "eraser5-symbolic";
+  tooltip-text: _("Prune Stopped Containers");
+
+  accessibility {
+    label: _("Prune Stopped Containers");
+  }
+}
+
+Button view_button {
+  action-name: "containers-panel.toggle-containers-view";
+}
+
+Adw.SplitButton view_options_split_button {
+  action-name: "containers-panel.toggle-sort-direction";
+  menu-model: view-options-menu;
+}
+
+template $PdsContainersPanel: Widget {
+  layout-manager: BinLayout {};
+
+  notify::collapsed => $on_notify_collapsed();
+  notify::sort-attribute => $on_notify_sort_attribute();
+  notify::show-running-containers-first => $on_notify_show_running_containers_first();
+
+  Stack main_stack {
+    StackPage {
+      name: "spinner";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Containers");
+          };
+        }
+
+        Adw.Spinner {
+          halign: center;
+          valign: center;
+          height-request: 30;
+          width-request: 30;
+
+          accessibility {
+            label: _("Loading containers");
+          }
+        }
+      };
+    }
+
+    StackPage {
+      name: "containers";
+
+      child: Adw.ToolbarView toolbar_view {
+        [top]
+        Stack header_stack {
+          StackPage {
+            name: "main";
+
+            child: Adw.HeaderBar {
+              [start]
+              ToggleButton {
+                active: bind search_bar.search-mode-enabled bidirectional;
+                icon-name: "system-search-symbolic";
+                tooltip-text: _("Search");
+
+                accessibility {
+                  label: _("Search");
+                }
+              }
+
+              [start]
+              Adw.Bin create_container_button_top_bin {}
+
+              [start]
+              Adw.Bin prune_button_top_bin {}
+
+              [title]
+              Adw.WindowTitle window_title {
+                title: _("Containers");
+              }
+
+              [end]
+              Button {
+                action-name: "containers-panel.enter-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Start Multi-Selection");
+
+                accessibility {
+                  label: _("Start Multi-Selection");
+                }
+              }
+
+              [end]
+              Adw.Bin view_options_split_button_top_bin {}
+
+              [end]
+              Adw.Bin view_button_top_bin {}
+            };
+          }
+
+          StackPage {
+            name: "selection";
+
+            child: Adw.HeaderBar {
+              [title]
+              MenuButton selected_containers_button {
+                styles [
+                  "flat",
+                ]
+
+                can-shrink: true;
+                menu-model: selection-menu;
+
+                accessibility {
+                  label: _("Selected containers");
+                }
+              }
+
+              [end]
+              ToggleButton {
+                active: true;
+                action-name: "containers-panel.exit-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Exit Multi-Selection");
+
+                accessibility {
+                  label: _("Exit Multi-Selection");
+                }
+              }
+            };
+          }
+        }
+
+        [top]
+        SearchBar search_bar {
+          notify::search-mode-enabled => $on_notify_search_mode_enabled() swapped;
+
+          SearchEntry search_entry {
+            search-changed => $on_search_changed() swapped;
+            max-width-chars: 28;
+          }
+        }
+
+        Stack filter_stack {
+          StackPage {
+            name: "containers";
+
+            child: Adw.Bin containers_view_bin {};
+          }
+
+          StackPage {
+            name: "empty";
+
+            child: Adw.StatusPage {
+              icon-name: "package-x-generic-symbolic";
+              title: _("No Matching Containers");
+
+              Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "containers-panel.show-all-containers";
+                halign: center;
+                label: _("_Show All Containers");
+                use-underline: true;
+              }
+            };
+          }
+        }
+
+        [bottom]
+        ActionBar {
+          revealed: bind template.container-list as <$ContainerList>.selection-mode;
+
+          [center]
+          Adw.Clamp {
+            maximum-size: 400;
+            tightening-threshold: 300;
+
+            CenterBox {
+              hexpand: true;
+
+              start-widget: Button {
+                styles [
+                  "circular",
+                  "raised",
+                ]
+
+                action-name: "containers-panel.kill-selection";
+                icon-name: "skull-symbolic";
+                tooltip-text: _("Kill");
+
+                accessibility {
+                  label: _("Kill");
+                }
+
+                valign: center;
+              };
+
+              center-widget: Box {
+                halign: center;
+                hexpand: true;
+                spacing: 12;
+
+                Button {
+                  styles [
+                    "circular",
+                    "raised",
+                  ]
+
+                  action-name: "containers-panel.restart-selection";
+                  icon-name: "view-refresh-symbolic";
+                  tooltip-text: _("Restart");
+
+                  accessibility {
+                    label: _("Restart");
+                  }
+
+                  valign: center;
+                }
+
+                Box {
+                  styles [
+                    "linked",
+                  ]
+
+                  Button start_or_resume_button {
+                    styles [
+                      "circular",
+                      "medium",
+                    ]
+
+                    action-name: "containers-panel.start-or-resume-selection";
+                    tooltip-text: _("Start/Resume");
+                    valign: center;
+
+                    accessibility {
+                      label: _("Start or resume selected containers");
+                    }
+
+                    Image {
+                      icon-name: "media-playback-start-symbolic";
+                    }
+                  }
+
+                  Button stop_button {
+                    styles [
+                      "circular",
+                      "medium",
+                    ]
+
+                    action-name: "containers-panel.stop-selection";
+                    tooltip-text: _("Stop");
+                    valign: center;
+
+                    accessibility {
+                      label: _("Stop selected containers");
+                    }
+
+                    Image {
+                      icon-name: "media-playback-stop-symbolic";
+                    }
+                  }
+                }
+
+                Button {
+                  styles [
+                    "circular",
+                    "raised",
+                  ]
+
+                  action-name: "containers-panel.pause-selection";
+                  icon-name: "media-playback-pause-symbolic";
+                  tooltip-text: _("Pause");
+
+                  accessibility {
+                    label: _("Pause");
+                  }
+
+                  valign: center;
+                }
+              };
+
+              end-widget: Button {
+                styles [
+                  "circular",
+                  "destructive-button",
+                  "raised",
+                ]
+
+                action-name: "containers-panel.delete-selection";
+                icon-name: "user-trash-symbolic";
+                tooltip-text: _("Delete");
+
+                accessibility {
+                  label: _("Delete");
+                }
+
+                valign: center;
+              };
+            }
+          }
+        }
+
+        [bottom]
+        ActionBar overhang_action_bar {
+          [start]
+          Adw.Bin create_container_button_bottom_bin {}
+
+          [start]
+          Adw.Bin prune_button_bottom_bin {}
+
+          [end]
+          Adw.Bin view_options_split_button_bottom_bin {}
+
+          [end]
+          Adw.Bin view_button_bottom_bin {}
+        }
+      };
+    }
+
+    StackPage {
+      name: "empty";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Containers");
+          };
+        }
+
+        Adw.StatusPage {
+          icon-name: "package-x-generic-symbolic";
+          title: _("No Containers Available");
+
+          Button {
+            styles [
+              "pill",
+              "suggested-action",
+            ]
+
+            action-name: "containers-panel.create-container";
+            halign: center;
+            label: _("_Create Container");
+            use-underline: true;
+          }
+        }
+      };
+    }
+  }
+}

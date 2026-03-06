@@ -1,0 +1,35 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsImageHistoryPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [title]
+      Adw.WindowTitle window_title {
+        title: _("Image History");
+      }
+    }
+
+    Stack stack {
+      Adw.Spinner spinner {
+        halign: center;
+        valign: center;
+        height-request: 30;
+        width-request: 30;
+      }
+
+      StackPage {
+        name: "loaded";
+
+        child: Adw.PreferencesPage {
+          Adw.PreferencesGroup preferences_group {
+            title: _("History List");
+          }
+        };
+      }
+    }
+  }
+}

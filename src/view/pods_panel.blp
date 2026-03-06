@@ -1,0 +1,408 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu view-options-menu {
+  section {
+    label: "Sort";
+
+    item {
+      label: _("Name");
+      action: "pods-panel.change-sort-attribute";
+      target: "name";
+    }
+
+    item {
+      label: _("Containers");
+      action: "pods-panel.change-sort-attribute";
+      target: "containers";
+    }
+  }
+
+  section {
+    item {
+      label: _("_Show Running First");
+      action: "pods-panel.toggle-show-running-pods-first";
+    }
+  }
+}
+
+menu selection-menu {
+  item {
+    label: _("_Select Visible");
+    action: "pods-panel.select-visible";
+  }
+
+  item {
+    label: _("Select None");
+    action: "pods-panel.select-none";
+  }
+}
+
+Button create_pod_button {
+  action-name: "pods-panel.create-pod";
+  icon-name: "list-add-symbolic";
+  tooltip-text: _("Create Pod");
+
+  accessibility {
+    label: _("Create Pod");
+  }
+}
+
+Button prune_button {
+  action-name: "pods-panel.prune-pods";
+  icon-name: "eraser5-symbolic";
+  tooltip-text: _("Prune Stopped Pods");
+
+  accessibility {
+    label: _("Prune Stopped Pods");
+  }
+}
+
+Adw.SplitButton view_options_split_button {
+  action-name: "pods-panel.toggle-sort-direction";
+  menu-model: view-options-menu;
+}
+
+template $PdsPodsPanel: Widget {
+  layout-manager: BinLayout {};
+
+  notify::collapsed => $on_notify_collapsed();
+  notify::sort-attribute => $on_notify_sort_attribute();
+  notify::show-running-pods-first => $on_notify_show_running_pods_first();
+
+  Stack main_stack {
+    StackPage {
+      name: "spinner";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Pods");
+          };
+        }
+
+        Adw.Spinner {
+          halign: center;
+          valign: center;
+          height-request: 30;
+          width-request: 30;
+
+          accessibility {
+            label: _("Loading pods");
+          }
+        }
+      };
+    }
+
+    StackPage {
+      name: "pods";
+
+      child: Adw.ToolbarView toolbar_view {
+        [top]
+        Stack header_stack {
+          StackPage {
+            name: "main";
+
+            child: Adw.HeaderBar {
+              [start]
+              ToggleButton {
+                active: bind search_bar.search-mode-enabled bidirectional;
+                icon-name: "system-search-symbolic";
+                tooltip-text: _("Search");
+
+                accessibility {
+                  label: _("Search");
+                }
+              }
+
+              [start]
+              Adw.Bin create_pod_button_top_bin {}
+
+              [start]
+              Adw.Bin prune_button_top_bin {}
+
+              [title]
+              Adw.WindowTitle window_title {
+                title: _("Pods");
+              }
+
+              [end]
+              Button {
+                action-name: "pods-panel.enter-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Start Multi-Selection");
+
+                accessibility {
+                  label: _("Start Multi-Selection");
+                }
+              }
+
+              [end]
+              Adw.Bin view_options_split_button_top_bin {}
+            };
+          }
+
+          StackPage {
+            name: "selection";
+
+            child: Adw.HeaderBar {
+              [title]
+              MenuButton selected_pods_button {
+                styles [
+                  "flat",
+                ]
+
+                can-shrink: true;
+                menu-model: selection-menu;
+
+                accessibility {
+                  label: _("Selected pods");
+                }
+              }
+
+              [end]
+              ToggleButton {
+                active: true;
+                action-name: "pods-panel.exit-selection-mode";
+                icon-name: "selection-mode-symbolic";
+                tooltip-text: _("Exit Multi-Selection");
+
+                accessibility {
+                  label: _("Exit Multi-Selection");
+                }
+              }
+            };
+          }
+        }
+
+        [top]
+        SearchBar search_bar {
+          notify::search-mode-enabled => $on_notify_search_mode_enabled() swapped;
+
+          SearchEntry search_entry {
+            search-changed => $on_search_changed() swapped;
+            max-width-chars: 28;
+          }
+        }
+
+        Stack filter_stack {
+          StackPage {
+            name: "list";
+
+            child: Adw.PreferencesPage {
+              vexpand: true;
+
+              Adw.PreferencesGroup {
+                ListBox list_box {
+                  styles [
+                    "boxed-list",
+                  ]
+
+                  selection-mode: none;
+                }
+              }
+            };
+          }
+
+          StackPage {
+            name: "empty";
+
+            child: Adw.StatusPage {
+              icon-name: "pods-symbolic";
+              title: _("No Matching Pods");
+
+              Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "pods-panel.show-all-pods";
+                halign: center;
+                label: _("_Show All Pods");
+                use-underline: true;
+              }
+            };
+          }
+        }
+
+        [bottom]
+        ActionBar {
+          revealed: bind template.pod-list as <$PodList>.selection-mode;
+
+          [center]
+          Adw.Clamp {
+            maximum-size: 400;
+            tightening-threshold: 300;
+
+            CenterBox {
+              hexpand: true;
+
+              start-widget: Button {
+                styles [
+                  "circular",
+                  "raised",
+                ]
+
+                action-name: "pods-panel.kill-selection";
+                icon-name: "skull-symbolic";
+                tooltip-text: _("Kill");
+
+                accessibility {
+                  label: _("Kill");
+                }
+
+                valign: center;
+              };
+
+              center-widget: Box {
+                halign: center;
+                hexpand: true;
+                spacing: 12;
+
+                Button {
+                  styles [
+                    "circular",
+                    "raised",
+                  ]
+
+                  action-name: "pods-panel.restart-selection";
+                  icon-name: "view-refresh-symbolic";
+                  tooltip-text: _("Restart");
+
+                  accessibility {
+                    label: _("Restart");
+                  }
+
+                  valign: center;
+                }
+
+                Box {
+                  styles [
+                    "linked",
+                  ]
+
+                  Button start_or_resume_button {
+                    styles [
+                      "circular",
+                      "medium",
+                    ]
+
+                    action-name: "pods-panel.start-or-resume-selection";
+                    tooltip-text: _("Start/Resume");
+                    valign: center;
+
+                    accessibility {
+                      label: _("Start or resume selected pods");
+                    }
+
+                    Image {
+                      icon-name: "media-playback-start-symbolic";
+                    }
+                  }
+
+                  Button stop_button {
+                    styles [
+                      "circular",
+                      "medium",
+                    ]
+
+                    action-name: "pods-panel.stop-selection";
+                    tooltip-text: _("Stop");
+                    valign: center;
+
+                    accessibility {
+                      label: _("Stop selected pods");
+                    }
+
+                    Image {
+                      icon-name: "media-playback-stop-symbolic";
+                    }
+                  }
+                }
+
+                Button {
+                  styles [
+                    "circular",
+                    "raised",
+                  ]
+
+                  action-name: "pods-panel.pause-selection";
+                  icon-name: "media-playback-pause-symbolic";
+                  tooltip-text: _("Pause");
+
+                  accessibility {
+                    label: _("Pause");
+                  }
+
+                  valign: center;
+                }
+              };
+
+              end-widget: Button {
+                styles [
+                  "circular",
+                  "destructive-button",
+                  "raised",
+                ]
+
+                action-name: "pods-panel.delete-selection";
+                icon-name: "user-trash-symbolic";
+                tooltip-text: _("Delete");
+
+                accessibility {
+                  label: _("Delete");
+                }
+
+                valign: center;
+              };
+            }
+          }
+        }
+
+        [bottom]
+        ActionBar overhang_action_bar {
+          [start]
+          Adw.Bin create_pod_button_bottom_bin {}
+
+          [start]
+          Adw.Bin prune_button_bottom_bin {}
+
+          [end]
+          Adw.Bin view_options_split_button_bottom_bin {}
+        }
+      };
+    }
+
+    StackPage {
+      name: "empty";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Adw.WindowTitle {
+            title: _("Pods");
+          };
+        }
+
+        Adw.StatusPage {
+          icon-name: "pods-symbolic";
+          title: _("No Pods Available");
+
+          Button {
+            styles [
+              "pill",
+              "suggested-action",
+            ]
+
+            action-name: "pods-panel.create-pod";
+            halign: center;
+            label: _("_Create Pod");
+            use-underline: true;
+          }
+        }
+      };
+    }
+  }
+}

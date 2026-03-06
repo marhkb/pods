@@ -1,0 +1,139 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsImageSelectionPage: Widget {
+  layout-manager: BinLayout {};
+
+  Stack main_stack {
+    StackPage {
+      name: "empty";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {}
+
+        Adw.StatusPage {
+          icon-name: "image-x-generic-symbolic";
+          title: _("No Local Images Available");
+        }
+      };
+    }
+
+    StackPage {
+      name: "images";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar header_bar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+
+          [start]
+          ToggleButton filter_button {
+            icon-name: "system-search-symbolic";
+            tooltip-text: _("Filter");
+
+            accessibility {
+              label: _("Filter");
+            }
+
+            toggled => $on_filter_button_toggled() swapped;
+          }
+
+          [title]
+          Stack title_stack {
+            hexpand: true;
+            transition-type: crossfade;
+
+            StackPage {
+              name: "title";
+
+              child: Adw.WindowTitle {
+                title: _("Select Local Image");
+              };
+            }
+
+            SearchEntry filter_entry {
+              hexpand: true;
+              margin-start: 36;
+              margin-end: 36;
+              search-started => $on_filter_started() swapped;
+              search-changed => $on_filter_changed() swapped;
+
+              accessibility {
+                label: _("Filter images");
+                description: _("Type to filter results. Press Enter to select the highlighted item.");
+              }
+
+              EventControllerKey {
+                key-pressed => $on_filter_key_pressed() swapped;
+              }
+            }
+          }
+
+          [end]
+          Button select_button {
+            styles [
+              "suggested-action",
+            ]
+
+            action-name: "image-selection-page.select";
+            label: _("_Select");
+            use-underline: true;
+          }
+        }
+
+        Stack images_stack {
+          StackPage {
+            name: "results";
+
+            child: ScrolledWindow {
+              hscrollbar-policy: never;
+
+              ListView list_view {
+                styles [
+                  "background",
+                ]
+
+                show-separators: true;
+
+                factory: SignalListItemFactory {
+                  setup => $on_signal_list_item_factory_setup() swapped;
+                  bind => $on_signal_list_item_factory_bind() swapped;
+                };
+
+                model: SingleSelection selection {
+                  selection-changed => $on_image_selected() swapped;
+                };
+
+                activate => $on_image_activated() swapped;
+              }
+            };
+          }
+
+          StackPage {
+            name: "empty";
+
+            child: Adw.StatusPage {
+              icon-name: "image-x-generic-symbolic";
+              title: _("No Results");
+
+              Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "image-selection-page.clear-filter";
+                halign: center;
+                valign: center;
+                label: _("_Clear Filter");
+                use-underline: true;
+              }
+            };
+          }
+        }
+      };
+    }
+  }
+}

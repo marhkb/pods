@@ -1,0 +1,24 @@
+using Gtk 4.0;
+using Adw 1;
+
+ListBoxRow create_volume_row {
+  action-name: "volumes-group.create-volume";
+  selectable: false;
+
+  Image {
+    icon-name: "list-add-symbolic";
+    margin-top: 15;
+    margin-bottom: 15;
+    tooltip-text: _("Create Volume");
+  }
+}
+
+template $PdsVolumesGroup: Adw.PreferencesGroup {
+  ListBox list_box {
+    styles [
+      "boxed-list",
+    ]
+
+    selection-mode: none;
+  }
+}

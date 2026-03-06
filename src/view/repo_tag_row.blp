@@ -1,0 +1,64 @@
+using Gtk 4.0;
+
+template $PdsRepoTagRow: ListBoxRow {
+  selectable: false;
+  activatable: false;
+
+  Box {
+    margin-top: 8;
+    margin-end: 12;
+    margin-bottom: 8;
+    margin-start: 12;
+
+    Label label {
+      use-markup: true;
+      selectable: true;
+      hexpand: true;
+      xalign: 0;
+      wrap: true;
+      wrap-mode: word_char;
+    }
+
+    Button {
+      styles [
+        "flat",
+      ]
+
+      action-name: "repo-tag-row.update";
+      icon-name: "folder-download-symbolic";
+      tooltip-text: _("Pull Latest");
+
+      accessibility {
+        label: _("Pull Latest");
+      }
+    }
+
+    Button {
+      styles [
+        "flat",
+      ]
+
+      action-name: "repo-tag-row.push";
+      icon-name: "put-symbolic";
+      tooltip-text: _("Push to Registry");
+
+      accessibility {
+        label: _("Push to Registry");
+      }
+    }
+
+    Button {
+      styles [
+        "flat",
+      ]
+
+      action-name: "repo-tag-row.untag";
+      icon-name: "edit-delete-symbolic";
+      tooltip-text: _("Untag");
+
+      accessibility {
+        label: _("Untag");
+      }
+    }
+  }
+}

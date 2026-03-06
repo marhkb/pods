@@ -1,0 +1,23 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsValueRow: Adw.EntryRow {
+  title: _("Argument");
+
+  [suffix]
+  Button {
+    styles [
+      "flat",
+    ]
+
+    action-name: "value-row.remove";
+    icon-name: "edit-delete-symbolic";
+    tooltip-text: _("Remove Argument");
+
+    accessibility {
+      label: _("Remove Argument");
+    }
+
+    valign: center;
+  }
+}

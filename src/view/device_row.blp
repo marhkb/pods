@@ -1,0 +1,75 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsDeviceRow: Adw.ExpanderRow {
+  activatable: false;
+  selectable: false;
+
+  [prefix]
+  Box {
+    styles [
+      "rich-expander-row-header",
+      "title-4",
+    ]
+
+    spacing: 1;
+    valign: center;
+
+    Label host_path_label {
+      name: "badge";
+    }
+
+    Label {
+      label: ":";
+    }
+
+    Label container_path_label {
+      name: "badge";
+    }
+
+    Label last_colon_label {
+      label: ":";
+    }
+
+    Label options_label {
+      name: "badge";
+    }
+  }
+
+  [action]
+  Button {
+    styles [
+      "flat",
+    ]
+
+    action-name: "device-row.remove";
+    icon-name: "edit-delete-symbolic";
+    tooltip-text: _("Remove Device");
+
+    accessibility {
+      label: _("Remove Device");
+    }
+
+    valign: center;
+  }
+
+  Adw.EntryRow host_path_entry_row {
+    title: _("Host Path");
+  }
+
+  Adw.EntryRow container_path_entry_row {
+    title: _("Container Path");
+  }
+
+  Adw.SwitchRow readable_switch_row {
+    title: _("Readable");
+  }
+
+  Adw.SwitchRow writable_switch_row {
+    title: _("Writable");
+  }
+
+  Adw.SwitchRow mknod_switch_row {
+    title: _("mknod");
+  }
+}

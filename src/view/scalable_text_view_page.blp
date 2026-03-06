@@ -1,0 +1,122 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu menu {
+  section {
+    item {
+      custom: "zoom-control";
+    }
+  }
+
+  section {
+    item {
+      label: _("_Save as File");
+      action: "source-view-page.save-to-file";
+    }
+  }
+}
+
+$PdsZoomControl zoom_control {
+  zoom-out-action-name: "source-view-page.zoom-out";
+  zoom-normal-action-name: "source-view-page.zoom-normal";
+  zoom-in-action-name: "source-view-page.zoom-in";
+  zoom-factor: bind source_view.font-scale;
+}
+
+template $PdsScalableTextViewPage: Widget {
+  layout-manager: BinLayout {};
+
+  EventControllerScroll {
+    scroll => $on_scroll() swapped;
+    flags: vertical;
+    propagation-phase: capture;
+  }
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [start]
+      ToggleButton {
+        active: bind search_bar.search-mode-enabled bidirectional;
+        icon-name: "system-search-symbolic";
+        tooltip-text: _("Search");
+
+        accessibility {
+          label: _("Search");
+        }
+      }
+
+      [title]
+      Adw.WindowTitle window_title {}
+
+      [end]
+      MenuButton menu_button {
+        icon-name: "view-more-symbolic";
+        menu-model: menu;
+        tooltip-text: _("Menu");
+
+        accessibility {
+          label: _("Menu");
+        }
+      }
+    }
+
+    [top]
+    SearchBar search_bar {
+      notify::search-mode-enabled => $on_search_bar_notify_search_mode_enabled() swapped;
+
+      child: $PdsSourceViewSearchWidget search_widget {
+        source-view: "source_view";
+      };
+    }
+
+    Stack stack {
+      Adw.Spinner spinner {
+        halign: center;
+        valign: center;
+        height-request: 30;
+        width-request: 30;
+
+        accessibility {
+          label: _("Loading content");
+        }
+      }
+
+      StackPage {
+        name: "loaded";
+
+        child: ScrolledWindow {
+          hscrollbar-policy: never;
+          vexpand: true;
+
+          $PdsScalableTextView source_view {
+            styles [
+              "text-view",
+            ]
+
+            buffer: $GtkSourceBuffer source_buffer {
+              highlight-matching-brackets: "False";
+            };
+
+            top-margin: "12";
+            bottom-margin: "12";
+            right-margin: "12";
+            cursor-visible: "False";
+            editable: "False";
+            highlight-current-line: "True";
+            monospace: "True";
+            show-line-numbers: "True";
+            wrap-mode: "char";
+
+            accessibility {
+              label: _("Inspection output");
+              description: _(
+                "Use Control+F to search content. Press Escape to close search. Use Control+Plus, Control+Minus, and Control+0 to adjust zoom."
+              );
+            }
+          }
+        };
+      }
+    }
+  }
+}

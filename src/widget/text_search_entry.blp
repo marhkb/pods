@@ -1,0 +1,49 @@
+using Gtk 4.0;
+
+template $PdsTextSearchEntry: Widget {
+  Image image {
+    icon-name: "edit-find-symbolic";
+  }
+
+  Text text {
+    notify => $on_text_notify() swapped;
+    max-width-chars: 32;
+  }
+
+  Label info_label {
+    styles [
+      "dim-label",
+      "numeric",
+    ]
+
+    notify::label => $on_info_label_notify_label() swapped;
+    xalign: 1;
+  }
+
+  Box options_box {
+    styles [
+      "linked",
+    ]
+
+    ToggleButton regex_button {
+      notify::active => $on_regex_button_notify_active() swapped;
+      icon-name: "regex-symbolic";
+      tooltip-text: _("Regular Expression");
+      valign: center;
+    }
+
+    ToggleButton case_button {
+      notify::active => $on_case_button_notify_active() swapped;
+      icon-name: "uppercase-symbolic";
+      tooltip-text: _("Case Sensitive");
+      valign: center;
+    }
+
+    ToggleButton word_button {
+      notify::active => $on_word_button_notify_active() swapped;
+      icon-name: "whole-word-symbolic";
+      tooltip-text: _("Whole Word");
+      valign: center;
+    }
+  }
+}

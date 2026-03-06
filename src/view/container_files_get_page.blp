@@ -1,0 +1,75 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    get_button,
+  ]
+}
+
+template $PdsContainerFilesGetPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.NavigationView navigation_view {
+    Adw.NavigationPage {
+      title: _("Preferences");
+
+      Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+
+          [start]
+          Button cancel_button {
+            action-name: "win.close";
+            label: _("_Cancel");
+            use-underline: true;
+          }
+
+          [title]
+          Adw.WindowTitle {
+            title: _("Download Files");
+          }
+
+          [end]
+          Button get_button {
+            styles [
+              "suggested-action",
+            ]
+
+            action-name: "container-files-get-page.get";
+            label: _("_Download");
+            use-underline: true;
+          }
+        }
+
+        Adw.PreferencesPage {
+          Adw.PreferencesGroup {
+            Adw.EntryRow container_path_row {
+              activates-default: true;
+              title: _("Container Path ('/' if empty)");
+            }
+
+            Adw.ActionRow host_path_row {
+              activatable: false;
+              title: _("Host Path");
+              subtitle: _("Select a destination tar archive on the host");
+
+              [suffix]
+              Button {
+                action-name: "container-files-get-page.select-host-path";
+                label: _("Select _Path…");
+                use-underline: true;
+                valign: center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

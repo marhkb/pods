@@ -1,0 +1,76 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerHealthCheckPage: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [title]
+      Adw.WindowTitle {
+        title: _("Container Health Check");
+        subtitle: bind template.container as <$Container>.name;
+      }
+    }
+
+    Adw.PreferencesPage {
+      Adw.PreferencesGroup {
+        title: _("Configuration");
+
+        $PdsPropertyWidgetRow {
+          key: _("Status");
+
+          widget: Label status_label {
+            styles [
+              "status-badge",
+            ]
+
+            valign: center;
+          };
+        }
+
+        $PdsPropertyRow command_row {
+          key: _("Command");
+        }
+
+        $PdsPropertyRow interval_row {
+          key: _("Interval");
+        }
+
+        $PdsPropertyRow retries_row {
+          key: _("Retries");
+        }
+
+        $PdsPropertyRow timeout_row {
+          key: _("Timeout");
+        }
+
+        $PdsPropertyRow failing_streak_row {
+          key: _("Failing Streak");
+          value: bind template.container as <$Container>.data as <$ContainerData>.health-failing-streak;
+        }
+      }
+
+      Adw.PreferencesGroup {
+        title: _("Log");
+        description: _("Rows describe the last 5 health check attempts and results");
+
+        header-suffix: Button {
+          action-name: "container-health-check-page.run-health-check";
+          label: _("_Run Health Check");
+          use-underline: true;
+          valign: center;
+        };
+
+        ListBox log_list_box {
+          styles [
+            "boxed-list",
+          ]
+
+          selection-mode: none;
+        }
+      }
+    }
+  }
+}

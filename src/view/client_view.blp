@@ -1,0 +1,234 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsClientView: Widget {
+  notify::client => $on_notify_client();
+
+  layout-manager: BoxLayout {
+    orientation: vertical;
+  };
+
+  Adw.BreakpointBin {
+    height-request: 180;
+    width-request: 360;
+
+    Adw.Breakpoint {
+      condition ("min-width: 668sp")
+
+      setters {
+        navigation_split_view.collapsed: false;
+      }
+    }
+
+    Adw.NavigationSplitView navigation_split_view {
+      notify::show-content => $on_navigation_split_view_notify_show_content() swapped;
+      notify::collapsed => $on_navigation_split_view_notify_collapsed() swapped;
+      collapsed: true;
+      min-sidebar-width: 240;
+      max-sidebar-width: 280;
+      sidebar-width-unit: sp;
+      sidebar-width-fraction: 0.4;
+      vexpand: true;
+
+      sidebar: Adw.NavigationPage {
+        title: _("Home");
+
+        child: Adw.NavigationView sidebar_navigation_view {
+          Adw.NavigationPage {
+            tag: "home";
+            title: _("Home");
+
+            Adw.ToolbarView {
+              EventControllerKey {
+                key-pressed => $on_key_pressed() swapped;
+                propagation-phase: capture;
+              }
+
+              [top]
+              Adw.HeaderBar {
+                [start]
+                Button {
+                  action-name: "client-view.show-connections";
+                  icon-name: "network-server-symbolic";
+                  tooltip-text: _("Connections");
+
+                  accessibility {
+                    label: _("Connections");
+                  }
+                }
+
+                [start]
+                ToggleButton search_button {
+                  toggled => $on_search_button_toggled() swapped;
+                  icon-name: "system-search-symbolic";
+                  tooltip-text: _("Search");
+
+                  accessibility {
+                    label: _("Search");
+                  }
+                }
+
+                title-widget: Adw.WindowTitle {
+                  title: C_("app name", "Pods");
+                  subtitle: bind template.client as <$Client>.connection as <$Connection>.name;
+                };
+
+                [end]
+                $PdsMainMenuButton {}
+
+                [end]
+                $PdsActionsButton {
+                  action-name: "client-view.show-actions";
+                  tooltip-text: _("Actions");
+                  action-list: bind template.client as <$Client>.action-list;
+                  visible: bind template.client as <$Client>.action-list as <$ActionList>.len;
+                }
+              }
+
+              ScrolledWindow {
+                hscrollbar-policy: never;
+
+                ListBox sidebar_list_box {
+                  styles [
+                    "navigation-sidebar",
+                  ]
+
+                  row-activated => $on_sidebar_row_activated() swapped;
+                  selection-mode: browse;
+
+                  $PdsContainersRow {
+                    container-list: bind template.client as <$Client>.container-list;
+                  }
+
+                  $PdsPodsRow {
+                    pod-list: bind template.client as <$Client>.pod-list;
+                  }
+
+                  $PdsImagesRow {
+                    image-list: bind template.client as <$Client>.image-list;
+                  }
+
+                  $PdsVolumesRow {
+                    volume-list: bind template.client as <$Client>.volume-list;
+                  }
+
+                  $PdsInfoRow {
+                    client: bind template.client;
+                  }
+                }
+              }
+            }
+          }
+
+          Adw.NavigationPage {
+            tag: "connections";
+            title: _("Connections");
+
+            $PdsConnectionsSidebar {
+              connection-manager: bind template.client as <$Client>.connection as <$Connection>.manager;
+            }
+          }
+
+          Adw.NavigationPage {
+            tag: "actions";
+            title: _("Actions");
+
+            $PdsActionsSidebar {
+              cleared => $on_actions_cleared() swapped;
+              action-list: bind template.client as <$Client>.action-list;
+            }
+          }
+        };
+      };
+
+      content: Adw.NavigationPage {
+        title: _("Content");
+
+        child: Stack stack {
+          StackPage {
+            name: "panels";
+
+            child: Adw.NavigationView panels_navigation_view {
+              Adw.NavigationPage panels_navigation_page {
+                tag: "home";
+
+                child: Stack panels_stack {
+                  notify::visible-child => $on_panels_stack_notify_visible_child() swapped;
+                  vexpand: true;
+
+                  StackPage {
+                    name: "containers";
+
+                    child: $PdsContainersPanel containers_panel {
+                      collapsed: bind navigation_split_view.collapsed;
+                      container-list: bind template.client as <$Client>.container-list;
+                    };
+                  }
+
+                  StackPage {
+                    name: "pods";
+
+                    child: $PdsPodsPanel pods_panel {
+                      collapsed: bind navigation_split_view.collapsed;
+                      pod-list: bind template.client as <$Client>.pod-list;
+                    };
+                  }
+
+                  StackPage {
+                    name: "images";
+
+                    child: $PdsImagesPanel images_panel {
+                      collapsed: bind navigation_split_view.collapsed;
+                      image-list: bind template.client as <$Client>.image-list;
+                    };
+                  }
+
+                  StackPage {
+                    name: "volumes";
+
+                    child: $PdsVolumesPanel volumes_panel {
+                      collapsed: bind navigation_split_view.collapsed;
+                      volume-list: bind template.client as <$Client>.volume-list;
+                    };
+                  }
+
+                  StackPage {
+                    name: "info";
+
+                    child: $PdsInfoPanel {
+                      client: bind template.client;
+                    };
+                  }
+                };
+              }
+            };
+          }
+
+          StackPage {
+            name: "search";
+
+            child: Adw.NavigationView search_navigation_view {
+              Adw.NavigationPage {
+                tag: "home";
+                title: _("Home");
+
+                child: $PdsSearchPanel {
+                  EventControllerKey {
+                    key-pressed => $on_key_pressed() swapped;
+                    propagation-phase: capture;
+                  }
+
+                  client: bind template.client;
+                };
+              }
+            };
+          }
+        };
+      };
+    }
+  }
+
+  Adw.Bin color_bin {
+    height-request: 7;
+  }
+}

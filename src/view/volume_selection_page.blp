@@ -1,0 +1,166 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsVolumeSelectionPage: Widget {
+  layout-manager: BinLayout {};
+
+  Stack main_stack {
+    StackPage {
+      name: "empty";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+        }
+
+        Adw.StatusPage {
+          icon-name: "drive-harddisk-symbolic";
+          title: _("No Volume Available");
+
+          Button {
+            styles [
+              "pill",
+              "suggested-action",
+            ]
+
+            action-name: "volume-selection-page.create-volume";
+            halign: center;
+            valign: center;
+            label: _("_Create Volume");
+            use-underline: true;
+          }
+        }
+      };
+    }
+
+    StackPage {
+      name: "volumes";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar header_bar {
+          show-end-title-buttons: false;
+          show-start-title-buttons: false;
+
+          [start]
+          Button {
+            action-name: "volume-selection-page.create-volume";
+            icon-name: "list-add-symbolic";
+            tooltip-text: _("Create Volume");
+
+            accessibility {
+              label: _("Create Volume");
+            }
+          }
+
+          [start]
+          ToggleButton filter_button {
+            icon-name: "system-search-symbolic";
+            tooltip-text: _("Filter");
+
+            accessibility {
+              label: _("Filter");
+            }
+
+            toggled => $on_filter_button_toggled() swapped;
+          }
+
+          [title]
+          Stack title_stack {
+            hexpand: true;
+            transition-type: crossfade;
+
+            StackPage {
+              name: "title";
+
+              child: Adw.WindowTitle {
+                title: _("Select Volume");
+              };
+            }
+
+            SearchEntry filter_entry {
+              search-started => $on_filter_started() swapped;
+              search-changed => $on_filter_changed() swapped;
+              hexpand: true;
+              margin-start: 36;
+              margin-end: 36;
+
+              accessibility {
+                label: _("Filter volumes");
+                description: _("Type to filter results. Press Enter to select the highlighted item.");
+              }
+
+              EventControllerKey {
+                key-pressed => $on_filter_key_pressed() swapped;
+              }
+            }
+          }
+
+          [end]
+          Button select_button {
+            styles [
+              "suggested-action",
+            ]
+
+            action-name: "volume-selection-page.select";
+            label: _("_Select");
+            use-underline: true;
+          }
+        }
+
+        Stack volumes_stack {
+          StackPage {
+            name: "results";
+
+            child: ScrolledWindow {
+              hscrollbar-policy: never;
+
+              ListView list_view {
+                styles [
+                  "background",
+                ]
+
+                show-separators: true;
+
+                factory: SignalListItemFactory signal_list_item_factory {
+                  setup => $on_signal_list_item_factory_setup() swapped;
+                  bind => $on_signal_list_item_factory_bind() swapped;
+                };
+
+                model: SingleSelection selection {
+                  selection-changed => $on_volume_selected() swapped;
+                };
+
+                activate => $on_volume_activated() swapped;
+              }
+            };
+          }
+
+          StackPage {
+            name: "empty";
+
+            child: Adw.StatusPage {
+              icon-name: "drive-harddisk-symbolic";
+              title: _("No Results");
+
+              Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "volume-selection-page.clear-filter";
+                halign: center;
+                valign: center;
+                label: _("_Clear Filter");
+                use-underline: true;
+              }
+            };
+          }
+        }
+      };
+    }
+  }
+}

@@ -1,0 +1,94 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsSearchPanel: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      title-widget: SearchEntry search_entry {
+        search-changed => $on_search_changed() swapped;
+        max-width-chars: 32;
+      };
+    }
+
+    Stack main_stack {
+      StackPage {
+        name: "search";
+
+        child: Adw.StatusPage {
+          icon-name: "system-search-symbolic";
+          title: _("Search");
+          description: _("Start typing to look for results");
+        };
+      }
+
+      StackPage {
+        name: "no-results";
+
+        child: Adw.StatusPage {
+          icon-name: "system-search-symbolic";
+          title: _("No Results Found");
+          description: _("Please retry another term");
+        };
+      }
+
+      StackPage {
+        name: "results";
+
+        child: Adw.PreferencesPage {
+          vexpand: true;
+
+          Adw.PreferencesGroup containers_group {
+            title: _("Containers");
+
+            ListBox containers_list_box {
+              styles [
+                "boxed-list",
+              ]
+
+              selection-mode: none;
+            }
+          }
+
+          Adw.PreferencesGroup pods_group {
+            title: _("Pods");
+
+            ListBox pods_list_box {
+              styles [
+                "boxed-list",
+              ]
+
+              selection-mode: none;
+            }
+          }
+
+          Adw.PreferencesGroup images_group {
+            title: _("Images");
+
+            ListBox images_list_box {
+              styles [
+                "boxed-list",
+              ]
+
+              selection-mode: none;
+            }
+          }
+
+          Adw.PreferencesGroup volumes_group {
+            title: _("Volumes");
+
+            ListBox volumes_list_box {
+              styles [
+                "boxed-list",
+              ]
+
+              selection-mode: none;
+            }
+          }
+        };
+      }
+    }
+  }
+}

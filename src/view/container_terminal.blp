@@ -1,0 +1,86 @@
+using Gtk 4.0;
+using Adw 1;
+
+menu menu_model {
+  item {
+    label: _("_Copy");
+    action: "container-terminal.copy";
+  }
+
+  item {
+    label: _("Copy as _HTML");
+    action: "container-terminal.copy-html";
+  }
+
+  item {
+    label: _("_Paste");
+    action: "container-terminal.paste";
+  }
+}
+
+PopoverMenu popover_menu {
+  menu-model: menu_model;
+}
+
+template $PdsContainerTerminal: Widget {
+  Stack stack {
+    StackPage {
+      name: "not-running";
+
+      child: Adw.StatusPage {
+        icon-name: "utilities-terminal-symbolic";
+        title: _("No Terminal");
+        description: _("The container must be running to use the terminal");
+
+        Button {
+          styles [
+            "pill",
+            "suggested-action",
+          ]
+
+          action-name: "container-terminal.start-or-resume";
+          halign: center;
+          label: _("Start");
+          width-request: 200;
+        }
+      };
+    }
+
+    StackPage {
+      name: "running";
+
+      child: ScrolledWindow {
+        hscrollbar-policy: never;
+
+        $VteTerminal terminal {
+          notify::font-scale => $on_terminal_notify_font_scale() swapped;
+          selection-changed => $on_terminal_selection_changed() swapped;
+          backspace-binding: "ascii-delete";
+          bold-is-bright: "True";
+
+          accessibility {
+            label: _("Container terminal");
+            description: _(
+              "Use Control+Shift+C to copy, Control+Shift+V to paste, and Control+Plus, Control+Minus, or Control+0 to adjust zoom."
+            );
+          }
+
+          EventControllerKey {
+            key-pressed => $on_terminal_key_pressed() swapped;
+          }
+
+          GestureClick {
+            button: 3;
+            pressed => $on_mouse_3_pressed() swapped;
+          }
+
+          EventControllerScroll {
+            flags: vertical;
+            propagation-phase: capture;
+            scroll => $on_scroll() swapped;
+          }
+        }
+      };
+    }
+  }
+}

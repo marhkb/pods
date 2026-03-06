@@ -1,0 +1,51 @@
+using Gtk 4.0;
+
+template $PdsKeyValRow: ListBoxRow {
+  activatable: false;
+  selectable: false;
+
+  Box {
+    hexpand: true;
+    margin-bottom: 18;
+    margin-end: 12;
+    margin-start: 12;
+    margin-top: 18;
+    spacing: 9;
+
+    Entry key_entry {
+      changed => $on_key_entry_changed() swapped;
+      hexpand: true;
+      placeholder-text: _("Key");
+
+      accessibility {
+        label: _("Key");
+        description: _("Environment variable or label key");
+      }
+    }
+
+    Entry value_entry {
+      changed => $on_value_entry_changed() swapped;
+      hexpand: true;
+      placeholder-text: _("Value");
+
+      accessibility {
+        label: _("Value");
+        description: _("Value for the current key");
+      }
+    }
+
+    Button {
+      styles [
+        "flat",
+      ]
+
+      action-name: "key-val-row.remove";
+      icon-name: "edit-delete-symbolic";
+      tooltip-text: _("Remove");
+
+      accessibility {
+        label: _("Remove");
+      }
+    }
+  }
+}

@@ -1,0 +1,285 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    network_label,
+    block_label,
+  ]
+}
+
+template $PdsContainerResources: Adw.PreferencesGroup {
+  title: _("Resources Quick Reference");
+
+  ListBox {
+    styles [
+      "boxed-list",
+    ]
+
+    ListBoxRow {
+      activatable: false;
+      selectable: false;
+
+      Box {
+        margin-bottom: 9;
+        margin-end: 12;
+        margin-start: 12;
+        margin-top: 9;
+        spacing: 12;
+
+        Image {
+          icon-name: "processor-symbolic";
+        }
+
+        Box {
+          orientation: vertical;
+          spacing: 9;
+
+          Box {
+            spacing: 9;
+            hexpand: true;
+
+            Label cpu_name_label {
+              xalign: 0.0;
+              wrap: true;
+              wrap-mode: word_char;
+            }
+
+            Label cpu_percent_label {
+              styles [
+                "numeric",
+              ]
+
+              hexpand: true;
+              xalign: 1.0;
+            }
+          }
+
+          ProgressBar cpu_progress_bar {
+            hexpand: true;
+            valign: center;
+          }
+        }
+      }
+    }
+
+    ListBoxRow {
+      activatable: false;
+      selectable: false;
+
+      Box {
+        margin-bottom: 9;
+        margin-end: 12;
+        margin-start: 12;
+        margin-top: 9;
+        spacing: 12;
+
+        Image {
+          icon-name: "memory-symbolic";
+        }
+
+        Box {
+          orientation: vertical;
+          spacing: 9;
+
+          Box {
+            hexpand: true;
+
+            Label {
+              label: _("Memory");
+              wrap: true;
+              wrap-mode: word_char;
+              xalign: 0.0;
+            }
+
+            Label memory_label {
+              styles [
+                "numeric",
+              ]
+
+              halign: end;
+              hexpand: true;
+              justify: right;
+              wrap: true;
+              wrap-mode: word_char;
+              xalign: 1.0;
+            }
+          }
+
+          ProgressBar memory_progress_bar {
+            hexpand: true;
+            valign: center;
+          }
+        }
+      }
+    }
+
+    ListBoxRow {
+      activatable: false;
+      selectable: false;
+
+      Box {
+        margin-bottom: 9;
+        margin-end: 12;
+        margin-start: 12;
+        margin-top: 9;
+        spacing: 12;
+
+        Image {
+          icon-name: "network-transmit-receive-symbolic";
+        }
+
+        Box {
+          spacing: 18;
+
+          Label network_label {
+            label: _("Network");
+            xalign: 0.0;
+            wrap: true;
+          }
+
+          Adw.WrapBox {
+            child-spacing: 9;
+            line-spacing: 9;
+            valign: center;
+
+            Adw.Bin {
+              styles [
+                "card",
+              ]
+
+              valign: center;
+              width-request: 148;
+
+              Box {
+                margin-top: 6;
+                margin-start: 9;
+                margin-bottom: 6;
+                margin-end: 9;
+
+                Label {
+                  label: "↓";
+                }
+
+                Label network_down_label {
+                  hexpand: true;
+                  halign: center;
+                }
+              }
+            }
+
+            Adw.Bin {
+              styles [
+                "card",
+              ]
+
+              valign: center;
+              width-request: 148;
+
+              Box {
+                margin-top: 6;
+                margin-start: 9;
+                margin-bottom: 6;
+                margin-end: 9;
+
+                Label {
+                  label: "↑";
+                }
+
+                Label network_up_label {
+                  hexpand: true;
+                  halign: center;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    ListBoxRow {
+      activatable: false;
+      selectable: false;
+
+      Box {
+        margin-bottom: 9;
+        margin-end: 12;
+        margin-start: 12;
+        margin-top: 9;
+        spacing: 12;
+
+        Image {
+          icon-name: "drive-harddisk-symbolic";
+        }
+
+        Box {
+          spacing: 18;
+
+          Label block_label {
+            label: _("Disk");
+            xalign: 0.0;
+            wrap: true;
+          }
+
+          Adw.WrapBox {
+            child-spacing: 9;
+            line-spacing: 9;
+            valign: center;
+
+            Adw.Bin {
+              styles [
+                "card",
+              ]
+
+              valign: center;
+              width-request: 148;
+
+              Box {
+                margin-top: 6;
+                margin-start: 9;
+                margin-bottom: 6;
+                margin-end: 9;
+
+                Label {
+                  label: "↓";
+                }
+
+                Label block_down_label {
+                  hexpand: true;
+                  halign: center;
+                }
+              }
+            }
+
+            Adw.Bin {
+              styles [
+                "card",
+              ]
+
+              valign: center;
+              width-request: 148;
+
+              Box {
+                margin-top: 6;
+                margin-start: 9;
+                margin-bottom: 6;
+                margin-end: 9;
+
+                Label {
+                  label: "↑";
+                }
+
+                Label block_up_label {
+                  hexpand: true;
+                  halign: center;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
