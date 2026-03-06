@@ -43,9 +43,22 @@
   ],
   "modules": [
     {
+      "name": "blueprint-compiler",
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://gitlab.gnome.org/GNOME/blueprint-compiler.git",
+          "tag": "v0.20.0"
+        }
+      ]
+    },
+    {
       "name": "vte",
       "config-opts": [
-        "-Dgir=false",
+        "-Dapp=false",
+        "-Ddocs=false",
+        "-Dgir=true",
         "-Dglade=false",
         "-Dgtk3=false",
         "-Dgtk4=true",
@@ -57,7 +70,7 @@
         {
           "type": "git",
           "url": "https://gitlab.gnome.org/GNOME/vte.git",
-          "tag": "0.80.4"
+          "tag": "0.82.3"
         }
       ]
     },

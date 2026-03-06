@@ -14,3 +14,12 @@ RUN mkdir -p /usr/lib/sdk/rust-stable/lib/rustlib/src/rust && \
     ln -s \
     /var/lib/flatpak/runtime/org.freedesktop.Sdk.Extension.rust-stable/x86_64/25.08/active/files/lib/rustlib/src/rust/library \
     /usr/lib/sdk/rust-stable/lib/rustlib/src/rust/library
+
+COPY <<EOF /usr/local/bin/blueprint-compiler
+#!/bin/bash
+exec flatpak-builder --run \\
+    /workspaces/pods/.flatpak/repo \\
+    build-aux/com.github.marhkb.Pods.Devel.json \\
+    blueprint-compiler "\$@"
+EOF
+RUN chmod +x /usr/local/bin/blueprint-compiler
