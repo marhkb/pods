@@ -1,25 +1,20 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $PdsRepoTagAddDialog: Adw.MessageDialog {
-  response => $on_response();
+template $PdsRepoTagAddDialog: Adw.AlertDialog {
   default-response: "add";
-  close-response: "close";
+  focus-widget: entry_row;
   heading: _("Add Repository Tag");
+  width-request: 360;
 
   responses [
     close: _("_Cancel"),
     add: _("_Add") suggested,
   ]
 
-  EventControllerKey {
-    key-pressed => $on_key_pressed() swapped;
-  }
-
   extra-child: Box {
     orientation: vertical;
     margin-top: 12;
-    width-request: 500;
 
     Adw.PreferencesGroup {
       Adw.EntryRow entry_row {
