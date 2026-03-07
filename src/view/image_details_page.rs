@@ -11,6 +11,8 @@ use gtk::gdk;
 use gtk::glib;
 
 use crate::model;
+use crate::podman;
+use crate::rt;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -61,20 +63,20 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
 
-            klass.install_action(ACTION_TAG, None, |widget, _, _| {
-                widget.tag();
+            klass.install_action_async(ACTION_TAG, None, |widget, _, _| async move {
+                widget.tag().await;
             });
 
-            klass.install_action(ACTION_INSPECT_IMAGE, None, |widget, _, _| {
-                widget.show_inspection();
+            klass.install_action_async(ACTION_INSPECT_IMAGE, None, |widget, _, _| async move {
+                widget.show_inspection().await;
             });
 
-            klass.install_action(ACTION_SHOW_HISTORY, None, |widget, _, _| {
-                widget.show_history();
+            klass.install_action_async(ACTION_SHOW_HISTORY, None, |widget, _, _| async move {
+                widget.show_history().await;
             });
 
-            klass.install_action(ACTION_DELETE_IMAGE, None, |widget, _, _| {
-                widget.delete_image();
+            klass.install_action_async(ACTION_DELETE_IMAGE, None, |widget, _, _| async move {
+                widget.delete_image().await;
             });
 
             // For displaying a mnemonic.
@@ -83,11 +85,11 @@ mod imp {
                 gdk::ModifierType::CONTROL_MASK,
                 view::ContainersGroup::action_create_container(),
             );
-            klass.install_action(
+            klass.install_action_async(
                 view::ContainersGroup::action_create_container(),
                 None,
-                move |widget, _, _| {
-                    widget.create_container();
+                async move |widget, _, _| {
+                    widget.create_container().await;
                 },
             );
         }
@@ -333,18 +335,43 @@ impl From<&model::Image> for ImageDetailsPage {
 }
 
 impl ImageDetailsPage {
-    fn tag(&self) {
-        self.exec_action(|| {
-            if let Some(image) = self.image() {
-                let dialog = view::RepoTagAddDialog::from(&image);
-                dialog.set_transient_for(Some(&utils::root(self)));
-                dialog.present();
+    async fn tag(&self) {
+        self.exec_action(async || {
+            let image = if let Some(image) = self.image().as_ref().and_then(model::Image::api) {
+                image
+            } else {
+                return;
+            };
+
+            let dialog = view::RepoTagAddDialog::default();
+            if dialog.clone().choose_future(Some(&utils::root(self))).await != "add" {
+                return;
             }
-        });
+            let repo = dialog.repo();
+            let tag = dialog.tag();
+
+            let result = rt::Promise::new(async move {
+                image
+                    .tag(
+                        &podman::opts::ImageTagOpts::builder()
+                            .repo(repo)
+                            .tag(tag)
+                            .build(),
+                    )
+                    .await
+            })
+            .exec()
+            .await;
+
+            if let Err(e) = result {
+                utils::show_error_toast(self, &gettext("Error"), &e.to_string());
+            }
+        })
+        .await;
     }
 
-    fn show_inspection(&self) {
-        self.exec_action(|| {
+    async fn show_inspection(&self) {
+        self.exec_action(async || {
             if let Some(image) = self.image() {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&image));
@@ -357,11 +384,12 @@ impl ImageDetailsPage {
                         .build(),
                 );
             }
-        });
+        })
+        .await;
     }
 
-    fn show_history(&self) {
-        self.exec_action(|| {
+    async fn show_history(&self) {
+        self.exec_action(async || {
             if let Some(image) = self.image() {
                 utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
@@ -369,28 +397,31 @@ impl ImageDetailsPage {
                         .build(),
                 );
             }
-        });
+        })
+        .await;
     }
 
-    fn delete_image(&self) {
-        self.exec_action(|| {
+    async fn delete_image(&self) {
+        self.exec_action(async || {
             view::image::delete_image_show_confirmation(self, self.image());
-        });
+        })
+        .await;
     }
 
-    fn create_container(&self) {
-        self.exec_action(|| {
+    async fn create_container(&self) {
+        self.exec_action(async || {
             view::image::create_container(self, self.image());
-        });
+        })
+        .await;
     }
 
-    fn exec_action<F: Fn()>(&self, op: F) {
+    async fn exec_action<F: AsyncFn()>(&self, op: F) {
         if utils::navigation_view(self)
             .visible_page()
             .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
             .is_some()
         {
-            op();
+            op().await;
         }
     }
 }

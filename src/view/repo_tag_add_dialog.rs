@@ -3,22 +3,21 @@ use std::cell::RefCell;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::Properties;
 use gtk::CompositeTemplate;
-use gtk::gdk;
 use gtk::glib;
-
-use crate::model;
-use crate::podman;
 
 mod imp {
     use super::*;
-    use crate::rt;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::RepoTagAddDialog)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/repo_tag_add_dialog.ui")]
     pub(crate) struct RepoTagAddDialog {
-        pub(super) close_request_handler_id: RefCell<Option<glib::SignalHandlerId>>,
-        pub(super) image: glib::WeakRef<model::Image>,
+        #[property(get)]
+        pub(super) repo: RefCell<String>,
+        #[property(get)]
+        pub(super) tag: RefCell<String>,
         #[template_child]
         pub(super) entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -31,7 +30,7 @@ mod imp {
     impl ObjectSubclass for RepoTagAddDialog {
         const NAME: &'static str = "PdsRepoTagAddDialog";
         type Type = super::RepoTagAddDialog;
-        type ParentType = adw::MessageDialog;
+        type ParentType = adw::AlertDialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -43,76 +42,55 @@ mod imp {
         }
     }
 
+    impl ObjectImpl for RepoTagAddDialog {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.on_entry_row_changed();
+        }
+
+        fn properties() -> &'static [glib::ParamSpec] {
+            Self::derived_properties()
+        }
+
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
+        }
+
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
+        }
+    }
+    impl WidgetImpl for RepoTagAddDialog {}
+    impl AdwDialogImpl for RepoTagAddDialog {}
+    impl AdwAlertDialogImpl for RepoTagAddDialog {}
+
     #[gtk::template_callbacks]
     impl RepoTagAddDialog {
         #[template_callback]
-        fn on_key_pressed(
-            &self,
-            key: gdk::Key,
-            _: u32,
-            _: gdk::ModifierType,
-            _: &gtk::EventControllerKey,
-        ) -> glib::Propagation {
-            if key == gdk::Key::Escape {
-                self.obj().force_close();
-                glib::Propagation::Stop
-            } else {
-                glib::Propagation::Proceed
-            }
-        }
-
-        #[template_callback]
-        async fn on_response(&self, response: &str) {
-            let image =
-                if let Some(image) = self.image.upgrade().as_ref().and_then(model::Image::api) {
-                    image
-                } else {
-                    return;
-                };
-
+        fn on_entry_row_changed(&self) {
             let obj = &*self.obj();
-
-            if response == "close" {
-                obj.force_close();
-                return;
-            }
 
             let repo_tag = self.entry_row.text();
             match split_repo_tag(repo_tag.as_str()) {
                 Some((repo, tag)) => {
-                    let repo = repo.trim().to_owned();
-                    let tag = tag.trim().to_owned();
+                    self.entry_row.remove_css_class("error");
+                    self.error_label_revealer.set_reveal_child(false);
 
-                    let result = rt::Promise::new(async move {
-                        image
-                            .tag(
-                                &podman::opts::ImageTagOpts::builder()
-                                    .repo(repo)
-                                    .tag(tag)
-                                    .build(),
-                            )
-                            .await
-                    })
-                    .exec()
-                    .await;
+                    self.set_repo(repo);
+                    self.set_tag(tag);
 
-                    match result {
-                        Ok(_) => obj.force_close(),
-                        Err(e) => obj.set_error(&e.to_string()),
-                    }
+                    obj.set_response_enabled("add", true);
                 }
                 None => {
-                    obj.set_error(&gettext("Repo tag must contain a colon “:”"));
+                    self.entry_row.add_css_class("error");
+                    self.error_label_revealer.set_visible(true);
+                    self.error_label_revealer.set_reveal_child(true);
+                    self.error_label
+                        .set_text(&gettext("Repo tag must contain a colon “:”"));
+
+                    obj.set_response_enabled("add", false);
                 }
             }
-        }
-
-        #[template_callback]
-        fn on_entry_row_changed(&self) {
-            self.entry_row.remove_css_class("error");
-            self.error_label_revealer.set_reveal_child(false);
-            self.obj()
-                .set_response_enabled("add", !self.entry_row.text().is_empty());
         }
 
         #[template_callback]
@@ -121,24 +99,25 @@ mod imp {
                 self.error_label_revealer.set_visible(false);
             }
         }
-    }
 
-    impl ObjectImpl for RepoTagAddDialog {
-        fn constructed(&self) {
-            self.parent_constructed();
-
+        pub(super) fn set_repo(&self, value: &str) {
             let obj = &*self.obj();
+            if obj.repo() == value {
+                return;
+            }
+            self.repo.replace(value.to_owned());
+            obj.notify_repo();
+        }
 
-            let handler_id = obj.connect_close_request(|_| glib::Propagation::Stop);
-            self.close_request_handler_id.replace(Some(handler_id));
-
-            self.entry_row.grab_focus();
+        pub(super) fn set_tag(&self, value: &str) {
+            let obj = &*self.obj();
+            if obj.tag() == value {
+                return;
+            }
+            self.tag.replace(value.to_owned());
+            obj.notify_tag();
         }
     }
-
-    impl WidgetImpl for RepoTagAddDialog {}
-    impl WindowImpl for RepoTagAddDialog {}
-    impl MessageDialogImpl for RepoTagAddDialog {}
 }
 
 fn split_repo_tag(repo_tag: &str) -> Option<(&str, &str)> {
@@ -153,31 +132,12 @@ fn split_repo_tag(repo_tag: &str) -> Option<(&str, &str)> {
 
 glib::wrapper! {
     pub(crate) struct RepoTagAddDialog(ObjectSubclass<imp::RepoTagAddDialog>)
-        @extends gtk::Widget, gtk::Window, adw::MessageDialog,
-        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
+        @extends gtk::Widget, adw::Dialog, adw::AlertDialog,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::ShortcutManager;
 }
 
-impl From<&model::Image> for RepoTagAddDialog {
-    fn from(image: &model::Image) -> Self {
-        let obj: Self = glib::Object::builder().build();
-        obj.imp().image.set(Some(image));
-        obj
-    }
-}
-
-impl RepoTagAddDialog {
-    pub(crate) fn force_close(&self) {
-        if let Some(handler_id) = self.imp().close_request_handler_id.replace(None) {
-            self.disconnect(handler_id);
-            self.close();
-        }
-    }
-
-    fn set_error(&self, msg: &str) {
-        let imp = self.imp();
-        imp.entry_row.add_css_class("error");
-        imp.error_label_revealer.set_visible(true);
-        imp.error_label_revealer.set_reveal_child(true);
-        imp.error_label.set_text(msg);
+impl Default for RepoTagAddDialog {
+    fn default() -> Self {
+        glib::Object::builder().build()
     }
 }
