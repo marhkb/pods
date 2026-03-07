@@ -119,7 +119,15 @@ mod imp {
             let model =
                 gtk::FilterListModel::new(obj.connection_manager(), Some(self.filter().to_owned()));
 
-            // self.connection_list_box.set_filter_func(filter_func);
+            model.connect_items_changed(clone!(
+                #[weak]
+                obj,
+                move |self_, _, _, _| obj
+                    .imp()
+                    .connection_list_box
+                    .set_visible(self_.n_items() > 0)
+            ));
+
             self.connection_list_box.bind_model(Some(&model), |item| {
                 gtk::ListBoxRow::builder()
                     .selectable(false)
