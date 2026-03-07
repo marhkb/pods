@@ -1,14 +1,26 @@
 using Gtk 4.0;
+using Adw 1;
 
 template $PdsSpinner: Widget {
   styles [
     "circle",
   ]
 
+  layout-manager: BinLayout {};
+
   halign: center;
   valign: center;
+  width-request: 34;
+  height-request: 34;
 
-  Image image {
-    notify::icon-name => $on_image_notify_icon_name() swapped;
+  Overlay {
+    [overlay]
+    Adw.Spinner {
+      visible: bind template.spinning;
+    }
+
+    Image image {
+      notify::icon-name => $on_image_notify_icon_name() swapped;
+    }
   }
 }
