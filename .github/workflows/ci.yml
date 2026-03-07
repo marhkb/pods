@@ -40,6 +40,30 @@ jobs:
       - name: Run cargo fmt
         run: cargo fmt --all -- --check
 
+  blueprintformat:
+    name: Blueprint Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps to build blueprint-compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson ninja-build python3-pip
+      - name: Checkout blueprint-compiler
+        uses: actions/checkout@v4
+        with:
+          repository: "GNOME/blueprint-compiler"
+          ref: "v0.20.0"
+          path: "blueprint-compiler-src"
+      - name: Build and install blueprint-compiler
+        run: |
+          cd blueprint-compiler-src
+          meson setup build
+          ninja -C build
+          sudo ninja -C build install
+      - name: Run bluprint-compiler format
+        run: blueprint-compiler format src/
+
   flatpak:
     name: Flatpak
     runs-on: ubuntu-latest
@@ -51,7 +75,7 @@ jobs:
         arch: [x86_64]
       # Don't fail the whole workflow if one architecture fails
       fail-fast: false
-    needs: [check-commit-style, typos, rustfmt]
+    needs: [check-commit-style, typos, rustfmt, blueprintformat]
     steps:
       - uses: actions/checkout@v4
       # Docker is required by the docker/setup-qemu-action which enables emulation
