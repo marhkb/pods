@@ -18,7 +18,6 @@ dependency('libadwaita-1', version: '>= 1.7')
 dependency('gtksourceview-5', version: '>= 4.90')
 dependency('vte-2.91-gtk4', version: '>= 0.70.0')
 
-# glib_compile_resources = find_program('glib-compile-resources', required: true)
 glib_compile_schemas = find_program('glib-compile-schemas', required: true)
 desktop_file_validate = find_program('desktop-file-validate', required: false)
 appstream_util = find_program('appstream-util', required: false)

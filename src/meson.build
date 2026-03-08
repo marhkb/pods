@@ -99,7 +99,6 @@ blueprints = custom_target(
   command: [
     find_program('blueprint-compiler'),
     'batch-compile',
-    # '--minify',
     '@OUTPUT@',
     '@CURRENT_SOURCE_DIR@',
     '@INPUT@',
@@ -107,7 +106,7 @@ blueprints = custom_target(
 )
 
 # UI resources
-ui_resources = gnome.compile_resources(
+gnome.compile_resources(
   'ui-resources',
   'resources.gresource.xml',
   gresource_bundle: true,
