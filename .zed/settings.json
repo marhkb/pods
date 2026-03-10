@@ -1,9 +1,6 @@
 {
   "lsp": {
     "rust-analyzer": {
-      "binary": {
-        "path": ".zed/rust-analyzer-wrapper.sh"
-      },
       "initialization_options": {
         "files": {
           "exclude": [

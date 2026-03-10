@@ -1,5 +1,6 @@
 subdir('icons')
 subdir('resources')
+
 # Desktop file
 desktop_conf = configuration_data()
 desktop_conf.set('icon', application_id)
@@ -15,6 +16,7 @@ desktop_file = i18n.merge_file(
   install: true,
   install_dir: datadir / 'applications',
 )
+
 # Validate Desktop file
 if desktop_file_validate.found()
   test(
@@ -40,6 +42,7 @@ appdata_file = i18n.merge_file(
   install: true,
   install_dir: datadir / 'metainfo',
 )
+
 # Validate Appdata
 if appstream_util.found()
   test(

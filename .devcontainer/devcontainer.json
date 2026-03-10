@@ -1,7 +1,6 @@
 {
   "name": "pods_devcontainer",
   "dockerFile": "./Dockerfile",
-  "service": "devcontainer",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "containerEnv": {
     "DBUS_SESSION_BUS_ADDRESS": "unix:path=${localEnv:XDG_RUNTIME_DIR}/bus",
@@ -46,14 +45,12 @@
     {
       "source": "${localEnv:HOME}/.gitconfig",
       "target": "/home/vscode/.gitconfig",
-      "type": "bind",
-      "readOnly": true
+      "type": "bind"
     },
     {
       "source": "${localEnv:HOME}/.config/dconf",
       "target": "/home/vscode/.config/dconf",
-      "type": "bind",
-      "consistency": "cached"
+      "type": "bind"
     },
     {
       "source": "/dev/dri",
@@ -61,8 +58,18 @@
       "type": "bind"
     }
   ],
+  "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
   "features": {
-    "ghcr.io/devcontainers/features/common-utils:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2.5.7": {},
     "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "bodil.blueprint-gtk",
+        "tekumara.typos-vscode"
+      ]
+    }
   }
 }
