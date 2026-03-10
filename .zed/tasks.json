@@ -6,6 +6,12 @@
     "allow_concurrent_runs": false
   },
   {
+    "label": "flatpak: build deps",
+    "command": "./build-aux/devcontainer/build-deps.sh",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
     "label": "flatpak: build",
     "command": "./build-aux/devcontainer/build.sh",
     "use_new_terminal": false,

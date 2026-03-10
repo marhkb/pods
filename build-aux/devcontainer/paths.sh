@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 if [[ -n "${PATHS_SOURCED:-}" ]]; then
     return 0
 fi

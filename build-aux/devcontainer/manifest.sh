@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 if [[ -n "${MANIFEST_SOURCED:-}" ]]; then
     return 0
 fi
