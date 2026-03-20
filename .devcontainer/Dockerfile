@@ -14,8 +14,8 @@ EOF
 
 RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 RUN flatpak -y install \
-        org.gnome.Sdk//49 \
-        org.gnome.Platform//49 \
+        org.gnome.Sdk//50 \
+        org.gnome.Platform//50 \
         org.freedesktop.Sdk.Extension.rust-stable//25.08 \
         org.freedesktop.Sdk.Extension.llvm21//25.08
 
