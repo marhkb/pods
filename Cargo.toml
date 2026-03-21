@@ -5,7 +5,7 @@ authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2024"
 
 [dependencies]
-astral-tokio-tar = { version = "0.5.6", default-features = false }
+astral-tokio-tar = { version = "0.6", default-features = false }
 adw = { version = "0.9", package = "libadwaita", features = ["v1_9"] }
 anyhow = "1"
 ashpd = { version = "0.13", default-features = false, features = ["account", "file_chooser", "gtk4", "notification", "tokio"] }
