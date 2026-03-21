@@ -52,9 +52,9 @@ checksum = "7c02d123df017efcdfbd739ef81735b36c5ba83ec3c59c80a9d7ecc718f92e50"
 
 [[package]]
 name = "ashpd"
-version = "0.13.8"
+version = "0.13.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "51b9019bd7f3beac5fbef5b756f5ef67777ab068035ec15683c1e635ad476f54"
+checksum = "13bdf0fd848239dcd5e64eeeee35dbc00378ebcc6f3aa4ead0a305eec83d0cfb"
 dependencies = [
  "enumflags2",
  "futures-channel",
@@ -72,9 +72,9 @@ dependencies = [
 
 [[package]]
 name = "astral-tokio-tar"
-version = "0.5.6"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec179a06c1769b1e42e1e2cbe74c7dcdb3d6383c838454d063eaac5bbb7ebbe5"
+checksum = "3c23f3af104b40a3430ccb90ed5f7bd877a8dc5c26fc92fde51a22b40890dcf9"
 dependencies = [
  "filetime",
  "futures-core",
