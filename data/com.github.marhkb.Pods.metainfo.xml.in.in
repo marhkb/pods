@@ -38,6 +38,16 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.4.0" date="2026-03-21">
+      <description translatable="no">
+        <p>Pods 2.4.0 contains the following changes:</p>
+        <ul>
+          <li>Updated to GNOME 50. (#916)</li>
+          <li>Sidebar ported to Adw.Sidebar. (#919)</li>
+          <li>Fixed a bug that prevented scrolling up in the container log page. (#920)</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.3.0" date="2026-03-11">
       <description translatable="no">
         <p>Pods 2.3.0 contains the following changes:</p>
