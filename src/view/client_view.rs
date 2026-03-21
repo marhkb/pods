@@ -2,6 +2,7 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::Properties;
+use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
@@ -33,7 +34,11 @@ mod imp {
         #[template_child]
         pub(super) search_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pub(super) sidebar_list_box: TemplateChild<gtk::ListBox>,
+        pub(super) sidebar: TemplateChild<adw::Sidebar>,
+        #[template_child]
+        pub(super) version_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        pub(super) version_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -113,6 +118,25 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
+            let obj = &*self.obj();
+
+            let version_expr =
+                Self::Type::this_expression("client").chain_property::<model::Client>("version");
+
+            version_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, version: Option<&str>| version
+                    .map(|_| "version")
+                    .unwrap_or("loading")))
+                .bind(&*self.version_stack, "visible-child-name", Some(obj));
+
+            version_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, version: Option<&str>| {
+                    version
+                        .map(|version| format!("v{version}"))
+                        .unwrap_or_default()
+                }))
+                .bind(&*self.version_label, "label", Some(obj));
+
             self.settings
                 .bind(
                     "last-used-view",
@@ -120,20 +144,6 @@ mod imp {
                     "visible-child-name",
                 )
                 .build();
-
-            self.sidebar_list_box.set_header_func(|row, _| {
-                row.set_header(
-                    row.child()
-                        .filter(gtk::Widget::is::<view::InfoRow>)
-                        .map(|_| {
-                            gtk::Separator::builder()
-                                .orientation(gtk::Orientation::Horizontal)
-                                .hexpand(true)
-                                .build()
-                        })
-                        .as_ref(),
-                );
-            });
 
             self.color_bin
                 .style_context()
@@ -180,7 +190,7 @@ mod imp {
         fn on_navigation_split_view_notify_show_content(&self) {
             if self.navigation_split_view.is_collapsed() {
                 self.search_button.set_active(false);
-                self.sidebar_list_box.select_row(gtk::ListBoxRow::NONE);
+                self.sidebar.set_selected(gtk::INVALID_LIST_POSITION);
                 self.exit_selection_mode();
             }
         }
@@ -197,7 +207,7 @@ mod imp {
         fn on_search_button_toggled(&self) {
             if self.search_button.is_active() {
                 self.stack.set_visible_child_name("search");
-                self.sidebar_list_box.select_row(gtk::ListBoxRow::NONE);
+                self.sidebar.set_selected(gtk::INVALID_LIST_POSITION);
                 self.navigation_split_view.set_show_content(true);
             } else if !self.navigation_split_view.is_collapsed() {
                 self.stack.set_visible_child_name("panels");
@@ -207,32 +217,22 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_sidebar_row_activated(&self, row: Option<&gtk::ListBoxRow>) {
-            if let Some(row) = row {
-                let child = row.child().unwrap();
+        fn on_sidebar_row_activated(&self, index: u32) {
+            self.panels_stack.set_visible_child_name(match index {
+                0 => "containers",
+                1 => "pods",
+                2 => "images",
+                3 => "volumes",
+                4 => "info",
+                _ => unreachable!(),
+            });
 
-                self.panels_stack
-                    .set_visible_child_name(if child.is::<view::ContainersRow>() {
-                        "containers"
-                    } else if child.is::<view::PodsRow>() {
-                        "pods"
-                    } else if child.is::<view::ImagesRow>() {
-                        "images"
-                    } else if child.is::<view::VolumesRow>() {
-                        "volumes"
-                    } else if child.is::<view::InfoRow>() {
-                        "info"
-                    } else {
-                        unreachable!()
-                    });
+            self.stack.set_visible_child_name("panels");
+            self.panels_navigation_view.pop_to_tag("home");
+            self.search_navigation_view.pop_to_tag("home");
+            self.navigation_split_view.set_show_content(true);
 
-                self.stack.set_visible_child_name("panels");
-                self.panels_navigation_view.pop_to_tag("home");
-                self.search_navigation_view.pop_to_tag("home");
-                self.navigation_split_view.set_show_content(true);
-
-                self.search_button.set_active(false);
-            }
+            self.search_button.set_active(false);
         }
 
         #[template_callback]
@@ -262,19 +262,15 @@ mod imp {
         fn restore_sidebar(&self) {
             match self.stack.visible_child_name().as_deref() {
                 Some("search") => self.search_button.set_active(true),
-                Some("panels") => self.sidebar_list_box.select_row(
-                    self.sidebar_list_box
-                        .row_at_index(
-                            match self.panels_stack.visible_child_name().unwrap().as_str() {
-                                "containers" => 0,
-                                "pods" => 1,
-                                "images" => 2,
-                                "volumes" => 3,
-                                "info" => 4,
-                                _ => unreachable!(),
-                            },
-                        )
-                        .as_ref(),
+                Some("panels") => self.sidebar.set_selected(
+                    match self.panels_stack.visible_child_name().unwrap().as_str() {
+                        "containers" => 0,
+                        "pods" => 1,
+                        "images" => 2,
+                        "volumes" => 3,
+                        "info" => 4,
+                        _ => unreachable!(),
+                    },
                 ),
                 _ => {}
             }

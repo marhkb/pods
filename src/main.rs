@@ -214,7 +214,6 @@ fn init() {
     view::ContainersListView::static_type();
     view::ContainersPanel::static_type();
     view::ContainersPrunePage::static_type();
-    view::ContainersRow::static_type();
     view::ImageBuildPage::static_type();
     view::ImageHistoryPage::static_type();
     view::ImageMenuButton::static_type();
@@ -224,15 +223,12 @@ fn init() {
     view::ImageSelectionComboRow::static_type();
     view::ImageSelectionPage::static_type();
     view::ImagesPanel::static_type();
-    view::ImagesRow::static_type();
     view::InfoPanel::static_type();
-    view::InfoRow::static_type();
     view::PodMenuButton::static_type();
     view::PodRow::static_type();
     view::PodSelectionPage::static_type();
     view::PodsPanel::static_type();
     view::PodsPrunePage::static_type();
-    view::PodsRow::static_type();
     view::RepoTagAddDialog::static_type();
     view::RepoTagPushPage::static_type();
     view::RepoTagRow::static_type();
@@ -244,7 +240,6 @@ fn init() {
     view::VolumesGroup::static_type();
     view::VolumesPanel::static_type();
     view::VolumesPrunePage::static_type();
-    view::VolumesRow::static_type();
     view::WelcomePage::static_type();
     view::Window::static_type();
 
