@@ -39,7 +39,6 @@
     <file compressed="true" preprocess="xml-stripblanks">view/containers_list_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_prune_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/containers_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/device_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_build_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_details_page.ui</file>
@@ -53,9 +52,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/image_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_prune_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/images_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/info_panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/info_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/key_val_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/mount_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_creation_page.ui</file>
@@ -65,7 +62,6 @@
     <file compressed="true" preprocess="xml-stripblanks">view/pod_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pods_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pods_prune_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/pods_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/port_mapping_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_add_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_page.ui</file>
@@ -84,7 +80,6 @@
     <file compressed="true" preprocess="xml-stripblanks">view/volumes_group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volumes_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volumes_prune_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/volumes_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/welcome_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/window.ui</file>
 

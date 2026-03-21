@@ -17,6 +17,7 @@ template $PdsClientView: Widget {
 
       setters {
         navigation_split_view.collapsed: false;
+        sidebar.mode: sidebar;
       }
     }
 
@@ -88,32 +89,180 @@ template $PdsClientView: Widget {
               ScrolledWindow {
                 hscrollbar-policy: never;
 
-                ListBox sidebar_list_box {
-                  styles [
-                    "navigation-sidebar",
-                  ]
+                Adw.Sidebar sidebar {
+                  activated => $on_sidebar_row_activated() swapped;
+                  mode: page;
 
-                  row-activated => $on_sidebar_row_activated() swapped;
-                  selection-mode: browse;
+                  Adw.SidebarSection {
+                    Adw.SidebarItem {
+                      icon-name: "package-x-generic-symbolic";
+                      title: _("Containers");
 
-                  $PdsContainersRow {
-                    container-list: bind template.client as <$Client>.container-list;
+                      suffix: Box {
+                        spacing: 6;
+                        valign: center;
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "container-status-running",
+                          ]
+
+                          label: bind template.client as <$Client>.container-list as <$ContainerList>.running;
+                          visible: bind template.client as <$Client>.container-list as <$ContainerList>.running;
+                        }
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "container-status-not-running",
+                          ]
+
+                          label: bind template.client as <$Client>.container-list as <$ContainerList>.not-running;
+                          visible: bind template.client as <$Client>.container-list as <$ContainerList>.not-running;
+                        }
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "container-status-dead",
+                          ]
+
+                          label: bind template.client as <$Client>.container-list as <$ContainerList>.dead;
+                          visible: bind template.client as <$Client>.container-list as <$ContainerList>.dead;
+                        }
+                      };
+                    }
+
+                    Adw.SidebarItem {
+                      icon-name: "pods-symbolic";
+                      title: _("Pods");
+
+                      suffix: Box {
+                        spacing: 6;
+                        valign: center;
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "pod-status-running",
+                          ]
+
+                          label: bind template.client as <$Client>.pod-list as <$PodList>.running;
+                          visible: bind template.client as <$Client>.pod-list as <$PodList>.running;
+                        }
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "pod-status-not-running",
+                          ]
+
+                          label: bind template.client as <$Client>.pod-list as <$PodList>.not-running;
+                          visible: bind template.client as <$Client>.pod-list as <$PodList>.not-running;
+                        }
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "pod-status-degraded",
+                          ]
+
+                          label: bind template.client as <$Client>.pod-list as <$PodList>.degraded;
+                          visible: bind template.client as <$Client>.pod-list as <$PodList>.degraded;
+                        }
+                      };
+                    }
+
+                    Adw.SidebarItem {
+                      icon-name: "image-x-generic-symbolic";
+                      title: _("Images");
+
+                      suffix: Box {
+                        spacing: 6;
+                        valign: center;
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "image-used",
+                          ]
+
+                          label: bind template.client as <$Client>.image-list as <$ImageList>.used;
+                          visible: bind template.client as <$Client>.image-list as <$ImageList>.used;
+                        }
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "image-unused",
+                          ]
+
+                          label: bind template.client as <$Client>.image-list as <$ImageList>.intermediates;
+                          visible: bind template.client as <$Client>.image-list as <$ImageList>.intermediates;
+                        }
+                      };
+                    }
+
+                    Adw.SidebarItem {
+                      icon-name: "drive-harddisk-symbolic";
+                      title: _("Volumes");
+
+                      suffix: Box {
+                        spacing: 6;
+                        valign: center;
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "volume-used",
+                          ]
+
+                          label: bind template.client as <$Client>.volume-list as <$VolumeList>.used;
+                          visible: bind template.client as <$Client>.volume-list as <$VolumeList>.used;
+                        }
+
+                        Label {
+                          styles [
+                            "status-badge-small",
+                            "volume-unused",
+                          ]
+
+                          label: bind template.client as <$Client>.volume-list as <$VolumeList>.unused;
+                          visible: bind template.client as <$Client>.volume-list as <$VolumeList>.unused;
+                        }
+                      };
+                    }
                   }
 
-                  $PdsPodsRow {
-                    pod-list: bind template.client as <$Client>.pod-list;
-                  }
+                  Adw.SidebarSection {
+                    Adw.SidebarItem {
+                      icon-name: "about-symbolic";
+                      title: _("Info");
 
-                  $PdsImagesRow {
-                    image-list: bind template.client as <$Client>.image-list;
-                  }
+                      suffix: Stack version_stack {
+                        styles [
+                          "status-badge-small",
+                          "version",
+                        ]
 
-                  $PdsVolumesRow {
-                    volume-list: bind template.client as <$Client>.volume-list;
-                  }
+                        valign: center;
 
-                  $PdsInfoRow {
-                    client: bind template.client;
+                        StackPage {
+                          name: "loading";
+
+                          child: Image {
+                            icon-name: "image-loading-symbolic";
+                          };
+                        }
+
+                        StackPage {
+                          name: "version";
+
+                          child: Label version_label {};
+                        }
+                      };
+                    }
                   }
                 }
               }

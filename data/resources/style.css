@@ -43,10 +43,6 @@ button.large {
   color: var(--destructive-color);
 }
 
-.sidebar-row {
-  margin: 12px 6px;
-}
-
 actionsbutton .action-count-mask {
   background-color: var(--headerbar-bg-color);
   border-radius: 9999px;
