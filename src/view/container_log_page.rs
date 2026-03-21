@@ -273,16 +273,6 @@ mod imp {
                 }
             ));
 
-            adj.connect_upper_notify(clone!(
-                #[weak]
-                obj,
-                move |_| {
-                    if obj.sticky() || obj.imp().is_auto_scrolling.get() {
-                        obj.scroll_down();
-                    }
-                }
-            ));
-
             Self::Type::this_expression("container")
                 .chain_property::<model::Container>("status")
                 .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
@@ -556,6 +546,10 @@ impl ContainerLogPage {
             timestamps.push_back(timestamp.to_owned());
         } else {
             timestamps.push_front(timestamp.to_owned());
+        }
+
+        if at_end && self.sticky() {
+            self.scroll_down();
         }
     }
 
