@@ -8,68 +8,72 @@
     "DISPLAY": "${localEnv:DISPLAY}",
     "LANG": "en_US.UTF-8",
     "LC_ALL": "en_US.UTF-8",
-    "SSH_AUTH_SOCK": "/tmp/ssh/sock",
+    "SSH_AUTH_SOCK": "/home/vscode/.ssh-agent/sock",
     "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
     "XDG_CURRENT_DESKTOP": "${localEnv:XDG_CURRENT_DESKTOP}",
     "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
     "XDG_SESSION_DESKTOP": "${localEnv:XDG_SESSION_DESKTOP}",
-    "XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}"
+    "XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}",
   },
   "runArgs": [
     "--pid=host",
     "--name=pods_devcontainer",
     "--privileged",
-    "--net=host"
+    "--net=host",
   ],
   "mounts": [
     {
       "source": "/tmp/.X11-unix",
       "target": "/tmp/.X11-unix",
-      "type": "bind"
+      "type": "bind",
     },
     {
       "source": "${localEnv:XDG_RUNTIME_DIR}",
       "target": "${localEnv:XDG_RUNTIME_DIR}",
-      "type": "bind"
+      "type": "bind",
     },
     {
       "source": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
       "target": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
-      "type": "bind"
+      "type": "bind",
     },
     {
       "source": "${localEnv:SSH_AUTH_SOCK}",
-      "target": "/tmp/ssh/sock",
-      "type": "bind"
+      "target": "/home/vscode/.ssh-agent/sock",
+      "type": "bind",
     },
     {
       "source": "${localEnv:HOME}/.gitconfig",
       "target": "/home/vscode/.gitconfig",
-      "type": "bind"
+      "type": "bind",
     },
     {
       "source": "${localEnv:HOME}/.config/dconf",
       "target": "/home/vscode/.config/dconf",
-      "type": "bind"
+      "type": "bind",
     },
     {
       "source": "/dev/dri",
       "target": "/dev/dri",
-      "type": "bind"
-    }
+      "type": "bind",
+    },
   ],
   "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2.5.7": {},
-    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
+    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true,
+    },
   },
   "customizations": {
     "vscode": {
       "extensions": [
         "rust-lang.rust-analyzer",
         "bodil.blueprint-gtk",
-        "tekumara.typos-vscode"
-      ]
-    }
-  }
+        "tekumara.typos-vscode",
+      ],
+    },
+  },
 }
