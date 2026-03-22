@@ -35,6 +35,7 @@
     </screenshot>
   </screenshots>
   <url type="homepage">https://github.com/marhkb/pods</url>
+  <url type="vcs-browser">https://github.com/marhkb/pods</url>
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
