@@ -64,6 +64,12 @@ jobs:
       - name: Run bluprint-compiler format
         run: blueprint-compiler format src/
 
+  cargo-deny:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: EmbarkStudios/cargo-deny-action@v2
+
   flatpak:
     name: Flatpak
     runs-on: ubuntu-latest
@@ -75,7 +81,7 @@ jobs:
         arch: [x86_64]
       # Don't fail the whole workflow if one architecture fails
       fail-fast: false
-    needs: [check-commit-style, typos, rustfmt, blueprintformat]
+    needs: [check-commit-style, typos, rustfmt, blueprintformat, cargo-deny]
     steps:
       - uses: actions/checkout@v4
       # Docker is required by the docker/setup-qemu-action which enables emulation
