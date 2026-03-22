@@ -3,6 +3,7 @@ name = "pods"
 version = "2.4.0"
 authors = ["Marcus Behrendt <marcus.behrendt.86@gmail.com>"]
 edition = "2024"
+license = "GPL-3.0-or-later"
 
 [dependencies]
 astral-tokio-tar = { version = "0.6", default-features = false }
