@@ -1,6 +1,7 @@
 flowbox.not-activatable flowboxchild:hover,
 flowbox.not-activatable flowboxchild:active {
   background-color: transparent;
+  box-shadow: none;
 }
 
 containercard.not-running {
