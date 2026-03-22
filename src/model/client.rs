@@ -11,6 +11,7 @@ use glib::subclass::prelude::*;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::monad_boxed_type;
@@ -21,6 +22,7 @@ use crate::rt;
 const SYNC_INTERVAL: u32 = 15;
 
 monad_boxed_type!(pub(crate) BoxedPodman(podman::Podman) impls Debug);
+monad_boxed_type!(pub(crate) BoxedEngine(engine::Engine) impls Debug);
 
 #[derive(Clone, Debug)]
 pub(crate) enum ClientError {
@@ -40,6 +42,8 @@ mod imp {
         pub(super) connection: OnceCell<model::Connection>,
         #[property(get, set, construct_only)]
         pub(super) podman: OnceCell<BoxedPodman>,
+        #[property(get, set, construct_only)]
+        pub(super) engine: OnceCell<BoxedEngine>,
         #[property(get = Self::version, nullable)]
         pub(super) version: OnceCell<Option<String>>,
         #[property(get = Self::cpus, nullable)]
@@ -249,7 +253,7 @@ mod imp {
         }
 
         fn cpus(&self) -> i64 {
-            self.cpus.get().cloned().unwrap_or(-1)
+            self.cpus.get().cloned().unwrap()
         }
 
         fn image_list(&self) -> model::ImageList {
@@ -292,26 +296,24 @@ impl TryFrom<&model::Connection> for Client {
     type Error = podman::Error;
 
     fn try_from(connection: &model::Connection) -> Result<Self, Self::Error> {
+        // TODO
+        let engine =
+            rt::Promise::new(async move { engine::Engine::new(connection.url()).await.unwrap() })
+                .block_on();
+
         podman::Podman::new(connection.url()).map(|podman| {
             let obj: Self = glib::Object::builder()
                 .property("connection", connection)
                 .property("podman", BoxedPodman::from(podman.clone()))
+                .property("engine", BoxedEngine::from(engine.clone()))
                 .build();
 
-            rt::Promise::new(async move { podman.info().await }).defer(clone!(
+            rt::Promise::new(async move { engine.info().await }).defer(clone!(
                 #[weak]
                 obj,
-                move |info| match info {
-                    Ok(info) => {
-                        obj.set_version(info.version.unwrap().version);
-                        obj.set_cpus(info.host.unwrap().cpus);
-                    }
-                    Err(e) => {
-                        log::error!("Error on retrieving podmnan info: {e}");
-
-                        obj.set_version(None);
-                        obj.set_cpus(None);
-                    }
+                move |info| {
+                    obj.set_version(Some(info.version));
+                    obj.set_cpus(info.cpus);
                 }
             ));
 
@@ -326,8 +328,8 @@ impl Client {
         self.notify_version();
     }
 
-    fn set_cpus(&self, value: Option<i64>) {
-        self.imp().cpus.set(value.unwrap_or(-1)).unwrap();
+    fn set_cpus(&self, value: i64) {
+        self.imp().cpus.set(value).unwrap();
         self.notify_cpus();
     }
 

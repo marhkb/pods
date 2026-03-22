@@ -30,6 +30,11 @@ tokio-stream = { version = "0.1", default-features = false }
 vte = { version = "0.15", default-features = false }
 vte4 = "0.10"
 
+hyper = { version = "1", features = ["client", "http1"] }
+hyper-util = "0.1"
+hyperlocal = {version = "0.9", default-features = false, features = ["client"] }
+http-body-util = "0.1"
+
 [profile.release]
 lto = true
 codegen-units = 1
