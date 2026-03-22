@@ -238,3 +238,79 @@ progressbar.error progress {
 .star > icon {
   color: var(--yellow-3);
 }
+
+@media (prefers-color-scheme: dark) {
+  containercard separator {
+    background-color: var(--window-bg-color);
+  }
+
+  actionsbutton.finished .action-count-badge {
+    background-color: var(--light-3);
+    color: var(--dark-5);
+  }
+
+  .version,
+  .container-health-status-not-running,
+  .container-status-not-running,
+  .image-unused,
+  .pod-status-not-running,
+  .volume-unused,
+  .rich-expander-row-header #badge {
+    color: var(--dark-3);
+    background-color: var(--light-5);
+  }
+}
+
+@media (prefers-contrast: more) {
+  containercard.not-running {
+    background-color: var(--sidebar-bg-color);
+  }
+
+  .dim-icon {
+    color: #ffffff;
+  }
+
+  .tag-label {
+    font-weight: bold;
+  }
+
+  .container-health-status-healthy,
+  .container-status-running,
+  .image-used,
+  .pod-status-running,
+  .volume-used {
+    background-color: var(--accent-bg-color);
+    color: var(--accent-fg-color);
+  }
+
+  .pod-status-degraded {
+    background-color: var(--accent-yellow);
+    color: var(--accent-fg-color);
+  }
+
+  .container-status-dead,
+  .container-status-unknown,
+  .pod-status-error,
+  .pod-status-dead,
+  .pod-status-unknown,
+  .container-health-status-unhealthy,
+  .container-health-status-unknown {
+    background-color: var(--error-bg-color);
+    color: var(--error-fg-color);
+  }
+
+  .container-health-status-healthy {
+    color: var(--accent-fg-color);
+    background-color: var(--accent-green);
+  }
+}
+
+@media (prefers-color-scheme: dark) and (prefers-contrast: more) {
+  containercard separator {
+    background-color: var(--border-color);
+  }
+
+  containercard.not-running {
+    background-color: transparent;
+  }
+}
