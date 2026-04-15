@@ -165,7 +165,7 @@ glib::wrapper! {
 
 impl Default for ActionsSidebar {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

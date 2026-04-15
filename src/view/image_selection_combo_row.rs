@@ -114,7 +114,7 @@ mod imp {
                         .get(0)
                         .as_ref()
                         .map(model::RepoTag::full)
-                        .unwrap_or_else(|| utils::format_id(&image.id())),
+                        .unwrap_or_else(|| utils::format_id(&image.id()).to_owned()),
                 );
                 obj.set_mode(ImageSelectionMode::Local);
             }
@@ -149,7 +149,8 @@ impl ImageSelectionComboRow {
 
     pub(crate) fn search_image(&self) {
         if let Some(client) = self.client() {
-            let image_search_page = view::ImageSearchPage::new(&client, &gettext("Select"), false);
+            let image_search_page =
+                view::ImageRemoteSelectionPage::new(&client, &gettext("Select"), false);
 
             image_search_page.connect_image_selected(clone!(
                 #[weak(rename_to = obj)]

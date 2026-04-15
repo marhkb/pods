@@ -141,40 +141,40 @@ mod imp {
         fn on_connection_list_box_activated(&self, row: &gtk::ListBoxRow) {
             let obj = &*self.obj();
 
-            if let Some(connection_manager) = obj.connection_manager() {
-                let position = (0..connection_manager.n_items())
-                    .find(|position| {
-                        self.connection_list_box
-                            .row_at_index(*position as i32)
-                            .as_ref()
-                            == Some(row)
-                    })
-                    .unwrap();
+            let Some(connection_manager) = obj.connection_manager() else {
+                return;
+            };
 
-                let connection = connection_manager
-                    .item(position)
-                    .and_downcast::<model::Connection>()
-                    .unwrap();
+            let position = (0..connection_manager.n_items())
+                .find(|position| {
+                    self.connection_list_box
+                        .row_at_index(*position as i32)
+                        .as_ref()
+                        == Some(row)
+                })
+                .unwrap();
 
-                if connection.is_active() {
-                    return;
-                }
+            let connection = connection_manager
+                .item(position)
+                .and_downcast::<model::Connection>()
+                .unwrap();
 
-                connection_manager.set_client_from(
-                    &connection.uuid(),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |result| if let Err(e) = result {
-                            utils::show_error_toast(
-                                &obj,
-                                &gettext("Error on establishing connection"),
-                                &e.to_string(),
-                            );
-                        }
-                    ),
-                );
+            if connection.is_active() {
+                return;
             }
+
+            connection_manager.set_client_from(
+                &connection.uuid(),
+                clone!(
+                    #[weak]
+                    obj,
+                    move |e| utils::show_error_toast(
+                        &obj,
+                        &gettext("Error on establishing connection"),
+                        &e.to_string(),
+                    )
+                ),
+            );
         }
 
         pub(super) fn filter(&self) -> &gtk::Filter {

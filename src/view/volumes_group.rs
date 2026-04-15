@@ -4,7 +4,6 @@ use adw::prelude::*;
 use adw::subclass::prelude::PreferencesGroupImpl;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
@@ -60,11 +59,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let sorter = gtk::StringSorter::new(Some(
-                model::Volume::this_expression("inner").chain_closure::<String>(closure!(
-                    |_: model::Volume, inner: model::BoxedVolume| inner.name.clone()
-                )),
-            ));
+            let sorter = gtk::StringSorter::new(Some(model::Volume::this_expression("name")));
             self.sorter.set(sorter.upcast()).unwrap();
         }
     }

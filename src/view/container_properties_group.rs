@@ -13,7 +13,6 @@ use gtk::pango;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::widget;
 
 mod imp {
     use super::*;
@@ -25,35 +24,25 @@ mod imp {
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
-        pub(super) inspection_spinner: TemplateChild<adw::Spinner>,
+        pub(super) id_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) id_label: TemplateChild<gtk::Label>,
+        pub(super) created_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) created_row: TemplateChild<widget::PropertyRow>,
+        pub(super) size_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) size_stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) size_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) state_since_label: TemplateChild<gtk::Label>,
+        pub(super) status_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) port_bindings_row: TemplateChild<adw::ExpanderRow>,
         #[template_child]
-        pub(super) port_bindings_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) health_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) health_status_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) image_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) image_action_stack: TemplateChild<gtk::Stack>,
+        pub(super) image_action_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) pod_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -93,25 +82,23 @@ mod imp {
                 .chain_property::<gtk::Window>("application")
                 .chain_property::<crate::Application>("ticks");
             let container_expr = Self::Type::this_expression("container");
-            let data_expr = container_expr.chain_property::<model::Container>("data");
+            let container_details_expression =
+                container_expr.chain_property::<model::Container>("details");
+            let is_infra_expr = container_expr.chain_property::<model::Container>("is-infra");
+            let not_is_infra_expr = is_infra_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, is_infra: bool| !is_infra));
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health_status");
-            let port_bindings_expr =
-                data_expr.chain_property::<model::ContainerData>("port-bindings");
-            let image_expr = container_expr.chain_property::<model::Container>("image");
+            let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
-
-            data_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, cmd: Option<model::ContainerData>| { cmd.is_none() }
-                ))
-                .bind(&*self.inspection_spinner, "visible", Some(obj));
 
             container_expr
                 .chain_property::<model::Container>("id")
-                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| utils::format_id(id)))
-                .bind(&*self.id_label, "label", Some(obj));
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, id: &str| utils::format_id(id).to_owned()
+                ))
+                .bind(&*self.id_row, "subtitle", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 [
@@ -122,68 +109,45 @@ mod imp {
                     utils::format_ago(utils::timespan_now(created))
                 }),
             )
-            .bind(&*self.created_row, "value", Some(obj));
+            .bind(&*self.created_row, "subtitle", Some(obj));
 
-            data_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, data: Option<model::ContainerData>| match data {
-                        None => "waiting",
-                        Some(_) => "ready",
-                    }
-                ))
-                .bind(&*self.size_stack, "visible-child-name", Some(obj));
-            data_expr
-                .chain_property::<model::ContainerData>("size")
+            container_details_expression
+                .chain_property::<model::ContainerDetails>("size")
                 .chain_closure::<String>(closure!(|_: Self::Type, size: i64| glib::format_size(
                     size as u64
                 )))
-                .bind(&*self.size_label, "label", Some(obj));
+                .bind(&*self.size_row, "subtitle", Some(obj));
 
-            port_bindings_expr.watch(
+            container_expr.watch(
                 Some(obj),
                 clone!(
                     #[weak]
                     obj,
-                    #[to_owned]
-                    port_bindings_expr,
                     move || {
                         let imp = obj.imp();
 
-                        imp.port_bindings_label.set_label("");
+                        imp.port_bindings_row.set_subtitle("");
                         utils::ChildIter::from(&*imp.port_bindings_row)
                             .filter(|child| child.is::<gtk::ListBoxRow>())
                             .for_each(|child| imp.port_bindings_row.remove(&child));
 
-                        let port_bindings: Option<model::BoxedPortBindings> =
-                            port_bindings_expr.evaluate_as(Some(&obj));
+                        let container = obj.container();
 
-                        if let Some(port_bindings) = port_bindings {
-                            let client = obj
-                                .container()
-                                .unwrap()
-                                .container_list()
-                                .unwrap()
-                                .client()
-                                .unwrap();
+                        if let Some(container) = container {
+                            let client = container.container_list().unwrap().client().unwrap();
                             let connection = client.connection();
 
-                            imp.port_bindings_label
-                                .set_label(&port_bindings.len().to_string());
+                            imp.port_bindings_row
+                                .set_subtitle(&container.ports().len().to_string());
 
-                            port_bindings
-                                .iter()
-                                .flat_map(|(container_port, hosts)| {
-                                    hosts
-                                        .as_deref()
-                                        .unwrap_or_default()
-                                        .iter()
-                                        .map(move |host| (container_port, host))
-                                })
-                                .map(|(container_port, host)| {
-                                    let host_ip = host.host_ip.as_deref().unwrap_or("");
+                            container
+                                .ports()
+                                .iter::<model::PortMapping>()
+                                .map(Result::unwrap)
+                                .map(|port_mapping| {
                                     let host = format!(
                                         "{}:{}",
-                                        if host_ip.is_empty() {
+                                        if port_mapping.ip_address().is_empty() {
                                             if connection.is_remote() {
                                                 let url = connection.url();
                                                 let host_with_port =
@@ -200,9 +164,9 @@ mod imp {
                                                 Cow::Borrowed("127.0.0.1")
                                             }
                                         } else {
-                                            Cow::Borrowed(host_ip)
+                                            Cow::Owned(port_mapping.ip_address())
                                         },
-                                        host.host_port.as_deref().unwrap_or("0")
+                                        port_mapping.host_port()
                                     );
 
                                     let box_ = gtk::CenterBox::builder()
@@ -232,7 +196,7 @@ mod imp {
                                     ));
                                     box_.set_end_widget(Some(
                                         &gtk::Label::builder()
-                                            .label(container_port)
+                                            .label(port_mapping.container_port().to_string())
                                             .css_classes(vec!["dim-label".to_string()])
                                             .hexpand(true)
                                             .selectable(true)
@@ -253,18 +217,18 @@ mod imp {
                 ),
             );
 
-            #[rustfmt::skip]
-            port_bindings_expr.chain_closure::<bool>(
-                closure!(|_: Self::Type, port_bindings: Option<&model::BoxedPortBindings>| {
-                    port_bindings.map(|map| !map.is_empty()).unwrap_or(false)
-                }))
+            container_expr
+                .chain_property::<model::Container>("ports")
+                .chain_property::<model::PortMappingList>("len")
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
                 .bind(&*self.port_bindings_row, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 [
                     &ticks_expr,
                     &status_expr,
-                    &container_expr.chain_property::<model::Container>("up-since"),
+                    &container_details_expression
+                        .chain_property::<model::ContainerDetails>("up-since"),
                 ],
                 closure!(|_: Self::Type,
                           _ticks: u64,
@@ -284,7 +248,7 @@ mod imp {
                     }
                 }),
             )
-            .bind(&*self.state_since_label, "label", Some(obj));
+            .bind(&*self.status_row, "subtitle", Some(obj));
 
             status_expr
                 .chain_closure::<String>(closure!(
@@ -328,29 +292,14 @@ mod imp {
                 ))
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
 
-            gtk::ClosureExpression::new::<String>(
-                &[
-                    image_expr.chain_property::<model::Image>("repo-tags"),
-                    image_expr.chain_property::<model::Image>("id"),
-                ],
-                closure!(|_: Self::Type, repo_tags: model::RepoTagList, id: &str| {
-                    repo_tags
-                        .get(0)
-                        .as_ref()
-                        .map(model::RepoTag::full)
-                        .unwrap_or_else(|| utils::format_id(id))
-                }),
-            )
-            .bind(&*self.image_label, "label", Some(obj));
+            not_is_infra_expr.bind(&*self.image_action_row, "visible", Some(obj));
 
-            image_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, image: Option<model::Image>| {
-                    match image {
-                        None => "waiting",
-                        Some(_) => "ready",
-                    }
-                }))
-                .bind(&*self.image_action_stack, "visible-child-name", Some(obj));
+            image_name_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| name
+                    .map(utils::format_if_id)
+                    .map(ToOwned::to_owned)
+                    .unwrap_or_default()))
+                .bind(&*self.image_action_row, "subtitle", Some(obj));
 
             pod_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
@@ -362,7 +311,7 @@ mod imp {
                 .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
                     pod.as_ref().map(model::Pod::name).unwrap_or_default()
                 }))
-                .bind(&*self.pod_label, "label", Some(obj));
+                .bind(&*self.pod_row, "subtitle", Some(obj));
         }
     }
 

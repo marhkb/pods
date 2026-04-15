@@ -84,7 +84,7 @@ glib::wrapper! {
 
 impl Default for ContainersGridView {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

@@ -67,10 +67,11 @@ mod imp {
             let container_volume_expr = Self::Type::this_expression("container-volume");
             let volume_expr =
                 container_volume_expr.chain_property::<model::ContainerVolume>("volume");
-            let volume_inner_expr = volume_expr.chain_property::<model::Volume>("inner");
-            let volume_name_is_id_expr = volume_inner_expr.chain_closure::<bool>(closure!(
-                |_: Self::Type, inner: model::BoxedVolume| utils::is_podman_id(&inner.name)
-            ));
+            let volume_name_expr = volume_expr.chain_property::<model::Volume>("name");
+            let volume_name_is_id_expr =
+                volume_name_expr.chain_closure::<bool>(closure!(|_: Self::Type, name: &str| {
+                    utils::as_id(name).is_some()
+                }));
             let volume_to_be_deleted_expr =
                 volume_expr.chain_property::<model::Volume>("to-be-deleted");
             let container_list_expr = volume_expr.chain_property::<model::Volume>("container-list");
@@ -80,17 +81,16 @@ mod imp {
                     gtk::ClosureExpression::new::<String>(
                         [
                             volume_name_is_id_expr.upcast_ref(),
-                            volume_inner_expr.upcast_ref(),
+                            volume_name_expr.upcast_ref(),
                         ],
-                        closure!(
-                            |_: Self::Type, name_is_id: bool, inner: &model::BoxedVolume| {
-                                if name_is_id {
-                                    utils::format_id(&inner.name)
-                                } else {
-                                    inner.name.clone()
-                                }
+                        closure!(|_: Self::Type, name_is_id: bool, name: &str| {
+                            if name_is_id {
+                                utils::format_id(name)
+                            } else {
+                                name
                             }
-                        ),
+                            .to_owned()
+                        }),
                     )
                     .upcast_ref(),
                     volume_to_be_deleted_expr.upcast_ref(),
@@ -153,16 +153,12 @@ mod imp {
 
     impl ContainerVolumeRow {
         fn set_path_label(&self, style_manager: &adw::StyleManager) {
-            if let Some(inner) = self
-                .obj()
-                .container_volume()
-                .map(|container_volume| container_volume.inner())
-            {
-                let path = inner.destination.clone().unwrap();
+            if let Some(container_volume) = self.obj().container_volume() {
+                let destination = container_volume.destination();
                 let mut label = if style_manager.is_high_contrast() {
-                    path
+                    destination
                 } else {
-                    format!("<span alpha=\"55%\">{path}</span>")
+                    format!("<span alpha=\"55%\">{destination}</span>")
                 };
                 label.push(' ');
 
@@ -180,14 +176,12 @@ mod imp {
                         ""
                     },
                 ));
-                label.push_str(if inner.rw.unwrap_or_default() {
-                    "rw"
-                } else {
-                    "ro"
-                });
-                if let Some(mode) = inner.mode.as_ref().filter(|mode| !mode.is_empty()) {
+                label.push_str(if container_volume.rw() { "rw" } else { "ro" });
+
+                let mode = container_volume.mode();
+                if !mode.is_empty() {
                     label.push(',');
-                    label.push_str(mode);
+                    label.push_str(&mode);
                 }
                 label.push_str("</span>");
 

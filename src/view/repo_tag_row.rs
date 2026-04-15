@@ -6,8 +6,8 @@ use glib::clone;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::rt;
 use crate::utils;
 use crate::view;
@@ -174,15 +174,10 @@ impl RepoTagRow {
                 .as_ref()
                 .map(model::Client::action_list)
         {
-            let reference = repo_tag.full();
-
-            action_list.download_image(
-                &reference,
-                podman::opts::PullOpts::builder()
-                    .reference(&reference)
-                    .policy(podman::opts::PullPolicy::Newer)
-                    .build(),
-            );
+            action_list.download_image(engine::opts::ImagePullOpts {
+                reference: repo_tag.full(),
+                ..Default::default()
+            });
         }
     }
 
@@ -206,16 +201,7 @@ impl RepoTagRow {
                 .unwrap();
             let repo = repo_tag.repo();
             let tag = repo_tag.tag();
-            async move {
-                image
-                    .untag(
-                        &podman::opts::ImageTagOpts::builder()
-                            .repo(repo)
-                            .tag(tag)
-                            .build(),
-                    )
-                    .await
-            }
+            async move { image.untag(&repo, &tag).await }
         })
         .exec()
         .await;

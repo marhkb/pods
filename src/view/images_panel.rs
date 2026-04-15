@@ -175,7 +175,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_DELETE_SELECTION, None, |widget, _, _| {
-                widget.delete_selection();
+                widget.remove_selection();
             });
 
             klass.install_action(ACTION_TOGGLE_SORT_DIRECTION, None, |widget, _, _| {
@@ -369,7 +369,10 @@ mod imp {
                             .get(0)
                             .map(|repo_tag| repo_tag.full())
                             .cmp(&image2.repo_tags().get(0).map(|repo_tag| repo_tag.full())),
-                        SortAttribute::Containers => image1.containers().cmp(&image2.containers()),
+                        SortAttribute::Containers => image1
+                            .container_list()
+                            .len()
+                            .cmp(&image2.container_list().len()),
                     };
 
                     match obj.sort_direction() {
@@ -576,7 +579,7 @@ glib::wrapper! {
 
 impl Default for ImagesPanel {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 
@@ -603,9 +606,7 @@ impl ImagesPanel {
 
     pub(crate) fn show_download_page(&self) {
         if let Some(client) = self.client() {
-            utils::Dialog::new(self, &view::ImagePullPage::from(&client))
-                .height(640)
-                .present();
+            utils::Dialog::new(self, &view::ImagePullPage::from(&client)).present();
         }
     }
 
@@ -656,7 +657,7 @@ impl ImagesPanel {
         }
     }
 
-    pub(crate) fn delete_selection(&self) {
+    pub(crate) fn remove_selection(&self) {
         if self
             .image_list()
             .map(|list| list.num_selected())
@@ -692,7 +693,7 @@ impl ImagesPanel {
                         .iter()
                         .map(|obj| obj.downcast_ref::<model::Image>().unwrap())
                         .for_each(|image| {
-                            image.delete(clone!(
+                            image.remove(clone!(
                                 #[weak]
                                 obj,
                                 move |image, result| {

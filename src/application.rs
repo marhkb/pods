@@ -1,16 +1,14 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
-use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::Properties;
 use glib::clone;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
-use log::debug;
-use log::info;
 
 use crate::config;
 use crate::view;
@@ -18,10 +16,12 @@ use crate::view;
 mod imp {
     use super::*;
 
-    #[derive(Default)]
+    #[derive(Default, Properties)]
+    #[properties(wrapper_type = super::Application)]
     pub(crate) struct Application {
-        pub(super) ticks: Cell<u64>,
         pub(super) window: OnceCell<glib::WeakRef<view::Window>>,
+        #[property(get, set)]
+        pub(super) ticks: Cell<u64>,
     }
 
     #[glib::object_subclass]
@@ -33,16 +33,15 @@ mod imp {
 
     impl ObjectImpl for Application {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES
-                .get_or_init(|| vec![glib::ParamSpecUInt64::builder("ticks").read_only().build()])
+            Self::derived_properties()
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "ticks" => self.obj().ticks().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
+        }
+
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
         fn constructed(&self) {
@@ -68,7 +67,7 @@ mod imp {
 
     impl ApplicationImpl for Application {
         fn activate(&self) {
-            debug!("GtkApplication<Application>::activate");
+            log::debug!("GtkApplication<Application>::activate");
             self.parent_activate();
 
             let app = &self.obj();
@@ -88,7 +87,7 @@ mod imp {
         }
 
         fn startup(&self) {
-            debug!("GtkApplication<Application>::startup");
+            log::debug!("GtkApplication<Application>::startup");
             self.parent_startup();
 
             let app = &*self.obj();
@@ -122,13 +121,9 @@ impl Default for Application {
 }
 
 impl Application {
-    fn ticks(&self) -> u64 {
-        self.imp().ticks.get()
-    }
-
     fn tick(&self) {
-        self.imp().ticks.set(self.ticks() + 1);
-        self.notify("ticks");
+        self.set_ticks(self.ticks() + 1);
+        self.notify_ticks();
     }
 
     pub(super) fn main_window(&self) -> view::Window {
@@ -230,9 +225,9 @@ impl Application {
     }
 
     pub(crate) fn run(&self) {
-        info!("Pods ({})", config::APP_ID);
-        info!("Version: {} ({})", config::VERSION, config::PROFILE);
-        info!("Datadir: {}", config::PKGDATADIR);
+        log::info!("Pods ({})", config::APP_ID);
+        log::info!("Version: {} ({})", config::VERSION, config::PROFILE);
+        log::info!("Datadir: {}", config::PKGDATADIR);
 
         ApplicationExtManual::run(self);
     }

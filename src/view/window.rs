@@ -150,17 +150,21 @@ mod imp {
                         clone!(
                             #[weak]
                             obj,
-                            move || {
-                                obj.imp().main_stack.set_visible_child_full(
-                                    "client",
-                                    gtk::StackTransitionType::None,
-                                );
-                            }
+                            move || obj
+                                .imp()
+                                .main_stack
+                                .set_visible_child_full("client", gtk::StackTransitionType::None,)
                         ),
                         clone!(
                             #[weak]
                             obj,
-                            move |e| obj.client_err_op(e)
+                            move |e| obj.imp().toast_overlay.add_toast(
+                                adw::Toast::builder()
+                                    .title(e.to_string())
+                                    .timeout(3)
+                                    .priority(adw::ToastPriority::High)
+                                    .build(),
+                            )
                         ),
                         clone!(
                             #[weak]
@@ -193,9 +197,7 @@ mod imp {
             self.connection_manager.setup(clone!(
                 #[weak]
                 obj,
-                move |result| if let Err(e) = result {
-                    obj.on_connection_manager_setup_error(e);
-                }
+                move |e| obj.on_connection_manager_setup_error(e)
             ));
         }
     }
@@ -316,20 +318,5 @@ impl Window {
             });
 
         utils::show_error_toast(&*imp.toast_overlay, "Connection lost", &e.to_string());
-    }
-
-    fn client_err_op(&self, e: model::ClientError) {
-        self.imp().toast_overlay.add_toast(
-            adw::Toast::builder()
-                .title(match e {
-                    model::ClientError::Images => gettext("Error on loading images"),
-                    model::ClientError::Containers => gettext("Error on loading containers"),
-                    model::ClientError::Pods => gettext("Error on loading pods"),
-                    model::ClientError::Volumes => gettext("Error on loading volumes"),
-                })
-                .timeout(3)
-                .priority(adw::ToastPriority::High)
-                .build(),
-        );
     }
 }

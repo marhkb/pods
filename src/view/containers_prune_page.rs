@@ -5,7 +5,6 @@ use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -84,15 +83,9 @@ impl ContainersPrunePage {
         let imp = self.imp();
 
         let action = self.client().unwrap().action_list().prune_containers(
-            podman::opts::ContainerPruneOpts::builder()
-                .filter(if imp.prune_until_row.enables_expansion() {
-                    Some(podman::opts::ContainerPruneFilter::Until(
-                        imp.prune_until_row.prune_until_timestamp().to_string(),
-                    ))
-                } else {
-                    None
-                })
-                .build(),
+            imp.prune_until_row
+                .enables_expansion()
+                .then(|| imp.prune_until_row.prune_until_timestamp().to_string()),
         );
 
         let page = view::ActionPage::from(&action);

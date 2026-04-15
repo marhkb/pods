@@ -48,7 +48,7 @@ template $PdsContainerHealthCheckPage: Widget {
 
         $PdsPropertyRow failing_streak_row {
           key: _("Failing Streak");
-          value: bind template.container as <$Container>.data as <$ContainerData>.health-failing-streak;
+          value: bind template.container as <$Container>.details as <$ContainerDetails>.health-failing-streak;
         }
       }
 
@@ -56,11 +56,12 @@ template $PdsContainerHealthCheckPage: Widget {
         title: _("Log");
         description: _("Rows describe the last 5 health check attempts and results");
 
-        header-suffix: Button {
+        header-suffix: Button run_healthcheck_button {
           action-name: "container-health-check-page.run-health-check";
           label: _("_Run Health Check");
           use-underline: true;
           valign: center;
+          visible: bind run_healthcheck_button.sensitive;
         };
 
         ListBox log_list_box {

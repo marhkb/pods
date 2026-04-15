@@ -65,7 +65,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
-                view::container::delete(widget, widget.container());
+                view::container::remove(widget, widget.container());
             });
         }
 
@@ -99,24 +99,22 @@ mod imp {
             );
 
             let container_expr = Self::Type::this_expression("container");
+            let container_status_expr = container_expr.chain_property::<model::Container>("status");
 
-            container_expr
-                .chain_property::<model::Container>("action-ongoing")
-                .chain_closure::<bool>(closure!(|_: Self::Type, action_ongoing: bool| {
-                    !action_ongoing
+            container_status_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
+                    !status.is_transition()
                 }))
                 .bind(&*self.menu_button, "sensitive", Some(obj));
 
-            container_expr
-                .chain_property::<model::Container>("status")
-                .watch(
-                    Some(obj),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move || obj.update_actions()
-                    ),
-                );
+            container_status_expr.watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    move || obj.update_actions()
+                ),
+            );
         }
 
         fn dispose(&self) {
@@ -135,16 +133,16 @@ glib::wrapper! {
 
 impl ContainerMenuButton {
     fn update_actions(&self) {
-        if let Some(container) = self.container() {
-            let can_stop = container.can_stop();
+        let Some(status) = self.container().as_ref().map(model::Container::status) else {
+            return;
+        };
 
-            self.action_set_enabled(ACTION_START, container.can_start());
-            self.action_set_enabled(ACTION_STOP, can_stop);
-            self.action_set_enabled(ACTION_KILL, can_stop);
-            self.action_set_enabled(ACTION_RESTART, container.can_restart());
-            self.action_set_enabled(ACTION_RESUME, container.can_resume());
-            self.action_set_enabled(ACTION_PAUSE, container.can_pause());
-            self.action_set_enabled(ACTION_DELETE, container.can_delete());
-        }
+        self.action_set_enabled(ACTION_START, status.can_start());
+        self.action_set_enabled(ACTION_STOP, status.can_stop());
+        self.action_set_enabled(ACTION_KILL, status.can_kill());
+        self.action_set_enabled(ACTION_RESTART, status.can_restart());
+        self.action_set_enabled(ACTION_RESUME, status.can_resume());
+        self.action_set_enabled(ACTION_PAUSE, status.can_pause());
+        self.action_set_enabled(ACTION_DELETE, status.can_force_delete());
     }
 }

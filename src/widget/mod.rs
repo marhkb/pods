@@ -8,6 +8,7 @@ mod random_name_entry_row;
 mod scalable_text_view;
 mod source_view_search_widget;
 mod spinner;
+mod suggestion_entry_row;
 mod text_search_entry;
 mod zoom_control;
 
@@ -21,5 +22,7 @@ pub(crate) use self::random_name_entry_row::RandomNameEntryRow;
 pub(crate) use self::scalable_text_view::ScalableTextView;
 pub(crate) use self::source_view_search_widget::SourceViewSearchWidget;
 pub(crate) use self::spinner::Spinner;
+pub(crate) use self::suggestion_entry_row::SuggestionEntryRow;
+pub(crate) use self::suggestion_entry_row::SuggestionEntryVisibleStackPage;
 pub(crate) use self::text_search_entry::TextSearchEntry;
 pub(crate) use self::zoom_control::ZoomControl;

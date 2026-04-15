@@ -45,6 +45,9 @@ mod imp {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
+
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) action_row: TemplateChild<adw::PreferencesRow>,
         #[template_child]
@@ -92,7 +95,11 @@ mod imp {
                 widget.show_pod_details();
             });
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
-                if widget.container().map(|c| c.can_start()).unwrap_or(false) {
+                let Some(container) = widget.container() else {
+                    return;
+                };
+
+                if container.status().can_start() {
                     view::container::start(widget, widget.container());
                 } else {
                     view::container::resume(widget, widget.container());
@@ -114,7 +121,7 @@ mod imp {
                 view::container::resume(widget, widget.container());
             });
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
-                view::container::delete(widget, widget.container());
+                view::container::remove(widget, widget.container());
             });
             klass.install_action(ACTION_INSPECT, None, |widget, _, _| {
                 widget.show_inspection();
@@ -170,7 +177,16 @@ mod imp {
             let obj = &*self.obj();
 
             let container_expr = Self::Type::this_expression("container");
+            let details_expr = container_expr.chain_property::<model::Container>("details");
             let status_expr = container_expr.chain_property::<model::Container>("status");
+
+            details_expr
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, details: Option<model::ContainerDetails>| details
+                        .map(|_| "loaded")
+                        .unwrap_or("loading")
+                ))
+                .bind(&*self.stack, "visible-child-name", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
@@ -186,19 +202,9 @@ mod imp {
                     move || obj.update_actions()
                 ),
             );
-            container_expr
-                .chain_property::<model::Container>("action-ongoing")
-                .watch(
-                    Some(obj),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move || obj.update_actions()
-                    ),
-                );
 
             container_expr
-                .chain_property::<model::Container>("health_status")
+                .chain_property::<model::Container>("health-status")
                 .watch(
                     Some(obj),
                     clone!(
@@ -258,17 +264,19 @@ mod imp {
             }
 
             if let Some(container) = value {
-                container.inspect(clone!(
-                    #[weak]
-                    obj,
-                    move |result| if let Err(e) = result {
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext("Error on loading container details"),
-                            &e.to_string(),
-                        );
-                    }
-                ));
+                if container.details().is_none() {
+                    container.inspect_and_update(clone!(
+                        #[weak]
+                        obj,
+                        move |e| {
+                            utils::show_error_toast(
+                                &obj,
+                                &gettext("Error on loading container details"),
+                                &e.to_string(),
+                            );
+                        }
+                    ));
+                }
 
                 let handler_id = container.connect_deleted(clone!(
                     #[weak]
@@ -285,12 +293,7 @@ mod imp {
 
                 let sorter = gtk::StringSorter::new(Some(
                     model::ContainerVolume::this_expression("volume")
-                        .chain_property::<model::Volume>("inner")
-                        .chain_closure::<String>(closure!(
-                            |_: model::ContainerVolume, inner: model::BoxedVolume| {
-                                inner.name.clone()
-                            }
-                        )),
+                        .chain_property::<model::Volume>("name"),
                 ));
                 let model = gtk::SortListModel::new(Some(container.volume_list()), Some(sorter));
 
@@ -333,30 +336,29 @@ impl ContainerDetailsPage {
     }
 
     fn update_actions(&self) {
-        if let Some(container) = self.container() {
-            let imp = self.imp();
+        let Some(container) = self.container() else {
+            return;
+        };
 
-            imp.action_row.set_sensitive(!container.action_ongoing());
+        let imp = self.imp();
 
-            let can_start_or_resume = container.can_start() || container.can_resume();
-            let can_stop = container.can_stop();
+        imp.action_row
+            .set_sensitive(!container.status().is_transition());
 
-            imp.start_or_resume_button
-                .set_visible(!container.action_ongoing() && can_start_or_resume);
-            imp.stop_button
-                .set_visible(!container.action_ongoing() && can_stop);
-            imp.spinning_button.set_visible(
-                container.action_ongoing()
-                    || (!imp.start_or_resume_button.is_visible() && !imp.stop_button.is_visible()),
-            );
+        let can_start_or_resume = container.status().can_start() || container.status().can_resume();
+        let can_stop = container.status().can_stop();
 
-            self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
-            self.action_set_enabled(ACTION_STOP, can_stop);
-            self.action_set_enabled(ACTION_KILL, container.can_kill());
-            self.action_set_enabled(ACTION_RESTART, container.can_restart());
-            self.action_set_enabled(ACTION_PAUSE, container.can_pause());
-            self.action_set_enabled(ACTION_DELETE, container.can_delete());
-        }
+        imp.start_or_resume_button.set_visible(can_start_or_resume);
+        imp.stop_button.set_visible(can_stop);
+        imp.spinning_button
+            .set_visible(!imp.start_or_resume_button.is_visible() && !imp.stop_button.is_visible());
+
+        self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
+        self.action_set_enabled(ACTION_STOP, can_stop);
+        self.action_set_enabled(ACTION_KILL, container.status().can_kill());
+        self.action_set_enabled(ACTION_RESTART, container.status().can_restart());
+        self.action_set_enabled(ACTION_PAUSE, container.status().can_pause());
+        self.action_set_enabled(ACTION_DELETE, container.status().can_force_delete());
     }
 
     pub(crate) fn commit(&self) {
@@ -385,13 +387,15 @@ impl ContainerDetailsPage {
 
     pub(crate) fn show_health_details(&self) {
         self.exec_action(|| {
-            if let Some(ref container) = self.container() {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::ContainerHealthCheckPage::from(container))
-                        .build(),
-                );
-            }
+            let Some(ref container) = self.container() else {
+                return;
+            };
+
+            utils::navigation_view(self).push(
+                &adw::NavigationPage::builder()
+                    .child(&view::ContainerHealthCheckPage::from(container))
+                    .build(),
+            );
         });
     }
 

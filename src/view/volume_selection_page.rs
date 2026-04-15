@@ -10,7 +10,6 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
-use gtk::pango;
 
 use crate::model;
 use crate::utils;
@@ -134,7 +133,7 @@ mod imp {
                     let term = obj.imp().filter_entry.text().to_lowercase();
                     let volume = item.downcast_ref::<model::Volume>().unwrap();
 
-                    volume.inner().name.to_lowercase().contains(&term)
+                    volume.name().to_lowercase().contains(&term)
                 }
             ));
             self.filter.set(filter.upcast()).unwrap();
@@ -204,32 +203,6 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_signal_list_item_factory_setup(&self, list_item: &gtk::ListItem) {
-            let label = gtk::Label::builder()
-                .margin_top(9)
-                .margin_end(12)
-                .margin_bottom(9)
-                .margin_start(12)
-                .xalign(0.0)
-                .wrap(true)
-                .wrap_mode(pango::WrapMode::WordChar)
-                .build();
-
-            list_item.set_child(Some(&label));
-        }
-
-        #[template_callback]
-        fn on_signal_list_item_factory_bind(&self, list_item: &gtk::ListItem) {
-            let volume = list_item.item().and_downcast::<model::Volume>().unwrap();
-
-            list_item
-                .child()
-                .and_downcast::<gtk::Label>()
-                .unwrap()
-                .set_label(&utils::format_volume_name(&volume.inner().name));
-        }
-
-        #[template_callback]
         fn on_volume_selected(&self) {
             self.obj()
                 .action_set_enabled(ACTION_SELECT, self.selection.selected_item().is_some());
@@ -258,7 +231,7 @@ mod imp {
                         let volume1 = item1.downcast_ref::<model::Volume>().unwrap();
                         let volume2 = item2.downcast_ref::<model::Volume>().unwrap();
 
-                        volume1.inner().name.cmp(&volume2.inner().name).into()
+                        volume1.name().cmp(&volume2.name()).into()
                     })),
                 );
 

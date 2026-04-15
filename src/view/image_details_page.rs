@@ -11,11 +11,9 @@ use gtk::gdk;
 use gtk::glib;
 
 use crate::model;
-use crate::podman;
 use crate::rt;
 use crate::utils;
 use crate::view;
-use crate::widget;
 
 const ACTION_TAG: &str = "image-details-page.tag";
 const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
@@ -32,24 +30,25 @@ mod imp {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_image, construct, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
+
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) create_tag_row: TemplateChild<gtk::ListBoxRow>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) inspection_spinner: TemplateChild<adw::Spinner>,
+        pub(super) id_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) id_row: TemplateChild<widget::PropertyRow>,
+        pub(super) created_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) created_row: TemplateChild<widget::PropertyRow>,
+        pub(super) size_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) size_row: TemplateChild<widget::PropertyRow>,
+        pub(super) command_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) command_row: TemplateChild<widget::PropertyRow>,
+        pub(super) entrypoint_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) entrypoint_row: TemplateChild<widget::PropertyRow>,
-        #[template_child]
-        pub(super) ports_row: TemplateChild<widget::PropertyRow>,
+        pub(super) ports_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) repo_tags_list_box: TemplateChild<gtk::ListBox>,
     }
@@ -118,13 +117,27 @@ mod imp {
             let obj = &*self.obj();
 
             let image_expr = Self::Type::this_expression("image");
-            let data_expr = image_expr.chain_property::<model::Image>("data");
-            let image_config_expr = data_expr.chain_property::<model::ImageData>("config");
-            let cmd_expr = image_config_expr.chain_property::<model::ImageConfig>("cmd");
+            let image_id_expr = image_expr.chain_property::<model::Image>("id");
+            let image_formatted_id_expr =
+                image_id_expr.chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
+                    utils::format_id(id).to_owned()
+                }));
+            let image_details_expr = image_expr.chain_property::<model::Image>("details");
+            let cmd_expr = image_details_expr.chain_property::<model::ImageDetails>("cmd");
             let entrypoint_expr =
-                image_config_expr.chain_property::<model::ImageConfig>("entrypoint");
+                image_details_expr.chain_property::<model::ImageDetails>("entrypoint");
             let exposed_ports_expr =
-                image_config_expr.chain_property::<model::ImageConfig>("exposed-ports");
+                image_details_expr.chain_property::<model::ImageDetails>("exposed-ports");
+
+            image_formatted_id_expr.bind(&*self.window_title, "subtitle", Some(obj));
+
+            image_details_expr
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, details: Option<model::ImageDetails>| details
+                        .map(|_| "loaded")
+                        .unwrap_or("loading")
+                ))
+                .bind(&*self.stack, "visible-child-name", Some(obj));
 
             image_expr
                 .chain_property::<model::Image>("to-be-deleted")
@@ -144,16 +157,7 @@ mod imp {
                     ),
                 );
 
-            data_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<model::ImageData>| {
-                    cmd.is_none()
-                }))
-                .bind(&*self.inspection_spinner, "visible", Some(obj));
-
-            image_expr
-                .chain_property::<model::Image>("id")
-                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| utils::format_id(id)))
-                .bind(&*self.id_row, "value", Some(obj));
+            image_formatted_id_expr.bind(&*self.id_row, "subtitle", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
@@ -166,16 +170,16 @@ mod imp {
                     utils::format_ago(utils::timespan_now(created))
                 }),
             )
-            .bind(&*self.created_row, "value", Some(obj));
+            .bind(&*self.created_row, "subtitle", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
                     image_expr.chain_property::<model::Image>("size").upcast(),
-                    image_expr
-                        .chain_property::<model::Image>("shared-size")
+                    image_details_expr
+                        .chain_property::<model::ImageDetails>("shared-size")
                         .upcast(),
-                    image_expr
-                        .chain_property::<model::Image>("virtual-size")
+                    image_details_expr
+                        .chain_property::<model::ImageDetails>("virtual-size")
                         .upcast(),
                 ],
                 closure!(
@@ -215,16 +219,16 @@ mod imp {
                     }
                 ),
             )
-            .bind(&*self.size_row, "value", Some(obj));
+            .bind(&*self.size_row, "subtitle", Some(obj));
 
-            cmd_expr.bind(&*self.command_row, "value", Some(obj));
+            cmd_expr.bind(&*self.command_row, "subtitle", Some(obj));
             cmd_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<&str>| {
                     cmd.is_some()
                 }))
                 .bind(&*self.command_row, "visible", Some(obj));
 
-            entrypoint_expr.bind(&*self.entrypoint_row, "value", Some(obj));
+            entrypoint_expr.bind(&*self.entrypoint_row, "subtitle", Some(obj));
             entrypoint_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, entrypoint: Option<&str>| {
                     entrypoint.is_some()
@@ -247,7 +251,7 @@ mod imp {
                         utils::format_iter(exposed_ports.iter().map(glib::GString::as_str), ", ")
                     }
                 ))
-                .bind(&*self.ports_row, "value", Some(obj));
+                .bind(&*self.ports_row, "subtitle", Some(obj));
 
             exposed_ports_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, exposed_ports: gtk::StringList| {
@@ -270,26 +274,25 @@ mod imp {
                 return;
             }
 
-            self.window_title.set_subtitle("");
             if let Some(image) = obj.image() {
                 image.disconnect(self.handler_id.take().unwrap());
             }
             self.repo_tags_list_box.unbind_model();
 
             if let Some(image) = value {
-                self.window_title
-                    .set_subtitle(&utils::format_id(&image.id()));
-                image.inspect(clone!(
-                    #[weak]
-                    obj,
-                    move |result| if let Err(e) = result {
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext("Error on loading image details"),
-                            &e.to_string(),
-                        );
-                    }
-                ));
+                if image.details().is_none() {
+                    image.inspect_and_update(clone!(
+                        #[weak]
+                        obj,
+                        move |e| {
+                            utils::show_error_toast(
+                                &obj,
+                                &gettext("Error on loading image details"),
+                                &e.to_string(),
+                            );
+                        }
+                    ));
+                }
 
                 let handler_id = image.connect_deleted(clone!(
                     #[weak]
@@ -297,7 +300,7 @@ mod imp {
                     move |image| {
                         utils::show_toast(
                             &obj,
-                            gettext!("Image '{}' has been deleted", image.id()),
+                            gettext!("Image '{}' has been deleted", utils::format_id(&image.id())),
                         );
                         utils::navigation_view(&obj).pop();
                     }
@@ -337,9 +340,7 @@ impl From<&model::Image> for ImageDetailsPage {
 impl ImageDetailsPage {
     async fn tag(&self) {
         self.exec_action(async || {
-            let image = if let Some(image) = self.image().as_ref().and_then(model::Image::api) {
-                image
-            } else {
+            let Some(api) = self.image().and_then(|image| image.api()) else {
                 return;
             };
 
@@ -350,18 +351,9 @@ impl ImageDetailsPage {
             let repo = dialog.repo();
             let tag = dialog.tag();
 
-            let result = rt::Promise::new(async move {
-                image
-                    .tag(
-                        &podman::opts::ImageTagOpts::builder()
-                            .repo(repo)
-                            .tag(tag)
-                            .build(),
-                    )
-                    .await
-            })
-            .exec()
-            .await;
+            let result = rt::Promise::new(async move { api.tag(repo, tag).await })
+                .exec()
+                .await;
 
             if let Err(e) = result {
                 utils::show_error_toast(self, &gettext("Error"), &e.to_string());

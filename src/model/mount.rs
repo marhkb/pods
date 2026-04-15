@@ -9,6 +9,7 @@ use glib::subclass::Signal;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
@@ -26,6 +27,16 @@ pub(crate) enum SELinux {
     NoLabel,
     Shared,
     Private,
+}
+
+impl From<SELinux> for engine::opts::SELinux {
+    fn from(value: SELinux) -> Self {
+        match value {
+            SELinux::NoLabel => engine::opts::SELinux::NoLabel,
+            SELinux::Shared => engine::opts::SELinux::Shared,
+            SELinux::Private => engine::opts::SELinux::Private,
+        }
+    }
 }
 
 impl AsRef<str> for SELinux {

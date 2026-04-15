@@ -4,8 +4,8 @@ use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -23,6 +23,8 @@ mod imp {
         pub(super) client: glib::WeakRef<model::Client>,
         #[template_child]
         pub(super) navigation_view: TemplateChild<adw::NavigationView>,
+        #[template_child]
+        pub(super) prune_all_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) prune_until_row: TemplateChild<widget::DateTimeRow>,
     }
@@ -83,17 +85,17 @@ impl VolumesPrunePage {
     pub(crate) fn prune(&self) {
         let imp = self.imp();
 
-        let action = self.client().unwrap().action_list().prune_volumes(
-            podman::opts::VolumePruneOpts::builder()
-                .filter(if imp.prune_until_row.enables_expansion() {
-                    Some(podman::opts::VolumePruneFilter::Until(
-                        imp.prune_until_row.prune_until_timestamp().to_string(),
-                    ))
-                } else {
-                    None
-                })
-                .build(),
-        );
+        let action =
+            self.client()
+                .unwrap()
+                .action_list()
+                .prune_volumes(engine::opts::VolumesPruneOpts {
+                    all: imp.prune_all_row.is_active(),
+                    until: imp
+                        .prune_until_row
+                        .enables_expansion()
+                        .then(|| imp.prune_until_row.prune_until_timestamp().to_string()),
+                });
 
         let page = view::ActionPage::from(&action);
 

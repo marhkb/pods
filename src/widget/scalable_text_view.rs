@@ -70,7 +70,7 @@ glib::wrapper! {
 
 impl Default for ScalableTextView {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

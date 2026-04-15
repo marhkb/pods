@@ -27,7 +27,6 @@ pub(crate) fn container_health_status_css_class(
     match status {
         Healthy => "container-health-status-healthy",
         Unhealthy => "container-health-status-unhealthy",
-        Unknown => "container-health-status-unknown",
         _ => "container-health-status-not-running",
     }
 }
@@ -137,18 +136,18 @@ macro_rules! container_action {
         where
             W: gtk::glib::prelude::IsA<gtk::Widget> + gtk::glib::clone::Downgrade<Weak = gtk::glib::WeakRef<W>>,
         {
-            if let Some(container) = container {
-                container.$action(
-                    $($param,)*
-                    gtk::glib::clone!(#[weak] widget, move |result| if let Err(e) = result {
-                        crate::utils::show_error_toast(
-                            &widget,
-                            &$error,
-                            &e.to_string()
-                        );
-                    }),
-                );
-            }
+            let Some(container) = container else { return; };
+
+            container.$action(
+                $($param,)*
+                gtk::glib::clone!(#[weak] widget, move |result| if let Err(e) = result {
+                    crate::utils::show_error_toast(
+                        &widget,
+                        &$error,
+                        &e.to_string()
+                    );
+                }),
+            );
         }
     };
 }
@@ -159,4 +158,4 @@ container_action!(fn kill => stop(true) => { gettextrs::gettext("Error on killin
 container_action!(fn restart => restart(false) => { gettextrs::gettext("Error on restarting container") });
 container_action!(fn pause => pause() => { gettextrs::gettext("Error on pausing container") });
 container_action!(fn resume => resume() => { gettextrs::gettext("Error on resuming container") });
-container_action!(fn delete => delete(false) => { gettextrs::gettext("Error on deleting container") });
+container_action!(fn remove => remove() => { gettextrs::gettext("Error on deleting container") });

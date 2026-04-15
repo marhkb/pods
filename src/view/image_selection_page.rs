@@ -11,7 +11,6 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
-use gtk::pango;
 
 use crate::model;
 use crate::utils;
@@ -200,45 +199,6 @@ mod imp {
             }
 
             glib::Propagation::Proceed
-        }
-
-        #[template_callback]
-        fn on_signal_list_item_factory_setup(&self, list_item: &gtk::ListItem) {
-            let label = gtk::Label::builder()
-                .margin_top(9)
-                .margin_end(12)
-                .margin_bottom(9)
-                .margin_start(12)
-                .xalign(0.0)
-                .wrap(true)
-                .wrap_mode(pango::WrapMode::WordChar)
-                .build();
-
-            list_item.set_child(Some(&label));
-        }
-
-        #[template_callback]
-        fn on_signal_list_item_factory_bind(&self, list_item: &gtk::ListItem) {
-            let image = list_item.item().and_downcast::<model::Image>().unwrap();
-            let repo_tag = image.repo_tags().get(0);
-
-            let label = list_item.child().and_downcast::<gtk::Label>().unwrap();
-            label.set_label(
-                &repo_tag
-                    .as_ref()
-                    .map(|repo_tag| repo_tag.full())
-                    .unwrap_or_else(|| image.id()),
-            );
-            match image.repo_tags().get(0) {
-                Some(_) => {
-                    label.remove_css_class("dim-label");
-                    label.remove_css_class("numeric");
-                }
-                None => {
-                    label.add_css_class("dim-label");
-                    label.add_css_class("numeric");
-                }
-            }
         }
 
         #[template_callback]

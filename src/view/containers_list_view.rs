@@ -80,7 +80,7 @@ glib::wrapper! {
 
 impl Default for ContainersListView {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

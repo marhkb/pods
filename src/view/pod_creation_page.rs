@@ -1,6 +1,5 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
-use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -11,8 +10,8 @@ use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -38,8 +37,6 @@ mod imp {
         pub(super) devices: OnceCell<gio::ListStore>,
         pub(super) pod_create_cmd_args: OnceCell<gio::ListStore>,
         pub(super) infra_cmd_args: OnceCell<gio::ListStore>,
-        pub(super) command_row_handler:
-            RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get, set, construct_only, nullable)]
@@ -212,8 +209,6 @@ mod imp {
 
             self.infra_image_selection_combo_row
                 .set_client(obj.client());
-
-            obj.update_infra_command_row();
         }
 
         fn dispose(&self) {
@@ -280,11 +275,6 @@ mod imp {
             } else {
                 self.infra_settings_box.set_visible(true);
             }
-        }
-
-        #[template_callback]
-        fn on_infra_image_selection_combo_row_notify_subtitle(&self) {
-            self.obj().update_infra_command_row();
         }
 
         pub(super) fn labels(&self) -> &gio::ListStore {
@@ -369,51 +359,43 @@ impl PodCreationPage {
     fn finish(&self) {
         let imp = self.imp();
 
-        if !imp.disable_infra_switch_row.is_active() {
-            match imp.infra_image_selection_combo_row.mode() {
-                view::ImageSelectionMode::Local => {
-                    let image = imp.infra_image_selection_combo_row.subtitle().unwrap();
-                    if imp.infra_pull_latest_image_switch_row.is_active() {
-                        self.pull_and_create(image.as_str());
-                    } else {
-                        self.create(Some(image.as_str()));
+        let opts = self.opts();
+
+        match opts.infra {
+            engine::opts::PodInfra::Infra { .. } => {
+                match imp.infra_image_selection_combo_row.mode() {
+                    view::ImageSelectionMode::Local => {
+                        let image = imp.infra_image_selection_combo_row.subtitle().unwrap();
+                        if imp.infra_pull_latest_image_switch_row.is_active() {
+                            self.pull_and_create(image.as_str());
+                        } else {
+                            self.create();
+                        }
                     }
+                    view::ImageSelectionMode::Remote => {
+                        self.pull_and_create(
+                            imp.infra_image_selection_combo_row
+                                .subtitle()
+                                .unwrap()
+                                .as_str(),
+                        );
+                    }
+                    view::ImageSelectionMode::Unset => self.create(),
                 }
-                view::ImageSelectionMode::Remote => {
-                    self.pull_and_create(
-                        imp.infra_image_selection_combo_row
-                            .subtitle()
-                            .unwrap()
-                            .as_str(),
-                    );
-                }
-                view::ImageSelectionMode::Unset => self.create(None),
             }
-        } else {
-            self.create(None)
+
+            engine::opts::PodInfra::NoInfra => self.create(),
         }
     }
 
-    fn create(&self, infra_image: Option<&str>) {
-        let imp = self.imp();
-
-        let opts = self.opts();
-        let opts = if let Some(infra_image) = infra_image {
-            opts.infra_image(infra_image)
-        } else {
-            opts
+    fn create(&self) {
+        let Some(action) = self.client().unwrap().action_list().create_pod(self.opts()) else {
+            return;
         };
 
-        let page = view::ActionPage::new(
-            &self
-                .client()
-                .unwrap()
-                .action_list()
-                .create_pod(imp.name_entry_row.text().as_str(), opts.build()),
-            self.show_view_artifact(),
-        );
+        let page = view::ActionPage::new(&action, self.show_view_artifact());
 
-        imp.navigation_view.push(
+        self.imp().navigation_view.push(
             &adw::NavigationPage::builder()
                 .can_pop(false)
                 .child(&page)
@@ -424,19 +406,16 @@ impl PodCreationPage {
     fn pull_and_create(&self, reference: &str) {
         let imp = self.imp();
 
-        let pull_opts = podman::opts::PullOpts::builder()
-            .reference(reference)
-            .quiet(false)
-            .build();
-
         let page = view::ActionPage::new(
             &self
                 .client()
                 .unwrap()
                 .action_list()
                 .create_pod_download_infra(
-                    imp.name_entry_row.text().as_str(),
-                    pull_opts,
+                    engine::opts::ImagePullOpts {
+                        reference: reference.to_owned(),
+                        ..Default::default()
+                    },
                     self.opts(),
                 ),
             self.show_view_artifact(),
@@ -450,136 +429,86 @@ impl PodCreationPage {
         );
     }
 
-    fn opts(&self) -> podman::opts::PodCreateOptsBuilder {
+    fn opts(&self) -> engine::opts::PodCreateOpts {
         let imp = self.imp();
 
-        let mut opts = podman::opts::PodCreateOpts::builder()
-            .name(imp.name_entry_row.text().as_str())
-            .hostname(imp.hostname_entry_row.text().as_str())
-            .labels(
-                imp.labels()
-                    .iter::<model::KeyVal>()
-                    .map(Result::unwrap)
-                    .map(|entry| (entry.key(), entry.value())),
-            )
-            .portmappings(
-                imp.port_mappings()
-                    .iter::<model::PortMapping>()
-                    .map(Result::unwrap)
-                    .map(|port_mapping| podman::models::PortMapping {
-                        container_port: Some(port_mapping.container_port() as u16),
-                        host_ip: None,
-                        host_port: Some(port_mapping.host_port() as u16),
-                        protocol: Some(port_mapping.protocol().to_string()),
-                        range: None,
-                    }),
-            );
-
-        if imp.disable_infra_switch_row.is_active() {
-            opts = opts.no_infra(true);
-        } else {
-            let infra_name = imp.infra_name_entry_row.text();
-            if !infra_name.is_empty() {
-                opts = opts.infra_name(infra_name.as_str());
-            }
-
-            if imp.disable_resolv_switch_row.is_active() {
-                opts = opts.no_manage_resolv_conf(true);
-            }
-
-            let infra_command = imp.infra_command_entry_row.text();
-            if !infra_command.is_empty() {
-                let args = imp
-                    .infra_cmd_args()
-                    .iter::<model::Value>()
-                    .map(Result::unwrap)
-                    .map(|value| value.value());
-                let mut cmd = vec![infra_command.to_string()];
-                cmd.extend(args);
-                opts = opts.infra_command(cmd);
-            }
-            let infra_common_pid_file = imp.infra_common_pid_file_entry_row.text();
-            if !infra_common_pid_file.is_empty() {
-                opts = opts.infra_common_pid_file(infra_common_pid_file.as_str());
-            }
-        }
-
-        if imp.enable_hosts_switch.is_active() {
-            opts = opts.add_hosts(
-                imp.hosts()
-                    .iter::<model::KeyVal>()
-                    .map(Result::unwrap)
-                    .map(|entry| format!("{}:{}", entry.key(), entry.value())),
-            )
-        } else {
-            opts = opts.no_manage_hosts(true);
-        }
-
-        let create_cmd = imp.pod_create_command_entry_row.text();
-        if !create_cmd.is_empty() {
-            let args = imp
-                .pod_create_cmd_args()
-                .iter::<model::Value>()
+        engine::opts::PodCreateOpts {
+            create_cmd: Some(imp.pod_create_command_entry_row.text().trim())
+                .filter(|create_cmd| !create_cmd.is_empty())
+                .map(|create_cmd| {
+                    std::iter::once(create_cmd.to_owned())
+                        .chain(
+                            imp.pod_create_cmd_args()
+                                .iter::<model::Value>()
+                                .map(Result::unwrap)
+                                .map(|value| value.value()),
+                        )
+                        .collect()
+                }),
+            devices: imp
+                .devices()
+                .iter::<model::Device>()
                 .map(Result::unwrap)
-                .map(|value| value.value());
-            let mut cmd = vec![create_cmd.to_string()];
-            cmd.extend(args);
-            opts = opts.pod_create_command(cmd);
-        }
-
-        let devices: Vec<_> = imp
-            .devices()
-            .iter::<model::Device>()
-            .map(Result::unwrap)
-            .map(|device| {
-                format!(
-                    "{}:{}:{}{}{}",
-                    device.host_path(),
-                    device.container_path(),
-                    if device.readable() { "r" } else { "" },
-                    if device.writable() { "w" } else { "" },
-                    if device.mknod() { "m" } else { "" },
-                )
-            })
-            .collect();
-        if !devices.is_empty() {
-            opts = opts.pod_devices(devices);
-        }
-
-        opts
-    }
-
-    fn update_infra_command_row(&self) {
-        let imp = self.imp();
-
-        match imp.infra_image_selection_combo_row.image() {
-            Some(image) => match image.data() {
-                Some(details) => imp
-                    .infra_command_entry_row
-                    .set_text(&details.config().cmd().unwrap_or_default()),
-                None => {
-                    if let Some((handler, image)) = imp.command_row_handler.take()
-                        && let Some(image) = image.upgrade()
-                    {
-                        image.disconnect(handler);
-                    }
-                    let handler = image.connect_data_notify(clone!(
-                        #[weak(rename_to = obj)]
-                        self,
-                        move |image| {
-                            obj.imp().infra_command_entry_row.set_text(
-                                &image.data().unwrap().config().cmd().unwrap_or_default(),
-                            );
-                        }
-                    ));
-                    let image_weak = glib::WeakRef::new();
-                    image_weak.set(Some(&image));
-                    imp.command_row_handler.replace(Some((handler, image_weak)));
-
-                    image.inspect(|_| {});
+                .map(Into::into)
+                .collect(),
+            hostname: imp.hostname_entry_row.text().into(),
+            host_management: if imp.enable_hosts_switch.is_active() {
+                engine::opts::PodHostManagement::Pod {
+                    hosts: imp
+                        .hosts()
+                        .iter::<model::KeyVal>()
+                        .map(Result::unwrap)
+                        .map(|entry| engine::opts::PodHost {
+                            ip: entry.value(),
+                            name: entry.key(),
+                        })
+                        .collect(),
+                }
+            } else {
+                engine::opts::PodHostManagement::Containers
+            },
+            infra: if imp.disable_infra_switch_row.is_active() {
+                engine::opts::PodInfra::NoInfra
+            } else {
+                engine::opts::PodInfra::Infra {
+                    command: Some(imp.infra_command_entry_row.text().trim())
+                        .filter(|command| !command.is_empty())
+                        .map(|command| {
+                            std::iter::once(command.to_owned())
+                                .chain(
+                                    imp.infra_cmd_args()
+                                        .iter::<model::Value>()
+                                        .map(Result::unwrap)
+                                        .map(|value| value.value()),
+                                )
+                                .collect()
+                        }),
+                    common_pid_file: Some(imp.infra_common_pid_file_entry_row.text().trim())
+                        .filter(|common_pid_file| !common_pid_file.is_empty())
+                        .map(Into::into),
+                    image: imp
+                        .infra_image_selection_combo_row
+                        .subtitle()
+                        .map(Into::into),
+                    name: Some(imp.infra_name_entry_row.text().trim())
+                        .filter(|name| !name.is_empty())
+                        .map(Into::into),
+                    no_manage_resolv_conf: imp.disable_resolv_switch_row.is_active(),
                 }
             },
-            None => imp.infra_command_entry_row.set_text(""),
+            labels: imp
+                .labels()
+                .iter::<model::KeyVal>()
+                .map(Result::unwrap)
+                .map(|entry| (entry.key(), entry.value()))
+                .collect(),
+            name: imp.name_entry_row.text().into(),
+            port_mappings: imp
+                .port_mappings()
+                .iter::<model::PortMapping>()
+                .map(Result::unwrap)
+                .map(Into::into)
+                .collect(),
         }
     }
 }

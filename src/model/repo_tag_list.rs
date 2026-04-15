@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 use std::collections::HashSet;
-use std::sync::OnceLock;
+use std::marker::PhantomData;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
@@ -18,8 +18,12 @@ mod imp {
     #[properties(wrapper_type = super::RepoTagList)]
     pub(crate) struct RepoTagList {
         pub(super) list: RefCell<IndexMap<String, model::RepoTag>>,
+
         #[property(get, set, construct_only, nullable)]
         pub(crate) image: glib::WeakRef<model::Image>,
+
+        #[property(get = Self::len)]
+        _len: PhantomData<u32>,
     }
 
     #[glib::object_subclass]
@@ -31,16 +35,7 @@ mod imp {
 
     impl ObjectImpl for RepoTagList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(Some(
-                        glib::ParamSpecUInt::builder("len").read_only().build(),
-                    ))
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
@@ -48,16 +43,13 @@ mod imp {
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "len" => self.obj().len().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
             self.parent_constructed();
             self.obj()
-                .connect_items_changed(|obj, _, _, _| obj.notify("len"));
+                .connect_items_changed(|obj, _, _, _| obj.notify_len());
         }
     }
 
@@ -72,6 +64,12 @@ mod imp {
 
         fn item(&self, position: u32) -> Option<glib::Object> {
             self.obj().get(position as usize).map(|obj| obj.upcast())
+        }
+    }
+
+    impl RepoTagList {
+        pub(super) fn len(&self) -> u32 {
+            self.list.borrow().len() as u32
         }
     }
 }
@@ -104,12 +102,16 @@ impl RepoTagList {
             .any(|full| full.contains(lowercase_term))
     }
 
-    pub(crate) fn add(&self, repo_tag: model::RepoTag) {
-        let (index, _) = self
-            .imp()
-            .list
+    pub(crate) fn add(&self, full: String) {
+        let list = &self.imp().list;
+
+        if list.borrow().contains_key(&full) {
+            return;
+        }
+
+        let (index, _) = list
             .borrow_mut()
-            .insert_full(repo_tag.full(), repo_tag);
+            .insert_full(full.clone(), model::RepoTag::new(self, full));
 
         self.items_changed(index as u32, 0, 1);
     }
@@ -122,7 +124,7 @@ impl RepoTagList {
         }
     }
 
-    pub(crate) fn update(&self, mut new_repo_tags: HashSet<&String>) -> bool {
+    pub(crate) fn update(&self, mut new_repo_tags: HashSet<String>) {
         let old_repo_tags = self.imp().list.borrow().keys().cloned().collect::<Vec<_>>();
 
         let intermediate_state_changed = new_repo_tags.is_empty() != old_repo_tags.is_empty();
@@ -133,16 +135,12 @@ impl RepoTagList {
             }
         });
 
-        new_repo_tags
-            .into_iter()
-            .map(String::as_str)
-            .map(|full| model::RepoTag::new(self, full))
-            .for_each(|repo_tag| self.add(repo_tag));
+        new_repo_tags.into_iter().for_each(|full| self.add(full));
 
-        intermediate_state_changed
-    }
-
-    pub(crate) fn len(&self) -> u32 {
-        self.imp().list.borrow().len() as u32
+        if intermediate_state_changed
+            && let Some(image_list) = self.image().and_then(|image| image.image_list())
+        {
+            image_list.notify("intermediates");
+        }
     }
 }

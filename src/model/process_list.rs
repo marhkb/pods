@@ -1,8 +1,6 @@
 use std::cell::RefCell;
 use std::sync::OnceLock;
 
-use futures::StreamExt;
-use futures::TryStreamExt;
 use futures::stream;
 use gio::prelude::*;
 use gio::subclass::prelude::*;
@@ -13,8 +11,8 @@ use gtk::gio;
 use gtk::glib;
 use indexmap::map::IndexMap;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 
 mod imp {
     use super::*;
@@ -23,7 +21,7 @@ mod imp {
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::ProcessList)]
     pub(crate) struct ProcessList {
-        pub(super) list: RefCell<IndexMap<String, model::Process>>,
+        pub(super) list: RefCell<IndexMap<i32, model::Process>>,
         #[property(get, set, construct_only, nullable)]
         /// A `Container` or a `Pod`
         pub(super) top_source: glib::WeakRef<glib::Object>,
@@ -79,46 +77,40 @@ mod imp {
                 obj,
                 #[upgrade_or]
                 glib::ControlFlow::Break,
-                move |result: podman::Result<ProcessFields>| {
-                    match result {
-                        Ok(process_fields) => {
-                            let to_remove = obj
-                                .imp()
+                move |top| {
+                    match top {
+                        Ok(top) => {
+                            let imp = obj.imp();
+
+                            let to_remove = imp
                                 .list
                                 .borrow()
                                 .keys()
-                                .filter(|pid| {
-                                    !process_fields
-                                        .iter()
-                                        .any(|process_field| &process_field[1] == *pid)
-                                })
                                 .cloned()
+                                .filter(|pid| {
+                                    !top.processes().iter().any(|process| process.pid == *pid)
+                                })
                                 .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|pid| {
+                            to_remove.into_iter().for_each(|pid| {
                                 obj.remove(pid);
                             });
 
-                            process_fields.into_iter().for_each(|process_field| {
+                            top.into_processes().into_iter().for_each(|process| {
                                 use indexmap::map::Entry;
 
-                                let mut list = obj.imp().list.borrow_mut();
-                                let index = list.len() as u32;
-
-                                match list.entry(process_field[1].clone()) {
+                                let items_changed = match imp.list.borrow_mut().entry(process.pid) {
                                     Entry::Vacant(e) => {
-                                        let process =
-                                            model::Process::new(&obj, process_field.as_slice());
-                                        e.insert(process.clone());
-
-                                        drop(list);
-
-                                        obj.items_changed(index, 0, 1);
+                                        e.insert(model::Process::new(&obj, process));
+                                        true
                                     }
                                     Entry::Occupied(e) => {
-                                        let process = e.get().clone();
-                                        drop(list);
-                                        process.update(process_field.as_slice());
+                                        e.get().update(process);
+                                        false
                                     }
+                                };
+
+                                if items_changed {
+                                    obj.items_changed(obj.n_items() - 1, 0, 1);
                                 }
                             });
 
@@ -172,9 +164,9 @@ impl From<&model::Pod> for ProcessList {
 }
 
 impl ProcessList {
-    fn remove(&self, pid: &str) {
+    fn remove(&self, pid: i32) {
         let mut list = self.imp().list.borrow_mut();
-        if let Some((idx, _, _)) = list.shift_remove_full(pid) {
+        if let Some((idx, _, _)) = list.shift_remove_full(&pid) {
             drop(list);
             self.items_changed(idx as u32, 1, 0);
         }
@@ -191,23 +183,17 @@ impl ProcessList {
 }
 
 trait TopSource: Send {
-    fn stream(&'_ self) -> stream::BoxStream<'_, podman::Result<ProcessFields>>;
+    fn stream(&'_ self) -> stream::BoxStream<'_, anyhow::Result<engine::dto::Top>>;
 }
 
-impl TopSource for podman::api::Container {
-    fn stream(&'_ self) -> stream::BoxStream<'_, podman::Result<ProcessFields>> {
-        self.top_stream(&podman::opts::ContainerTopOpts::builder().delay(1).build())
-            .map_ok(|top| top.processes)
-            .boxed()
+impl TopSource for engine::api::Container {
+    fn stream(&'_ self) -> stream::BoxStream<'_, anyhow::Result<engine::dto::Top>> {
+        self.top_stream(1)
     }
 }
 
-impl TopSource for podman::api::Pod {
-    fn stream(&'_ self) -> stream::BoxStream<'_, podman::Result<ProcessFields>> {
-        self.top_stream(&podman::opts::PodTopOpts::builder().delay(1).build())
-            .map_ok(|top| top.processes)
-            .boxed()
+impl TopSource for engine::api::Pod {
+    fn stream(&'_ self) -> stream::BoxStream<'_, anyhow::Result<engine::dto::Top>> {
+        self.top_stream(1)
     }
 }
-
-type ProcessFields = Vec<Vec<String>>;

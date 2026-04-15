@@ -99,15 +99,15 @@ mod imp {
             );
 
             let pod_expr = Self::Type::this_expression("pod");
+            let pod_status_expr = pod_expr.chain_property::<model::Pod>("status");
 
-            pod_expr
-                .chain_property::<model::Pod>("action-ongoing")
-                .chain_closure::<bool>(closure!(|_: Self::Type, action_ongoing: bool| {
-                    !action_ongoing
+            pod_status_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::PodStatus| {
+                    !status.is_transition()
                 }))
                 .bind(&*self.menu_button, "sensitive", Some(obj));
 
-            pod_expr.chain_property::<model::Pod>("status").watch(
+            pod_status_expr.watch(
                 Some(obj),
                 clone!(
                     #[weak]
@@ -137,16 +137,16 @@ impl PodMenuButton {
     }
 
     fn update_actions(&self) {
-        if let Some(pod) = self.pod() {
-            let can_stop = pod.can_stop();
+        let Some(pod) = self.pod() else { return };
 
-            self.action_set_enabled(ACTION_START, pod.can_start());
-            self.action_set_enabled(ACTION_STOP, can_stop);
-            self.action_set_enabled(ACTION_KILL, can_stop);
-            self.action_set_enabled(ACTION_RESTART, pod.can_restart());
-            self.action_set_enabled(ACTION_RESUME, pod.can_resume());
-            self.action_set_enabled(ACTION_PAUSE, pod.can_pause());
-            self.action_set_enabled(ACTION_DELETE, pod.can_delete());
-        }
+        let can_stop = pod.status().can_stop();
+
+        self.action_set_enabled(ACTION_START, pod.status().can_start());
+        self.action_set_enabled(ACTION_STOP, can_stop);
+        self.action_set_enabled(ACTION_KILL, can_stop);
+        self.action_set_enabled(ACTION_RESTART, pod.status().can_restart());
+        self.action_set_enabled(ACTION_RESUME, pod.status().can_resume());
+        self.action_set_enabled(ACTION_PAUSE, pod.status().can_pause());
+        self.action_set_enabled(ACTION_DELETE, pod.status().can_delete());
     }
 }

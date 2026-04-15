@@ -138,6 +138,6 @@ glib::wrapper! {
 
 impl Default for RepoTagAddDialog {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }

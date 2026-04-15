@@ -8,6 +8,8 @@ use glib::subclass::Signal;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
+use crate::engine;
+
 mod imp {
     use super::*;
 
@@ -63,6 +65,18 @@ impl Default for Device {
             .property("writable", false)
             .property("mknod", false)
             .build()
+    }
+}
+
+impl From<Device> for engine::opts::PodDevice {
+    fn from(value: Device) -> Self {
+        Self {
+            container_path: value.container_path(),
+            host_path: value.host_path(),
+            readable: value.readable(),
+            writable: value.writable(),
+            mknod: value.mknod(),
+        }
     }
 }
 

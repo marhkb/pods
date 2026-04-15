@@ -1,8 +1,8 @@
 use std::cell::Cell;
 use std::cell::RefCell;
 use std::io::Read;
+use std::marker::PhantomData;
 use std::path::PathBuf;
-use std::sync::OnceLock;
 
 use futures::future;
 use gettextrs::gettext;
@@ -16,8 +16,8 @@ use gtk::glib;
 use indexmap::IndexMap;
 use tokio::io::AsyncWriteExt;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::rt;
 use crate::utils;
 use crate::utils::config_dir;
@@ -30,10 +30,15 @@ mod imp {
     pub(crate) struct ConnectionManager {
         pub(super) settings: utils::PodsSettings,
         pub(super) connections: RefCell<IndexMap<String, model::Connection>>,
+        pub(super) connect_abort_handle: RefCell<Option<future::AbortHandle>>,
+
         #[property(get)]
         pub(super) client: RefCell<Option<model::Client>>,
+        #[property(get, set)]
         pub(super) creating_new_connection: Cell<bool>,
-        pub(super) connect_abort_handle: RefCell<Option<future::AbortHandle>>,
+
+        #[property(get = Self::connecting)]
+        _connecting: PhantomData<bool>,
     }
 
     #[glib::object_subclass]
@@ -45,25 +50,15 @@ mod imp {
 
     impl ObjectImpl for ConnectionManager {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(Some(
-                        glib::ParamSpecBoolean::builder("connecting")
-                            .read_only()
-                            .build(),
-                    ))
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "connecting" => self.obj().is_connecting().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
+        }
+
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
     }
 
@@ -84,6 +79,17 @@ mod imp {
                 .cloned()
         }
     }
+
+    impl ConnectionManager {
+        pub(crate) fn connecting(&self) -> bool {
+            self.obj().creating_new_connection()
+                || self
+                    .connections
+                    .borrow()
+                    .values()
+                    .any(model::Connection::connecting)
+        }
+    }
 }
 
 glib::wrapper! {
@@ -93,19 +99,19 @@ glib::wrapper! {
 
 impl Default for ConnectionManager {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 
 impl ConnectionManager {
     pub(crate) fn setup<F>(&self, op: F)
     where
-        F: Fn(anyhow::Result<()>) + 'static,
+        F: Fn(anyhow::Error) + 'static,
     {
         let connections = match self.load_from_disk() {
             Ok(connections) => connections,
             Err(e) => {
-                op(Err(e));
+                op(e);
                 return;
             }
         };
@@ -128,8 +134,6 @@ impl ConnectionManager {
         if self.n_items() > 0 {
             let last_used_connection = imp.settings.string("last-used-connection");
             self.set_client_from(last_used_connection.as_str(), op);
-        } else {
-            op(Ok(()));
         }
     }
 
@@ -189,7 +193,7 @@ impl ConnectionManager {
         name: &str,
         url: &str,
         rgb: Option<gdk::RGBA>,
-    ) -> Option<anyhow::Result<podman::models::LibpodPingInfo>> {
+    ) -> Option<anyhow::Result<()>> {
         let imp = self.imp();
 
         if imp.connections.borrow().values().any(|c| c.name() == name) {
@@ -202,55 +206,40 @@ impl ConnectionManager {
         let connection =
             model::Connection::new(glib::uuid_string_random().as_str(), name, url, rgb, self);
 
-        let client = match model::Client::try_from(&connection) {
-            Ok(client) => client,
-            Err(e) => return Some(Err(anyhow::Error::from(e))),
-        };
-
         self.set_creating_new_connection(true);
 
-        let result = rt::Promise::new({
-            let podman = client.podman();
-            let abort_registration = self.abort_registration();
-            async move { future::Abortable::new(podman.ping(), abort_registration).await }
-        })
-        .exec()
-        .await;
+        let engine = create_engine(self.abort_registration(), connection.url().to_owned())
+            .exec()
+            .await?;
 
         self.set_creating_new_connection(false);
 
-        match result {
-            Ok(result) => {
-                match result {
-                    Ok(_) => {
-                        let (position, _) = imp
-                            .connections
-                            .borrow_mut()
-                            .insert_full(connection.uuid(), connection.clone());
+        match engine {
+            Ok(engine) => {
+                let (position, _) = imp
+                    .connections
+                    .borrow_mut()
+                    .insert_full(connection.uuid(), connection.clone());
 
-                        self.items_changed(position as u32, 0, 1);
+                self.items_changed(position as u32, 0, 1);
 
-                        self.set_client(Some(client));
+                self.set_client(Some(model::Client::new(&connection, engine)));
 
-                        _ = self.sync_to_disk().await;
-                    }
-                    Err(ref e) => log::error!("Error on pinging connection: {e}"),
-                }
+                _ = self.sync_to_disk().await;
 
-                Some(result.map_err(anyhow::Error::from))
+                Some(Ok(()))
             }
-            Err(_) => None,
+            Err(e) => {
+                log::error!("connection error: {e}");
+                Some(Err(e))
+            }
         }
     }
 
     pub(crate) async fn remove_connection(&self, uuid: &str) {
-        let position = {
-            let mut connections = self.imp().connections.borrow_mut();
-            if let Some((position, _, _)) = connections.shift_remove_full(uuid) {
-                position
-            } else {
-                return;
-            }
+        let Some((position, _, _)) = self.imp().connections.borrow_mut().shift_remove_full(uuid)
+        else {
+            return;
         };
 
         self.items_changed(position as u32, 1, 0);
@@ -276,13 +265,14 @@ impl ConnectionManager {
 
     pub(crate) fn set_client_from<F>(&self, connection_uuid: &str, op: F)
     where
-        F: Fn(anyhow::Result<()>) + 'static,
+        F: Fn(anyhow::Error) + 'static,
     {
         if self
             .client()
             .map(|c| c.connection().uuid() == connection_uuid)
             .unwrap_or(false)
         {
+            log::error!("Connection not found: {connection_uuid}");
             return;
         }
 
@@ -292,7 +282,8 @@ impl ConnectionManager {
         {
             Ok(connection) => connection,
             Err(e) => {
-                op(Err(e));
+                log::error!("Failed to connect: {}", e);
+                op(e);
                 return;
             }
         };
@@ -300,36 +291,27 @@ impl ConnectionManager {
         if connection.connecting() {
             return;
         }
+
         connection.set_connecting(true);
 
-        let client = match model::Client::try_from(&connection).map_err(anyhow::Error::from) {
-            Ok(client) => client,
-            Err(e) => {
-                op(Err(e));
-                return;
-            }
-        };
-
-        rt::Promise::new({
-            let podman = client.podman();
-            let abort_registration = self.abort_registration();
-            async move { future::Abortable::new(podman.ping(), abort_registration).await }
-        })
-        .defer(clone!(
+        create_engine(self.abort_registration(), connection.url().to_owned()).defer(clone!(
             #[weak(rename_to = obj)]
             self,
-            move |result| {
-                if let Ok(result) = result {
-                    match result {
-                        Ok(_) => {
-                            obj.set_client(Some(client));
+            #[weak]
+            connection,
+            move |engine| {
+                if let Some(engine) = engine {
+                    match engine {
+                        Ok(engine) => {
+                            obj.set_client(Some(model::Client::new(&connection, engine)));
                         }
-                        Err(ref e) => {
-                            log::error!("Failed to search for images: {}", e);
+                        Err(e) => {
+                            log::error!("Failed to connect: {}", e);
+                            op(e);
                         }
                     }
-                    op(result.map(|_| ()).map_err(anyhow::Error::from));
                 }
+
                 connection.set_connecting(false);
             }
         ));
@@ -365,25 +347,6 @@ impl ConnectionManager {
         self.set_client(None);
     }
 
-    pub(crate) fn is_connecting(&self) -> bool {
-        let imp = self.imp();
-        imp.creating_new_connection.get()
-            || imp
-                .connections
-                .borrow()
-                .values()
-                .any(model::Connection::connecting)
-    }
-
-    fn set_creating_new_connection(&self, value: bool) {
-        let imp = self.imp();
-        if imp.creating_new_connection.get() == value {
-            return;
-        }
-        imp.creating_new_connection.set(value);
-        self.notify("connecting");
-    }
-
     fn abort_registration(&self) -> future::AbortRegistration {
         self.abort();
 
@@ -415,4 +378,15 @@ impl ConnectionManager {
 
 fn path() -> PathBuf {
     utils::config_dir().join("connections.json")
+}
+
+fn create_engine(
+    abort_registration: future::AbortRegistration,
+    url: String,
+) -> rt::Promise<impl Future<Output = Option<anyhow::Result<engine::Engine>>>> {
+    rt::Promise::new(async move {
+        future::Abortable::new(engine::Engine::new(url), abort_registration)
+            .await
+            .ok()
+    })
 }

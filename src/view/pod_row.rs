@@ -97,8 +97,10 @@ mod imp {
 
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
 
-            pod_expr
-                .chain_property::<model::Pod>("action-ongoing")
+            status_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::PodStatus| {
+                    status.is_transition()
+                }))
                 .bind(&*self.spinner, "spinning", Some(obj));
 
             status_expr
@@ -143,7 +145,9 @@ mod imp {
 
             pod_expr
                 .chain_property::<model::Pod>("id")
-                .chain_closure::<String>(closure!(|_: Self::Type, id: &str| utils::format_id(id)))
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, id: &str| utils::format_id(id).to_owned()
+                ))
                 .bind(&*self.id_label, "label", Some(obj));
         }
     }
@@ -197,7 +201,7 @@ mod imp {
 
             model::Container::this_expression("ports")
                 .chain_property::<model::PortMappingList>("len")
-                .chain_closure::<bool>(closure!(|_: model::Container, len: u32| { len > 0 }))
+                .chain_closure::<bool>(closure!(|_: model::Container, len: u32| len > 0))
                 .bind(&self.ports_flow_box.get(), "visible", Some(container));
 
             self.ports_flow_box.bind_model(

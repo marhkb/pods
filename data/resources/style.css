@@ -4,6 +4,10 @@ flowbox.not-activatable flowboxchild:active {
   box-shadow: none;
 }
 
+listview.no-outline row {
+  outline: none;
+}
+
 containercard.not-running {
   background-color: var(--secondary-sidebar-bg-color);
 }
@@ -195,8 +199,7 @@ connectionchooserpage connectionrow {
 .pod-status-error,
 .pod-status-dead,
 .pod-status-unknown,
-.container-health-status-unhealthy,
-.container-health-status-unknown {
+.container-health-status-unhealthy {
   background-color: alpha(
     oklab(from var(--accent-red) var(--standalone-color-oklab)),
     0.25

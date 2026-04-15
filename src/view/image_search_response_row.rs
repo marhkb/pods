@@ -22,8 +22,6 @@ mod imp {
         #[template_child]
         pub(super) official_icon: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) description_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) stars_box: TemplateChild<gtk::Box>,
         #[template_child]
         pub(super) stars_label: TemplateChild<gtk::Label>,
@@ -71,8 +69,6 @@ mod imp {
                 tag_expr.chain_closure::<bool>(closure!(|_: Self::Type, tag: Option<&str>| tag
                     .filter(|tag| !tag.is_empty())
                     .is_none()));
-            let description_expr =
-                response_expr.chain_property::<model::ImageSearchResponse>("description");
             let stars_expr = response_expr.chain_property::<model::ImageSearchResponse>("stars");
 
             let style_manager = adw::StyleManager::default();
@@ -111,14 +107,6 @@ mod imp {
 
             official_expr.bind(&self.official_icon.get(), "visible", Some(obj));
 
-            description_expr.bind(&self.description_label.get(), "label", Some(obj));
-
-            description_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, description: Option<&str>| {
-                    !description.map(str::is_empty).unwrap_or(true)
-                }))
-                .bind(&*self.description_label, "visible", Some(obj));
-
             has_no_tag_expr.bind(&self.stars_box.get(), "visible", Some(obj));
             stars_expr.bind(&self.stars_label.get(), "label", Some(obj));
         }
@@ -139,7 +127,7 @@ glib::wrapper! {
 
 impl Default for ImageSearchResponseRow {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

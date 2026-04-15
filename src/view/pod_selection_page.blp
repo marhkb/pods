@@ -124,9 +124,12 @@ template $PdsPodSelectionPage: Widget {
 
                 show-separators: true;
 
-                factory: SignalListItemFactory {
-                  setup => $on_signal_list_item_factory_setup() swapped;
-                  bind => $on_signal_list_item_factory_bind() swapped;
+                factory: BuilderListItemFactory {
+                  template ListItem {
+                    child: $PdsPodSelectionRow {
+                      pod: bind template.item as <$Pod>;
+                    };
+                  }
                 };
 
                 model: SingleSelection selection {

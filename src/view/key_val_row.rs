@@ -1,5 +1,5 @@
 use std::cell::RefCell;
-use std::sync::OnceLock;
+use std::marker::PhantomData;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -18,8 +18,15 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/key_val_row.ui")]
     pub(crate) struct KeyValRow {
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
+
         #[property(get, set = Self::set_key_val, construct)]
         pub(super) key_val: RefCell<Option<model::KeyVal>>,
+
+        #[property(get = Self::key_placeholder_text, set = Self::set_key_placeholder_text, construct, nullable)]
+        _key_placeholder_text: PhantomData<Option<String>>,
+        #[property(get = Self::value_placeholder_text, set = Self::set_value_placeholder_text, construct, nullable)]
+        _value_placeholder_text: PhantomData<Option<String>>,
+
         #[template_child]
         pub(super) key_entry: TemplateChild<gtk::Entry>,
         #[template_child]
@@ -50,45 +57,15 @@ mod imp {
 
     impl ObjectImpl for KeyValRow {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(vec![
-                        glib::ParamSpecString::builder("key-placeholder-text")
-                            .construct()
-                            .explicit_notify()
-                            .build(),
-                        glib::ParamSpecString::builder("value-placeholder-text")
-                            .construct()
-                            .explicit_notify()
-                            .build(),
-                    ])
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "key-placeholder-text" => {
-                    self.obj()
-                        .set_key_placeholder_text(value.get().unwrap_or_default());
-                }
-                "value-placeholder-text" => {
-                    self.obj()
-                        .set_value_placeholder_text(value.get().unwrap_or_default());
-                }
-                _ => self.derived_set_property(id, value, pspec),
-            }
+            self.derived_set_property(id, value, pspec);
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "key-placeholder-text" => self.obj().key_placeholder_text().to_value(),
-                "value-placeholder-text" => self.obj().value_placeholder_text().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
     }
 
@@ -97,6 +74,22 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl KeyValRow {
+        fn key_placeholder_text(&self) -> Option<String> {
+            self.key_entry.placeholder_text().map(Into::into)
+        }
+
+        fn set_key_placeholder_text(&self, value: Option<&str>) {
+            self.key_entry.set_placeholder_text(value);
+        }
+
+        fn value_placeholder_text(&self) -> Option<String> {
+            self.value_entry.placeholder_text().map(Into::into)
+        }
+
+        fn set_value_placeholder_text(&self, value: Option<&str>) {
+            self.value_entry.set_placeholder_text(value);
+        }
+
         #[template_callback]
         fn on_key_entry_changed(&self) {
             self.obj().notify("key-placeholder-text");
@@ -161,21 +154,5 @@ impl KeyValRow {
             .property("key-placeholder-text", key_placeholder_text)
             .property("value-placeholder-text", value_placeholder_text)
             .build()
-    }
-
-    pub(crate) fn key_placeholder_text(&self) -> Option<glib::GString> {
-        self.imp().key_entry.placeholder_text()
-    }
-
-    pub(crate) fn set_key_placeholder_text(&self, value: Option<&str>) {
-        self.imp().key_entry.set_placeholder_text(value);
-    }
-
-    pub(crate) fn value_placeholder_text(&self) -> Option<glib::GString> {
-        self.imp().value_entry.placeholder_text()
-    }
-
-    pub(crate) fn set_value_placeholder_text(&self, value: Option<&str>) {
-        self.imp().value_entry.set_placeholder_text(value);
     }
 }

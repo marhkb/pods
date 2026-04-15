@@ -126,10 +126,10 @@ mod imp {
                     match mount_type {
                         model::MountType::Bind => {
                             let host_path = host_path.trim();
-                            if host_path.is_empty() { "?" } else { host_path }.to_string()
+                            if host_path.is_empty() { "?" } else { host_path }.to_owned()
                         }
                         model::MountType::Volume => volume
-                            .map(|volume| utils::format_volume_name(&volume.inner().name))
+                            .map(|volume| utils::format_volume_name(&volume.name()).to_owned())
                             .unwrap_or_else(|| "?".to_string()),
                     }
                 }),
@@ -180,7 +180,7 @@ mod imp {
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, volume: Option<model::Volume>| {
                         volume
-                            .map(|volume| utils::format_volume_name(&volume.inner().name))
+                            .map(|volume| utils::format_volume_name(&volume.name()).to_owned())
                             .unwrap_or_else(|| {
                                 format!(
                                     "<i>{}</i>",

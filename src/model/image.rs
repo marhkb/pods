@@ -1,8 +1,5 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
-use std::cell::RefCell;
-use std::collections::HashSet;
-use std::ops::Deref;
 use std::sync::OnceLock;
 
 use glib::Properties;
@@ -12,8 +9,8 @@ use glib::subclass::Signal;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::rt;
 
 mod imp {
@@ -22,31 +19,26 @@ mod imp {
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Image)]
     pub(crate) struct Image {
-        pub(super) inspection_callbacks: RefCell<
-            Option<rt::Callbacks<podman::Result<podman::models::InspectImageResponseLibpod>>>,
-        >,
         #[property(get, set, construct_only, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
+
         #[property(get = Self::container_list)]
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
-        #[property(get)]
-        pub(super) containers: Cell<u64>,
+
         #[property(get, set, construct_only)]
         pub(super) created: OnceCell<i64>,
-        #[property(get)]
+        #[property(get, set, construct)]
         pub(super) dangling: Cell<bool>,
-        #[property(get = Self::data, nullable)]
-        pub(super) data: OnceCell<Option<model::ImageData>>,
         #[property(get, set, construct_only)]
         pub(super) id: OnceCell<String>,
         #[property(get = Self::repo_tags)]
         pub(super) repo_tags: OnceCell<model::RepoTagList>,
         #[property(get, set, construct_only)]
         pub(super) size: OnceCell<u64>,
-        #[property(get)]
-        pub(super) shared_size: Cell<u64>,
-        #[property(get)]
-        pub(super) virtual_size: Cell<u64>,
+
+        #[property(get = Self::details, set, nullable)]
+        pub(super) details: OnceCell<Option<model::ImageDetails>>,
+
         #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
         #[property(get, set)]
@@ -84,58 +76,8 @@ mod imp {
             self.container_list.get_or_init(Default::default).to_owned()
         }
 
-        pub(super) fn data(&self) -> Option<model::ImageData> {
-            self.data.get().cloned().flatten()
-        }
-
-        pub(super) fn set_data(&self, value: model::ImageData) {
-            if self.data().is_some() {
-                return;
-            }
-            self.data.set(Some(value)).unwrap();
-            self.obj().notify_data();
-        }
-
-        pub(super) fn set_containers(&self, value: u64) {
-            let obj = &*self.obj();
-            if obj.containers() == value {
-                return;
-            }
-            self.containers.set(value);
-            obj.notify_containers();
-        }
-
-        pub(super) fn set_dangling(&self, value: bool) {
-            let obj = &*self.obj();
-            if obj.dangling() == value {
-                return;
-            }
-            self.dangling.set(value);
-            obj.notify_dangling();
-        }
-
-        pub(super) fn repo_tags(&self) -> model::RepoTagList {
-            self.repo_tags
-                .get_or_init(|| model::RepoTagList::from(&*self.obj()))
-                .to_owned()
-        }
-
-        pub(super) fn set_shared_size(&self, value: u64) {
-            let obj = &*self.obj();
-            if obj.shared_size() == value {
-                return;
-            }
-            self.shared_size.set(value);
-            obj.notify_shared_size();
-        }
-
-        pub(super) fn set_virtual_size(&self, value: u64) {
-            let obj = &*self.obj();
-            if obj.virtual_size() == value {
-                return;
-            }
-            self.virtual_size.set(value);
-            obj.notify_virtual_size();
+        pub(super) fn details(&self) -> Option<model::ImageDetails> {
+            self.details.get().cloned().flatten()
         }
 
         pub(super) fn set_to_be_deleted(&self, value: bool) {
@@ -146,6 +88,12 @@ mod imp {
             self.to_be_deleted.set(value);
             obj.notify_to_be_deleted();
         }
+
+        pub(super) fn repo_tags(&self) -> model::RepoTagList {
+            self.repo_tags
+                .get_or_init(|| model::RepoTagList::from(&*self.obj()))
+                .to_owned()
+        }
     }
 }
 
@@ -154,109 +102,96 @@ glib::wrapper! {
 }
 
 impl Image {
-    pub(crate) fn new(
+    pub(crate) fn new(image_list: &model::ImageList, dto: engine::dto::Image) -> Self {
+        match dto {
+            engine::dto::Image::Summary(dto) => Self::new_from_summary(image_list, dto),
+            engine::dto::Image::Inspection(dto) => Self::new_from_inspection(image_list, dto),
+        }
+    }
+
+    pub(crate) fn new_from_summary(
         image_list: &model::ImageList,
-        summary: &podman::models::LibpodImageSummary,
+        dto: engine::dto::ImageSummary,
     ) -> Self {
-        glib::Object::builder::<Self>()
-            .property("image-list", image_list)
-            .property("created", summary.created.unwrap_or(0))
-            .property("id", &summary.id)
-            .property("size", summary.size.unwrap_or_default() as u64)
-            .build()
-            .update_internal(summary, false)
-            .to_owned()
+        Self::build(image_list, dto, |builder| builder)
     }
 
-    fn update_internal(
-        &self,
-        summary: &podman::models::LibpodImageSummary,
-        notify_repo_tags: bool,
-    ) -> &Self {
-        let imp = self.imp();
-
-        imp.set_containers(summary.containers.unwrap_or_default() as u64);
-        imp.set_dangling(summary.dangling.unwrap_or_default());
-        if self.repo_tags().update(HashSet::from_iter(
-            summary.repo_tags.as_deref().unwrap_or_default().iter(),
-        )) && notify_repo_tags
-            && let Some(list) = self.image_list()
-        {
-            list.notify("intermediates");
-        }
-        imp.set_shared_size(summary.shared_size.unwrap_or_default() as u64);
-        imp.set_virtual_size(summary.virtual_size.unwrap_or_default() as u64);
-
-        self
-    }
-
-    pub(crate) fn update(&self, summary: &podman::models::LibpodImageSummary) -> &Self {
-        self.update_internal(summary, true)
-    }
-
-    pub(crate) fn inspect<F>(&self, op: F)
-    where
-        F: Fn(Result<model::Image, &podman::Error>) + 'static,
-    {
-        if let Some(callbacks) = self.imp().inspection_callbacks.borrow().as_ref() {
-            callbacks.add(clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| match result {
-                    Ok(_) => op(Ok(obj)),
-                    Err(e) => {
-                        log::error!("Error on inspecting image '{}': {e}", obj.id());
-                        op(Err(e));
-                    }
-                }
-            ));
-
-            return;
-        }
-
-        let callbacks = rt::Promise::new({
-            let image = self.api().unwrap();
-            async move { image.inspect().await }
+    pub(crate) fn new_from_inspection(
+        image_list: &model::ImageList,
+        dto: engine::dto::ImageInspection,
+    ) -> Self {
+        Self::build(image_list, dto.summary, |builder| {
+            builder.property("details", Some(model::ImageDetails::from(dto.details)))
         })
-        .defer_with_callbacks(clone!(
+    }
+
+    fn build<F>(image_list: &model::ImageList, dto: engine::dto::ImageSummary, op: F) -> Self
+    where
+        F: FnOnce(glib::object::ObjectBuilder<Self>) -> glib::object::ObjectBuilder<Self>,
+    {
+        let obj = op(glib::Object::builder()
+            .property("image-list", image_list)
+            .property("created", dto.created)
+            .property("dangling", dto.dangling)
+            .property("id", dto.id)
+            .property("size", dto.size))
+        .build();
+
+        obj.repo_tags().update(dto.repo_tags);
+
+        obj
+    }
+
+    pub(crate) fn update(&self, dto: engine::dto::Image) {
+        match dto {
+            engine::dto::Image::Summary(dto) => self.update_from_summary(dto),
+            engine::dto::Image::Inspection(dto) => self.update_from_inspection(dto),
+        }
+    }
+
+    pub(crate) fn update_from_summary(&self, dto: engine::dto::ImageSummary) {
+        self.set_dangling(dto.dangling);
+        self.repo_tags().update(dto.repo_tags);
+    }
+
+    pub(crate) fn update_from_inspection(&self, dto: engine::dto::ImageInspection) {
+        self.update_from_summary(dto.summary);
+
+        match self.details() {
+            Some(details) => details.update(dto.details),
+            None => self.set_details(Some(model::ImageDetails::from(dto.details))),
+        }
+    }
+
+    pub(crate) fn inspect_and_update<F>(&self, op: F)
+    where
+        F: Fn(anyhow::Error) + 'static,
+    {
+        let Some(api) = self.api() else { return };
+
+        rt::Promise::new(async move { api.inspect().await }).defer(clone!(
             #[weak(rename_to = obj)]
             self,
-            move |result| {
-                let imp = obj.imp();
-
-                imp.inspection_callbacks.replace(None);
-
-                match result {
-                    Ok(data) => {
-                        imp.set_data(model::ImageData::from(data));
-                        op(Ok(obj));
-                    }
-                    Err(e) => {
-                        log::error!("Error on inspecting image '{}': {e}", obj.id());
-                        op(Err(e));
-                    }
-                }
+            move |dto| match dto {
+                Ok(dto) => obj.update_from_inspection(dto),
+                Err(e) => op(e),
             }
         ));
-
-        self.imp().inspection_callbacks.replace(Some(callbacks));
     }
 }
 
 impl Image {
-    pub(crate) fn delete<F>(&self, op: F)
+    pub(crate) fn remove<F>(&self, op: F)
     where
-        F: FnOnce(&Self, podman::Result<()>) + 'static,
+        F: FnOnce(&Self, anyhow::Result<()>) + 'static,
     {
-        let image = if let Some(image) = self.api() {
-            image
-        } else {
+        let Some(api) = self.api() else {
             return;
         };
 
         self.imp().set_to_be_deleted(true);
 
-        rt::Promise::new(async move { image.remove().await }).defer(clone!(
+        rt::Promise::new(async move { api.remove(false).await }).defer(clone!(
             #[weak(rename_to = obj)]
             self,
             move |result| {
@@ -267,6 +202,29 @@ impl Image {
                 op(&obj, result);
             }
         ));
+    }
+
+    pub(crate) fn tagged(&self, tag: String) {
+        let repo_tags = self.repo_tags();
+        let repo_tags_len = repo_tags.len();
+        repo_tags.add(tag);
+
+        if repo_tags_len == 0
+            && let Some(image_list) = self.image_list()
+        {
+            image_list.notify_num_images();
+        }
+    }
+
+    pub(crate) fn untagged(&self, tag: &str) {
+        let repo_tags = self.repo_tags();
+        repo_tags.remove(tag);
+
+        if repo_tags.len() == 0
+            && let Some(image_list) = self.image_list()
+        {
+            image_list.notify_num_images();
+        }
     }
 
     pub(super) fn emit_deleted(&self) {
@@ -281,10 +239,9 @@ impl Image {
         })
     }
 
-    pub(crate) fn api(&self) -> Option<podman::api::Image> {
+    pub(crate) fn api(&self) -> Option<engine::api::Image> {
         self.image_list()
-            .unwrap()
-            .client()
-            .map(|client| podman::api::Image::new(client.podman().deref().clone(), self.id()))
+            .and_then(|client| client.api())
+            .map(|api| api.get(self.id()))
     }
 }

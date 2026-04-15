@@ -5,6 +5,7 @@ use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use bytes::Bytes;
 use futures::StreamExt;
 use gettextrs::gettext;
 use glib::Properties;
@@ -14,8 +15,8 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::rt;
 use crate::utils;
 
@@ -198,13 +199,13 @@ mod imp {
                         }))
                         .upcast(),
                     PropertyType::Elapsed => property_expr
-                        .chain_closure::<String>(closure!(|_: glib::Object, elapsed: u64| {
-                            format_elapsed(elapsed as i64)
+                        .chain_closure::<String>(closure!(|_: glib::Object, elapsed: i64| {
+                            format_elapsed(elapsed)
                         }))
                         .upcast(),
                     PropertyType::CpuTime => property_expr
-                        .chain_closure::<String>(closure!(|_: glib::Object, cpu_time: u64| {
-                            format_cpu_time(cpu_time as i64)
+                        .chain_closure::<String>(closure!(|_: glib::Object, cpu_time: i64| {
+                            format_cpu_time(cpu_time)
                         }))
                         .upcast(),
                 };
@@ -493,26 +494,37 @@ impl TopPage {
                 Some(container) => {
                     let result = rt::Promise::new({
                         let container = container.api().unwrap();
-                        let opts = podman::opts::ExecCreateOpts::builder()
-                            .attach_stderr(true)
-                            .attach_stdout(false)
-                            .attach_stdin(false)
-                            .tty(false)
-                            .command(
-                                ["kill", "-9"]
-                                    .into_iter()
-                                    .chain(selected_pids.iter().map(String::as_str)),
-                            )
-                            .build();
-                        async move {
-                            let exec = container.create_exec(&opts).await.unwrap();
 
-                            let opts = podman::opts::ExecStartOpts::builder().tty(false).build();
-                            let (reader, _) = exec.start(&opts).await.unwrap().unwrap().split();
+                        async move {
+                            let (reader, _) = container
+                                .create_exec(engine::opts::ExecCreateOpts {
+                                    attach_stderr: Some(true),
+                                    command: vec![
+                                        "sh".to_owned(),
+                                        "-c".to_owned(),
+                                        format!(
+                                            "for pid in {:?}; do \
+                                                target=$(grep -l \"^NSpid:.*$pid\" /proc/[0-9]*/status 2>/dev/null | cut -d'/' -f3); \
+                                                [ -n \"$target\" ] && kill -9 $target; \
+                                             done",
+                                            selected_pids
+                                        )
+                                    ],
+                                    ..Default::default()
+                                })
+                                .await
+                                .unwrap()
+                                .start(false)
+                                .await
+                                .unwrap()
+                                .into_attached()
+                                .unwrap()
+                                .split();
 
                             let err_output = reader
                                 .map(Result::unwrap)
-                                .map(Vec::from)
+                                .map(Bytes::from)
+                                .map(Vec::<u8>::from)
                                 .map(String::from_utf8)
                                 .map(Result::unwrap)
                                 .collect::<String>()

@@ -12,11 +12,10 @@ use glib::subclass::Signal;
 use gtk::gio;
 use gtk::glib;
 use indexmap::IndexMap;
-use indexmap::map::Entry;
 
+use crate::engine;
 use crate::model;
 use crate::model::prelude::*;
-use crate::podman;
 use crate::rt;
 
 mod imp {
@@ -182,6 +181,36 @@ impl VolumeList {
             .count() as u32
     }
 
+    fn add_volume(&self, inspection: engine::dto::Volume) {
+        let volume = model::Volume::new(self, inspection);
+
+        let index = self.len();
+
+        self.imp()
+            .list
+            .borrow_mut()
+            .insert(volume.name(), volume.clone());
+
+        self.items_changed(index, 0, 1);
+        self.volume_added(&volume);
+    }
+
+    fn inspect_and_add_volume<F>(&self, name: String, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        let Some(api) = self.api() else { return };
+
+        rt::Promise::new(async move { api.get(&name).inspect().await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |inspection| match inspection {
+                Ok(inspection) => obj.add_volume(inspection),
+                Err(e) => err_op(e),
+            }
+        ));
+    }
+
     pub(crate) fn get_volume<Q: Borrow<str> + ?Sized>(&self, name: &Q) -> Option<model::Volume> {
         self.imp().list.borrow().get(name.borrow()).cloned()
     }
@@ -199,28 +228,20 @@ impl VolumeList {
 
     pub(crate) fn refresh<F>(&self, err_op: F)
     where
-        F: FnOnce(super::RefreshError) + Clone + 'static,
+        F: FnOnce(anyhow::Error) + Clone + 'static,
     {
+        let Some(api) = self.api() else { return };
+
         self.imp().set_listing(true);
 
-        rt::Promise::new({
-            let podman = self.client().unwrap().podman();
-            async move {
-                podman
-                    .volumes()
-                    .list(&podman::opts::VolumeListOpts::builder().build())
-                    .await
-            }
-        })
-        .defer(clone!(
+        rt::Promise::new(async move { api.list().await }).defer(clone!(
             #[weak(rename_to = obj)]
             self,
             move |result| {
                 match result {
                     Ok(volumes) => {
-                        let imp = obj.imp();
-
-                        let to_remove = imp
+                        let to_remove = obj
+                            .imp()
                             .list
                             .borrow()
                             .keys()
@@ -232,23 +253,14 @@ impl VolumeList {
                         });
 
                         volumes.into_iter().for_each(|volume| {
-                            let index = obj.len();
-
-                            let mut list = imp.list.borrow_mut();
-                            if let Entry::Vacant(e) = list.entry(volume.name.clone()) {
-                                let volume = model::Volume::new(&obj, volume);
-                                e.insert(volume.clone());
-
-                                drop(list);
-
-                                obj.items_changed(index, 0, 1);
-                                obj.volume_added(&volume);
+                            if obj.get_volume(&volume.name).is_none() {
+                                obj.add_volume(volume);
                             }
                         });
                     }
                     Err(e) => {
                         log::error!("Error on retrieving volumes: {}", e);
-                        err_op(super::RefreshError);
+                        err_op(e);
                     }
                 }
                 let imp = obj.imp();
@@ -258,14 +270,29 @@ impl VolumeList {
         ));
     }
 
-    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
+    pub(crate) fn handle_event<F>(&self, event: engine::dto::Event, err_op: F)
     where
-        F: FnOnce(super::RefreshError) + Clone + 'static,
+        F: FnOnce(anyhow::Error) + Clone + 'static,
     {
-        match event.action.as_str() {
-            "remove" => self.remove_volume(event.actor.attributes.get("name").unwrap()),
-            "create" => self.refresh(err_op),
-            other => log::warn!("unhandled volume action: {other}"),
+        match event {
+            engine::Response::Docker(event) => {
+                let name = event.actor.unwrap().id.unwrap();
+
+                match event.action.unwrap().as_str() {
+                    "destroy" => self.remove_volume(&name),
+                    "create" => self.inspect_and_add_volume(name, err_op),
+                    other => log::warn!("unhandled volume action: {other}"),
+                }
+            }
+            engine::Response::Podman(mut event) => {
+                let name = event.actor.attributes.remove("name").unwrap();
+
+                match event.action.as_str() {
+                    "remove" => self.remove_volume(&name),
+                    "create" => self.inspect_and_add_volume(name, err_op),
+                    other => log::warn!("unhandled volume action: {other}"),
+                }
+            }
         }
     }
 
@@ -318,5 +345,13 @@ impl VolumeList {
 
             None
         })
+    }
+
+    pub(crate) fn api(&self) -> Option<engine::api::Volumes> {
+        self.client()
+            .as_ref()
+            .map(model::Client::engine)
+            .as_deref()
+            .map(engine::Engine::volumes)
     }
 }

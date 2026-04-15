@@ -10,226 +10,251 @@ template $PdsPodDetailsPage: Widget {
       [title]
       Adw.WindowTitle window_title {
         title: _("Pod");
+        subtitle: bind template.pod as <$Pod>.name;
       }
     }
 
-    Adw.PreferencesPage preferences_page {
-      Adw.PreferencesGroup {
-        Adw.PreferencesRow action_row {
-          activatable: false;
+    Stack stack {
+      StackPage {
+        name: "loading";
 
-          CenterBox {
-            styles [
-              "action-bar",
-            ]
-
-            hexpand: true;
-
-            start-widget: Button {
-              styles [
-                "circular",
-                "raised",
-              ]
-
-              action-name: "pod-details-page.kill";
-              icon-name: "skull-symbolic";
-              tooltip-text: _("Kill");
-
-              accessibility {
-                label: _("Kill");
-              }
-
-              valign: center;
-            };
-
-            center-widget: Box {
-              halign: center;
-              hexpand: true;
-              spacing: 12;
-
-              Button {
-                styles [
-                  "circular",
-                  "raised",
-                ]
-
-                action-name: "pod-details-page.restart";
-                icon-name: "view-refresh-symbolic";
-                tooltip-text: _("Restart");
-
-                accessibility {
-                  label: _("Restart");
-                }
-
-                valign: center;
-              }
-
-              Button start_or_resume_button {
-                styles [
-                  "circular",
-                  "large",
-                  "raised",
-                ]
-
-                action-name: "pod-details-page.start";
-                tooltip-text: _("Start/Resume");
-                valign: center;
-
-                Image {
-                  icon-name: "media-playback-start-symbolic";
-                }
-              }
-
-              Button stop_button {
-                styles [
-                  "circular",
-                  "large",
-                  "raised",
-                ]
-
-                action-name: "pod-details-page.stop";
-                tooltip-text: _("Stop");
-                valign: center;
-
-                Image {
-                  icon-name: "media-playback-stop-symbolic";
-                }
-              }
-
-              Button spinning_button {
-                styles [
-                  "circular",
-                  "large",
-                  "raised",
-                ]
-
-                sensitive: false;
-                valign: center;
-
-                Adw.Spinner {}
-              }
-
-              Button {
-                styles [
-                  "circular",
-                  "raised",
-                ]
-
-                action-name: "pod-details-page.pause";
-                icon-name: "media-playback-pause-symbolic";
-                tooltip-text: _("Pause");
-
-                accessibility {
-                  label: _("Pause");
-                }
-
-                valign: center;
-              }
-            };
-
-            end-widget: Button {
-              styles [
-                "circular",
-                "destructive-button",
-                "raised",
-              ]
-
-              action-name: "pod-details-page.delete";
-              icon-name: "user-trash-symbolic";
-              tooltip-text: _("Delete");
-
-              accessibility {
-                label: _("Delete");
-              }
-
-              valign: center;
-            };
-          }
-        }
+        child: Adw.Spinner {};
       }
 
-      Adw.PreferencesGroup {
-        title: _("Properties");
+      StackPage {
+        name: "loaded";
 
-        header-suffix: Adw.Spinner inspection_spinner {
-          width-request: 18;
+        child: Adw.PreferencesPage preferences_page {
+          Adw.PreferencesGroup {
+            Adw.PreferencesRow action_row {
+              activatable: false;
+
+              CenterBox {
+                styles [
+                  "action-bar",
+                ]
+
+                hexpand: true;
+
+                start-widget: Button {
+                  styles [
+                    "circular",
+                    "raised",
+                  ]
+
+                  action-name: "pod-details-page.kill";
+                  icon-name: "skull-symbolic";
+                  tooltip-text: _("Kill");
+
+                  accessibility {
+                    label: _("Kill");
+                  }
+
+                  valign: center;
+                };
+
+                center-widget: Box {
+                  halign: center;
+                  hexpand: true;
+                  spacing: 12;
+
+                  Button {
+                    styles [
+                      "circular",
+                      "raised",
+                    ]
+
+                    action-name: "pod-details-page.restart";
+                    icon-name: "view-refresh-symbolic";
+                    tooltip-text: _("Restart");
+
+                    accessibility {
+                      label: _("Restart");
+                    }
+
+                    valign: center;
+                  }
+
+                  Button start_or_resume_button {
+                    styles [
+                      "circular",
+                      "large",
+                      "raised",
+                    ]
+
+                    action-name: "pod-details-page.start";
+                    tooltip-text: _("Start/Resume");
+                    valign: center;
+
+                    Image {
+                      icon-name: "media-playback-start-symbolic";
+                    }
+                  }
+
+                  Button stop_button {
+                    styles [
+                      "circular",
+                      "large",
+                      "raised",
+                    ]
+
+                    action-name: "pod-details-page.stop";
+                    tooltip-text: _("Stop");
+                    valign: center;
+
+                    Image {
+                      icon-name: "media-playback-stop-symbolic";
+                    }
+                  }
+
+                  Button spinning_button {
+                    styles [
+                      "circular",
+                      "large",
+                      "raised",
+                    ]
+
+                    sensitive: false;
+                    valign: center;
+
+                    Adw.Spinner {}
+                  }
+
+                  Button {
+                    styles [
+                      "circular",
+                      "raised",
+                    ]
+
+                    action-name: "pod-details-page.pause";
+                    icon-name: "media-playback-pause-symbolic";
+                    tooltip-text: _("Pause");
+
+                    accessibility {
+                      label: _("Pause");
+                    }
+
+                    valign: center;
+                  }
+                };
+
+                end-widget: Button {
+                  styles [
+                    "circular",
+                    "destructive-button",
+                    "raised",
+                  ]
+
+                  action-name: "pod-details-page.delete";
+                  icon-name: "user-trash-symbolic";
+                  tooltip-text: _("Delete");
+
+                  accessibility {
+                    label: _("Delete");
+                  }
+
+                  valign: center;
+                };
+              }
+            }
+          }
+
+          Adw.PreferencesGroup {
+            title: _("Properties");
+
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
+
+              title: _("Name");
+              subtitle: bind template.pod as <$Pod>.name;
+            }
+
+            Adw.ActionRow id_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Id");
+            }
+
+            Adw.ActionRow created_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Created");
+            }
+
+            Adw.ActionRow {
+              title: _("Status");
+
+              Label status_label {
+                styles [
+                  "status-badge",
+                ]
+
+                halign: end;
+                hexpand: true;
+                valign: center;
+              }
+            }
+
+            Adw.ActionRow hostname_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Hostname");
+            }
+          }
+
+          Adw.PreferencesGroup {
+            title: _("Utilities");
+
+            Adw.ActionRow {
+              title: _("Inspection");
+              subtitle: _("View all pod properties in a structured text form");
+              activatable: true;
+              action-name: "pod-details-page.inspect-pod";
+              icon-name: "system-search-symbolic";
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("Kube");
+              subtitle: _("Generate Kubernetes YAML based on this pod");
+              activatable: true;
+              action-name: "pod-details-page.generate-kube";
+              icon-name: "code-symbolic";
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("Processes");
+              subtitle: _("View processes of the pod");
+              activatable: true;
+              action-name: "pod-details-page.show-processes";
+              icon-name: "application-x-executable-symbolic";
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+          }
+
+          $PdsContainersGroup {
+            container-list: bind template.pod as <$Pod>.container-list;
+            title: _("Containers");
+          }
         };
-
-        $PdsPropertyRow {
-          key: _("Name");
-          value: bind template.pod as <$Pod>.name;
-        }
-
-        $PdsPropertyRow id_row {
-          key: _("Id");
-        }
-
-        $PdsPropertyRow created_row {
-          key: _("Created");
-        }
-
-        $PdsPropertyWidgetRow {
-          key: _("Status");
-
-          widget: Label status_label {
-            styles [
-              "status-badge",
-            ]
-
-            halign: end;
-            hexpand: true;
-            valign: center;
-          };
-        }
-
-        $PdsPropertyRow hostname_row {
-          key: _("Hostname");
-        }
-      }
-
-      Adw.PreferencesGroup {
-        title: _("Utilities");
-
-        Adw.ActionRow {
-          title: _("Inspection");
-          subtitle: _("View all pod properties in a structured text form");
-          activatable: true;
-          action-name: "pod-details-page.inspect-pod";
-          icon-name: "system-search-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
-          }
-        }
-
-        Adw.ActionRow {
-          title: _("Kube");
-          subtitle: _("Generate Kubernetes YAML based on this pod");
-          activatable: true;
-          action-name: "pod-details-page.generate-kube";
-          icon-name: "code-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
-          }
-        }
-
-        Adw.ActionRow {
-          title: _("Processes");
-          subtitle: _("View processes of the pod");
-          activatable: true;
-          action-name: "pod-details-page.show-processes";
-          icon-name: "application-x-executable-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
-          }
-        }
-      }
-
-      $PdsContainersGroup {
-        container-list: bind template.pod as <$Pod>.container-list;
-        title: _("Containers");
       }
     }
   }

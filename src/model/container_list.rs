@@ -3,21 +3,17 @@ use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::sync::OnceLock;
 
-use anyhow::anyhow;
-use futures::StreamExt;
 use gio::prelude::*;
 use gio::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
 use gtk::gio;
 use gtk::glib;
-use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 
+use crate::engine;
 use crate::model;
-use crate::model::AbstractContainerListExt;
-use crate::model::SelectableListExt;
-use crate::podman;
+use crate::model::prelude::*;
 use crate::rt;
 
 mod imp {
@@ -109,43 +105,29 @@ mod imp {
             model::AbstractContainerList::bootstrap(obj.upcast_ref());
             model::SelectableList::bootstrap(obj.upcast_ref());
 
-            rt::Pipe::new(obj.client().unwrap().podman().containers(), |containers| {
-                containers
-                    .stats_stream(
-                        &podman::opts::ContainerStatsOptsBuilder::default()
-                            .interval(1)
-                            .build(),
-                    )
-                    .boxed()
+            rt::Pipe::new(obj.client().unwrap().engine().containers(), |containers| {
+                containers.stats_stream(1)
             })
             .on_next(clone!(
                 #[weak]
                 obj,
                 #[upgrade_or]
                 glib::ControlFlow::Break,
-                move |result: podman::Result<podman::models::ContainerStats200Response>| {
-                    match result
-                        .map_err(anyhow::Error::from)
-                        .and_then(|mut value| {
-                            value
-                                .as_object_mut()
-                                .and_then(|object| object.remove("Stats"))
-                                .ok_or_else(|| anyhow!("Field 'Stats' is not present"))
-                        })
-                        .and_then(|value| {
-                            serde_json::from_value::<Vec<podman::models::ContainerStats>>(value)
-                                .map_err(anyhow::Error::from)
-                        }) {
-                        Ok(stats) => {
-                            stats.into_iter().for_each(|stat| {
-                                if let Some(container) =
-                                    obj.get_container(stat.container_id.as_ref().unwrap())
-                                    && container.status() == model::ContainerStatus::Running
-                                {
-                                    container
-                                        .set_stats(Some(model::BoxedContainerStats::from(stat)));
-                                }
-                            });
+                move |all_stats| {
+                    match all_stats {
+                        Ok(all_stats) => {
+                            all_stats
+                                .into_single_stats()
+                                .into_iter()
+                                .for_each(|(id, stats)| {
+                                    if let Some(container) = obj.get_container(&id)
+                                        && container.status() == model::ContainerStatus::Running
+                                    {
+                                        container.set_stats(Some(
+                                            model::BoxedContainerStats::from(stats),
+                                        ));
+                                    }
+                                });
                         }
                         Err(e) => {
                             log::warn!("Error occurred on receiving stats stream element: {e}")
@@ -266,6 +248,24 @@ impl ContainerList {
             .count() as u32
     }
 
+    fn upsert_container(&self, dto: engine::dto::Container) {
+        if let Some(container) = self.get_container(dto.id()) {
+            container.update(dto);
+        } else {
+            let container = model::Container::new(self, dto);
+
+            let index = self.len();
+
+            self.imp()
+                .list
+                .borrow_mut()
+                .insert(container.id(), container.clone());
+
+            self.items_changed(index, 0, 1);
+            self.container_added(&container);
+        }
+    }
+
     pub(crate) fn get_container(&self, id: &str) -> Option<model::Container> {
         self.imp().list.borrow().get(id).cloned()
     }
@@ -281,79 +281,37 @@ impl ContainerList {
         }
     }
 
-    pub(crate) fn refresh<F>(&self, id: Option<String>, err_op: F)
+    pub(crate) fn refresh<F>(&self, err_op: F)
     where
-        F: FnOnce(super::RefreshError) + Clone + 'static,
+        F: FnOnce(anyhow::Error) + Clone + 'static,
     {
+        let Some(api) = self.api() else { return };
+
         self.imp().set_listing(true);
-        rt::Promise::new({
-            let podman = self.client().unwrap().podman();
-            let id = id.clone();
-            async move {
-                podman
-                    .containers()
-                    .list(
-                        &podman::opts::ContainerListOpts::builder()
-                            .all(true)
-                            .filter(
-                                id.map(podman::Id::from)
-                                    .map(podman::opts::ContainerListFilter::Id),
-                            )
-                            .build(),
-                    )
-                    .await
-            }
-        })
-        .defer(clone!(
+
+        rt::Promise::new(async move { api.list().await }).defer(clone!(
             #[weak(rename_to = obj)]
             self,
-            move |result| {
-                match result {
-                    Ok(list_containers) => {
-                        if id.is_none() {
-                            let to_remove = obj
-                                .imp()
-                                .list
-                                .borrow()
-                                .keys()
-                                .filter(|id| {
-                                    !list_containers.iter().any(|list_container| {
-                                        list_container.id.as_ref() == Some(id)
-                                    })
-                                })
-                                .cloned()
-                                .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|id| {
-                                obj.remove_container(id);
-                            });
-                        }
-
-                        list_containers.into_iter().for_each(|list_container| {
-                            let index = obj.len();
-
-                            let mut list = obj.imp().list.borrow_mut();
-
-                            match list.entry(list_container.id.as_ref().unwrap().to_owned()) {
-                                Entry::Vacant(e) => {
-                                    let container = model::Container::new(&obj, list_container);
-                                    e.insert(container.clone());
-
-                                    drop(list);
-
-                                    obj.items_changed(index, 0, 1);
-                                    obj.container_added(&container);
-                                }
-                                Entry::Occupied(e) => {
-                                    let container = e.get().clone();
-                                    drop(list);
-                                    container.update(list_container);
-                                }
-                            }
+            move |dtos| {
+                match dtos {
+                    Ok(dtos) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| !dtos.iter().any(|dto| dto.id() == *id))
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| {
+                            obj.remove_container(id);
                         });
+
+                        dtos.into_iter().for_each(|dto| obj.upsert_container(dto));
                     }
                     Err(e) => {
                         log::error!("Error on retrieving containers: {}", e);
-                        err_op(super::RefreshError);
+                        err_op(e);
                     }
                 }
                 let imp = obj.imp();
@@ -363,23 +321,195 @@ impl ContainerList {
         ));
     }
 
-    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
-    where
-        F: FnOnce(super::RefreshError) + Clone + 'static,
-    {
-        let container_id = event.actor.id;
+    pub(crate) fn api(&self) -> Option<engine::api::Containers> {
+        self.client()
+            .map(|client| client.engine())
+            .map(|engine| engine.containers())
+    }
+}
 
-        match event.action.as_str() {
-            "remove" => self.remove_container(&container_id),
-            "health_status" => {
-                if let Some(container) = self.get_container(&container_id) {
-                    container.inspect(|_| {});
-                }
-            }
-            _ => self.refresh(
-                self.get_container(&container_id).map(|_| container_id),
+// Events
+impl ContainerList {
+    pub(crate) fn handle_event<F>(&self, event: engine::dto::Event, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        match event {
+            engine::Response::Docker(event) => self.handle_docker_event(event, err_op),
+            engine::Response::Podman(event) => self.handle_podman_event(event, err_op),
+        }
+    }
+
+    fn handle_docker_event<F>(&self, event: bollard::plugin::EventMessage, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        let actor = event.actor.unwrap();
+        let id = actor.id.unwrap();
+
+        match event.action.as_deref().unwrap() {
+            "create" => self.upsert_container_fetch(id, err_op),
+            "init" => self.upsert_container_status(id, model::ContainerStatus::Initialized, err_op),
+            "start" | "restart" => self.upsert_container_with(
+                id,
+                |container| {
+                    container.set_status(model::ContainerStatus::Running);
+                    if let Some(details) = container.details() {
+                        details.set_up_since(event.time.unwrap_or_default());
+                    }
+                },
                 err_op,
             ),
+            "pause" => self.upsert_container_status(id, model::ContainerStatus::Paused, err_op),
+            "unpause" => self.upsert_container_status(id, model::ContainerStatus::Running, err_op),
+            "kill" | "stop" => {
+                self.upsert_container_status(id, model::ContainerStatus::Stopping, err_op)
+            }
+            "cleanup" | "die" | "died" => {
+                self.upsert_container_status(id, model::ContainerStatus::Exited, err_op)
+            }
+            "oom" => self.upsert_container_status(id, model::ContainerStatus::Dead, err_op),
+            "rename" => self.upsert_container_with(
+                id,
+                |container| {
+                    if let Some(name) = actor.attributes.unwrap().remove("name") {
+                        container.set_name(name);
+                    }
+                },
+                err_op,
+            ),
+            "exec_die" => self.upsert_container_with(
+                id,
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    #[strong]
+                    err_op,
+                    move |container| obj.upsert_container_fetch(container.id(), err_op.clone(),)
+                ),
+                err_op,
+            ),
+            "health_status: healthy" => self.upsert_container_health_status(
+                id,
+                model::ContainerHealthStatus::Healthy,
+                err_op,
+            ),
+            "health_status: unhealthy" => self.upsert_container_health_status(
+                id,
+                model::ContainerHealthStatus::Unhealthy,
+                err_op,
+            ),
+            "destroy" => self.remove_container(&id),
+            other => log::debug!("unhandled container event type: {other}"),
+        }
+    }
+
+    fn handle_podman_event<F>(&self, mut event: podman_api::models::Event, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        let id = event.actor.id;
+
+        match event.action.as_str() {
+            "create" => self.upsert_container_fetch(id, err_op),
+            "init" => self.upsert_container_status(id, model::ContainerStatus::Initialized, err_op),
+            "start" => self.upsert_container_with(
+                id,
+                |container| {
+                    container.set_status(model::ContainerStatus::Running);
+                    if let Some(details) = container.details() {
+                        details.set_up_since(event.time as i64);
+                    }
+                },
+                err_op,
+            ),
+            "pause" => self.upsert_container_status(id, model::ContainerStatus::Paused, err_op),
+            "unpause" => self.upsert_container_status(id, model::ContainerStatus::Running, err_op),
+            "kill" | "stop" => {
+                self.upsert_container_status(id, model::ContainerStatus::Stopping, err_op)
+            }
+            "cleanup" | "die" | "died" => {
+                self.upsert_container_status(id, model::ContainerStatus::Exited, err_op)
+            }
+            "restart" => {
+                self.upsert_container_status(id, model::ContainerStatus::Restarting, err_op)
+            }
+            "oom" => self.upsert_container_status(id, model::ContainerStatus::Dead, err_op),
+            "rename" => self.upsert_container_with(
+                id,
+                |container| {
+                    if let Some(name) = event.actor.attributes.remove("name") {
+                        container.set_name(name);
+                    }
+                },
+                err_op,
+            ),
+            "health_status" => self.upsert_container_with(
+                id,
+                clone!(
+                    #[weak(rename_to = obj)]
+                    self,
+                    #[strong]
+                    err_op,
+                    move |container| obj.upsert_container_fetch(container.id(), err_op.clone(),)
+                ),
+                err_op,
+            ),
+            "remove" => self.remove_container(&id),
+            other => log::debug!("unhandled container event type: {other}"),
+        }
+    }
+
+    fn upsert_container_fetch<F>(&self, id: String, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        let Some(api) = self.api().map(|api| api.get(id)) else {
+            return;
+        };
+
+        rt::Promise::new(async move { api.inspect().await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |dto| match dto {
+                Ok(dto) => obj.upsert_container(engine::dto::Container::Inspection(dto)),
+                Err(e) => err_op(e),
+            }
+        ));
+    }
+
+    fn upsert_container_health_status<F>(
+        &self,
+        id: String,
+        health_status: model::ContainerHealthStatus,
+        err_op: F,
+    ) where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        self.upsert_container_with(
+            id,
+            |container| {
+                container.set_health_status(health_status);
+            },
+            err_op,
+        );
+    }
+
+    fn upsert_container_status<F>(&self, id: String, status: model::ContainerStatus, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        self.upsert_container_with(id, |container| container.set_status(status), err_op);
+    }
+
+    fn upsert_container_with<F, E>(&self, id: String, op: F, err_op: E)
+    where
+        F: FnOnce(&model::Container),
+        E: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        match self.get_container(&id) {
+            Some(container) => op(&container),
+            None => self.upsert_container_fetch(id.to_owned(), err_op),
         }
     }
 }

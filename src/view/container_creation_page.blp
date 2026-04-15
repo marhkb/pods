@@ -110,14 +110,17 @@ template $PdsContainerCreationPage: Widget {
                   spacing: 18;
 
                   Adw.PreferencesGroup {
-                    $PdsImageSelectionComboRow image_selection_combo_row {
-                      notify::subtitle => $on_image_selection_combo_row_notify_subtitle() swapped;
-                    }
+                    $PdsImageSelectionComboRow image_selection_combo_row {}
 
                     Adw.ActionRow pod_row {
                       title: _("Pod");
                       action-name: "container-creation-page.select-pod";
                       activatable: true;
+                      visible: bind template
+                        .client as <$Client>
+                        .engine as <$Engine>
+                        .capabilities as <$EngineCapabilities>
+                        .pods;
 
                       [suffix]
                       Button clear_pod_button {
@@ -145,6 +148,11 @@ template $PdsContainerCreationPage: Widget {
 
                     Adw.SwitchRow pull_latest_image_switch_row {
                       title: _("Pull Latest Image");
+                      visible: bind template
+                        .client as <$Client>
+                        .engine as <$Engine>
+                        .capabilities as <$EngineCapabilities>
+                        .pull_policy;
                     }
 
                     Adw.SwitchRow terminal_switch_row {
@@ -155,6 +163,11 @@ template $PdsContainerCreationPage: Widget {
                     Adw.SwitchRow privileged_switch_row {
                       title: _("Privileged");
                       subtitle: _("Give extended privileges to container");
+                      visible: bind template
+                        .client as <$Client>
+                        .engine as <$Engine>
+                        .capabilities as <$EngineCapabilities>
+                        .privileged_containers;
                     }
 
                     Adw.ExpanderRow {

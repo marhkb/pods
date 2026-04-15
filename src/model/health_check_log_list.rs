@@ -3,16 +3,18 @@ use std::collections::VecDeque;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::HealthCheckLogList)]
     pub(crate) struct HealthCheckLogList {
         pub(super) list: RefCell<VecDeque<model::HealthCheckLog>>,
     }
@@ -24,7 +26,19 @@ mod imp {
         type Interfaces = (gio::ListModel,);
     }
 
-    impl ObjectImpl for HealthCheckLogList {}
+    impl ObjectImpl for HealthCheckLogList {
+        fn properties() -> &'static [glib::ParamSpec] {
+            Self::derived_properties()
+        }
+
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
+        }
+
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
+        }
+    }
 
     impl ListModelImpl for HealthCheckLogList {
         fn item_type(&self) -> glib::Type {
@@ -50,28 +64,30 @@ glib::wrapper! {
         @implements gio::ListModel, model::SelectableList;
 }
 
-impl Default for HealthCheckLogList {
-    fn default() -> Self {
-        glib::Object::builder().build()
+impl From<Vec<engine::dto::HealthCheckLog>> for HealthCheckLogList {
+    fn from(value: Vec<engine::dto::HealthCheckLog>) -> Self {
+        let obj: Self = glib::Object::new();
+        obj.sync(value);
+        obj
     }
 }
 
 impl HealthCheckLogList {
-    pub(crate) fn sync(&self, logs: &[podman::models::HealthCheckLog]) {
+    pub(crate) fn sync(&self, log: Vec<engine::dto::HealthCheckLog>) {
         let mut list = self.imp().list.borrow_mut();
 
         let len_old = list.len();
 
-        let first = logs.first().and_then(|log| log.start.as_deref());
+        let first = log.first().and_then(|log| log.start.as_deref());
         while list.front().is_some() && list.front().map(|log| log.start()).as_deref() != first {
             list.pop_front();
         }
 
         let len_removed = list.len();
         let num_removed = len_old - len_removed;
-        let num_added = logs.len() - list.len();
+        let num_added = log.len() - list.len();
 
-        logs[list.len()..].iter().for_each(|log| {
+        log[list.len()..].iter().for_each(|log| {
             list.push_back(model::HealthCheckLog::from(log));
         });
 

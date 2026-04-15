@@ -8,7 +8,6 @@ use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -118,27 +117,24 @@ impl VolumeCreationPage {
     }
 
     fn create_volume(&self) {
-        if let Some(client) = self.client() {
-            let imp = self.imp();
+        let Some(client) = self.client() else {
+            return;
+        };
 
-            let name = imp.name_entry_row.text();
+        let imp = self.imp();
 
-            let page = view::ActionPage::new(
-                &client.action_list().create_volume(
-                    name.as_str(),
-                    podman::opts::VolumeCreateOpts::builder()
-                        .name(name.as_str())
-                        .build(),
-                ),
-                self.show_view_artifact(),
-            );
+        let page = view::ActionPage::new(
+            &client
+                .action_list()
+                .create_volume(imp.name_entry_row.text().into()),
+            self.show_view_artifact(),
+        );
 
-            imp.navigation_view.push(
-                &adw::NavigationPage::builder()
-                    .can_pop(false)
-                    .child(&page)
-                    .build(),
-            );
-        }
+        imp.navigation_view.push(
+            &adw::NavigationPage::builder()
+                .can_pop(false)
+                .child(&page)
+                .build(),
+        );
     }
 }

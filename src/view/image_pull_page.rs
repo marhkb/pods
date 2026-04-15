@@ -4,8 +4,8 @@ use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 
@@ -62,19 +62,13 @@ mod imp {
     impl ImagePullPage {
         #[template_callback]
         fn on_image_selected(&self, image: &str) {
-            let opts = podman::opts::PullOpts::builder()
-                .reference(image)
-                .quiet(false)
-                .build();
-
-            let page = view::ActionPage::from(
-                &self
-                    .obj()
-                    .client()
-                    .unwrap()
-                    .action_list()
-                    .download_image(image, opts),
-            );
+            let page =
+                view::ActionPage::from(&self.obj().client().unwrap().action_list().download_image(
+                    engine::opts::ImagePullOpts {
+                        reference: image.to_owned(),
+                        ..Default::default()
+                    },
+                ));
 
             self.navigation_view.push(
                 &adw::NavigationPage::builder()

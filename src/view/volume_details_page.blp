@@ -33,20 +33,36 @@ template $PdsVolumeDetailsPage: Widget {
           }
         };
 
-        $PdsPropertyRow name_row {
-          key: _("Name");
+        Adw.ActionRow name_row {
+          styles [
+            "property",
+          ]
+
+          title: _("Name");
         }
 
-        $PdsPropertyRow driver_row {
-          key: _("Driver");
+        Adw.ActionRow driver_row {
+          styles [
+            "property",
+          ]
+
+          title: _("Driver");
         }
 
-        $PdsPropertyRow created_row {
-          key: _("Created");
+        Adw.ActionRow created_row {
+          styles [
+            "property",
+          ]
+
+          title: _("Created");
         }
 
-        $PdsPropertyRow mountpoint_row {
-          key: _("Mount Path");
+        Adw.ActionRow mountpoint_row {
+          styles [
+            "property",
+          ]
+
+          title: _("Mount Path");
         }
       }
 

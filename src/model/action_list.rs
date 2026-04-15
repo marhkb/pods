@@ -1,6 +1,6 @@
 use std::cell::Cell;
 use std::cell::RefCell;
-use std::sync::OnceLock;
+use std::marker::PhantomData;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
@@ -10,8 +10,8 @@ use gtk::gio;
 use gtk::glib;
 use indexmap::IndexMap;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 
 mod imp {
     use super::*;
@@ -21,8 +21,20 @@ mod imp {
     pub(crate) struct ActionList {
         pub(super) list: RefCell<IndexMap<u32, model::Action>>,
         pub(super) action_counter: Cell<u32>,
+
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
+
+        #[property(get = Self::len)]
+        _len: PhantomData<u32>,
+        #[property(get = Self::ongoing)]
+        _ongoing: PhantomData<u32>,
+        #[property(get = Self::finished)]
+        _finished: PhantomData<u32>,
+        #[property(get = Self::aborted)]
+        _aborted: PhantomData<u32>,
+        #[property(get = Self::failed)]
+        _failed: PhantomData<u32>,
     }
 
     #[glib::object_subclass]
@@ -34,20 +46,7 @@ mod imp {
 
     impl ObjectImpl for ActionList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(vec![
-                        glib::ParamSpecUInt::builder("len").read_only().build(),
-                        glib::ParamSpecUInt::builder("ongoing").read_only().build(),
-                        glib::ParamSpecUInt::builder("finished").read_only().build(),
-                        glib::ParamSpecUInt::builder("aborted").read_only().build(),
-                        glib::ParamSpecUInt::builder("failed").read_only().build(),
-                    ])
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
@@ -55,20 +54,13 @@ mod imp {
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "len" => self.obj().len().to_value(),
-                "ongoing" => self.obj().ongoing().to_value(),
-                "finished" => self.obj().finished().to_value(),
-                "aborted" => self.obj().aborted().to_value(),
-                "failed" => self.obj().failed().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
             self.parent_constructed();
             self.obj().connect_items_changed(|obj, _, _, _| {
-                obj.notify("len");
+                obj.notify_len();
                 obj.notify_num_states();
             });
         }
@@ -91,6 +83,36 @@ mod imp {
                 .cloned()
         }
     }
+
+    impl ActionList {
+        fn len(&self) -> u32 {
+            self.n_items()
+        }
+
+        fn ongoing(&self) -> u32 {
+            self.count_state(model::ActionState::Ongoing)
+        }
+
+        fn finished(&self) -> u32 {
+            self.count_state(model::ActionState::Finished)
+        }
+
+        fn aborted(&self) -> u32 {
+            self.count_state(model::ActionState::Aborted)
+        }
+
+        fn failed(&self) -> u32 {
+            self.count_state(model::ActionState::Failed)
+        }
+
+        fn count_state(&self, state: model::ActionState) -> u32 {
+            self.list
+                .borrow()
+                .values()
+                .filter(|action| action.state() == state)
+                .count() as u32
+        }
+    }
 }
 
 glib::wrapper! {
@@ -105,35 +127,6 @@ impl From<&model::Client> for ActionList {
 }
 
 impl ActionList {
-    pub(crate) fn len(&self) -> u32 {
-        self.n_items()
-    }
-
-    pub(crate) fn ongoing(&self) -> u32 {
-        self.count_state(model::ActionState::Ongoing)
-    }
-
-    pub(crate) fn finished(&self) -> u32 {
-        self.count_state(model::ActionState::Finished)
-    }
-
-    pub(crate) fn aborted(&self) -> u32 {
-        self.count_state(model::ActionState::Aborted)
-    }
-
-    pub(crate) fn failed(&self) -> u32 {
-        self.count_state(model::ActionState::Failed)
-    }
-
-    fn count_state(&self, state: model::ActionState) -> u32 {
-        self.imp()
-            .list
-            .borrow()
-            .values()
-            .filter(|action| action.state() == state)
-            .count() as u32
-    }
-
     pub(crate) fn get(&self, num: u32) -> Option<model::Action> {
         self.imp().list.borrow().get(&num).cloned()
     }
@@ -169,7 +162,7 @@ impl ActionList {
         });
     }
 
-    pub(crate) fn prune_images(&self, opts: podman::opts::ImagePruneOpts) -> model::Action {
+    pub(crate) fn prune_images(&self, opts: engine::opts::ImagesPruneOpts) -> model::Action {
         self.insert_action(model::Action::prune_images(
             self.imp().action_counter.get(),
             self.client().unwrap(),
@@ -177,14 +170,9 @@ impl ActionList {
         ))
     }
 
-    pub(crate) fn download_image(
-        &self,
-        image: &str,
-        opts: podman::opts::PullOpts,
-    ) -> model::Action {
+    pub(crate) fn download_image(&self, opts: engine::opts::ImagePullOpts) -> model::Action {
         self.insert_action(model::Action::download_image(
             self.imp().action_counter.get(),
-            image,
             self.client().unwrap(),
             opts,
         ))
@@ -192,51 +180,51 @@ impl ActionList {
 
     pub(crate) fn push_image(
         &self,
-        destination: &str,
-        image: podman::api::Image,
-        opts: podman::opts::ImagePushOpts,
+        api: engine::api::Image,
+        repo: String,
+        opts: engine::opts::ImagePushOpts,
+        credentials: Option<engine::auth::Credentials>,
     ) -> model::Action {
         self.insert_action(model::Action::push_image(
             self.imp().action_counter.get(),
-            destination,
-            image,
+            api,
+            repo,
             opts,
+            credentials,
         ))
     }
 
     pub(crate) async fn build_image(
         &self,
-        image: &str,
-        opts: podman::opts::ImageBuildOpts,
+        opts: engine::opts::ImageBuildOpts,
+        context_dir: String,
     ) -> model::Action {
         self.insert_action(
             model::Action::build_image(
                 self.imp().action_counter.get(),
-                image,
                 self.client().unwrap(),
                 opts,
+                context_dir,
             )
             .await,
         )
     }
 
-    pub(crate) fn prune_containers(&self, opts: podman::opts::ContainerPruneOpts) -> model::Action {
+    pub(crate) fn prune_containers(&self, until: Option<String>) -> model::Action {
         self.insert_action(model::Action::prune_containers(
             self.imp().action_counter.get(),
             self.client().unwrap(),
-            opts,
+            until,
         ))
     }
 
     pub(crate) fn create_container(
         &self,
-        container: &str,
-        opts: podman::opts::ContainerCreateOpts,
+        opts: engine::opts::ContainerCreateOpts,
         run: bool,
     ) -> model::Action {
         self.insert_action(model::Action::create_container(
             self.imp().action_counter.get(),
-            container,
             self.client().unwrap(),
             opts,
             run,
@@ -245,14 +233,12 @@ impl ActionList {
 
     pub(crate) fn commit_container(
         &self,
-        image: Option<&str>,
         container: &str,
-        api: podman::api::Container,
-        opts: podman::opts::ContainerCommitOpts,
+        api: engine::api::Container,
+        opts: engine::opts::ContainerCommitOpts,
     ) -> model::Action {
         self.insert_action(model::Action::commit_container(
             self.imp().action_counter.get(),
-            image,
             container,
             api,
             opts,
@@ -261,17 +247,15 @@ impl ActionList {
 
     pub(crate) fn create_container_download_image(
         &self,
-        container: &str,
-        pull_opts: podman::opts::PullOpts,
-        create_opts_builder: podman::opts::ContainerCreateOptsBuilder,
+        image_pull_opts: engine::opts::ImagePullOpts,
+        container_create_opts: engine::opts::ContainerCreateOpts,
         run: bool,
     ) -> model::Action {
         self.insert_action(model::Action::create_container_download_image(
             self.imp().action_counter.get(),
-            container,
             self.client().unwrap(),
-            pull_opts,
-            create_opts_builder,
+            image_pull_opts,
+            container_create_opts,
             run,
         ))
     }
@@ -309,48 +293,41 @@ impl ActionList {
     pub(crate) fn prune_pods(&self) -> model::Action {
         self.insert_action(model::Action::prune_pods(
             self.imp().action_counter.get(),
-            self.client().unwrap(),
+            self.client().unwrap().engine().pods(),
         ))
     }
 
-    pub(crate) fn create_pod(&self, pod: &str, opts: podman::opts::PodCreateOpts) -> model::Action {
-        self.insert_action(model::Action::create_pod(
+    pub(crate) fn create_pod(&self, opts: engine::opts::PodCreateOpts) -> Option<model::Action> {
+        model::Action::create_pod(
             self.imp().action_counter.get(),
-            pod,
             self.client().unwrap(),
             opts,
-        ))
+        )
+        .map(|action| self.insert_action(action))
     }
 
     pub(crate) fn create_pod_download_infra(
         &self,
-        pod: &str,
-        pull_opts: podman::opts::PullOpts,
-        create_opts_builder: podman::opts::PodCreateOptsBuilder,
+        image_pull_opts: engine::opts::ImagePullOpts,
+        pod_create_opts: engine::opts::PodCreateOpts,
     ) -> model::Action {
         self.insert_action(model::Action::create_pod_download_infra(
             self.imp().action_counter.get(),
-            pod,
             self.client().unwrap(),
-            pull_opts,
-            create_opts_builder,
+            image_pull_opts,
+            pod_create_opts,
         ))
     }
 
-    pub(crate) fn create_volume(
-        &self,
-        name: &str,
-        opts: podman::opts::VolumeCreateOpts,
-    ) -> model::Action {
+    pub(crate) fn create_volume(&self, name: String) -> model::Action {
         self.insert_action(model::Action::create_volume(
             self.imp().action_counter.get(),
             name,
             self.client().unwrap(),
-            opts,
         ))
     }
 
-    pub(crate) fn prune_volumes(&self, opts: podman::opts::VolumePruneOpts) -> model::Action {
+    pub(crate) fn prune_volumes(&self, opts: engine::opts::VolumesPruneOpts) -> model::Action {
         self.insert_action(model::Action::prune_volumes(
             self.imp().action_counter.get(),
             self.client().unwrap(),
@@ -382,9 +359,9 @@ impl ActionList {
     }
 
     fn notify_num_states(&self) {
-        self.notify("ongoing");
-        self.notify("finished");
-        self.notify("aborted");
-        self.notify("failed");
+        self.notify_ongoing();
+        self.notify_finished();
+        self.notify_aborted();
+        self.notify_failed();
     }
 }
