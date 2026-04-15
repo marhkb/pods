@@ -420,7 +420,10 @@ mod imp {
             let obj = self.obj();
             let ordering = match obj.sort_attribute() {
                 SortAttribute::Name => pod1.name().to_lowercase().cmp(&pod2.name().to_lowercase()),
-                SortAttribute::Containers => pod1.num_containers().cmp(&pod2.num_containers()),
+                SortAttribute::Containers => pod1
+                    .container_list()
+                    .len()
+                    .cmp(&pod2.container_list().len()),
             };
 
             match obj.sort_direction() {
@@ -490,80 +493,82 @@ mod imp {
             self.update_filter(filter_change);
         }
 
-        pub(crate) fn set_pod_list(&self, value: &model::PodList) {
+        pub(crate) fn set_pod_list(&self, value: Option<&model::PodList>) {
             let obj = &*self.obj();
-            if obj.pod_list().as_ref() == Some(value) {
+            if obj.pod_list().as_ref() == value {
                 return;
             }
 
-            value.connect_containers_in_pod_changed(clone!(
-                #[weak]
-                obj,
-                move |_, _| {
-                    glib::timeout_add_seconds_local_once(
-                        1,
-                        clone!(
-                            #[weak]
-                            obj,
-                            move || if obj.sort_attribute() == SortAttribute::Containers {
-                                obj.imp().update_sorter();
-                            }
-                        ),
-                    );
-                }
-            ));
-
-            let model = gtk::SortListModel::new(
-                Some(gtk::FilterListModel::new(
-                    Some(value.to_owned()),
-                    self.filter.get().cloned(),
-                )),
-                self.sorter.get().cloned(),
-            );
-
-            self.list_box.bind_model(Some(&model), |item| {
-                view::PodRow::from(item.downcast_ref().unwrap()).upcast()
-            });
-
-            self.set_filter_stack_visible_child(value, &model);
-            model.connect_items_changed(clone!(
-                #[weak]
-                obj,
-                #[weak]
-                value,
-                move |model, _, removed, _| {
-                    obj.imp().set_filter_stack_visible_child(&value, model);
-
-                    if removed > 0 {
-                        obj.deselect_hidden_pods(model.upcast_ref());
-                    }
-                }
-            ));
-            value.connect_initialized_notify(clone!(
-                #[weak]
-                obj,
-                #[weak]
-                model,
-                move |value| obj.imp().set_filter_stack_visible_child(value, &model)
-            ));
-
-            ACTIONS_SELECTION
-                .iter()
-                .for_each(|action_name| obj.action_set_enabled(action_name, false));
-            value.connect_notify_local(
-                Some("num-selected"),
-                clone!(
+            if let Some(value) = value {
+                value.connect_containers_in_pod_changed(clone!(
                     #[weak]
                     obj,
-                    move |list, _| {
-                        ACTIONS_SELECTION.iter().for_each(|action_name| {
-                            obj.action_set_enabled(action_name, list.num_selected() > 0);
-                        });
+                    move |_, _| {
+                        glib::timeout_add_seconds_local_once(
+                            1,
+                            clone!(
+                                #[weak]
+                                obj,
+                                move || if obj.sort_attribute() == SortAttribute::Containers {
+                                    obj.imp().update_sorter();
+                                }
+                            ),
+                        );
                     }
-                ),
-            );
+                ));
 
-            self.pod_list.set(Some(value));
+                let model = gtk::SortListModel::new(
+                    Some(gtk::FilterListModel::new(
+                        Some(value.to_owned()),
+                        self.filter.get().cloned(),
+                    )),
+                    self.sorter.get().cloned(),
+                );
+
+                self.list_box.bind_model(Some(&model), |item| {
+                    view::PodRow::from(item.downcast_ref().unwrap()).upcast()
+                });
+
+                self.set_filter_stack_visible_child(value, &model);
+                model.connect_items_changed(clone!(
+                    #[weak]
+                    obj,
+                    #[weak]
+                    value,
+                    move |model, _, removed, _| {
+                        obj.imp().set_filter_stack_visible_child(&value, model);
+
+                        if removed > 0 {
+                            obj.deselect_hidden_pods(model.upcast_ref());
+                        }
+                    }
+                ));
+                value.connect_initialized_notify(clone!(
+                    #[weak]
+                    obj,
+                    #[weak]
+                    model,
+                    move |value| obj.imp().set_filter_stack_visible_child(value, &model)
+                ));
+
+                ACTIONS_SELECTION
+                    .iter()
+                    .for_each(|action_name| obj.action_set_enabled(action_name, false));
+                value.connect_notify_local(
+                    Some("num-selected"),
+                    clone!(
+                        #[weak]
+                        obj,
+                        move |list, _| {
+                            ACTIONS_SELECTION.iter().for_each(|action_name| {
+                                obj.action_set_enabled(action_name, list.num_selected() > 0);
+                            });
+                        }
+                    ),
+                );
+            }
+
+            self.pod_list.set(value);
         }
 
         fn set_filter_stack_visible_child(
@@ -603,7 +608,7 @@ glib::wrapper! {
 
 impl Default for PodsPanel {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

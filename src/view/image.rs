@@ -43,22 +43,22 @@ where
                         image,
                         move |response| {
                             if response == "delete" {
-                                delete_image(&widget, &image);
+                                remove_image(&widget, &image);
                             }
                         }
                     ),
                 );
             }
-            None => delete_image(widget, &image),
+            None => remove_image(widget, &image),
         }
     }
 }
 
-pub(crate) fn delete_image<W>(widget: &W, image: &model::Image)
+pub(crate) fn remove_image<W>(widget: &W, image: &model::Image)
 where
     W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
 {
-    image.delete(clone!(
+    image.remove(clone!(
         #[weak]
         widget,
         move |image, result| {
@@ -66,7 +66,7 @@ where
                 utils::show_error_toast(
                     &widget,
                     // Translators: The "{}" is a placeholder for the image id.
-                    &gettext!("Error on deleting image '{}'", image.id()),
+                    &gettext!("Error on removing image '{}'", image.id()),
                     &e.to_string(),
                 );
             }

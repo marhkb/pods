@@ -80,9 +80,7 @@ mod imp {
         fn on_list_view_activated(&self, position: u32) {
             let obj = &*self.obj();
 
-            let connection_manager = if let Some(connection_manager) = obj.connection_manager() {
-                connection_manager
-            } else {
+            let Some(connection_manager) = obj.connection_manager() else {
                 return;
             };
 
@@ -110,13 +108,11 @@ mod imp {
                 clone!(
                     #[weak]
                     obj,
-                    move |result| if let Err(e) = result {
-                        utils::show_error_toast(
-                            &obj,
-                            &gettext("Error on switching connection"),
-                            &e.to_string(),
-                        );
-                    }
+                    move |e| utils::show_error_toast(
+                        &obj,
+                        &gettext("Error on switching connection"),
+                        &e.to_string(),
+                    )
                 ),
             );
         }

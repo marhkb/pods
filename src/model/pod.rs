@@ -1,15 +1,10 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
-use std::fmt;
-use std::ops::Deref;
 use std::rc::Rc;
-use std::str::FromStr;
 use std::sync::OnceLock;
 
 use futures::Future;
-use futures::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::prelude::*;
@@ -18,95 +13,10 @@ use glib::subclass::Signal;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::model::AbstractContainerListExt;
-use crate::podman;
+use crate::model::prelude::*;
 use crate::rt;
-
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "PodStatus")]
-pub(crate) enum Status {
-    Created,
-    Dead,
-    Degraded,
-    Error,
-    Exited,
-    Paused,
-    Restarting,
-    Running,
-    Stopped,
-    #[default]
-    Unknown,
-}
-
-impl std::cmp::Ord for Status {
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        match self {
-            Self::Running => {
-                if let Self::Running = other {
-                    std::cmp::Ordering::Equal
-                } else {
-                    std::cmp::Ordering::Greater
-                }
-            }
-            Self::Paused => match other {
-                Self::Running => std::cmp::Ordering::Less,
-                Self::Paused => std::cmp::Ordering::Equal,
-                _ => std::cmp::Ordering::Greater,
-            },
-            _ => match other {
-                Self::Running | Self::Paused => std::cmp::Ordering::Less,
-                _ => std::cmp::Ordering::Equal,
-            },
-        }
-    }
-}
-
-impl std::cmp::PartialOrd for Status {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        Some(self.cmp(other))
-    }
-}
-
-impl FromStr for Status {
-    type Err = Self;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(match s {
-            "Created" => Self::Created,
-            "Dead" => Self::Dead,
-            "Degraded" => Self::Degraded,
-            "Error" => Self::Error,
-            "Exited" => Self::Exited,
-            "Paused" => Self::Paused,
-            "Restarting" => Self::Restarting,
-            "Stopped" => Self::Stopped,
-            "Running" => Self::Running,
-            _ => return Err(Self::Unknown),
-        })
-    }
-}
-
-impl fmt::Display for Status {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::Created => gettext("Created"),
-                Self::Dead => gettext("Dead"),
-                Self::Degraded => gettext("Degraded"),
-                Self::Error => gettext("Error"),
-                Self::Exited => gettext("Exited"),
-                Self::Paused => gettext("Paused"),
-                Self::Restarting => gettext("Restarting"),
-                Self::Running => gettext("Running"),
-                Self::Stopped => gettext("Stopped"),
-                Self::Unknown => gettext("Unknown"),
-            }
-        )
-    }
-}
 
 mod imp {
     use super::*;
@@ -114,29 +24,26 @@ mod imp {
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Pod)]
     pub(crate) struct Pod {
-        pub(super) inspection_callbacks:
-            RefCell<Option<rt::Callbacks<podman::Result<podman::models::InspectPodData>>>>,
         #[property(get, set, construct_only, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
         #[property(get = Self::container_list)]
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
         #[property(get)]
         pub(super) infra_container: glib::WeakRef<model::Container>,
-        #[property(get, set)]
-        pub(super) action_ongoing: Cell<bool>,
+
         #[property(get, set, construct_only)]
         pub(super) created: OnceCell<i64>,
-        #[property(get = Self::data, nullable)]
-        pub(super) data: OnceCell<Option<model::PodData>>,
         #[property(get, set, construct_only)]
         pub(super) id: OnceCell<String>,
         #[property(get, set, construct_only)]
         pub(super) name: OnceCell<String>,
+        #[property(get, set, construct, default)]
+        pub(super) status: Cell<model::PodStatus>,
+
+        #[property(get = Self::details, set, nullable)]
+        pub(super) details: OnceCell<Option<model::PodDetails>>,
+
         #[property(get, set)]
-        pub(super) num_containers: Cell<u64>,
-        #[property(get, set, construct, builder(Status::default()))]
-        pub(super) status: Cell<Status>,
-        #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
         #[property(get, set)]
         pub(super) selected: Cell<bool>,
@@ -194,25 +101,8 @@ mod imp {
             self.container_list.get_or_init(Default::default).to_owned()
         }
 
-        pub(super) fn data(&self) -> Option<model::PodData> {
-            self.data.get().cloned().flatten()
-        }
-
-        pub(super) fn set_data(&self, value: model::PodData) {
-            if self.data().is_some() {
-                return;
-            }
-            self.data.set(Some(value)).unwrap();
-            self.obj().notify_data();
-        }
-
-        pub(super) fn set_to_be_deleted(&self, value: bool) {
-            let obj = &*self.obj();
-            if obj.to_be_deleted() == value {
-                return;
-            }
-            self.to_be_deleted.set(value);
-            obj.notify_to_be_deleted();
+        pub(super) fn details(&self) -> Option<model::PodDetails> {
+            self.details.get().cloned().flatten()
         }
     }
 }
@@ -222,81 +112,82 @@ glib::wrapper! {
 }
 
 impl Pod {
-    pub(crate) fn new(pod_list: &model::PodList, report: podman::models::ListPodsReport) -> Self {
-        glib::Object::builder()
-            .property("pod-list", pod_list)
-            .property(
-                "created",
-                report.created.map(|dt| dt.timestamp()).unwrap_or(0),
-            )
-            .property("id", report.id.unwrap())
-            .property("name", report.name.unwrap())
-            .property(
-                "num-containers",
-                report.containers.map(|c| c.len() as u64).unwrap_or(0),
-            )
-            .property("status", status(report.status.as_deref()))
-            .build()
-    }
-
-    pub(crate) fn update(&self, report: podman::models::ListPodsReport) {
-        self.set_action_ongoing(false);
-        self.set_num_containers(report.containers.map(|c| c.len() as u64).unwrap_or(0));
-        self.set_status(status(report.status.as_deref()));
-    }
-
-    pub(crate) fn inspect_and_update(&self) {
-        if let Some(pod_list) = self.pod_list() {
-            pod_list.refresh(Some(self.id()), |_| {});
+    pub(crate) fn new(pod_list: &model::PodList, dto: engine::dto::Pod) -> Self {
+        match dto {
+            engine::dto::Pod::Summary(dto) => Self::new_from_summary(pod_list, dto),
+            engine::dto::Pod::Inspection(dto) => Self::new_from_inspection(pod_list, dto),
         }
     }
 
-    pub(crate) fn inspect<F>(&self, op: F)
-    where
-        F: Fn(Result<model::Pod, &podman::Error>) + 'static,
-    {
-        if let Some(callbacks) = self.imp().inspection_callbacks.borrow().as_ref() {
-            callbacks.add(clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| match result {
-                    Ok(_) => op(Ok(obj)),
-                    Err(e) => {
-                        log::error!("Error on inspecting pod '{}': {e}", obj.id());
-                        op(Err(e));
-                    }
-                }
-            ));
+    pub(crate) fn new_from_summary(
+        pod_list: &model::PodList,
+        dto: engine::dto::PodSummary,
+    ) -> Self {
+        Self::build(pod_list, dto, |builder| builder)
+    }
 
-            return;
-        }
-
-        let callbacks = rt::Promise::new({
-            let pod = self.api().unwrap();
-            async move { pod.inspect().await }
+    pub(crate) fn new_from_inspection(
+        pod_list: &model::PodList,
+        dto: engine::dto::PodInspection,
+    ) -> Self {
+        Self::build(pod_list, dto.summary, |builder| {
+            builder.property("details", Some(model::PodDetails::from(dto.details)))
         })
-        .defer_with_callbacks(clone!(
+    }
+
+    fn build<F>(pod_list: &model::PodList, dto: engine::dto::PodSummary, op: F) -> Self
+    where
+        F: FnOnce(glib::object::ObjectBuilder<Self>) -> glib::object::ObjectBuilder<Self>,
+    {
+        op(glib::Object::builder()
+            .property("pod-list", pod_list)
+            .property("created", dto.created)
+            .property("id", dto.id)
+            .property("name", dto.name)
+            .property("status", model::PodStatus::from(dto.status)))
+        .build()
+    }
+
+    pub(crate) fn update(&self, dto: engine::dto::Pod) {
+        match dto {
+            engine::dto::Pod::Summary(dto) => self.update_from_summary(dto),
+            engine::dto::Pod::Inspection(dto) => self.update_from_inspection(dto),
+        }
+    }
+
+    pub(crate) fn update_from_summary(&self, dto: engine::dto::PodSummary) {
+        self.set_status(model::PodStatus::from(dto.status));
+    }
+
+    pub(crate) fn update_from_inspection(&self, dto: engine::dto::PodInspection) {
+        self.update_from_summary(dto.summary);
+
+        match self.details() {
+            Some(details) => details.update(dto.details),
+            None => self.set_details(Some(model::PodDetails::from(dto.details))),
+        }
+    }
+
+    pub(crate) fn inspect_and_update<F>(&self, op: F)
+    where
+        F: Fn(anyhow::Error) + 'static,
+    {
+        let Some(api) = self.api() else { return };
+
+        rt::Promise::new(async move { api.inspect().await }).defer(clone!(
             #[weak(rename_to = obj)]
             self,
-            move |result| {
-                let imp = obj.imp();
-
-                imp.inspection_callbacks.replace(None);
-
-                match result {
-                    Ok(data) => {
-                        imp.set_data(model::PodData::from(data));
-                        op(Ok(obj));
-                    }
-                    Err(e) => {
-                        log::error!("Error on inspecting pod '{}': {e}", obj.id());
-                        op(Err(e));
-                    }
-                }
+            move |dto| match dto {
+                Ok(dto) => obj.update_from_inspection(dto),
+                Err(e) => op(e),
             }
         ));
+    }
 
-        self.imp().inspection_callbacks.replace(Some(callbacks));
+    pub(crate) fn api(&self) -> Option<engine::api::Pod> {
+        self.pod_list()
+            .and_then(|pod_list| pod_list.api())
+            .map(|api| api.get(self.id()))
     }
 
     pub(super) fn emit_deleted(&self) {
@@ -313,24 +204,122 @@ impl Pod {
 }
 
 impl Pod {
+    pub(crate) fn start<F>(&self, op: F)
+    where
+        F: FnOnce(anyhow::Result<()>) + 'static,
+    {
+        let prev_status = self.status();
+        self.set_status(model::PodStatus::Starting);
+
+        self.action(
+            "starting",
+            |pod| async move { pod.start().await },
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if result.is_err() {
+                        obj.set_status(prev_status);
+                    }
+                    op(result);
+                }
+            ),
+        );
+    }
+
+    pub(crate) fn stop<F>(&self, force: bool, op: F)
+    where
+        F: FnOnce(anyhow::Result<()>) + 'static,
+    {
+        let prev_status = self.status();
+        self.set_status(model::PodStatus::Stopping);
+
+        self.action(
+            if force { "force stopping" } else { "stopping" },
+            move |pod| async move { pod.stop(force).await },
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if result.is_err() {
+                        obj.set_status(prev_status);
+                    }
+                    op(result);
+                }
+            ),
+        );
+    }
+
+    pub(crate) fn restart<F>(&self, force: bool, op: F)
+    where
+        F: FnOnce(anyhow::Result<()>) + 'static,
+    {
+        let prev_status = self.status();
+        self.set_status(model::PodStatus::Restarting);
+
+        self.action(
+            if force {
+                "force restarting"
+            } else {
+                "restarting"
+            },
+            move |pod| async move { pod.restart(force).await },
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if result.is_err() {
+                        obj.set_status(prev_status);
+                    }
+                    op(result);
+                }
+            ),
+        );
+    }
+
+    pub(crate) fn pause<F>(&self, op: F)
+    where
+        F: FnOnce(anyhow::Result<()>) + 'static,
+    {
+        self.action("pausing", |pod| async move { pod.pause().await }, op);
+    }
+
+    pub(crate) fn resume<F>(&self, op: F)
+    where
+        F: FnOnce(anyhow::Result<()>) + 'static,
+    {
+        self.action("resuming", |pod| async move { pod.unpause().await }, op);
+    }
+
+    pub(crate) fn delete<F>(&self, force: bool, op: F)
+    where
+        F: FnOnce(anyhow::Result<()>) + 'static,
+    {
+        self.set_to_be_deleted(true);
+
+        self.action(
+            if force { "force deleting" } else { "deleting" },
+            move |pod| async move { pod.remove(force).await },
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if result.is_err() {
+                        obj.set_to_be_deleted(false);
+                    }
+                    op(result)
+                }
+            ),
+        );
+    }
+
     fn action<Fut, FutOp, ResOp>(&self, name: &'static str, fut_op: FutOp, res_op: ResOp)
     where
-        Fut: Future<Output = podman::Result<()>> + Send,
-        FutOp: FnOnce(podman::api::Pod) -> Fut + Send + 'static,
-        ResOp: FnOnce(podman::Result<()>) + 'static,
+        Fut: Future<Output = anyhow::Result<()>> + Send,
+        FutOp: FnOnce(engine::api::Pod) -> Fut + Send + 'static,
+        ResOp: FnOnce(anyhow::Result<()>) + 'static,
     {
-        let pod = if let Some(pod) = self.api() {
-            pod
-        } else {
-            return;
-        };
-
-        if self.action_ongoing() {
-            return;
-        }
-
-        // This will be either set back to `false` in `Self::update` or in case of an error.
-        self.set_action_ongoing(true);
+        let Some(pod) = self.api() else { return };
 
         log::info!("Pod <{}>: {name}…'", self.id());
 
@@ -344,160 +333,10 @@ impl Pod {
                     }
                     Err(e) => {
                         log::error!("Pod <{}>: Error while {name}: {e}", obj.id(),);
-                        obj.set_action_ongoing(false);
                     }
                 }
                 res_op(result)
             }
         ));
     }
-
-    pub(crate) fn start<F>(&self, op: F)
-    where
-        F: FnOnce(podman::Result<()>) + 'static,
-    {
-        self.action(
-            "starting",
-            |pod| async move { pod.start().await.map(|_| ()) },
-            op,
-        );
-    }
-
-    pub(crate) fn stop<F>(&self, force: bool, op: F)
-    where
-        F: FnOnce(podman::Result<()>) + 'static,
-    {
-        self.action(
-            if force { "force stopping" } else { "stopping" },
-            move |pod| async move {
-                if force {
-                    pod.kill().await.map(|_| ())
-                } else {
-                    pod.stop().await.map(|_| ())
-                }
-            },
-            op,
-        );
-    }
-
-    pub(crate) fn restart<F>(&self, force: bool, op: F)
-    where
-        F: FnOnce(podman::Result<()>) + 'static,
-    {
-        self.action(
-            if force {
-                "force restarting"
-            } else {
-                "restarting"
-            },
-            move |pod| async move {
-                if force {
-                    pod.kill().and_then(|_| pod.start()).await.map(|_| ())
-                } else {
-                    pod.restart().await.map(|_| ())
-                }
-            },
-            op,
-        );
-    }
-
-    pub(crate) fn pause<F>(&self, op: F)
-    where
-        F: FnOnce(podman::Result<()>) + 'static,
-    {
-        self.action(
-            "pausing",
-            |pod| async move { pod.pause().await.map(|_| ()) },
-            op,
-        );
-    }
-
-    pub(crate) fn resume<F>(&self, op: F)
-    where
-        F: FnOnce(podman::Result<()>) + 'static,
-    {
-        self.action(
-            "resuming",
-            |pod| async move { pod.unpause().await.map(|_| ()) },
-            op,
-        );
-    }
-
-    pub(crate) fn delete<F>(&self, force: bool, op: F)
-    where
-        F: FnOnce(podman::Result<()>) + 'static,
-    {
-        if !self.action_ongoing() {
-            self.imp().set_to_be_deleted(true);
-        }
-        self.action(
-            if force { "force deleting" } else { "deleting" },
-            move |pod| async move {
-                if force {
-                    pod.remove().await
-                } else {
-                    pod.delete().await
-                }
-                .map(|_| ())
-            },
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |result| {
-                    if result.is_err() {
-                        obj.imp().set_to_be_deleted(false);
-                    }
-                    op(result)
-                }
-            ),
-        );
-    }
-
-    pub(crate) fn can_start(&self) -> bool {
-        matches!(
-            self.status(),
-            Status::Created | Status::Exited | Status::Stopped
-        )
-    }
-
-    pub(crate) fn can_stop(&self) -> bool {
-        matches!(self.status(), Status::Running)
-    }
-
-    pub(crate) fn can_kill(&self) -> bool {
-        !self.can_start()
-    }
-
-    pub(crate) fn can_restart(&self) -> bool {
-        matches!(self.status(), Status::Running)
-    }
-
-    pub(crate) fn can_pause(&self) -> bool {
-        matches!(self.status(), Status::Running)
-    }
-
-    pub(crate) fn can_resume(&self) -> bool {
-        matches!(self.status(), Status::Paused)
-    }
-
-    pub(crate) fn can_delete(&self) -> bool {
-        !matches!(self.status(), Status::Running | Status::Paused)
-    }
-
-    pub(crate) fn api(&self) -> Option<podman::api::Pod> {
-        self.pod_list()
-            .unwrap()
-            .client()
-            .map(|client| podman::api::Pod::new(client.podman().deref().clone(), self.id()))
-    }
-}
-
-fn status(state: Option<&str>) -> Status {
-    state.map_or_else(Status::default, |s| match Status::from_str(s) {
-        Ok(status) => status,
-        Err(status) => {
-            log::warn!("Unknown pod status: {s}");
-            status
-        }
-    })
 }

@@ -4,111 +4,71 @@ using Adw 1;
 template $PdsContainerPropertiesGroup: Adw.PreferencesGroup {
   title: _("Properties");
 
-  header-suffix: Adw.Spinner inspection_spinner {
-    width-request: 18;
-  };
-
-  $PdsPropertyWidgetRow {
-    key: _("Name");
-
-    widget: Box {
-      spacing: 6;
-
-      Label {
-        styles [
-          "dim-label",
-        ]
-
-        selectable: true;
-        hexpand: true;
-        wrap: true;
-        wrap-mode: word_char;
-        xalign: 1.0;
-        label: bind template.container as <$Container>.name;
-      }
-
-      Button {
-        styles [
-          "flat",
-        ]
-
-        action-name: "container-details-page.rename";
-        icon-name: "document-edit-symbolic";
-        tooltip-text: _("Rename (F2)");
-
-        accessibility {
-          label: _("Rename (F2)");
-        }
-
-        valign: center;
-      }
-    };
-  }
-
-  $PdsPropertyWidgetRow {
-    key: _("Id");
-
-    widget: Box {
-      spacing: 6;
-
-      Label id_label {
-        styles [
-          "dim-label",
-        ]
-
-        selectable: true;
-      }
-
-      Button {
-        styles [
-          "flat",
-        ]
-
-        action-name: "container-details-page.commit";
-        icon-name: "merge-symbolic";
-        tooltip-text: _("Commit (Ctrl+K)");
-
-        accessibility {
-          label: _("Commit (Ctrl+K)");
-        }
-
-        valign: center;
-      }
-    };
-  }
-
-  $PdsPropertyRow created_row {
-    key: _("Created");
-  }
-
   Adw.ActionRow {
-    title: _("Size");
-    activatable: false;
+    styles [
+      "property",
+    ]
 
-    Stack size_stack {
-      StackPage {
-        name: "waiting";
+    subtitle-lines: 2;
+    subtitle: bind template.container as <$Container>.name;
+    title: _("Name");
 
-        child: Adw.Spinner {
-          halign: end;
-        };
+    Button {
+      styles [
+        "flat",
+      ]
+
+      action-name: "container-details-page.rename";
+      icon-name: "document-edit-symbolic";
+      tooltip-text: _("Rename (F2)");
+
+      accessibility {
+        label: _("Rename (F2)");
       }
 
-      StackPage {
-        name: "ready";
-
-        child: Label size_label {
-          styles [
-            "dim-label",
-          ]
-
-          hexpand: true;
-          margin-end: 3;
-          wrap: true;
-          xalign: 1.0;
-        };
-      }
+      valign: center;
     }
+  }
+
+  Adw.ActionRow id_row {
+    styles [
+      "property",
+    ]
+
+    title: _("Id");
+    subtitle-lines: 2;
+
+    Button {
+      styles [
+        "flat",
+      ]
+
+      action-name: "container-details-page.commit";
+      icon-name: "merge-symbolic";
+      tooltip-text: _("Commit (Ctrl+K)");
+
+      accessibility {
+        label: _("Commit (Ctrl+K)");
+      }
+
+      valign: center;
+    }
+  }
+
+  Adw.ActionRow created_row {
+    styles [
+      "property",
+    ]
+
+    title: _("Created");
+  }
+
+  Adw.ActionRow size_row {
+    styles [
+      "property",
+    ]
+
+    title: _("Size");
 
     Button {
       styles [
@@ -143,51 +103,25 @@ template $PdsContainerPropertiesGroup: Adw.PreferencesGroup {
     }
   }
 
-  $PdsPropertyWidgetRow {
-    key: _("Status");
+  Adw.ActionRow status_row {
+    title: _("Status");
 
-    widget: Box {
-      spacing: 6;
-      halign: end;
-      hexpand: true;
+    Label status_label {
+      styles [
+        "status-badge",
+      ]
+
       valign: center;
-
-      Label state_since_label {
-        styles [
-          "dim-label",
-        ]
-
-        hexpand: true;
-        selectable: true;
-        justify: right;
-        wrap: true;
-        wrap-mode: word_char;
-      }
-
-      Label status_label {
-        styles [
-          "status-badge",
-        ]
-
-        valign: center;
-      }
-    };
+    }
   }
 
   Adw.ExpanderRow port_bindings_row {
+    styles [
+      "property",
+    ]
+
     title: _("Port bindings");
     visible: false;
-
-    [action]
-    Label port_bindings_label {
-      styles [
-        "dim-label",
-      ]
-
-      wrap: true;
-      wrap-mode: word;
-      xalign: 1;
-    }
   }
 
   Adw.ActionRow health_row {
@@ -210,58 +144,29 @@ template $PdsContainerPropertiesGroup: Adw.PreferencesGroup {
     }
   }
 
-  Adw.ActionRow {
-    title: _("Image");
+  Adw.ActionRow image_action_row {
+    styles [
+      "property",
+    ]
+
     action-name: "container-details-page.show-image-details";
     activatable: true;
+    subtitle-lines: 2;
+    title: _("Image");
 
-    Label image_label {
-      styles [
-        "dim-label",
-      ]
-
-      hexpand: true;
-      justify: right;
-      margin-top: 3;
-      margin-end: 3;
-      margin-bottom: 3;
-      margin-start: 9;
-      wrap: true;
-      xalign: 1.0;
-    }
-
-    Stack image_action_stack {
-      StackPage {
-        name: "waiting";
-
-        child: Adw.Spinner {};
-      }
-
-      StackPage {
-        name: "ready";
-
-        child: Image {
-          icon-name: "go-next-symbolic";
-        };
-      }
+    Image {
+      icon-name: "go-next-symbolic";
     }
   }
 
   Adw.ActionRow pod_row {
+    styles [
+      "property",
+    ]
+
     title: _("Pod");
     action-name: "container-details-page.show-pod-details";
     activatable: true;
-
-    Label pod_label {
-      styles [
-        "dim-label",
-      ]
-
-      hexpand: true;
-      margin-end: 3;
-      wrap: true;
-      xalign: 1.0;
-    }
 
     Image {
       icon-name: "go-next-symbolic";

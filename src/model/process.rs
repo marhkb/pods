@@ -1,3 +1,4 @@
+use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
 
@@ -6,6 +7,7 @@ use glib::prelude::*;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 
 mod imp {
@@ -16,22 +18,76 @@ mod imp {
     pub(crate) struct Process {
         #[property(get, set, construct_only, nullable)]
         pub(super) process_list: glib::WeakRef<model::ProcessList>,
-        #[property(get, set, construct)]
+        #[property(get, set = Self::set_user, explicit_notify, construct)]
         pub(super) user: RefCell<String>,
         #[property(get, set, construct_only)]
         pub(super) pid: OnceCell<i32>,
-        #[property(get, set, construct)]
-        pub(super) ppid: RefCell<i32>,
-        #[property(get, set, construct)]
-        pub(super) cpu: RefCell<f64>,
-        #[property(get, set, construct)]
-        pub(super) elapsed: RefCell<u64>,
-        #[property(get, set, construct)]
+        #[property(get, set = Self::set_ppid, explicit_notify, construct)]
+        pub(super) ppid: Cell<i32>,
+        #[property(get, set = Self::set_cpu, explicit_notify, construct)]
+        pub(super) cpu: Cell<f64>,
+        #[property(get, set = Self::set_elapsed, explicit_notify, construct)]
+        pub(super) elapsed: Cell<i64>,
+        #[property(get, set = Self::set_tty, explicit_notify, construct)]
         pub(super) tty: RefCell<String>,
-        #[property(get, set, construct)]
-        pub(super) time: RefCell<u64>,
-        #[property(get, set, construct)]
+        #[property(get, set= Self::set_time, explicit_notify, construct)]
+        pub(super) time: Cell<i64>,
+        #[property(get, set, construct_only)]
         pub(super) command: RefCell<String>,
+    }
+
+    impl Process {
+        fn set_user(&self, user: &str) {
+            if *self.user.borrow() == user {
+                return;
+            }
+            self.user.replace(user.to_owned());
+            self.obj().notify_user();
+        }
+
+        fn set_ppid(&self, ppid: i32) {
+            let obj = &*self.obj();
+            if obj.ppid() == ppid {
+                return;
+            }
+            self.ppid.set(ppid);
+            obj.notify_ppid();
+        }
+
+        fn set_cpu(&self, cpu: f64) {
+            let obj = &*self.obj();
+            if obj.cpu() == cpu {
+                return;
+            }
+            self.cpu.set(cpu);
+            obj.notify_cpu();
+        }
+
+        fn set_elapsed(&self, elapsed: i64) {
+            let obj = &*self.obj();
+            if obj.elapsed() == elapsed {
+                return;
+            }
+            self.elapsed.set(elapsed);
+            obj.notify_elapsed();
+        }
+
+        fn set_tty(&self, tty: &str) {
+            if *self.tty.borrow() == tty {
+                return;
+            }
+            self.tty.replace(tty.to_owned());
+            self.obj().notify_tty();
+        }
+
+        fn set_time(&self, time: i64) {
+            let obj = &*self.obj();
+            if obj.time() == time {
+                return;
+            }
+            self.time.set(time);
+            obj.notify_time();
+        }
     }
 
     #[glib::object_subclass]
@@ -60,50 +116,29 @@ glib::wrapper! {
 }
 
 impl Process {
-    pub(crate) fn new(process_list: &model::ProcessList, fields: &[impl AsRef<str>]) -> Process {
+    pub(crate) fn new(
+        process_list: &model::ProcessList,
+        process: engine::dto::TopProcess,
+    ) -> Process {
         glib::Object::builder()
             .property("process-list", process_list)
-            .property("user", fields[0].as_ref())
-            .property("pid", fields[1].as_ref().parse::<i32>().unwrap())
-            .property("ppid", fields[2].as_ref().parse::<i32>().unwrap())
-            .property("cpu", fields[3].as_ref().parse::<f64>().unwrap())
-            .property("elapsed", parse_time(fields[4].as_ref()))
-            .property("tty", fields[5].as_ref())
-            .property("time", parse_time(fields[6].as_ref()))
-            .property("command", fields[7].as_ref())
+            .property("user", process.user)
+            .property("pid", process.pid)
+            .property("ppid", process.ppid)
+            .property("cpu", process.cpu)
+            .property("elapsed", process.elapsed)
+            .property("tty", process.tty)
+            .property("time", process.time)
+            .property("command", process.command)
             .build()
     }
 
-    pub(crate) fn update(&self, fields: &[impl AsRef<str>]) {
-        self.set_user(fields[0].as_ref());
-        self.set_ppid(fields[2].as_ref().parse::<i32>().unwrap());
-        self.set_cpu(fields[3].as_ref().parse::<f64>().unwrap());
-        self.set_elapsed(parse_time(fields[4].as_ref()));
-        self.set_tty(fields[5].as_ref());
-        self.set_time(parse_time(fields[6].as_ref()));
-    }
-}
-
-fn parse_time(s: &str) -> u64 {
-    match s.split_once("ms") {
-        Some((millis, _)) => (millis.parse::<f64>().unwrap()).round() as u64,
-        None => {
-            let secs = s.split_once('s').unwrap().0;
-
-            match secs.split_once('m') {
-                Some((mins, secs)) => match mins.split_once('h') {
-                    Some((hours, mins)) => {
-                        hours.parse::<u64>().unwrap() * 3_600_000
-                            + mins.parse::<u64>().unwrap() * 60_000
-                            + (secs.parse::<f64>().unwrap() * 1_000.0) as u64
-                    }
-                    None => {
-                        mins.parse::<u64>().unwrap() * 60_000
-                            + (secs.parse::<f64>().unwrap() * 1_000.0) as u64
-                    }
-                },
-                None => (secs.parse::<f64>().unwrap() * 1000.0) as u64,
-            }
-        }
+    pub(crate) fn update(&self, process: engine::dto::TopProcess) {
+        self.set_user(process.user);
+        self.set_ppid(process.ppid);
+        self.set_cpu(process.cpu);
+        self.set_elapsed(process.elapsed);
+        self.set_tty(process.tty);
+        self.set_time(process.time);
     }
 }

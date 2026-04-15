@@ -728,7 +728,7 @@ glib::wrapper! {
 
 impl Default for ContainersPanel {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 
@@ -980,26 +980,24 @@ impl ContainersPanel {
                 move |_, response| if response == "delete"
                     && let Some(list) = obj.container_list()
                 {
+                    // TODO: Message
                     list.selected_items()
                         .iter()
                         .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
                         .for_each(|container| {
-                            container.delete(
-                                true,
-                                clone!(
-                                    #[weak]
-                                    obj,
-                                    move |result| {
-                                        if let Err(e) = result {
-                                            utils::show_error_toast(
-                                                &obj,
-                                                &gettext("Error on deleting container"),
-                                                &e.to_string(),
-                                            );
-                                        }
+                            container.remove(clone!(
+                                #[weak]
+                                obj,
+                                move |result| {
+                                    if let Err(e) = result {
+                                        utils::show_error_toast(
+                                            &obj,
+                                            &gettext("Error on deleting container"),
+                                            &e.to_string(),
+                                        );
                                     }
-                                ),
-                            );
+                                }
+                            ));
                         });
                     list.set_selection_mode(false);
                 }

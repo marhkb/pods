@@ -10,12 +10,11 @@ use glib::clone;
 use glib::subclass::Signal;
 use gtk::gio;
 use gtk::glib;
-use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 
+use crate::engine;
 use crate::model;
 use crate::model::SelectableListExt;
-use crate::podman;
 use crate::rt;
 
 mod imp {
@@ -101,10 +100,12 @@ mod imp {
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
 
             obj.connect_pod_added(|list, pod| {
-                pod.connect_num_containers_notify(clone!(
+                pod.container_list().connect_items_changed(clone!(
                     #[weak]
                     list,
-                    move |pod| list.emit_by_name::<()>("containers-in-pod-changed", &[pod])
+                    #[weak]
+                    pod,
+                    move |_, _, _, _| list.emit_by_name::<()>("containers-in-pod-changed", &[&pod])
                 ));
             });
         }
@@ -200,6 +201,21 @@ impl PodList {
             .count() as u32
     }
 
+    pub(crate) fn upsert_pod(&self, dto: engine::dto::Pod) {
+        if let Some(pod) = self.get_pod(dto.id()) {
+            pod.update(dto);
+        } else {
+            let pod = model::Pod::new(self, dto);
+
+            let index = self.len();
+
+            self.imp().list.borrow_mut().insert(pod.id(), pod.clone());
+
+            self.items_changed(index, 0, 1);
+            self.pod_added(&pod);
+        }
+    }
+
     pub(crate) fn get_pod(&self, id: &str) -> Option<model::Pod> {
         self.imp().list.borrow().get(id).cloned()
     }
@@ -215,111 +231,8 @@ impl PodList {
         }
     }
 
-    pub(crate) fn refresh<F>(&self, id: Option<String>, err_op: F)
-    where
-        F: FnOnce(super::RefreshError) + Clone + 'static,
-    {
-        self.imp().set_listing(true);
-
-        rt::Promise::new({
-            let podman = self.client().unwrap().podman();
-            let id = id.clone();
-            async move {
-                podman
-                    .pods()
-                    .list(
-                        &podman::opts::PodListOpts::builder()
-                            .filter(
-                                id.map(podman::Id::from)
-                                    .map(podman::opts::PodListFilter::Id),
-                            )
-                            .build(),
-                    )
-                    .await
-            }
-        })
-        .defer(clone!(
-            #[weak(rename_to = obj)]
-            self,
-            move |result| {
-                match result {
-                    Ok(list_pods) => {
-                        if id.is_none() {
-                            let to_remove = obj
-                                .imp()
-                                .list
-                                .borrow()
-                                .keys()
-                                .filter(|id| {
-                                    !list_pods
-                                        .iter()
-                                        .any(|list_pod| list_pod.id.as_ref() == Some(id))
-                                })
-                                .cloned()
-                                .collect::<Vec<_>>();
-                            to_remove.iter().for_each(|id| {
-                                obj.remove_pod(id);
-                            });
-                        }
-
-                        list_pods.into_iter().for_each(|report| {
-                            let index = obj.len();
-
-                            let mut list = obj.imp().list.borrow_mut();
-
-                            match list.entry(report.id.as_ref().unwrap().to_owned()) {
-                                Entry::Vacant(e) => {
-                                    let pod = model::Pod::new(&obj, report);
-                                    e.insert(pod.clone());
-
-                                    drop(list);
-
-                                    obj.items_changed(index, 0, 1);
-                                    obj.pod_added(&pod);
-                                }
-                                Entry::Occupied(e) => {
-                                    let pod = e.get().clone();
-                                    drop(list);
-                                    pod.update(report);
-                                }
-                            }
-                        });
-                    }
-                    Err(e) => {
-                        log::error!("Error on retrieving pods: {}", e);
-                        err_op(super::RefreshError);
-                    }
-                }
-                let imp = obj.imp();
-                imp.set_listing(false);
-                imp.set_as_initialized();
-            }
-        ));
-    }
-
-    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
-    where
-        F: FnOnce(super::RefreshError) + Clone + 'static,
-    {
-        let pod_id = event.actor.id;
-
-        match event.action.as_str() {
-            "remove" => self.remove_pod(&pod_id),
-            _ => self.refresh(self.get_pod(&pod_id).map(|_| pod_id), err_op),
-        }
-    }
-
-    fn pod_added(&self, pod: &model::Pod) {
-        self.notify_num_pods();
-        pod.connect_notify_local(
-            Some("status"),
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |_, _| obj.notify_num_pods()
-            ),
-        );
-        self.emit_by_name::<()>("pod-added", &[pod]);
+    pub(crate) fn api(&self) -> Option<engine::api::Pods> {
+        self.client().map(|client| client.engine().pods())
     }
 
     pub(crate) fn connect_pod_added<F: Fn(&Self, &model::Pod) + 'static>(
@@ -348,5 +261,116 @@ impl PodList {
 
             None
         })
+    }
+}
+
+impl PodList {
+    pub(crate) fn refresh<F>(&self, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        let Some(api) = self.api() else { return };
+
+        self.imp().set_listing(true);
+
+        rt::Promise::new(async move { api.list().await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |dtos| {
+                match dtos {
+                    Ok(dtos) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| !dtos.iter().any(|dto| &dto.id == *id))
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| {
+                            obj.remove_pod(id);
+                        });
+
+                        dtos.into_iter()
+                            .for_each(|dto| obj.upsert_pod(engine::dto::Pod::Summary(dto)));
+                    }
+                    Err(e) => {
+                        log::error!("Error on retrieving pods: {}", e);
+                        err_op(e);
+                    }
+                }
+                let imp = obj.imp();
+                imp.set_listing(false);
+                imp.set_as_initialized();
+            }
+        ));
+    }
+
+    pub(crate) fn handle_event<F>(&self, event: engine::dto::Event, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        match event {
+            engine::Response::Docker(_) => unreachable!(),
+            engine::Response::Podman(event) => match event.action.as_str() {
+                "create" => self.upsert_pod_fetch(event.actor.id, err_op),
+                "pause" => self.upsert_pod_status(event.actor.id, model::PodStatus::Paused, err_op),
+                "remove" => self.remove_pod(&event.actor.id),
+                "start" | "unpause" => {
+                    self.upsert_pod_status(event.actor.id, model::PodStatus::Running, err_op)
+                }
+                "stop" => self.upsert_pod_status(event.actor.id, model::PodStatus::Stopped, err_op),
+                _ => {}
+            },
+        }
+    }
+
+    fn pod_added(&self, pod: &model::Pod) {
+        self.notify_num_pods();
+        pod.connect_notify_local(
+            Some("status"),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |_, _| obj.notify_num_pods()
+            ),
+        );
+        self.emit_by_name::<()>("pod-added", &[pod]);
+    }
+
+    fn upsert_pod_fetch<F>(&self, id: String, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        let Some(api) = self.api().map(|api| api.get(id)) else {
+            return;
+        };
+
+        rt::Promise::new(async move { api.inspect().await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |dto| match dto {
+                Ok(dto) => obj.upsert_pod(engine::dto::Pod::Inspection(dto)),
+                Err(e) => err_op(e),
+            }
+        ));
+    }
+
+    fn upsert_pod_status<F>(&self, id: String, status: model::PodStatus, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        self.upsert_pod_with(id, |pod| pod.set_status(status), err_op);
+    }
+
+    fn upsert_pod_with<F, E>(&self, id: String, op: F, err_op: E)
+    where
+        F: FnOnce(&model::Pod),
+        E: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        match self.get_pod(&id) {
+            Some(pod) => op(&pod),
+            None => self.upsert_pod_fetch(id.to_owned(), err_op),
+        }
     }
 }

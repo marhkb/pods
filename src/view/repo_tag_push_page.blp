@@ -49,12 +49,18 @@ template $PdsRepoTagPushPage: Widget {
           }
 
           Adw.PreferencesPage {
-            Adw.PreferencesGroup {
+            Adw.PreferencesGroup options_preferences_group {
               title: _("Options");
+              visible: bind tls_verify_switch_row.visible;
 
               Adw.SwitchRow tls_verify_switch_row {
                 title: _("TLS Verify");
                 subtitle: _("Require TLS verification");
+                visible: bind template
+                  .client as <$Client>
+                  .engine as <$Engine>
+                  .capabilities as <$EngineCapabilities>
+                  .push_image_with_tls_verify;
               }
             }
 
@@ -72,20 +78,21 @@ template $PdsRepoTagPushPage: Widget {
                 sensitive: bind login_switch.active;
                 key: _("Authentication");
 
-                widget: Adw.ToggleGroup {
+                widget: Adw.ToggleGroup auth_toggle_group {
                   styles [
                     "round",
                   ]
 
-                  homogeneous: true;
                   valign: center;
 
-                  Adw.Toggle password_toggle {
-                    label: _("Password");
+                  Adw.Toggle {
+                    label: _("Basic");
+                    name: "basic";
                   }
 
-                  Adw.Toggle token_toggle {
+                  Adw.Toggle {
                     label: _("Token");
+                    name: "token";
                   }
                 };
               }

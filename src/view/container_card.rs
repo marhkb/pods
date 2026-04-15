@@ -110,7 +110,11 @@ mod imp {
             });
 
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
-                if widget.container().map(|c| c.can_start()).unwrap_or(false) {
+                let Some(container) = widget.container() else {
+                    return;
+                };
+
+                if container.status().can_start() {
                     view::container::start(widget, widget.container());
                 } else {
                     view::container::resume(widget, widget.container());
@@ -197,7 +201,7 @@ mod imp {
                 ),
             );
             container_expr
-                .chain_property::<model::Container>("action-ongoing")
+                .chain_property::<model::Container>("status")
                 .watch(
                     Some(obj),
                     clone!(
@@ -225,7 +229,10 @@ mod imp {
                 .bind(obj, "css-classes", Some(obj));
 
             container_expr
-                .chain_property::<model::Container>("action-ongoing")
+                .chain_property::<model::Container>("status")
+                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
+                    status.is_transition()
+                }))
                 .bind(&*self.spinner, "spinning", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -284,8 +291,10 @@ mod imp {
 
             container_expr
                 .chain_property::<model::Container>("image-name")
-                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
-                    utils::escape(&utils::format_option(name))
+                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| {
+                    name.map(utils::format_if_id)
+                        .map(ToOwned::to_owned)
+                        .unwrap_or_default()
                 }))
                 .bind(&*self.repo_label, "label", Some(obj));
 
@@ -310,7 +319,8 @@ mod imp {
                     [
                         container_list_expr
                             .chain_property::<model::ContainerList>("client")
-                            .chain_property::<model::Client>("cpus")
+                            .chain_property::<model::Client>("info")
+                            .chain_property::<model::Info>("cpus")
                             .upcast_ref(),
                         stats_expr.upcast_ref(),
                     ],
@@ -570,7 +580,7 @@ impl ContainerCard {
         dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
 
         if glib::MainContext::default().block_on(dialog.choose_future(Some(self))) == "confirm" {
-            view::container::delete(self, self.container())
+            view::container::remove(self, self.container())
         }
     }
 
@@ -673,32 +683,31 @@ impl ContainerCard {
     }
 
     fn update_actions(&self) {
-        if let Some(container) = self.container() {
-            let imp = self.imp();
+        let Some(container) = self.container() else {
+            return;
+        };
 
-            imp.action_center_box.set_sensitive(
-                !container.action_ongoing()
-                    && !container.container_list().unwrap().is_selection_mode(),
-            );
+        let imp = self.imp();
 
-            let can_start_or_resume = container.can_start() || container.can_resume();
-            let can_stop = container.can_stop();
+        imp.action_center_box.set_sensitive(
+            !container.status().is_transition()
+                && !container.container_list().unwrap().is_selection_mode(),
+        );
 
-            imp.start_or_resume_button
-                .set_visible(!container.action_ongoing() && can_start_or_resume);
-            imp.stop_button
-                .set_visible(!container.action_ongoing() && can_stop);
-            imp.spinning_button.set_visible(
-                container.action_ongoing()
-                    || (!imp.start_or_resume_button.is_visible() && !imp.stop_button.is_visible()),
-            );
+        let can_start_or_resume = container.status().can_start() || container.status().can_resume();
 
-            self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
-            self.action_set_enabled(ACTION_STOP, can_stop);
-            self.action_set_enabled(ACTION_KILL, container.can_kill());
-            self.action_set_enabled(ACTION_RESTART, container.can_restart());
-            self.action_set_enabled(ACTION_PAUSE, container.can_pause());
-            self.action_set_enabled(ACTION_DELETE, container.can_delete());
-        }
+        imp.start_or_resume_button.set_visible(can_start_or_resume);
+        imp.stop_button.set_visible(container.status().can_stop());
+        imp.spinning_button.set_visible(
+            container.status().is_transition()
+                || (!imp.start_or_resume_button.is_visible() && !imp.stop_button.is_visible()),
+        );
+
+        self.action_set_enabled(ACTION_START_OR_RESUME, can_start_or_resume);
+        self.action_set_enabled(ACTION_STOP, container.status().can_stop());
+        self.action_set_enabled(ACTION_KILL, container.status().can_kill());
+        self.action_set_enabled(ACTION_RESTART, container.status().can_restart());
+        self.action_set_enabled(ACTION_PAUSE, container.status().can_pause());
+        self.action_set_enabled(ACTION_DELETE, container.status().can_force_delete());
     }
 }

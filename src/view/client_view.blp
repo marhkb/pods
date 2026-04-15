@@ -137,6 +137,11 @@ template $PdsClientView: Widget {
                     Adw.SidebarItem {
                       icon-name: "pods-symbolic";
                       title: _("Pods");
+                      visible: bind template
+                        .client as <$Client>
+                        .engine as <$Engine>
+                        .capabilities as <$EngineCapabilities>
+                        .pods;
 
                       suffix: Box {
                         spacing: 6;
@@ -238,7 +243,7 @@ template $PdsClientView: Widget {
                   Adw.SidebarSection {
                     Adw.SidebarItem {
                       icon-name: "about-symbolic";
-                      title: _("Info");
+                      title: bind template.client as <$Client>.engine as <$Engine>.typ;
 
                       suffix: Stack version_stack {
                         styles [
@@ -320,6 +325,11 @@ template $PdsClientView: Widget {
                     child: $PdsPodsPanel pods_panel {
                       collapsed: bind navigation_split_view.collapsed;
                       pod-list: bind template.client as <$Client>.pod-list;
+                      visible: bind template
+                        .client as <$Client>
+                        .engine as <$Engine>
+                        .capabilities as <$EngineCapabilities>
+                        .pods;
                     };
                   }
 

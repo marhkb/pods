@@ -11,8 +11,8 @@ use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::rt;
 use crate::utils;
 use crate::view;
@@ -238,51 +238,26 @@ impl ContainerCommitPage {
         {
             let imp = self.imp();
 
-            let opts = podman::opts::ContainerCommitOpts::builder();
-
-            let opts =
-                set_opts_builder_field(opts, imp.author_entry_row.text().trim(), |opts, field| {
-                    opts.author(field)
-                });
-            let opts =
-                set_opts_builder_field(opts, imp.comment_entry_row.text().trim(), |opts, field| {
-                    opts.comment(field)
-                });
-
-            let repo = imp.repo_entry_row.text();
-            let repo = repo.trim();
-            let opts = set_opts_builder_field(opts, repo, |opts, field| opts.repo(field));
-
-            let tag = imp.tag_entry_row.text();
-            let tag = tag.trim();
-            let opts = set_opts_builder_field(opts, tag, |opts, field| opts.tag(field));
-
-            let opts = opts
-                .format(
+            let opts = engine::opts::ContainerCommitOpts {
+                author: extract_option(&imp.author_entry_row),
+                comment: extract_option(&imp.comment_entry_row),
+                format: Some(
                     imp.format_list
                         .get()
                         .string(imp.format_combo_row.selected())
-                        .unwrap(),
-                )
-                .pause(imp.pause_switch_row.is_active());
-
-            let page = view::ActionPage::from(
-                &client.action_list().commit_container(
-                    if repo.is_empty() {
-                        None
-                    } else {
-                        Some(format!(
-                            "{}:{}",
-                            repo,
-                            if tag.is_empty() { "latest" } else { tag }
-                        ))
-                    }
-                    .as_deref(),
-                    &container.name(),
-                    api,
-                    opts.build(),
+                        .unwrap()
+                        .to_string(),
                 ),
-            );
+                pause: imp.pause_switch_row.is_active(),
+                repo: extract_option(&imp.repo_entry_row),
+                tag: extract_option(&imp.tag_entry_row),
+            };
+
+            let page = view::ActionPage::from(&client.action_list().commit_container(
+                &container.name(),
+                api,
+                opts,
+            ));
 
             imp.navigation_view.push(
                 &adw::NavigationPage::builder()
@@ -294,20 +269,10 @@ impl ContainerCommitPage {
     }
 }
 
-fn set_opts_builder_field<F>(
-    opts: podman::opts::ContainerCommitOptsBuilder,
-    field: &str,
-    op: F,
-) -> podman::opts::ContainerCommitOptsBuilder
+fn extract_option(row: &adw::EntryRow) -> Option<String>
 where
-    F: FnOnce(
-        podman::opts::ContainerCommitOptsBuilder,
-        &str,
-    ) -> podman::opts::ContainerCommitOptsBuilder,
 {
-    if field.is_empty() {
-        opts
-    } else {
-        op(opts, field)
-    }
+    let text = row.text();
+    let text = text.trim();
+    (!text.is_empty()).then(|| text.to_owned())
 }

@@ -90,9 +90,13 @@ mod imp {
                 .chain_property::<crate::Application>("ticks");
 
             let volume_expr = Self::Type::this_expression("volume");
-            let volume_inner_expr = volume_expr.chain_property::<model::Volume>("inner");
-            let volume_name_is_id_expr = volume_inner_expr.chain_closure::<bool>(closure!(
-                |_: Self::Type, inner: model::BoxedVolume| utils::is_podman_id(&inner.name)
+            let volume_name_expr = volume_expr.chain_property::<model::Volume>("name");
+            let volume_name_is_id_expr =
+                volume_name_expr.chain_closure::<bool>(closure!(|_: Self::Type, name: &str| {
+                    utils::as_id(name).is_some()
+                }));
+            let volume_formatted_name_expr = volume_name_expr.chain_closure::<String>(closure!(
+                |_: Self::Type, name: String| { utils::format_if_id(&name).to_owned() }
             ));
             let volume_to_be_deleted_expr =
                 volume_expr.chain_property::<model::Volume>("to-be-deleted");
@@ -111,22 +115,7 @@ mod imp {
 
             gtk::ClosureExpression::new::<String>(
                 [
-                    gtk::ClosureExpression::new::<String>(
-                        [
-                            volume_name_is_id_expr.upcast_ref(),
-                            volume_inner_expr.upcast_ref(),
-                        ],
-                        closure!(
-                            |_: Self::Type, name_is_id: bool, inner: &model::BoxedVolume| {
-                                if name_is_id {
-                                    utils::format_id(&inner.name)
-                                } else {
-                                    inner.name.clone()
-                                }
-                            }
-                        ),
-                    )
-                    .upcast_ref(),
+                    volume_formatted_name_expr.upcast_ref(),
                     volume_to_be_deleted_expr.upcast_ref(),
                 ],
                 closure!(|_: Self::Type, name: String, to_be_deleted: bool| {
@@ -167,19 +156,15 @@ mod imp {
             .bind(&*self.name_label, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
-                [&ticks_expr, &volume_inner_expr],
-                closure!(|_: Self::Type, _ticks: u64, inner: model::BoxedVolume| {
+                [
+                    &ticks_expr,
+                    &volume_expr.chain_property::<model::Volume>("created-at"),
+                ],
+                closure!(|_: Self::Type, _ticks: u64, created_at: i64| {
                     // Translators: This will resolve to sth. like "{a few minutes} old" or "{15 days} old".
                     gettext!(
                         "{} old",
-                        utils::human_friendly_timespan(utils::timespan_now(
-                            glib::DateTime::from_iso8601(
-                                inner.created_at.as_deref().unwrap(),
-                                None
-                            )
-                            .unwrap()
-                            .to_unix(),
-                        ))
+                        utils::human_friendly_timespan(utils::timespan_now(created_at))
                     )
                 }),
             )
@@ -281,7 +266,7 @@ impl VolumeRow {
                     &adw::NavigationPage::builder()
                         .title(gettext!(
                             "Volume {}",
-                            utils::format_volume_name(&volume.inner().name)
+                            utils::format_volume_name(&volume.name())
                         ))
                         .child(&view::VolumeDetailsPage::from(volume))
                         .build(),

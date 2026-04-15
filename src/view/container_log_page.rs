@@ -15,7 +15,7 @@ use adw::subclass::prelude::*;
 use ashpd::WindowIdentifier;
 use ashpd::desktop::file_chooser::Choice;
 use ashpd::desktop::file_chooser::SaveFileRequest;
-use futures::prelude::*;
+use bytes::Bytes;
 use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
@@ -26,8 +26,8 @@ use gtk::gio;
 use gtk::glib;
 use sourceview5::prelude::*;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::rt;
 use crate::utils;
 use crate::widget;
@@ -51,6 +51,8 @@ enum FetchLinesState {
 }
 
 mod imp {
+    use bytes::Bytes;
+
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
@@ -61,7 +63,7 @@ mod imp {
         pub(super) log_timestamps: RefCell<VecDeque<String>>,
         pub(super) fetch_until: OnceCell<String>,
         pub(super) fetch_lines_state: Cell<FetchLinesState>,
-        pub(super) fetched_lines: RefCell<VecDeque<Vec<u8>>>,
+        pub(super) fetched_lines: RefCell<VecDeque<Bytes>>,
         pub(super) prev_adj: Cell<f64>,
         pub(super) is_auto_scrolling: Cell<bool>,
         #[property(get, set, construct, nullable)]
@@ -416,19 +418,17 @@ impl ContainerLogPage {
     }
 
     fn init_log(&self) {
-        let container =
-            if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
-                container
-            } else {
-                return;
-            };
+        let Some(api) = self.container().as_ref().and_then(model::Container::api) else {
+            return;
+        };
 
         let mut perform = MarkupPerform::default();
 
-        rt::Pipe::new(container, move |container| {
-            container
-                .logs(&basic_opts_builder(false, true).tail("512").build())
-                .boxed()
+        rt::Pipe::new(api, move |api| {
+            api.logs(engine::opts::LogsOpts {
+                tail: "512".to_owned(),
+                ..basic_opts(false, true)
+            })
         })
         .on_next(clone!(
             #[weak(rename_to = obj)]
@@ -451,58 +451,48 @@ impl ContainerLogPage {
     }
 
     fn follow_log(&self) {
-        let container =
-            if let Some(container) = self.container().as_ref().and_then(model::Container::api) {
-                container
-            } else {
-                return;
-            };
+        let Some(api) = self.container().as_ref().and_then(model::Container::api) else {
+            return;
+        };
 
         let timestamps = self.imp().log_timestamps.borrow();
         let mut iter = timestamps.iter().rev();
 
-        let opts = basic_opts_builder(true, true);
-        let (opts, skip) = match iter.next() {
-            Some(last) => (
-                opts.since(
-                    glib::DateTime::from_iso8601(last, None)
-                        .unwrap()
-                        .to_unix()
-                        .to_string(),
-                ),
-                AtomicUsize::new(iter.take_while(|t| *t == last).count() + 1),
-            ),
-            None => (opts, AtomicUsize::new(0)),
+        let mut opts = basic_opts(true, true);
+        let skip = match iter.next() {
+            Some(last) => {
+                opts.since = glib::DateTime::from_iso8601(last, None).unwrap().to_unix();
+                AtomicUsize::new(iter.take_while(|t| *t == last).count() + 1)
+            }
+            None => AtomicUsize::new(0),
         };
 
         let mut perform = MarkupPerform::default();
 
-        rt::Pipe::new(container, |container| container.logs(&opts.build()).boxed()).on_next(
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                #[upgrade_or]
-                glib::ControlFlow::Break,
-                move |result: podman::Result<podman::conn::TtyChunk>| {
-                    if skip.load(Ordering::Relaxed) == 0 {
-                        obj.append_line(result, &mut perform)
-                    } else {
-                        skip.fetch_sub(1, Ordering::Relaxed);
-                        glib::ControlFlow::Continue
-                    }
+        rt::Pipe::new(api, move |api| api.logs(opts)).on_next(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            #[upgrade_or]
+            glib::ControlFlow::Break,
+            move |result: anyhow::Result<engine::conn::TtyChunk>| {
+                if skip.load(Ordering::Relaxed) == 0 {
+                    obj.append_line(result, &mut perform)
+                } else {
+                    skip.fetch_sub(1, Ordering::Relaxed);
+                    glib::ControlFlow::Continue
                 }
-            ),
-        );
+            }
+        ));
     }
 
     fn append_line(
         &self,
-        result: podman::Result<podman::conn::TtyChunk>,
+        result: anyhow::Result<engine::conn::TtyChunk>,
         perform: &mut MarkupPerform,
     ) -> glib::ControlFlow {
         match result {
             Ok(line) => {
-                self.insert(Vec::from(line), perform, true);
+                self.insert(line.into(), perform, true);
                 glib::ControlFlow::Continue
             }
             Err(e) => {
@@ -517,10 +507,10 @@ impl ContainerLogPage {
         }
     }
 
-    fn insert(&self, line: Vec<u8>, perform: &mut MarkupPerform, at_end: bool) {
+    fn insert(&self, line: Bytes, perform: &mut MarkupPerform, at_end: bool) {
         let imp = self.imp();
 
-        let line_buffer = perform.decode(&line);
+        let line_buffer = perform.decode(line.as_ref());
         let (timestamp, log_message) = line_buffer.split_once(' ').unwrap();
 
         imp.fetch_until.get_or_init(|| timestamp.to_owned());
@@ -562,25 +552,23 @@ impl ContainerLogPage {
 
         match imp.fetch_lines_state.get() {
             FetchLinesState::Waiting => {
-                let until = if let Some(until) = imp.fetch_until.get().map(ToOwned::to_owned) {
-                    until
-                } else {
+                let Some(until) = imp.fetch_until.get().map(ToOwned::to_owned) else {
                     return;
                 };
-                let container = if let Some(container) =
-                    self.container().as_ref().and_then(model::Container::api)
-                {
-                    container
-                } else {
+
+                let Some(api) = self.container().as_ref().and_then(model::Container::api) else {
                     return;
                 };
 
                 imp.lines_loading_revealer.set_reveal_child(true);
 
-                rt::Pipe::new(container, |container| {
-                    container
-                        .logs(&basic_opts_builder(false, true).until(until).build())
-                        .boxed()
+                rt::Pipe::new(api, move |api| {
+                    api.logs(engine::opts::LogsOpts {
+                        until: glib::DateTime::from_iso8601(&until, None)
+                            .unwrap()
+                            .to_unix(),
+                        ..basic_opts(false, true)
+                    })
                 })
                 .on_next(clone!(
                     #[weak(rename_to = obj)]
@@ -593,7 +581,7 @@ impl ContainerLogPage {
 
                         match result {
                             Ok(line) => {
-                                imp.fetched_lines.borrow_mut().push_back(Vec::from(line));
+                                imp.fetched_lines.borrow_mut().push_back(line.into());
                                 glib::ControlFlow::Continue
                             }
                             Err(e) => {
@@ -678,11 +666,7 @@ impl ContainerLogPage {
 
                         let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                        let path = if let Some(path) = file.path() {
-                            path
-                        } else {
-                            return;
-                        };
+                        let Some(path) = file.path() else { return };
 
                         let file = std::fs::OpenOptions::new()
                             .write(true)
@@ -697,19 +681,17 @@ impl ContainerLogPage {
                         let timestamps = files.choices()[0].1 == "true";
 
                         rt::Pipe::new(container.api().unwrap(), move |container| {
-                            container
-                                .logs(&basic_opts_builder(false, timestamps).build())
-                                .boxed()
+                            container.logs(basic_opts(false, timestamps))
                         })
                         .on_next(clone!(
                             #[weak]
                             obj,
                             #[upgrade_or]
                             glib::ControlFlow::Break,
-                            move |result: podman::Result<podman::conn::TtyChunk>| {
-                                match result.map(Vec::from) {
+                            move |result: anyhow::Result<engine::conn::TtyChunk>| {
+                                match result {
                                     Ok(line) => {
-                                        perform.decode(&line);
+                                        perform.decode(line.as_ref());
 
                                         let line = perform.move_out_buffer();
                                         if !line.is_empty() {
@@ -768,46 +750,50 @@ impl ContainerLogPage {
     }
 
     pub(crate) fn start_or_resume_container(&self) {
-        if let Some(container) = self.container() {
-            if container.can_start() {
-                container.start(clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |result| {
-                        if let Err(e) = result {
-                            utils::show_error_toast(
-                                &obj,
-                                &gettext("Error starting container"),
-                                &e.to_string(),
-                            );
-                        }
+        let Some(container) = self.container() else {
+            return;
+        };
+
+        if container.status().can_start() {
+            container.start(clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if let Err(e) = result {
+                        utils::show_error_toast(
+                            &obj,
+                            &gettext("Error starting container"),
+                            &e.to_string(),
+                        );
                     }
-                ));
-            } else if container.can_resume() {
-                container.resume(clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |result| {
-                        if let Err(e) = result {
-                            utils::show_error_toast(
-                                &obj,
-                                &gettext("Error resuming container"),
-                                &e.to_string(),
-                            );
-                        }
+                }
+            ));
+        } else if container.status().can_resume() {
+            container.resume(clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |result| {
+                    if let Err(e) = result {
+                        utils::show_error_toast(
+                            &obj,
+                            &gettext("Error resuming container"),
+                            &e.to_string(),
+                        );
                     }
-                ));
-            }
+                }
+            ));
         }
     }
 }
 
-fn basic_opts_builder(follow: bool, timestamps: bool) -> podman::opts::ContainerLogsOptsBuilder {
-    podman::opts::ContainerLogsOpts::builder()
-        .follow(follow)
-        .stdout(true)
-        .stderr(true)
-        .timestamps(timestamps)
+fn basic_opts(follow: bool, timestamps: bool) -> engine::opts::LogsOpts {
+    engine::opts::LogsOpts {
+        follow,
+        stdout: true,
+        stderr: true,
+        timestamps,
+        ..Default::default()
+    }
 }
 
 #[derive(Debug)]
@@ -990,9 +976,6 @@ impl PlainTextPerform {
         let mut parser = vte::Parser::new();
 
         parser.advance(self, ansi_encoded_bytes);
-        // String::from_utf8_lossy(ansi_encoded_bytes)
-        //     .bytes()
-        //     .for_each(|byte| parser.advance(self, byte));
     }
 }
 

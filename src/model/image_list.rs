@@ -1,4 +1,3 @@
-use std::borrow::Borrow;
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
@@ -12,11 +11,10 @@ use glib::subclass::Signal;
 use gtk::gio;
 use gtk::glib;
 use indexmap::IndexMap;
-use indexmap::map::Entry;
 
+use crate::engine;
 use crate::model;
 use crate::model::SelectableListExt;
-use crate::podman;
 use crate::rt;
 
 mod imp {
@@ -26,8 +24,10 @@ mod imp {
     #[properties(wrapper_type = super::ImageList)]
     pub(crate) struct ImageList {
         pub(super) list: RefCell<IndexMap<String, model::Image>>,
+
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
+
         #[property(get)]
         pub(super) listing: Cell<bool>,
         #[property(get = Self::is_initialized, type = bool)]
@@ -161,6 +161,12 @@ impl From<&model::Client> for ImageList {
 }
 
 impl ImageList {
+    pub(crate) fn api(&self) -> Option<engine::api::Images> {
+        self.client()
+            .map(|client| client.engine())
+            .map(|engine| engine.images())
+    }
+
     pub(crate) fn notify_num_images(&self) {
         self.notify("intermediates");
         self.notify("used");
@@ -202,8 +208,26 @@ impl ImageList {
             .sum()
     }
 
-    pub(crate) fn get_image<Q: Borrow<str> + ?Sized>(&self, id: &Q) -> Option<model::Image> {
-        self.imp().list.borrow().get(id.borrow()).cloned()
+    fn upsert_image(&self, dto: engine::dto::Image) {
+        if let Some(image) = self.get_image(dto.id()) {
+            image.update(dto);
+        } else {
+            let image = model::Image::new(self, dto);
+
+            let index = self.len();
+
+            self.imp()
+                .list
+                .borrow_mut()
+                .insert(image.id(), image.clone());
+
+            self.items_changed(index, 0, 1);
+            self.image_added(&image);
+        }
+    }
+
+    pub(crate) fn get_image(&self, id: &str) -> Option<model::Image> {
+        self.imp().list.borrow().get(id).cloned()
     }
 
     pub(crate) fn remove_image(&self, id: &str) {
@@ -216,134 +240,6 @@ impl ImageList {
             self.notify_num_images();
             image.emit_deleted();
         }
-    }
-
-    pub(crate) fn refresh<F>(&self, err_op: F)
-    where
-        F: FnOnce(super::RefreshError) + Clone + 'static,
-    {
-        self.imp().set_listing(true);
-
-        rt::Promise::new({
-            let podman = self.client().unwrap().podman();
-            async move {
-                podman
-                    .images()
-                    .list(&podman::opts::ImageListOpts::builder().all(true).build())
-                    .await
-            }
-        })
-        .defer(clone!(
-            #[weak(rename_to = obj)]
-            self,
-            move |result| {
-                match result {
-                    Ok(summaries) => {
-                        let to_remove = obj
-                            .imp()
-                            .list
-                            .borrow()
-                            .keys()
-                            .filter(|id| {
-                                !summaries
-                                    .iter()
-                                    .any(|summary| summary.id.as_ref() == Some(id))
-                            })
-                            .cloned()
-                            .collect::<Vec<_>>();
-                        to_remove.iter().for_each(|id| {
-                            obj.remove_image(id);
-                        });
-
-                        summaries.iter().for_each(|summary| {
-                            let index = obj.len();
-
-                            let mut list = obj.imp().list.borrow_mut();
-
-                            match list.entry(summary.id.as_ref().unwrap().to_owned()) {
-                                Entry::Vacant(e) => {
-                                    let image = model::Image::new(&obj, summary);
-                                    e.insert(image.clone());
-
-                                    drop(list);
-
-                                    obj.items_changed(index, 0, 1);
-                                    obj.image_added(&image);
-                                }
-                                Entry::Occupied(e) => {
-                                    let image = e.get().to_owned();
-                                    drop(list);
-                                    image.update(summary);
-                                }
-                            }
-                        });
-                    }
-                    Err(e) => {
-                        log::error!("Error on retrieving images: {}", e);
-                        err_op(super::RefreshError);
-                    }
-                }
-                let imp = obj.imp();
-                imp.set_listing(false);
-                imp.set_as_initialized();
-            }
-        ));
-    }
-
-    fn tag(&self, id: &str, tag: &str) {
-        if let Some(image) = self.imp().list.borrow().get(id) {
-            let repo_tags = image.repo_tags();
-            let repo_tags_len = repo_tags.len();
-            repo_tags.add(model::RepoTag::new(&repo_tags, tag));
-
-            if repo_tags_len == 0 {
-                self.notify_num_images();
-            }
-        }
-    }
-
-    fn untag(&self, id: &str, tag: &str) {
-        if let Some(image) = self.imp().list.borrow().get(id) {
-            let repo_tags = image.repo_tags();
-            repo_tags.remove(tag);
-
-            if repo_tags.len() == 0 {
-                self.notify_num_images();
-            }
-        }
-    }
-
-    pub(crate) fn handle_event<F>(&self, event: podman::models::Event, err_op: F)
-    where
-        F: FnOnce(super::RefreshError) + Clone + 'static,
-    {
-        match event.action.as_str() {
-            "tag" => self.tag(
-                &event.actor.id,
-                &format!("localhost/{}", event.actor.attributes.get("name").unwrap()),
-            ),
-            "untag" => self.untag(&event.actor.id, event.actor.attributes.get("name").unwrap()),
-            "remove" => self.remove_image(&event.actor.id),
-            "build" | "pull" | "pull-error" => self.refresh(err_op),
-            other => log::warn!("Unknown action: {other}"),
-        }
-    }
-
-    fn image_added(&self, image: &model::Image) {
-        self.notify_num_images();
-        image.connect_notify_local(
-            Some("repo-tags"),
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |image, _| {
-                    obj.notify_num_images();
-                    obj.emit_by_name::<()>("containers-of-image-changed", &[&image]);
-                    obj.emit_by_name::<()>("tags-of-image-changed", &[&image]);
-                }
-            ),
-        );
-        self.emit_by_name::<()>("image-added", &[image]);
     }
 
     pub(crate) fn connect_image_added<F: Fn(&Self, &model::Image) + 'static>(
@@ -379,5 +275,156 @@ impl ImageList {
 
             None
         })
+    }
+}
+
+impl ImageList {
+    pub(crate) fn refresh<F>(&self, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        let Some(api) = self.api() else { return };
+
+        self.imp().set_listing(true);
+
+        rt::Promise::new(async move { api.list().await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |dtos| {
+                match dtos {
+                    Ok(dtos) => {
+                        let to_remove = obj
+                            .imp()
+                            .list
+                            .borrow()
+                            .keys()
+                            .filter(|id| !dtos.iter().any(|dto| &dto.id == *id))
+                            .cloned()
+                            .collect::<Vec<_>>();
+                        to_remove.iter().for_each(|id| {
+                            obj.remove_image(id);
+                        });
+
+                        dtos.into_iter()
+                            .for_each(|dto| obj.upsert_image(engine::dto::Image::Summary(dto)));
+                    }
+                    Err(e) => {
+                        log::error!("Error on retrieving images: {}", e);
+                        err_op(e);
+                    }
+                }
+                let imp = obj.imp();
+                imp.set_listing(false);
+                imp.set_as_initialized();
+            }
+        ));
+    }
+
+    fn image_added(&self, image: &model::Image) {
+        self.notify_num_images();
+        image.connect_notify_local(
+            Some("repo-tags"),
+            clone!(
+                #[weak(rename_to = obj)]
+                self,
+                move |image, _| {
+                    obj.notify_num_images();
+                    obj.emit_by_name::<()>("containers-of-image-changed", &[&image]);
+                    obj.emit_by_name::<()>("tags-of-image-changed", &[&image]);
+                }
+            ),
+        );
+        self.emit_by_name::<()>("image-added", &[image]);
+    }
+}
+
+// Events
+impl ImageList {
+    pub(crate) fn handle_event<F>(&self, event: engine::dto::Event, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        match event {
+            engine::Response::Docker(event) => {
+                let actor = event.actor.unwrap();
+                let id = actor.id.unwrap();
+                let mut attributes = actor.attributes.unwrap();
+
+                match event.action.as_deref().unwrap() {
+                    "create" | "pull" => self.upsert_image_fetch(id, err_op),
+                    "delete" => self.remove_image(&id),
+                    "tag" => self.upsert_image_with(
+                        id,
+                        move |image| {
+                            image.tagged(attributes.remove("name").unwrap());
+                        },
+                        err_op,
+                    ),
+                    "untag" => self.upsert_image_with(
+                        id,
+                        |image| {
+                            image.untagged(attributes.get("name").unwrap());
+                        },
+                        err_op,
+                    ),
+                    other => log::warn!("Unknown action: {other}"),
+                }
+            }
+            engine::Response::Podman(mut event) => match event.action.as_str() {
+                "build" => {
+                    // when build fails, podman fires an even with an empty name
+                    if let Some(id) = event
+                        .actor
+                        .attributes
+                        .remove("name")
+                        .filter(|id| !id.is_empty())
+                    {
+                        self.upsert_image_fetch(id, err_op)
+                    }
+                }
+                "pull" => self.upsert_image_fetch(event.actor.id, err_op),
+                "remove" => self.remove_image(&event.actor.id),
+                // The name of the tag can be found in the attributes but it is missing certain parts
+                // like host or namespaces, so lets just do a full inspect here
+                "tag" => self.upsert_image_fetch(event.actor.id, err_op),
+                "untag" => self.upsert_image_with(
+                    event.actor.id,
+                    |image| {
+                        image.untagged(event.actor.attributes.get("name").unwrap());
+                    },
+                    err_op,
+                ),
+                other => log::warn!("Unknown action: {other}"),
+            },
+        }
+    }
+
+    fn upsert_image_fetch<F>(&self, id: String, err_op: F)
+    where
+        F: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        let Some(api) = self.api().map(|api| api.get(id)) else {
+            return;
+        };
+
+        rt::Promise::new(async move { api.inspect().await }).defer(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |dto| match dto {
+                Ok(dto) => obj.upsert_image(engine::dto::Image::Inspection(dto)),
+                Err(e) => err_op(e),
+            }
+        ));
+    }
+
+    fn upsert_image_with<F, E>(&self, id: String, op: F, err_op: E)
+    where
+        F: FnOnce(&model::Image),
+        E: FnOnce(anyhow::Error) + Clone + 'static,
+    {
+        match self.get_image(&id) {
+            Some(image) => op(&image),
+            None => self.upsert_image_fetch(id, err_op),
+        }
     }
 }

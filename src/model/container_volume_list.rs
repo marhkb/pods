@@ -50,7 +50,7 @@ glib::wrapper! {
 
 impl Default for ContainerVolumeList {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 
@@ -61,7 +61,7 @@ impl ContainerVolumeList {
                 .imp()
                 .0
                 .borrow_mut()
-                .insert_full(volume.inner().name.clone(), container_volume);
+                .insert_full(volume.name(), container_volume);
 
             self.items_changed(index as u32, 0, 1);
         }

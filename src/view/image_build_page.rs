@@ -11,8 +11,8 @@ use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 
@@ -251,23 +251,23 @@ impl ImageBuildPage {
         if !imp.tag_entry_row.text().is_empty()
             && let Some(context_dir_row) = imp.context_dir_row.subtitle()
         {
-            let opts = podman::opts::ImageBuildOptsBuilder::new(context_dir_row)
-                .dockerfile(imp.container_file_path_entry_row.text())
-                .tag(imp.tag_entry_row.text())
-                .labels(
-                    imp.labels()
-                        .iter::<model::KeyVal>()
-                        .map(Result::unwrap)
-                        .map(|entry| (entry.key(), entry.value())),
-                )
-                .build();
+            let opts = engine::opts::ImageBuildOpts {
+                dockerfile: imp.container_file_path_entry_row.text().into(),
+                tag: Some(imp.tag_entry_row.text().into()),
+                labels: imp
+                    .labels()
+                    .iter::<model::KeyVal>()
+                    .map(Result::unwrap)
+                    .map(|entry| (entry.key(), entry.value()))
+                    .collect(),
+            };
 
             let page = view::ActionPage::from(
                 &self
                     .client()
                     .unwrap()
                     .action_list()
-                    .build_image(imp.tag_entry_row.text().as_str(), opts)
+                    .build_image(opts, context_dir_row.into())
                     .await,
             );
 

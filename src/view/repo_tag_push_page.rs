@@ -10,8 +10,8 @@ use gtk::glib;
 use serde::Deserialize;
 use serde::Serialize;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::rt;
 use crate::utils;
 use crate::view;
@@ -20,13 +20,12 @@ const ACTION_PUSH: &str = "repo-tag-push-page.push";
 
 #[derive(Debug, Serialize, Deserialize)]
 enum RegistryAuth {
-    Password { username: String, password: String },
+    Basic { username: String, password: String },
     Token(String),
 }
 
 mod imp {
     use super::*;
-    use crate::rt;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::RepoTagPushPage)]
@@ -49,9 +48,7 @@ mod imp {
         #[template_child]
         pub(super) login_switch: TemplateChild<gtk::Switch>,
         #[template_child]
-        pub(super) password_toggle: TemplateChild<adw::Toggle>,
-        #[template_child]
-        pub(super) token_toggle: TemplateChild<adw::Toggle>,
+        pub(super) auth_toggle_group: TemplateChild<adw::ToggleGroup>,
         #[template_child]
         pub(super) username_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -99,16 +96,16 @@ mod imp {
 
             let obj = &*self.obj();
 
-            self.password_toggle.connect_enabled_notify(clone!(
+            self.auth_toggle_group.connect_active_name_notify(clone!(
                 #[weak]
                 obj,
-                move |button| {
-                    let is_enabled = button.is_enabled();
+                move |toggle_group| {
+                    let is_basic_enabled = toggle_group.active_name().as_deref() == Some("basic");
 
                     let imp = obj.imp();
-                    imp.username_entry_row.set_visible(is_enabled);
-                    imp.password_entry_row.set_visible(is_enabled);
-                    imp.token_entry_row.set_visible(!is_enabled);
+                    imp.username_entry_row.set_visible(is_basic_enabled);
+                    imp.password_entry_row.set_visible(is_basic_enabled);
+                    imp.token_entry_row.set_visible(!is_basic_enabled);
                 }
             ));
 
@@ -118,12 +115,11 @@ mod imp {
                 match crate::KEYRING.get() {
                     None => self.login_group.set_sensitive(true),
                     Some(keyring) => {
-                        let host = repo_tag.host();
-                        let namespace = repo_tag.namespace();
+                        let items = HashMap::from([("repo-tag", repo_tag.full())]);
 
                         rt::Promise::new(async move {
                             match keyring
-                                .search_items(&attributes(&host, &namespace))
+                                .search_items(&items)
                                 .await
                                 .map_err(anyhow::Error::from)
                             {
@@ -156,13 +152,15 @@ mod imp {
                                             imp.save_credentials_switch_row.set_active(true);
 
                                             match auth {
-                                                RegistryAuth::Password { username, password } => {
-                                                    imp.password_toggle.set_enabled(true);
+                                                RegistryAuth::Basic { username, password } => {
+                                                    imp.auth_toggle_group
+                                                        .set_active_name(Some("basic"));
                                                     imp.username_entry_row.set_text(&username);
                                                     imp.password_entry_row.set_text(&password);
                                                 }
                                                 RegistryAuth::Token(token) => {
-                                                    imp.token_toggle.set_enabled(true);
+                                                    imp.auth_toggle_group
+                                                        .set_active_name(Some("token"));
                                                     imp.token_entry_row.set_text(&token);
                                                 }
                                             }
@@ -218,55 +216,50 @@ impl From<&model::RepoTag> for RepoTagPushPage {
 
 impl RepoTagPushPage {
     pub(crate) fn push(&self) {
-        let repo_tag = if let Some(repo_tag) = self.repo_tag() {
-            repo_tag
-        } else {
+        let Some(repo_tag) = self.repo_tag() else {
             return;
         };
 
-        let image = if let Some(image) = repo_tag.repo_tag_list().and_then(|list| list.image()) {
-            image
-        } else {
+        let Some(image) = repo_tag
+            .repo_tag_list()
+            .as_ref()
+            .and_then(model::RepoTagList::image)
+        else {
             return;
         };
 
-        let client = if let Some(client) = image.image_list().and_then(|list| list.client()) {
-            client
-        } else {
+        let Some(client) = image
+            .image_list()
+            .as_ref()
+            .and_then(model::ImageList::client)
+        else {
             return;
         };
 
         let imp = self.imp();
 
-        let destination = repo_tag.full();
-
-        let opts = podman::opts::ImagePushOpts::builder()
-            .tls_verify(imp.tls_verify_switch_row.is_active())
-            .destination(&destination)
-            .quiet(false);
-
-        let opts = if imp.login_switch.is_active() {
-            let host = repo_tag.host();
-            let namespace = repo_tag.namespace();
+        let credentials = if imp.login_switch.is_active() {
+            let repo_tag = repo_tag.full();
 
             if imp.save_credentials_switch_row.is_active() {
                 match crate::KEYRING.get() {
                     Some(keyring) => {
-                        let secret = if imp.password_toggle.is_enabled() {
-                            RegistryAuth::Password {
-                                username: imp.username_entry_row.text().into(),
-                                password: imp.password_entry_row.text().into(),
-                            }
-                        } else {
-                            RegistryAuth::Token(imp.token_entry_row.text().into())
-                        };
+                        let secret =
+                            if imp.auth_toggle_group.active_name().as_deref() == Some("basic") {
+                                RegistryAuth::Basic {
+                                    username: imp.username_entry_row.text().into(),
+                                    password: imp.password_entry_row.text().into(),
+                                }
+                            } else {
+                                RegistryAuth::Token(imp.token_entry_row.text().into())
+                            };
 
                         rt::Promise::new({
                             async move {
                                 keyring
                                     .create_item(
-                                        &format!("{host}:{namespace}"),
-                                        &attributes(&host, &namespace),
+                                        &repo_tag,
+                                        &HashMap::from([("repo-tag", &repo_tag)]),
                                         serde_json::to_vec(&secret).unwrap(),
                                         true,
                                     )
@@ -291,7 +284,7 @@ impl RepoTagPushPage {
                 rt::Promise::new({
                     async move {
                         keyring
-                            .delete(&attributes(&host, &namespace))
+                            .delete(&HashMap::from([("repo-tag", &repo_tag)]))
                             .await
                             .unwrap();
                     }
@@ -299,20 +292,28 @@ impl RepoTagPushPage {
                 .spawn();
             }
 
-            opts.auth(
-                podman::opts::RegistryAuth::builder()
-                    .username(imp.username_entry_row.text())
-                    .password(imp.password_entry_row.text())
-                    .build(),
+            Some(
+                if imp.auth_toggle_group.active_name().as_deref() == Some("basic") {
+                    engine::auth::Credentials::BasicAuth {
+                        username: imp.username_entry_row.text().into(),
+                        password: imp.password_entry_row.text().into(),
+                    }
+                } else {
+                    engine::auth::Credentials::IdentityToken(imp.token_entry_row.text().into())
+                },
             )
         } else {
-            opts
+            None
         };
 
         let page = view::ActionPage::from(&client.action_list().push_image(
-            &destination,
             image.api().unwrap(),
-            opts.build(),
+            repo_tag.repo(),
+            engine::opts::ImagePushOpts {
+                tag: repo_tag.tag(),
+                tls_verify: imp.tls_verify_switch_row.is_active(),
+            },
+            credentials,
         ));
 
         imp.navigation_view.push(
@@ -322,8 +323,4 @@ impl RepoTagPushPage {
                 .build(),
         );
     }
-}
-
-fn attributes<'a>(host: &'a str, namespace: &'a str) -> HashMap<&'a str, &'a str> {
-    HashMap::from([("host", host), ("namespace", namespace)])
 }

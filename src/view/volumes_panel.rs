@@ -338,8 +338,7 @@ mod imp {
                     let term = &*obj.imp().search_term.borrow();
                     item.downcast_ref::<model::Volume>()
                         .unwrap()
-                        .inner()
-                        .name
+                        .name()
                         .to_lowercase()
                         .contains(term)
                 }
@@ -356,24 +355,10 @@ mod imp {
 
                     let ordering = match obj.sort_attribute() {
                         SortAttribute::Name => volume1
-                            .inner()
-                            .name
+                            .name()
                             .to_lowercase()
-                            .cmp(&volume2.inner().name.to_lowercase()),
-                        SortAttribute::Age => {
-                            let date1 = glib::DateTime::from_iso8601(
-                                volume1.inner().created_at.as_deref().unwrap(),
-                                None,
-                            )
-                            .unwrap();
-                            let date2 = glib::DateTime::from_iso8601(
-                                volume2.inner().created_at.as_deref().unwrap(),
-                                None,
-                            )
-                            .unwrap();
-
-                            date2.cmp(&date1)
-                        }
+                            .cmp(&volume2.name().to_lowercase()),
+                        SortAttribute::Age => volume2.created_at().cmp(&volume1.created_at()),
                         SortAttribute::Containers => volume1
                             .container_list()
                             .len()
@@ -581,7 +566,7 @@ glib::wrapper! {
 
 impl Default for VolumesPanel {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 
@@ -659,9 +644,7 @@ impl VolumesPanel {
     }
 
     pub(crate) async fn delete_selection(&self) {
-        let volume_list = if let Some(volume_list) = self.volume_list() {
-            volume_list
-        } else {
+        let Some(volume_list) = self.volume_list() else {
             return;
         };
 
@@ -697,7 +680,7 @@ impl VolumesPanel {
             if let Err(e) = volume.delete(true).await {
                 utils::show_error_toast(
                     self,
-                    &gettext!("Error on deleting volume '{}'", volume.inner().name),
+                    &gettext!("Error on deleting volume '{}'", volume.name()),
                     &e.to_string(),
                 );
             }

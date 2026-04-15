@@ -1,6 +1,5 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
-use std::ops::Deref;
 use std::sync::OnceLock;
 
 use gio::prelude::*;
@@ -11,12 +10,9 @@ use glib::subclass::prelude::*;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::monad_boxed_type;
-use crate::podman;
 use crate::rt;
-
-monad_boxed_type!(pub(crate) BoxedVolume(podman::models::Volume) impls Debug);
 
 mod imp {
     use super::*;
@@ -26,8 +22,16 @@ mod imp {
     pub(crate) struct Volume {
         #[property(get, set, construct_only, nullable)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
+
         #[property(get, set, construct_only)]
-        pub(super) inner: OnceCell<BoxedVolume>,
+        pub(super) name: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) created_at: OnceCell<i64>,
+        #[property(get, set, construct_only)]
+        pub(super) driver: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) mountpoint: OnceCell<String>,
+
         #[property(get, set)]
         pub(super) searching_containers: Cell<bool>,
         #[property(get, set)]
@@ -99,40 +103,36 @@ glib::wrapper! {
 }
 
 impl Volume {
-    pub(crate) fn new(volume_list: &model::VolumeList, inner: podman::models::Volume) -> Self {
+    pub(crate) fn new(volume_list: &model::VolumeList, dto: engine::dto::Volume) -> Self {
         glib::Object::builder()
             .property("volume-list", volume_list)
-            .property("inner", BoxedVolume::from(inner))
+            .property("name", &dto.name)
+            .property("created-at", dto.created_at)
+            .property("driver", dto.driver)
+            .property("mountpoint", dto.mountpoint)
             .build()
     }
 
-    pub(crate) async fn delete(&self, force: bool) -> podman::Result<()> {
+    pub(crate) fn api(&self) -> Option<engine::api::Volume> {
+        self.volume_list()
+            .and_then(|volume_list| volume_list.api())
+            .map(|api| api.get(self.name()))
+    }
+
+    pub(crate) async fn delete(&self, force: bool) -> anyhow::Result<()> {
+        let Some(api) = self.api() else { return Ok(()) };
+
         let imp = self.imp();
 
         imp.set_to_be_deleted(true);
 
-        rt::Promise::new({
-            let volume = self.api().unwrap();
-            async move {
-                if force {
-                    volume.remove().await
-                } else {
-                    volume.delete().await
-                }
-            }
-        })
-        .exec()
-        .await
-        .inspect_err(|e| {
-            imp.set_to_be_deleted(false);
-            log::error!("Error on removing volume: {}", e);
-        })
-    }
-
-    pub(crate) fn api(&self) -> Option<podman::api::Volume> {
-        self.volume_list().unwrap().client().map(|client| {
-            podman::api::Volume::new(client.podman().deref().clone(), &self.inner().name)
-        })
+        rt::Promise::new(async move { api.remove(force).await })
+            .exec()
+            .await
+            .inspect_err(|e| {
+                imp.set_to_be_deleted(false);
+                log::error!("Error on removing volume: {}", e);
+            })
     }
 
     pub(super) fn emit_deleted(&self) {

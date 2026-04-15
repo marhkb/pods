@@ -14,223 +14,242 @@ template $PdsContainerDetailsPage: Widget {
       }
     }
 
-    Adw.PreferencesPage {
-      Adw.PreferencesGroup {
-        Adw.PreferencesRow action_row {
-          activatable: false;
+    Stack stack {
+      StackPage {
+        name: "loading";
 
-          CenterBox {
-            styles [
-              "action-bar",
-            ]
+        child: Adw.Spinner {};
+      }
 
-            hexpand: true;
+      StackPage {
+        name: "loaded";
 
-            start-widget: Button {
+        child: Adw.PreferencesPage {
+          Adw.PreferencesGroup {
+            Adw.PreferencesRow action_row {
+              activatable: false;
+
+              CenterBox {
+                styles [
+                  "action-bar",
+                ]
+
+                hexpand: true;
+
+                start-widget: Button {
+                  styles [
+                    "circular",
+                    "raised",
+                  ]
+
+                  action-name: "container-details-page.kill";
+                  icon-name: "skull-symbolic";
+                  tooltip-text: _("Kill");
+
+                  accessibility {
+                    label: _("Kill");
+                  }
+
+                  valign: center;
+                };
+
+                center-widget: Box {
+                  halign: center;
+                  hexpand: true;
+                  spacing: 12;
+
+                  Button {
+                    styles [
+                      "circular",
+                      "raised",
+                    ]
+
+                    action-name: "container-details-page.restart";
+                    icon-name: "view-refresh-symbolic";
+                    tooltip-text: _("Restart");
+
+                    accessibility {
+                      label: _("Restart");
+                    }
+
+                    valign: center;
+                  }
+
+                  Button start_or_resume_button {
+                    styles [
+                      "circular",
+                      "large",
+                      "raised",
+                    ]
+
+                    action-name: "container-details-page.start";
+                    tooltip-text: _("Start/Resume");
+                    valign: center;
+
+                    Image {
+                      icon-name: "media-playback-start-symbolic";
+                    }
+                  }
+
+                  Button stop_button {
+                    styles [
+                      "circular",
+                      "large",
+                      "raised",
+                    ]
+
+                    action-name: "container-details-page.stop";
+                    tooltip-text: _("Stop");
+                    valign: center;
+
+                    Image {
+                      icon-name: "media-playback-stop-symbolic";
+                    }
+                  }
+
+                  Button spinning_button {
+                    styles [
+                      "circular",
+                      "large",
+                      "raised",
+                    ]
+
+                    sensitive: false;
+                    valign: center;
+
+                    Adw.Spinner {}
+                  }
+
+                  Button {
+                    styles [
+                      "circular",
+                      "raised",
+                    ]
+
+                    action-name: "container-details-page.pause";
+                    icon-name: "media-playback-pause-symbolic";
+                    tooltip-text: _("Pause");
+
+                    accessibility {
+                      label: _("Pause");
+                    }
+
+                    valign: center;
+                  }
+                };
+
+                end-widget: Button {
+                  styles [
+                    "circular",
+                    "destructive-button",
+                    "raised",
+                  ]
+
+                  action-name: "container-details-page.delete";
+                  icon-name: "user-trash-symbolic";
+                  tooltip-text: _("Delete");
+
+                  accessibility {
+                    label: _("Delete");
+                  }
+
+                  valign: center;
+                };
+              }
+            }
+          }
+
+          $PdsContainerPropertiesGroup {
+            container: bind template.container;
+          }
+
+          Adw.PreferencesGroup volumes_group {
+            title: _("Volumes");
+
+            ListBox volumes_list_box {
               styles [
-                "circular",
-                "raised",
+                "boxed-list",
               ]
 
-              action-name: "container-details-page.kill";
-              icon-name: "skull-symbolic";
-              tooltip-text: _("Kill");
-
-              accessibility {
-                label: _("Kill");
-              }
-
-              valign: center;
-            };
-
-            center-widget: Box {
-              halign: center;
-              hexpand: true;
-              spacing: 12;
-
-              Button {
-                styles [
-                  "circular",
-                  "raised",
-                ]
-
-                action-name: "container-details-page.restart";
-                icon-name: "view-refresh-symbolic";
-                tooltip-text: _("Restart");
-
-                accessibility {
-                  label: _("Restart");
-                }
-
-                valign: center;
-              }
-
-              Button start_or_resume_button {
-                styles [
-                  "circular",
-                  "large",
-                  "raised",
-                ]
-
-                action-name: "container-details-page.start";
-                tooltip-text: _("Start/Resume");
-                valign: center;
-
-                Image {
-                  icon-name: "media-playback-start-symbolic";
-                }
-              }
-
-              Button stop_button {
-                styles [
-                  "circular",
-                  "large",
-                  "raised",
-                ]
-
-                action-name: "container-details-page.stop";
-                tooltip-text: _("Stop");
-                valign: center;
-
-                Image {
-                  icon-name: "media-playback-stop-symbolic";
-                }
-              }
-
-              Button spinning_button {
-                styles [
-                  "circular",
-                  "large",
-                  "raised",
-                ]
-
-                sensitive: false;
-                valign: center;
-
-                Adw.Spinner {}
-              }
-
-              Button {
-                styles [
-                  "circular",
-                  "raised",
-                ]
-
-                action-name: "container-details-page.pause";
-                icon-name: "media-playback-pause-symbolic";
-                tooltip-text: _("Pause");
-
-                accessibility {
-                  label: _("Pause");
-                }
-
-                valign: center;
-              }
-            };
-
-            end-widget: Button {
-              styles [
-                "circular",
-                "destructive-button",
-                "raised",
-              ]
-
-              action-name: "container-details-page.delete";
-              icon-name: "user-trash-symbolic";
-              tooltip-text: _("Delete");
-
-              accessibility {
-                label: _("Delete");
-              }
-
-              valign: center;
-            };
+              selection-mode: none;
+            }
           }
-        }
-      }
 
-      $PdsContainerPropertiesGroup {
-        container: bind template.container;
-      }
+          Adw.PreferencesGroup {
+            title: _("Utilities");
 
-      Adw.PreferencesGroup volumes_group {
-        title: _("Volumes");
+            Adw.ActionRow {
+              title: _("Inspection");
+              subtitle: _("View all container properties in a structured text form");
+              activatable: true;
+              action-name: "container-details-page.inspect";
+              icon-name: "system-search-symbolic";
 
-        ListBox volumes_list_box {
-          styles [
-            "boxed-list",
-          ]
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
 
-          selection-mode: none;
-        }
-      }
+            Adw.ActionRow kube_generation_row {
+              title: _("Kube");
+              subtitle: _("Generate Kubernetes YAML based on this container");
+              activatable: true;
+              action-name: "container-details-page.generate-kube";
+              icon-name: "code-symbolic";
+              visible: bind template
+                .container as <$Container>
+                .container_list as <$ContainerList>
+                .client as <$Client>
+                .engine as <$Engine>
+                .capabilities as <$EngineCapabilities>
+                .kube_generation;
 
-      Adw.PreferencesGroup {
-        title: _("Utilities");
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
 
-        Adw.ActionRow {
-          title: _("Inspection");
-          subtitle: _("View all container properties in a structured text form");
-          activatable: true;
-          action-name: "container-details-page.inspect";
-          icon-name: "system-search-symbolic";
+            Adw.ActionRow {
+              title: _("Terminal");
+              subtitle: _("Connect to the container's terminal");
+              activatable: true;
+              action-name: "container-details-page.show-tty";
+              icon-name: "utilities-terminal-symbolic";
 
-          Image {
-            icon-name: "go-next-symbolic";
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("Logs");
+              subtitle: _("View and search through container logs");
+              activatable: true;
+              action-name: "container-details-page.show-log";
+              icon-name: "text-editor-symbolic";
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("Processes");
+              subtitle: _("View and manage processes of the container");
+              activatable: true;
+              action-name: "container-details-page.show-processes";
+              icon-name: "application-x-executable-symbolic";
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
           }
-        }
 
-        Adw.ActionRow {
-          title: _("Kube");
-          subtitle: _("Generate Kubernetes YAML based on this container");
-          activatable: true;
-          action-name: "container-details-page.generate-kube";
-          icon-name: "code-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
+          $PdsContainerResources resources {
+            container: bind template.container;
           }
-        }
-
-        Adw.ActionRow {
-          title: _("Terminal");
-          subtitle: _("Connect to the container's terminal");
-          activatable: true;
-          action-name: "container-details-page.show-tty";
-          icon-name: "utilities-terminal-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
-          }
-        }
-
-        Adw.ActionRow {
-          title: _("Logs");
-          subtitle: _("View and search through container logs");
-          activatable: true;
-          action-name: "container-details-page.show-log";
-          icon-name: "text-editor-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
-          }
-        }
-
-        Adw.ActionRow {
-          title: _("Processes");
-          subtitle: _("View and manage processes of the container");
-          activatable: true;
-          action-name: "container-details-page.show-processes";
-          icon-name: "application-x-executable-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
-          }
-        }
-      }
-
-      $PdsContainerResources resources {
-        container: bind template.container;
+        };
       }
     }
   }

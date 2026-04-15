@@ -63,7 +63,7 @@ impl From<&model::Image> for ImageHistoryPage {
         let obj = glib::Object::builder::<Self>().build();
         obj.imp()
             .window_title
-            .set_subtitle(&utils::format_id(&image.id()));
+            .set_subtitle(utils::format_id(&image.id()));
 
         rt::Promise::new({
             let api = image.api().unwrap();
@@ -85,11 +85,7 @@ impl From<&model::Image> for ImageHistoryPage {
                             gettext!(
                                 "{} in total",
                                 glib::format_size(
-                                    entries
-                                        .iter()
-                                        .filter_map(|item| item.size)
-                                        .map(|size| size as u64)
-                                        .sum()
+                                    entries.iter().filter_map(|item| item.size).sum()
                                 ),
                             )
                         )));
@@ -100,7 +96,7 @@ impl From<&model::Image> for ImageHistoryPage {
                                     entry
                                         .id
                                         .as_deref()
-                                        .map(utils::format_id)
+                                        .map(|id| utils::format_id(id).to_owned())
                                         .unwrap_or_else(|| gettext("<None>")),
                                 )
                                 .subtitle(
@@ -126,9 +122,7 @@ impl From<&model::Image> for ImageHistoryPage {
                                     .label(
                                         entry
                                             .size
-                                            .map(|size| {
-                                                String::from(glib::format_size(size as u64))
-                                            })
+                                            .map(|size| String::from(glib::format_size(size)))
                                             .unwrap_or_else(|| gettext("Unknown size")),
                                     )
                                     .css_classes(vec!["dim-label".to_string()])
@@ -174,8 +168,11 @@ impl From<&model::Image> for ImageHistoryPage {
                             {
                                 row.add_row(&property_row(&gettext("Comment"), &comment));
                             }
-                            if let Some(tags) = entry.tags {
-                                row.add_row(&property_row(&gettext("Tags"), &tags.join(", ")));
+                            if !entry.tags.is_empty() {
+                                row.add_row(&property_row(
+                                    &gettext("Tags"),
+                                    &entry.tags.join(", "),
+                                ));
                             }
 
                             imp.preferences_group.add(&row);

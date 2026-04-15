@@ -99,14 +99,17 @@ mod imp {
                 }))
                 .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
+            let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health-status");
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
 
-            container_expr
-                .chain_property::<model::Container>("action-ongoing")
+            status_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
+                    status.is_transition()
+                }))
                 .bind(&*self.spinner, "spinning", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -176,12 +179,17 @@ mod imp {
             )
             .bind(&*self.ports_wrap_box, "visible", Some(obj));
 
-            container_expr
-                .chain_property::<model::Container>("image-name")
+            image_name_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
-                    utils::escape(&utils::format_option(name))
+                    utils::format_if_id(&name.unwrap_or_default()).to_owned()
                 }))
                 .bind(&*self.repo_label, "label", Some(obj));
+
+            image_name_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, name: Option<String>| {
+                    name.is_some()
+                }))
+                .bind(&*self.repo_label, "visible", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(
@@ -197,7 +205,8 @@ mod imp {
                     [
                         container_list_expr
                             .chain_property::<model::ContainerList>("client")
-                            .chain_property::<model::Client>("cpus")
+                            .chain_property::<model::Client>("info")
+                            .chain_property::<model::Info>("cpus")
                             .upcast_ref(),
                         stats_expr.upcast_ref(),
                     ],

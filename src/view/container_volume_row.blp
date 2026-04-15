@@ -21,6 +21,8 @@ template $PdsContainerVolumeRow: ListBoxRow {
 
         Label name_label {
           use-markup: true;
+          wrap-mode: word_char;
+          wrap: true;
           xalign: 0;
           yalign: 0;
         }
@@ -31,7 +33,7 @@ template $PdsContainerVolumeRow: ListBoxRow {
           ]
 
           wrap: true;
-          wrap-mode: word;
+          wrap-mode: word_char;
           xalign: 0;
         }
       }

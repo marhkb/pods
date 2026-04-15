@@ -48,19 +48,11 @@ glib::wrapper! {
 }
 
 impl RepoTag {
-    pub(crate) fn new(repo_tag_list: &model::RepoTagList, full: &str) -> Self {
+    pub(crate) fn new(repo_tag_list: &model::RepoTagList, full: String) -> Self {
         glib::Object::builder()
             .property("repo-tag-list", repo_tag_list)
             .property("full", full)
             .build()
-    }
-
-    pub(crate) fn host(&self) -> String {
-        self.full().split_once('/').unwrap().0.to_owned()
-    }
-
-    pub(crate) fn namespace(&self) -> String {
-        self.full().split_once('/').unwrap().1.to_owned()
     }
 
     pub(crate) fn repo(&self) -> String {

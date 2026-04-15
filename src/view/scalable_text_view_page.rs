@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::cell::OnceCell;
 
 use adw::prelude::*;
@@ -12,6 +13,7 @@ use gtk::glib;
 use gtk::glib::clone;
 use sourceview5::prelude::*;
 
+use crate::engine;
 use crate::model;
 use crate::rt;
 use crate::utils;
@@ -36,24 +38,26 @@ pub(crate) enum Entity {
         mode: Mode,
     },
     Volume(glib::WeakRef<model::Volume>),
+    Info(glib::WeakRef<model::Info>),
 }
 impl Entity {
-    fn filename(&self) -> String {
+    fn filename(&self) -> Cow<'_, str> {
         match self {
-            Self::Image(image) => format!("{}.json", image.upgrade().unwrap().id()),
-            Self::Container { container, mode } => {
-                format!(
-                    "{}.{}",
-                    container.upgrade().unwrap().name(),
-                    mode.file_ext()
-                )
-            }
-            Self::Pod { pod, mode } => {
-                format!("{}.{}", pod.upgrade().unwrap().name(), mode.file_ext())
-            }
+            Self::Image(image) => Cow::Owned(format!("{}.json", image.upgrade().unwrap().id())),
+            Self::Container { container, mode } => Cow::Owned(format!(
+                "{}.{}",
+                container.upgrade().unwrap().name(),
+                mode.file_ext()
+            )),
+            Self::Pod { pod, mode } => Cow::Owned(format!(
+                "{}.{}",
+                pod.upgrade().unwrap().name(),
+                mode.file_ext()
+            )),
             Self::Volume(volume) => {
-                format!("{}.json", volume.upgrade().unwrap().inner().name)
+                Cow::Owned(format!("{}.json", volume.upgrade().unwrap().name()))
             }
+            Self::Info(_) => Cow::Borrowed("info.json"),
         }
     }
 }
@@ -263,15 +267,14 @@ glib::wrapper! {
 
 impl From<Entity> for ScalableTextViewPage {
     fn from(entity: Entity) -> Self {
-        let obj: Self = glib::Object::builder().build();
+        let obj: Self = glib::Object::new();
         let imp = obj.imp();
 
         match &entity {
             Entity::Image(image) => {
                 imp.window_title.set_title(&gettext("Image Inspection"));
                 if let Some(image) = image.upgrade() {
-                    imp.window_title
-                        .set_subtitle(&utils::format_id(&image.id()));
+                    imp.window_title.set_subtitle(utils::format_id(&image.id()));
                 }
             }
             Entity::Container { mode, container } => {
@@ -298,13 +301,22 @@ impl From<Entity> for ScalableTextViewPage {
                 imp.window_title.set_title(&gettext("Volume Inspection"));
                 if let Some(volume) = volume.upgrade() {
                     imp.window_title
-                        .set_subtitle(&utils::format_volume_name(&volume.inner().name));
+                        .set_subtitle(utils::format_volume_name(&volume.name()));
+                }
+            }
+            Entity::Info(info) => {
+                imp.window_title.set_title(&gettext("Detailed Information"));
+                if let Some(info) = info.upgrade().and_then(|info| info.client()) {
+                    imp.window_title.set_subtitle(&match *info.engine() {
+                        engine::Engine::Docker(_) => gettext("Docker"),
+                        engine::Engine::Podman(_) => gettext("Podman"),
+                    });
                 }
             }
         }
 
         let language = match &entity {
-            Entity::Image(_) | Entity::Volume(_) => "json",
+            Entity::Image(_) | Entity::Volume(_) | Entity::Info(_) => "json",
             Entity::Container { mode, .. } => match mode {
                 Mode::Inspect => "json",
                 Mode::Kube => "yaml",
@@ -325,78 +337,61 @@ impl From<Entity> for ScalableTextViewPage {
 
         match entity.clone() {
             Entity::Image(image) => {
-                let api = image.upgrade().unwrap().api().unwrap();
-
-                rt::Promise::new(async move {
-                    api.inspect()
-                        .await
-                        .map_err(anyhow::Error::from)
-                        .and_then(|data| {
-                            serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                        })
-                })
-                .defer(clone!(
-                    #[weak]
-                    obj,
-                    move |result| obj.init(result, Mode::Inspect)
-                ));
+                if let Some(api) = image.upgrade().and_then(|image| image.api()) {
+                    rt::Promise::new(async move { api.json().await }).defer(clone!(
+                        #[weak]
+                        obj,
+                        move |result| obj.init(result, Mode::Inspect)
+                    ));
+                }
             }
             Entity::Container { container, mode } => {
-                let api = container.upgrade().unwrap().api().unwrap();
-
-                rt::Promise::new(async move {
-                    match mode {
-                        Mode::Inspect => {
-                            api.inspect()
-                                .await
-                                .map_err(anyhow::Error::from)
-                                .and_then(|data| {
-                                    serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                                })
+                if let Some(api) = container.upgrade().and_then(|container| container.api()) {
+                    rt::Promise::new(async move {
+                        match mode {
+                            Mode::Inspect => api.json().await,
+                            Mode::Kube => api.generate_kube_yaml(false).await,
                         }
-                        Mode::Kube => api
-                            .generate_kube_yaml(false)
-                            .await
-                            .map_err(anyhow::Error::from),
-                    }
-                })
-                .defer(clone!(
-                    #[weak]
-                    obj,
-                    move |result| obj.init(result, mode)
-                ));
+                    })
+                    .defer(clone!(
+                        #[weak]
+                        obj,
+                        move |result| obj.init(result, mode)
+                    ));
+                }
             }
             Entity::Pod { pod, mode } => {
-                let api = pod.upgrade().unwrap().api().unwrap();
-
-                rt::Promise::new(async move {
-                    match mode {
-                        Mode::Inspect => {
-                            api.inspect()
-                                .await
-                                .map_err(anyhow::Error::from)
-                                .and_then(|data| {
-                                    serde_json::to_string_pretty(&data).map_err(anyhow::Error::from)
-                                })
+                if let Some(api) = pod.upgrade().and_then(|pod| pod.api()) {
+                    rt::Promise::new(async move {
+                        match mode {
+                            Mode::Inspect => api.json().await,
+                            Mode::Kube => api.generate_kube_yaml(false).await,
                         }
-                        Mode::Kube => api
-                            .generate_kube_yaml(false)
-                            .await
-                            .map_err(anyhow::Error::from),
-                    }
-                })
-                .defer(clone!(
-                    #[weak]
-                    obj,
-                    move |result| obj.init(result, mode)
-                ));
+                    })
+                    .defer(clone!(
+                        #[weak]
+                        obj,
+                        move |result| obj.init(result, mode)
+                    ));
+                }
             }
             Entity::Volume(volume) => {
-                obj.init(
-                    serde_json::to_string_pretty(&*volume.upgrade().unwrap().inner())
-                        .map_err(anyhow::Error::from),
-                    Mode::Inspect,
-                );
+                if let Some(api) = volume.upgrade().and_then(|volume| volume.api()) {
+                    rt::Promise::new(async move { api.json().await }).defer(clone!(
+                        #[weak]
+                        obj,
+                        move |result| obj.init(result, Mode::Inspect,)
+                    ));
+                }
+            }
+            Entity::Info(info) => {
+                if let Some(api) = info.upgrade().and_then(|info| info.api()) {
+                    rt::Promise::new(async move { api.json().await }).defer(clone!(
+                        #[weak]
+                        obj,
+                        move |result| obj.init(result, Mode::Inspect,)
+                    ));
+                }
             }
         };
 
@@ -434,7 +429,7 @@ impl ScalableTextViewPage {
 
         let request = SaveFileRequest::default()
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-            .current_name(imp.entity.get().unwrap().filename().as_str())
+            .current_name(&*imp.entity.get().unwrap().filename())
             .modal(true);
 
         utils::show_save_file_dialog(

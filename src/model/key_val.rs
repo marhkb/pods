@@ -51,7 +51,7 @@ glib::wrapper! {
 
 impl Default for KeyVal {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

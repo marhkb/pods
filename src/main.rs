@@ -2,9 +2,9 @@
 #![allow(deprecated)]
 
 mod application;
-mod podman;
 #[rustfmt::skip]
 mod config;
+mod engine;
 mod model;
 mod rt;
 mod utils;
@@ -55,7 +55,9 @@ fn main() {
 
             let term_logger = simplelog::TermLogger::new(
                 log_level_filter,
-                simplelog::Config::default(),
+                simplelog::ConfigBuilder::new()
+                    .add_filter_ignore_str("bollard")
+                    .build(),
                 simplelog::TerminalMode::Mixed,
                 simplelog::ColorChoice::Auto,
             );
@@ -185,6 +187,7 @@ fn setup_cli(app: Application) -> Application {
 
 fn init() {
     model::Connection::static_type();
+    model::EngineCapabilities::static_type();
 
     view::ActionPage::static_type();
     view::ActionRow::static_type();
@@ -218,25 +221,29 @@ fn init() {
     view::ImageHistoryPage::static_type();
     view::ImageMenuButton::static_type();
     view::ImagePullPage::static_type();
-    view::ImageSearchPage::static_type();
+    view::ImageRemoteSelectionPage::static_type();
+    view::ImageRemoteSelectionPage::static_type();
     view::ImageSearchResponseRow::static_type();
     view::ImageSelectionComboRow::static_type();
     view::ImageSelectionPage::static_type();
+    view::ImageSelectionRow::static_type();
     view::ImagesPanel::static_type();
     view::InfoPanel::static_type();
     view::PodMenuButton::static_type();
     view::PodRow::static_type();
     view::PodSelectionPage::static_type();
+    view::PodSelectionRow::static_type();
     view::PodsPanel::static_type();
     view::PodsPrunePage::static_type();
     view::RepoTagAddDialog::static_type();
     view::RepoTagPushPage::static_type();
     view::RepoTagRow::static_type();
-    view::RepoTagSelectionPage::static_type();
     view::RepoTagSimpleRow::static_type();
     view::ScalableTextViewPage::static_type();
     view::SearchPanel::static_type();
     view::VolumeRow::static_type();
+    view::VolumeSelectionPage::static_type();
+    view::VolumeSelectionRow::static_type();
     view::VolumesGroup::static_type();
     view::VolumesPanel::static_type();
     view::VolumesPrunePage::static_type();
@@ -253,6 +260,7 @@ fn init() {
     widget::ScalableTextView::static_type();
     widget::SourceViewSearchWidget::static_type();
     widget::Spinner::static_type();
+    widget::SuggestionEntryRow::static_type();
     widget::TextSearchEntry::static_type();
     widget::ZoomControl::static_type();
 }

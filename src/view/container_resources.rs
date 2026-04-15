@@ -80,7 +80,8 @@ mod imp {
             let cpus_expr = container_expr
                 .chain_property::<model::Container>("container-list")
                 .chain_property::<model::ContainerList>("client")
-                .chain_property::<model::Client>("cpus");
+                .chain_property::<model::Client>("info")
+                .chain_property::<model::Info>("cpus");
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
 
             cpus_expr

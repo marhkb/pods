@@ -97,9 +97,12 @@ template $PdsImageSelectionPage: Widget {
 
                 show-separators: true;
 
-                factory: SignalListItemFactory {
-                  setup => $on_signal_list_item_factory_setup() swapped;
-                  bind => $on_signal_list_item_factory_bind() swapped;
+                factory: BuilderListItemFactory {
+                  template ListItem {
+                    child: $PdsImageSelectionRow {
+                      image: bind template.item as <$Image>;
+                    };
+                  }
                 };
 
                 model: SingleSelection selection {

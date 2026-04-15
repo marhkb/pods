@@ -179,8 +179,14 @@ pub(crate) fn format_ago(timespan: glib::TimeSpan) -> String {
     gettext!("{} ago", human_friendly_timespan(timespan))
 }
 
-pub(crate) fn format_id(id: &str) -> String {
-    id.chars().take(12).collect::<String>()
+pub(crate) fn format_id(id: &str) -> &str {
+    let start = id.find(':').map(|pos| pos + 1).unwrap_or(0);
+    let end = (start + 12).min(id.len());
+    &id[start..end]
+}
+
+pub(crate) fn format_if_id(name: &str) -> &str {
+    as_id(name).map(|id| &id[..12]).unwrap_or(name)
 }
 
 pub(crate) fn root<W: IsA<gtk::Widget>>(widget: &W) -> gtk::Window {
@@ -208,6 +214,7 @@ impl<'a, C, P> Dialog<'a, C, P> {
     }
 
     #[must_use]
+    #[allow(unused)]
     pub(crate) fn height(mut self, height: i32) -> Self {
         self.height = Some(height);
         self
@@ -391,17 +398,18 @@ where
     }
 }
 
-pub(crate) fn is_podman_id(name: &str) -> bool {
-    name.len() == 64
-        && name
-            .chars()
-            .all(|c| c.to_ascii_lowercase().is_ascii_hexdigit())
+pub(crate) fn as_id(name: &str) -> Option<&str> {
+    name.split_once(':')
+        .map(|(_, id)| id)
+        .or(Some(name))
+        .filter(|name| {
+            name.len() == 64
+                && name
+                    .chars()
+                    .all(|c| c.to_ascii_lowercase().is_ascii_hexdigit())
+        })
 }
 
-pub(crate) fn format_volume_name(name: &str) -> String {
-    if is_podman_id(name) {
-        format_id(name)
-    } else {
-        name.to_owned()
-    }
+pub(crate) fn format_volume_name(name: &str) -> &str {
+    as_id(name).map(format_id).unwrap_or(name)
 }

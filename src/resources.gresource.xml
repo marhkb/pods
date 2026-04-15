@@ -45,11 +45,12 @@
     <file compressed="true" preprocess="xml-stripblanks">view/image_history_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_menu_button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_pull_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/image_remote_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_search_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_search_response_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_selection_combo_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_selection_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/image_selection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_prune_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/info_panel.ui</file>
@@ -60,13 +61,13 @@
     <file compressed="true" preprocess="xml-stripblanks">view/pod_menu_button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_selection_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/pod_selection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pods_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pods_prune_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/port_mapping_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_add_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_simple_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/scalable_text_view_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/search_panel.ui</file>
@@ -77,6 +78,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/volume_details_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volume_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volume_selection_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/volume_selection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volumes_group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volumes_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volumes_prune_page.ui</file>
@@ -92,6 +94,7 @@
     <file compressed="true" preprocess="xml-stripblanks">widget/random_name_entry_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/source_view_search_widget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/spinner.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">widget/suggestion_entry_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/text_search_entry.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/zoom_control.ui</file>
 

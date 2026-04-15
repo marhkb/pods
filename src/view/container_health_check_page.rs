@@ -24,7 +24,7 @@ mod imp {
     #[properties(wrapper_type = super::ContainerHealthCheckPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_health_check_page.ui")]
     pub(crate) struct ContainerHealthCheckPage {
-        #[property(get, set = Self::set_container, construct, nullable)]
+        #[property(get, set = Self::set_container, construct_only, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
@@ -83,7 +83,6 @@ mod imp {
 
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health_status");
-            let data_expr = container_expr.chain_property::<model::Container>("data");
 
             gtk::ClosureExpression::new::<bool>(
                 [
@@ -104,8 +103,12 @@ mod imp {
                             ACTION_RUN_HEALTH_COMMAND,
                             obj.container()
                                 .map(|container| {
-                                    container.health_status()
-                                        != model::ContainerHealthStatus::Unconfigured
+                                    container
+                                        .api()
+                                        .map(|api| api.supports_healthcheck())
+                                        .unwrap_or(false)
+                                        && container.health_status()
+                                            != model::ContainerHealthStatus::Unconfigured
                                         && container.status() == model::ContainerStatus::Running
                                 })
                                 .unwrap_or(false),
@@ -134,49 +137,6 @@ mod imp {
                     }
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
-
-            data_expr.watch(
-                Some(obj),
-                clone!(
-                    #[weak]
-                    obj,
-                    move || {
-                        let model = obj
-                            .container()
-                            .as_ref()
-                            .and_then(model::Container::data)
-                            .as_ref()
-                            .map(model::ContainerData::health_check_log_list);
-
-                        if let Some(ref model) = model {
-                            obj.set_list_box_visibility(model.upcast_ref());
-                            model.connect_items_changed(clone!(
-                                #[weak]
-                                obj,
-                                move |model, _, _, _| {
-                                    obj.set_list_box_visibility(model.upcast_ref());
-                                }
-                            ));
-                        }
-
-                        let sort_model = gtk::SortListModel::new(
-                            model,
-                            Some(gtk::CustomSorter::new(|item1, item2| {
-                                let log1 = item1.downcast_ref::<model::HealthCheckLog>().unwrap();
-                                let log2 = item2.downcast_ref::<model::HealthCheckLog>().unwrap();
-                                log2.start().cmp(&log1.start()).into()
-                            })),
-                        );
-
-                        obj.imp()
-                            .log_list_box
-                            .bind_model(Some(&sort_model), move |log| {
-                                view::ContainerHealthCheckLogRow::from(log.downcast_ref().unwrap())
-                                    .upcast()
-                            })
-                    }
-                ),
-            );
         }
 
         fn dispose(&self) {
@@ -193,43 +153,66 @@ mod imp {
                 return;
             }
 
-            if let Some(config) = value
-                .and_then(model::Container::data)
-                .as_ref()
-                .and_then(model::ContainerData::health_config)
-            {
-                self.command_row.set_value(
-                    &config
-                        .test
-                        .as_ref()
-                        .map(|s| s.join(" "))
-                        .unwrap_or_default(),
+            // TODO: use if lets
+            if let Some(container_details) = value.and_then(model::Container::details) {
+                let model = container_details.health_check_logs();
+
+                obj.set_list_box_visibility(model.upcast_ref());
+                model.connect_items_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |model, _, _, _| {
+                        obj.set_list_box_visibility(model.upcast_ref());
+                    }
+                ));
+
+                let sort_model = gtk::SortListModel::new(
+                    Some(model),
+                    Some(gtk::CustomSorter::new(|item1, item2| {
+                        let log1 = item1.downcast_ref::<model::HealthCheckLog>().unwrap();
+                        let log2 = item2.downcast_ref::<model::HealthCheckLog>().unwrap();
+                        log2.start().cmp(&log1.start()).into()
+                    })),
                 );
-                self.interval_row.set_value(
-                    &config
-                        .interval
-                        .map(|nanos| {
-                            let secs = nanos / 1000000000;
-                            ngettext!("{} second", "{} seconds", secs as u32, secs)
-                        })
-                        .unwrap_or_default(),
-                );
-                self.retries_row.set_value(
-                    &config
-                        .retries
-                        .as_ref()
-                        .map(ToString::to_string)
-                        .unwrap_or_default(),
-                );
-                self.timeout_row.set_value(
-                    &config
-                        .timeout
-                        .map(|nanos| {
-                            let secs = nanos / 1000000000;
-                            ngettext!("{} second", "{} seconds", secs as u32, secs)
-                        })
-                        .unwrap_or_default(),
-                );
+
+                self.log_list_box.bind_model(Some(&sort_model), move |log| {
+                    view::ContainerHealthCheckLogRow::from(log.downcast_ref().unwrap()).upcast()
+                });
+
+                if let Some(config) = container_details.health_config() {
+                    self.command_row.set_value(
+                        &config
+                            .test
+                            .as_ref()
+                            .map(|s| s.join(" "))
+                            .unwrap_or_default(),
+                    );
+                    self.interval_row.set_value(
+                        &config
+                            .interval
+                            .map(|nanos| {
+                                let secs = nanos / 1000000000;
+                                ngettext!("{} second", "{} seconds", secs as u32, secs)
+                            })
+                            .unwrap_or_default(),
+                    );
+                    self.retries_row.set_value(
+                        &config
+                            .retries
+                            .as_ref()
+                            .map(ToString::to_string)
+                            .unwrap_or_default(),
+                    );
+                    self.timeout_row.set_value(
+                        &config
+                            .timeout
+                            .map(|nanos| {
+                                let secs = nanos / 1000000000;
+                                ngettext!("{} second", "{} seconds", secs as u32, secs)
+                            })
+                            .unwrap_or_default(),
+                    );
+                }
             }
 
             self.container.set(value);
@@ -257,16 +240,16 @@ impl ContainerHealthCheckPage {
     }
 
     pub(crate) async fn run_health_check(&self) {
-        if let Err(e) = rt::Promise::new({
-            let container = self
-                .container()
-                .as_ref()
-                .and_then(model::Container::api)
-                .unwrap();
-            async move { container.healthcheck().await }
-        })
-        .exec()
-        .await
+        let container = self
+            .container()
+            .as_ref()
+            .and_then(model::Container::api)
+            .unwrap();
+
+        if container.supports_healthcheck()
+            && let Err(e) = rt::Promise::new(async move { container.healthcheck().await })
+                .exec()
+                .await
         {
             utils::show_error_toast(
                 self,

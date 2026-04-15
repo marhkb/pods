@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::cell::OnceCell;
 
 use adw::prelude::*;
@@ -14,8 +15,10 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
-const ACTION_COPY_SOCKET_ACTIVATION_COMMAND: &str =
-    "connection-creator-page.copy-socket-activation-command";
+const ACTION_COPY_PODMAN_SOCKET_ACTIVATION_COMMAND: &str =
+    "connection-creator-page.copy-podman-socket-activation-command";
+const ACTION_COPY_DOCKER_SOCKET_ACTIVATION_COMMAND: &str =
+    "connection-creator-page.copy-docker-socket-activation-command";
 const ACTION_SHOW_CUSTOM_INFO_DIALOG: &str = "connection-creation-page.show-custom-info-dialog";
 const ACTION_TRY_CONNECT: &str = "connection-creation-page.try-connect";
 
@@ -41,11 +44,17 @@ mod imp {
         #[template_child]
         pub(super) name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
-        pub(super) unix_socket_url_row: TemplateChild<adw::ActionRow>,
+        pub(super) podman_unix_socket_url_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) socket_activation_command_label: TemplateChild<gtk::Label>,
+        pub(super) podman_unix_socket_radio_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
-        pub(super) socket_url_label: TemplateChild<gtk::Label>,
+        pub(super) podman_socket_activation_command_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) podman_socket_url_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) docker_unix_socket_radio_button: TemplateChild<gtk::CheckButton>,
+        #[template_child]
+        pub(super) docker_socket_activation_command_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) custom_url_radio_button: TemplateChild<gtk::CheckButton>,
         #[template_child]
@@ -67,10 +76,17 @@ mod imp {
             klass.bind_template_callbacks();
 
             klass.install_action(
-                ACTION_COPY_SOCKET_ACTIVATION_COMMAND,
+                ACTION_COPY_PODMAN_SOCKET_ACTIVATION_COMMAND,
                 None,
                 move |widget, _, _| {
-                    widget.copy_socket_activation_command();
+                    widget.copy_podman_socket_activation_command();
+                },
+            );
+            klass.install_action(
+                ACTION_COPY_DOCKER_SOCKET_ACTIVATION_COMMAND,
+                None,
+                move |widget, _, _| {
+                    widget.copy_docker_socket_activation_command();
                 },
             );
             klass.install_action(ACTION_SHOW_CUSTOM_INFO_DIALOG, None, |widget, _, _| {
@@ -129,10 +145,10 @@ mod imp {
                 ),
             );
 
-            self.unix_socket_url_row
+            self.podman_unix_socket_url_row
                 .set_subtitle(&utils::unix_socket_url());
 
-            self.socket_url_label.set_markup(&gettext!(
+            self.podman_socket_url_label.set_markup(&gettext!(
                 // Translators: The placeholder '{}' is replaced by 'official documentation'.
                 "Visit the {} for more information.",
                 format!(
@@ -231,8 +247,14 @@ impl From<&model::ConnectionManager> for ConnectionCreationPage {
 }
 
 impl ConnectionCreationPage {
-    pub(crate) fn copy_socket_activation_command(&self) {
-        let label = &*self.imp().socket_activation_command_label;
+    pub(crate) fn copy_podman_socket_activation_command(&self) {
+        let label = &*self.imp().podman_socket_activation_command_label;
+        label.select_region(0, -1);
+        label.emit_copy_clipboard();
+    }
+
+    pub(crate) fn copy_docker_socket_activation_command(&self) {
+        let label = &*self.imp().docker_socket_activation_command_label;
         label.select_region(0, -1);
         label.emit_copy_clipboard();
     }
@@ -259,9 +281,11 @@ impl ConnectionCreationPage {
             .try_connect(
                 imp.name_entry_row.text().as_str(),
                 if imp.custom_url_radio_button.is_active() {
-                    imp.custom_url_entry_row.text().into()
+                    Cow::Owned(imp.custom_url_entry_row.text().into())
+                } else if imp.podman_unix_socket_radio_button.is_active() {
+                    Cow::Owned(utils::unix_socket_url())
                 } else {
-                    utils::unix_socket_url()
+                    Cow::Borrowed("unix:///var/run/docker.sock")
                 }
                 .as_ref(),
                 if imp.color_switch.is_active() {
@@ -272,9 +296,7 @@ impl ConnectionCreationPage {
             )
             .await;
 
-        let result = if let Some(result) = result {
-            result
-        } else {
+        let Some(result) = result else {
             return;
         };
 
@@ -289,7 +311,7 @@ impl ConnectionCreationPage {
     }
 
     fn update_actions(&self) {
-        let is_connecting = self.connection_manager().is_connecting();
+        let is_connecting = self.connection_manager().connecting();
 
         self.action_set_enabled(
             ACTION_TRY_CONNECT,

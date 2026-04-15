@@ -90,12 +90,12 @@ template $PdsConnectionCreationPage: Widget {
             title: _("URL");
             description: _("Choose how to connect to Podman");
 
-            Adw.ActionRow unix_socket_url_row {
-              title: _("Unix Socket");
-              activatable-widget: unix_socket_radio_button;
+            Adw.ActionRow podman_unix_socket_url_row {
+              title: _("Podman Unix Socket");
+              activatable-widget: podman_unix_socket_radio_button;
 
               [prefix]
-              CheckButton unix_socket_radio_button {
+              CheckButton podman_unix_socket_radio_button {
                 active: true;
                 group: custom_url_radio_button;
                 valign: center;
@@ -165,7 +165,7 @@ template $PdsConnectionCreationPage: Widget {
                         margin-start: 9;
                       }
 
-                      Label socket_activation_command_label {
+                      Label podman_socket_activation_command_label {
                         styles [
                           "monospace",
                         ]
@@ -181,7 +181,7 @@ template $PdsConnectionCreationPage: Widget {
                           "flat",
                         ]
 
-                        action-name: "connection-creator-page.copy-socket-activation-command";
+                        action-name: "connection-creator-page.copy-podman-socket-activation-command";
                         icon-name: "edit-copy-symbolic";
                         tooltip-text: _("Copy to Clipboard");
 
@@ -200,7 +200,7 @@ template $PdsConnectionCreationPage: Widget {
                       xalign: 0;
                     }
 
-                    Label socket_url_label {
+                    Label podman_socket_url_label {
                       margin-top: 3;
                       xalign: 0;
                     }
@@ -209,6 +209,121 @@ template $PdsConnectionCreationPage: Widget {
                       label: _(
                         "To connect to the local root Podman instance, create a custom connection (read the hints there)."
                       );
+                      max-width-chars: 1;
+                      margin-top: 3;
+                      wrap: true;
+                      wrap-mode: word_char;
+                      xalign: 0;
+                    }
+                  }
+                };
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("Docker Unix Socket");
+              subtitle: "unix:///var/run/docker.sock";
+              activatable-widget: docker_unix_socket_radio_button;
+
+              [prefix]
+              CheckButton docker_unix_socket_radio_button {
+                active: true;
+                group: custom_url_radio_button;
+                valign: center;
+              }
+
+              [suffix]
+              MenuButton {
+                styles [
+                  "flat",
+                ]
+
+                icon-name: "dialog-information-symbolic";
+                tooltip-text: _("Socket Activation Info");
+
+                accessibility {
+                  label: _("Socket Activation Info");
+                }
+
+                valign: center;
+
+                popover: Popover {
+                  Box {
+                    orientation: vertical;
+                    spacing: 12;
+                    margin-top: 12;
+                    margin-end: 9;
+                    margin-bottom: 30;
+                    margin-start: 9;
+
+                    Label {
+                      styles [
+                        "title-3",
+                      ]
+
+                      label: _("Docker Socket Activation");
+                      margin-bottom: 3;
+                    }
+
+                    Label {
+                      label: _(
+                        "To connect to the local Docker instance, the systemd socket must be enabled. You can enable it permanently by issuing the following command:"
+                      );
+                      max-width-chars: 1;
+                      wrap: true;
+                      wrap-mode: word_char;
+                      xalign: 0;
+                    }
+
+                    Box {
+                      styles [
+                        "card",
+                        "frame",
+                        "linked",
+                        "view",
+                      ]
+
+                      spacing: 12;
+                      overflow: hidden;
+
+                      Label {
+                        styles [
+                          "monospace",
+                        ]
+
+                        label: "$";
+                        xalign: 0;
+                        margin-start: 9;
+                      }
+
+                      Label docker_socket_activation_command_label {
+                        styles [
+                          "monospace",
+                        ]
+
+                        label: "sudo systemctl enable --now docker.socket";
+                        selectable: true;
+                        hexpand: true;
+                        xalign: 0;
+                      }
+
+                      Button {
+                        styles [
+                          "flat",
+                        ]
+
+                        action-name: "connection-creator-page.copy-docker-socket-activation-command";
+                        icon-name: "edit-copy-symbolic";
+                        tooltip-text: _("Copy to Clipboard");
+
+                        accessibility {
+                          label: _("Copy to Clipboard");
+                        }
+                      }
+                    }
+
+                    Label {
+                      label: _("You may have to restart Pods for it to be able to connect to a newly created socket.");
                       max-width-chars: 1;
                       margin-top: 3;
                       wrap: true;

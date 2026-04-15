@@ -92,7 +92,7 @@ mod imp {
                     image_expr
                         .chain_property::<model::Image>("id")
                         .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
-                            utils::format_id(id)
+                            utils::format_id(id).to_owned()
                         }))
                         .upcast_ref(),
                     image_expr

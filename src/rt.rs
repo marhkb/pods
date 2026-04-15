@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-use std::rc::Rc;
 use std::sync::OnceLock;
 
 use futures::Stream;
@@ -55,47 +53,6 @@ where
     }
 }
 
-impl<Fut> Promise<Fut>
-where
-    Fut: Future + Send + 'static,
-    Fut::Output: Clone + Send + 'static,
-{
-    pub(crate) fn defer_with_callbacks<F>(self, op: F) -> Callbacks<Fut::Output>
-    where
-        F: Fn(&Fut::Output) + 'static,
-    {
-        let callbacks = Callbacks::new(op);
-
-        glib::spawn_future_local({
-            let handle = self.spawn();
-            let callbacks = callbacks.clone();
-            async move {
-                let output = handle.await.unwrap();
-                callbacks
-                    .0
-                    .borrow_mut()
-                    .iter()
-                    .for_each(|fun| (*fun)(&output));
-            }
-        });
-
-        callbacks
-    }
-}
-
-#[derive(Clone)]
-#[allow(clippy::type_complexity)]
-pub(crate) struct Callbacks<T: Clone>(Rc<RefCell<Vec<Box<dyn Fn(&T) + 'static>>>>);
-impl<T: Clone> Callbacks<T> {
-    pub(crate) fn new<F: Fn(&T) + 'static>(op: F) -> Self {
-        Self(Rc::new(RefCell::new(vec![Box::new(op)])))
-    }
-
-    pub(crate) fn add<F: Fn(&T) + 'static>(&self, op: F) {
-        self.0.borrow_mut().push(Box::new(op));
-    }
-}
-
 pub(crate) struct Pipe<A, P> {
     api: A,
     producer: P,
@@ -108,7 +65,7 @@ where
     I: Send + 'static,
 {
     pub(crate) fn new(api: A, producer: P) -> Self {
-        Pipe { api, producer }
+        Self { api, producer }
     }
 
     pub(crate) fn stream(self) -> impl Stream<Item = I> {

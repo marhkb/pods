@@ -1,7 +1,5 @@
 use std::cell::Cell;
 use std::cell::RefCell;
-use std::fmt;
-use std::str::FromStr;
 use std::sync::OnceLock;
 
 use glib::Properties;
@@ -10,43 +8,8 @@ use glib::subclass::Signal;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
-use crate::podman;
-
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "PortMappingProtocol")]
-pub(crate) enum Protocol {
-    #[default]
-    Tcp,
-    Udp,
-    Sctp,
-}
-
-impl FromStr for Protocol {
-    type Err = ();
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "tcp" => Ok(Self::Tcp),
-            "udp" => Ok(Self::Udp),
-            "sctp" => Ok(Self::Sctp),
-            _ => Err(()),
-        }
-    }
-}
-
-impl fmt::Display for Protocol {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                Self::Tcp => "tcp",
-                Self::Udp => "udp",
-                Self::Sctp => "sctp",
-            }
-        )
-    }
-}
+use crate::engine;
+use crate::model;
 
 mod imp {
     use super::*;
@@ -60,8 +23,8 @@ mod imp {
         pub(super) host_port: Cell<i32>,
         #[property(get, set, minimum = 1, default = 1)]
         pub(super) container_port: Cell<i32>,
-        #[property(get, set, builder(Protocol::default()))]
-        pub(super) protocol: Cell<Protocol>,
+        #[property(get, set, default)]
+        pub(super) protocol: Cell<model::PortMappingProtocol>,
     }
 
     #[glib::object_subclass]
@@ -102,33 +65,28 @@ impl Default for PortMapping {
     }
 }
 
-impl From<podman::models::PortMapping> for PortMapping {
-    fn from(port_mapping: podman::models::PortMapping) -> Self {
+impl From<engine::dto::PortMapping> for PortMapping {
+    fn from(value: engine::dto::PortMapping) -> Self {
         glib::Object::builder()
-            .property("ip-address", port_mapping.host_ip.unwrap_or_default())
+            .property("ip-address", value.host_ip)
             .property(
                 "host-port",
-                port_mapping.host_port.map(|port| port as i32).unwrap_or(1),
+                value.host_port.map(|port| port as i32).unwrap_or(1),
             )
-            .property(
-                "container-port",
-                port_mapping
-                    .container_port
-                    .map(|port| port as i32)
-                    .unwrap_or(1),
-            )
-            .property(
-                "protocol",
-                port_mapping
-                    .protocol
-                    .as_deref()
-                    .map(Protocol::from_str)
-                    .transpose()
-                    .ok()
-                    .flatten()
-                    .unwrap_or(Protocol::Tcp),
-            )
+            .property("container-port", value.container_port as i32)
+            .property("protocol", model::PortMappingProtocol::from(value.protocol))
             .build()
+    }
+}
+
+impl From<PortMapping> for engine::dto::PortMapping {
+    fn from(value: PortMapping) -> Self {
+        Self {
+            container_port: value.container_port() as u16,
+            host_ip: value.ip_address(),
+            host_port: Some(value.host_port() as u16),
+            protocol: value.protocol().into(),
+        }
     }
 }
 

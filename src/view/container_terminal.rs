@@ -1,9 +1,11 @@
 use std::cell::Cell;
 use std::cell::RefCell;
+use std::marker::PhantomData;
 use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use bytes::Bytes;
 use futures::AsyncWriteExt;
 use futures::StreamExt;
 use futures::future;
@@ -19,8 +21,8 @@ use gtk::glib;
 use vte4::TerminalExt;
 use vte4::TerminalExtManual;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::rt;
 use crate::utils;
 use crate::view;
@@ -47,8 +49,13 @@ mod imp {
         pub(super) settings: utils::PodsSettings,
         pub(super) tx_input: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
         pub(super) keep_alive_on_next_unroot: Cell<bool>,
+
         #[property(get, set, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
+
+        #[property(get = Self::font_scale, set = Self::set_font_scale, explicit_notify)]
+        _font_scale: PhantomData<f64>,
+
         #[template_child]
         pub(super) popover_menu: TemplateChild<gtk::PopoverMenu>,
         #[template_child]
@@ -68,14 +75,16 @@ mod imp {
             klass.bind_template_callbacks();
 
             klass.install_action(ACTION_START_OR_RESUME, None, |widget, _, _| {
-                if let Some(container) = widget.container() {
-                    if container.can_start() {
-                        view::container::start(widget, widget.container());
-                        widget.action_set_enabled(ACTION_START_OR_RESUME, false);
-                    } else if container.can_resume() {
-                        view::container::resume(widget, widget.container());
-                        widget.action_set_enabled(ACTION_START_OR_RESUME, false);
-                    }
+                let Some(container) = widget.container() else {
+                    return;
+                };
+
+                if container.status().can_start() {
+                    view::container::start(widget, widget.container());
+                    widget.action_set_enabled(ACTION_START_OR_RESUME, false);
+                } else if container.status().can_resume() {
+                    view::container::resume(widget, widget.container());
+                    widget.action_set_enabled(ACTION_START_OR_RESUME, false);
                 }
             });
 
@@ -107,32 +116,15 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(Some(
-                        glib::ParamSpecDouble::builder("font-scale")
-                            .explicit_notify()
-                            .build(),
-                    ))
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "font-scale" => self.obj().set_font_scale(value.get().unwrap()),
-                _ => self.derived_set_property(id, value, pspec),
-            }
+            self.derived_set_property(id, value, pspec);
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "font-scale" => self.obj().font_scale().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -261,9 +253,20 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ContainerTerminal {
+        pub(crate) fn font_scale(&self) -> f64 {
+            self.terminal.font_scale()
+        }
+
+        pub(crate) fn set_font_scale(&self, value: f64) {
+            if self.font_scale() == value {
+                return;
+            }
+            self.terminal.set_font_scale(value);
+        }
+
         #[template_callback]
         fn on_terminal_notify_font_scale(&self) {
-            self.obj().notify("font-scale");
+            self.obj().notify_font_scale();
         }
 
         #[template_callback]
@@ -377,23 +380,12 @@ impl ContainerTerminal {
         self.imp().keep_alive_on_next_unroot.set(true);
     }
 
-    pub(crate) fn font_scale(&self) -> f64 {
-        self.imp().terminal.font_scale()
-    }
-
-    pub(crate) fn set_font_scale(&self, value: f64) {
-        if self.font_scale() == value {
-            return;
-        }
-        self.imp().terminal.set_font_scale(value);
-    }
-
     fn setup_tty_connection(&self, container: &model::Container) {
         let imp = self.imp();
 
         let container = container.api().unwrap();
 
-        let (tx_output, mut rx_output) = tokio::sync::mpsc::channel::<Vec<u8>>(5);
+        let (tx_output, mut rx_output) = tokio::sync::mpsc::channel::<Bytes>(5);
 
         glib::spawn_future_local(clone!(
             #[weak(rename_to = obj)]
@@ -417,17 +409,24 @@ impl ContainerTerminal {
         self.grab_focus();
 
         rt::Promise::new(async move {
-            let opts = podman::opts::ExecCreateOpts::builder()
-                .attach_stderr(true)
-                .attach_stdout(true)
-                .attach_stdin(true)
-                .tty(true)
-                .command(["/bin/sh"])
-                .build();
-            let exec = container.create_exec(&opts).await.unwrap();
+            let exec = container
+                .create_exec(engine::opts::ExecCreateOpts {
+                    attach_stderr: Some(true),
+                    attach_stdout: Some(true),
+                    attach_stdin: Some(true),
+                    tty: Some(true),
+                    command: vec!["/bin/sh".to_owned()],
+                })
+                .await
+                .unwrap();
 
-            let opts = podman::opts::ExecStartOpts::builder().tty(true).build();
-            let (mut reader, mut writer) = exec.start(&opts).await.unwrap().unwrap().split();
+            let (mut reader, mut writer) = exec
+                .start(true)
+                .await
+                .unwrap()
+                .into_attached()
+                .unwrap()
+                .split();
 
             exec.resize(width as usize, height as usize).await?;
 
@@ -447,6 +446,7 @@ impl ContainerTerminal {
                                     break;
                                 }
                             }
+
                             ExecInput::Terminate => break,
                         },
                         None => break,
@@ -454,7 +454,7 @@ impl ContainerTerminal {
                     future::Either::Right((chunk, _)) => match chunk {
                         Some(chunk) => match chunk {
                             Ok(chunk) => {
-                                tx_output.send(Vec::from(chunk)).await.unwrap();
+                                tx_output.send(chunk.into()).await.unwrap();
                             }
                             Err(e) => {
                                 log::error!("Error on reading from terminal: {e}");
@@ -479,7 +479,7 @@ impl ContainerTerminal {
         .defer(clone!(
             #[weak(rename_to = obj)]
             self,
-            move |result: podman::Result<_>| {
+            move |result: anyhow::Result<_>| {
                 if result.is_err() {
                     utils::show_error_toast(
                         &gio::Application::default()

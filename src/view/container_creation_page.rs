@@ -1,5 +1,4 @@
 use std::cell::OnceCell;
-use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -11,8 +10,8 @@ use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -39,8 +38,6 @@ mod imp {
         pub(super) volumes: OnceCell<gio::ListStore>,
         pub(super) env_vars: OnceCell<gio::ListStore>,
         pub(super) labels: OnceCell<gio::ListStore>,
-        pub(super) command_row_handler:
-            RefCell<Option<(glib::SignalHandlerId, glib::WeakRef<model::Image>)>>,
         #[property(get = Self::client, set, construct)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get, set, construct, nullable)]
@@ -168,7 +165,7 @@ mod imp {
                 .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<&model::Pod>| pod
                     .map(model::Pod::name)
                     .unwrap_or_default()))
-                .bind(&self.pod_row.get(), "subtitle", Some(obj));
+                .bind(&*self.pod_row, "subtitle", Some(obj));
 
             pod_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, pod: Option<&model::Pod>| {
@@ -182,7 +179,6 @@ mod imp {
 
             if let Some(image) = obj.image() {
                 self.image_selection_combo_row.set_image(Some(image));
-                obj.update_data();
             } else if let Some(volume) = obj.volume()
                 && let Some(mount) = obj.add_mount()
             {
@@ -279,11 +275,6 @@ mod imp {
             let obj = &*self.obj();
             obj.action_set_enabled(ACTION_CREATE_AND_RUN, enabled);
             obj.action_set_enabled(ACTION_CREATE, enabled);
-        }
-
-        #[template_callback]
-        fn on_image_selection_combo_row_notify_subtitle(&self) {
-            self.obj().update_data();
         }
 
         pub(super) fn cmd_args(&self) -> &gio::ListStore {
@@ -384,78 +375,13 @@ impl From<&model::Volume> for ContainerCreationPage {
 }
 
 impl ContainerCreationPage {
-    fn update_local_data(&self, config: &model::ImageConfig) {
-        let imp = self.imp();
-
-        imp.command_entry_row
-            .set_text(&config.cmd().unwrap_or_default());
-
-        imp.port_mappings().remove_all();
-
-        let exposed_ports = config.exposed_ports();
-        for i in 0..exposed_ports.n_items() {
-            let exposed = exposed_ports.string(i).unwrap();
-
-            let port_mapping = add_port_mapping(imp.port_mappings());
-            imp.port_mapping_list_box.set_visible(true);
-
-            let mut split = exposed.split_terminator('/');
-            if let Some(port) = split.next() {
-                match port.parse::<i32>() {
-                    Ok(port) => {
-                        port_mapping.set_host_port(port);
-                        port_mapping.set_container_port(port);
-                    }
-                    Err(e) => log::warn!("Error on parsing port: {e}"),
-                }
-
-                if let Some(protocol) = split.next() {
-                    match protocol {
-                        "tcp" => port_mapping.set_protocol(model::PortMappingProtocol::Tcp),
-                        "udp" => port_mapping.set_protocol(model::PortMappingProtocol::Udp),
-                        _ => log::warn!("Unknown protocol: {protocol}"),
-                    }
-                }
-            }
-        }
-    }
-
-    fn update_data(&self) {
-        let imp = self.imp();
-
-        match imp.image_selection_combo_row.image() {
-            Some(image) => match image.data() {
-                Some(data) => self.update_local_data(&data.config()),
-                None => {
-                    if let Some((handler, image)) = imp.command_row_handler.take()
-                        && let Some(image) = image.upgrade()
-                    {
-                        image.disconnect(handler);
-                    }
-                    let handler = image.connect_data_notify(clone!(
-                        #[weak(rename_to = obj)]
-                        self,
-                        move |image| {
-                            obj.update_local_data(&image.data().unwrap().config());
-                        }
-                    ));
-                    let image_weak = glib::WeakRef::new();
-                    image_weak.set(Some(&image));
-                    imp.command_row_handler.replace(Some((handler, image_weak)));
-
-                    image.inspect(|_| {});
-                }
-            },
-            None => {
-                imp.command_entry_row.set_text("");
-                imp.port_mappings().remove_all();
-            }
-        }
-    }
-
     pub(crate) fn select_pod(&self) {
         if let Some(client) = self.client() {
-            let pod_selection_page = view::PodSelectionPage::from(&client.pod_list());
+            let Some(pod_list) = client.pod_list() else {
+                return;
+            };
+
+            let pod_selection_page = view::PodSelectionPage::from(&pod_list);
             pod_selection_page.connect_pod_selected(clone!(
                 #[weak(rename_to = obj)]
                 self,
@@ -501,16 +427,16 @@ impl ContainerCreationPage {
 
         match imp.image_selection_combo_row.mode() {
             view::ImageSelectionMode::Local => {
-                let image = imp.image_selection_combo_row.subtitle().unwrap();
+                let image = imp.image_selection_combo_row.subtitle().unwrap().into();
                 if imp.pull_latest_image_switch_row.is_active() {
-                    self.pull_and_create(image.as_str(), false, run);
+                    self.pull_and_create(image, false, run);
                 } else {
                     let page = view::ActionPage::from(
-                        &self.client().unwrap().action_list().create_container(
-                            imp.name_entry_row.text().as_str(),
-                            self.create().image(image.as_str()).build(),
-                            run,
-                        ),
+                        &self
+                            .client()
+                            .unwrap()
+                            .action_list()
+                            .create_container(self.container_create_opts(image), run),
                     );
 
                     imp.navigation_view.push(
@@ -523,7 +449,7 @@ impl ContainerCreationPage {
             }
             view::ImageSelectionMode::Remote => {
                 self.pull_and_create(
-                    imp.image_selection_combo_row.subtitle().unwrap().as_str(),
+                    imp.image_selection_combo_row.subtitle().unwrap().into(),
                     true,
                     run,
                 );
@@ -539,17 +465,8 @@ impl ContainerCreationPage {
         }
     }
 
-    fn pull_and_create(&self, reference: &str, remote: bool, run: bool) {
+    fn pull_and_create(&self, image: String, remote: bool, run: bool) {
         let imp = self.imp();
-
-        let pull_opts = podman::opts::PullOpts::builder()
-            .reference(reference)
-            .policy(if remote {
-                podman::opts::PullPolicy::Always
-            } else {
-                podman::opts::PullPolicy::Newer
-            })
-            .build();
 
         let page = view::ActionPage::from(
             &self
@@ -557,9 +474,15 @@ impl ContainerCreationPage {
                 .unwrap()
                 .action_list()
                 .create_container_download_image(
-                    imp.name_entry_row.text().as_str(),
-                    pull_opts,
-                    self.create(),
+                    engine::opts::ImagePullOpts {
+                        policy: if remote {
+                            engine::opts::ImagePullPolicy::Always
+                        } else {
+                            engine::opts::ImagePullPolicy::Missing
+                        },
+                        reference: image.clone(),
+                    },
+                    self.container_create_opts(image),
                     run,
                 ),
         );
@@ -568,130 +491,94 @@ impl ContainerCreationPage {
             .push(&adw::NavigationPage::builder().child(&page).build());
     }
 
-    fn create(&self) -> podman::opts::ContainerCreateOptsBuilder {
+    fn container_create_opts(&self, image: String) -> engine::opts::ContainerCreateOpts {
         let imp = self.imp();
 
-        let create_opts = podman::opts::ContainerCreateOpts::builder()
-            .name(imp.name_entry_row.text().as_str())
-            .pod(self.pod().as_ref().map(model::Pod::name))
-            .terminal(imp.terminal_switch_row.is_active())
-            .privileged(imp.privileged_switch_row.is_active())
-            .portmappings(if self.pod().is_none() {
-                Box::new(
-                    imp.port_mappings()
-                        .iter::<model::PortMapping>()
-                        .map(Result::unwrap)
-                        .map(|port_mapping| podman::models::PortMapping {
-                            container_port: Some(port_mapping.container_port() as u16),
-                            host_ip: None,
-                            host_port: Some(port_mapping.host_port() as u16),
-                            protocol: Some(port_mapping.protocol().to_string()),
-                            range: None,
-                        }),
-                ) as Box<dyn Iterator<Item = _>>
-            } else {
-                Box::new(std::iter::empty()) as Box<dyn Iterator<Item = _>>
-            })
-            .mounts(
-                imp.volumes()
-                    .iter::<model::Mount>()
-                    .map(Result::unwrap)
-                    .filter(|mount| mount.mount_type() == model::MountType::Bind)
-                    .map(|mount| podman::models::ContainerMount {
-                        destination: Some(mount.container_path()),
-                        source: Some(mount.host_path()),
-                        _type: Some("bind".to_owned()),
-                        options: mount_options(&mount),
-                        uid_mappings: None,
-                        gid_mappings: None,
-                    }),
-            )
-            .volumes(
-                imp.volumes()
-                    .iter::<model::Mount>()
-                    .map(Result::unwrap)
-                    .filter(|mount| mount.mount_type() == model::MountType::Volume)
-                    .map(|mount| podman::models::NamedVolume {
-                        dest: Some(mount.container_path()),
-                        is_anonymous: None,
-                        name: mount.volume().map(|volume| volume.inner().name.clone()),
-                        options: mount_options(&mount),
-                    }),
-            )
-            .env(
-                imp.env_vars()
-                    .iter::<model::KeyVal>()
-                    .map(Result::unwrap)
-                    .map(|entry| (entry.key(), entry.value())),
-            )
-            .labels(
-                imp.labels()
-                    .iter::<model::KeyVal>()
-                    .map(Result::unwrap)
-                    .map(|entry| (entry.key(), entry.value())),
-            );
-
-        let create_opts = if imp.memory_switch.is_active() {
-            create_opts.resource_limits(podman::models::LinuxResources {
-                block_io: None,
-                cpu: None,
-                devices: None,
-                hugepage_limits: None,
-                memory: Some(podman::models::LinuxMemory {
-                    disable_oom_killer: None,
-                    kernel: None,
-                    kernel_tcp: None,
-                    limit: Some(
-                        imp.mem_value.value() as i64
-                            * 1000_i64.pow(imp.mem_drop_down.selected() + 1),
-                    ),
-                    reservation: None,
-                    swap: None,
-                    swappiness: None,
-                    use_hierarchy: None,
+        engine::opts::ContainerCreateOpts {
+            cmd: Some(imp.command_entry_row.text().trim())
+                .filter(|cmd| !cmd.is_empty())
+                .map(|cmd| {
+                    std::iter::once(cmd.to_owned())
+                        .chain(
+                            imp.cmd_args()
+                                .iter::<model::Value>()
+                                .map(Result::unwrap)
+                                .map(|value| value.value()),
+                        )
+                        .collect()
                 }),
-                network: None,
-                pids: None,
-                rdma: None,
-                unified: None,
-            })
-        } else {
-            create_opts
-        };
-
-        let cmd = imp.command_entry_row.text();
-        let create_opts = if cmd.is_empty() {
-            create_opts
-        } else {
-            let args = imp
-                .cmd_args()
-                .iter::<model::Value>()
+            env: imp
+                .env_vars()
+                .iter::<model::KeyVal>()
                 .map(Result::unwrap)
-                .map(|value| value.value());
-            let mut cmd = vec![cmd.to_string()];
-            cmd.extend(args);
-            create_opts.command(&cmd)
-        };
-
-        let healthcheck_cmd = imp.health_check_command_entry_row.text();
-
-        if healthcheck_cmd.is_empty() {
-            create_opts
-        } else {
-            create_opts.health_config(podman::models::Schema2HealthConfig {
-                interval: Some(imp.health_check_interval_value.value() as i64 * 1_000_000_000),
-                retries: Some(imp.health_check_retries_value.value() as i64),
-                start_period: Some(
-                    imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
-                ),
-                test: Some(
-                    healthcheck_cmd
-                        .split(' ')
-                        .map(str::to_string)
-                        .collect::<Vec<_>>(),
-                ),
-                timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
-            })
+                .map(|entry| (entry.key(), entry.value()))
+                .collect(),
+            health_config: Some(imp.health_check_command_entry_row.text().trim())
+                .filter(|healthcheck_cmd| !healthcheck_cmd.is_empty())
+                .map(|healthcheck_cmd| engine::dto::HealthConfig {
+                    interval: Some(imp.health_check_interval_value.value() as i64 * 1_000_000_000),
+                    retries: Some(imp.health_check_retries_value.value() as i64),
+                    start_period: Some(
+                        imp.health_check_start_period_value.value() as i64 * 1_000_000_000,
+                    ),
+                    test: Some(
+                        healthcheck_cmd
+                            .split(' ')
+                            .map(str::to_string)
+                            .collect::<Vec<_>>(),
+                    ),
+                    timeout: Some(imp.health_check_timeout_value.value() as i64 * 1_000_000_000),
+                }),
+            image,
+            labels: imp
+                .labels()
+                .iter::<model::KeyVal>()
+                .map(Result::unwrap)
+                .map(|entry| (entry.key(), entry.value()))
+                .collect(),
+            memory_limit: if imp.memory_switch.is_active() {
+                Some(imp.mem_value.value() as u64 * 1000_u64.pow(imp.mem_drop_down.selected() + 1))
+            } else {
+                None
+            },
+            mounts: imp
+                .volumes()
+                .iter::<model::Mount>()
+                .map(Result::unwrap)
+                .filter(|mount| mount.mount_type() == model::MountType::Bind)
+                .map(|mount| engine::opts::ContainerCreateMountOpts {
+                    container_path: mount.container_path(),
+                    host_path: mount.host_path(),
+                    read_only: !mount.writable(),
+                    selinux: mount.selinux().into(),
+                })
+                .collect(),
+            name: imp.name_entry_row.text().into(),
+            pod: self.pod().as_ref().map(model::Pod::name),
+            port_mappings: imp
+                .port_mappings()
+                .iter::<model::PortMapping>()
+                .map(Result::unwrap)
+                .map(Into::into)
+                .collect(),
+            privileged: imp.privileged_switch_row.is_active(),
+            terminal: imp.terminal_switch_row.is_active(),
+            volumes: imp
+                .volumes()
+                .iter::<model::Mount>()
+                .map(Result::unwrap)
+                .filter(|mount| mount.mount_type() == model::MountType::Volume)
+                .map(|mount| engine::opts::ContainerCreateVolumeOpts {
+                    container_path: mount.container_path(),
+                    read_only: !mount.writable(),
+                    selinux: mount.selinux().into(),
+                    volume: mount
+                        .volume()
+                        .as_ref()
+                        .map(model::Volume::name)
+                        .unwrap_or_default(),
+                })
+                .collect(),
         }
     }
 }
@@ -786,17 +673,4 @@ fn add_key_val(model: &gio::ListStore) {
     ));
 
     model.append(&entry);
-}
-
-fn mount_options(mount: &model::Mount) -> Option<Vec<String>> {
-    Some({
-        let mut options = vec![if mount.writable() { "rw" } else { "ro" }.to_owned()];
-
-        let selinux = mount.selinux().to_string();
-        if !selinux.is_empty() {
-            options.push(selinux)
-        }
-
-        options
-    })
 }

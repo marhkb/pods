@@ -5,11 +5,8 @@ use glib::prelude::*;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::monad_boxed_type;
-use crate::podman;
-
-monad_boxed_type!(pub(crate) BoxedInspectMount(podman::models::InspectMount) impls Debug);
 
 mod imp {
     use super::*;
@@ -21,8 +18,13 @@ mod imp {
         pub(super) container_volume_list: glib::WeakRef<model::ContainerVolumeList>,
         #[property(get, set, construct_only)]
         pub(super) volume: glib::WeakRef<model::Volume>,
+
         #[property(get, set, construct_only)]
-        pub(super) inner: OnceCell<BoxedInspectMount>,
+        pub(super) destination: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) mode: OnceCell<String>,
+        #[property(get, set, construct_only)]
+        pub(super) rw: OnceCell<bool>,
     }
 
     #[glib::object_subclass]
@@ -54,12 +56,14 @@ impl ContainerVolume {
     pub(crate) fn new(
         container_volume_list: &model::ContainerVolumeList,
         volume: &model::Volume,
-        inner: podman::models::InspectMount,
+        dto: &engine::dto::Mount,
     ) -> Self {
         glib::Object::builder()
             .property("container-volume-list", container_volume_list)
             .property("volume", volume)
-            .property("inner", BoxedInspectMount::from(inner))
+            .property("destination", &dto.destination)
+            .property("mode", &dto.mode)
+            .property("rw", dto.rw)
             .build()
     }
 }

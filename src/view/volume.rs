@@ -11,9 +11,7 @@ pub(crate) async fn delete_volume_show_confirmation<W>(widget: &W, volume: Optio
 where
     W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
 {
-    let volume = if let Some(volume) = volume {
-        volume
-    } else {
+    let Some(volume) = volume else {
         return;
     };
 
@@ -52,7 +50,7 @@ where
         utils::show_error_toast(
             widget,
             // Translators: The "{}" is a placeholder for the volume name.
-            &gettext!("Error on deleting volume '{}'", &volume.inner().name),
+            &gettext!("Error on deleting volume '{}'", &volume.name()),
             &e.to_string(),
         );
     }

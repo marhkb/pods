@@ -2,7 +2,6 @@ use std::cell::RefCell;
 use std::sync::OnceLock;
 
 use glib::Properties;
-// use gtk::glib::subclass::Signal;
 use glib::prelude::*;
 use glib::subclass::Signal;
 use glib::subclass::prelude::*;
@@ -50,7 +49,7 @@ glib::wrapper! {
 
 impl Default for Value {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

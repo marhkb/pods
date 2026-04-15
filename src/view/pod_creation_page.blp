@@ -213,9 +213,7 @@ template $PdsPodCreationPage: Widget {
                         title: _("Name");
                       }
 
-                      $PdsImageSelectionComboRow infra_image_selection_combo_row {
-                        notify::subtitle => $on_infra_image_selection_combo_row_notify_subtitle() swapped;
-                      }
+                      $PdsImageSelectionComboRow infra_image_selection_combo_row {}
 
                       Adw.SwitchRow infra_pull_latest_image_switch_row {
                         title: _("Pull Latest Image");

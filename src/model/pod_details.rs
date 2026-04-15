@@ -5,25 +5,25 @@ use glib::prelude::*;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
-use crate::podman;
+use crate::engine;
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties)]
-    #[properties(wrapper_type = super::PodData)]
-    pub(crate) struct PodData {
+    #[properties(wrapper_type = super::PodDetails)]
+    pub(crate) struct PodDetails {
         #[property(get, set, construct_only)]
         pub(super) hostname: OnceCell<String>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for PodData {
-        const NAME: &'static str = "PodData";
-        type Type = super::PodData;
+    impl ObjectSubclass for PodDetails {
+        const NAME: &'static str = "PodDetails";
+        type Type = super::PodDetails;
     }
 
-    impl ObjectImpl for PodData {
+    impl ObjectImpl for PodDetails {
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -39,13 +39,17 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct PodData(ObjectSubclass<imp::PodData>);
+    pub(crate) struct PodDetails(ObjectSubclass<imp::PodDetails>);
 }
 
-impl From<&podman::models::InspectPodData> for PodData {
-    fn from(data: &podman::models::InspectPodData) -> Self {
+impl From<engine::dto::PodDetails> for PodDetails {
+    fn from(dto: engine::dto::PodDetails) -> Self {
         glib::Object::builder()
-            .property("hostname", data.hostname.as_deref().unwrap_or_default())
+            .property("hostname", dto.hostname)
             .build()
     }
+}
+
+impl PodDetails {
+    pub(crate) fn update(&self, _dto: engine::dto::PodDetails) {}
 }

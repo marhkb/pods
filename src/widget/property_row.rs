@@ -106,7 +106,7 @@ glib::wrapper! {
 
 impl Default for PropertyRow {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

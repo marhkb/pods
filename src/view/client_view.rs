@@ -120,16 +120,18 @@ mod imp {
 
             let obj = &*self.obj();
 
-            let version_expr =
-                Self::Type::this_expression("client").chain_property::<model::Client>("version");
+            let client_expr = Self::Type::this_expression("client");
+            let client_info_expr = client_expr.chain_property::<model::Client>("info");
+            let client_info_version_expr =
+                client_info_expr.chain_property::<model::Info>("version");
 
-            version_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, version: Option<&str>| version
-                    .map(|_| "version")
-                    .unwrap_or("loading")))
+            client_info_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, info: Option<&model::Info>| {
+                    info.map(|_| "version").unwrap_or("loading")
+                }))
                 .bind(&*self.version_stack, "visible-child-name", Some(obj));
 
-            version_expr
+            client_info_version_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, version: Option<&str>| {
                     version
                         .map(|version| format!("v{version}"))
@@ -180,6 +182,7 @@ mod imp {
             self.exit_panel_search_mode();
             self.sidebar_navigation_view.pop_to_tag("home");
             self.panels_navigation_view.pop_to_tag("home");
+            self.restore_sidebar();
 
             if let Some(client) = self.obj().client() {
                 self.set_background(client.connection().rgb());

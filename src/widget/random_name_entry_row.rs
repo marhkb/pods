@@ -76,7 +76,7 @@ glib::wrapper! {
 
 impl Default for RandomNameEntryRow {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

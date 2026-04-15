@@ -1,6 +1,6 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
-use std::sync::OnceLock;
+use std::marker::PhantomData;
 
 use glib::Properties;
 use glib::prelude::*;
@@ -40,6 +40,11 @@ mod imp {
         pub(super) url: OnceCell<String>,
         #[property(get, set, construct_only, nullable)]
         pub(super) rgb: Cell<Option<gdk::RGBA>>,
+
+        #[property(get = Self::is_local)]
+        _is_local: PhantomData<bool>,
+        #[property(get = Self::is_remote)]
+        _is_remote: PhantomData<bool>,
     }
 
     #[glib::object_subclass]
@@ -50,18 +55,7 @@ mod imp {
 
     impl ObjectImpl for Connection {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(Some(
-                        glib::ParamSpecBoolean::builder("is-remote")
-                            .read_only()
-                            .build(),
-                    ))
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
@@ -69,10 +63,7 @@ mod imp {
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "is-remote" => self.obj().is_remote().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -80,9 +71,19 @@ mod imp {
 
             self.obj().connect_connecting_notify(|obj| {
                 if let Some(manager) = obj.manager() {
-                    manager.notify("connecting");
+                    manager.notify_connecting();
                 }
             });
+        }
+    }
+
+    impl Connection {
+        pub(super) fn is_local(&self) -> bool {
+            self.obj().url().starts_with("unix")
+        }
+
+        pub(super) fn is_remote(&self) -> bool {
+            !self.is_local()
         }
     }
 }
@@ -134,14 +135,6 @@ impl Connection {
             .property("url", url)
             .property("rgb", rgb)
             .build()
-    }
-
-    pub(crate) fn is_local(&self) -> bool {
-        self.url().starts_with("unix")
-    }
-
-    pub(crate) fn is_remote(&self) -> bool {
-        !self.is_local()
     }
 
     pub(crate) fn is_active(&self) -> bool {

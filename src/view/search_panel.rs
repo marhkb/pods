@@ -108,7 +108,7 @@ mod imp {
                     } else if let Some(image) = item.downcast_ref::<model::Image>() {
                         image.id().contains(&term) || image.repo_tags().contains(&term)
                     } else if let Some(volume) = item.downcast_ref::<model::Volume>() {
-                        volume.inner().name.to_lowercase().contains(&term)
+                        volume.name().to_lowercase().contains(&term)
                     } else {
                         unreachable!();
                     }
@@ -138,7 +138,7 @@ mod imp {
                     }
                 } else if let Some(volume1) = obj1.downcast_ref::<model::Volume>() {
                     let volume2 = obj2.downcast_ref::<model::Volume>().unwrap();
-                    volume1.inner().name.cmp(&volume2.inner().name).into()
+                    volume1.name().cmp(&volume2.name()).into()
                 } else {
                     unreachable!();
                 }
@@ -194,12 +194,14 @@ mod imp {
                     &self.containers_model,
                 );
 
-                obj.setup_model(
-                    client.pod_list().upcast(),
-                    self.pods_list_box.get(),
-                    |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
-                    &self.pods_model,
-                );
+                if let Some(pod_list) = client.pod_list() {
+                    obj.setup_model(
+                        pod_list.upcast(),
+                        self.pods_list_box.get(),
+                        |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
+                        &self.pods_model,
+                    );
+                }
 
                 obj.setup_model(
                     client.image_list().upcast(),

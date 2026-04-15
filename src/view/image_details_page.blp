@@ -25,103 +25,128 @@ template $PdsImageDetailsPage: Widget {
       }
     }
 
-    Adw.PreferencesPage {
-      Adw.PreferencesGroup {
-        title: _("Properties");
+    Stack stack {
+      StackPage {
+        name: "loading";
 
-        header-suffix: Box {
-          margin-bottom: 6;
-          spacing: 6;
+        child: Adw.Spinner {};
+      }
 
-          Adw.Spinner inspection_spinner {
-            width-request: 18;
-          }
+      StackPage {
+        name: "loaded";
 
-          Button {
-            styles [
-              "circular",
-              "destructive-button",
-            ]
+        child: Adw.PreferencesPage {
+          Adw.PreferencesGroup {
+            title: _("Properties");
 
-            action-name: "image-details-page.delete-image";
-            icon-name: "user-trash-symbolic";
-            tooltip-text: _("Delete Image");
+            header-suffix: Button {
+              styles [
+                "circular",
+                "destructive-button",
+              ]
 
-            accessibility {
-              label: _("Delete Image");
+              action-name: "image-details-page.delete-image";
+              icon-name: "user-trash-symbolic";
+              margin-bottom: 6;
+              tooltip-text: _("Delete Image");
+
+              accessibility {
+                label: _("Delete Image");
+              }
+            };
+
+            Adw.ActionRow id_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Id");
+            }
+
+            Adw.ActionRow created_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Created");
+            }
+
+            Adw.ActionRow size_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Disk Space");
+            }
+
+            Adw.ActionRow command_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Command");
+            }
+
+            Adw.ActionRow entrypoint_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Entry Point");
+            }
+
+            Adw.ActionRow ports_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Ports");
             }
           }
+
+          Adw.PreferencesGroup {
+            title: _("Utilities");
+
+            Adw.ActionRow {
+              title: _("Inspection");
+              subtitle: _("View all image properties in a structured text form");
+              activatable: true;
+              action-name: "image-details-page.inspect-image";
+              icon-name: "system-search-symbolic";
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+
+            Adw.ActionRow {
+              title: _("History");
+              subtitle: _("View parent layers of this image");
+              activatable: true;
+              action-name: "image-details-page.show-history";
+              icon-name: "stacked-plates-symbolic";
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+          }
+
+          Adw.PreferencesGroup {
+            title: _("Repository Tags");
+
+            ListBox repo_tags_list_box {
+              styles [
+                "boxed-list",
+              ]
+            }
+          }
+
+          $PdsContainersGroup {
+            container-list: bind template.image as <$Image>.container-list;
+            title: _("Containers");
+          }
         };
-
-        $PdsPropertyRow id_row {
-          key: _("Id");
-        }
-
-        $PdsPropertyRow created_row {
-          key: _("Created");
-        }
-
-        $PdsPropertyRow size_row {
-          key: _("Disk Space");
-        }
-
-        $PdsPropertyRow command_row {
-          key: _("Command");
-          visible: "False";
-        }
-
-        $PdsPropertyRow entrypoint_row {
-          key: _("Entry Point");
-          visible: "False";
-        }
-
-        $PdsPropertyRow ports_row {
-          key: _("Ports");
-          visible: "False";
-        }
-      }
-
-      Adw.PreferencesGroup {
-        title: _("Utilities");
-
-        Adw.ActionRow {
-          title: _("Inspection");
-          subtitle: _("View all image properties in a structured text form");
-          activatable: true;
-          action-name: "image-details-page.inspect-image";
-          icon-name: "system-search-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
-          }
-        }
-
-        Adw.ActionRow {
-          title: _("History");
-          subtitle: _("View parent layers of this image");
-          activatable: true;
-          action-name: "image-details-page.show-history";
-          icon-name: "stacked-plates-symbolic";
-
-          Image {
-            icon-name: "go-next-symbolic";
-          }
-        }
-      }
-
-      Adw.PreferencesGroup {
-        title: _("Repository Tags");
-
-        ListBox repo_tags_list_box {
-          styles [
-            "boxed-list",
-          ]
-        }
-      }
-
-      $PdsContainersGroup {
-        container-list: bind template.image as <$Image>.container-list;
-        title: _("Containers");
       }
     }
   }

@@ -6,8 +6,8 @@ use glib::subclass::prelude::*;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 
 mod imp {
     use super::*;
@@ -51,8 +51,8 @@ glib::wrapper! {
         @implements gio::ListModel, model::SelectableList;
 }
 
-impl From<&podman::models::HealthCheckLog> for HealthCheckLog {
-    fn from(data: &podman::models::HealthCheckLog) -> Self {
+impl From<&engine::dto::HealthCheckLog> for HealthCheckLog {
+    fn from(data: &engine::dto::HealthCheckLog) -> Self {
         glib::Object::builder()
             .property("end", data.end.as_ref().unwrap())
             .property("exit-code", data.exit_code.unwrap())

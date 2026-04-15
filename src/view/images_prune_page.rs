@@ -4,8 +4,8 @@ use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::podman;
 use crate::utils;
 use crate::view;
 use crate::widget;
@@ -104,19 +104,16 @@ impl ImagesPrunePage {
     fn prune(&self) {
         let imp = self.imp();
 
-        let action = self.client().unwrap().action_list().prune_images(
-            podman::opts::ImagePruneOpts::builder()
-                .all(imp.pods_settings.get("prune-all-images"))
-                .external(imp.pods_settings.get("prune-external-images"))
-                .filter(if imp.prune_until_row.enables_expansion() {
-                    Some(podman::opts::ImagePruneFilter::Until(
-                        imp.prune_until_row.prune_until_timestamp().to_string(),
-                    ))
-                } else {
-                    None
-                })
-                .build(),
-        );
+        let action =
+            self.client()
+                .unwrap()
+                .action_list()
+                .prune_images(engine::opts::ImagesPruneOpts {
+                    all: imp.pods_settings.get("prune-all-images"),
+                    external: imp.pods_settings.get("prune-external-images"),
+                    until: Some(imp.prune_until_row.prune_until_timestamp())
+                        .filter(|_| imp.prune_until_row.enables_expansion()),
+                });
 
         let page = view::ActionPage::from(&action);
 

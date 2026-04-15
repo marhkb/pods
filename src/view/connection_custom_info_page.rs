@@ -126,7 +126,7 @@ glib::wrapper! {
 
 impl Default for ConnectionCustomInfoDialog {
     fn default() -> Self {
-        glib::Object::builder().build()
+        glib::Object::new()
     }
 }
 

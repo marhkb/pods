@@ -2,27 +2,14 @@ using Gtk 4.0;
 using Adw 1;
 
 template $PdsInfoPanel: Widget {
-  notify::client => $on_notify_client() swapped;
-
   layout-manager: BinLayout {};
 
   Adw.ToolbarView {
     [top]
     Adw.HeaderBar {
-      [start]
-      Button {
-        action-name: "info-panel.refresh";
-        icon-name: "view-refresh-symbolic";
-        tooltip-text: _("Refresh");
-
-        accessibility {
-          label: _("Refresh");
-        }
-      }
-
       [title]
       Adw.WindowTitle {
-        title: _("Info");
+        title: bind template.client as <$Client>.engine as <$Engine>.typ;
       }
     }
 
@@ -30,7 +17,7 @@ template $PdsInfoPanel: Widget {
       transition-type: crossfade;
 
       StackPage {
-        name: "spinner";
+        name: "loading";
 
         child: Adw.Spinner {
           halign: center;
@@ -41,151 +28,128 @@ template $PdsInfoPanel: Widget {
       }
 
       StackPage {
-        name: "content";
+        name: "loaded";
 
         child: Adw.PreferencesPage {
           Adw.PreferencesGroup {
-            title: _("Version");
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
 
-            $PdsPropertyRow version_api_version_row {
-              key: _("API Version");
+              title: _("Version");
+              subtitle: bind template.client as <$Client>.info as <$Info>.version;
+            }
+          }
+
+          Adw.PreferencesGroup {
+            title: _("System");
+
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
+
+              title: _("Operating System");
+              subtitle: bind template.client as <$Client>.info as <$Info>.os;
             }
 
-            $PdsPropertyRow version_built_time_row {
-              key: _("Built Time");
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
+
+              title: _("Kernel");
+              subtitle: bind template.client as <$Client>.info as <$Info>.kernel;
             }
 
-            $PdsPropertyRow version_git_commit_row {
-              key: _("Git Commit");
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
+
+              title: _("Architecture");
+              subtitle: bind template.client as <$Client>.info as <$Info>.arch;
             }
 
-            $PdsPropertyRow version_go_version_row {
-              key: _("Go Version");
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
+
+              title: _("Hostname");
+              subtitle: bind template.client as <$Client>.info as <$Info>.hostname;
             }
 
-            $PdsPropertyRow version_os_arch_row {
-              key: _("Os Arch");
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
+
+              title: _("Cpus");
+              subtitle: bind template.client as <$Client>.info as <$Info>.cpus;
             }
 
-            $PdsPropertyRow version_version_row {
-              key: _("Version");
+            Adw.ActionRow memory_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Memory");
+              subtitle: bind template.client as <$Client>.info as <$Info>.memory;
             }
           }
 
           Adw.PreferencesGroup {
             title: _("Storage");
-            description: _("Describes the container storage and its attributes");
 
-            $PdsPropertyRow store_config_file_row {
-              key: _("Config File");
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
+
+              title: _("Driver");
+              subtitle: bind template.client as <$Client>.info as <$Info>.storage_driver;
             }
 
-            Adw.ExpanderRow {
-              title: _("Container Store");
-              subtitle: _("Describes the quantity of containers in the store by status");
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
 
-              [action]
-              Label store_container_store_label {
-                styles [
-                  "dim-label",
-                ]
-
-                hexpand: true;
-                selectable: true;
-                wrap: true;
-                wrap-mode: word;
-                xalign: 1;
-              }
-
-              $PdsPropertyRow store_container_store_paused_row {
-                key: _("Paused");
-              }
-
-              $PdsPropertyRow store_container_store_running_row {
-                key: _("Running");
-              }
-
-              $PdsPropertyRow store_container_store_stopped_row {
-                key: _("Stopped");
-              }
-            }
-
-            $PdsPropertyRow store_graph_driver_name_row {
-              key: _("Graph Driver Name");
-            }
-
-            Adw.ExpanderRow store_graph_options_row {
-              title: _("Graph Options");
-
-              [action]
-              Label store_graph_options_label {
-                styles [
-                  "dim-label",
-                ]
-
-                hexpand: true;
-                selectable: true;
-                wrap: true;
-                wrap-mode: word;
-                xalign: 1;
-              }
-            }
-
-            $PdsPropertyRow store_graph_root_row {
-              key: _("Graph Root");
-            }
-
-            Adw.ExpanderRow store_graph_status_row {
-              title: _("Graph Status");
-
-              [action]
-              Label store_graph_status_label {
-                styles [
-                  "dim-label",
-                ]
-
-                hexpand: true;
-                selectable: true;
-                wrap: true;
-                wrap-mode: word;
-                xalign: 1;
-              }
-            }
-
-            $PdsPropertyRow store_image_store_row {
-              key: _("Image Store");
-              subtitle: _("Describes number of images");
-            }
-
-            $PdsPropertyRow store_run_root_row {
-              key: _("Run Root");
-            }
-
-            $PdsPropertyRow store_volume_path_row {
-              key: _("Volume Path");
+              title: _("Root");
+              subtitle: bind template.client as <$Client>.info as <$Info>.storage_root_dir;
             }
           }
-        };
-      }
 
-      StackPage {
-        name: "error";
+          Adw.PreferencesGroup {
+            title: _("Cgroup");
 
-        child: Adw.StatusPage error_status_page {
-          title: _("No Info");
-          description: _("There was an error while fetching the information");
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
 
-          Button {
-            styles [
-              "pill",
-              "suggested-action",
-            ]
+              title: _("Driver");
+              subtitle: bind template.client as <$Client>.info as <$Info>.cgroup_driver;
+            }
 
-            action-name: "info-panel.refresh";
-            halign: center;
-            label: _("_Retry");
-            use-underline: true;
-            width-request: 200;
+            Adw.ActionRow {
+              styles [
+                "property",
+              ]
+
+              title: _("Version");
+              subtitle: bind template.client as <$Client>.info as <$Info>.cgroup_version;
+            }
+          }
+
+          Adw.PreferencesGroup {
+            Adw.ButtonRow {
+              action-name: "info-panel.show-details";
+              end-icon-name: "go-next-symbolic";
+              title: _("Show Details");
+            }
           }
         };
       }

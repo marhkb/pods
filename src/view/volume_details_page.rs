@@ -13,7 +13,6 @@ use gtk::glib;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::widget;
 
 const ACTION_INSPECT_VOLUME: &str = "volume-details-page.inspect-volume";
 const ACTION_DELETE_VOLUME: &str = "volume-details-page.delete-volume";
@@ -31,13 +30,13 @@ mod imp {
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) name_row: TemplateChild<widget::PropertyRow>,
+        pub(super) name_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) created_row: TemplateChild<widget::PropertyRow>,
+        pub(super) created_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) driver_row: TemplateChild<widget::PropertyRow>,
+        pub(super) driver_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) mountpoint_row: TemplateChild<widget::PropertyRow>,
+        pub(super) mountpoint_row: TemplateChild<adw::ActionRow>,
     }
 
     #[glib::object_subclass]
@@ -95,7 +94,6 @@ mod imp {
             let obj = &*self.obj();
 
             let volume_expr = Self::Type::this_expression("volume");
-            let volume_inner_expr = volume_expr.chain_property::<model::Volume>("inner");
 
             volume_expr
                 .chain_property::<model::Volume>("to-be-deleted")
@@ -115,45 +113,35 @@ mod imp {
                     ),
                 );
 
-            volume_inner_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, inner: &model::BoxedVolume| {
-                    utils::format_volume_name(&inner.name)
+            volume_expr
+                .chain_property::<model::Volume>("name")
+                .chain_closure::<String>(closure!(|_: Self::Type, name: &str| {
+                    utils::format_volume_name(name).to_owned()
                 }))
-                .bind(&*self.name_row, "value", Some(obj));
+                .bind(&*self.name_row, "subtitle", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
                     &Self::Type::this_expression("root")
                         .chain_property::<gtk::Window>("application")
                         .chain_property::<crate::Application>("ticks"),
-                    &volume_inner_expr,
+                    &volume_expr.chain_property::<model::Volume>("created-at"),
                 ],
-                closure!(|_: Self::Type, _ticks: u64, inner: &model::BoxedVolume| {
-                    utils::format_ago(utils::timespan_now(
-                        inner
-                            .created_at
-                            .as_ref()
-                            .and_then(|created_at| {
-                                glib::DateTime::from_iso8601(created_at, None).ok()
-                            })
-                            .map(|date_time| date_time.to_unix())
-                            .unwrap_or(0),
-                    ))
+                closure!(|_: Self::Type, _ticks: u64, created_at: i64| {
+                    utils::format_ago(utils::timespan_now(created_at))
                 }),
             )
-            .bind(&*self.created_row, "value", Some(obj));
+            .bind(&*self.created_row, "subtitle", Some(obj));
 
-            volume_inner_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, inner: &model::BoxedVolume| {
-                    inner.driver.clone()
-                }))
-                .bind(&*self.driver_row, "value", Some(obj));
+            volume_expr.chain_property::<model::Volume>("driver").bind(
+                &*self.driver_row,
+                "subtitle",
+                Some(obj),
+            );
 
-            volume_inner_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, inner: &model::BoxedVolume| {
-                    inner.mountpoint.clone()
-                }))
-                .bind(&*self.mountpoint_row, "value", Some(obj));
+            volume_expr
+                .chain_property::<model::Volume>("mountpoint")
+                .bind(&*self.mountpoint_row, "subtitle", Some(obj));
         }
 
         fn dispose(&self) {
@@ -177,7 +165,7 @@ mod imp {
 
             if let Some(volume) = value {
                 self.window_title
-                    .set_subtitle(&utils::format_volume_name(&volume.inner().name));
+                    .set_subtitle(utils::format_volume_name(&volume.name()));
 
                 let handler_id = volume.connect_deleted(clone!(
                     #[weak]
@@ -185,7 +173,7 @@ mod imp {
                     move |volume| {
                         utils::show_toast(
                             &obj,
-                            gettext!("Volume '{}' has been deleted", volume.inner().name),
+                            gettext!("Volume '{}' has been deleted", volume.name()),
                         );
                         utils::navigation_view(&obj).pop();
                     }
@@ -214,18 +202,20 @@ impl From<&model::Volume> for VolumeDetailsPage {
 impl VolumeDetailsPage {
     pub(crate) async fn show_inspection(&self) {
         self.exec_action(async || {
-            if let Some(volume) = self.volume() {
-                let weak_ref = glib::WeakRef::new();
-                weak_ref.set(Some(&volume));
+            let Some(volume) = self.volume() else {
+                return;
+            };
 
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::ScalableTextViewPage::from(view::Entity::Volume(
-                            weak_ref,
-                        )))
-                        .build(),
-                );
-            }
+            let weak_ref = glib::WeakRef::new();
+            weak_ref.set(Some(&volume));
+
+            utils::navigation_view(self).push(
+                &adw::NavigationPage::builder()
+                    .child(&view::ScalableTextViewPage::from(view::Entity::Volume(
+                        weak_ref,
+                    )))
+                    .build(),
+            );
         })
         .await;
     }

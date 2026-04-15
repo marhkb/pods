@@ -59,6 +59,11 @@ template $PdsImagesPrunePage: Widget {
             Adw.SwitchRow prune_external_switch_row {
               title: _("Prune External");
               subtitle: _("Remove images even when they are used by external containers (e.g, by build containers)");
+              visible: bind template
+                .client as <$Client>
+                .engine as <$Engine>
+                .capabilities as <$EngineCapabilities>
+                .prune_external_images;
             }
 
             $PdsDateTimeRow prune_until_row {
