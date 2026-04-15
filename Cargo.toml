@@ -10,9 +10,13 @@ astral-tokio-tar = { version = "0.6", default-features = false }
 adw = { version = "0.9", package = "libadwaita", features = ["v1_9"] }
 anyhow = "1"
 ashpd = { version = "0.13", default-features = false, features = ["account", "file_chooser", "gtk4", "notification", "tokio"] }
+async-stream = "0.3"
+bollard = "0.20"
+bytes = "1"
 futures = { version = "0.3", default-features = false, features = ["std"] }
 gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
 gtk = { version = "0.11", package = "gtk4", features = ["gnome_49"] }
+http-body-util = "0.1"
 indexmap = { version = "2", features = ["serde"] }
 log = "0.4"
 multi_log = "0.1"
@@ -25,7 +29,9 @@ serde_json = "1"
 simplelog = { version = "0.12", features = ["paris"] }
 sourceview5 = { version = "0.11" }
 syslog = "7"
+tar = "0.4"
 tokio = "1"
+tokio-util = { version = "0.7", features = ["compat"] }
 tokio-stream = { version = "0.1", default-features = false }
 vte = { version = "0.15", default-features = false }
 vte4 = "0.10"
