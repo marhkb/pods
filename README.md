@@ -4,7 +4,7 @@
   Pods
 </h1>
 
-<p align="center"><strong>Manage your Podman containers</strong></p>
+<p align="center"><strong>Manage your containers</strong></p>
 
 <p align="center">
   <a href="https://flathub.org/apps/details/com.github.marhkb.Pods">
@@ -32,11 +32,11 @@
   <img src="data/screenshots/dark.png#gh-dark-mode-only" alt="Preview"/>
 </p>
 
-Pods is a frontend for podman. It uses libadwaita for its user interface and strives to meet the design principles of GNOME.
+Pods is a frontend for Podman/Docker. It uses libadwaita for its user interface and strives to meet the design principles of GNOME.
 
 With Pods you can, among other things:
 
-- Connect to local and remote Podman instances.
+- Connect to local and remote Podman/Docker instances.
 - Easily overview images, containers and pods.
 - View prepared information about images, containers, and pods.
 - Inspect images, containers and pods.
