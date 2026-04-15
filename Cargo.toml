@@ -15,7 +15,7 @@ bollard = "0.20"
 bytes = "1"
 futures = { version = "0.3", default-features = false, features = ["std"] }
 gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
-gtk = { version = "0.11", package = "gtk4", features = ["gnome_49"] }
+gtk = { version = "0.11", package = "gtk4", features = ["gnome_50"] }
 http-body-util = "0.1"
 indexmap = { version = "2", features = ["serde"] }
 log = "0.4"
