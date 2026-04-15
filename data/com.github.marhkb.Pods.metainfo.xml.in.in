@@ -38,6 +38,15 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="3.0.0" date="2026-04-15">
+      <description translatable="no">
+        <p>Pods 3.0.0 contains the following changes:</p>
+        <ul>
+          <li>Implemented a new backend architecture to support multiple container engines. (#927)</li>
+          <li>Experimental Docker support – please report any issues on GitHub. (#927)</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.4.0" date="2026-03-21">
       <description translatable="no">
         <p>Pods 2.4.0 contains the following changes:</p>
