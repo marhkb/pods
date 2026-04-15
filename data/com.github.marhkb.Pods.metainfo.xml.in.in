@@ -5,12 +5,12 @@
   <metadata_license>CC0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Pods</name>
-  <summary>Manage your Podman containers</summary>
+  <summary>Manage your containers</summary>
   <description>
-    <p>Pods is a frontend for podman. It uses libadwaita for its user interface and strives to meet the design principles of GNOME.</p>
+    <p>Pods is a frontend for Podman/Docker. It uses libadwaita for its user interface and strives to meet the design principles of GNOME.</p>
     <p>With Pods you can, among other things:</p>
     <ul>
-      <li>Connect to local and remote Podman instances.</li>
+      <li>Connect to local and remote Podman/Docker instances.</li>
       <li>Easily overview images, containers and pods.</li>
       <li>View prepared information about images, containers, and pods.</li>
       <li>Inspect images, containers and pods.</li>
