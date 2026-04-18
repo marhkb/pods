@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-15 14:53+0000\n"
-"PO-Revision-Date: 2024-04-14 20:01+0000\n"
-"Last-Translator: Gert-dev <Gert-dev@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-04-19 07:09+0000\n"
+"Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -421,7 +421,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:114
 msgid "Improvements"
-msgstr ""
+msgstr "Verbeteringen"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
 msgid "We now use appdata to construct the about dialog. (#743)"
@@ -2746,9 +2746,8 @@ msgstr "Container-logboek"
 #: src/view/container_log_page.blp:72 src/view/container_log_page.blp:75
 #: src/view/scalable_text_view_page.blp:56
 #: src/view/scalable_text_view_page.blp:59
-#, fuzzy
 msgid "Menu"
-msgstr "Hoofd­menu"
+msgstr "Menu"
 
 #: src/view/container_log_page.blp:94
 msgid "Start/Resume Container"
@@ -3578,7 +3577,7 @@ msgstr "Versie"
 
 #: src/view/info_panel.blp:46
 msgid "System"
-msgstr ""
+msgstr "Systeem"
 
 #: src/view/info_panel.blp:53
 msgid "Operating System"
@@ -3590,7 +3589,7 @@ msgstr ""
 
 #: src/view/info_panel.blp:71
 msgid "Architecture"
-msgstr ""
+msgstr "Architectuur"
 
 #: src/view/info_panel.blp:80 src/view/pod_creation_page.blp:105
 #: src/view/pod_creation_page.rs:159 src/view/pod_details_page.blp:209
@@ -3599,7 +3598,7 @@ msgstr "Host-naam"
 
 #: src/view/info_panel.blp:89
 msgid "Cpus"
-msgstr ""
+msgstr "CPU's"
 
 #: src/view/info_panel.blp:104
 msgid "Storage"
@@ -3611,9 +3610,8 @@ msgid "Driver"
 msgstr "Stuurprogramma"
 
 #: src/view/info_panel.blp:120
-#, fuzzy
 msgid "Root"
-msgstr "Root uitvoeren"
+msgstr "Root"
 
 #: src/view/info_panel.blp:126
 msgid "Cgroup"
