@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-15 14:53+0000\n"
-"PO-Revision-Date: 2026-02-27 06:08+0000\n"
+"PO-Revision-Date: 2026-04-19 07:09+0000\n"
 "Last-Translator: Eganatha <ega8642@gmail.com>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/main/id/"
-">\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/main/id/>"
+"\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -29,13 +29,12 @@ msgid "Pods"
 msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
-#, fuzzy
 msgid "Manage your Podman containers"
-msgstr "Buat Container"
+msgstr "Atur kontainer Podman Anda"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:8
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Kontainerisasi;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -53,16 +52,15 @@ msgstr "Perilaku jendela penuh default"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr "UUID sambungan telah digunakan sebelumnya"
+msgstr "uuid dari koneksi yang digunakan terakhir"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
 msgstr "Tampilan yang terakhir digunakan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
-#, fuzzy
 msgid "The last used container file path"
-msgstr "Tampilan yang terakhir digunakan"
+msgstr "Jalur berkas kontainer yang terakhir digunakan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 #: src/view/images_prune_page.blp:56
@@ -82,30 +80,28 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "Whether to show a timestamp for each log line"
-msgstr "Apakah akan menampilkan penanda waktu pada tiap baris log"
+msgstr "Apakah ingin menampilkan penanda waktu pada tiap baris log"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
-#, fuzzy
 msgid "Whether to use a regex for search"
-msgstr "Apakah akan menampilkan penanda waktu pada tiap baris log"
+msgstr "Apakah ingin menggunakan regex untuk pencarian"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether search should be case-sensitive"
-msgstr "Apakah pencarian harus peka kapital"
+msgstr "Apakah pencarian harus peka huruf kapital"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
-#, fuzzy
 msgid "Whether to match whole words when searching"
 msgstr "Apakah kata kunci harus sepenuhnya cocok saat pencarian"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Skala fon untuk semua tampilan teks"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "The font scale for terminals"
-msgstr ""
+msgstr "Skala fon untuk terminal"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:88
 #, fuzzy
@@ -173,7 +169,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "Dengan Pods anda dapat melakukan berbagai hal, antara lain"
+msgstr "Dengan Pods anda dapat melakukan berbagai hal, antara lain:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman/Docker instances."
@@ -186,6 +182,8 @@ msgstr "Dengan mudah meninjau citra, kontainer, dan pod."
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
 msgstr ""
+"Menampilkan informasi yang telah disediakan tentang citra, kontainer, dan "
+"pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
@@ -217,12 +215,11 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Hapus citra, kontainer, dan pods (secara limbak)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
-#, fuzzy
 msgid "Prune images."
-msgstr "Pangkas citra yang tidak digunakan"
+msgstr "Pangkas citra."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
@@ -1353,63 +1350,60 @@ msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
 #: src/model/action.rs:136
-#, fuzzy
 msgid "Prune unused images"
-msgstr "_Pangkas citra yang tidak digunakan…"
+msgstr "Pangkas citra yang tidak digunakan"
 
 #: src/model/action.rs:173
 #, rust-format
 msgid "Pull image <b>{}</b>"
-msgstr ""
+msgstr "Tarik citra <b>{}</b>"
 
 #: src/model/action.rs:207
-#, fuzzy, rust-format
+#, rust-format
 msgid "Push image <b>{}</b>"
-msgstr "Waktu Dibangun"
+msgstr "Dorong citra <b>{}</b>"
 
 #: src/model/action.rs:268
-#, fuzzy, rust-format
+#, rust-format
 msgid "Build image <b>{}</b>"
-msgstr "Waktu Dibangun"
+msgstr "Bangun citra <b>{}</b>"
 
 #: src/model/action.rs:274
 msgid "Generating tarball of context directory..."
-msgstr ""
+msgstr "Membuat direktori tarbal berisi konteks..."
 
 #: src/model/action.rs:342
-#, fuzzy
 msgid "Prune stopped containers"
-msgstr "Galat saat menghentikan container"
+msgstr "Pangkas kontainer yang terhenti"
 
 #: src/model/action.rs:383
-#, fuzzy, rust-format
+#, rust-format
 msgid "Start new container <b>{}</b>"
-msgstr "Galat saat memulai ulang container"
+msgstr "Mulai kontainer baru <b>{}</b>"
 
 #: src/model/action.rs:385
-#, fuzzy, rust-format
+#, rust-format
 msgid "Create container <b>{}</b>"
-msgstr "Buat _Container…"
+msgstr "Buat kontainer <b>{}</b>"
 
 #: src/model/action.rs:419
-#, fuzzy
 msgid "none"
-msgstr "<kosong>"
+msgstr "nihil"
 
 #: src/model/action.rs:417
 #, rust-format
 msgid "Commit image <b>{}</b> ({})"
-msgstr ""
+msgstr "Komit citra <b>{}</b> ({})"
 
 #: src/model/action.rs:433 src/model/action.rs:547 src/model/action.rs:691
 #: src/model/action.rs:1027
 msgid "Finished"
-msgstr ""
+msgstr "Selesai"
 
 #: src/model/action.rs:473
 #, rust-format
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr ""
+msgstr "Unggah <b>{}</b> ke <b>{}:{}</b>"
 
 #: src/model/action.rs:480
 #, fuzzy
