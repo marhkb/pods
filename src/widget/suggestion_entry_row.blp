@@ -58,18 +58,9 @@ Popover popover {
   };
 }
 
-template $PdsSuggestionEntryRow: Widget {
-  accessible-role: list_item;
-
-  Adw.PreferencesGroup preferences_group {
-    Adw.EntryRow entry_row {
-      entry-activated => $on_entry_row_activated() swapped;
-      notify::title => $on_entry_row_notify_title() swapped;
-
-      EventControllerKey {
-        key-pressed => $on_entry_row_key_pressed() swapped;
-        propagation-phase: capture;
-      }
-    }
+template $PdsSuggestionEntryRow: Adw.EntryRow {
+  EventControllerKey {
+    key-pressed => $on_key_pressed() swapped;
+    propagation-phase: capture;
   }
 }
