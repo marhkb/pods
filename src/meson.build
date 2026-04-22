@@ -80,6 +80,7 @@ blueprints = custom_target(
     'view/volumes_prune_page.blp',
     'view/welcome_page.blp',
     'view/window.blp',
+    'widget/auto_scrolled_window.blp',
     'widget/circular_progress_bar.blp',
     'widget/count_badge.blp',
     'widget/date_time_row.blp',

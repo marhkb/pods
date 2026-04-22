@@ -250,6 +250,7 @@ fn init() {
     view::WelcomePage::static_type();
     view::Window::static_type();
 
+    widget::AutoScrolledWindow::static_type();
     widget::CircularProgressBar::static_type();
     widget::CountBadge::static_type();
     widget::DateTimeRow::static_type();
