@@ -141,66 +141,37 @@ template $PdsContainerLogPage: Widget {
               }
             }
 
-            Overlay {
-              [overlay]
-              Revealer {
-                halign: end;
-                margin-bottom: 18;
-                margin-end: 18;
-                reveal-child: bind template.sticky inverted;
-                transition-type: crossfade;
-                valign: end;
+            $PdsAutoScrolledWindow auto_scrolled_window {
+              scrolled-up => $on_scrolled_up() swapped;
+              vexpand: true;
 
-                Button {
-                  action-name: "container-log-page.scroll-down";
-                  halign: center;
-                  icon-name: "go-bottom-symbolic";
-                  tooltip-text: _("Scroll to Bottom");
-                  valign: end;
+              child: $PdsScalableTextView scalable_text_view {
+                styles [
+                  "text-view",
+                ]
 
-                  accessibility {
-                    label: _("Scroll to Bottom");
-                  }
+                buffer: $GtkSourceBuffer source_buffer {
+                  cursor-moved => $on_source_buffer_cursor_moved() swapped;
+                  highlight-matching-brackets: "False";
+                };
 
-                  styles [
-                    "osd",
-                    "circular",
-                  ]
+                top-margin: "12";
+                bottom-margin: "12";
+                right-margin: "12";
+                cursor-visible: "False";
+                editable: "False";
+                highlight-current-line: "True";
+                monospace: "True";
+                show-line-numbers: "True";
+                wrap-mode: "char";
+
+                accessibility {
+                  label: _("Container log output");
+                  description: _(
+                    "Use Control+F to search logs. Press Escape to close search. Use Control+Plus, Control+Minus, and Control+0 to adjust zoom."
+                  );
                 }
-              }
-
-              ScrolledWindow scrolled_window {
-                hscrollbar-policy: never;
-                vexpand: true;
-
-                $PdsScalableTextView scalable_text_view {
-                  styles [
-                    "text-view",
-                  ]
-
-                  buffer: $GtkSourceBuffer source_buffer {
-                    cursor-moved => $on_source_buffer_cursor_moved() swapped;
-                    highlight-matching-brackets: "False";
-                  };
-
-                  top-margin: "12";
-                  bottom-margin: "12";
-                  right-margin: "12";
-                  cursor-visible: "False";
-                  editable: "False";
-                  highlight-current-line: "True";
-                  monospace: "True";
-                  show-line-numbers: "True";
-                  wrap-mode: "char";
-
-                  accessibility {
-                    label: _("Container log output");
-                    description: _(
-                      "Use Control+F to search logs. Press Escape to close search. Use Control+Plus, Control+Minus, and Control+0 to adjust zoom."
-                    );
-                  }
-                }
-              }
+              };
             }
           };
         }
