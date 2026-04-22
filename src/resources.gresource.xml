@@ -85,6 +85,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/welcome_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/window.ui</file>
 
+    <file compressed="true" preprocess="xml-stripblanks">widget/auto_scrolled_window.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/circular_progress_bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/count_badge.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/date_time_row.ui</file>

@@ -1,0 +1,40 @@
+using Gtk 4.0;
+
+template $PdsAutoScrolledWindow: Widget {
+  layout-manager: BinLayout {};
+
+  Overlay {
+    [overlay]
+    Revealer {
+      halign: end;
+      margin-bottom: 18;
+      margin-end: 18;
+      reveal-child: bind template.sticky inverted;
+      transition-type: crossfade;
+      valign: end;
+
+      Button {
+        action-name: "auto-scroll-window.scroll-down";
+        halign: center;
+        icon-name: "go-bottom-symbolic";
+        tooltip-text: _("Scroll to Bottom");
+        valign: end;
+
+        accessibility {
+          label: _("Scroll to Bottom");
+        }
+
+        styles [
+          "osd",
+          "circular",
+        ]
+      }
+    }
+
+    ScrolledWindow scrolled_window {
+      hscrollbar-policy: never;
+      vexpand: true;
+      child: bind template.child;
+    }
+  }
+}

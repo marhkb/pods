@@ -36,7 +36,6 @@ const ACTION_TOGGLE_SEARCH: &str = "container-log-page.toggle-search";
 const ACTION_EXIT_SEARCH: &str = "container-log-page.exit-search";
 const ACTION_SAVE_TO_FILE: &str = "container-log-page.save-to-file";
 const ACTION_SHOW_TIMESTAMPS: &str = "container-log-page.show-timestamps";
-const ACTION_SCROLL_DOWN: &str = "container-log-page.scroll-down";
 const ACTION_START_CONTAINER: &str = "container-log-page.start-container";
 const ACTION_ZOOM_OUT: &str = "container-log-page.zoom-out";
 const ACTION_ZOOM_IN: &str = "container-log-page.zoom-in";
@@ -51,8 +50,6 @@ enum FetchLinesState {
 }
 
 mod imp {
-    use bytes::Bytes;
-
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
@@ -64,8 +61,6 @@ mod imp {
         pub(super) fetch_until: OnceCell<String>,
         pub(super) fetch_lines_state: Cell<FetchLinesState>,
         pub(super) fetched_lines: RefCell<VecDeque<Bytes>>,
-        pub(super) prev_adj: Cell<f64>,
-        pub(super) is_auto_scrolling: Cell<bool>,
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[property(get, set)]
@@ -87,7 +82,7 @@ mod imp {
         #[template_child]
         pub(super) lines_loading_revealer: TemplateChild<gtk::Revealer>,
         #[template_child]
-        pub(super) scrolled_window: TemplateChild<gtk::ScrolledWindow>,
+        pub(super) auto_scrolled_window: TemplateChild<widget::AutoScrolledWindow>,
         #[template_child]
         pub(super) scalable_text_view: TemplateChild<widget::ScalableTextView>,
         #[template_child]
@@ -129,9 +124,6 @@ mod imp {
             });
             klass.install_property_action(ACTION_SHOW_TIMESTAMPS, "show-timestamps");
 
-            klass.install_action(ACTION_SCROLL_DOWN, None, |widget, _, _| {
-                widget.scroll_down();
-            });
             klass.install_action(ACTION_START_CONTAINER, None, |widget, _, _| {
                 widget.start_or_resume_container();
             });
@@ -236,12 +228,12 @@ mod imp {
                 .add_child(&*self.zoom_control, "zoom-control");
 
             let adw_style_manager = adw::StyleManager::default();
-            obj.on_notify_dark(&adw_style_manager);
+            self.on_notify_dark(&adw_style_manager);
             adw_style_manager.connect_dark_notify(clone!(
                 #[weak]
                 obj,
                 move |style_manager| {
-                    obj.on_notify_dark(style_manager);
+                    obj.imp().on_notify_dark(style_manager);
                 }
             ));
 
@@ -265,16 +257,6 @@ mod imp {
                 maybe_gutter_child = child.next_sibling()
             }
 
-            let adj = self.scrolled_window.vadjustment();
-            obj.on_adjustment_changed(&adj);
-            adj.connect_value_changed(clone!(
-                #[weak]
-                obj,
-                move |adj| {
-                    obj.on_adjustment_changed(adj);
-                }
-            ));
-
             Self::Type::this_expression("container")
                 .chain_property::<model::Container>("status")
                 .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
@@ -290,14 +272,14 @@ mod imp {
                         obj,
                         move |container, _| {
                             if container.status() == model::ContainerStatus::Running {
-                                obj.follow_log();
+                                obj.imp().follow_log();
                             }
                         }
                     ),
                 );
             }
 
-            obj.init_log();
+            self.init_log();
         }
 
         fn dispose(&self) {
@@ -309,6 +291,144 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ContainerLogPage {
+        fn init_log(&self) {
+            let obj = &*self.obj();
+
+            let Some(api) = obj.container().and_then(|container| container.api()) else {
+                return;
+            };
+
+            let mut perform = MarkupPerform::default();
+
+            rt::Pipe::new(api, move |api| {
+                api.logs(engine::opts::LogsOpts {
+                    tail: "512".to_owned(),
+                    ..basic_opts(false, true)
+                })
+            })
+            .on_next(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move |result| {
+                    let imp = obj.imp();
+                    imp.stack.set_visible_child_name("loaded");
+                    imp.append_line(result, &mut perform)
+                }
+            ))
+            .on_finish(clone!(
+                #[weak]
+                obj,
+                move || {
+                    let imp = obj.imp();
+                    imp.stack.set_visible_child_name("loaded");
+                    imp.follow_log();
+                }
+            ));
+        }
+
+        fn follow_log(&self) {
+            let obj = &*self.obj();
+
+            let Some(api) = obj.container().and_then(|container| container.api()) else {
+                return;
+            };
+
+            let timestamps = self.log_timestamps.borrow();
+            let mut iter = timestamps.iter().rev();
+
+            let mut opts = basic_opts(true, true);
+            let skip = match iter.next() {
+                Some(last) => {
+                    opts.since = glib::DateTime::from_iso8601(last, None).unwrap().to_unix();
+                    AtomicUsize::new(iter.take_while(|t| *t == last).count() + 1)
+                }
+                None => AtomicUsize::new(0),
+            };
+
+            let mut perform = MarkupPerform::default();
+
+            rt::Pipe::new(api, move |api| api.logs(opts)).on_next(clone!(
+                #[weak]
+                obj,
+                #[upgrade_or]
+                glib::ControlFlow::Break,
+                move |result: anyhow::Result<engine::conn::TtyChunk>| {
+                    if skip.load(Ordering::Relaxed) == 0 {
+                        obj.imp().append_line(result, &mut perform)
+                    } else {
+                        skip.fetch_sub(1, Ordering::Relaxed);
+                        glib::ControlFlow::Continue
+                    }
+                }
+            ));
+        }
+
+        fn append_line(
+            &self,
+            result: anyhow::Result<engine::conn::TtyChunk>,
+            perform: &mut MarkupPerform,
+        ) -> glib::ControlFlow {
+            match result {
+                Ok(line) => {
+                    self.insert(line.into(), perform, true);
+                    glib::ControlFlow::Continue
+                }
+                Err(e) => {
+                    log::warn!("Stopping container log stream due to error: {e}");
+                    utils::show_error_toast(
+                        &*self.obj(),
+                        &gettext("Error while following log"),
+                        &e.to_string(),
+                    );
+                    glib::ControlFlow::Break
+                }
+            }
+        }
+
+        fn insert(&self, line: Bytes, perform: &mut MarkupPerform, at_end: bool) {
+            let line_buffer = perform.decode(line.as_ref());
+            let (timestamp, log_message) = line_buffer.split_once(' ').unwrap();
+
+            self.fetch_until.get_or_init(|| timestamp.to_owned());
+
+            let source_buffer = &*self.source_buffer;
+            source_buffer.insert_markup(
+                &mut if at_end {
+                    self.source_buffer.end_iter()
+                } else {
+                    self.source_buffer.start_iter()
+                },
+                &if source_buffer.start_iter() == source_buffer.end_iter() {
+                    Cow::Borrowed(log_message)
+                } else if at_end {
+                    Cow::Owned(format!("\n{log_message}"))
+                } else {
+                    Cow::Owned(format!("{log_message}\n"))
+                },
+            );
+
+            let mut timestamps = self.log_timestamps.borrow_mut();
+            if at_end {
+                timestamps.push_back(timestamp.to_owned());
+            } else {
+                timestamps.push_front(timestamp.to_owned());
+            }
+        }
+
+        fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
+            self.source_buffer.set_style_scheme(
+                sourceview5::StyleSchemeManager::default()
+                    .scheme(if style_manager.is_dark() {
+                        "Adwaita-dark"
+                    } else {
+                        "Adwaita"
+                    })
+                    .as_ref(),
+            );
+        }
+
         #[template_callback]
         fn on_timestamps_renderer_query_data(&self, _: &glib::Object, line: u32) {
             if let Some(timestamp) = self.log_timestamps.borrow().get(line as usize) {
@@ -343,6 +463,90 @@ mod imp {
             }
 
             glib::Propagation::Proceed
+        }
+
+        #[template_callback]
+        fn on_scrolled_up(&self) {
+            let obj = &*self.obj();
+
+            match self.fetch_lines_state.get() {
+                FetchLinesState::Waiting => {
+                    let Some(until) = self.fetch_until.get().map(ToOwned::to_owned) else {
+                        return;
+                    };
+
+                    let Some(api) = obj.container().and_then(|container| container.api()) else {
+                        return;
+                    };
+
+                    self.lines_loading_revealer.set_reveal_child(true);
+
+                    rt::Pipe::new(api, move |api| {
+                        api.logs(engine::opts::LogsOpts {
+                            until: glib::DateTime::from_iso8601(&until, None)
+                                .unwrap()
+                                .to_unix(),
+                            ..basic_opts(false, true)
+                        })
+                    })
+                    .on_next(clone!(
+                        #[weak]
+                        obj,
+                        #[upgrade_or]
+                        glib::ControlFlow::Break,
+                        move |result| {
+                            let imp = obj.imp();
+                            imp.fetch_lines_state.set(FetchLinesState::Fetching);
+
+                            match result {
+                                Ok(line) => {
+                                    imp.fetched_lines.borrow_mut().push_back(line.into());
+                                    glib::ControlFlow::Continue
+                                }
+                                Err(e) => {
+                                    log::warn!("Stopping container log stream due to error: {e}");
+                                    glib::ControlFlow::Break
+                                }
+                            }
+                        }
+                    ))
+                    .on_finish(clone!(
+                        #[weak]
+                        obj,
+                        move || {
+                            let imp = obj.imp();
+                            imp.lines_loading_revealer.set_reveal_child(false);
+                            imp.fetch_lines_state.set(FetchLinesState::Finished);
+
+                            imp.move_lines_to_buffer();
+                        }
+                    ));
+                }
+                FetchLinesState::Finished => self.move_lines_to_buffer(),
+                _ => {}
+            }
+        }
+
+        fn move_lines_to_buffer(&self) {
+            let mut perform = MarkupPerform::default();
+
+            let mut lines = self.fetched_lines.borrow_mut();
+
+            let had_lines = !lines.is_empty();
+
+            for _ in 0..128 {
+                match lines.pop_back() {
+                    Some(line) => self.insert(line, &mut perform, false),
+                    None => break,
+                }
+            }
+
+            if had_lines {
+                let adj = self.auto_scrolled_window.vadjustment();
+                if adj.value() < 30.0 {
+                    adj.set_value(adj.value() + 30.0);
+                }
+            }
         }
 
         #[template_callback]
@@ -388,357 +592,104 @@ impl ContainerLogPage {
         self.imp().timestamps_renderer.set_visible(value);
     }
 
-    pub(crate) fn scroll_down(&self) {
-        let imp = self.imp();
-
-        imp.is_auto_scrolling.set(true);
-        glib::idle_add_local_once(clone!(
-            #[weak(rename_to = obj)]
-            self,
-            move || {
-                obj.imp().scrolled_window.vadjustment().set_value(f64::MAX);
-            }
-        ));
-    }
-
-    fn on_adjustment_changed(&self, adj: &gtk::Adjustment) {
-        let imp = self.imp();
-
-        if imp.is_auto_scrolling.get() {
-            if adj.value() + adj.page_size() >= adj.upper() {
-                imp.is_auto_scrolling.set(false);
-                self.set_sticky(true);
-            }
-        } else {
-            self.set_sticky(adj.value() + adj.page_size() >= adj.upper());
-            self.load_previous_messages(adj);
-        }
-
-        imp.prev_adj.replace(adj.value());
-    }
-
-    fn init_log(&self) {
-        let Some(api) = self.container().as_ref().and_then(model::Container::api) else {
+    pub(crate) async fn save_to_file(&self) {
+        let Some(container) = self.container() else {
             return;
         };
 
-        let mut perform = MarkupPerform::default();
+        let request = SaveFileRequest::default()
+            .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
+            .current_name(format!("{}.log", container.name()).as_str())
+            .choice(Choice::boolean(
+                "timestamps",
+                &gettext("Include timestamps"),
+                false,
+            ))
+            .modal(true);
 
-        rt::Pipe::new(api, move |api| {
-            api.logs(engine::opts::LogsOpts {
-                tail: "512".to_owned(),
-                ..basic_opts(false, true)
-            })
-        })
-        .on_next(clone!(
-            #[weak(rename_to = obj)]
+        utils::show_save_file_dialog(
+            request,
             self,
-            #[upgrade_or]
-            glib::ControlFlow::Break,
-            move |result| {
-                obj.imp().stack.set_visible_child_name("loaded");
-                obj.append_line(result, &mut perform)
-            }
-        ))
-        .on_finish(clone!(
-            #[weak(rename_to = obj)]
-            self,
-            move || {
-                obj.imp().stack.set_visible_child_name("loaded");
-                obj.follow_log();
-            }
-        ));
-    }
-
-    fn follow_log(&self) {
-        let Some(api) = self.container().as_ref().and_then(model::Container::api) else {
-            return;
-        };
-
-        let timestamps = self.imp().log_timestamps.borrow();
-        let mut iter = timestamps.iter().rev();
-
-        let mut opts = basic_opts(true, true);
-        let skip = match iter.next() {
-            Some(last) => {
-                opts.since = glib::DateTime::from_iso8601(last, None).unwrap().to_unix();
-                AtomicUsize::new(iter.take_while(|t| *t == last).count() + 1)
-            }
-            None => AtomicUsize::new(0),
-        };
-
-        let mut perform = MarkupPerform::default();
-
-        rt::Pipe::new(api, move |api| api.logs(opts)).on_next(clone!(
-            #[weak(rename_to = obj)]
-            self,
-            #[upgrade_or]
-            glib::ControlFlow::Break,
-            move |result: anyhow::Result<engine::conn::TtyChunk>| {
-                if skip.load(Ordering::Relaxed) == 0 {
-                    obj.append_line(result, &mut perform)
-                } else {
-                    skip.fetch_sub(1, Ordering::Relaxed);
-                    glib::ControlFlow::Continue
-                }
-            }
-        ));
-    }
-
-    fn append_line(
-        &self,
-        result: anyhow::Result<engine::conn::TtyChunk>,
-        perform: &mut MarkupPerform,
-    ) -> glib::ControlFlow {
-        match result {
-            Ok(line) => {
-                self.insert(line.into(), perform, true);
-                glib::ControlFlow::Continue
-            }
-            Err(e) => {
-                log::warn!("Stopping container log stream due to error: {e}");
-                utils::show_error_toast(
-                    self,
-                    &gettext("Error while following log"),
-                    &e.to_string(),
-                );
-                glib::ControlFlow::Break
-            }
-        }
-    }
-
-    fn insert(&self, line: Bytes, perform: &mut MarkupPerform, at_end: bool) {
-        let imp = self.imp();
-
-        let line_buffer = perform.decode(line.as_ref());
-        let (timestamp, log_message) = line_buffer.split_once(' ').unwrap();
-
-        imp.fetch_until.get_or_init(|| timestamp.to_owned());
-
-        let source_buffer = &*imp.source_buffer;
-        source_buffer.insert_markup(
-            &mut if at_end {
-                imp.source_buffer.end_iter()
-            } else {
-                imp.source_buffer.start_iter()
-            },
-            &if source_buffer.start_iter() == source_buffer.end_iter() {
-                Cow::Borrowed(log_message)
-            } else if at_end {
-                Cow::Owned(format!("\n{log_message}"))
-            } else {
-                Cow::Owned(format!("{log_message}\n"))
-            },
-        );
-
-        let mut timestamps = imp.log_timestamps.borrow_mut();
-        if at_end {
-            timestamps.push_back(timestamp.to_owned());
-        } else {
-            timestamps.push_front(timestamp.to_owned());
-        }
-
-        if at_end && self.sticky() {
-            self.scroll_down();
-        }
-    }
-
-    fn load_previous_messages(&self, adj: &gtk::Adjustment) {
-        let imp = self.imp();
-
-        if adj.value() >= imp.prev_adj.get() || adj.value() >= adj.page_size() {
-            return;
-        }
-
-        match imp.fetch_lines_state.get() {
-            FetchLinesState::Waiting => {
-                let Some(until) = imp.fetch_until.get().map(ToOwned::to_owned) else {
-                    return;
-                };
-
-                let Some(api) = self.container().as_ref().and_then(model::Container::api) else {
-                    return;
-                };
-
-                imp.lines_loading_revealer.set_reveal_child(true);
-
-                rt::Pipe::new(api, move |api| {
-                    api.logs(engine::opts::LogsOpts {
-                        until: glib::DateTime::from_iso8601(&until, None)
-                            .unwrap()
-                            .to_unix(),
-                        ..basic_opts(false, true)
-                    })
-                })
-                .on_next(clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    #[upgrade_or]
-                    glib::ControlFlow::Break,
-                    move |result| {
-                        let imp = obj.imp();
-                        imp.fetch_lines_state.set(FetchLinesState::Fetching);
-
-                        match result {
-                            Ok(line) => {
-                                imp.fetched_lines.borrow_mut().push_back(line.into());
-                                glib::ControlFlow::Continue
-                            }
-                            Err(e) => {
-                                log::warn!("Stopping container log stream due to error: {e}");
-                                glib::ControlFlow::Break
-                            }
-                        }
-                    }
-                ))
-                .on_finish(clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move || {
-                        let imp = obj.imp();
-                        imp.lines_loading_revealer.set_reveal_child(false);
-                        imp.fetch_lines_state.set(FetchLinesState::Finished);
-
-                        obj.move_lines_to_buffer();
-                    }
-                ));
-            }
-            FetchLinesState::Finished => self.move_lines_to_buffer(),
-            _ => {}
-        }
-    }
-
-    fn move_lines_to_buffer(&self) {
-        let mut perform = MarkupPerform::default();
-
-        let imp = self.imp();
-        let mut lines = imp.fetched_lines.borrow_mut();
-
-        let had_lines = !lines.is_empty();
-
-        for _ in 0..128 {
-            match lines.pop_back() {
-                Some(line) => self.insert(line, &mut perform, false),
-                None => break,
-            }
-        }
-
-        if had_lines {
-            let adj = imp.scrolled_window.vadjustment();
-            if adj.value() < 30.0 {
-                adj.set_value(adj.value() + 30.0);
-            }
-        }
-    }
-
-    fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
-        self.imp().source_buffer.set_style_scheme(
-            sourceview5::StyleSchemeManager::default()
-                .scheme(if style_manager.is_dark() {
-                    "Adwaita-dark"
-                } else {
-                    "Adwaita"
-                })
-                .as_ref(),
-        );
-    }
-
-    async fn save_to_file(&self) {
-        if let Some(container) = self.container() {
-            let request = SaveFileRequest::default()
-                .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
-                .current_name(format!("{}.log", container.name()).as_str())
-                .choice(Choice::boolean(
-                    "timestamps",
-                    &gettext("Include timestamps"),
-                    false,
-                ))
-                .modal(true);
-
-            utils::show_save_file_dialog(
-                request,
+            clone!(
+                #[weak(rename_to = obj)]
                 self,
-                clone!(
-                    #[weak(rename_to = obj)]
-                    self,
-                    move |files| {
-                        obj.action_set_enabled(ACTION_SAVE_TO_FILE, false);
+                move |files| {
+                    obj.action_set_enabled(ACTION_SAVE_TO_FILE, false);
 
-                        let file = gio::File::for_uri(files.uris()[0].as_str());
+                    let file = gio::File::for_uri(files.uris()[0].as_str());
 
-                        let Some(path) = file.path() else { return };
+                    let Some(path) = file.path() else { return };
 
-                        let file = std::fs::OpenOptions::new()
-                            .write(true)
-                            .create(true)
-                            .truncate(true)
-                            .open(path)
-                            .unwrap();
+                    let file = std::fs::OpenOptions::new()
+                        .write(true)
+                        .create(true)
+                        .truncate(true)
+                        .open(path)
+                        .unwrap();
 
-                        let mut writer = BufWriter::new(file);
-                        let mut perform = PlainTextPerform::default();
+                    let mut writer = BufWriter::new(file);
+                    let mut perform = PlainTextPerform::default();
 
-                        let timestamps = files.choices()[0].1 == "true";
+                    let timestamps = files.choices()[0].1 == "true";
 
-                        rt::Pipe::new(container.api().unwrap(), move |container| {
-                            container.logs(basic_opts(false, timestamps))
-                        })
-                        .on_next(clone!(
-                            #[weak]
-                            obj,
-                            #[upgrade_or]
-                            glib::ControlFlow::Break,
-                            move |result: anyhow::Result<engine::conn::TtyChunk>| {
-                                match result {
-                                    Ok(line) => {
-                                        perform.decode(line.as_ref());
+                    rt::Pipe::new(container.api().unwrap(), move |container| {
+                        container.logs(basic_opts(false, timestamps))
+                    })
+                    .on_next(clone!(
+                        #[weak]
+                        obj,
+                        #[upgrade_or]
+                        glib::ControlFlow::Break,
+                        move |result: anyhow::Result<engine::conn::TtyChunk>| {
+                            match result {
+                                Ok(line) => {
+                                    perform.decode(line.as_ref());
 
-                                        let line = perform.move_out_buffer();
-                                        if !line.is_empty() {
-                                            match writer
-                                                .write_all(line.as_bytes())
-                                                .and_then(|_| writer.write_all(b"\n"))
-                                            {
-                                                Ok(_) => glib::ControlFlow::Continue,
-                                                Err(e) => {
-                                                    log::warn!("Error on saving logs: {e}");
-                                                    utils::show_error_toast(
-                                                        &obj,
-                                                        &gettext("Error on saving logs"),
-                                                        &e.to_string(),
-                                                    );
-                                                    glib::ControlFlow::Break
-                                                }
+                                    let line = perform.move_out_buffer();
+                                    if !line.is_empty() {
+                                        match writer
+                                            .write_all(line.as_bytes())
+                                            .and_then(|_| writer.write_all(b"\n"))
+                                        {
+                                            Ok(_) => glib::ControlFlow::Continue,
+                                            Err(e) => {
+                                                log::warn!("Error on saving logs: {e}");
+                                                utils::show_error_toast(
+                                                    &obj,
+                                                    &gettext("Error on saving logs"),
+                                                    &e.to_string(),
+                                                );
+                                                glib::ControlFlow::Break
                                             }
-                                        } else {
-                                            glib::ControlFlow::Continue
                                         }
-                                    }
-                                    Err(e) => {
-                                        log::warn!("Error on retrieving logs: {e}");
-                                        utils::show_error_toast(
-                                            &obj,
-                                            &gettext("Error on retrieving logs"),
-                                            &e.to_string(),
-                                        );
-                                        glib::ControlFlow::Break
+                                    } else {
+                                        glib::ControlFlow::Continue
                                     }
                                 }
+                                Err(e) => {
+                                    log::warn!("Error on retrieving logs: {e}");
+                                    utils::show_error_toast(
+                                        &obj,
+                                        &gettext("Error on retrieving logs"),
+                                        &e.to_string(),
+                                    );
+                                    glib::ControlFlow::Break
+                                }
                             }
-                        ))
-                        .on_finish(clone!(
-                            #[weak]
-                            obj,
-                            move || {
-                                obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
-                                utils::show_toast(&obj, gettext("Log has been saved"));
-                            }
-                        ));
-                    }
-                ),
-            )
-            .await;
-        }
+                        }
+                    ))
+                    .on_finish(clone!(
+                        #[weak]
+                        obj,
+                        move || {
+                            obj.action_set_enabled(ACTION_SAVE_TO_FILE, true);
+                            utils::show_toast(&obj, gettext("Log has been saved"));
+                        }
+                    ));
+                }
+            ),
+        )
+        .await;
     }
 
     pub(crate) fn set_search_mode(&self, value: bool) {

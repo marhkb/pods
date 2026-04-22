@@ -1,3 +1,4 @@
+mod auto_scrolled_window;
 mod circular_progress_bar;
 mod count_badge;
 mod date_time_row;
@@ -12,6 +13,7 @@ mod suggestion_entry_row;
 mod text_search_entry;
 mod zoom_control;
 
+pub(crate) use self::auto_scrolled_window::AutoScrolledWindow;
 pub(crate) use self::circular_progress_bar::CircularProgressBar;
 pub(crate) use self::count_badge::CountBadge;
 pub(crate) use self::date_time_row::DateTimeRow;
