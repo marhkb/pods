@@ -27,6 +27,62 @@ pub(crate) enum SuggestionEntryVisibleStackPage {
 mod imp {
     use super::*;
 
+    #[derive(Default)]
+    pub(crate) struct SuggestionRowLayout;
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for SuggestionRowLayout {
+        const NAME: &'static str = "PdsSuggestionRowLayout";
+        type Type = SuggestionRowLayoutWrapper;
+        type ParentType = gtk::LayoutManager;
+    }
+
+    impl ObjectImpl for SuggestionRowLayout {}
+
+    impl LayoutManagerImpl for SuggestionRowLayout {
+        fn measure(
+            &self,
+            widget: &gtk::Widget,
+            orientation: gtk::Orientation,
+            for_size: i32,
+        ) -> (i32, i32, i32, i32) {
+            utils::ChildIter::from(widget)
+                .filter(|child| child.downcast_ref::<gtk::Popover>().is_none())
+                .fold(
+                    (-1, -1, -1, -1),
+                    |(max_min, max_nat, max_min_base, max_nat_base), child| {
+                        let (min, nat, min_base, nat_base) = child.measure(orientation, for_size);
+                        (
+                            max_min.max(min),
+                            max_nat.max(nat),
+                            max_min_base.max(min_base),
+                            max_nat_base.max(nat_base),
+                        )
+                    },
+                )
+        }
+
+        fn allocate(&self, widget: &gtk::Widget, width: i32, height: i32, baseline: i32) {
+            utils::ChildIter::from(widget)
+                .filter(|child| child.downcast_ref::<gtk::Popover>().is_none())
+                .for_each(|child| child.allocate(width, height, baseline, None));
+
+            let popover = &*widget
+                .downcast_ref::<super::SuggestionEntryRow>()
+                .unwrap()
+                .imp()
+                .popover;
+
+            popover.set_width_request(width);
+            popover.present();
+        }
+    }
+
+    glib::wrapper! {
+        pub(crate) struct SuggestionRowLayoutWrapper(ObjectSubclass<SuggestionRowLayout>)
+            @extends gtk::LayoutManager;
+    }
+
     #[derive(Default, CompositeTemplate, Properties)]
     #[properties(wrapper_type = super::SuggestionEntryRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/suggestion_entry_row.ui")]
@@ -37,8 +93,6 @@ mod imp {
         _model: PhantomData<Option<gio::ListModel>>,
         #[property(get = Self::factory, set = Self::set_factory, nullable, explicit_notify)]
         _factory: PhantomData<Option<gtk::ListItemFactory>>,
-        #[property(get = Self::title, set = Self::set_title, explicit_notify)]
-        _title: PhantomData<String>,
         #[property(get = Self::visible_stack_page, set = Self::set_visible_stack_page, explicit_notify, default)]
         _visible_stack_page: PhantomData<widget::SuggestionEntryVisibleStackPage>,
 
@@ -50,23 +104,19 @@ mod imp {
         pub(super) list_view: TemplateChild<gtk::ListView>,
         #[template_child]
         pub(super) selection: TemplateChild<gtk::SingleSelection>,
-        #[template_child]
-        pub(super) preferences_group: TemplateChild<adw::PreferencesGroup>,
-        #[template_child]
-        pub(super) entry_row: TemplateChild<adw::EntryRow>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for SuggestionEntryRow {
         const NAME: &'static str = "PdsSuggestionEntryRow";
         type Type = super::SuggestionEntryRow;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::EntryRow;
         type Interfaces = (gtk::Editable,);
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
             klass.bind_template_callbacks();
-            klass.set_accessible_role(gtk::AccessibleRole::TextBox);
+            klass.set_layout_manager_type::<SuggestionRowLayoutWrapper>();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -77,7 +127,7 @@ mod imp {
     impl ObjectImpl for SuggestionEntryRow {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
-            SIGNALS.get_or_init(|| vec![Signal::builder("entry-activated").build()])
+            SIGNALS.get_or_init(|| vec![Signal::builder("changed-by-typing").build()])
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
@@ -98,49 +148,29 @@ mod imp {
             let obj = &*self.obj();
 
             self.changed_handler_id
-                .set(self.entry_row.connect_changed(clone!(
+                .set(obj.connect_changed(clone!(
                     #[weak]
                     obj,
                     move |_| {
                         obj.imp().popover.popup();
-                        obj.emit_by_name::<()>("changed", &[]);
+                        obj.emit_by_name::<()>("changed-by-typing", &[]);
                     }
                 )))
                 .unwrap();
 
-            self.popover.set_parent(&*self.entry_row);
+            self.popover.set_parent(obj);
         }
 
         fn dispose(&self) {
             utils::unparent_children(&*self.obj());
-            self.popover.unparent();
         }
     }
 
-    impl WidgetImpl for SuggestionEntryRow {
-        fn measure(&self, orientation: gtk::Orientation, for_size: i32) -> (i32, i32, i32, i32) {
-            self.preferences_group.measure(orientation, for_size)
-        }
-
-        fn size_allocate(&self, width: i32, height: i32, baseline: i32) {
-            self.preferences_group
-                .size_allocate(&gtk::Allocation::new(0, 0, width, height), baseline);
-
-            self.popover.set_width_request(width);
-            self.popover.present();
-        }
-
-        fn snapshot(&self, snapshot: &gtk::Snapshot) {
-            self.obj()
-                .snapshot_child(&*self.preferences_group, snapshot);
-        }
-    }
-
-    impl EditableImpl for SuggestionEntryRow {
-        fn delegate(&self) -> Option<gtk::Editable> {
-            Some(self.entry_row.clone().upcast())
-        }
-    }
+    impl WidgetImpl for SuggestionEntryRow {}
+    impl ListBoxRowImpl for SuggestionEntryRow {}
+    impl PreferencesRowImpl for SuggestionEntryRow {}
+    impl EntryRowImpl for SuggestionEntryRow {}
+    impl EditableImpl for SuggestionEntryRow {}
 
     #[gtk::template_callbacks]
     impl SuggestionEntryRow {
@@ -158,14 +188,6 @@ mod imp {
 
         fn set_factory(&self, factory: Option<&gtk::ListItemFactory>) {
             self.list_view.set_factory(factory);
-        }
-
-        fn title(&self) -> String {
-            self.entry_row.title().into()
-        }
-
-        fn set_title(&self, title: &str) {
-            self.entry_row.set_title(title);
         }
 
         fn visible_stack_page(&self) -> widget::SuggestionEntryVisibleStackPage {
@@ -206,9 +228,11 @@ mod imp {
             _: gdk::ModifierType,
             _: &gtk::EventControllerKey,
         ) -> glib::Propagation {
+            let obj = &*self.obj();
+
             if self.selection.selected() == 0 && key == gdk::Key::Up {
-                self.entry_row.grab_focus();
-                self.entry_row.select_region(0, -1);
+                obj.grab_focus();
+                obj.select_region(0, -1);
                 self.selection.unselect_all();
 
                 glib::Propagation::Stop
@@ -227,16 +251,18 @@ mod imp {
                 return;
             };
 
+            let obj = &*self.obj();
+
             let changed_handler_id = self.changed_handler_id.get().unwrap();
 
-            self.entry_row.block_signal(changed_handler_id);
-            self.entry_row.set_text(
+            obj.block_signal(changed_handler_id);
+            obj.set_text(
                 &item
                     .suggestion_postfix()
                     .map(|postfix| format!("{}{}", item.name(), postfix))
                     .unwrap_or_else(|| item.name()),
             );
-            self.entry_row.unblock_signal(changed_handler_id);
+            obj.unblock_signal(changed_handler_id);
         }
 
         #[template_callback]
@@ -247,23 +273,12 @@ mod imp {
             glib::idle_add_local_once(clone!(
                 #[weak]
                 obj,
-                move || obj.imp().entry_row.set_position(-1)
+                move || obj.set_position(-1)
             ));
         }
 
         #[template_callback]
-        fn on_entry_row_activated(&self) {
-            self.popover.popdown();
-            self.obj().emit_by_name::<()>("entry-activated", &[])
-        }
-
-        #[template_callback]
-        fn on_entry_row_notify_title(&self) {
-            self.obj().notify_title();
-        }
-
-        #[template_callback]
-        fn on_entry_row_key_pressed(
+        fn on_key_pressed(
             &self,
             key: gdk::Key,
             _: u32,
@@ -286,7 +301,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct SuggestionEntryRow(ObjectSubclass<imp::SuggestionEntryRow>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::EntryRow,
         @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget, gtk::Editable;
 }
 
@@ -297,10 +312,6 @@ impl Default for SuggestionEntryRow {
 }
 
 impl SuggestionEntryRow {
-    pub(crate) fn grab_focus(&self) {
-        self.imp().entry_row.grab_focus();
-    }
-
     pub(crate) fn popdown(&self) {
         self.imp().popover.popdown();
     }
