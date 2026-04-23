@@ -316,3 +316,5 @@ impl SuggestionEntryRow {
         self.imp().popover.popdown();
     }
 }
+
+unsafe impl<T: ObjectSubclass + ObjectImpl + WidgetImpl> IsSubclassable<T> for SuggestionEntryRow {}

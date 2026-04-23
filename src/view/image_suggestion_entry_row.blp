@@ -1,0 +1,13 @@
+using Gtk 4.0;
+
+template $PdsImageSuggestionEntryRow: $PdsSuggestionEntryRow {
+  changed-by-typing => $on_changed() swapped;
+
+  factory: BuilderListItemFactory {
+    template ListItem {
+      child: $PdsImageSearchResponseRow {
+        image-search-response: bind template.item as <$PdsImageSearchResponseRow>;
+      };
+    }
+  };
+}

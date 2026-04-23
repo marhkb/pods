@@ -46,6 +46,7 @@ blueprints = custom_target(
     'view/image_selection_combo_row.blp',
     'view/image_selection_page.blp',
     'view/image_selection_row.blp',
+    'view/image_suggestion_entry_row.blp',
     'view/images_panel.blp',
     'view/images_prune_page.blp',
     'view/info_panel.blp',
