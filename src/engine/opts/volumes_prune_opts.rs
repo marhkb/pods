@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[derive(Clone, Default)]
 pub(crate) struct VolumesPruneOpts {
     // Docker only
     pub(crate) all: bool,

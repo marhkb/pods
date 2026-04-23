@@ -28,8 +28,6 @@ mod imp {
         _pods: PhantomData<bool>,
         #[property(get = Self::privileged_containers)]
         _privileged_containers: PhantomData<bool>,
-        #[property(get = Self::pull_policy)]
-        _pull_policy: PhantomData<bool>,
         #[property(get = Self::prune_external_images)]
         _prune_external_images: PhantomData<bool>,
         #[property(get = Self::push_image_with_tls_verify)]
@@ -75,10 +73,6 @@ mod imp {
 
         pub(super) fn privileged_containers(&self) -> bool {
             self.obj().inner().privileged_containers
-        }
-
-        pub(super) fn pull_policy(&self) -> bool {
-            self.obj().inner().pull_policy
         }
 
         pub(super) fn prune_external_images(&self) -> bool {

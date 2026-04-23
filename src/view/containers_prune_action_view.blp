@@ -1,0 +1,43 @@
+using Gtk 4.0;
+
+template $PdsContainersPruneActionView: Widget {
+  layout-manager: BoxLayout {
+    orientation: vertical;
+    spacing: 15;
+  };
+
+  margin-bottom: 12;
+  margin-top: 12;
+
+  ScrolledWindow {
+    styles [
+      "card",
+    ]
+
+    hscrollbar-policy: never;
+    overflow: hidden;
+    vexpand: true;
+
+    ListView {
+      model: NoSelection {
+        model: bind template.action as <$ContainersPruneAction>.deleted-containers;
+      };
+
+      factory: BuilderListItemFactory {
+        template ListItem {
+          child: $PdsIdOrNameRow {
+            id-or-name: bind template.item as <StringObject>.string;
+          };
+        }
+      };
+    }
+  }
+
+  Label space_reclaimed_label {
+    styles [
+      "numeric",
+    ]
+
+    use-markup: true;
+  }
+}

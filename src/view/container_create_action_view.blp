@@ -1,0 +1,36 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerCreateActionView: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.Bin {
+    styles [
+      "card",
+      "text-box",
+    ]
+
+    overflow: hidden;
+
+    child: $PdsAutoScrolledWindow {
+      hexpand: true;
+      vexpand: true;
+
+      child: TextView {
+        styles [
+          "text-view",
+        ]
+
+        buffer: bind template.action as <$ContainerCreateAction>.output;
+        top-margin: 12;
+        bottom-margin: 12;
+        left-margin: 12;
+        right-margin: 12;
+        cursor-visible: false;
+        editable: false;
+        monospace: true;
+        wrap-mode: char;
+      };
+    };
+  }
+}

@@ -1,4 +1,4 @@
-use crate::engine;
+use crate::engine::{self};
 
 pub(crate) enum Volumes {
     Docker(bollard::Docker),
@@ -18,22 +18,18 @@ impl Volumes {
 }
 
 impl Volumes {
-    pub(crate) async fn create(&self, name: String) -> anyhow::Result<String> {
+    pub(crate) async fn create(
+        &self,
+        opts: engine::opts::VolumeCreateOpts,
+    ) -> anyhow::Result<String> {
         match self {
             Self::Docker(docker) => docker
-                .create_volume(bollard::config::VolumeCreateRequest {
-                    name: Some(name),
-                    ..Default::default()
-                })
+                .create_volume(opts)
                 .await
                 .map_err(anyhow::Error::from)
                 .map(|volume| volume.name),
             Self::Podman(volumes) => volumes
-                .create(
-                    &podman_api::opts::VolumeCreateOpts::builder()
-                        .name(name)
-                        .build(),
-                )
+                .create(&opts.into())
                 .await
                 .map_err(anyhow::Error::from)
                 .map(|volume| volume.name.unwrap()),
@@ -65,22 +61,18 @@ impl Volumes {
     pub(crate) async fn prune(
         &self,
         opts: engine::opts::VolumesPruneOpts,
-    ) -> anyhow::Result<String> {
+    ) -> anyhow::Result<engine::dto::PruneReport> {
         match self {
             Self::Docker(docker) => docker
                 .prune_volumes(Some(opts))
                 .await
                 .map_err(anyhow::Error::from)
-                .and_then(|response| {
-                    serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                }),
+                .map(Into::into),
             Self::Podman(volumes) => volumes
                 .prune(&opts.into())
                 .await
                 .map_err(anyhow::Error::from)
-                .and_then(|response| {
-                    serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                }),
+                .map(Into::into),
         }
     }
 }

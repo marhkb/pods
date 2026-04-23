@@ -9,7 +9,9 @@ mod image_push_report;
 mod image_search_response_item;
 mod info;
 mod pod;
+mod pods_prune_report;
 mod port_mapping;
+mod prune_report;
 mod top;
 mod volume;
 
@@ -44,8 +46,18 @@ pub(crate) use pod::PodDetails;
 pub(crate) use pod::PodInspection;
 pub(crate) use pod::PodStatus;
 pub(crate) use pod::PodSummary;
+pub(crate) use pods_prune_report::PodsPruneReport;
 pub(crate) use port_mapping::PortMapping;
 pub(crate) use port_mapping::PortMappingProtocol;
+pub(crate) use prune_report::PruneReport;
 pub(crate) use top::Top;
 pub(crate) use top::TopProcess;
 pub(crate) use volume::Volume;
+
+pub struct VolumePruneResponse {
+    /// Volumes that were deleted
+    pub volumes_deleted: Option<Vec<String>>,
+
+    /// Disk space reclaimed in bytes
+    pub space_reclaimed: Option<i64>,
+}

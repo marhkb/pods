@@ -16,7 +16,7 @@ use crate::view;
 
 const ACTION_RENAME: &str = "container-details-page.rename";
 const ACTION_COMMIT: &str = "container-details-page.commit";
-const ACTION_GET_FILES: &str = "container-details-page.get-files";
+const ACTION_COPY_FROM: &str = "container-details-page.copy-from";
 const ACTION_PUT_FILES: &str = "container-details-page.put-files";
 const ACTION_SHOW_HEALTH_DETAILS: &str = "container-details-page.show-health-details";
 const ACTION_SHOW_IMAGE_DETAILS: &str = "container-details-page.show-image-details";
@@ -79,8 +79,8 @@ mod imp {
             klass.install_action(ACTION_COMMIT, None, |widget, _, _| {
                 widget.commit();
             });
-            klass.install_action(ACTION_GET_FILES, None, |widget, _, _| {
-                widget.get_files();
+            klass.install_action(ACTION_COPY_FROM, None, |widget, _, _| {
+                widget.show_copy_from_dialog();
             });
             klass.install_action(ACTION_PUT_FILES, None, |widget, _, _| {
                 widget.put_files();
@@ -144,7 +144,7 @@ mod imp {
             klass.add_binding_action(
                 gdk::Key::D,
                 gdk::ModifierType::CONTROL_MASK,
-                ACTION_GET_FILES,
+                ACTION_COPY_FROM,
             );
             klass.add_binding_action(
                 gdk::Key::U,
@@ -369,10 +369,10 @@ impl ContainerDetailsPage {
         });
     }
 
-    pub(crate) fn get_files(&self) {
+    pub(crate) fn show_copy_from_dialog(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::Dialog::new(self, &view::ContainerFilesGetPage::from(&container)).present();
+                view::ContainerCopyFromOptsDialog::new(&container, "/", "").present(Some(self));
             }
         });
     }

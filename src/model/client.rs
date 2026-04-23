@@ -40,6 +40,8 @@ mod imp {
         pub(super) info: OnceCell<Option<model::Info>>,
         #[property(get = Self::action_list)]
         pub(super) action_list: OnceCell<model::ActionList>,
+        #[property(get = Self::action_list2)]
+        pub(super) action_list2: OnceCell<model::ActionList2>,
     }
 
     #[glib::object_subclass]
@@ -246,6 +248,12 @@ mod imp {
         fn action_list(&self) -> model::ActionList {
             self.action_list
                 .get_or_init(|| model::ActionList::from(&*self.obj()))
+                .to_owned()
+        }
+
+        fn action_list2(&self) -> model::ActionList2 {
+            self.action_list2
+                .get_or_init(|| model::ActionList2::from(&*self.obj()))
                 .to_owned()
         }
     }

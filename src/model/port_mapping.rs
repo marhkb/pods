@@ -67,8 +67,14 @@ impl Default for PortMapping {
 
 impl From<engine::dto::PortMapping> for PortMapping {
     fn from(value: engine::dto::PortMapping) -> Self {
+        Self::from(&value)
+    }
+}
+
+impl From<&engine::dto::PortMapping> for PortMapping {
+    fn from(value: &engine::dto::PortMapping) -> Self {
         glib::Object::builder()
-            .property("ip-address", value.host_ip)
+            .property("ip-address", &value.host_ip)
             .property(
                 "host-port",
                 value.host_port.map(|port| port as i32).unwrap_or(1),

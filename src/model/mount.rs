@@ -1,4 +1,5 @@
 use std::cell::Cell;
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::fmt;
 use std::sync::OnceLock;
@@ -32,9 +33,19 @@ pub(crate) enum SELinux {
 impl From<SELinux> for engine::opts::SELinux {
     fn from(value: SELinux) -> Self {
         match value {
-            SELinux::NoLabel => engine::opts::SELinux::NoLabel,
-            SELinux::Shared => engine::opts::SELinux::Shared,
-            SELinux::Private => engine::opts::SELinux::Private,
+            SELinux::NoLabel => Self::NoLabel,
+            SELinux::Shared => Self::Shared,
+            SELinux::Private => Self::Private,
+        }
+    }
+}
+
+impl From<engine::opts::SELinux> for SELinux {
+    fn from(value: engine::opts::SELinux) -> Self {
+        match value {
+            engine::opts::SELinux::NoLabel => Self::NoLabel,
+            engine::opts::SELinux::Shared => Self::Shared,
+            engine::opts::SELinux::Private => Self::Private,
         }
     }
 }
@@ -58,12 +69,12 @@ impl fmt::Display for SELinux {
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, Properties)]
+    #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Mount)]
     pub(crate) struct Mount {
         #[property(get, set, construct_only)]
         pub(super) client: glib::WeakRef<model::Client>,
-        #[property(get, set, builder(MountType::default()))]
+        #[property(get, set, default)]
         pub(super) mount_type: Cell<MountType>,
         // Used if MountType::Volume is set
         #[property(get, set, nullable)]
@@ -75,8 +86,11 @@ mod imp {
         pub(super) container_path: RefCell<String>,
         #[property(get, set, construct)]
         pub(super) writable: Cell<bool>,
-        #[property(get, set, builder(SELinux::default()))]
+        #[property(get, set, default)]
         pub(super) selinux: Cell<SELinux>,
+
+        #[property(get, set, construct_only, nullable)]
+        pub(super) opts: OnceCell<Option<model::BoxedContainerCreateVolumeOpts>>,
     }
 
     #[glib::object_subclass]
@@ -102,6 +116,25 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
+
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = &*self.obj();
+
+            let Some(opts) = obj.opts() else {
+                return;
+            };
+
+            obj.set_mount_type(MountType::Volume);
+            obj.set_container_path(opts.container_path.clone());
+            obj.set_writable(!opts.read_only);
+            obj.set_selinux(SELinux::from(opts.selinux));
+            obj.set_volume(
+                obj.client()
+                    .and_then(|client| client.volume_list().get_volume(&opts.volume)),
+            );
+        }
     }
 }
 
@@ -109,16 +142,21 @@ glib::wrapper! {
     pub(crate) struct Mount(ObjectSubclass<imp::Mount>);
 }
 
-impl From<&model::Client> for Mount {
-    fn from(client: &model::Client) -> Self {
+impl Mount {
+    pub(crate) fn new(
+        client: &model::Client,
+        opts: Option<engine::opts::ContainerCreateVolumeOpts>,
+    ) -> Self {
         glib::Object::builder()
             .property("client", client)
             .property("writable", true)
+            .property(
+                "opts",
+                opts.map(model::BoxedContainerCreateVolumeOpts::from),
+            )
             .build()
     }
-}
 
-impl Mount {
     pub(crate) fn remove_request(&self) {
         self.emit_by_name::<()>("remove-request", &[]);
     }

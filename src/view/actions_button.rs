@@ -18,7 +18,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/actions_button.ui")]
     pub(crate) struct ActionsButton {
         #[property(get, set)]
-        pub(super) action_list: glib::WeakRef<model::ActionList>,
+        pub(super) action_list: glib::WeakRef<model::ActionList2>,
         #[template_child]
         pub(super) button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -88,8 +88,8 @@ mod imp {
 
             gtk::ClosureExpression::new::<Vec<String>>(
                 &[
-                    action_list_expr.chain_property::<model::ActionList>("ongoing"),
-                    action_list_expr.chain_property::<model::ActionList>("failed"),
+                    action_list_expr.chain_property::<model::ActionList2>("ongoing"),
+                    action_list_expr.chain_property::<model::ActionList2>("failed"),
                 ],
                 closure!(|_: Self::Type, ongoing: u32, failed: u32| {
                     Some(if ongoing > 0 { "ongoing" } else { "finished" }.to_string())
