@@ -206,7 +206,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_PRUNE_UNUSED_CONTAINERS, None, |widget, _, _| {
-                widget.show_prune_page();
+                widget.show_prune_dialog();
             });
 
             klass.install_action(ACTION_TOGGLE_CONTAINERS_VIEW, None, |widget, _, _| {
@@ -766,15 +766,13 @@ impl ContainersPanel {
             .as_ref()
             .and_then(model::ContainerList::client)
         {
-            utils::Dialog::new(self, &view::ContainerCreationPage::from(&client)).present();
+            view::ContainerCreateOptsDialog::new(&client, None).present(Some(self));
         }
     }
 
-    pub(crate) fn show_prune_page(&self) {
+    pub(crate) fn show_prune_dialog(&self) {
         if let Some(client) = self.client() {
-            utils::Dialog::new(self, &view::ContainersPrunePage::from(&client))
-                .follows_content_size(true)
-                .present();
+            view::ContainersPruneOptsDialog::new(&client, None).present(Some(self));
         }
     }
 

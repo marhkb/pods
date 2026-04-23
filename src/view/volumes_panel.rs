@@ -151,11 +151,11 @@ mod imp {
                 ACTION_CREATE_VOLUME,
             );
             klass.install_action(ACTION_CREATE_VOLUME, None, move |widget, _, _| {
-                widget.create_volume();
+                widget.show_create_dialog();
             });
 
             klass.install_action(ACTION_PRUNE_VOLUMES, None, |widget, _, _| {
-                widget.show_prune_page();
+                widget.show_prune_dialog();
             });
 
             klass.install_action(ACTION_ENTER_SELECTION_MODE, None, |widget, _, _| {
@@ -592,21 +592,18 @@ impl VolumesPanel {
         self.set_search_mode(!self.imp().search_bar.is_search_mode());
     }
 
-    pub(crate) fn create_volume(&self) {
+    pub(crate) fn show_create_dialog(&self) {
         if let Some(client) = self
             .volume_list()
-            .as_ref()
-            .and_then(model::VolumeList::client)
+            .and_then(|volume_list| volume_list.client())
         {
-            utils::Dialog::new(self, &view::VolumeCreationPage::from(&client)).present();
+            view::VolumeCreateOptsDialog::from(&client).present(Some(self));
         }
     }
 
-    pub(crate) fn show_prune_page(&self) {
+    pub(crate) fn show_prune_dialog(&self) {
         if let Some(client) = self.volume_list().and_then(|list| list.client()) {
-            utils::Dialog::new(self, &view::VolumesPrunePage::from(&client))
-                .follows_content_size(true)
-                .present();
+            view::VolumesPruneOptsDialog::new(&client, None).present(Some(self));
         }
     }
 

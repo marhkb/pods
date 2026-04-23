@@ -1,0 +1,16 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsVolumeSelectionComboRow: Adw.ComboRow {
+  notify::mount => $on_notify_mount() swapped;
+  enable-search: true;
+  expression: expr item as <$Volume>.name;
+
+  factory: SignalListItemFactory {
+    setup => $on_setup() swapped;
+    bind => $on_bind() swapped;
+  };
+
+  search-match-mode: substring;
+  selected-volume: bind template.selected-item;
+}

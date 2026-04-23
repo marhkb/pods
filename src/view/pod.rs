@@ -5,8 +5,8 @@ use glib::clone::Downgrade;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
-use crate::utils;
 use crate::view;
 
 pub(crate) fn pod_status_css_class(status: model::PodStatus) -> &'static str {
@@ -90,7 +90,23 @@ where
 }
 
 pub(crate) fn create_container<W: IsA<gtk::Widget>>(widget: &W, pod: Option<model::Pod>) {
-    if let Some(pod) = pod {
-        utils::Dialog::new(widget, &view::ContainerCreationPage::from(&pod)).present();
-    }
+    let Some(pod) = pod else {
+        return;
+    };
+
+    let Some(client) = pod.pod_list().and_then(|pod_list| pod_list.client()) else {
+        return;
+    };
+
+    view::ContainerCreateOptsDialog::new(
+        &client,
+        Some(
+            engine::opts::ContainerCreateOpts {
+                pod: Some(pod.id()),
+                ..Default::default()
+            }
+            .into(),
+        ),
+    )
+    .present(Some(widget));
 }

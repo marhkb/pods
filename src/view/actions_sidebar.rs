@@ -24,7 +24,7 @@ mod imp {
     #[template(resource = "/com/github/marhkb/Pods/ui/view/actions_sidebar.ui")]
     pub(crate) struct ActionsSidebar {
         #[property(get, set = Self::set_action_list, nullable)]
-        pub(super) action_list: glib::WeakRef<model::ActionList>,
+        pub(super) action_list: glib::WeakRef<model::ActionList2>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -80,18 +80,18 @@ mod imp {
 
             let obj = &*self.obj();
 
-            Self::Type::this_expression("action-list")
-                .chain_property::<model::ActionList>("len")
+            let action_list_expr = Self::Type::this_expression("action-list");
+            action_list_expr
+                .chain_property::<model::ActionList2>("len")
                 .chain_closure::<String>(closure!(|_: Self::Type, len: u32| {
                     if len > 0 { "actions" } else { "empty" }
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
 
-            let action_list_expr = Self::Type::this_expression("action-list");
             let action_list_can_clear_expr = gtk::ClosureExpression::new::<bool>(
                 [
-                    action_list_expr.chain_property::<model::ActionList>("len"),
-                    action_list_expr.chain_property::<model::ActionList>("ongoing"),
+                    action_list_expr.chain_property::<model::ActionList2>("len"),
+                    action_list_expr.chain_property::<model::ActionList2>("ongoing"),
                 ],
                 closure!(|_: Self::Type, len: u32, ongoing: u32| len - ongoing > 0),
             );
@@ -122,19 +122,21 @@ mod imp {
     impl ActionsSidebar {
         #[template_callback]
         fn activated(&self, pos: u32) {
+            let obj = &*self.obj();
+
             let action = self
                 .action_list_view
                 .model()
                 .unwrap()
                 .item(pos)
                 .unwrap()
-                .downcast::<model::Action>()
+                .downcast::<model::BaseAction>()
                 .unwrap();
 
-            utils::Dialog::new(&*self.obj(), &view::ActionPage::from(&action)).present();
+            view::ActionDialog::from(action).present(Some(obj));
         }
 
-        pub(super) fn set_action_list(&self, value: Option<&model::ActionList>) {
+        pub(super) fn set_action_list(&self, value: Option<&model::ActionList2>) {
             let obj = self.obj();
             if obj.action_list().as_ref() == value {
                 return;

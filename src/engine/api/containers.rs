@@ -99,30 +99,21 @@ impl Containers {
         }
     }
 
-    pub(crate) async fn prune(&self, until: Option<String>) -> anyhow::Result<String> {
+    pub(crate) async fn prune(
+        &self,
+        opts: engine::opts::ContainersPruneOpts,
+    ) -> anyhow::Result<engine::dto::PruneReport> {
         match self {
             Self::Docker(docker) => docker
-                .prune_containers(until.map(|until| {
-                    bollard::query_parameters::PruneContainersOptions {
-                        filters: Some(HashMap::from([("until".to_owned(), vec![until])])),
-                    }
-                }))
+                .prune_containers(Some(opts.into()))
                 .await
                 .map_err(anyhow::Error::from)
-                .and_then(|response| {
-                    serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                }),
+                .map(Into::into),
             Self::Podman(containers) => containers
-                .prune(
-                    &podman_api::opts::ContainerPruneOpts::builder()
-                        .filter(until.map(podman_api::opts::ContainerPruneFilter::Until))
-                        .build(),
-                )
+                .prune(&opts.into())
                 .await
                 .map_err(anyhow::Error::from)
-                .and_then(|response| {
-                    serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                }),
+                .map(Into::into),
         }
     }
 

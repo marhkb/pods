@@ -15,6 +15,7 @@ use gtk::glib::clone::Downgrade;
 use crate::APPLICATION_OPTS;
 use crate::config;
 use crate::rt;
+use crate::view;
 
 #[macro_export]
 macro_rules! monad_boxed_type {
@@ -193,6 +194,14 @@ pub(crate) fn format_id(id: &str) -> &str {
 
 pub(crate) fn format_if_id(name: &str) -> &str {
     as_id(name).map(|id| &id[..12]).unwrap_or(name)
+}
+
+pub(crate) fn main_window() -> view::Window {
+    gio::Application::default()
+        .unwrap()
+        .downcast::<crate::Application>()
+        .unwrap()
+        .main_window()
 }
 
 pub(crate) fn root<W: IsA<gtk::Widget>>(widget: &W) -> gtk::Window {

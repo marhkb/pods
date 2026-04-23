@@ -1,0 +1,50 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    prune_button,
+  ]
+}
+
+template $PdsPodsPruneOptsDialog: Adw.Dialog {
+  follows-content-size: true;
+  title: _("Prune Pods");
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
+      [start]
+      Button cancel_button {
+        action-name: "win.close";
+        label: _("_Cancel");
+        use-underline: true;
+      }
+
+      [end]
+      Button prune_button {
+        styles [
+          "destructive-action",
+        ]
+
+        action-name: "pods-prune-opts-dialog.prune";
+        label: _("_Prune");
+        use-underline: true;
+      }
+    }
+
+    Adw.StatusPage {
+      styles [
+        "compact",
+      ]
+
+      icon-name: "eraser5-symbolic";
+    }
+  }
+}

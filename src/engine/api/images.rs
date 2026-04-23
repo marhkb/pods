@@ -26,7 +26,6 @@ impl Images {
     pub(crate) fn build(
         &self,
         opts: engine::opts::ImageBuildOpts,
-        context_dir: String,
     ) -> anyhow::Result<BoxStream<'_, anyhow::Result<engine::dto::ImageBuildReport>>> {
         match self {
             Self::Docker(docker) => {
@@ -34,7 +33,7 @@ impl Images {
                 let body = {
                     let mut builder = tar::Builder::new(Vec::new());
 
-                    builder.append_dir_all(".", context_dir)?;
+                    builder.append_dir_all(".", &opts.path)?;
                     builder.finish()?;
                     builder.into_inner()?
                 };
@@ -79,35 +78,37 @@ impl Images {
                 }
                 .boxed())
             }
-            Self::Podman(images) => images
-                .build(&opts.into_podman(context_dir))
-                .map_err(anyhow::Error::from)
-                .map(|mut stream| {
-                    async_stream::stream! {
-                        let mut last_line = None;
+            Self::Podman(images) => {
+                images
+                    .build(&opts.into())
+                    .map_err(anyhow::Error::from)
+                    .map(|mut stream| {
+                        async_stream::stream! {
+                            let mut last_line = None;
 
-                        while let Some(item) = stream.next().await {
-                            match item {
-                                Ok(item) => {
-                                    last_line = Some(item.stream.clone());
-                                    yield Ok(engine::dto::ImageBuildReport::Streaming {
-                                        line: item.stream,
-                                    })
+                            while let Some(item) = stream.next().await {
+                                match item {
+                                    Ok(item) => {
+                                        last_line = Some(item.stream.clone());
+                                        yield Ok(engine::dto::ImageBuildReport::Streaming {
+                                            line: item.stream,
+                                        })
+                                    }
+                                    Err(e) => yield Err(anyhow::Error::from(e)),
                                 }
-                                Err(e) => yield Err(anyhow::Error::from(e)),
+                            }
+
+                            if let Some(mut last_line) = last_line {
+                                last_line.truncate(last_line.trim_end().len());
+
+                                yield Ok(engine::dto::ImageBuildReport::Finished {
+                                    image_id: last_line,
+                                })
                             }
                         }
-
-                        if let Some(mut last_line) = last_line {
-                            last_line.truncate(last_line.trim_end().len());
-
-                            yield Ok(engine::dto::ImageBuildReport::Finished {
-                                image_id: last_line,
-                            })
-                        }
-                    }
-                    .boxed()
-                }),
+                        .boxed()
+                    })
+            }
         }
     }
 
@@ -132,22 +133,18 @@ impl Images {
     pub(crate) async fn prune(
         &self,
         opts: engine::opts::ImagesPruneOpts,
-    ) -> anyhow::Result<String> {
+    ) -> anyhow::Result<engine::dto::PruneReport> {
         match self {
             Self::Docker(docker) => docker
                 .prune_images(Some(opts))
                 .await
                 .map_err(anyhow::Error::from)
-                .and_then(|response| {
-                    serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                }),
+                .map(Into::into),
             Self::Podman(images) => images
                 .prune(&opts.into())
                 .await
                 .map_err(anyhow::Error::from)
-                .and_then(|response| {
-                    serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                }),
+                .map(|report| report.unwrap_or_default().into()),
         }
     }
 

@@ -16,10 +16,33 @@ pub(crate) struct ContainerCreateOpts {
     // Podman only
     pub(crate) pod: Option<String>,
     pub(crate) port_mappings: Vec<engine::dto::PortMapping>,
+    // artificial option to trigger a pull before creating the container
+    pub(crate) pull_latest: bool,
     // Podman only
     pub(crate) privileged: bool,
     pub(crate) terminal: bool,
     pub(crate) volumes: Vec<ContainerCreateVolumeOpts>,
+}
+
+impl Default for ContainerCreateOpts {
+    fn default() -> Self {
+        Self {
+            cmd: None,
+            env: HashMap::new(),
+            health_config: None,
+            image: String::new(),
+            labels: HashMap::new(),
+            memory_limit: None,
+            mounts: Vec::new(),
+            name: names::Generator::default().next().unwrap(),
+            pod: None,
+            port_mappings: Vec::new(),
+            pull_latest: false,
+            privileged: false,
+            terminal: true,
+            volumes: Vec::new(),
+        }
+    }
 }
 
 impl From<ContainerCreateOpts>
@@ -185,7 +208,7 @@ impl From<ContainerCreateMountOpts> for podman_api::models::ContainerMount {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub(crate) struct ContainerCreateVolumeOpts {
     pub(crate) container_path: String,
     pub(crate) read_only: bool,
@@ -224,8 +247,9 @@ impl From<ContainerCreateVolumeOpts> for podman_api::models::NamedVolume {
     }
 }
 
-#[derive(Clone, Copy, Eq, PartialEq)]
+#[derive(Clone, Copy, Default, Eq, PartialEq)]
 pub(crate) enum SELinux {
+    #[default]
     NoLabel,
     Shared,
     Private,

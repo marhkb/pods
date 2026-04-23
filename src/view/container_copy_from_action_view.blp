@@ -1,0 +1,42 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerCopyFromActionView: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.PreferencesGroup {
+    Adw.ActionRow {
+      styles [
+        "property",
+      ]
+
+      title: _("Written");
+      subtitle: bind $format_size(template.action as <$ContainerCopyFromAction>.written-bytes);
+
+      [prefix]
+      Stack written_row_prefix_stack {
+        StackPage {
+          name: "ongoing";
+
+          child: Adw.Spinner {
+            height-request: 24;
+            width-request: 24;
+          };
+        }
+
+        StackPage {
+          name: "finished";
+
+          child: Image {
+            styles [
+              "success",
+            ]
+
+            icon-name: "success-small-symbolic";
+            pixel-size: 24;
+          };
+        }
+      }
+    }
+  }
+}
