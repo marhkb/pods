@@ -73,7 +73,7 @@ mod imp {
                 .imp()
                 .popover;
 
-            popover.set_width_request(width);
+            popover.set_width_request(width + 6);
             popover.present();
         }
     }
