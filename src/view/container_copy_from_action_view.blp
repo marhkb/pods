@@ -1,0 +1,20 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerCopyFromActionView: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.PreferencesGroup {
+    Adw.ActionRow {
+      styles [
+        "property",
+      ]
+
+      title: _("Written");
+      subtitle: bind $format_size(template.action as <$ContainerCopyFromAction>.written-bytes);
+
+      [prefix]
+      $PdsActionStateIndicator action_indicator {}
+    }
+  }
+}

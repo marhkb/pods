@@ -1,0 +1,68 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    copy_button,
+  ]
+}
+
+template $PdsContainerCopyFromOptsDialog: Adw.Dialog {
+  content-width: 360;
+  default-widget: copy_button;
+  follows-content-size: true;
+  title: _("Copy From Container");
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
+      [start]
+      Button cancel_button {
+        action-name: "win.close";
+        label: _("_Cancel");
+        use-underline: true;
+      }
+
+      [end]
+      Button copy_button {
+        styles [
+          "suggested-action",
+        ]
+
+        action-name: "container-copy-from-opts-dialog.copy";
+        label: _("_Copy");
+        use-underline: true;
+      }
+    }
+
+    Adw.PreferencesPage {
+      Adw.PreferencesGroup {
+        Adw.EntryRow container_path_row {
+          activates-default: true;
+          title: _("Container Path (’/’ if empty)");
+        }
+
+        Adw.ActionRow host_path_row {
+          notify::subtitle => $on_host_path_row_changed() swapped;
+          activatable: false;
+          title: _("Host Path");
+          subtitle: _("Select a destination tar archive on the host");
+
+          [suffix]
+          Button {
+            action-name: "container-copy-from-opts-dialog.select-host-path";
+            label: _("Select _Path…");
+            use-underline: true;
+            valign: center;
+          }
+        }
+      }
+    }
+  }
+}

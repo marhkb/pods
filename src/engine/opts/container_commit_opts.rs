@@ -1,5 +1,7 @@
+#[derive(Clone, Default)]
 pub(crate) struct ContainerCommitOpts {
     pub(crate) author: Option<String>,
+    pub(crate) changes: Vec<String>,
     pub(crate) comment: Option<String>,
     pub(crate) format: Option<String>,
     pub(crate) pause: bool,
@@ -11,6 +13,7 @@ impl From<ContainerCommitOpts> for bollard::query_parameters::CommitContainerOpt
     fn from(value: ContainerCommitOpts) -> Self {
         Self {
             author: value.author,
+            changes: Some(value.changes.join(" ")).filter(|changes| !changes.is_empty()),
             comment: value.comment,
             pause: value.pause,
             repo: value.repo,
@@ -22,7 +25,9 @@ impl From<ContainerCommitOpts> for bollard::query_parameters::CommitContainerOpt
 
 impl From<ContainerCommitOpts> for podman_api::opts::ContainerCommitOpts {
     fn from(value: ContainerCommitOpts) -> podman_api::opts::ContainerCommitOpts {
-        let mut builder = podman_api::opts::ContainerCommitOpts::builder().pause(value.pause);
+        let mut builder = podman_api::opts::ContainerCommitOpts::builder()
+            .changes(value.changes)
+            .pause(value.pause);
 
         if let Some(author) = value.author {
             builder = builder.author(author);

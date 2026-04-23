@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use gtk::glib;
+use smart_default::SmartDefault;
 
 use crate::engine;
 
@@ -338,12 +339,15 @@ impl From<PodmanContainerStatus> for ContainerStatus {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, SmartDefault)]
 pub(crate) struct HealthConfig {
+    #[default(Some(30))]
     pub(crate) interval: Option<i64>,
+    #[default(Some(3))]
     pub(crate) retries: Option<i64>,
     pub(crate) start_period: Option<i64>,
     pub(crate) test: Option<Vec<String>>,
+    #[default(Some(30))]
     pub(crate) timeout: Option<i64>,
 }
 

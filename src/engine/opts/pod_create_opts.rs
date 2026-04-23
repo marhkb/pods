@@ -1,8 +1,10 @@
 use std::collections::HashMap;
 
+use smart_default::SmartDefault;
+
 use crate::engine;
 
-#[derive(Clone)]
+#[derive(Clone, SmartDefault)]
 pub(crate) struct PodCreateOpts {
     pub(crate) create_cmd: Option<Vec<String>>,
     pub(crate) devices: Vec<PodDevice>,
@@ -10,6 +12,7 @@ pub(crate) struct PodCreateOpts {
     pub(crate) host_management: PodHostManagement,
     pub(crate) infra: PodInfra,
     pub(crate) labels: HashMap<String, String>,
+    #[default(names::Generator::default().next().unwrap_or_default())]
     pub(crate) name: String,
     pub(crate) port_mappings: Vec<engine::dto::PortMapping>,
 }
@@ -38,6 +41,7 @@ impl From<PodCreateOpts> for podman_api::opts::PodCreateOpts {
                 image,
                 name,
                 no_manage_resolv_conf,
+                ..
             } => builder
                 .infra_command(command)
                 .infra_common_pid_file(common_pid_file)
@@ -73,10 +77,13 @@ impl From<PodDevice> for String {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub(crate) enum PodHostManagement {
+    #[default]
     Containers,
-    Pod { hosts: Vec<PodHost> },
+    Pod {
+        hosts: Vec<PodHost>,
+    },
 }
 
 #[derive(Clone)]
@@ -91,14 +98,17 @@ impl From<PodHost> for String {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, SmartDefault)]
 pub(crate) enum PodInfra {
+    #[default]
     Infra {
         command: Option<Vec<String>>,
         common_pid_file: Option<String>,
         image: Option<String>,
         name: Option<String>,
         no_manage_resolv_conf: bool,
+        // artificial option to trigger a pull before creating the pod
+        pull_latest: bool,
     },
     NoInfra,
 }

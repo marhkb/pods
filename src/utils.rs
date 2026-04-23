@@ -11,10 +11,26 @@ use gettextrs::ngettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone::Downgrade;
+use smart_default::SmartDefault;
 
 use crate::APPLICATION_OPTS;
 use crate::config;
 use crate::rt;
+use crate::view;
+
+#[macro_export]
+macro_rules! export_gobjects {
+    ($($vis:vis use $path:path;)*) => {
+        $(
+            #[allow(unused)]
+            $vis use $path;
+        )*
+
+        pub(super) fn init_gobjects() {
+            $(<$path as gtk::glib::types::StaticType>::static_type();)*
+        }
+    };
+}
 
 #[macro_export]
 macro_rules! monad_boxed_type {
@@ -69,14 +85,10 @@ pub(crate) fn unix_socket_url() -> String {
     )
 }
 
-#[derive(Debug)]
-pub(crate) struct DesktopSettings(gio::Settings);
-
-impl Default for DesktopSettings {
-    fn default() -> Self {
-        Self(gio::Settings::new("org.gnome.desktop.interface"))
-    }
-}
+#[derive(Debug, SmartDefault)]
+pub(crate) struct DesktopSettings(
+    #[default(gio::Settings::new("org.gnome.desktop.interface"))] gio::Settings,
+);
 
 impl Deref for DesktopSettings {
     type Target = gio::Settings;
@@ -86,14 +98,8 @@ impl Deref for DesktopSettings {
     }
 }
 
-#[derive(Debug)]
-pub(crate) struct PodsSettings(gio::Settings);
-
-impl Default for PodsSettings {
-    fn default() -> Self {
-        Self(gio::Settings::new(config::APP_ID))
-    }
-}
+#[derive(Debug, SmartDefault)]
+pub(crate) struct PodsSettings(#[default(gio::Settings::new(config::APP_ID))] gio::Settings);
 
 impl Deref for PodsSettings {
     type Target = gio::Settings;
@@ -195,6 +201,14 @@ pub(crate) fn format_if_id(name: &str) -> &str {
     as_id(name).map(|id| &id[..12]).unwrap_or(name)
 }
 
+pub(crate) fn main_window() -> view::Window {
+    gio::Application::default()
+        .unwrap()
+        .downcast::<crate::Application>()
+        .unwrap()
+        .main_window()
+}
+
 pub(crate) fn root<W: IsA<gtk::Widget>>(widget: &W) -> gtk::Window {
     widget.root().unwrap().downcast::<gtk::Window>().unwrap()
 }
@@ -223,12 +237,6 @@ impl<'a, C, P> Dialog<'a, C, P> {
     #[allow(unused)]
     pub(crate) fn height(mut self, height: i32) -> Self {
         self.height = Some(height);
-        self
-    }
-
-    #[must_use]
-    pub(crate) fn follows_content_size(mut self, follows_content_size: bool) -> Self {
-        self.follows_content_size = Some(follows_content_size);
         self
     }
 }

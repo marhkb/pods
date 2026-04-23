@@ -21,11 +21,12 @@ pub(crate) enum Response<D, P> {
 pub(crate) struct Capabilities {
     pub(crate) kube_generation: bool,
     pub(crate) manual_health_check: bool,
+    /// list of image formats if there exist more than a standard format
+    pub(crate) image_formats: Option<Vec<&'static str>>,
     pub(crate) pods: bool,
     pub(crate) privileged_containers: bool,
-    pub(crate) pull_policy: bool,
     pub(crate) prune_external_images: bool,
-    pub(crate) push_image_with_tls_verify: bool,
+    pub(crate) push_image_tls_verify: bool,
     pub(crate) prune_all_volumes: bool,
     pub(crate) prune_volumes_until: bool,
 }
@@ -57,27 +58,27 @@ impl Engine {
         }
     }
 
-    pub(crate) const fn capabilities(&self) -> Capabilities {
+    pub(crate) fn capabilities(&self) -> Capabilities {
         match self {
             Self::Docker(_) => Capabilities {
                 kube_generation: false,
                 manual_health_check: false,
+                image_formats: None,
                 pods: false,
                 privileged_containers: false,
-                pull_policy: false,
                 prune_external_images: false,
-                push_image_with_tls_verify: false,
+                push_image_tls_verify: false,
                 prune_all_volumes: true,
                 prune_volumes_until: false,
             },
             Self::Podman(_) => Capabilities {
                 kube_generation: true,
                 manual_health_check: true,
+                image_formats: Some(vec!["oci", "docker"]),
                 pods: true,
                 privileged_containers: true,
-                pull_policy: true,
                 prune_external_images: true,
-                push_image_with_tls_verify: true,
+                push_image_tls_verify: true,
                 prune_all_volumes: false,
                 prune_volumes_until: true,
             },

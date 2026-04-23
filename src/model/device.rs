@@ -68,6 +68,24 @@ impl Default for Device {
     }
 }
 
+impl From<engine::opts::PodDevice> for Device {
+    fn from(value: engine::opts::PodDevice) -> Self {
+        Self::from(&value)
+    }
+}
+
+impl From<&engine::opts::PodDevice> for Device {
+    fn from(value: &engine::opts::PodDevice) -> Self {
+        glib::Object::builder()
+            .property("container-path", &value.container_path)
+            .property("host-path", &value.host_path)
+            .property("readable", value.readable)
+            .property("writable", value.writable)
+            .property("mknod", value.mknod)
+            .build()
+    }
+}
+
 impl From<Device> for engine::opts::PodDevice {
     fn from(value: Device) -> Self {
         Self {

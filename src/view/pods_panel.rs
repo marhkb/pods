@@ -14,6 +14,7 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
 use gtk::glib;
+use smart_default::SmartDefault;
 
 use crate::config;
 use crate::model;
@@ -48,16 +49,15 @@ const ACTIONS_SELECTION: &[&str] = &[
     ACTION_DELETE_SELECTION,
 ];
 
-#[derive(Debug)]
-pub(crate) struct Settings(gio::Settings);
-impl Default for Settings {
-    fn default() -> Self {
-        Self(gio::Settings::new(&format!(
-            "{}.view.panels.pods",
-            config::APP_ID
-        )))
-    }
-}
+#[derive(Debug, SmartDefault)]
+pub(crate) struct Settings(
+    #[default(gio::Settings::new(&format!(
+    "{}.view.panels.pods",
+    config::APP_ID
+)))]
+    gio::Settings,
+);
+
 impl Deref for Settings {
     type Target = gio::Settings;
 
@@ -167,7 +167,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_PRUNE_PODS, None, |widget, _, _| {
-                widget.prune_pods();
+                widget.show_prune_dialog();
             });
 
             klass.install_action(ACTION_ENTER_SELECTION_MODE, None, |widget, _, _| {
@@ -634,14 +634,14 @@ impl PodsPanel {
     }
 
     pub(crate) fn create_pod(&self) {
-        if let Some(client) = self.pod_list().as_ref().and_then(model::PodList::client) {
-            utils::Dialog::new(self, &view::PodCreationPage::from(&client)).present();
+        if let Some(client) = self.pod_list().and_then(|pod_list| pod_list.client()) {
+            view::PodCreateOptsDialog::new(&client, None).present(Some(self));
         }
     }
 
-    pub(crate) fn prune_pods(&self) {
+    pub(crate) fn show_prune_dialog(&self) {
         if let Some(client) = self.pod_list().and_then(|pod_list| pod_list.client()) {
-            utils::Dialog::new(self, &view::PodsPrunePage::from(&client)).present();
+            view::PodsPruneOptsDialog::from(&client).present(Some(self));
         }
     }
 

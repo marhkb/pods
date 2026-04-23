@@ -1,0 +1,29 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsContainerCopyToActionView: Widget {
+  layout-manager: BinLayout {};
+
+  Adw.PreferencesGroup {
+    Adw.ActionRow {
+      title: _("Creating tar archive");
+
+      [prefix]
+      $PdsActionStateIndicator create_tar_action_indicator {}
+    }
+
+    Adw.ActionRow {
+      title: _("Unwrapping tar archive");
+
+      [prefix]
+      $PdsActionStateIndicator unwrap_tar_action_indicator {}
+    }
+
+    Adw.ActionRow {
+      title: _("Copying bytes");
+
+      [prefix]
+      $PdsActionStateIndicator copy_bytes_action_indicator {}
+    }
+  }
+}

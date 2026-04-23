@@ -22,6 +22,7 @@ use gettextrs::gettext;
 use glib::clone;
 use gtk::gio;
 use gtk::glib;
+use smart_default::SmartDefault;
 
 use self::application::Application;
 
@@ -149,18 +150,12 @@ fn main() {
 }
 
 /// Global options for the application
-#[derive(Debug)]
+#[derive(Debug, SmartDefault)]
 pub(crate) struct ApplicationOptions {
+    #[default(glib::user_config_dir().join("pods"))]
     pub(crate) config_dir: PathBuf,
+    #[default(glib::user_runtime_dir().join("podman").join("podman.sock"))]
     pub(crate) unix_socket_path: PathBuf,
-}
-impl Default for ApplicationOptions {
-    fn default() -> Self {
-        Self {
-            config_dir: glib::user_config_dir().join("pods"),
-            unix_socket_path: glib::user_runtime_dir().join("podman").join("podman.sock"),
-        }
-    }
 }
 
 fn setup_cli(app: Application) -> Application {
@@ -186,83 +181,7 @@ fn setup_cli(app: Application) -> Application {
 }
 
 fn init() {
-    model::Connection::static_type();
-    model::EngineCapabilities::static_type();
-
-    view::ActionPage::static_type();
-    view::ActionRow::static_type();
-    view::ActionsButton::static_type();
-    view::ActionsSidebar::static_type();
-    view::ClientView::static_type();
-    view::ConnectionChooserPage::static_type();
-    view::ConnectionCustomInfoDialog::static_type();
-    view::ConnectionRow::static_type();
-    view::ConnectionsSidebar::static_type();
-    view::ContainerCard::static_type();
-    view::ContainerCommitPage::static_type();
-    view::ContainerFilesGetPage::static_type();
-    view::ContainerFilesPutPage::static_type();
-    view::ContainerHealthCheckLogRow::static_type();
-    view::ContainerHealthCheckPage::static_type();
-    view::ContainerLogPage::static_type();
-    view::ContainerMenuButton::static_type();
-    view::ContainerPropertiesGroup::static_type();
-    view::ContainerResources::static_type();
-    view::ContainerTerminal::static_type();
-    view::ContainerTerminalPage::static_type();
-    view::ContainerVolumeRow::static_type();
-    view::ContainersCountBar::static_type();
-    view::ContainersGridView::static_type();
-    view::ContainersGroup::static_type();
-    view::ContainersListView::static_type();
-    view::ContainersPanel::static_type();
-    view::ContainersPrunePage::static_type();
-    view::ImageBuildPage::static_type();
-    view::ImageHistoryPage::static_type();
-    view::ImageMenuButton::static_type();
-    view::ImagePullPage::static_type();
-    view::ImageRemoteSelectionPage::static_type();
-    view::ImageRemoteSelectionPage::static_type();
-    view::ImageSearchResponseRow::static_type();
-    view::ImageSelectionComboRow::static_type();
-    view::ImageSelectionPage::static_type();
-    view::ImageSelectionRow::static_type();
-    view::ImageSuggestionEntryRow::static_type();
-    view::ImagesPanel::static_type();
-    view::InfoPanel::static_type();
-    view::PodMenuButton::static_type();
-    view::PodRow::static_type();
-    view::PodSelectionPage::static_type();
-    view::PodSelectionRow::static_type();
-    view::PodsPanel::static_type();
-    view::PodsPrunePage::static_type();
-    view::RepoTagAddDialog::static_type();
-    view::RepoTagPushPage::static_type();
-    view::RepoTagRow::static_type();
-    view::RepoTagSimpleRow::static_type();
-    view::ScalableTextViewPage::static_type();
-    view::SearchPanel::static_type();
-    view::VolumeRow::static_type();
-    view::VolumeSelectionPage::static_type();
-    view::VolumeSelectionRow::static_type();
-    view::VolumesGroup::static_type();
-    view::VolumesPanel::static_type();
-    view::VolumesPrunePage::static_type();
-    view::WelcomePage::static_type();
-    view::Window::static_type();
-
-    widget::AutoScrolledWindow::static_type();
-    widget::CircularProgressBar::static_type();
-    widget::CountBadge::static_type();
-    widget::DateTimeRow::static_type();
-    widget::MainMenuButton::static_type();
-    widget::PropertyRow::static_type();
-    widget::PropertyWidgetRow::static_type();
-    widget::RandomNameEntryRow::static_type();
-    widget::ScalableTextView::static_type();
-    widget::SourceViewSearchWidget::static_type();
-    widget::Spinner::static_type();
-    widget::SuggestionEntryRow::static_type();
-    widget::TextSearchEntry::static_type();
-    widget::ZoomControl::static_type();
+    model::init_gobjects();
+    view::init_gobjects();
+    widget::init_gobjects();
 }

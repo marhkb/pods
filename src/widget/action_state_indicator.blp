@@ -1,0 +1,64 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsActionStateIndicator: Widget {
+  layout-manager: BinLayout {};
+
+  Stack stack {
+    notify::visible-child-name => $on_notify_stack_visible_child_name() swapped;
+
+    StackPage {
+      name: "waiting";
+
+      child: Adw.Bin {};
+    }
+
+    StackPage {
+      name: "ongoing";
+
+      child: Adw.Spinner {
+        height-request: 24;
+        width-request: 24;
+      };
+    }
+
+    StackPage {
+      name: "cancelled";
+
+      child: Image {
+        styles [
+          "dimmed",
+        ]
+
+        icon-name: "cross-symbolic";
+        pixel-size: 24;
+      };
+    }
+
+    StackPage {
+      name: "failed";
+
+      child: Image {
+        styles [
+          "error",
+        ]
+
+        icon-name: "error-small-symbolic";
+        pixel-size: 24;
+      };
+    }
+
+    StackPage {
+      name: "finished";
+
+      child: Image {
+        styles [
+          "success",
+        ]
+
+        icon-name: "success-small-symbolic";
+        pixel-size: 24;
+      };
+    }
+  }
+}

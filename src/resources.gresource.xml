@@ -6,7 +6,7 @@
 
   <gresource prefix="/com/github/marhkb/Pods/ui/">
 
-    <file compressed="true" preprocess="xml-stripblanks">view/action_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/action_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/action_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/actions_button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/actions_sidebar.ui</file>
@@ -17,11 +17,15 @@
     <file compressed="true" preprocess="xml-stripblanks">view/connection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/connections_sidebar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_card.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/container_commit_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/container_creation_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_commit_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_commit_opts_dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_copy_from_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_copy_from_opts_dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_copy_to_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_copy_to_opts_dialog.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_create_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/container_create_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_details_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/container_files_get_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/container_files_put_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_health_check_log_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_health_check_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/container_log_page.ui</file>
@@ -38,13 +42,17 @@
     <file compressed="true" preprocess="xml-stripblanks">view/containers_group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_list_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/containers_prune_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/containers_prune_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/containers_prune_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/device_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_build_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/id_or_name_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/image_build_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/image_build_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_details_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_history_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_menu_button.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_pull_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/image_pull_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/image_pull_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_remote_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_search_response_row.ui</file>
@@ -53,21 +61,24 @@
     <file compressed="true" preprocess="xml-stripblanks">view/image_selection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_suggestion_entry_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/images_prune_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/images_prune_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/images_prune_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/info_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/key_val_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/mount_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/pod_creation_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/pod_create_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/pod_create_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_details_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_menu_button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pod_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/pod_selection_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/pod_selection_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/pod_selection_combo_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pods_panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/pods_prune_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/pods_prune_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/pods_prune_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/port_mapping_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_add_dialog.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_simple_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/scalable_text_view_page.ui</file>
@@ -75,17 +86,19 @@
     <file compressed="true" preprocess="xml-stripblanks">view/top_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/top_page_action_bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/value_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/volume_creation_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/volume_create_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/volume_create_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volume_details_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volume_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/volume_selection_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/volume_selection_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/volume_selection_combo_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volumes_group.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/volumes_panel.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/volumes_prune_page.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/volumes_prune_action_view.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/volumes_prune_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/welcome_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/window.ui</file>
 
+    <file compressed="true" preprocess="xml-stripblanks">widget/action_state_indicator.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/auto_scrolled_window.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/circular_progress_bar.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/count_badge.ui</file>

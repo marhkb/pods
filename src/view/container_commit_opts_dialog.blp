@@ -1,0 +1,104 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    commit_button,
+  ]
+}
+
+template $PdsContainerCommitOptsDialog: Adw.Dialog {
+  default-widget: commit_button;
+  title: _("Commit Container");
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-end-title-buttons: false;
+      show-start-title-buttons: false;
+
+      [start]
+      Button cancel_button {
+        action-name: "win.close";
+        label: _("_Cancel");
+        use-underline: true;
+      }
+
+      [end]
+      Button commit_button {
+        styles [
+          "suggested-action",
+        ]
+
+        action-name: "container-commit-opts-dialog.commit";
+        label: _("_Commit");
+        use-underline: true;
+      }
+    }
+
+    Adw.PreferencesPage {
+      Adw.PreferencesGroup {
+        title: _("General Commit Options");
+
+        Adw.EntryRow author_entry_row {
+          activates-default: true;
+          title: _("Author");
+
+          Button {
+            styles [
+              "flat",
+            ]
+
+            action-name: "container-commit-opts-dialog.fetch-username";
+            icon-name: "user-info-symbolic";
+            tooltip-text: _("Fetch Username");
+
+            accessibility {
+              label: _("Fetch Username");
+            }
+
+            valign: center;
+          }
+        }
+
+        Adw.EntryRow comment_entry_row {
+          activates-default: true;
+          title: _("Comment");
+        }
+
+        Adw.EntryRow repo_entry_row {
+          activates-default: true;
+          title: _("Repo");
+        }
+
+        Adw.EntryRow tag_entry_row {
+          activates-default: true;
+          title: _("Tag");
+        }
+
+        Adw.ComboRow format_combo_row {
+          title: _("Format");
+        }
+
+        Adw.SwitchRow pause_switch_row {
+          title: _("Pause");
+          subtitle: _("Pause the container before committing it");
+        }
+      }
+
+      Adw.PreferencesGroup {
+        title: _("Changes");
+        description: _("Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/foo\")");
+
+        ListBox changes_list_box {
+          styles [
+            "boxed-list",
+          ]
+        }
+      }
+    }
+  }
+}
