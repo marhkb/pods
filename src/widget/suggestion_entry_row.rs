@@ -73,7 +73,7 @@ mod imp {
                 .imp()
                 .popover;
 
-            popover.set_width_request(width);
+            popover.set_width_request(width + 6);
             popover.present();
         }
     }
@@ -316,3 +316,5 @@ impl SuggestionEntryRow {
         self.imp().popover.popdown();
     }
 }
+
+unsafe impl<T: ObjectSubclass + ObjectImpl + WidgetImpl> IsSubclassable<T> for SuggestionEntryRow {}

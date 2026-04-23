@@ -227,6 +227,7 @@ fn init() {
     view::ImageSelectionComboRow::static_type();
     view::ImageSelectionPage::static_type();
     view::ImageSelectionRow::static_type();
+    view::ImageSuggestionEntryRow::static_type();
     view::ImagesPanel::static_type();
     view::InfoPanel::static_type();
     view::PodMenuButton::static_type();
