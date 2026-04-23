@@ -3,6 +3,7 @@ use gettextrs::gettext;
 use glib::clone::Downgrade;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -57,7 +58,27 @@ where
 }
 
 pub(crate) fn create_container<W: IsA<gtk::Widget>>(widget: &W, volume: Option<model::Volume>) {
-    if let Some(volume) = volume {
-        utils::Dialog::new(widget, &view::ContainerCreationPage::from(&volume)).present();
-    }
+    let Some(volume) = volume else { return };
+
+    let Some(client) = volume
+        .volume_list()
+        .and_then(|volume_list| volume_list.client())
+    else {
+        return;
+    };
+
+    view::ContainerCreateOptsDialog::new(
+        &client,
+        Some(
+            engine::opts::ContainerCreateOpts {
+                volumes: vec![engine::opts::ContainerCreateVolumeOpts {
+                    volume: volume.name(),
+                    ..Default::default()
+                }],
+                ..Default::default()
+            }
+            .into(),
+        ),
+    )
+    .present(Some(widget));
 }

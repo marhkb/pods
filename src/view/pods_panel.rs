@@ -167,7 +167,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_PRUNE_PODS, None, |widget, _, _| {
-                widget.prune_pods();
+                widget.show_prune_dialog();
             });
 
             klass.install_action(ACTION_ENTER_SELECTION_MODE, None, |widget, _, _| {
@@ -639,9 +639,9 @@ impl PodsPanel {
         }
     }
 
-    pub(crate) fn prune_pods(&self) {
+    pub(crate) fn show_prune_dialog(&self) {
         if let Some(client) = self.pod_list().and_then(|pod_list| pod_list.client()) {
-            utils::Dialog::new(self, &view::PodsPrunePage::from(&client)).present();
+            view::PodsPruneOptsDialog::from(&client).present(Some(self));
         }
     }
 

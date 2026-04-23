@@ -150,14 +150,14 @@ mod imp {
                 ACTION_PULL_IMAGE,
             );
             klass.install_action(ACTION_PULL_IMAGE, None, |widget, _, _| {
-                widget.show_download_page();
+                widget.show_pull_dialog();
             });
             klass.install_action(ACTION_BUILD_IMAGE, None, |widget, _, _| {
                 widget.show_build_page();
             });
 
             klass.install_action(ACTION_PRUNE_UNUSED_IMAGES, None, |widget, _, _| {
-                widget.show_prune_page();
+                widget.show_prune_dialog();
             });
 
             klass.install_action(ACTION_ENTER_SELECTION_MODE, None, |widget, _, _| {
@@ -604,10 +604,10 @@ impl ImagesPanel {
         self.set_search_mode(!self.imp().search_bar.is_search_mode());
     }
 
-    pub(crate) fn show_download_page(&self) {
+    pub(crate) fn show_pull_dialog(&self) {
         if let Some(client) = self.client() {
-            utils::Dialog::new(self, &view::ImagePullPage::from(&client)).present();
-        }
+            view::ImagePullOptsDialog::new(&client, None).present(Some(self));
+        };
     }
 
     pub(crate) fn show_build_page(&self) {
@@ -616,11 +616,9 @@ impl ImagesPanel {
         }
     }
 
-    pub(crate) fn show_prune_page(&self) {
-        if let Some(client) = self.client() {
-            utils::Dialog::new(self, &view::ImagesPrunePage::from(&client))
-                .follows_content_size(true)
-                .present();
+    pub(crate) fn show_prune_dialog(&self) {
+        if let Some(client) = self.image_list().and_then(|list| list.client()) {
+            view::ImagesPruneOptsDialog::new(&client, None).present(Some(self));
         }
     }
 

@@ -1,5 +1,6 @@
 mod container_commit_opts;
 mod container_create_opts;
+mod containers_prune_opts;
 mod exec_create_opts;
 mod image_build_opts;
 mod image_pull_opts;
@@ -14,10 +15,10 @@ pub(crate) use container_create_opts::ContainerCreateMountOpts;
 pub(crate) use container_create_opts::ContainerCreateOpts;
 pub(crate) use container_create_opts::ContainerCreateVolumeOpts;
 pub(crate) use container_create_opts::SELinux;
+pub(crate) use containers_prune_opts::ContainersPruneOpts;
 pub(crate) use exec_create_opts::ExecCreateOpts;
 pub(crate) use image_build_opts::ImageBuildOpts;
 pub(crate) use image_pull_opts::ImagePullOpts;
-pub(crate) use image_pull_opts::ImagePullPolicy;
 pub(crate) use image_push_opts::ImagePushOpts;
 pub(crate) use images_prune_opts::ImagesPruneOpts;
 pub(crate) use log_opts::LogsOpts;

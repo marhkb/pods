@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[derive(Clone, Default)]
 pub(crate) struct ImagesPruneOpts {
     pub(crate) all: bool,
     pub(crate) external: bool,

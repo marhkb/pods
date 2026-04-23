@@ -200,6 +200,7 @@ fn init() {
     view::ConnectionsSidebar::static_type();
     view::ContainerCard::static_type();
     view::ContainerCommitPage::static_type();
+    view::ContainerCreateActionView::static_type();
     view::ContainerFilesGetPage::static_type();
     view::ContainerFilesPutPage::static_type();
     view::ContainerHealthCheckLogRow::static_type();
@@ -216,10 +217,13 @@ fn init() {
     view::ContainersGroup::static_type();
     view::ContainersListView::static_type();
     view::ContainersPanel::static_type();
-    view::ContainersPrunePage::static_type();
+    view::ImagesPruneActionView::static_type();
+    view::ContainersPruneOptsDialog::static_type();
+    view::IdOrNameRow::static_type();
     view::ImageBuildPage::static_type();
     view::ImageHistoryPage::static_type();
     view::ImageMenuButton::static_type();
+    view::ImagePullActionView::static_type();
     view::ImagePullPage::static_type();
     view::ImageRemoteSelectionPage::static_type();
     view::ImageRemoteSelectionPage::static_type();
@@ -232,10 +236,8 @@ fn init() {
     view::InfoPanel::static_type();
     view::PodMenuButton::static_type();
     view::PodRow::static_type();
-    view::PodSelectionPage::static_type();
-    view::PodSelectionRow::static_type();
+    view::PodSelectionComboRow::static_type();
     view::PodsPanel::static_type();
-    view::PodsPrunePage::static_type();
     view::RepoTagAddDialog::static_type();
     view::RepoTagPushPage::static_type();
     view::RepoTagRow::static_type();
@@ -243,11 +245,11 @@ fn init() {
     view::ScalableTextViewPage::static_type();
     view::SearchPanel::static_type();
     view::VolumeRow::static_type();
-    view::VolumeSelectionPage::static_type();
-    view::VolumeSelectionRow::static_type();
+    view::VolumeSelectionComboRow::static_type();
     view::VolumesGroup::static_type();
     view::VolumesPanel::static_type();
-    view::VolumesPrunePage::static_type();
+    view::VolumesPruneActionView::static_type();
+    view::VolumesPruneOptsDialog::static_type();
     view::WelcomePage::static_type();
     view::Window::static_type();
 

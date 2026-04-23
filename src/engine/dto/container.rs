@@ -345,6 +345,18 @@ pub(crate) struct HealthConfig {
     pub(crate) timeout: Option<i64>,
 }
 
+impl Default for HealthConfig {
+    fn default() -> Self {
+        Self {
+            interval: Some(30),
+            retries: Some(3),
+            start_period: None,
+            test: None,
+            timeout: Some(30),
+        }
+    }
+}
+
 impl From<bollard::plugin::HealthConfig> for HealthConfig {
     fn from(value: bollard::plugin::HealthConfig) -> Self {
         Self {

@@ -1,0 +1,133 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $PdsActionDialog: Adw.Dialog {
+  content-width: 360;
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar header_bar {
+      title-widget: Adw.WindowTitle {
+        title: bind template.title;
+        subtitle: bind template.subtitle;
+      };
+    }
+
+    ScrolledWindow {
+      hscrollbar-policy: never;
+
+      Box {
+        margin-bottom: 18;
+        margin-end: 18;
+        margin-start: 18;
+        margin-top: 9;
+        orientation: vertical;
+        spacing: 18;
+        vexpand: true;
+
+        Adw.Bin {
+          child: bind template.child;
+          vexpand: true;
+        }
+
+        Box {
+          orientation: vertical;
+          spacing: 3;
+
+          Label state_label {
+            styles [
+              "heading",
+            ]
+          }
+
+          Adw.Bin {
+            styles [
+              "card",
+            ]
+
+            margin-top: 6;
+            visible: bind template.action as <$BaseAction>.has_error;
+
+            Label {
+              styles [
+                "body",
+                "error",
+              ]
+
+              label: bind template.action as <$BaseAction>.error;
+              margin-bottom: 9;
+              margin-end: 12;
+              margin-start: 12;
+              margin-top: 9;
+              wrap: true;
+              wrap-mode: word_char;
+            }
+          }
+
+          Label time_label {
+            styles [
+              "caption",
+              "dimmed",
+            ]
+          }
+        }
+
+        Stack stack {
+          margin-end: 6;
+          margin-start: 6;
+          valign: end;
+
+          StackPage {
+            name: "ongoing";
+
+            child: Button {
+              styles [
+                "pill",
+                "destructive-action",
+              ]
+
+              action-name: "action-dialog.cancel";
+              halign: center;
+              label: _("_Cancel");
+              use-underline: true;
+              width-request: 150;
+            };
+          }
+
+          StackPage {
+            name: "finished";
+
+            child: Box {
+              homogeneous: true;
+              spacing: 12;
+
+              Button {
+                styles [
+                  "pill",
+                ]
+
+                action-name: "action-dialog.edit";
+                label: _("_Edit");
+                use-underline: true;
+                width-request: 150;
+              }
+
+              Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
+
+                action-name: "action-dialog.view-artifact";
+                label: _("_View");
+                use-underline: true;
+                visible: bind template.produces-artifact;
+                width-request: 150;
+              }
+            };
+          }
+        }
+      }
+    }
+  }
+}

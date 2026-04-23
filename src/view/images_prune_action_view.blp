@@ -1,0 +1,47 @@
+using Gtk 4.0;
+
+template $PdsImagesPruneActionView: Widget {
+  layout-manager: BoxLayout {
+    orientation: vertical;
+    spacing: 15;
+  };
+
+  margin-bottom: 12;
+  margin-top: 12;
+
+  ScrolledWindow {
+    styles [
+      "card",
+    ]
+
+    hscrollbar-policy: never;
+    overflow: hidden;
+    vexpand: true;
+
+    ListView {
+      styles [
+        "card",
+      ]
+
+      model: NoSelection {
+        model: bind template.action as <$ImagesPruneAction>.deleted-images;
+      };
+
+      factory: BuilderListItemFactory {
+        template ListItem {
+          child: $PdsIdOrNameRow {
+            id-or-name: bind template.item as <StringObject>.string;
+          };
+        }
+      };
+    }
+  }
+
+  Label space_reclaimed_label {
+    styles [
+      "numeric",
+    ]
+
+    use-markup: true;
+  }
+}

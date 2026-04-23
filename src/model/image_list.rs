@@ -230,6 +230,17 @@ impl ImageList {
         self.imp().list.borrow().get(id).cloned()
     }
 
+    pub(crate) fn find_image(&self, id_or_repo_tag: &str) -> Option<model::Image> {
+        self.get_image(id_or_repo_tag).or_else(|| {
+            self.imp().list.borrow().values().find_map(|image| {
+                image
+                    .repo_tags()
+                    .contains(id_or_repo_tag)
+                    .then(|| image.to_owned())
+            })
+        })
+    }
+
     pub(crate) fn remove_image(&self, id: &str) {
         let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, image)) = list.shift_remove_full(id) {

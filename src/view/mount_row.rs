@@ -4,9 +4,7 @@ use adw::prelude::*;
 use adw::subclass::prelude::ExpanderRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
-use glib::clone;
 use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
@@ -16,8 +14,6 @@ use crate::utils;
 use crate::view;
 use crate::widget;
 
-const ACTION_SELECT_VOLUME: &str = "mount-row.select-volume";
-const ACTION_CLEAR_VOLUME: &str = "mount-row.clear-volume";
 const ACTION_REMOVE: &str = "mount-row.remove";
 
 mod imp {
@@ -27,7 +23,7 @@ mod imp {
     #[properties(wrapper_type = super::MountRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/mount_row.ui")]
     pub(crate) struct MountRow {
-        #[property(get, set = Self::set_mount, construct, nullable)]
+        #[property(get, set = Self::set_mount, construct, explicit_notify, nullable)]
         pub(super) mount: RefCell<Option<model::Mount>>,
         pub(super) bindings: RefCell<Vec<glib::Binding>>,
         #[template_child]
@@ -47,7 +43,7 @@ mod imp {
         #[template_child]
         pub(super) host_path_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
-        pub(super) volume_row: TemplateChild<adw::ActionRow>,
+        pub(super) volume_selection_combo_row: TemplateChild<view::VolumeSelectionComboRow>,
         #[template_child]
         pub(super) container_path_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -65,12 +61,6 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
 
-            klass.install_action(ACTION_SELECT_VOLUME, None, |widget, _, _| {
-                widget.select_volume();
-            });
-            klass.install_action(ACTION_CLEAR_VOLUME, None, |widget, _, _| {
-                widget.clear_volume();
-            });
             klass.install_action(ACTION_REMOVE, None, |widget, _, _| {
                 if let Some(mount) = widget.mount() {
                     mount.remove_request();
@@ -173,25 +163,7 @@ mod imp {
                 .chain_closure::<bool>(closure!(|_: Self::Type, mount_type: model::MountType| {
                     matches!(mount_type, model::MountType::Volume)
                 }))
-                .bind(&self.volume_row.get(), "visible", Some(obj));
-
-            mount_expr
-                .chain_property::<model::Mount>("volume")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, volume: Option<model::Volume>| {
-                        volume
-                            .map(|volume| utils::format_volume_name(&volume.name()).to_owned())
-                            .unwrap_or_else(|| {
-                                format!(
-                                    "<i>{}</i>",
-                                    gettext("No volume selected (will create a new one)")
-                                )
-                            })
-                    }
-                ))
-                .bind(&self.volume_row.get(), "subtitle", Some(obj));
-
-            obj.action_set_enabled(ACTION_CLEAR_VOLUME, false);
+                .bind(&self.volume_selection_combo_row.get(), "visible", Some(obj));
         }
     }
 
@@ -301,6 +273,7 @@ mod imp {
             }
 
             self.mount.replace(value);
+            obj.notify_mount();
         }
     }
 }
@@ -314,35 +287,5 @@ glib::wrapper! {
 impl From<&model::Mount> for MountRow {
     fn from(mount: &model::Mount) -> Self {
         glib::Object::builder().property("mount", mount).build()
-    }
-}
-
-impl MountRow {
-    pub(crate) fn select_volume(&self) {
-        if let Some(client) = self.mount().and_then(|mount| mount.client()) {
-            let volume_selection_page = view::VolumeSelectionPage::from(&client.volume_list());
-            volume_selection_page.connect_volume_selected(clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |_, volume| {
-                    if let Some(mount) = obj.mount() {
-                        mount.set_volume(Some(volume));
-                        obj.action_set_enabled(ACTION_CLEAR_VOLUME, true);
-                    }
-                }
-            ));
-            utils::navigation_view(self).push(
-                &adw::NavigationPage::builder()
-                    .child(&volume_selection_page)
-                    .build(),
-            );
-        }
-    }
-
-    pub(crate) fn clear_volume(&self) {
-        if let Some(mount) = self.mount() {
-            mount.set_volume(Option::<model::Volume>::None);
-            self.action_set_enabled(ACTION_CLEAR_VOLUME, false);
-        }
     }
 }

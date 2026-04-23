@@ -13,7 +13,6 @@ use crate::view;
 
 const ACTION_SHOW_CONNECTIONS: &str = "client-view.show-connections";
 const ACTION_SHOW_ACTIONS: &str = "client-view.show-actions";
-const ACTION_CANCEL_OR_DELETE_ACTION: &str = "client-view.cancel-or-delete-action";
 const ACTION_CREATE_ENTITY: &str = "client-view.create-entity";
 
 mod imp {
@@ -78,14 +77,6 @@ mod imp {
             klass.install_action(ACTION_SHOW_ACTIONS, None, |widget, _, _| {
                 widget.show_actions();
             });
-
-            klass.install_action(
-                ACTION_CANCEL_OR_DELETE_ACTION,
-                Some(glib::VariantTy::UINT32),
-                |widget, _, data| {
-                    widget.cancel_or_delete_action(data);
-                },
-            );
 
             klass.add_binding_action(
                 gdk::Key::N,
@@ -360,23 +351,9 @@ impl ClientView {
             } else if imp.pods_panel.is_mapped() {
                 imp.pods_panel.create_pod();
             } else if imp.images_panel.is_mapped() {
-                imp.images_panel.show_download_page();
+                imp.images_panel.show_pull_dialog();
             } else if imp.volumes_panel.is_mapped() {
                 imp.volumes_panel.create_volume();
-            }
-        }
-    }
-
-    pub(crate) fn cancel_or_delete_action(&self, data: Option<&glib::Variant>) {
-        if let Some(action_list) = self.client().as_ref().map(model::Client::action_list) {
-            let action_num: u32 = data.unwrap().get().unwrap();
-
-            if let Some(action) = action_list.get(action_num) {
-                if action.state() == model::ActionState::Ongoing {
-                    action.cancel();
-                } else {
-                    action_list.remove(action_num);
-                }
             }
         }
     }

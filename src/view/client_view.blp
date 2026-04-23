@@ -81,8 +81,8 @@ template $PdsClientView: Widget {
                 $PdsActionsButton {
                   action-name: "client-view.show-actions";
                   tooltip-text: _("Actions");
-                  action-list: bind template.client as <$Client>.action-list;
-                  visible: bind template.client as <$Client>.action-list as <$ActionList>.len;
+                  action-list: bind template.client as <$Client>.action-list2;
+                  visible: bind template.client as <$Client>.action-list2 as <$ActionList2>.len;
                 }
               }
 
@@ -289,7 +289,7 @@ template $PdsClientView: Widget {
 
             $PdsActionsSidebar {
               cleared => $on_actions_cleared() swapped;
-              action-list: bind template.client as <$Client>.action-list;
+              action-list: bind template.client as <$Client>.action-list2;
             }
           }
         };

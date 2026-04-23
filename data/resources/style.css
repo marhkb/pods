@@ -1,3 +1,8 @@
+row.combo.pod-disabled image,
+row.combo.pod-disabled label {
+  opacity: var(--dim-opacity);
+}
+
 flowbox.not-activatable flowboxchild:hover,
 flowbox.not-activatable flowboxchild:active {
   background-color: transparent;

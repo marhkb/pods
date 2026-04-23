@@ -23,7 +23,6 @@ use tokio::io::BufWriter;
 
 use crate::engine;
 use crate::model;
-use crate::model::prelude::*;
 use crate::rt;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
@@ -126,40 +125,6 @@ impl Action {
                 glib::DateTime::now_local().unwrap().to_unix(),
             )
             .build()
-    }
-
-    pub(crate) fn prune_images(
-        num: u32,
-        client: model::Client,
-        opts: engine::opts::ImagesPruneOpts,
-    ) -> Self {
-        let obj = Self::new(num, Type::PruneImages, &gettext("Prune unused images"));
-        let abort_registration = obj.setup_abort_handle();
-
-        rt::Promise::new({
-            let api = client.engine().images();
-            async move { future::Abortable::new(api.prune(opts), abort_registration).await }
-        })
-        .defer(clone!(
-            #[weak]
-            obj,
-            move |result| if let Ok(result) = result {
-                let output = obj.output();
-                let mut start_iter = output.start_iter();
-                match result.as_ref() {
-                    Ok(report) => {
-                        output.insert(&mut start_iter, report);
-                        obj.set_state(State::Finished);
-                    }
-                    Err(e) => {
-                        output.insert(&mut start_iter, &e.to_string());
-                        obj.set_state(State::Failed);
-                    }
-                }
-            }
-        ));
-
-        obj
     }
 
     pub(crate) fn download_image(
@@ -335,67 +300,6 @@ impl Action {
         obj
     }
 
-    pub(crate) fn prune_containers(num: u32, client: model::Client, until: Option<String>) -> Self {
-        let obj = Self::new(
-            num,
-            Type::PruneContainers,
-            &gettext("Prune stopped containers"),
-        );
-        let abort_registration = obj.setup_abort_handle();
-
-        rt::Promise::new({
-            let engine = client.engine().inner();
-            async move {
-                future::Abortable::new(engine.containers().prune(until), abort_registration).await
-            }
-        })
-        .defer(clone!(
-            #[weak]
-            obj,
-            move |report| if let Ok(report) = report {
-                let output = obj.output();
-                let mut start_iter = output.start_iter();
-                match report {
-                    Ok(report) => {
-                        output.insert(&mut start_iter, &report);
-                        obj.set_state(State::Finished);
-                    }
-                    Err(e) => {
-                        output.insert(&mut start_iter, &e.to_string());
-                        obj.set_state(State::Failed);
-                    }
-                }
-            }
-        ));
-
-        obj
-    }
-
-    fn container(num: u32, container: &str, run: bool) -> Self {
-        Self::new(
-            num,
-            if run {
-                Type::CreateAndRunContainer
-            } else {
-                Type::CreateContainer
-            },
-            &if run {
-                gettext!("Start new container <b>{}</b>", container)
-            } else {
-                gettext!("Create container <b>{}</b>", container)
-            },
-        )
-    }
-
-    pub(crate) fn create_container(
-        num: u32,
-        client: model::Client,
-        opts: engine::opts::ContainerCreateOpts,
-        run: bool,
-    ) -> Self {
-        Self::container(num, &opts.name, run).create_container_(client, opts, run)
-    }
-
     pub(crate) fn commit_container(
         num: u32,
         container: &str,
@@ -441,22 +345,6 @@ impl Action {
         ));
 
         obj
-    }
-
-    pub(crate) fn create_container_download_image(
-        num: u32,
-        client: model::Client,
-        image_pull_opts: engine::opts::ImagePullOpts,
-        container_create_opts: engine::opts::ContainerCreateOpts,
-        run: bool,
-    ) -> Self {
-        Self::container(num, &container_create_opts.name, run).download_image_(
-            client,
-            image_pull_opts,
-            move |obj, client, _image_id| {
-                obj.create_container_(client, container_create_opts, run);
-            },
-        )
     }
 
     pub(crate) fn copy_files_into_container(
@@ -734,38 +622,6 @@ impl Action {
         )
     }
 
-    pub(crate) fn prune_pods(num: u32, api: engine::api::Pods) -> Self {
-        let obj = Self::new(num, Type::PrunePods, &gettext("Prune stopped pods"));
-        let abort_registration = obj.setup_abort_handle();
-
-        rt::Promise::new(
-            async move { future::Abortable::new(api.prune(), abort_registration).await },
-        )
-        .defer(clone!(
-            #[weak]
-            obj,
-            move |report| if let Ok(report) = report {
-                let output = obj.output();
-                let mut start_iter = output.start_iter();
-                match report.as_ref() {
-                    Ok(report) => {
-                        output.insert(
-                            &mut start_iter,
-                            &serde_json::to_string_pretty(&report).unwrap(),
-                        );
-                        obj.set_state(State::Finished);
-                    }
-                    Err(e) => {
-                        output.insert(&mut start_iter, &e.to_string());
-                        obj.set_state(State::Failed);
-                    }
-                }
-            }
-        ));
-
-        obj
-    }
-
     fn setup_abort_handle(&self) -> stream::AbortRegistration {
         let (abort_handle, abort_registration) = stream::AbortHandle::new_pair();
         self.imp().abort_handle.replace(Some(abort_handle));
@@ -817,67 +673,6 @@ impl Action {
                     obj.insert_line(&e.to_string());
                     obj.set_state(State::Failed);
                     glib::ControlFlow::Break
-                }
-            }
-        ));
-
-        self
-    }
-
-    fn create_container_(
-        self,
-        client: model::Client,
-        opts: engine::opts::ContainerCreateOpts,
-        run: bool,
-    ) -> Self {
-        let abort_registration = self.setup_abort_handle();
-
-        rt::Promise::new({
-            let engine = client.engine().inner();
-            async move {
-                future::Abortable::new(engine.containers().create(opts), abort_registration).await
-            }
-        })
-        .defer(clone!(
-            #[weak(rename_to = obj)]
-            self,
-            move |id| if let Ok(id) = id {
-                match id {
-                    Ok(id) => {
-                        match client.container_list().get_container(&id) {
-                            Some(container) => {
-                                obj.set_artifact(container.upcast_ref());
-                                obj.set_state(State::Finished);
-                            }
-                            None => {
-                                client.container_list().connect_container_added(clone!(
-                                    #[weak]
-                                    obj,
-                                    #[strong]
-                                    id,
-                                    move |_, container| {
-                                        if container.id() == id.as_str() {
-                                            obj.set_artifact(container.upcast_ref());
-                                            obj.set_state(State::Finished);
-                                        }
-                                    }
-                                ));
-                            }
-                        }
-
-                        if run {
-                            rt::Promise::new({
-                                let engine = client.engine().inner();
-                                async move { engine.containers().get(id).start().await }
-                            })
-                            .spawn();
-                        }
-                    }
-                    Err(e) => {
-                        log::error!("Error on creating container: {e}");
-                        obj.insert_line(&e.to_string());
-                        obj.set_state(State::Failed);
-                    }
                 }
             }
         ));
@@ -972,42 +767,6 @@ impl Action {
                     Err(e) => {
                         log::error!("Error on creating volume: {e}");
                         obj.insert_line(&e.to_string());
-                        obj.set_state(State::Failed);
-                    }
-                }
-            }
-        ));
-
-        obj
-    }
-
-    pub(crate) fn prune_volumes(
-        num: u32,
-        client: model::Client,
-        opts: engine::opts::VolumesPruneOpts,
-    ) -> Self {
-        let obj = Self::new(num, Type::PruneVolumes, &gettext("Prune unused volumes"));
-        let abort_registration = obj.setup_abort_handle();
-
-        rt::Promise::new({
-            let engine = client.engine().inner();
-            async move {
-                future::Abortable::new(engine.volumes().prune(opts), abort_registration).await
-            }
-        })
-        .defer(clone!(
-            #[weak]
-            obj,
-            move |result| if let Ok(report) = result {
-                let output = obj.output();
-                let mut start_iter = output.start_iter();
-                match report {
-                    Ok(report) => {
-                        output.insert(&mut start_iter, &report);
-                        obj.set_state(State::Finished);
-                    }
-                    Err(e) => {
-                        output.insert(&mut start_iter, &e.to_string());
                         obj.set_state(State::Failed);
                     }
                 }

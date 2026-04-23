@@ -12,11 +12,14 @@ use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::model;
+use crate::model::prelude::*;
+use crate::rt;
 use crate::utils;
+
+const ACTION_CANCEL_OR_DELETE: &str = "action-row.cancel-or-delete";
 
 mod imp {
     use super::*;
-    use crate::rt;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ActionRow)]
@@ -26,7 +29,7 @@ mod imp {
         pub(super) handler: RefCell<Option<glib::SignalHandlerId>>,
         pub(super) timer: RefCell<Option<glib::SourceId>>,
         #[property(get, set = Self::set_action, explicit_notify, nullable)]
-        pub(super) action: glib::WeakRef<model::Action>,
+        pub(super) action: glib::WeakRef<model::BaseAction>,
         #[template_child]
         pub(super) type_image: TemplateChild<gtk::Image>,
         #[template_child]
@@ -46,6 +49,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
             klass.set_css_name("actionrow");
+
+            klass.install_action(ACTION_CANCEL_OR_DELETE, None, |widget, _, _| {
+                widget.cancel_or_delete();
+            });
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -76,57 +83,50 @@ mod imp {
                 .unwrap();
 
             let action_expr = Self::Type::this_expression("action");
-            let type_expr = action_expr.chain_property::<model::Action>("action-type");
-            let description_expr = action_expr.chain_property::<model::Action>("description");
-            let state_expr = action_expr.chain_property::<model::Action>("state");
+            #[rustfmt::skip]
+            let action_description_expr = action_expr.chain_closure::<String>(
+                closure!(|_: Self::Type, action: Option<&model::BaseAction>| {
+                    action
+                        .map(action_description)
+                        .unwrap_or_default()
+                })
+            );
+            #[rustfmt::skip]
+            let action_icon_name_expr = action_expr.chain_closure::<String>(
+                closure!(|_: Self::Type, action: Option<&model::BaseAction>| {
+                    action
+                        .map(action_image)
+                        .map(ToOwned::to_owned)
+                        .unwrap_or_default()
+                })
+            );
+            let action_state_expr = action_expr.chain_property::<model::BaseAction>("state");
 
-            type_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, type_: model::ActionType| {
-                    use model::ActionType::*;
-
-                    match type_ {
-                        PruneContainers | PruneImages | PrunePods | PruneVolumes => {
-                            "eraser5-symbolic"
-                        }
-                        DownloadImage => "folder-download-symbolic",
-                        BuildImage => "build-configure-symbolic",
-                        PushImage => "put-symbolic",
-                        Commit => "merge-symbolic",
-                        CreateAndRunContainer => "media-playback-start-symbolic",
-                        CreateContainer | Pod => "list-add-symbolic",
-                        CopyFiles => "edit-copy-symbolic",
-                        Volume => "drive-harddisk-symbolic",
-                        _ => unreachable!(),
-                    }
-                }))
-                .bind(&*self.type_image, "icon-name", Some(obj));
-
-            description_expr.bind(obj, "tooltip-markup", Some(obj));
-            description_expr.bind(&*self.description_label, "label", Some(obj));
+            action_icon_name_expr.bind(&*self.type_image, "icon-name", Some(obj));
+            action_description_expr.bind(obj, "tooltip-markup", Some(obj));
+            action_description_expr.bind(&*self.description_label, "label", Some(obj));
 
             let classes = utils::css_classes(&*self.state_label);
-            state_expr
+            action_state_expr
                 .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, state: model::ActionState| {
-                        use model::ActionState::*;
-
+                    |_: Self::Type, state: model::ActionState2| {
                         classes
                             .iter()
                             .cloned()
                             .chain(Some(String::from(match state {
-                                Ongoing => "accent",
-                                Finished => "dim-label",
-                                Aborted => "warning",
-                                Failed => "error",
+                                model::ActionState2::Cancelled => "warning",
+                                model::ActionState2::Failed => "error",
+                                model::ActionState2::Finished => "dim-label",
+                                model::ActionState2::Ongoing => "accent",
                             })))
                             .collect::<Vec<_>>()
                     }
                 ))
                 .bind(&*self.state_label, "css-classes", Some(obj));
 
-            state_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
-                    if state == model::ActionState::Ongoing {
+            action_state_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState2| {
+                    if state == model::ActionState2::Cancelled {
                         "window-close-symbolic"
                     } else {
                         "cross-symbolic"
@@ -134,22 +134,15 @@ mod imp {
                 }))
                 .bind(&*self.action_button, "icon-name", Some(obj));
 
-            state_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
-                    if state == model::ActionState::Ongoing {
+            action_state_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState2| {
+                    if state == model::ActionState2::Cancelled {
                         gettext("Abort")
                     } else {
                         gettext("Remove")
                     }
                 }))
                 .bind(&*self.action_button, "tooltip-text", Some(obj));
-
-            action_expr
-                .chain_property::<model::Action>("num")
-                .chain_closure::<Option<glib::Variant>>(closure!(|_: Self::Type, num: u32| {
-                    Some(num.to_variant())
-                }))
-                .bind(&*self.action_button, "action-target", Some(obj));
         }
 
         fn dispose(&self) {
@@ -180,7 +173,7 @@ mod imp {
     }
 
     impl ActionRow {
-        pub(super) fn set_action(&self, value: Option<&model::Action>) {
+        pub(super) fn set_action(&self, value: Option<&model::BaseAction>) {
             let obj = &*self.obj();
             if obj.action().as_ref() == value {
                 return;
@@ -197,60 +190,52 @@ mod imp {
             if let Some(action) = value {
                 obj.set_state_label(action);
 
-                let handler = action.connect_notify_local(
-                    Some("state"),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move |action, _| {
-                            obj.set_state_label(action);
+                let handler = action.connect_state_notify(clone!(
+                    #[weak]
+                    obj,
+                    move |action| {
+                        obj.set_state_label(action);
 
-                            if !matches!(
-                                action.state(),
-                                model::ActionState::Failed | model::ActionState::Finished
-                            ) {
-                                return;
-                            }
+                        if !matches!(
+                            action.state(),
+                            model::ActionState2::Failed | model::ActionState2::Finished
+                        ) {
+                            return;
+                        }
 
-                            let id = obj.imp().notification_id.get().unwrap().to_owned();
-                            let notification = if action.state() == model::ActionState::Failed {
-                                ashpd::notification::Notification::new(&gettext(
-                                    "Failed Pods Action",
-                                ))
+                        let id = obj.imp().notification_id.get().unwrap().to_owned();
+                        let notification = if action.state() == model::ActionState2::Failed {
+                            ashpd::notification::Notification::new(&gettext("Failed Pods Action"))
                                 .icon(ashpd::Icon::Names(vec![
                                     "computer-fail-symbolic".to_string(),
                                 ]))
                                 .priority(ashpd::notification::Priority::High)
-                            } else {
-                                ashpd::notification::Notification::new(&gettext(
-                                    "Finished Pods Action",
-                                ))
+                        } else {
+                            ashpd::notification::Notification::new(&gettext("Finished Pods Action"))
                                 .icon(ashpd::Icon::Names(vec![
                                     "checkbox-checked-symbolic".to_string(),
                                 ]))
                                 .priority(ashpd::notification::Priority::Low)
-                            }
-                            .body(action.description().as_ref())
-                            .default_action("");
+                        }
+                        .body(action_description(action).as_str())
+                        .default_action("");
 
-                            rt::Promise::new(async move {
-                                match ashpd::notification::NotificationProxy::new().await {
-                                    Ok(proxy) => {
-                                        if let Err(e) =
-                                            proxy.add_notification(&id, notification).await
-                                        {
-                                            log::warn!("Failed to send desktop notification: {e}");
-                                        }
-                                    }
-                                    Err(e) => {
-                                        log::debug!("Desktop notification portal unavailable: {e}");
+                        rt::Promise::new(async move {
+                            match ashpd::notification::NotificationProxy::new().await {
+                                Ok(proxy) => {
+                                    if let Err(e) = proxy.add_notification(&id, notification).await
+                                    {
+                                        log::warn!("Failed to send desktop notification: {e}");
                                     }
                                 }
-                            })
-                            .spawn();
-                        }
-                    ),
-                );
+                                Err(e) => {
+                                    log::debug!("Desktop notification portal unavailable: {e}");
+                                }
+                            }
+                        })
+                        .spawn();
+                    }
+                ));
                 self.handler.replace(Some(handler));
 
                 let timer = glib::timeout_add_seconds_local(
@@ -290,11 +275,11 @@ glib::wrapper! {
 }
 
 impl ActionRow {
-    fn set_state_label(&self, action: &model::Action) -> glib::ControlFlow {
+    fn set_state_label(&self, action: &model::BaseAction) -> glib::ControlFlow {
         let state_label = &*self.imp().state_label;
 
         match action.state() {
-            model::ActionState::Ongoing => {
+            model::ActionState2::Ongoing => {
                 state_label.set_text(&gettext!(
                     "Ongoing ({})",
                     &utils::human_friendly_duration(
@@ -310,14 +295,68 @@ impl ActionRow {
                 );
 
                 state_label.set_text(&match action.state() {
-                    model::ActionState::Finished => gettext!("Finished after {}", duration),
-                    model::ActionState::Aborted => gettext!("Aborted after {}", duration),
-                    model::ActionState::Failed => gettext!("Failed after {}", duration),
+                    model::ActionState2::Cancelled => gettext!("Cancelled after {}", duration),
+                    model::ActionState2::Failed => gettext!("Failed after {}", duration),
+                    model::ActionState2::Finished => gettext!("Finished after {}", duration),
                     _ => unreachable!(),
                 });
 
                 glib::ControlFlow::Break
             }
         }
+    }
+
+    pub(crate) fn cancel_or_delete(&self) {
+        let Some(action) = self.action() else {
+            return;
+        };
+
+        if action.state() == model::ActionState2::Ongoing {
+            action.cancel();
+        } else if let Some(action_list) = action.action_list() {
+            action_list.remove(&action);
+        }
+    }
+}
+
+fn action_image(action: &model::BaseAction) -> &str {
+    if action
+        .downcast_ref::<model::ContainerCreateAction>()
+        .is_some()
+    {
+        "package-x-generic-symbolic"
+    } else if action.downcast_ref::<model::ImagePullAction>().is_some() {
+        "folder-download-symbolic"
+    } else if action
+        .downcast_ref::<model::ContainersPruneAction>()
+        .is_some()
+        || action.downcast_ref::<model::PodsPruneAction>().is_some()
+        || action.downcast_ref::<model::ImagesPruneAction>().is_some()
+        || action.downcast_ref::<model::VolumesPruneAction>().is_some()
+    {
+        "eraser5-symbolic"
+    } else {
+        ""
+    }
+}
+
+fn action_description(action: &model::BaseAction) -> String {
+    if let Some(action) = action.downcast_ref::<model::ContainerCreateAction>() {
+        gettext!("Create <b>{}</b>", action.opts().name)
+    } else if action
+        .downcast_ref::<model::ContainersPruneAction>()
+        .is_some()
+    {
+        gettext("Prune Containers")
+    } else if action.downcast_ref::<model::PodsPruneAction>().is_some() {
+        gettext("Prune Pods")
+    } else if let Some(action) = action.downcast_ref::<model::ImagePullAction>() {
+        gettext!("Pull <b>{}</b>", action.opts().reference)
+    } else if action.downcast_ref::<model::ImagesPruneAction>().is_some() {
+        gettext("Prune Images")
+    } else if action.downcast_ref::<model::VolumesPruneAction>().is_some() {
+        gettext("Prune Volumes")
+    } else {
+        gettext("Unknown Action")
     }
 }

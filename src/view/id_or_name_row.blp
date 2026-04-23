@@ -1,0 +1,15 @@
+using Gtk 4.0;
+
+template $PdsIdOrNameRow: Widget {
+  layout-manager: BinLayout {};
+
+  notify::id-or-name => $on_notify_id_or_name() swapped;
+
+  Label label {
+    margin-bottom: 3;
+    margin-end: 6;
+    margin-start: 6;
+    margin-top: 3;
+    xalign: 0;
+  }
+}

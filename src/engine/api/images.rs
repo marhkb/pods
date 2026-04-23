@@ -132,22 +132,18 @@ impl Images {
     pub(crate) async fn prune(
         &self,
         opts: engine::opts::ImagesPruneOpts,
-    ) -> anyhow::Result<String> {
+    ) -> anyhow::Result<engine::dto::PruneReport> {
         match self {
             Self::Docker(docker) => docker
                 .prune_images(Some(opts))
                 .await
                 .map_err(anyhow::Error::from)
-                .and_then(|response| {
-                    serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                }),
+                .map(Into::into),
             Self::Podman(images) => images
                 .prune(&opts.into())
                 .await
                 .map_err(anyhow::Error::from)
-                .and_then(|response| {
-                    serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                }),
+                .map(|report| report.unwrap_or_default().into()),
         }
     }
 

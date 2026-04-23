@@ -127,49 +127,6 @@ impl From<&model::Client> for ActionList {
 }
 
 impl ActionList {
-    pub(crate) fn get(&self, num: u32) -> Option<model::Action> {
-        self.imp().list.borrow().get(&num).cloned()
-    }
-
-    pub(crate) fn remove(&self, num: u32) {
-        let mut list = self.imp().list.borrow_mut();
-        if let Some((idx, _, _)) = list.shift_remove_full(&num) {
-            drop(list);
-            self.items_changed(idx as u32, 1, 0);
-        }
-    }
-    pub(crate) fn clear(&self) {
-        let indexes = {
-            let mut list = self.imp().list.borrow_mut();
-
-            let indexes = list
-                .values()
-                .enumerate()
-                .rev()
-                .filter(|(_, action)| action.state() != model::ActionState::Ongoing)
-                .map(|(i, _)| i)
-                .collect::<Vec<_>>();
-
-            indexes.iter().for_each(|i| {
-                list.shift_remove_index(*i);
-            });
-
-            indexes
-        };
-
-        indexes.into_iter().for_each(|pos| {
-            self.items_changed(pos as u32, 1, 0);
-        });
-    }
-
-    pub(crate) fn prune_images(&self, opts: engine::opts::ImagesPruneOpts) -> model::Action {
-        self.insert_action(model::Action::prune_images(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            opts,
-        ))
-    }
-
     pub(crate) fn download_image(&self, opts: engine::opts::ImagePullOpts) -> model::Action {
         self.insert_action(model::Action::download_image(
             self.imp().action_counter.get(),
@@ -210,27 +167,6 @@ impl ActionList {
         )
     }
 
-    pub(crate) fn prune_containers(&self, until: Option<String>) -> model::Action {
-        self.insert_action(model::Action::prune_containers(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            until,
-        ))
-    }
-
-    pub(crate) fn create_container(
-        &self,
-        opts: engine::opts::ContainerCreateOpts,
-        run: bool,
-    ) -> model::Action {
-        self.insert_action(model::Action::create_container(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            opts,
-            run,
-        ))
-    }
-
     pub(crate) fn commit_container(
         &self,
         container: &str,
@@ -242,21 +178,6 @@ impl ActionList {
             container,
             api,
             opts,
-        ))
-    }
-
-    pub(crate) fn create_container_download_image(
-        &self,
-        image_pull_opts: engine::opts::ImagePullOpts,
-        container_create_opts: engine::opts::ContainerCreateOpts,
-        run: bool,
-    ) -> model::Action {
-        self.insert_action(model::Action::create_container_download_image(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            image_pull_opts,
-            container_create_opts,
-            run,
         ))
     }
 
@@ -290,13 +211,6 @@ impl ActionList {
         ))
     }
 
-    pub(crate) fn prune_pods(&self) -> model::Action {
-        self.insert_action(model::Action::prune_pods(
-            self.imp().action_counter.get(),
-            self.client().unwrap().engine().pods(),
-        ))
-    }
-
     pub(crate) fn create_pod(&self, opts: engine::opts::PodCreateOpts) -> Option<model::Action> {
         model::Action::create_pod(
             self.imp().action_counter.get(),
@@ -324,14 +238,6 @@ impl ActionList {
             self.imp().action_counter.get(),
             name,
             self.client().unwrap(),
-        ))
-    }
-
-    pub(crate) fn prune_volumes(&self, opts: engine::opts::VolumesPruneOpts) -> model::Action {
-        self.insert_action(model::Action::prune_volumes(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            opts,
         ))
     }
 

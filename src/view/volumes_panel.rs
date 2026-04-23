@@ -155,7 +155,7 @@ mod imp {
             });
 
             klass.install_action(ACTION_PRUNE_VOLUMES, None, |widget, _, _| {
-                widget.show_prune_page();
+                widget.show_prune_dialog();
             });
 
             klass.install_action(ACTION_ENTER_SELECTION_MODE, None, |widget, _, _| {
@@ -602,11 +602,9 @@ impl VolumesPanel {
         }
     }
 
-    pub(crate) fn show_prune_page(&self) {
+    pub(crate) fn show_prune_dialog(&self) {
         if let Some(client) = self.volume_list().and_then(|list| list.client()) {
-            utils::Dialog::new(self, &view::VolumesPrunePage::from(&client))
-                .follows_content_size(true)
-                .present();
+            view::VolumesPruneOptsDialog::new(&client, None).present(Some(self));
         }
     }
 

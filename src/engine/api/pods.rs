@@ -38,17 +38,14 @@ impl Pods {
         }
     }
 
-    pub(crate) async fn prune(&self) -> anyhow::Result<String> {
+    pub(crate) async fn prune(&self) -> anyhow::Result<engine::dto::PodsPruneReport> {
         match self {
             Self::Docker => anyhow::bail!("pods are not supported by the Docker API"),
-            Self::Podman(pods) => {
-                pods.prune()
-                    .await
-                    .map_err(anyhow::Error::from)
-                    .and_then(|response| {
-                        serde_json::to_string_pretty(&response).map_err(anyhow::Error::from)
-                    })
-            }
+            Self::Podman(pods) => pods
+                .prune()
+                .await
+                .map_err(anyhow::Error::from)
+                .map(Into::into),
         }
     }
 }

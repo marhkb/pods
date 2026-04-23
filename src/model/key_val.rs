@@ -55,6 +55,15 @@ impl Default for KeyVal {
     }
 }
 
+impl From<(&str, &str)> for KeyVal {
+    fn from(value: (&str, &str)) -> Self {
+        glib::Object::builder()
+            .property("key", value.0)
+            .property("value", value.1)
+            .build()
+    }
+}
+
 impl KeyVal {
     pub(crate) fn remove_request(&self) {
         self.emit_by_name::<()>("remove-request", &[]);
