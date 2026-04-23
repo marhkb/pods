@@ -5,18 +5,14 @@ use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use futures::future;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use gtk::CompositeTemplate;
 use gtk::gdk;
-use gtk::gio;
 use gtk::glib;
 use gtk::glib::subclass::Signal;
 
 use crate::model;
-use crate::rt;
 use crate::utils;
 use crate::widget;
 
@@ -29,8 +25,6 @@ mod imp {
     #[properties(wrapper_type = super::ImageRemoteSelectionPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/image_remote_selection_page.ui")]
     pub(crate) struct ImageRemoteSelectionPage {
-        pub(super) search_results: OnceCell<gio::ListStore>,
-        pub(super) search_abort_handle: RefCell<Option<future::AbortHandle>>,
         #[property(get, set, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
         #[property(get, set)]
@@ -44,7 +38,7 @@ mod imp {
         #[template_child]
         pub(super) cancel_button: TemplateChild<gtk::Button>,
         #[template_child]
-        pub(super) reference_entry_row: TemplateChild<widget::SuggestionEntryRow>,
+        pub(super) image_suggestion_entry_row: TemplateChild<widget::SuggestionEntryRow>,
     }
 
     #[glib::object_subclass]
@@ -93,29 +87,10 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
-
-            let obj = &*self.obj();
-
-            obj.action_set_enabled(ACTION_SELECT, false);
-
-            self.reference_entry_row.set_model(Some(
-                gtk::SortListModel::new(
-                    Some(self.search_results().to_owned()),
-                    Some(
-                        gtk::NumericSorter::builder()
-                            .sort_order(gtk::SortType::Descending)
-                            .expression(model::ImageSearchResponse::this_expression("stars"))
-                            .build(),
-                    ),
-                )
-                .upcast_ref(),
-            ));
+            self.on_image_suggestion_entry_row_changed();
         }
 
         fn dispose(&self) {
-            if let Some(abort_handle) = self.search_abort_handle.take() {
-                abort_handle.abort();
-            }
             utils::unparent_children(&*self.obj());
         }
     }
@@ -132,7 +107,7 @@ mod imp {
                 #[upgrade_or]
                 glib::ControlFlow::Break,
                 move || {
-                    widget.imp().reference_entry_row.grab_focus();
+                    widget.imp().image_suggestion_entry_row.grab_focus();
                     glib::ControlFlow::Break
                 }
             ));
@@ -153,77 +128,20 @@ mod imp {
         }
 
         #[template_callback]
-        async fn on_reference_entry_row_changed(&self) {
-            let obj = &*self.obj();
-
-            if let Some(abort_handle) = self.search_abort_handle.take() {
-                abort_handle.abort();
-            }
-
-            obj.action_set_enabled(ACTION_SELECT, false);
-
-            self.search_results.get().unwrap().remove_all();
-
-            let term = self.reference_entry_row.text();
-            if term.is_empty() {
-                obj.action_set_enabled(ACTION_SELECT, false);
-                self.reference_entry_row.popdown();
-                return;
-            }
-
-            obj.action_set_enabled(ACTION_SELECT, true);
-
-            self.reference_entry_row
-                .set_visible_stack_page(widget::SuggestionEntryVisibleStackPage::Searching);
-
-            let (abort_handle, abort_registration) = future::AbortHandle::new_pair();
-            self.search_abort_handle.replace(Some(abort_handle));
-
-            let result = rt::Promise::new({
-                let images = obj.client().unwrap().engine().inner().images();
-                let term = term.clone().into();
-                async move { future::Abortable::new(images.search(term), abort_registration).await }
-            })
-            .exec()
-            .await;
-
-            let Ok(responses) = result else {
-                return;
-            };
-
-            match responses {
-                Ok(responses) => {
-                    if responses.is_empty() {
-                        self.reference_entry_row.popdown();
-                    } else {
-                        responses.into_iter().for_each(|response| {
-                            self.search_results()
-                                .append(&model::ImageSearchResponse::from(response));
-                        });
-
-                        self.reference_entry_row.set_visible_stack_page(
-                            widget::SuggestionEntryVisibleStackPage::Results,
-                        );
-                    }
-                }
-                Err(e) => {
-                    log::error!("Failed to search for images: {}", e);
-                    utils::show_error_toast(
-                        obj,
-                        &gettext("Failed to search for images"),
-                        &e.to_string(),
-                    );
-                }
-            }
-        }
-
-        #[template_callback]
-        fn on_reference_entry_activated(&self) {
+        fn on_image_suggestion_entry_row_activated(&self) {
             self.obj().select();
         }
 
         #[template_callback]
-        fn on_reference_entry_row_key_pressed(
+        fn on_image_suggestion_entry_row_changed(&self) {
+            self.obj().action_set_enabled(
+                ACTION_SELECT,
+                !self.image_suggestion_entry_row.text().is_empty(),
+            );
+        }
+
+        #[template_callback]
+        fn on_image_suggestion_entry_row_key_pressed(
             &self,
             key: gdk::Key,
             _: u32,
@@ -247,11 +165,6 @@ mod imp {
 
             glib::Propagation::Proceed
         }
-
-        pub(super) fn search_results(&self) -> &gio::ListStore {
-            self.search_results
-                .get_or_init(gio::ListStore::new::<model::ImageSearchResponse>)
-        }
     }
 }
 
@@ -271,7 +184,7 @@ impl ImageRemoteSelectionPage {
     }
 
     pub(crate) fn select(&self) {
-        let image = self.imp().reference_entry_row.text();
+        let image = self.imp().image_suggestion_entry_row.text();
 
         if !image.is_empty() {
             self.emit_by_name::<()>("image-selected", &[&image]);
