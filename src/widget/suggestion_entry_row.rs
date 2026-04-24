@@ -111,7 +111,6 @@ mod imp {
         const NAME: &'static str = "PdsSuggestionEntryRow";
         type Type = super::SuggestionEntryRow;
         type ParentType = adw::EntryRow;
-        type Interfaces = (gtk::Editable,);
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -170,7 +169,6 @@ mod imp {
     impl ListBoxRowImpl for SuggestionEntryRow {}
     impl PreferencesRowImpl for SuggestionEntryRow {}
     impl EntryRowImpl for SuggestionEntryRow {}
-    impl EditableImpl for SuggestionEntryRow {}
 
     #[gtk::template_callbacks]
     impl SuggestionEntryRow {
