@@ -290,6 +290,9 @@ mod imp {
                 self.selection.select_item(0, true);
 
                 glib::Propagation::Stop
+            } else if key == gdk::Key::Escape && self.popover.is_visible() {
+                self.popover.popdown();
+                glib::Propagation::Stop
             } else {
                 glib::Propagation::Proceed
             }
