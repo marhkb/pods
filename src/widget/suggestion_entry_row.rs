@@ -151,7 +151,9 @@ mod imp {
                     #[weak]
                     obj,
                     move |_| {
-                        obj.imp().popover.popup();
+                        if obj.is_realized() {
+                            obj.imp().popover.popup();
+                        }
                         obj.emit_by_name::<()>("changed-by-typing", &[]);
                     }
                 )))
