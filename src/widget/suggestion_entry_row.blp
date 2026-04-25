@@ -63,4 +63,8 @@ template $PdsSuggestionEntryRow: Adw.EntryRow {
     key-pressed => $on_key_pressed() swapped;
     propagation-phase: capture;
   }
+
+  EventControllerFocus {
+    leave => $on_leave_focus() swapped;
+  }
 }

@@ -297,6 +297,11 @@ mod imp {
                 glib::Propagation::Proceed
             }
         }
+
+        #[template_callback]
+        fn on_leave_focus(&self) {
+            self.popover.popdown();
+        }
     }
 }
 
