@@ -280,10 +280,13 @@ mod imp {
             &self,
             key: gdk::Key,
             _: u32,
-            _: gdk::ModifierType,
+            mod_type: gdk::ModifierType,
             _: &gtk::EventControllerKey,
         ) -> glib::Propagation {
-            if key == gdk::Key::Down {
+            if key == gdk::Key::space && mod_type == gdk::ModifierType::CONTROL_MASK {
+                self.popover.popup();
+                glib::Propagation::Stop
+            } else if key == gdk::Key::Down {
                 self.list_view
                     .scroll_to(0, gtk::ListScrollFlags::SELECT, None);
                 self.list_view.grab_focus();
