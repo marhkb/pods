@@ -21,7 +21,6 @@ mod imp {
         const NAME: &'static str = "PdsRandomNameEntryRow";
         type Type = super::RandomNameEntryRow;
         type ParentType = adw::EntryRow;
-        type Interfaces = (gtk::Editable,);
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -65,7 +64,6 @@ mod imp {
     impl ListBoxRowImpl for RandomNameEntryRow {}
     impl PreferencesRowImpl for RandomNameEntryRow {}
     impl EntryRowImpl for RandomNameEntryRow {}
-    impl EditableImpl for RandomNameEntryRow {}
 }
 
 glib::wrapper! {
