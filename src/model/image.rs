@@ -181,7 +181,7 @@ impl Image {
 }
 
 impl Image {
-    pub(crate) fn remove<F>(&self, op: F)
+    pub(crate) fn remove<F>(&self, force: bool, op: F)
     where
         F: FnOnce(&Self, anyhow::Result<()>) + 'static,
     {
@@ -191,7 +191,7 @@ impl Image {
 
         self.imp().set_to_be_deleted(true);
 
-        rt::Promise::new(async move { api.remove(false).await }).defer(clone!(
+        rt::Promise::new(async move { api.remove(force).await }).defer(clone!(
             #[weak(rename_to = obj)]
             self,
             move |result| {
