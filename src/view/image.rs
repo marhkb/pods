@@ -13,10 +13,13 @@ pub(crate) fn delete_image_show_confirmation<W>(widget: &W, image: Option<model:
 where
     W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
 {
-    if let Some(image) = image {
-        match image.container_list().get(0) {
-            Some(container) => {
-                let dialog = adw::AlertDialog::builder()
+    let Some(image) = image else {
+        return;
+    };
+
+    match image.container_list().get(0) {
+        Some(container) => {
+            let dialog = adw::AlertDialog::builder()
                     .heading(gettext("Confirm Image Deletion"))
                     .body_use_markup(true)
                     .body(gettext!(
@@ -26,52 +29,54 @@ where
                     ))
                     .build();
 
-                dialog.add_responses(&[
-                    ("cancel", &gettext("_Cancel")),
-                    ("delete", &gettext("_Delete")),
-                ]);
-                dialog.set_default_response(Some("cancel"));
-                dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
+            dialog.add_responses(&[
+                ("cancel", &gettext("_Cancel")),
+                ("delete", &gettext("_Delete")),
+            ]);
+            dialog.set_default_response(Some("cancel"));
+            dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-                dialog.choose(
-                    Some(widget),
-                    gio::Cancellable::NONE,
-                    clone!(
-                        #[weak]
-                        widget,
-                        #[weak]
-                        image,
-                        move |response| {
-                            if response == "delete" {
-                                remove_image(&widget, &image);
-                            }
+            dialog.choose(
+                Some(widget),
+                gio::Cancellable::NONE,
+                clone!(
+                    #[weak]
+                    widget,
+                    #[weak]
+                    image,
+                    move |response| {
+                        if response == "delete" {
+                            remove_image(&widget, &image, true);
                         }
-                    ),
-                );
-            }
-            None => remove_image(widget, &image),
+                    }
+                ),
+            );
         }
+        None => remove_image(widget, &image, false),
     }
 }
 
-pub(crate) fn remove_image<W>(widget: &W, image: &model::Image)
+pub(crate) fn remove_image<W>(widget: &W, image: &model::Image, force: bool)
 where
     W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
 {
-    image.remove(clone!(
-        #[weak]
-        widget,
-        move |image, result| {
-            if let Err(e) = result {
-                utils::show_error_toast(
-                    &widget,
-                    // Translators: The "{}" is a placeholder for the image id.
-                    &gettext!("Error on removing image '{}'", image.id()),
-                    &e.to_string(),
-                );
+    image.remove(
+        force,
+        clone!(
+            #[weak]
+            widget,
+            move |image, result| {
+                if let Err(e) = result {
+                    utils::show_error_toast(
+                        &widget,
+                        // Translators: The "{}" is a placeholder for the image id.
+                        &gettext!("Error on removing image '{}'", image.id()),
+                        &e.to_string(),
+                    );
+                }
             }
-        }
-    ));
+        ),
+    );
 }
 
 pub(crate) fn create_container<W: IsA<gtk::Widget>>(widget: &W, image: Option<model::Image>) {

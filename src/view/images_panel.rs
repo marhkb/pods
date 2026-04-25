@@ -693,20 +693,26 @@ impl ImagesPanel {
                         .iter()
                         .map(|obj| obj.downcast_ref::<model::Image>().unwrap())
                         .for_each(|image| {
-                            image.remove(clone!(
-                                #[weak]
-                                obj,
-                                move |image, result| {
-                                    if let Err(e) = result {
-                                        utils::show_error_toast(
-                                            &obj,
-                                            // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-                                            &gettext!("Error on deleting image '{}'", image.id()),
-                                            &e.to_string(),
-                                        );
+                            image.remove(
+                                true,
+                                clone!(
+                                    #[weak]
+                                    obj,
+                                    move |image, result| {
+                                        if let Err(e) = result {
+                                            utils::show_error_toast(
+                                                &obj,
+                                                // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
+                                                &gettext!(
+                                                    "Error on deleting image '{}'",
+                                                    image.id()
+                                                ),
+                                                &e.to_string(),
+                                            );
+                                        }
                                     }
-                                }
-                            ));
+                                ),
+                            );
                         });
                     list.set_selection_mode(false);
                 }
