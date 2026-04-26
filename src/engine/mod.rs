@@ -20,6 +20,7 @@ pub(crate) enum Response<D, P> {
 #[derive(Clone, Debug)]
 pub(crate) struct Capabilities {
     pub(crate) kube_generation: bool,
+    pub(crate) manual_health_check: bool,
     pub(crate) pods: bool,
     pub(crate) privileged_containers: bool,
     pub(crate) pull_policy: bool,
@@ -60,6 +61,7 @@ impl Engine {
         match self {
             Self::Docker(_) => Capabilities {
                 kube_generation: false,
+                manual_health_check: false,
                 pods: false,
                 privileged_containers: false,
                 pull_policy: false,
@@ -70,6 +72,7 @@ impl Engine {
             },
             Self::Podman(_) => Capabilities {
                 kube_generation: true,
+                manual_health_check: true,
                 pods: true,
                 privileged_containers: true,
                 pull_policy: true,

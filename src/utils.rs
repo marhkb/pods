@@ -33,6 +33,12 @@ macro_rules! monad_boxed_type {
             }
         }
 
+        impl std::ops::DerefMut for $boxed {
+            fn deref_mut(&mut self) -> &mut Self::Target {
+                &mut self.0
+            }
+        }
+
         impl From<$boxed> for $type {
             fn from(boxed: $boxed) -> Self {
                 boxed.0
