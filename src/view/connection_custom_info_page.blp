@@ -137,7 +137,7 @@ template $PdsConnectionCustomInfoPage: Widget {
 
             buffer: $GtkSourceBuffer root_systemd_unit_content_buffer {
               highlight-matching-brackets: "False";
-              text: "[Unit]\nDescription=Podman TCP socket\nAfter=network.target\nStartLimitIntervalSec=0\n\n[Service]\nType=simple\nRestart=always\nRestartSec=1\nExecStart=/usr/bin/podman system service --time=0 tcp://0.0.0.0:37017\n\n[Install]\nWantedBy=multi-user.target";
+              text: "[Unit]\nDescription=Podman TCP socket\nAfter=network.target\nStartLimitIntervalSec=0\n\n[Service]\nType=simple\nRestart=always\nRestartSec=1\nExecStart=/usr/bin/podman system service --time=0 tcp://127.0.0.1:37017\n\n[Install]\nWantedBy=multi-user.target";
             };
 
             background-pattern: "grid";
