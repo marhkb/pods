@@ -275,13 +275,6 @@ impl Container {
         }
     }
 
-    pub(crate) fn supports_healthcheck(&self) -> bool {
-        match self {
-            Self::Docker { .. } => false,
-            Self::Podman(_) => true,
-        }
-    }
-
     pub(crate) fn top_stream(
         &self,
         delay: usize,

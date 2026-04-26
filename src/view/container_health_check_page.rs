@@ -104,8 +104,11 @@ mod imp {
                             obj.container()
                                 .map(|container| {
                                     container
-                                        .api()
-                                        .map(|api| api.supports_healthcheck())
+                                        .container_list()
+                                        .and_then(|container_list| container_list.client())
+                                        .map(|client| {
+                                            client.engine().capabilities().manual_health_check()
+                                        })
                                         .unwrap_or(false)
                                         && container.health_status()
                                             != model::ContainerHealthStatus::Unconfigured
@@ -240,16 +243,28 @@ impl ContainerHealthCheckPage {
     }
 
     pub(crate) async fn run_health_check(&self) {
-        let container = self
-            .container()
-            .as_ref()
-            .and_then(model::Container::api)
-            .unwrap();
+        let Some(container) = self.container() else {
+            return;
+        };
 
-        if container.supports_healthcheck()
-            && let Err(e) = rt::Promise::new(async move { container.healthcheck().await })
-                .exec()
-                .await
+        let Some(client) = container
+            .container_list()
+            .and_then(|container_list| container_list.client())
+        else {
+            return;
+        };
+
+        if !client.engine().capabilities().manual_health_check() {
+            return;
+        }
+
+        let Some(api) = container.api() else {
+            return;
+        };
+
+        if let Err(e) = rt::Promise::new(async move { api.healthcheck().await })
+            .exec()
+            .await
         {
             utils::show_error_toast(
                 self,

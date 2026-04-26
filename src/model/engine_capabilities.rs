@@ -22,6 +22,8 @@ mod imp {
 
         #[property(get = Self::kube_generation)]
         _kube_generation: PhantomData<bool>,
+        #[property(get = Self::manual_health_check)]
+        _manual_health_check: PhantomData<bool>,
         #[property(get = Self::pods)]
         _pods: PhantomData<bool>,
         #[property(get = Self::privileged_containers)]
@@ -61,6 +63,10 @@ mod imp {
     impl EngineCapabilities {
         pub(super) fn kube_generation(&self) -> bool {
             self.obj().inner().kube_generation
+        }
+
+        pub(super) fn manual_health_check(&self) -> bool {
+            self.obj().inner().manual_health_check
         }
 
         pub(super) fn pods(&self) -> bool {
