@@ -171,6 +171,40 @@ template $PdsConnectionCustomInfoPage: Widget {
           }
         }
 
+        Box {
+          styles [
+            "card",
+          ]
+
+          spacing: 12;
+
+          Image {
+            styles [
+              "warning",
+            ]
+
+            icon-name: "warning-outline-symbolic";
+            icon-size: large;
+            margin-top: 12;
+            margin-start: 12;
+            margin-bottom: 12;
+          }
+
+          Label {
+            label: _(
+              "Exposing a Podman socket over TCP has security implications. <a href=\"https://docs.podman.io/en/stable/markdown/podman-system-service.1.html#security\">Check the docs for more info.</a>"
+            );
+            use-markup: true;
+            hexpand: true;
+            wrap: true;
+            wrap-mode: word_char;
+            xalign: 0;
+            margin-top: 12;
+            margin-end: 12;
+            margin-bottom: 12;
+          }
+        }
+
         Label {
           label: _("Enable the service by issuing the command:");
           use-markup: true;
