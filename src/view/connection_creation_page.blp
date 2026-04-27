@@ -88,7 +88,7 @@ template $PdsConnectionCreationPage: Widget {
 
           Adw.PreferencesGroup {
             title: _("URL");
-            description: _("Choose how to connect to Podman");
+            description: _("Choose how to connect");
 
             Adw.ActionRow podman_unix_socket_url_row {
               title: _("Podman Unix Socket");
@@ -227,7 +227,6 @@ template $PdsConnectionCreationPage: Widget {
 
               [prefix]
               CheckButton docker_unix_socket_radio_button {
-                active: true;
                 group: custom_url_radio_button;
                 valign: center;
               }
