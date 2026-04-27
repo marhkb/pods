@@ -33,6 +33,7 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/local-connection-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/success-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/verified-checkmark-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/status/warning-outline-symbolic.svg</file>
 
     <file compressed="true">style.css</file>
   </gresource>

@@ -137,7 +137,7 @@ template $PdsConnectionCustomInfoPage: Widget {
 
             buffer: $GtkSourceBuffer root_systemd_unit_content_buffer {
               highlight-matching-brackets: "False";
-              text: "[Unit]\nDescription=Podman TCP socket\nAfter=network.target\nStartLimitIntervalSec=0\n\n[Service]\nType=simple\nRestart=always\nRestartSec=1\nExecStart=/usr/bin/podman system service --time=0 tcp://0.0.0.0:37017\n\n[Install]\nWantedBy=multi-user.target";
+              text: "[Unit]\nDescription=Podman TCP socket\nAfter=network.target\nStartLimitIntervalSec=0\n\n[Service]\nType=simple\nRestart=always\nRestartSec=1\nExecStart=/usr/bin/podman system service --time=0 tcp://127.0.0.1:37017\n\n[Install]\nWantedBy=multi-user.target";
             };
 
             background-pattern: "grid";
@@ -168,6 +168,40 @@ template $PdsConnectionCustomInfoPage: Widget {
             accessibility {
               label: _("Copy to Clipboard");
             }
+          }
+        }
+
+        Box {
+          styles [
+            "card",
+          ]
+
+          spacing: 12;
+
+          Image {
+            styles [
+              "warning",
+            ]
+
+            icon-name: "warning-outline-symbolic";
+            icon-size: large;
+            margin-top: 12;
+            margin-start: 12;
+            margin-bottom: 12;
+          }
+
+          Label {
+            label: _(
+              "Exposing a Podman socket over TCP has security implications. <a href=\"https://docs.podman.io/en/stable/markdown/podman-system-service.1.html#security\">Check the docs for more info.</a>"
+            );
+            use-markup: true;
+            hexpand: true;
+            wrap: true;
+            wrap-mode: word_char;
+            xalign: 0;
+            margin-top: 12;
+            margin-end: 12;
+            margin-bottom: 12;
           }
         }
 
