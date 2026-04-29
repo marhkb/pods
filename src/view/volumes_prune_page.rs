@@ -94,7 +94,7 @@ impl VolumesPrunePage {
                     until: imp
                         .prune_until_row
                         .enables_expansion()
-                        .then(|| imp.prune_until_row.prune_until_timestamp().to_string()),
+                        .then(|| imp.prune_until_row.prune_until_timestamp()),
                 });
 
         let page = view::ActionPage::from(&action);
