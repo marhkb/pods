@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-15 14:53+0000\n"
-"PO-Revision-Date: 2026-02-27 06:08+0000\n"
+"PO-Revision-Date: 2026-04-21 07:09+0000\n"
 "Last-Translator: Eganatha <ega8642@gmail.com>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/main/id/"
-">\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/pods/main/id/>"
+"\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
@@ -29,13 +29,12 @@ msgid "Pods"
 msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
-#, fuzzy
 msgid "Manage your Podman containers"
-msgstr "Buat Container"
+msgstr "Atur kontainer Podman Anda"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:8
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Kontainerisasi;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -53,16 +52,15 @@ msgstr "Perilaku jendela penuh default"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr "UUID sambungan telah digunakan sebelumnya"
+msgstr "uuid dari koneksi yang digunakan terakhir"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
 msgstr "Tampilan yang terakhir digunakan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
-#, fuzzy
 msgid "The last used container file path"
-msgstr "Tampilan yang terakhir digunakan"
+msgstr "Jalur berkas kontainer yang terakhir digunakan"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 #: src/view/images_prune_page.blp:56
@@ -82,30 +80,28 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "Whether to show a timestamp for each log line"
-msgstr "Apakah akan menampilkan penanda waktu pada tiap baris log"
+msgstr "Apakah ingin menampilkan penanda waktu pada tiap baris log"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
-#, fuzzy
 msgid "Whether to use a regex for search"
-msgstr "Apakah akan menampilkan penanda waktu pada tiap baris log"
+msgstr "Apakah ingin menggunakan regex untuk pencarian"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether search should be case-sensitive"
-msgstr "Apakah pencarian harus peka kapital"
+msgstr "Apakah pencarian harus peka huruf kapital"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
-#, fuzzy
 msgid "Whether to match whole words when searching"
 msgstr "Apakah kata kunci harus sepenuhnya cocok saat pencarian"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Skala fon untuk semua tampilan teks"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "The font scale for terminals"
-msgstr ""
+msgstr "Skala fon untuk terminal"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:88
 #, fuzzy
@@ -173,7 +169,7 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr "Dengan Pods anda dapat melakukan berbagai hal, antara lain"
+msgstr "Dengan Pods anda dapat melakukan berbagai hal, antara lain:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman/Docker instances."
@@ -186,6 +182,8 @@ msgstr "Dengan mudah meninjau citra, kontainer, dan pod."
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
 msgstr ""
+"Menampilkan informasi yang telah disediakan tentang citra, kontainer, dan "
+"pods."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
@@ -197,7 +195,7 @@ msgstr "Menampilkan dan menelusuri log kontainer."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr "Memantau proses kontainer dan pod."
+msgstr "Pantau proses kontainer dan pod."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
@@ -217,12 +215,11 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Hapus citra, kontainer, dan pods (secara limbak)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
-#, fuzzy
 msgid "Prune images."
-msgstr "Pangkas citra yang tidak digunakan"
+msgstr "Pangkas citra."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
@@ -1353,63 +1350,60 @@ msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
 #: src/model/action.rs:136
-#, fuzzy
 msgid "Prune unused images"
-msgstr "_Pangkas citra yang tidak digunakan…"
+msgstr "Pangkas citra yang tidak digunakan"
 
 #: src/model/action.rs:173
 #, rust-format
 msgid "Pull image <b>{}</b>"
-msgstr ""
+msgstr "Tarik citra <b>{}</b>"
 
 #: src/model/action.rs:207
-#, fuzzy, rust-format
+#, rust-format
 msgid "Push image <b>{}</b>"
-msgstr "Waktu Dibangun"
+msgstr "Dorong citra <b>{}</b>"
 
 #: src/model/action.rs:268
-#, fuzzy, rust-format
+#, rust-format
 msgid "Build image <b>{}</b>"
-msgstr "Waktu Dibangun"
+msgstr "Bangun citra <b>{}</b>"
 
 #: src/model/action.rs:274
 msgid "Generating tarball of context directory..."
-msgstr ""
+msgstr "Membuat direktori tarbal berisi konteks..."
 
 #: src/model/action.rs:342
-#, fuzzy
 msgid "Prune stopped containers"
-msgstr "Galat saat menghentikan container"
+msgstr "Pangkas kontainer yang terhenti"
 
 #: src/model/action.rs:383
-#, fuzzy, rust-format
+#, rust-format
 msgid "Start new container <b>{}</b>"
-msgstr "Galat saat memulai ulang container"
+msgstr "Mulai kontainer baru <b>{}</b>"
 
 #: src/model/action.rs:385
-#, fuzzy, rust-format
+#, rust-format
 msgid "Create container <b>{}</b>"
-msgstr "Buat _Container…"
+msgstr "Buat kontainer <b>{}</b>"
 
 #: src/model/action.rs:419
-#, fuzzy
 msgid "none"
-msgstr "<kosong>"
+msgstr "nihil"
 
 #: src/model/action.rs:417
 #, rust-format
 msgid "Commit image <b>{}</b> ({})"
-msgstr ""
+msgstr "Komit citra <b>{}</b> ({})"
 
 #: src/model/action.rs:433 src/model/action.rs:547 src/model/action.rs:691
 #: src/model/action.rs:1027
 msgid "Finished"
-msgstr ""
+msgstr "Selesai"
 
 #: src/model/action.rs:473
 #, rust-format
 msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr ""
+msgstr "Unggah <b>{}</b> ke <b>{}:{}</b>"
 
 #: src/model/action.rs:480
 #, fuzzy
@@ -1941,9 +1935,8 @@ msgstr ""
 
 #: src/view/client_view.blp:54 src/view/client_view.blp:57
 #: src/view/client_view.blp:279 src/view/connections_sidebar.blp:14
-#, fuzzy
 msgid "Connections"
-msgstr "Kehilangan sambungan ke Podman"
+msgstr "Koneksi"
 
 #: src/view/client_view.blp:65 src/view/client_view.blp:68
 #: src/view/container_log_page.blp:55 src/view/container_log_page.blp:58
@@ -2014,9 +2007,8 @@ msgid "Type to filter connections. Press Enter to open the first result."
 msgstr ""
 
 #: src/view/connection_chooser_page.blp:61
-#, fuzzy
 msgid "Connect to Podman"
-msgstr "Kehilangan sambungan ke Podman"
+msgstr "Sambung Podman"
 
 #: src/view/connection_chooser_page.blp:62
 msgid "Choose an existing connection or create a new one"
@@ -2029,9 +2021,8 @@ msgstr "Galat saat memulai container"
 
 #: src/view/connection_creation_page.blp:19
 #: src/view/connection_creation_page.blp:36
-#, fuzzy
 msgid "New Connection"
-msgstr "Kehilangan sambungan ke Podman"
+msgstr "Koneksi Baru"
 
 #: src/view/connection_creation_page.blp:30 src/view/connection.rs:28
 #: src/view/container_card.rs:576 src/view/container_commit_page.blp:29
@@ -2052,7 +2043,7 @@ msgstr "_Batalkan"
 
 #: src/view/connection_creation_page.blp:50
 msgid "_Connect"
-msgstr ""
+msgstr "_Sambung"
 
 #: src/view/connection_creation_page.blp:85
 #: src/view/container_creation_page.blp:65
@@ -2070,27 +2061,23 @@ msgid "URL"
 msgstr ""
 
 #: src/view/connection_creation_page.blp:91
-#, fuzzy
 msgid "Choose how to connect to Podman"
-msgstr "Kehilangan sambungan ke Podman"
+msgstr "Pilih bagaimana cara menyambung Podman"
 
 #: src/view/connection_creation_page.blp:94
-#, fuzzy
 msgid "Podman Unix Socket"
-msgstr "Aplikasi desktop untuk Podman"
+msgstr "Soket Unix Podman"
 
 #: src/view/connection_creation_page.blp:111
 #: src/view/connection_creation_page.blp:114
 #: src/view/connection_creation_page.blp:242
 #: src/view/connection_creation_page.blp:245
-#, fuzzy
 msgid "Socket Activation Info"
-msgstr "Aplikasi desktop untuk Podman"
+msgstr "Info Aktivasi Soket"
 
 #: src/view/connection_creation_page.blp:133
-#, fuzzy
 msgid "Podman Socket Activation"
-msgstr "Aplikasi desktop untuk Podman"
+msgstr "Aktivasi Soket Podman"
 
 #: src/view/connection_creation_page.blp:139
 msgid ""
@@ -2128,12 +2115,11 @@ msgstr ""
 
 #: src/view/connection_creation_page.blp:224
 msgid "Docker Unix Socket"
-msgstr ""
+msgstr "Soket Unix Docker"
 
 #: src/view/connection_creation_page.blp:264
-#, fuzzy
 msgid "Docker Socket Activation"
-msgstr "Aplikasi desktop untuk Podman"
+msgstr "Aktivasi Soket Docker"
 
 #: src/view/connection_creation_page.blp:270
 msgid ""
@@ -2154,7 +2140,7 @@ msgstr "Kehilangan sambungan ke Podman"
 
 #: src/view/connection_creation_page.blp:375
 msgid "Color"
-msgstr ""
+msgstr "Warna"
 
 #: src/view/connection_creation_page.blp:376
 #, fuzzy
@@ -2256,9 +2242,8 @@ msgid "_Confirm"
 msgstr ""
 
 #: src/view/connections_sidebar.blp:21 src/view/connections_sidebar.blp:24
-#, fuzzy
 msgid "New Connection (Ctrl+Shift+N)"
-msgstr "Pindah ke entri yang cocok sebelumnya (Ctrl+Shift+G)"
+msgstr "Koneksi Baru (Ctrl+Shift+N)"
 
 #: src/view/connections_sidebar.rs:101
 #, fuzzy
@@ -2610,13 +2595,12 @@ msgstr "Container"
 #: src/view/container_details_page.blp:179 src/view/image_details_page.blp:108
 #: src/view/pod_details_page.blp:214 src/view/volume_details_page.blp:70
 msgid "Utilities"
-msgstr ""
+msgstr "Peralatan"
 
 #: src/view/container_details_page.blp:182 src/view/image_details_page.blp:111
 #: src/view/pod_details_page.blp:217 src/view/volume_details_page.blp:73
-#, fuzzy
 msgid "Inspection"
-msgstr "Rincian Citra"
+msgstr "Inspeksi"
 
 #: src/view/container_details_page.blp:183
 msgid "View all container properties in a structured text form"
@@ -2624,7 +2608,7 @@ msgstr ""
 
 #: src/view/container_details_page.blp:194 src/view/pod_details_page.blp:229
 msgid "Kube"
-msgstr ""
+msgstr "Kube"
 
 #: src/view/container_details_page.blp:195
 #, fuzzy
@@ -2647,7 +2631,7 @@ msgstr "Menampilkan dan menelusuri log kontainer."
 
 #: src/view/container_details_page.blp:237 src/view/pod_details_page.blp:241
 msgid "Processes"
-msgstr ""
+msgstr "Proses"
 
 #: src/view/container_details_page.blp:238
 #, fuzzy
@@ -2978,7 +2962,7 @@ msgstr ""
 
 #: src/view/container_resources.blp:14
 msgid "Resources Quick Reference"
-msgstr ""
+msgstr "Referensi Cepat Sumber Daya"
 
 #: src/view/container_resources.blp:91 src/view/info_panel.blp:98
 #, fuzzy
@@ -2997,11 +2981,11 @@ msgstr ""
 #, rust-format
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
-msgstr[0] ""
+msgstr[0] "Prosesor ({} CPU)"
 
 #: src/view/container_resources.rs:97
 msgid "Processor (? CPUs)"
-msgstr ""
+msgstr "Prosesor (? CPU)"
 
 #: src/view/container_resources.rs:109 src/view/container_resources.rs:144
 #: src/view/container_resources.rs:149 src/view/container_resources.rs:153
@@ -3222,9 +3206,8 @@ msgid "_Paste"
 msgstr ""
 
 #: src/view/container_terminal.blp:32
-#, fuzzy
 msgid "No Terminal"
-msgstr "Terminal"
+msgstr "Tidak ada Terminal"
 
 #: src/view/container_terminal.blp:33
 msgid "The container must be running to use the terminal"
@@ -3324,7 +3307,7 @@ msgstr ""
 
 #: src/view/image_details_page.blp:7
 msgid "Create Repository Tag"
-msgstr ""
+msgstr "Buat Tag Repositori"
 
 #: src/view/image_details_page.blp:51 src/view/image_details_page.blp:54
 #, fuzzy
@@ -3337,7 +3320,7 @@ msgstr ""
 
 #: src/view/image_details_page.blp:95
 msgid "Entry Point"
-msgstr ""
+msgstr "Titik Masuk"
 
 #: src/view/image_details_page.blp:103
 msgid "Ports"
@@ -3349,7 +3332,7 @@ msgstr ""
 
 #: src/view/image_details_page.blp:123
 msgid "History"
-msgstr ""
+msgstr "Riwayat"
 
 #: src/view/image_details_page.blp:124
 msgid "View parent layers of this image"
@@ -3357,7 +3340,7 @@ msgstr ""
 
 #: src/view/image_details_page.blp:136
 msgid "Repository Tags"
-msgstr ""
+msgstr "Tag Repositori"
 
 #. Translators: "{}" are placeholders for storage space.
 #: src/view/image_details_page.rs:194
@@ -3388,13 +3371,12 @@ msgid "Image '{}' has been deleted"
 msgstr "Citra Telah Dihapus"
 
 #: src/view/image_history_page.blp:12
-#, fuzzy
 msgid "Image History"
-msgstr "Penyimpanan Citra"
+msgstr "Riwayat Citra"
 
 #: src/view/image_history_page.blp:29
 msgid "History List"
-msgstr ""
+msgstr "Daftar Riwayat"
 
 #: src/view/image_history_page.rs:84
 #, rust-format
@@ -3664,37 +3646,37 @@ msgstr "Versi"
 
 #: src/view/info_panel.blp:46
 msgid "System"
-msgstr ""
+msgstr "Sistem"
 
 #: src/view/info_panel.blp:53
 msgid "Operating System"
-msgstr ""
+msgstr "Sistem Operasi"
 
 #: src/view/info_panel.blp:62
 msgid "Kernel"
-msgstr ""
+msgstr "Kernel"
 
 #: src/view/info_panel.blp:71
 msgid "Architecture"
-msgstr ""
+msgstr "Arsitektur"
 
 #: src/view/info_panel.blp:80 src/view/pod_creation_page.blp:105
 #: src/view/pod_creation_page.rs:159 src/view/pod_details_page.blp:209
 msgid "Hostname"
-msgstr ""
+msgstr "Nama hos"
 
 #: src/view/info_panel.blp:89
 msgid "Cpus"
-msgstr ""
+msgstr "Cpu"
 
 #: src/view/info_panel.blp:104
 msgid "Storage"
-msgstr ""
+msgstr "Penyimpanan"
 
 #: src/view/info_panel.blp:111 src/view/info_panel.blp:133
 #: src/view/volume_details_page.blp:49
 msgid "Driver"
-msgstr ""
+msgstr "Pengendali"
 
 #: src/view/info_panel.blp:120
 #, fuzzy
@@ -4038,7 +4020,7 @@ msgstr "Porta Kontainer"
 
 #: src/view/repo_tag_add_dialog.blp:7
 msgid "Add Repository Tag"
-msgstr ""
+msgstr "Tambah Tag Repositori"
 
 #: src/view/repo_tag_add_dialog.blp:12
 msgid "_Add"
@@ -4046,7 +4028,7 @@ msgstr ""
 
 #: src/view/repo_tag_add_dialog.blp:23
 msgid "Repository Tag"
-msgstr ""
+msgstr "Tag Repositori"
 
 #: src/view/repo_tag_add_dialog.rs:89
 msgid "Repo tag must contain a colon “:”"
@@ -4143,9 +4125,8 @@ msgid "Loading content"
 msgstr ""
 
 #: src/view/scalable_text_view_page.blp:112
-#, fuzzy
 msgid "Inspection output"
-msgstr "Rincian Citra"
+msgstr "Keluaran Inspeksi"
 
 #: src/view/scalable_text_view_page.blp:114
 msgid ""
@@ -4154,9 +4135,8 @@ msgid ""
 msgstr ""
 
 #: src/view/scalable_text_view_page.rs:275
-#, fuzzy
 msgid "Image Inspection"
-msgstr "Rincian Citra"
+msgstr "Inspeksi Citra"
 
 #: src/view/scalable_text_view_page.rs:282
 msgid "Container Inspection"
@@ -4168,16 +4148,15 @@ msgstr "Pembuatan Kontainer Kube"
 
 #: src/view/scalable_text_view_page.rs:293
 msgid "Pod Inspection"
-msgstr ""
+msgstr "Inspeksi Pod"
 
 #: src/view/scalable_text_view_page.rs:294
 msgid "Pod Kube Generation"
 msgstr ""
 
 #: src/view/scalable_text_view_page.rs:301
-#, fuzzy
 msgid "Volume Inspection"
-msgstr "Rincian Citra"
+msgstr "Inspeksi Volume"
 
 #: src/view/scalable_text_view_page.rs:308
 #, fuzzy
@@ -4190,9 +4169,8 @@ msgid "Could not set language to '{}'"
 msgstr ""
 
 #: src/view/scalable_text_view_page.rs:417
-#, fuzzy
 msgid "Inspection error"
-msgstr "Rincian Citra"
+msgstr "Galat Inspeksi"
 
 #: src/view/scalable_text_view_page.rs:418
 #, fuzzy
@@ -4316,7 +4294,6 @@ msgid "Reset zoom"
 msgstr ""
 
 #: src/view/shortcuts.blp:97
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Terminal"
 msgstr "Terminal"
@@ -4340,10 +4317,9 @@ msgid "Podman"
 msgstr "Informasi mengenai Podman"
 
 #: src/view/shortcuts.blp:129
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Add a new connection"
-msgstr "Kehilangan sambungan ke Podman"
+msgstr "Tambah Koneksi Baru"
 
 #: src/view/shortcuts.blp:134
 #, fuzzy
@@ -4352,14 +4328,12 @@ msgid "Create a new entity"
 msgstr "Buat dan jalankan"
 
 #: src/view/top_page.rs:102
-#, fuzzy
 msgid "Container Processes"
-msgstr "Laman Container"
+msgstr "Proses Kontainer"
 
 #: src/view/top_page.rs:109
-#, fuzzy
 msgid "Pod Processes"
-msgstr "Laman Container"
+msgstr "Proses Kontainer"
 
 #: src/view/top_page.rs:127
 msgid "USER"
@@ -4415,9 +4389,8 @@ msgid "Delete Volume"
 msgstr "{} Citra"
 
 #: src/view/volume_details_page.blp:65
-#, fuzzy
 msgid "Mount Path"
-msgstr "Jalur host"
+msgstr "Jalur Kait"
 
 #: src/view/volume_details_page.blp:74
 msgid "View all volume properties in a structured text form"
@@ -4577,9 +4550,8 @@ msgid "Create a new connection to Podman to get started"
 msgstr "Memeriksa Sambungan ke Layanan Podman"
 
 #: src/view/welcome_page.blp:66
-#, fuzzy
 msgid "_New Connection"
-msgstr "Kehilangan sambungan ke Podman"
+msgstr "Ko_neksi Baru"
 
 #: src/view/window.rs:219
 msgid "Confirm Exiting The Application"
