@@ -14,8 +14,12 @@ template $PdsDateTimeRow: Adw.ExpanderRow {
       "numeric",
     ]
 
+    justify: right;
+    max-width-chars: 0;
     valign: center;
     visible: bind template.enable-expansion;
+    wrap: true;
+    wrap-mode: word;
   }
 
   Adw.PreferencesRow {
