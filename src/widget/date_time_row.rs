@@ -27,10 +27,10 @@ mod imp {
     pub(crate) struct DateTimeRow {
         pub(super) desktop_settings: utils::DesktopSettings,
         pub(super) time_format: Cell<TimeFormat>,
-        #[property(get, set)]
-        pub(super) prune_until_timestamp: Cell<i64>,
+        #[property(get, set = Self::set_timestamp, explicit_notify)]
+        pub(super) timestamp: Cell<i64>,
         #[template_child]
-        pub(super) prune_until_label: TemplateChild<gtk::Label>,
+        pub(super) date_time_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) calendar: TemplateChild<gtk::Calendar>,
         #[template_child]
@@ -89,66 +89,70 @@ mod imp {
                 ),
             );
 
-            gtk::ClosureExpression::new::<i64>(
-                [
-                    self.calendar.property_expression("year"),
-                    self.calendar.property_expression("month"),
-                    self.calendar.property_expression("day"),
-                    self.hour_spin_button.property_expression("value"),
-                    self.minute_spin_button.property_expression("value"),
-                    self.period_drop_down.property_expression("selected"),
-                ],
-                closure!(|obj: Self::Type,
-                          year: i32,
-                          month: i32,
-                          day: i32,
-                          hour: f64,
-                          minute: f64,
-                          period: u32| {
-                    glib::DateTime::from_local(
-                        year,
-                        month + 1,
-                        day,
-                        if matches!(obj.imp().time_format.get(), TimeFormat::Hours12)
-                            && period == 1
-                            && hour < 12.0
-                        {
-                            hour as i32 + 12
-                        } else {
-                            hour as i32
-                        },
-                        minute as i32,
-                        0.0,
-                    )
-                    .unwrap()
-                    .to_unix()
-                }),
-            )
-            .bind(obj, "prune-until-timestamp", Some(obj));
+            obj.bind_property("timestamp", &*self.calendar, "date")
+                .bidirectional()
+                .transform_to(|_, timestamp| utils::date_time_from_unix_local(timestamp))
+                .transform_from(|binding, _: glib::DateTime| source_to_timestamp(binding))
+                .build();
 
-            Self::Type::this_expression("prune-until-timestamp")
+            obj.bind_property("timestamp", &*self.hour_spin_button, "value")
+                .bidirectional()
+                .transform_to(|binding, timestamp| {
+                    utils::date_time_from_unix_local(timestamp)
+                        .map(|date_time| date_time.hour())
+                        .and_then(|hour| {
+                            binding
+                                .source()
+                                .and_then(|source| source.downcast::<Self::Type>().ok())
+                                .map(|obj| {
+                                    let imp = obj.imp();
+
+                                    match imp.time_format.get() {
+                                        TimeFormat::Hours12 if hour > 12 => hour - 12,
+                                        _ => hour,
+                                    }
+                                })
+                        })
+                        .map(|hour| hour as f64)
+                })
+                .transform_from(|binding, _: f64| source_to_timestamp(binding))
+                .build();
+
+            obj.bind_property("timestamp", &*self.minute_spin_button, "value")
+                .bidirectional()
+                .transform_to(|_, timestamp| {
+                    utils::date_time_from_unix_local(timestamp)
+                        .map(|date_time| date_time.minute() as f64)
+                })
+                .transform_from(|binding, _: f64| source_to_timestamp(binding))
+                .build();
+
+            obj.bind_property("timestamp", &*self.period_drop_down, "selected")
+                .bidirectional()
+                .transform_to(|_, timestamp: i64| {
+                    utils::date_time_from_unix_local(timestamp)
+                        .map(|date_time| if date_time.hour() < 12 { 0_u32 } else { 1_u32 })
+                })
+                .transform_from(|binding, _: u32| source_to_timestamp(binding))
+                .build();
+
+            Self::Type::this_expression("timestamp")
                 .chain_closure::<String>(closure!(|_: Self::Type, unix: i64| {
                     utils::date_time_from_unix_local(unix)
                         .and_then(|date_time| {
                             date_time
                                 .format(
                                     // Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-                                    &gettext("%x %H:%M %p"),
+                                    &gettext("%x %X"),
                                 )
                                 .ok()
                         })
                         .map(|formatted| formatted.to_string())
                         .unwrap_or_else(|| gettext("Invalid date format"))
                 }))
-                .bind(&*self.prune_until_label, "label", Some(obj));
+                .bind(&*self.date_time_label, "label", Some(obj));
 
-            let (hour, minute) = glib::DateTime::now_local()
-                .map(|now| (now.hour(), now.minute()))
-                .unwrap_or((0, 0));
-
-            self.hour_spin_button.set_value(hour as f64);
-            self.minute_spin_button.set_value(minute as f64);
-            self.period_drop_down.set_selected(u32::from(hour >= 12));
+            obj.set_timestamp(glib::DateTime::now_local().unwrap().to_unix());
         }
     }
 
@@ -159,6 +163,17 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl DateTimeRow {
+        fn set_timestamp(&self, timestamp: i64) {
+            // remove seconds
+            let timestamp = (timestamp / 60) * 60;
+            if self.timestamp.get() == timestamp {
+                return;
+            }
+
+            self.timestamp.set(timestamp);
+            self.obj().notify_timestamp();
+        }
+
         #[template_callback]
         fn on_spin_button_output(spin_button: &gtk::SpinButton) -> glib::Propagation {
             spin_button.set_text(&format!("{:02}", spin_button.value()));
@@ -179,7 +194,8 @@ impl DateTimeRow {
 
         match imp.desktop_settings.get::<String>("clock-format").as_str() {
             "12h" => {
-                imp.hour_adjustment.set_upper(11.0);
+                imp.hour_adjustment.set_lower(1.0);
+                imp.hour_adjustment.set_upper(12.0);
                 imp.period_drop_down.set_visible(true);
                 imp.time_format.set(TimeFormat::Hours12);
             }
@@ -187,10 +203,43 @@ impl DateTimeRow {
                 if other != "24h" {
                     log::warn!("Unknown time format '{other}'. Falling back to '24h'.");
                 }
+                imp.hour_adjustment.set_lower(0.0);
                 imp.hour_adjustment.set_upper(23.0);
                 imp.period_drop_down.set_visible(false);
                 imp.time_format.set(TimeFormat::Hours24);
             }
         }
     }
+}
+
+fn source_to_timestamp(binding: &glib::Binding) -> Option<i64> {
+    binding
+        .source()
+        .and_then(|obj| obj.downcast::<DateTimeRow>().ok())
+        .map(|obj| {
+            let imp = obj.imp();
+
+            let date = imp.calendar.date();
+
+            glib::DateTime::from_local(
+                date.year(),
+                date.month(),
+                date.day_of_month(),
+                {
+                    let hour = imp.hour_spin_button.value_as_int();
+                    match imp.time_format.get() {
+                        TimeFormat::Hours12
+                            if imp.period_drop_down.selected() == 1 && hour < 12 =>
+                        {
+                            hour + 12
+                        }
+                        _ => hour,
+                    }
+                },
+                imp.minute_spin_button.value_as_int(),
+                0.0,
+            )
+            .unwrap()
+            .to_unix()
+        })
 }
