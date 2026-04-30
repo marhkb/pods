@@ -179,7 +179,8 @@ impl DateTimeRow {
 
         match imp.desktop_settings.get::<String>("clock-format").as_str() {
             "12h" => {
-                imp.hour_adjustment.set_upper(11.0);
+                imp.hour_adjustment.set_lower(1.0);
+                imp.hour_adjustment.set_upper(12.0);
                 imp.period_drop_down.set_visible(true);
                 imp.time_format.set(TimeFormat::Hours12);
             }
@@ -187,6 +188,7 @@ impl DateTimeRow {
                 if other != "24h" {
                     log::warn!("Unknown time format '{other}'. Falling back to '24h'.");
                 }
+                imp.hour_adjustment.set_lower(0.0);
                 imp.hour_adjustment.set_upper(23.0);
                 imp.period_drop_down.set_visible(false);
                 imp.time_format.set(TimeFormat::Hours24);
