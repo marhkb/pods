@@ -111,7 +111,7 @@ impl ImagesPrunePage {
                 .prune_images(engine::opts::ImagesPruneOpts {
                     all: imp.pods_settings.get("prune-all-images"),
                     external: imp.pods_settings.get("prune-external-images"),
-                    until: Some(imp.prune_until_row.prune_until_timestamp())
+                    until: Some(imp.prune_until_row.timestamp())
                         .filter(|_| imp.prune_until_row.enables_expansion()),
                 });
 

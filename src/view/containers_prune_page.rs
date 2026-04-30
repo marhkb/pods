@@ -85,7 +85,7 @@ impl ContainersPrunePage {
         let action = self.client().unwrap().action_list().prune_containers(
             imp.prune_until_row
                 .enables_expansion()
-                .then(|| imp.prune_until_row.prune_until_timestamp().to_string()),
+                .then(|| imp.prune_until_row.timestamp().to_string()),
         );
 
         let page = view::ActionPage::from(&action);
