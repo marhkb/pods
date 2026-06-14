@@ -289,6 +289,7 @@ impl From<Option<bollard::plugin::ContainerStateStatusEnum>> for ContainerStatus
                 bollard::plugin::ContainerStateStatusEnum::REMOVING => Self::Removing,
                 bollard::plugin::ContainerStateStatusEnum::RESTARTING => Self::Restarting,
                 bollard::plugin::ContainerStateStatusEnum::RUNNING => Self::Running,
+                bollard::plugin::ContainerStateStatusEnum::STOPPING => Self::Stopping,
                 bollard::plugin::ContainerStateStatusEnum::EMPTY => Self::default(),
             })
             .unwrap_or_default()
@@ -306,6 +307,7 @@ impl From<Option<bollard::plugin::ContainerSummaryStateEnum>> for ContainerStatu
                 bollard::plugin::ContainerSummaryStateEnum::REMOVING => Self::Removing,
                 bollard::plugin::ContainerSummaryStateEnum::RESTARTING => Self::Restarting,
                 bollard::plugin::ContainerSummaryStateEnum::RUNNING => Self::Running,
+                bollard::plugin::ContainerSummaryStateEnum::STOPPING => Self::Stopping,
                 bollard::plugin::ContainerSummaryStateEnum::EMPTY => Self::default(),
             })
             .unwrap_or_default()

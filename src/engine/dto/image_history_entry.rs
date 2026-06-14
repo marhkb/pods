@@ -7,8 +7,8 @@ pub(crate) struct ImageHistoryEntry {
     pub(crate) tags: Vec<String>,
 }
 
-impl From<bollard::plugin::HistoryResponseItem> for ImageHistoryEntry {
-    fn from(value: bollard::plugin::HistoryResponseItem) -> Self {
+impl From<bollard::plugin::ImageHistoryResponseItem> for ImageHistoryEntry {
+    fn from(value: bollard::plugin::ImageHistoryResponseItem) -> Self {
         Self {
             comment: Some(value.comment).filter(|comment| !comment.is_empty()),
             created: (value.created >= 0).then_some(value.created),

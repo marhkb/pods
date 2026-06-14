@@ -158,7 +158,7 @@ impl From<ContainerCreateMountOpts> for bollard::plugin::Mount {
             read_only: Some(value.read_only),
             source: Some(value.host_path),
             target: Some(value.container_path),
-            typ: Some(bollard::plugin::MountTypeEnum::BIND),
+            typ: Some(bollard::plugin::MountType::BIND),
             ..Default::default()
         }
     }
@@ -199,7 +199,7 @@ impl From<ContainerCreateVolumeOpts> for bollard::plugin::Mount {
             read_only: Some(value.read_only),
             source: Some(value.volume),
             target: Some(value.container_path),
-            typ: Some(bollard::plugin::MountTypeEnum::VOLUME),
+            typ: Some(bollard::plugin::MountType::VOLUME),
             ..Default::default()
         }
     }
