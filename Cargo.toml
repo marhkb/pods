@@ -11,7 +11,7 @@ adw = { version = "0.9", package = "libadwaita", features = ["v1_9"] }
 anyhow = "1"
 ashpd = { version = "0.13", default-features = false, features = ["account", "file_chooser", "gtk4", "notification", "tokio"] }
 async-stream = "0.3"
-bollard = "0.21"
+bollard = { version = "0.21", features = ["ssh", "ssl"] }
 bytes = "1"
 futures = { version = "0.3", default-features = false, features = ["std"] }
 gettext-rs = { version = "=0.7.0", features = ["gettext-system"] }
