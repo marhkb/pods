@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-15 14:53+0000\n"
 "PO-Revision-Date: 2026-06-25 23:01+0000\n"
-"Last-Translator: Cristian Pavan <cristianpavan@gmail.com>\n"
+"Last-Translator: Jutier <ricardo.10.junior@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "main/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -117,7 +117,7 @@ msgstr "aributo de ordenação para contêineres"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:111
 msgid "Whether to show running containers first"
-msgstr "Mostrar primeiro os contêineres em execução"
+msgstr "Se deve mostrar primeiro os contêineres em execução"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:123
 msgid "Sort direction for pods"
