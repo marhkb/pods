@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-15 14:53+0000\n"
 "PO-Revision-Date: 2026-06-25 23:01+0000\n"
-"Last-Translator: Jutier <ricardo.10.junior@gmail.com>\n"
+"Last-Translator: Cristian Pavan <cristianpavan@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/pods/"
 "main/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -1619,7 +1619,7 @@ msgstr "Remover imagens não utilizadas"
 #: src/model/action.rs:173
 #, rust-format
 msgid "Pull image <b>{}</b>"
-msgstr "Puxar imagem <b>{}</b>"
+msgstr "Baixar imagem <b>{}</b>"
 
 #: src/model/action.rs:207
 #, rust-format
@@ -2639,7 +2639,7 @@ msgstr "Limpar Pod"
 
 #: src/view/container_creation_page.blp:150 src/view/pod_creation_page.blp:219
 msgid "Pull Latest Image"
-msgstr "Puxar a última imagem"
+msgstr "Baixar a última imagem"
 
 #: src/view/container_creation_page.blp:159
 #: src/view/container_details_page.blp:213
@@ -3557,11 +3557,11 @@ msgstr "Ações de imagem"
 
 #: src/view/image_pull_page.blp:9
 msgid "Pull Image"
-msgstr "Fazer pull da imagem"
+msgstr "Baixar imagem"
 
 #: src/view/image_pull_page.blp:15 src/view/images_panel.blp:16
 msgid "_Pull"
-msgstr "_Pull"
+msgstr "_Baixar"
 
 #: src/view/image_remote_selection_page.rs:213
 msgid "Failed to search for images"
@@ -4184,7 +4184,7 @@ msgstr "O Serviço Secreto não está disponível"
 
 #: src/view/repo_tag_row.blp:29 src/view/repo_tag_row.blp:32
 msgid "Pull Latest"
-msgstr "Puxe o mais recente"
+msgstr "Baixar o mais recente"
 
 #: src/view/repo_tag_row.blp:43 src/view/repo_tag_row.blp:46
 msgid "Push to Registry"
