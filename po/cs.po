@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 21:04+0100\n"
-"PO-Revision-Date: 2026-03-18 09:09+0000\n"
+"PO-Revision-Date: 2026-07-02 13:01+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/pods/main/cs/>\n"
 "Language: cs\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:56
@@ -331,7 +331,7 @@ msgstr "Vytvořeno"
 
 #: src/model/container.rs:71 src/model/pod.rs:65
 msgid "Dead"
-msgstr ""
+msgstr "Mrtvé"
 
 #: src/model/container.rs:72 src/model/pod.rs:68
 msgid "Exited"
@@ -860,7 +860,7 @@ msgstr "Unixový soket"
 
 #: src/view/connection_creation_page.ui:160
 msgid "Podman Socket Activation"
-msgstr ""
+msgstr "Podman aktivace soketem"
 
 #: src/view/connection_creation_page.ui:167
 msgid ""
@@ -940,7 +940,7 @@ msgstr "http://nekde:8081"
 
 #: src/view/connection_custom_info_dialog.ui:80
 msgid "Podman Root Connection"
-msgstr ""
+msgstr "Podman root připojení"
 
 #: src/view/connection_custom_info_dialog.ui:89
 msgid ""
@@ -1015,7 +1015,7 @@ msgstr "Předvolby"
 
 #: src/view/container_commit_page.ui:42
 msgid "Commit Container"
-msgstr ""
+msgstr "Odeslat kontejner"
 
 #: src/view/container_commit_page.ui:52
 #, fuzzy
@@ -2372,7 +2372,7 @@ msgstr "Infrastrukturní"
 
 #: src/view/pod_creation_page.ui:245
 msgid "Disable Infra"
-msgstr ""
+msgstr "Vypnout infrastrukturní"
 
 #: src/view/pod_creation_page.ui:282
 msgid "Common PID File"
@@ -2651,7 +2651,7 @@ msgstr "Inspekce kontejneru"
 
 #: src/view/scalable_text_view_page.rs:283
 msgid "Container Kube Generation"
-msgstr ""
+msgstr "Vytvoření kontejner Kube"
 
 #: src/view/scalable_text_view_page.rs:293
 msgid "Pod Inspection"
