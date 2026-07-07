@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-15 14:53+0000\n"
+"POT-Creation-Date: 2026-07-07 13:24+0000\n"
 "PO-Revision-Date: 2026-06-28 22:01+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/pods/main/pt/>"
-"\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/pods/main/pt/"
+">\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,8 +21,8 @@ msgstr ""
 "X-Generator: Weblate 2026.7.dev0\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7
-#: src/view/client_view.blp:139 src/view/client_view.rs:255
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:120
+#: src/view/client_view.blp:139 src/view/client_view.rs:246
 #: src/view/pods_panel.blp:81 src/view/pods_panel.blp:127
 #: src/view/pods_panel.blp:385 src/view/search_panel.blp:56
 msgid "Pods"
@@ -63,14 +63,14 @@ msgid "The last used container file path"
 msgstr "O último caminho de ficheiro de contentor usado"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
-#: src/view/images_prune_page.blp:56
+#: src/view/images_prune_opts_dialog.blp:49
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
 "Remova todas as imagens que não estão em uso pelos contêineres, não apenas "
 "as pendentes"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
-#: src/view/images_prune_page.blp:61
+#: src/view/images_prune_opts_dialog.blp:54
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
@@ -224,33 +224,40 @@ msgid "Pods 3.0.0 contains the following changes:"
 msgstr "O Pods 3.0.0 contém as seguintes alterações:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:45
-msgid "Implemented support for Docker (#927)"
-msgstr "Implementado apoio ao Docker (#927)"
+msgid ""
+"Implemented a new backend architecture to support multiple container "
+"engines. (#927)"
+msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:51
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
+msgid ""
+"Experimental Docker support – please report any issues on GitHub. (#927)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Pods 2.4.0 contains the following changes:"
 msgstr "O Pods 2.4.0 contém as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:53
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
 msgid "Updated to GNOME 50. (#916)"
 msgstr "Atualizado para o GNOME 50. (#916)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:55
 msgid "Sidebar ported to Adw.Sidebar. (#919)"
 msgstr "Barra lateral portada para Adw.Sidebar. (#919)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:55
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:56
 msgid ""
 "Fixed a bug that prevented scrolling up in the container log page. (#920)"
 msgstr ""
 "Corrigido um bug que impedia rolar para cima na página de logs do contentor. "
 "(#920)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:61
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
 msgid "Pods 2.3.0 contains the following changes:"
 msgstr "O Pods 2.3.0 contém as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:63
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
 msgid ""
 "Replaced numerous mismatched or outdated widgets with modern alternatives "
 "from libadwaita 1.8. (#890, #899, #909, #910)"
@@ -258,7 +265,7 @@ msgstr ""
 "Substituídos vários widgets incompatíveis ou desatualizados por alternativas "
 "modernas do libadwaita 1.8. (#890, #899, #909, #910)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:65
 msgid ""
 "Actions such as container creation can now be retried in case of failure; "
 "thanks to @iamanaws. (#899)"
@@ -266,11 +273,11 @@ msgstr ""
 "Ações como a criação de contentores agora podem ser tentadas novamente no "
 "caso de falha; graças a @iamanaws. (#899)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:65
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:66
 msgid "CVE-2025-62518 has been fixed; thanks to @bengsparks. (#895)"
 msgstr "A CVE-2025-62518 foi corrigida; graças a @bengsparks. (#895)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:66
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:67
 msgid ""
 "Various fixes and improvements throughout the app; thanks to @iamanaws, "
 "@jardon and @Kekun. (#874, #879, #848, #880, #894, #899, #908, #904)"
@@ -278,24 +285,24 @@ msgstr ""
 "Várias correções e melhorias na a app; graças a @iamanaws, @jardon e @Kekun. "
 "(#874, #879, #848, #880, #894, #899, #908, #904)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:67
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:68
 msgid "Updated translations."
 msgstr "Traduções atualizadas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:73
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
 msgid "Pods 2.2.0 contains the following changes:"
 msgstr "O Pods 2.2.0 contém as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:88
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:75
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:89
 msgid "Features"
 msgstr "Características"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:76
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
 msgid "Add more powerful sorting options. (#848)"
 msgstr "Adicionar opções de ordenação mais avançadas. (#848)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
 msgid ""
 "The search entry has been transformed into a toggle button in the headerbar. "
 "(#830)"
@@ -303,11 +310,11 @@ msgstr ""
 "O campo de pesquisa foi transformado num botão alternável na barra de "
 "cabeçalho. (#830)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:79
 msgid "Search is now possible in the connection chooser page. (#830)"
 msgstr "Agora é possível pesquisar na página de seleção de conexão. (#830)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:79
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:80
 msgid ""
 "The control elements of the header bar are now moved to a lower bar if space "
 "becomes too tight. (#837)"
@@ -315,40 +322,40 @@ msgstr ""
 "Os elementos de controlo da barra de cabeçalho agora são movidos para uma "
 "barra inferior quando o espaço fica muito apertado. (#837)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:80
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:81
 msgid ""
 "Allow switching between grid and list view in the containers panel. (#838)"
 msgstr ""
 "Permitir alternar entre visualização em grade e em lista no painel de "
 "contentores. (#838)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:81
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:82
 msgid "Various widgets have been updated to libadwaita 1.7. (#870)"
 msgstr "Vários widgets foram atualizados para o libadwaita 1.7. (#870)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:87
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:88
 msgid "Pods 2.1.0 contains the following changes:"
 msgstr "Pods 2.1.0 contém as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:90
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:91
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
 msgstr ""
 "As cores de destaque agora são apoiadas adequadamente. ( #804, #807, #809, "
 "#811)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:91
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:92
 msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
 msgstr ""
 "Todos os diálogos foram transportados para o Adwdialog para serem mais "
 "adaptáveis. (#810)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:92
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
 msgid "Containers are now represented by cards in the container panel. (#778)"
 msgstr ""
 "Os contentores agora são representados por cartões no painel de contentores. "
 "(#778)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:94
 msgid ""
 "The image search has been completely revised and is now much more "
 "streamlined. In addition, the tags of an image are suggested. (#758)"
@@ -356,21 +363,21 @@ msgstr ""
 "A pesquisa de imagem foi completamente revisada e agora está muito mais "
 "simplificada. Além disso, as tags de uma imagem são sugeridas. (#758)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:97
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
 msgid "Port mappings can now be configured when creating pods. (#772)"
 msgstr ""
 "Os mapeamentos de porta agora podem ser configurados ao criar feijões "
 "verdes. (#772)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:99
 msgid "Enable searching for container and pod processes. (#747)"
 msgstr "Ative a procura de processos de contentor e pod. (#747)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:99
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:100
 msgid "Killing container processes is now supported. (#748)"
 msgstr "A matar processos de contentor agora é suportada. (#748)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:100
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:101
 msgid ""
 "The image search results now have an \"verified\" icon if an image is "
 "official. (#761)"
@@ -378,15 +385,15 @@ msgstr ""
 "Os resultados da pesquisa de imagem agora têm um ícone \"verificado\" se uma "
 "imagem for oficial. (#761)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:101
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:102
 msgid "Logs are now sent to both std and syslog. (#763)"
 msgstr "Os logs agora são enviados para STD e Syslog. (#763)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:102
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:103
 msgid "Make it possible to create privileged containers. (#753)"
 msgstr "Possibilite a criação de contentores privilegiados. (#753)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:103
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
 msgid ""
 "Better handling of empty states when selecting images, pods and volumes for "
 "a container to be created. (#769)"
@@ -394,11 +401,11 @@ msgstr ""
 "Melhor manuseio de estados vazios ao selecionar imagens, feijões verdes e "
 "volumes para que um contentor seja criado. (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:105
 msgid "Unification of status and health status in the container row. (#774)"
 msgstr "Unificação de estado e estado de saúde na linha do contentor. (#774)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:105
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
 msgid ""
 "The recently introduced libadwaita Spinner now replaces all gtk Spinners. "
 "(#802)"
@@ -406,11 +413,11 @@ msgstr ""
 "O spinner Libadwaita recentemente introduzido agora substitui todos os "
 "spinners do GTK. (#802)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
 msgid "Fixes"
 msgstr "Correções"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:109
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
 msgid ""
 "All remaining processes are now closed after a container terminal exits. "
 "(#744)"
@@ -418,7 +425,7 @@ msgstr ""
 "Todos os processos restantes agora estão fechados após a saída de um "
 "terminal de contentores. (#744)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:111
 msgid ""
 "Streams are now closed correctly so that they do not run forever when the "
 "user changes the connection. (#764)"
@@ -426,7 +433,7 @@ msgstr ""
 "Os fluxos agora estão fechados corretamente para que não corram para sempre "
 "quando o utilizador altera a conexão. (#764)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:111
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:112
 msgid ""
 "A bug was fixed where the content of the container log page was initially "
 "too large. (#769)"
@@ -434,19 +441,19 @@ msgstr ""
 "Um bug foi corrigido onde o conteúdo da página de log do contentor era "
 "inicialmente muito grande. (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:112
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:113
 msgid "Stop filtering out containers, pods and volumes by default. (#770)"
 msgstr "Pare de filtrar recipientes, cápsulas e volumes por padrão. (#770)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:114
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:115
 msgid "Improvements"
 msgstr "Melhorias"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:116
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:117
 msgid "We now use appdata to construct the about dialog. (#743)"
 msgstr "Agora usamos o AppData para construir a caixa de diálogo sobre. (#743)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:117
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:118
 msgid ""
 "Improve performance by utilizing the <em>SignalListItemFactory::setup</em> "
 "signal. (#745)"
@@ -454,11 +461,11 @@ msgstr ""
 "Melhore o desempenho utilizando o sinal <em> SignalListEmFactory :: Setup </"
 "em>. (#745)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:118
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:119
 msgid "Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)"
 msgstr "Porta <em> gtktreeview </em> para <em> gtkcolumnview </em>. (#746)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:119
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:120
 msgid ""
 "After the last connection has been removed from the page with the connection "
 "selection, the home page is displayed again. (#760)"
@@ -466,7 +473,7 @@ msgstr ""
 "Depois que a última conexão foi removida da página com a seleção de conexão, "
 "a página inicial é exibida novamente. (#760)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:123
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
 msgid ""
 "The same background color is now used for list views as for the window. "
 "(#769)"
@@ -474,7 +481,7 @@ msgstr ""
 "A mesma cor de fundo agora é usada para visualizações de lista quanto para a "
 "janela. (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:125
 msgid ""
 "We have moved the banner from the bottom to the top in the container log "
 "page. (#769)"
@@ -482,23 +489,23 @@ msgstr ""
 "Mudamos o banner da parte inferior para a parte superior na página de log do "
 "contentor. (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:125
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:126
 msgid "Some titles have been shortened. (#769)"
 msgstr "Alguns títulos foram reduzidos. (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:126
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:127
 msgid "We now use AboutDialog instead of AboutWindow. (803)"
 msgstr "Agora usamos o sobredialog em vez de sobrewindow. (803)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:127
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:128
 msgid "Various style improvements (#741, #757)"
 msgstr "Várias melhorias de estilo ( #741, #757)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:133
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:134
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
 msgstr "Pods 1.2.1 contém as seguintes correções de bugs e melhorias:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:135
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:136
 msgid ""
 "Fixed a bug that caused the application to crash when the keyring could not "
 "be accessed."
@@ -506,7 +513,7 @@ msgstr ""
 "Corrigido um bug que fez com que a aplicação travasse quando o chaveiro não "
 "pôde ser acedido."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:136
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:137
 msgid ""
 "Some languages like Romanian were not correctly included. This should be "
 "fixed now."
@@ -514,7 +521,7 @@ msgstr ""
 "Alguns idiomas como romeno não foram corretamente incluídos. Isto deve estar "
 "resolvido agora."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:137
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
 msgid ""
 "Fixed a regression where the container list was not re-sorted once a "
 "container was renamed."
@@ -522,42 +529,42 @@ msgstr ""
 "Corrigido uma regressão onde a lista de contentores não era reordenada uma "
 "vez que um contentor era renomeado."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:139
 msgid "Minor cleanup work has been done in the code."
 msgstr "Um pequeno trabalho de limpeza foi feito no código."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:144
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:145
 msgid "Pods 1.2.0 contains the following new features:"
 msgstr "Pods 1.2.0 contém os seguintes novos recursos:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:146
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:147
 msgid "Usabilty and UX has been improved in many places."
 msgstr "Usabilidade e UX foram melhorados em muitos lugares."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:147
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:148
 msgid "Pruning of containers and pods is now possible."
 msgstr "Agora é possível eliminar contentores e pods."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:148
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:149
 msgid "Container terminals are now detachable and can be used in parallel."
 msgstr ""
 "Os terminais de contentor agora são destacáveis e podem ser usados em "
 "paralelo."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:149
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:150
 msgid "Images can be pushed to a registry."
 msgstr "Imagens podem ser enviadas para um registo (registy)."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:150
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:151
 msgid "The CPU utilization now takes the number of cores into account."
 msgstr "A utilização da CPU agora leva em conta a quantidade de núcleos."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:156
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:157
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
 msgstr ""
 "Pods 1.1.0 contém os seguintes recursos, correções de bugs e melhorias:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:158
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:159
 msgid ""
 "Dependencies have been updated. This includes the update to GNOME 44 "
 "libraries."
@@ -565,26 +572,26 @@ msgstr ""
 "As dependências foram atualizadas. Isto inclui a atualização para "
 "bibliotecas do GNOME 44."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:159
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:160
 msgid "AdwBanner is now used in the container log page instead of GtkInfoBar."
 msgstr ""
 "AdwBanner agora é usado na página de log do contentor em vez de GtkInfoBar."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:160
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:161
 msgid "The GNOME Coc is acknowledged in the README.md."
 msgstr "O Código de Conduta do GNOME é reconhecido no README.md."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:161
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:162
 msgid "The main window and all dialogs can now be closed with Ctrl+W."
 msgstr ""
 "A janela principal e todas as caixas de diálogo agora podem ser fechadas com "
 "Ctrl+W."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:162
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:163
 msgid "The memory icon has been improved, thanks to @daudix-UFO."
 msgstr "O ícone de memória foi melhorado, graças a @daudix-UFO."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:163
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:164
 msgid ""
 "Internal code improvements have landed, like the port to glib-rs' new "
 "properties proc macro."
@@ -592,17 +599,17 @@ msgstr ""
 "As melhorias de código interno pousaram, como para as novas propriedades "
 "proc macro do glib-rs."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:164
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:183
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:201
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:217
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:233
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:244
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:258
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:165
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:184
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:218
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:234
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:245
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:259
 msgid "Translations have been updated."
 msgstr "As traduções foram atualizadas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:170
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:171
 msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
@@ -610,7 +617,7 @@ msgstr ""
 "Pods 1.1.0-beta.4 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:172
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
 msgid ""
 "The connection color is now displayed by means of a colored dot in front of "
 "the connection name in the connection overview, instead of a vertical bar at "
@@ -620,7 +627,7 @@ msgstr ""
 "nome da conexão na visão geral da conexão, em vez de uma barra vertical no "
 "início."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:174
 msgid ""
 "The penguin icon to the left of the Podman version has been removed from the "
 "status bar."
@@ -628,7 +635,7 @@ msgstr ""
 "O ícone do pinguim à esquerda da versão Podman foi removido da barra de "
 "estado."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:174
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:175
 msgid ""
 "The Podman menu button in the status bar now shows a loading indicator until "
 "the Podman version is determined."
@@ -636,7 +643,7 @@ msgstr ""
 "O botão de menu Podman na barra de estado agora mostra um indicador de "
 "carregamento até que a versão Podman seja determinada."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:175
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:176
 msgid ""
 "The label to show the version of the Podman menu button in the status bar "
 "now uses the <em>numeric</em> style class, which looks more harmonious."
@@ -644,7 +651,7 @@ msgstr ""
 "O rótulo para mostrar a versão do botão de menu Podman na barra de estado "
 "agora usa a classe de estilo <em>numeric</em>, que parece mais harmoniosa."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:176
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:177
 msgid ""
 "To eliminate the blur, the icons in the status bar now all have a size of 16 "
 "pixels instead of 12 pixels."
@@ -652,16 +659,16 @@ msgstr ""
 "Para eliminar o borrado, os ícones na barra de estado agora todos têm um "
 "tamanho de 16 pixels em vez de 12 pixels."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:177
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:178
 msgid "The desktop entry now uses the updated short description as comment."
 msgstr ""
 "A entrada de desktop agora usa a descrição curta atualizada como comentário."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:178
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:179
 msgid "Some appropriate categories have been added to the desktop entry."
 msgstr "Algumas categorias apropriadas foram adicionadas à entrada de desktop."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:179
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:180
 msgid ""
 "Fixed a bug where the Id of a container was replaced by the name once the "
 "name of the container was changed."
@@ -669,7 +676,7 @@ msgstr ""
 "Corrigido um bug onde a identificação de um contentor era substituída pelo "
 "nome uma vez que o nome do contentor tenha sido alterado."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:180
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:181
 msgid ""
 "The container status <em>configured</em> was not handled before. This is now "
 "fixed."
@@ -677,7 +684,7 @@ msgstr ""
 "O estado do contentor <em>configurado</em> não era tratado antes. Isto agora "
 "está corrigido."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:181
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:182
 msgid ""
 "The spinner within the container log page did not disappear earlier if the "
 "log was empty. This is fixed now."
@@ -685,19 +692,19 @@ msgstr ""
 "O spinner dentro da página de log de contentor não desaparecia antes se o "
 "log estivesse vazio. Isto está resolvido agora."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:182
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:183
 msgid "The code has been improved in some places."
 msgstr "O código foi melhorado em alguns lugares."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:184
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:218
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:234
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:259
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:185
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:203
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:219
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:235
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:260
 msgid "Dependencies have been updated."
 msgstr "As dependências foram atualizadas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:190
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:191
 msgid ""
 "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
 "improvements:"
@@ -705,7 +712,7 @@ msgstr ""
 "Pods 1.1.0-beta.3 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:192
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:193
 msgid ""
 "The connection menu has received an entry for disconnecting the current "
 "Podman connection."
@@ -713,14 +720,14 @@ msgstr ""
 "O menu de conexão recebeu uma entrada para desconectar a conexão atual do "
 "Podman."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:193
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:194
 msgid ""
 "The status bar now has a menu button that shows the current Podman version."
 msgstr ""
 "A barra de estado agora tem um botão de menu que mostra a versão atual do "
 "Podman."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:194
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:195
 msgid ""
 "The menu item to open the Podman information window has been moved from the "
 "main menu to the Podman menu in the status bar."
@@ -728,7 +735,7 @@ msgstr ""
 "O elemento do menu para abrir a janela de informações do Podman foi movido "
 "do menu principal para o menu do Podman na barra de estado."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:195
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:196
 msgid ""
 "A new widget has been implemented that allows you to control the zoom level "
 "of text."
@@ -736,7 +743,7 @@ msgstr ""
 "Um novo widget foi implementado que permite controlar o nível de zoom do "
 "texto."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:196
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:197
 msgid ""
 "On all pages with text, such as the inspection page, the download button has "
 "been moved to a menu in the header bar together with the zoom control widget."
@@ -745,7 +752,7 @@ msgstr ""
 "descargas foi movido para um menu na barra de cabeçalho junto com o widget "
 "de controlo de zoom."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:197
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:198
 msgid ""
 "On the container log page some buttons together with zoom control widget are "
 "moved to a menu in the header bar."
@@ -753,11 +760,11 @@ msgstr ""
 "Na página de log do recipiente alguns botões juntamente com o widget de "
 "controlo de zoom são movidos para um menu na barra de cabeçalho."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:198
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:199
 msgid "The text in the container terminal can now be zoomed."
 msgstr "O texto no terminal do contentor agora pode ser ampliado."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:199
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:200
 msgid ""
 "Fixed a bug in the container log page where an explicit color was set for "
 "the default ANSI escape sequence. This resulted in text not being readable "
@@ -767,7 +774,7 @@ msgstr ""
 "definida para a sequência de escape no padrão ANSI. Isto resultava no texto "
 "não ser legível no tema claro sob certas circunstâncias."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:200
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:201
 msgid ""
 "The text views, like the Inspection page, are now closed immediately if "
 "there is an error. For example, this would be the case if the cube YAML "
@@ -777,7 +784,7 @@ msgstr ""
 "imediatamente se houver um erro. Por exemplo, este seria o caso se o cubo "
 "YAML não pudesse ser gerado."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:208
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:209
 msgid ""
 "Pods 1.1.0-beta.2 contains the following features, bug fixes and "
 "improvements:"
@@ -785,7 +792,7 @@ msgstr ""
 "Pods 1.1.0-beta.2 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:210
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:211
 msgid ""
 "It is now possible to assign colors to connections. Then, when the "
 "connection is active, the status bar is colored accordingly."
@@ -793,28 +800,28 @@ msgstr ""
 "Agora é possível atribuir cores a conexões. Então, quando a conexão está "
 "ativa, a barra de estado é colorida em conformidade."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:211
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:212
 msgid "The progress bar in the status bar has been replaced by a label."
 msgstr "A barra de progresso na barra de estado foi substituída por um rótulo."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:212
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:213
 msgid "The formatting of the container log is now correctly kept across lines."
 msgstr ""
 "A formatação do log do contentor agora é mantida corretamente através das "
 "linhas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:213
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:214
 msgid ""
 "Some strings has been marked as translatable that where previously forgotten."
 msgstr ""
 "Algumas cadeias foram marcadas como traduzíveis, onde anteriormente "
 "esquecido."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:214
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:215
 msgid "Some strings has been changed to be more accurate."
 msgstr "Algumas cadeias foram alteradas para serem mais precisas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:215
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:216
 msgid ""
 "A workaround and a fix have been implemented specifically for crashes that "
 "led to crashes when using podman 3.0."
@@ -822,7 +829,7 @@ msgstr ""
 "Uma solução de contorno e uma correção foram implementadas especificamente "
 "para falhas que levavam a falhas ao usar o podman 3.0."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:216
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:217
 msgid ""
 "Fixed a style bug that caused the inner scrollbar on the connection "
 "selection page to have an offset."
@@ -830,7 +837,7 @@ msgstr ""
 "Corrigido um bug de estilo que causava a barra de rolagem interna na página "
 "de seleção de conexão para ter um deslocamento."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:224
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:225
 msgid ""
 "Pods 1.1.0-beta.1 contains the following features, bug fixes and "
 "improvements:"
@@ -838,7 +845,7 @@ msgstr ""
 "Pods 1.1.0-beta.1 contém os seguintes recursos, correções de bugs e "
 "melhorias:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:226
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
 msgid ""
 "The fonts in all text views, such as those in the inspection pages, are now "
 "scalable using typical shortcuts."
@@ -846,7 +853,7 @@ msgstr ""
 "As fontes em todas as visualizações de texto, como as nas páginas de "
 "inspeção, agora são escaláveis usando atalhos típicos."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:228
 msgid ""
 "It is now prevented that actions in subpages like the container inspection "
 "subpage can be triggered via shortcuts (e.g. the action to download files)."
@@ -855,7 +862,7 @@ msgstr ""
 "contentor possam ser acionadas através de atalhos (por exemplo, a ação para "
 "descarregar ficheiros)."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:228
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:229
 msgid ""
 "More ANSI escape sequences like background colors and bright colors has been "
 "added to the container log page."
@@ -863,13 +870,13 @@ msgstr ""
 "Mais sequências de escape ANSI como cores de fundo e cores claras foi "
 "adicionado à página de log do contentor."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:229
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:230
 msgid "Fixed a bug that caused some containers to not display most log lines."
 msgstr ""
 "Corrigido um bug que causava alguns contentores a não exibir a maioria das "
 "linhas de log."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:230
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:231
 msgid ""
 "The name of the container is now also displayed as a subtitle in the health "
 "check page."
@@ -877,19 +884,19 @@ msgstr ""
 "O nome do contentor agora também é exibido como uma legenda na página de "
 "verificação de saúde."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:231
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:232
 msgid "The README file has been updated and improved."
 msgstr "O ficheiro README foi atualizado e melhorado."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:232
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:233
 msgid "There were a lot of internal improvements to the code."
 msgstr "Houve muitas melhorias internas no código."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:240
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:241
 msgid "Pods 1.0.2 contains the following changes:"
 msgstr "Pods 1.0.2 contém as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:242
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:243
 msgid ""
 "The search behavior has been adjusted so that pressing <em>Ctrl+F</em> again "
 "resets the search and that <em>Escape</em> closes it."
@@ -897,7 +904,7 @@ msgstr ""
 "O comportamento da pesquisa foi ajustado para que pressionar <em>Ctrl+F</em> "
 "novamente redefina a pesquisa e que <em>Escape</em> feche-a."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:243
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:244
 msgid ""
 "The application icon and symbolic icons have been further improved, thanks "
 "to @daudix-UFO."
@@ -905,7 +912,7 @@ msgstr ""
 "O ícone da aplicação e ícones simbólicos foram melhorados ainda mais, graças "
 "a @daudix-UFO."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:250
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:251
 msgid ""
 "The stable 1.0 release of Pods includes the following changes since the last "
 "RC:"
@@ -913,7 +920,7 @@ msgstr ""
 "A versão estável 1.0 do Pods inclui as seguintes alterações desde o último "
 "RC:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:252
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:253
 msgid ""
 "The welcome page now has a very attractive, colorful illustration, thanks to "
 "@daudix-UFO."
@@ -921,11 +928,11 @@ msgstr ""
 "A página de boas-vindas agora tem uma ilustração muito atraente, colorida, "
 "graças a @daudix-UFO."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:253
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:254
 msgid "Switching the Podman connection now no longer blocks the GUI."
 msgstr "Mudar a conexão Podman agora já não bloqueia a GUI."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:254
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:255
 msgid ""
 "Creating new Podman connections can now be canceled during the connection "
 "attempt."
@@ -933,7 +940,7 @@ msgstr ""
 "A criação de novas conexões Podman agora pode ser cancelado durante a "
 "tentativa de conexão."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:255
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:256
 msgid ""
 "Copying and pasting text from/to the container terminal now works with "
 "<em>Ctrl+Shift+C</em> and <em>Ctrl+Shift+V</em>, respectively."
@@ -941,20 +948,20 @@ msgstr ""
 "O copiar e colar de texto de/para o terminal do contentor agora funciona com "
 "<em>Ctrl+Shift+C</em> e <em>Ctrl+Shift+V</em>, respectivamente."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:256
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:257
 msgid "The container terminal now has a simple context menu."
 msgstr "O terminal do contentor agora tem um menu de contexto simples."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:257
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:258
 msgid "The animation of the internal spinner widget has been beautified."
 msgstr "A animação do widget de spinner interno foi embelezada."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:265
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:266
 msgid "The third 1.0 release candidate of Pods contains the following changes:"
 msgstr ""
 "O terceiro candidato a versão 1.0 do Pods contém as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:267
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:268
 msgid ""
 "The application icon and symbolic icons have been improved, thanks to "
 "@daudix-UFO"
@@ -962,7 +969,7 @@ msgstr ""
 "O ícone da aplicação e ícones simbólicos foram melhorados, graças a @daudix-"
 "UFO"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:268
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:269
 msgid ""
 "Actions, such as creating a container, can now be repeated initially if they "
 "fail."
@@ -970,7 +977,7 @@ msgstr ""
 "As ações, como criar um contentor, podem agora ser repetidas inicialmente se "
 "falharem."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:269
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:270
 msgid ""
 "Fixed a bug that prevented the label displaying the id of an image from "
 "being striked through if the image was being deleted."
@@ -978,18 +985,18 @@ msgstr ""
 "Corrigido um bug que impedia que o rótulo exibindo o id de uma imagem fosse "
 "tachado se a imagem estivesse a ser apagada."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:270
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:271
 msgid "Repository tags are now selectable within the image details page."
 msgstr ""
 "As tags de repositório agora são selecionáveis na página de pormenores da "
 "imagem."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:271
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
 msgid "Translations have been updated. Thanks to all who contributed."
 msgstr ""
 "As traduções foram atualizadas. Obrigado a todas as pessoas que contribuíram."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:273
 msgid ""
 "Internal code improvements have been made, such as reducing dependencies and "
 "enabling LTO for release builds."
@@ -997,7 +1004,7 @@ msgstr ""
 "Foram feitas melhorias no código interno, como reduzir dependências e ativar "
 "o LTO para compilações de lançamento."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:278
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:279
 msgid ""
 "This is a hotfix release that prevents the application from crashing when "
 "disconnected from Podman."
@@ -1005,7 +1012,7 @@ msgstr ""
 "Esta é uma versão de hotfix que impede a aplicação de travar quando "
 "desconectado do Podman."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:283
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:284
 msgid ""
 "All features for version 1.0 are now implemented and Pods is thus in the "
 "release candidate phase. Among the changes since the last release are:"
@@ -1014,7 +1021,7 @@ msgstr ""
 "o Pods está na fase de release candidate. Entre as mudanças desde o último "
 "release estão:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:285
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:286
 msgid ""
 "Actions such as downloading an image or creating a container now take place "
 "in dialogs instead of in the main window."
@@ -1022,7 +1029,7 @@ msgstr ""
 "Ações como descarregar uma imagem ou criar um contentor agora ocorrem em "
 "diálogos em vez de na janela principal."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:286
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:287
 msgid ""
 "Image Rows have been revised to better reflect the presence of multiple repo "
 "tags."
@@ -1030,13 +1037,13 @@ msgstr ""
 "As linhas de imagem foram revisadas para refletir melhor a presença de "
 "várias tags de repo."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:287
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:288
 msgid "Repo tags can now be removed and added within the image details page."
 msgstr ""
 "As tags de repo agora podem ser removidas e adicionadas dentro da página de "
 "pormenores da imagem."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:288
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:289
 msgid ""
 "The subtitle property of the header bars is now used to display the image "
 "id, or the name of the container or pod."
@@ -1044,7 +1051,7 @@ msgstr ""
 "A propriedade de subtítulo das barras de cabeçalho agora é usada para exibir "
 "o ID da imagem, ou o nome do contentor ou pod."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:289
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:290
 msgid ""
 "The style of the container details page has been adjusted. Thus, some action "
 "rows have been moved to the properties."
@@ -1052,15 +1059,15 @@ msgstr ""
 "O estilo da página de pormenores do contentor foi ajustado. Assim, algumas "
 "linhas de ação foram movidas para as propriedades."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:290
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:291
 msgid "Shortcuts have been added to the container details page."
 msgstr "Atalhos foram adicionados à página de pormenores do contentor."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:291
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:292
 msgid "Small improvements in the spirit of the GNOME HIG took place."
 msgstr "Pequenas melhorias no espírito do GNOME HIG ocorreram."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:292
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:293
 msgid ""
 "The usual changes such as improving the source code and updating the "
 "dependencies."
@@ -1068,7 +1075,7 @@ msgstr ""
 "As mudanças habituais, como melhorar o código-fonte e atualizar as "
 "dependências."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:293
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:294
 msgid ""
 "Translations have been updated and all translatable strings are now "
 "considered frozen."
@@ -1076,7 +1083,7 @@ msgstr ""
 "As traduções foram atualizadas e todas as cadeias traduzíveis agora são "
 "consideradas congeladas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:299
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:300
 msgid ""
 "The ninth beta of Pods in an important step towards the stable first "
 "version. It contains the following changes:"
@@ -1084,11 +1091,11 @@ msgstr ""
 "O nono beta do Pods num passo importante para a primeira versão estável. "
 "Contém as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:301
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:302
 msgid "It is now possible to have a terminal in a container."
 msgstr "Agora é possível ter um terminal num contentor."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:302
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:303
 msgid ""
 "As one works with the terminal and views text in the form of logs or "
 "inspection data, the theme selector has been reintroduced. This is provided "
@@ -1098,32 +1105,32 @@ msgstr ""
 "dados de inspeção, o seletor do tema foi reintroduzido. Isto é fornecido por "
 "<em>libpanel</em>, que deve simplificar a manutenção."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:303
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:304
 msgid ""
 "The dialog for renaming a container is now based on <em>AdwMessageDialog</"
 "em>."
 msgstr ""
-"A caixa de diálogo para renomear um recipiente agora é baseada em <em>"
-"AdwMessageDialog</em>."
+"A caixa de diálogo para renomear um recipiente agora é baseada em "
+"<em>AdwMessageDialog</em>."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:304
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
 msgid "The style of the container series was tweaked in many ways."
 msgstr "O estilo da série de contentores foi ajustado de muitas maneiras."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:306
 msgid "Some minor internal code improvements have landed."
 msgstr "Algumas pequenas melhorias de código interno pousaram."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:306
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:326
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:307
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:327
 msgid "Dependencies and translations have been updated."
 msgstr "As dependências e traduções foram atualizadas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:312
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:313
 msgid "The eight beta release of Pods 1.0.0 includes the following changes:"
 msgstr "A oitava versão beta do Pods 1.0.0 inclui as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:314
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
 msgid ""
 "Pods now uses the <em>libpanel</em> library to display a status bar. Thus, "
 "notifications and the name of the Podman connection are always visible."
@@ -1132,7 +1139,7 @@ msgstr ""
 "estado. Assim, as notificações e o nome da conexão Podman são sempre "
 "visíveis."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:316
 msgid ""
 "When creating a new connection, there is now a hint on how to enable the "
 "Podman UNIX socket and a small example on how to use the Podman root "
@@ -1142,11 +1149,11 @@ msgstr ""
 "UNIX do Podman e um pequeno exemplo sobre como usar a instância root do "
 "Podman."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:316
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
 msgid "The history of an image can now be inspected."
 msgstr "O histórico de uma imagem agora pode ser inspecionada."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
 msgid ""
 "The design of the port bindings in the container details page has been "
 "revised."
@@ -1154,12 +1161,12 @@ msgstr ""
 "O design das ligações (bindings) de porta na página de pormenores de "
 "contentor foi revisto."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:319
 msgid "Kubernetes YAML files can now be generated for containers and pods."
 msgstr ""
 "Ficheiros YAML Kubernetes agora podem ser gerados para contentores e pods."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:319
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:320
 msgid ""
 "Files can now be downloaded from a container as well as uploaded to a "
 "container."
@@ -1167,7 +1174,7 @@ msgstr ""
 "Os ficheiros agora podem ser descarregados de um contentor, bem como "
 "enviados para um contentor."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:320
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:321
 msgid ""
 "The design of the circular progress bar for displaying container resources "
 "has been adjusted to be more consistent with the rest of the application."
@@ -1175,7 +1182,7 @@ msgstr ""
 "O projeto da barra de progresso circular para a exibição de recursos do "
 "contentor foi ajustado para ser mais consistente com o resto do aplicação."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:321
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:322
 msgid ""
 "There is now a rotating animation when a container or pod is in a state "
 "transition (start, stop, pause)."
@@ -1183,7 +1190,7 @@ msgstr ""
 "Agora há uma animação de rotação quando um contentor ou pod está numa "
 "transição de estado (iniciar, parar, pausar)."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:322
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:323
 msgid ""
 "If a container is in a pod, it will now get a badge with the pod name in the "
 "container list."
@@ -1191,7 +1198,7 @@ msgstr ""
 "Se um contentor estiver num pod, ele agora receberá um distintivo com o nome "
 "do pod na lista de contentores."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:323
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:324
 msgid ""
 "Logs, the result of the inspection of images, containers, and pods, and the "
 "result Kubernetes YAML generation can now be saved directly as a file."
@@ -1200,21 +1207,21 @@ msgstr ""
 "da geração de Kubernetes YAML agora podem ser gravados diretamente como um "
 "ficheiro."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:324
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:325
 msgid "Headerbar titles were adjusted to be shorter and more concise"
 msgstr ""
 "Títulos de barras de cabeçalho foram ajustados para ser mais curto e mais "
 "conciso"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:325
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:326
 msgid "Many minor internal code improvements have landed"
 msgstr "Muitas pequenas melhorias no código interno chegaram"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:332
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:333
 msgid "The seventh beta release of Pods 1.0.0 includes the following changes:"
 msgstr "A sétima versão beta do Pods 1.0.0 inclui as seguintes alterações:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:334
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
 msgid ""
 "Relative times are now used everywhere in the application. For example, you "
 "can quickly see how long a container has been running or how many days ago "
@@ -1224,7 +1231,7 @@ msgstr ""
 "exemplo, pode ver rapidamente quanto tempo um contentor foi executado ou "
 "quantos dias atrás uma imagem foi criada."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:336
 msgid ""
 "For the circular progress bar in the container row, icons are now used "
 "instead of text. Icons have also been added to the resource monitor in the "
@@ -1234,7 +1241,7 @@ msgstr ""
 "são usados em vez de texto. Ícones também foram adicionados ao monitor de "
 "recursos na página de pormenores do contentor."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:336
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
 msgid ""
 "The text field for searching in the container logs and the inspection page "
 "has been completely redesigned visually."
@@ -1242,7 +1249,7 @@ msgstr ""
 "O campo de texto para a pesquisa nos logs do contentor e a página de "
 "inspeção foi completamente redesenhada visualmente."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:338
 msgid ""
 "The container log page now displays an info bar if the container is not "
 "running. The info bar also offers the possibility to start or resume the "
@@ -1252,11 +1259,11 @@ msgstr ""
 "contentor não funcionar. A barra de informações também oferece a "
 "possibilidade de iniciar ou retomar o contentor."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:338
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
 msgid "Desktop notifications are now triggered on actions."
 msgstr "Notificações de desktop são agora acionadas ao realizar ações."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:340
 msgid ""
 "The selection of an image in the container creation page has been improved. "
 "For example, the list of images is sorted and image names are no longer "
@@ -1266,7 +1273,7 @@ msgstr ""
 "exemplo, a lista de imagens é ordenada e os nomes de imagens já não são "
 "ocultadas com reticências."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:340
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:341
 msgid ""
 "Also the selection of a pod in the container creation page has been improved "
 "similarly to the image selection."
@@ -1274,7 +1281,7 @@ msgstr ""
 "Além disso, a seleção de um pod na página de criação de contentor foi "
 "aprimorada de forma semelhante à seleção de imagem."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:341
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:342
 msgid ""
 "The image row now shows the tag of an image in the accent color to the right "
 "of the image id."
@@ -1282,7 +1289,7 @@ msgstr ""
 "A linha de imagem agora mostra a tag de uma imagem na cor do acento à "
 "direita do id da imagem."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:342
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:343
 msgid ""
 "The container row now displays the mapped host port of a container next to "
 "the container name, if there is one."
@@ -1290,7 +1297,7 @@ msgstr ""
 "A linha do contentor agora exibe a porta do host mapeada de um contentor ao "
 "lado do nome do contentor, se houver."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:343
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:344
 msgid ""
 "Port Bindings in the container details page are now shown inside an "
 "AdwExpanderRow"
@@ -1298,7 +1305,7 @@ msgstr ""
 "As ligações (bindings) de porta na página de pormenores do contentor agora "
 "são mostradas dentro de um AdwExpanderRow"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:344
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:345
 msgid ""
 "The multi-selection mode of images, containers and pods is now animated a "
 "bit more nicely."
@@ -1306,14 +1313,14 @@ msgstr ""
 "O modo multisseleção de imagens, contentores e pods é agora animado de forma "
 "um pouco mais legal."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:345
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:346
 msgid ""
 "The sizes of all GtkSpinners have been standardized throughout the "
 "application."
 msgstr ""
 "Os tamanhos de todos os GtkSpinners foram padronizados ao longo da aplicação."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:346
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:347
 msgid ""
 "The gtk-rs library was updated to version 0.5, which made many internal code "
 "improvements possible."
@@ -1321,7 +1328,7 @@ msgstr ""
 "A biblioteca gtk-rs foi atualizada para a versão 0.5, o que fez possível "
 "muitas melhorias de código interno."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:347
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:348
 msgid ""
 "As always, there were a number of minor bug fixes, visual improvements, "
 "internal code improvements, and translation updates that have not been "
@@ -1331,18 +1338,18 @@ msgstr ""
 "melhorias internas de código e atualizações de tradução que não foram "
 "mencionadas aqui."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:353
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
 msgid "The sixth beta release of Pods 1.0.0 includes the following changes:"
 msgstr "O sexto release beta do Pods 1.0.0 inclui as seguintes mudanças:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:355
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:356
 msgid ""
 "The duration for individual actions such as downloading an image is now "
 "displayed."
 msgstr ""
 "A duração de ações individuais, como descarregar uma imagem, agora é exibida."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:356
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:357
 msgid ""
 "In the overview for all images, individual images can now be updated via the "
 "context menu."
@@ -1350,13 +1357,13 @@ msgstr ""
 "Na visão geral de todas as imagens, as imagens individuais agora podem ser "
 "atualizadas por meio do menu de contexto."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:357
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
 msgid "Missing settings for creating pods have been added, thanks to @vv9k."
 msgstr ""
 "Configurações ausentes para a criação de pods foram adicionadas, graças a "
 "@vv9k."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:359
 msgid ""
 "A simple progress bar is now displayed in the action menu button under the "
 "bell icon to indicate how many actions are currently running."
@@ -1364,7 +1371,7 @@ msgstr ""
 "Uma simples barra de progresso agora é exibida no botão Menu Ação sob o "
 "ícone Bell para indicar quantas ações estão sendo executadas no momento."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:359
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:360
 msgid ""
 "The icon of the button to return to the main view has been changed to a home "
 "symbol, thanks to @vv9k."
@@ -1372,7 +1379,7 @@ msgstr ""
 "O ícone do botão para retornar à visualização principal foi alterado para um "
 "símbolo inicial, graças ao @vv9k."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:360
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:361
 msgid ""
 "The container details page and pod details page have been revised: The menus "
 "have been removed and instead there is now a control bar."
@@ -1381,7 +1388,7 @@ msgstr ""
 "revisadas: Os menus foram removidos e, em vez disso, agora há uma barra de "
 "controlo."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:361
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:362
 msgid ""
 "Renaming a container within a container detail page must now be done via a "
 "button in the name row."
@@ -1389,7 +1396,7 @@ msgstr ""
 "A renomeação de um contentor numa página de pormenores do contentor agora "
 "deve ser feita por meio de um botão na linha de nome."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:362
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:363
 msgid ""
 "Fixed a bug in the container log page that caused that no more than 512 log "
 "lines could be loaded and date were truncated."
@@ -1397,7 +1404,7 @@ msgstr ""
 "Corrigido um bug na página de log do contentor que fazia com que só menos "
 "que 512 linhas de log pudessem ser carregadas e a data fosse truncada."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:363
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:364
 msgid ""
 "The progress bars for CPU and memory in the container details page are now "
 "animated."
@@ -1405,7 +1412,7 @@ msgstr ""
 "As barras de progresso para CPU e memória na página de pormenores do "
 "contentor agora são animadas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:364
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:365
 msgid ""
 "The animations of the circular progress bars for CPU and memory in the "
 "overview of all containers now use better easing."
@@ -1413,7 +1420,7 @@ msgstr ""
 "As animações das barras de progresso circulares para CPU e memória na visão "
 "geral de todos os contentores agora usam melhor atenuação."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:365
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
 msgid ""
 "The icons and descriptions for actions like downloading an image have been "
 "made clearer."
@@ -1421,7 +1428,7 @@ msgstr ""
 "Os ícones e descrições de ações como descarregar uma imagem ficaram mais "
 "claros."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
 msgid ""
 "Committing a new image from a container can now be done in a fine-grained "
 "way, in a dedicated page."
@@ -1429,7 +1436,7 @@ msgstr ""
 "Cometer uma nova imagem de um contentor agora pode ser feita de maneira "
 "fina, numa página dedicada."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:368
 msgid ""
 "As always, there were a number of minor bug fixes, visual improvements, "
 "internal code improvements and translation updates."
@@ -1437,15 +1444,15 @@ msgstr ""
 "Como sempre, houve várias correções de bugs menores, melhorias visuais, "
 "melhorias internas de código e atualizações de tradução."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:373
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:374
 msgid "The fifth beta release of Pods 1.0.0 includes the following changes:"
 msgstr "O quinto release beta do Pods 1.0.0 inclui as seguintes mudanças:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:375
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:376
 msgid "Some typos were fixed, thanks to @kianmeng."
 msgstr "Alguns erros de digitação foram corrigidos, graças ao @kianmeng."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:376
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:377
 msgid ""
 "A tab to specify infra settings were added to the pod creation page, thanks "
 "to @vv9k."
@@ -1453,7 +1460,7 @@ msgstr ""
 "Uma guia para especificar as configurações de infraestrutura foi adicionada "
 "à página de criação de pod, graças a @vv9k."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:377
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:378
 msgid ""
 "There is now a widget that provides an overview of actions, such as building "
 "an image. Thus, the state of most actions can now be tracked."
@@ -1461,38 +1468,38 @@ msgstr ""
 "Agora existe um widget que fornece uma visão geral das ações, como a criação "
 "de uma imagem. Assim, o estado da maioria das ações agora pode ser rastreado."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:378
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:379
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
 msgstr ""
 "A pesquisa local por imagens, contentores e pods agora é sem diferenciação "
 "de maiúsculas e minúsculas."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:379
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:380
 msgid "There were small visual adjustments all over the place."
 msgstr "Houve pequenos ajustes visuais em todo o lugar."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:380
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:381
 msgid "Minor bug fixes"
 msgstr "Pequenas correções de bugs"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:381
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:382
 msgid "Internal code improvements"
 msgstr "Melhorias no código interno"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:382
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:413
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:383
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:401
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:414
 msgid "Translation updates"
 msgstr "Atualizações de tradução"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:389
 msgid ""
 "Here comes the fourth beta release of Pods 1.0.0 with the following changes:"
 msgstr ""
 "Aqui vem o quarto release beta do Pods 1.0.0 com as seguintes mudanças:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:390
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:391
 msgid ""
 "The blurry symbolic application icon has been fixed, thanks to "
 "@allaeddineomc."
@@ -1500,14 +1507,14 @@ msgstr ""
 "O ícone de aplicação simbólico borrado foi corrigido, graças ao "
 "@allaeddineomc."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:391
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:392
 msgid ""
 "A status page is now displayed if there are no images, containers or pods."
 msgstr ""
 "Agora, uma página de estado é exibida caso não haja imagens, contentores ou "
 "pods."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:392
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:393
 msgid ""
 "The style has been improved, in particular, there is now better "
 "differentiation between light, dark and high contrast modes."
@@ -1515,7 +1522,7 @@ msgstr ""
 "O estilo foi aprimorado, em particular, agora há uma melhor diferenciação "
 "entre os modos claro, escuro e de alto contraste."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:393
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:394
 msgid ""
 "The feature for coloring the header bar has been removed. It will hopefully "
 "come back when there is API support for it."
@@ -1523,7 +1530,7 @@ msgstr ""
 "O recurso para colorir a barra de cabeçalho foi removido. Esperançosamente, "
 "ele voltará quando houver apoio de API para ele."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:394
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:395
 msgid ""
 "A lot of smaller UI improvements have been implemented to give Pods a more "
 "polished look."
@@ -1531,11 +1538,11 @@ msgstr ""
 "Foram implementadas várias melhorias menores na interface do utilizador para "
 "dar ao Pods uma aparência mais refinada."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:395
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:396
 msgid "The flatpak runtime has been updated to version 43"
 msgstr "O tempo de execução do flatpak foi atualizado para a versão 43"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:396
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:397
 msgid ""
 "Improvements in infrastructure like an issue template have landed, thanks to "
 "@vv9k."
@@ -1543,17 +1550,17 @@ msgstr ""
 "Melhorias na infraestrutura, como um modelo de problema, chegaram, graças ao "
 "@vv9k."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:397
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:398
 msgid "Image downloads can now be aborted."
 msgstr "As descargas de imagens agora podem ser abortados."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:398
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:399
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
 msgstr ""
 "Os argumentos agora podem ser adicionados a um comando de contentor, graças "
 "a @vvk9."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:399
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
 msgid ""
 "It's now possible to set labels on images, containers and pods, thanks to "
 "@vv9k."
@@ -1561,11 +1568,11 @@ msgstr ""
 "Agora é possível definir rótulos em imagens, contentores e pods, graças a "
 "@vv9k."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:406
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:407
 msgid "The third beta release of Pods 1.0.0 contains the following changes:"
 msgstr "O terceiro release beta do Pods 1.0.0 contém as seguintes mudanças:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:408
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:409
 msgid ""
 "A periodic refresh interval to track entities which were created outside of "
 "podman (e.g. with buildah)"
@@ -1573,7 +1580,7 @@ msgstr ""
 "Um intervalo de atualização periódico para rastrear entidades que foram "
 "criadas fora do podman (por exemplo, com o Buildah)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:409
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:410
 msgid ""
 "Containers now provide a detailed view of health configuration and health "
 "status"
@@ -1581,149 +1588,62 @@ msgstr ""
 "Os contentores agora fornecem uma visão detalhada da configuração e do "
 "estado de integridade"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:410
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:411
 msgid "Several smaller UI improvements"
 msgstr "Várias melhorias menores na interface do utilizador"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:411
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:412
 msgid "Several smaller bugfixes and internal code improvements"
 msgstr "Várias correções de bugs menores e melhorias de código interno"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:412
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:413
 msgid "Updated screenshots"
 msgstr "Capturas de ecrã atualizadas"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:419
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:420
 msgid "A small update with app data fixes:"
 msgstr "Uma pequena atualização com correções de dados da app:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:421
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:422
 msgid "Updated app data content rating"
 msgstr "Atualização da classificação do conteúdo dos dados da app"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:422
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:423
 msgid "Added releases in app data"
 msgstr "Releases adicionais nos dados da app"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:428
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:429
 msgid "This is the first 1.0.0 beta release of Pods."
 msgstr "Este é o primeiro release beta 1.0.0 do Pods."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:441
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:442
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
-#: src/model/action.rs:136
-msgid "Prune unused images"
-msgstr "Podar imagens não utilizadas"
+#: src/application.rs:191
+msgid "translator-credits"
+msgstr "créditos de tradução"
 
-#: src/model/action.rs:173
-#, rust-format
-msgid "Pull image <b>{}</b>"
-msgstr "Puxar imagem <b>{}</b>"
+#: src/application.rs:193
+msgid "Translators"
+msgstr "Tradutores"
 
-#: src/model/action.rs:207
-#, rust-format
-msgid "Push image <b>{}</b>"
-msgstr "Enviar imagem <b>{}</b>"
+#: src/main.rs:167
+msgid "Prints application version"
+msgstr "Imprime a versão do aplicativo"
 
-#: src/model/action.rs:268
-#, rust-format
-msgid "Build image <b>{}</b>"
-msgstr "Construir imagem <b> {} </b>"
+#: src/main.rs:176
+msgid "Specify the minimum log level"
+msgstr "Especifique o nível mínimo do log"
 
-#: src/model/action.rs:274
-msgid "Generating tarball of context directory..."
-msgstr "Gerando tarball do diretório de contexto..."
+#: src/model/container_copy_from_action.rs:105
+#, fuzzy
+msgid "Container has been removed"
+msgstr "O contentor foi apagado"
 
-#: src/model/action.rs:342
-msgid "Prune stopped containers"
-msgstr "Podar contentores parados"
-
-#: src/model/action.rs:383
-#, rust-format
-msgid "Start new container <b>{}</b>"
-msgstr "Iniciar novo contentor <b>{}</b>"
-
-#: src/model/action.rs:385
-#, rust-format
-msgid "Create container <b>{}</b>"
-msgstr "Criar contentor <b>{}</b>"
-
-#: src/model/action.rs:419
-msgid "none"
-msgstr "Nenhum"
-
-#: src/model/action.rs:417
-#, rust-format
-msgid "Commit image <b>{}</b> ({})"
-msgstr "Imagem de comprometimento <b> {} </b> ({})"
-
-#: src/model/action.rs:433 src/model/action.rs:547 src/model/action.rs:691
-#: src/model/action.rs:1027
-msgid "Finished"
-msgstr "Finalizado"
-
-#: src/model/action.rs:473
-#, rust-format
-msgid "Upload <b>{}</b> to <b>{}:{}</b>"
-msgstr "Carregar <b>{}</b> para <b>{}:{}</b>"
-
-#: src/model/action.rs:480
-msgid "Creating tar archive…"
-msgstr "Criando um arquivo tar…"
-
-#: src/model/action.rs:514
-msgid "Tar archive created"
-msgstr "Arquivo tar criado"
-
-#: src/model/action.rs:515
-msgid "Unwrapping tar archive…"
-msgstr "Descompactando arquivo tar…"
-
-#: src/model/action.rs:530
-msgid "Tar archive unwrapped"
-msgstr "Arquivo tar descompactado"
-
-#: src/model/action.rs:531
-msgid "Copying files into container…"
-msgstr "Copiando arquivo para dentro do contêiner…"
-
-#: src/model/action.rs:586
-#, rust-format
-msgid "Download <b>{}:{}</b> to <b>{}</b>"
-msgstr "Download <b>{}:{}</b> to <b>{}</b>"
-
-#: src/model/action.rs:595
-msgid "Writing to file…"
-msgstr "A escrever para ficheiro…"
-
-#: src/model/action.rs:617 src/model/action.rs:663
-#, rust-format
-msgid "Written: {}"
-msgstr "Escrito: {}"
-
-#: src/model/action.rs:680
-msgid "Flushing…"
-msgstr "A limpar…"
-
-#: src/model/action.rs:711
-#, rust-format
-msgid "Create pod <b>{}</b>"
-msgstr "Criar pod <b>{}</b>"
-
-#: src/model/action.rs:738
-msgid "Prune stopped pods"
-msgstr "Podar pods parados"
-
-#: src/model/action.rs:938
-#, rust-format
-msgid "Create volume <b>{}</b>"
-msgstr "Criar volume <b>{}</b>"
-
-#: src/model/action.rs:989
-msgid "Prune unused volumes"
-msgstr "Remover volumes não utilizados"
+#: src/model/container_create_action.rs:154
+msgid "Container Created"
+msgstr "Contentor criado"
 
 #: src/model/container_health_status.rs:35
 msgid "Healthy"
@@ -1804,6 +1724,10 @@ msgstr "Docker"
 msgid "Podman"
 msgstr "Podman"
 
+#: src/model/pod_create_action.rs:150
+msgid "Pod Created"
+msgstr "cápsulas Criado"
+
 #: src/model/pod_status.rs:116
 msgid "Degraded"
 msgstr "Degradado"
@@ -1814,262 +1738,158 @@ msgstr "Degradado"
 msgid "Error"
 msgstr "Erro"
 
-#: src/view/action_page.blp:83 src/view/connection_creation_page.blp:71
-msgid "_Abort"
-msgstr "_Abortar"
+#: src/utils.rs:119
+#, rust-format
+msgid "{} h {} min {} s"
+msgstr "{} h {} min {} s"
 
-#: src/view/action_page.blp:97
+#: src/utils.rs:121
+#, rust-format
+msgid "{} h {} s"
+msgstr "{} h {} s"
+
+#: src/utils.rs:128
+#, rust-format
+msgid "{} min {} s"
+msgstr "{} min {} s"
+
+#: src/utils.rs:130
+#, rust-format
+msgid "{} min"
+msgstr "{} min"
+
+#: src/utils.rs:133
+#, rust-format
+msgid "{} s"
+msgstr "{} s"
+
+#: src/utils.rs:178
+msgid "a few seconds"
+msgstr "alguns segundos"
+
+#: src/utils.rs:180
+#, rust-format
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuto"
+msgstr[1] "{} minutos"
+
+#: src/utils.rs:182
+#, rust-format
+msgid "{} hour"
+msgid_plural "{} hours"
+msgstr[0] "{} hora"
+msgstr[1] "{} horas"
+
+#: src/utils.rs:185
+#, rust-format
+msgid "{} day"
+msgid_plural "{} days"
+msgstr[0] "{} dia"
+msgstr[1] "{} dias"
+
+#. Translators: Example: {3 hours} ago, {a few seconds} ago
+#: src/utils.rs:191
+#, rust-format
+msgid "{} ago"
+msgstr "{} atrás"
+
+#. Translators: This string will be shown when a property of an entity like an image is null.
+#: src/utils.rs:308
+msgid "<none>"
+msgstr "<nenhum>"
+
+#: src/utils.rs:407
+msgid "Error on open file dialog"
+msgstr "Erro ao abrir a caixa de diálogo do arquivo"
+
+#: src/view/action_dialog.blp:97 src/view/connection.rs:28
+#: src/view/connection_creation_page.blp:30 src/view/container.rs:95
+#: src/view/container_card.rs:576 src/view/container_commit_opts_dialog.blp:26
+#: src/view/container_copy_from_opts_dialog.blp:28
+#: src/view/container_copy_to_opts_dialog.blp:37
+#: src/view/container_create_opts_dialog.blp:35
+#: src/view/containers_panel.rs:966
+#: src/view/containers_prune_opts_dialog.blp:27 src/view/image.rs:34
+#: src/view/image_build_opts_dialog.blp:28
+#: src/view/image_pull_opts_dialog.blp:28
+#: src/view/image_remote_selection_page.blp:26 src/view/images_panel.rs:676
+#: src/view/images_prune_opts_dialog.blp:27 src/view/pod.rs:67
+#: src/view/pod_create_opts_dialog.blp:26 src/view/pods_panel.rs:820
+#: src/view/pods_prune_opts_dialog.blp:27 src/view/repo_tag_add_dialog.blp:11
+#: src/view/repo_tag_push_opts_dialog.blp:26 src/view/volume.rs:32
+#: src/view/volume_create_opts_dialog.blp:27 src/view/volumes_panel.rs:660
+#: src/view/volumes_prune_opts_dialog.blp:27
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: src/view/action_dialog.blp:116
+msgid "_Edit"
+msgstr ""
+
+#: src/view/action_dialog.blp:128
 msgid "_View"
 msgstr "_Visualisar"
 
-#: src/view/action_page.blp:111
-msgid "_Retry"
-msgstr "_Repetir"
+#: src/view/action_dialog.rs:96
+#, fuzzy
+msgid "Cancelled"
+msgstr "Cancelar"
 
-#: src/view/action_page.rs:155
-msgid "Pruning Images"
-msgstr "Imagens de poda"
+#: src/view/action_dialog.rs:97
+msgid "Failed"
+msgstr ""
 
-#: src/view/action_page.rs:156
-msgid "Downloading Image"
-msgstr "A descarregar a imagem"
+#: src/view/action_dialog.rs:98
+msgid "Finished"
+msgstr "Finalizado"
 
-#: src/view/action_page.rs:157
-msgid "Building Image"
-msgstr "Imagem do edifício"
+#: src/view/action_dialog.rs:99
+#, fuzzy
+msgid "Ongoing"
+msgstr "Em andamento ({})"
 
-#: src/view/action_page.rs:158
-msgid "Pushing Image"
-msgstr "A empurrar a imagem"
-
-#: src/view/action_page.rs:159
-msgid "Pruning Containers"
-msgstr "Recipientes de poda"
-
-#: src/view/action_page.rs:160
-msgid "Creating Container"
-msgstr "A criar contentor"
-
-#: src/view/action_page.rs:161
-msgid "Starting Container"
-msgstr "Recipiente inicial"
-
-#: src/view/action_page.rs:162
-msgid "Committing Image"
-msgstr "A comprometer imagem"
-
-#: src/view/action_page.rs:163
-msgid "Copying Files"
-msgstr "A copiar ficheiros"
-
-#: src/view/action_page.rs:164
-msgid "Pruning Pods"
-msgstr "Cápsulas de poda"
-
-#: src/view/action_page.rs:165
-msgid "Creating Pod"
-msgstr "A criar cápsulas"
-
-#: src/view/action_page.rs:166
-msgid "Creating Volume"
-msgstr "A criar Volume"
-
-#: src/view/action_page.rs:167
-msgid "Pruning Volumes"
-msgstr "Volumes de poda"
-
-#: src/view/action_page.rs:173
-msgid "Images Pruned"
-msgstr "Imagens podadas"
-
-#: src/view/action_page.rs:174
-msgid "Image Downloaded"
-msgstr "Imagem descarregada"
-
-#: src/view/action_page.rs:175
-msgid "Image Built"
-msgstr "Imagem construída"
-
-#: src/view/action_page.rs:176
-msgid "Image Pushed"
-msgstr "Imagem empurrada"
-
-#: src/view/action_page.rs:177
-msgid "Containers Pruned"
-msgstr "Recipientes podados"
-
-#: src/view/action_page.rs:178
-msgid "Container Created"
-msgstr "Contentor criado"
-
-#: src/view/action_page.rs:179
-msgid "Container Started"
-msgstr "Recipiente iniciado"
-
-#: src/view/action_page.rs:180
-msgid "Image Committed"
-msgstr "Imagem Comprometida"
-
-#: src/view/action_page.rs:181
-msgid "Files Copied"
-msgstr "Ficheiros copiados"
-
-#: src/view/action_page.rs:182
-msgid "Pods Pruned"
-msgstr "cápsulas Podadas"
-
-#: src/view/action_page.rs:183
-msgid "Pod Created"
-msgstr "cápsulas Criado"
-
-#: src/view/action_page.rs:184
-msgid "Volume Created"
-msgstr "Volume criado"
-
-#: src/view/action_page.rs:185
-msgid "Volumes Pruned"
-msgstr "Volumes podados"
-
-#: src/view/action_page.rs:190 src/view/action_page.rs:191
-msgid "View Image"
-msgstr "Ver imagem"
-
-#: src/view/action_page.rs:192 src/view/action_page.rs:193
-msgid "View Container"
-msgstr "Ver Container"
-
-#: src/view/action_page.rs:194
-msgid "View Pod"
-msgstr "Ver Pod"
-
-#: src/view/action_page.rs:195
-msgid "View Volume"
-msgstr "Ver Volume"
-
-#: src/view/action_page.rs:196
-msgid "View"
-msgstr "Visualização"
-
-#: src/view/action_page.rs:201
-msgid "Image Pruning Aborted"
-msgstr "Corte de imagem abortado"
-
-#: src/view/action_page.rs:202
-msgid "Image Download Aborted"
-msgstr "Descarga de imagem abortada"
-
-#: src/view/action_page.rs:203
-msgid "Image Built Aborted"
-msgstr "Imagem construída abortada"
-
-#: src/view/action_page.rs:204
-msgid "Image Push Aborted"
-msgstr "Envio de imagem abortado"
-
-#: src/view/action_page.rs:205
-msgid "Container Pruning Aborted"
-msgstr "Poda de contentor abortada"
-
-#: src/view/action_page.rs:206
-msgid "Container Creation Aborted"
-msgstr "Criação de contentor abortada"
-
-#: src/view/action_page.rs:207
-msgid "Container Start Aborted"
-msgstr "Início do contentor abortado"
-
-#: src/view/action_page.rs:208
-msgid "Image Commit Aborted"
-msgstr "O processo de gravar as alterações na imagem foi abortado"
-
-#: src/view/action_page.rs:209
-msgid "File Copying Aborted"
-msgstr "Cópia de ficheiro abortada"
-
-#: src/view/action_page.rs:210
-msgid "Pod Pruning Aborted"
-msgstr "cápsula Poda foi Abortada"
-
-#: src/view/action_page.rs:211
-msgid "Pod Creation Aborted"
-msgstr "cápsula Criação foi Abortada"
-
-#: src/view/action_page.rs:212
-msgid "Volume Creation Aborted"
-msgstr "Criação de volume foi abortada"
-
-#: src/view/action_page.rs:213
-msgid "Volume Pruning Aborted"
-msgstr "Poda de volume foi abortada"
-
-#: src/view/action_page.rs:219
-msgid "Pruning Image Failed"
-msgstr "Falha na poda da imagem"
-
-#: src/view/action_page.rs:220
-msgid "Downloading Image Failed"
-msgstr "Falha na descarga da imagem"
-
-#: src/view/action_page.rs:221
-msgid "Building Image Failed"
-msgstr "Falha na construção da imagem"
-
-#: src/view/action_page.rs:222
-msgid "Pushing Image Failed"
-msgstr "Falha ao enviar imagem"
-
-#: src/view/action_page.rs:223
-msgid "Pruning Containers Failed"
-msgstr "Falha na poda de contentores"
-
-#: src/view/action_page.rs:224
-msgid "Creating Container Failed"
-msgstr "Falha ao criar contentor"
-
-#: src/view/action_page.rs:225
-msgid "Starting Container Failed"
-msgstr "Falha ao iniciar o contentor"
-
-#: src/view/action_page.rs:226
-msgid "Committing Image Failed"
-msgstr "Falha ao confirmar a imagem"
-
-#: src/view/action_page.rs:227
-msgid "Copying Files Failed"
-msgstr "Falha na cópia dos ficheiros"
-
-#: src/view/action_page.rs:228
-msgid "Pruning Pods Failed"
-msgstr "Poda de cápsulas falhou"
-
-#: src/view/action_page.rs:229
-msgid "Creating Pod Failed"
-msgstr "A criação das cápsulas falhou"
-
-#: src/view/action_page.rs:230
-msgid "Creating Volume Failed"
-msgstr "Falha ao criar volume"
-
-#: src/view/action_page.rs:231
-msgid "Pruning Volumes Failed"
-msgstr "Falha na poda de volumes"
-
-#: src/view/action_page.rs:291
+#: src/view/action_dialog.rs:290 src/view/container_properties_group.rs:243
 #, rust-format
-msgid "After {}"
+msgid "since {}"
+msgstr "desde {}"
+
+#: src/view/action_dialog.rs:300
+#, fuzzy, rust-format
+msgid "after {}"
 msgstr "Depois {}"
 
-#: src/view/action_page.rs:331
+#: src/view/action_dialog.rs:344
 msgid "Action"
 msgstr "Ação"
 
-#: src/view/action_page.rs:340
-msgid "Error on opening artifact"
-msgstr "Erro ao abrir o artefato"
+#: src/view/action_dialog.rs:373 src/view/action_dialog.rs:386
+#: src/view/action_dialog.rs:402
+#, fuzzy
+msgid "Container Removed"
+msgstr "Contentor criado"
 
-#: src/view/action_page.rs:341
-msgid "Artifact has been deleted"
-msgstr "Artefato foi apagado"
+#: src/view/action_dialog.rs:374
+#, fuzzy
+msgid "Container cannot be committed because it has been removed."
+msgstr "O contentor foi apagado"
+
+#: src/view/action_dialog.rs:388 src/view/action_dialog.rs:404
+msgid "Files cannot be copied anymore because the container has been removed."
+msgstr ""
+
+#: src/view/action_dialog.rs:426
+#, fuzzy
+msgid "Tag Removed"
+msgstr "Retirar"
+
+#: src/view/action_dialog.rs:427
+msgid "Cannot push removed tag."
+msgstr ""
+
+#: src/view/action_dialog.rs:450
+msgid "Close"
+msgstr ""
 
 #: src/view/action_row.rs:140
 msgid "Abort"
@@ -2080,33 +1900,116 @@ msgstr "Abortar"
 msgid "Remove"
 msgstr "Retirar"
 
-#: src/view/action_row.rs:218
+#: src/view/action_row.rs:208
 msgid "Failed Pods Action"
 msgstr "Ação de Pods com Falha"
 
-#: src/view/action_row.rs:226
+#: src/view/action_row.rs:214
 msgid "Finished Pods Action"
 msgstr "Ação de pods concluída"
 
-#: src/view/action_row.rs:299
+#: src/view/action_row.rs:284
 #, rust-format
 msgid "Ongoing ({})"
 msgstr "Em andamento ({})"
 
-#: src/view/action_row.rs:313
+#: src/view/action_row.rs:298
+#, fuzzy, rust-format
+msgid "Cancelled after {}"
+msgstr "Falha após {}"
+
+#: src/view/action_row.rs:299
+#, rust-format
+msgid "Failed after {}"
+msgstr "Falha após {}"
+
+#: src/view/action_row.rs:300
 #, rust-format
 msgid "Finished after {}"
 msgstr "Concluído após {}"
 
-#: src/view/action_row.rs:314
-#, rust-format
-msgid "Aborted after {}"
-msgstr "Abortado após {}"
+#: src/view/action_row.rs:369
+#, fuzzy, rust-format
+msgid "Commit <b>{}</b>"
+msgstr "Imagem de comprometimento <b> {} </b> ({})"
 
-#: src/view/action_row.rs:315
-#, rust-format
-msgid "Failed after {}"
-msgstr "Falha após {}"
+#: src/view/action_row.rs:370
+#, fuzzy
+msgid "Commit container"
+msgstr "Fazer commit do contentor"
+
+#: src/view/action_row.rs:374
+#, fuzzy, rust-format
+msgid "Copy from <b>{}</b>"
+msgstr "Criar pod <b>{}</b>"
+
+#: src/view/action_row.rs:375
+#, fuzzy
+msgid "Copy from container"
+msgstr "Fazer commit do contentor"
+
+#: src/view/action_row.rs:379
+#, fuzzy, rust-format
+msgid "Copy to <b>{}</b>"
+msgstr "Criar pod <b>{}</b>"
+
+#: src/view/action_row.rs:380
+#, fuzzy
+msgid "Copy to container"
+msgstr "Fazer commit do contentor"
+
+#: src/view/action_row.rs:382 src/view/action_row.rs:389
+#: src/view/action_row.rs:403
+#, fuzzy, rust-format
+msgid "Create <b>{}</b>"
+msgstr "Criar pod <b>{}</b>"
+
+#: src/view/action_row.rs:387 src/view/containers_prune_action_view.rs:94
+#: src/view/containers_prune_opts_dialog.blp:16
+#, fuzzy
+msgid "Prune Containers"
+msgstr "Recipientes de poda"
+
+#: src/view/action_row.rs:391 src/view/pods_prune_action_view.rs:69
+#: src/view/pods_prune_opts_dialog.blp:16
+#, fuzzy
+msgid "Prune Pods"
+msgstr "Cápsulas de poda"
+
+#: src/view/action_row.rs:393
+#, fuzzy, rust-format
+msgid "Build <b>{}</b>"
+msgstr "Construir imagem <b> {} </b>"
+
+#: src/view/action_row.rs:395
+#, fuzzy, rust-format
+msgid "Pull <b>{}</b>"
+msgstr "Puxar imagem <b>{}</b>"
+
+#: src/view/action_row.rs:398
+#, fuzzy, rust-format
+msgid "Push <b>{}</b>"
+msgstr "Enviar imagem <b>{}</b>"
+
+#: src/view/action_row.rs:400 src/view/images_prune_action_view.rs:94
+#: src/view/images_prune_opts_dialog.blp:16
+msgid "Prune Images"
+msgstr "Limpar Imagens"
+
+#: src/view/action_row.rs:404
+#, fuzzy
+msgid "Create anonymous"
+msgstr "_Criar Apenas"
+
+#: src/view/action_row.rs:407 src/view/volumes_prune_action_view.rs:94
+#: src/view/volumes_prune_opts_dialog.blp:16
+msgid "Prune Volumes"
+msgstr "Remover Volumes"
+
+#: src/view/action_row.rs:409
+#, fuzzy
+msgid "Unknown Action"
+msgstr "Data desconhecida"
 
 #: src/view/actions_sidebar.blp:14 src/view/client_view.blp:83
 #: src/view/client_view.blp:288
@@ -2148,7 +2051,7 @@ msgctxt "app name"
 msgid "Pods"
 msgstr "Pods"
 
-#: src/view/client_view.blp:99 src/view/client_view.rs:254
+#: src/view/client_view.blp:99 src/view/client_view.rs:245
 #: src/view/containers_panel.blp:85 src/view/containers_panel.blp:131
 #: src/view/containers_panel.blp:383 src/view/image_details_page.blp:147
 #: src/view/images_panel.blp:44 src/view/pod_details_page.blp:255
@@ -2157,14 +2060,14 @@ msgstr "Pods"
 msgid "Containers"
 msgstr "Contêiner"
 
-#: src/view/client_view.blp:184 src/view/client_view.rs:256
+#: src/view/client_view.blp:184 src/view/client_view.rs:247
 #: src/view/images_panel.blp:103 src/view/images_panel.blp:149
 #: src/view/images_panel.blp:296 src/view/search_panel.blp:68
 msgid "Images"
 msgstr "Imagens"
 
-#: src/view/client_view.blp:214 src/view/client_view.rs:257
-#: src/view/container_creation_page.blp:264
+#: src/view/client_view.blp:214 src/view/client_view.rs:248
+#: src/view/container_create_opts_dialog.blp:219
 #: src/view/container_details_page.blp:167 src/view/search_panel.blp:80
 #: src/view/volumes_panel.blp:80 src/view/volumes_panel.blp:126
 #: src/view/volumes_panel.blp:273
@@ -2175,15 +2078,21 @@ msgstr "Volumes"
 msgid "Content"
 msgstr "Contente"
 
-#: src/view/client_view.rs:258
+#: src/view/client_view.rs:249
 msgid "Info"
 msgstr "Informação"
 
+#: src/view/connection.rs:22
+msgid "There are ongoing actions whose progress will be irretrievably lost"
+msgstr "Há ações em curso cujo progresso será irrevogavelmente perdido"
+
+#: src/view/connection.rs:29 src/view/container_card.rs:577
+msgid "_Confirm"
+msgstr "_Confirmar"
+
 #: src/view/connection_chooser_page.blp:19
 #: src/view/connection_chooser_page.blp:22 src/view/image_selection_page.blp:34
-#: src/view/image_selection_page.blp:37 src/view/pod_selection_page.blp:61
-#: src/view/pod_selection_page.blp:64 src/view/volume_selection_page.blp:61
-#: src/view/volume_selection_page.blp:64
+#: src/view/image_selection_page.blp:37
 msgid "Filter"
 msgstr "Filtrar"
 
@@ -2214,35 +2123,22 @@ msgstr "Erro ao estabelecer conexão"
 msgid "New Connection"
 msgstr "Nova Conexão"
 
-#: src/view/connection_creation_page.blp:30 src/view/connection.rs:28
-#: src/view/container_card.rs:576 src/view/container_commit_page.blp:29
-#: src/view/container_creation_page.blp:38
-#: src/view/container_files_get_page.blp:29
-#: src/view/container_files_put_page.blp:38 src/view/container.rs:95
-#: src/view/containers_panel.rs:969 src/view/containers_prune_page.blp:29
-#: src/view/image_build_page.blp:29 src/view/image_remote_selection_page.blp:26
-#: src/view/image.rs:30 src/view/images_panel.rs:678
-#: src/view/images_prune_page.blp:29 src/view/pod_creation_page.blp:29
-#: src/view/pod.rs:67 src/view/pods_panel.rs:820
-#: src/view/pods_prune_page.blp:29 src/view/repo_tag_add_dialog.blp:11
-#: src/view/repo_tag_push_page.blp:30 src/view/volume_creation_page.blp:29
-#: src/view/volume.rs:31 src/view/volumes_panel.rs:663
-#: src/view/volumes_prune_page.blp:29
-msgid "_Cancel"
-msgstr "_Cancelar"
-
 #: src/view/connection_creation_page.blp:50
 msgid "_Connect"
 msgstr "_Conectar"
 
+#: src/view/connection_creation_page.blp:71
+msgid "_Abort"
+msgstr "_Abortar"
+
 #: src/view/connection_creation_page.blp:85
-#: src/view/container_creation_page.blp:65
+#: src/view/container_create_opts_dialog.blp:57
 #: src/view/container_properties_group.blp:14 src/view/container_renamer.blp:10
 #: src/view/containers_panel.blp:9 src/view/images_panel.blp:32
-#: src/view/pod_creation_page.blp:55 src/view/pod_creation_page.blp:213
-#: src/view/pod_details_page.blp:170 src/view/pods_panel.blp:9
-#: src/view/volume_creation_page.blp:54 src/view/volume_details_page.blp:41
-#: src/view/volumes_panel.blp:9
+#: src/view/pod_create_opts_dialog.blp:47
+#: src/view/pod_create_opts_dialog.blp:195 src/view/pod_details_page.blp:170
+#: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:47
+#: src/view/volume_details_page.blp:41 src/view/volumes_panel.blp:9
 msgid "Name"
 msgstr "Nome"
 
@@ -2251,7 +2147,8 @@ msgid "URL"
 msgstr "URL"
 
 #: src/view/connection_creation_page.blp:91
-msgid "Choose how to connect to Podman"
+#, fuzzy
+msgid "Choose how to connect"
 msgstr "Escolha como conectar ao Podman"
 
 #: src/view/connection_creation_page.blp:94
@@ -2260,8 +2157,8 @@ msgstr "Podman Socket Unix"
 
 #: src/view/connection_creation_page.blp:111
 #: src/view/connection_creation_page.blp:114
-#: src/view/connection_creation_page.blp:242
-#: src/view/connection_creation_page.blp:245
+#: src/view/connection_creation_page.blp:241
+#: src/view/connection_creation_page.blp:244
 msgid "Socket Activation Info"
 msgstr "Informações de Ativação do Socket"
 
@@ -2279,21 +2176,21 @@ msgstr ""
 
 #: src/view/connection_creation_page.blp:186
 #: src/view/connection_creation_page.blp:189
-#: src/view/connection_creation_page.blp:317
-#: src/view/connection_creation_page.blp:320
+#: src/view/connection_creation_page.blp:316
+#: src/view/connection_creation_page.blp:319
 #: src/view/connection_custom_info_page.blp:122
 #: src/view/connection_custom_info_page.blp:125
 #: src/view/connection_custom_info_page.blp:166
 #: src/view/connection_custom_info_page.blp:169
-#: src/view/connection_custom_info_page.blp:223
-#: src/view/connection_custom_info_page.blp:226
-#: src/view/connection_custom_info_page.blp:271
-#: src/view/connection_custom_info_page.blp:274
+#: src/view/connection_custom_info_page.blp:257
+#: src/view/connection_custom_info_page.blp:260
+#: src/view/connection_custom_info_page.blp:305
+#: src/view/connection_custom_info_page.blp:308
 msgid "Copy to Clipboard"
 msgstr "Copiar para área de transferência"
 
 #: src/view/connection_creation_page.blp:195
-#: src/view/connection_creation_page.blp:326
+#: src/view/connection_creation_page.blp:325
 msgid ""
 "You may have to restart Pods for it to be able to connect to a newly created "
 "socket."
@@ -2313,11 +2210,11 @@ msgstr ""
 msgid "Docker Unix Socket"
 msgstr "Socket Doker Unix"
 
-#: src/view/connection_creation_page.blp:264
+#: src/view/connection_creation_page.blp:263
 msgid "Docker Socket Activation"
 msgstr "Ativação do soquete do Docker"
 
-#: src/view/connection_creation_page.blp:270
+#: src/view/connection_creation_page.blp:269
 msgid ""
 "To connect to the local Docker instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
@@ -2325,21 +2222,21 @@ msgstr ""
 "Para conectar à instância local do Docker, o socket do systemd precisa estar "
 "ativado. Pode ativá-lo permanentemente com o comando a seguir:"
 
-#: src/view/connection_creation_page.blp:341
+#: src/view/connection_creation_page.blp:340
 msgid "Custom URL"
 msgstr "URL personalizada"
 
-#: src/view/connection_creation_page.blp:356
-#: src/view/connection_creation_page.blp:359
-#: src/view/connection_creation_page.blp:401
+#: src/view/connection_creation_page.blp:355
+#: src/view/connection_creation_page.blp:358
+#: src/view/connection_creation_page.blp:400
 msgid "Custom Connection Info"
 msgstr "Informações de conexão personalizadas"
 
-#: src/view/connection_creation_page.blp:375
+#: src/view/connection_creation_page.blp:374
 msgid "Color"
 msgstr "Cor"
 
-#: src/view/connection_creation_page.blp:376
+#: src/view/connection_creation_page.blp:375
 msgid "Set the color of this connection"
 msgstr "Defina a cor desta conexão"
 
@@ -2392,11 +2289,18 @@ msgstr ""
 "ser lido por usuários normais. No entanto, há uma solução alternativa usando "
 "uma unidade systemd. Salve o seguinte trecho:"
 
-#: src/view/connection_custom_info_page.blp:175
+#: src/view/connection_custom_info_page.blp:195
+msgid ""
+"Exposing a Podman socket over TCP has security implications. <a "
+"href=\"https://docs.podman.io/en/stable/markdown/podman-system-"
+"service.1.html#security\">Check the docs for more info.</a>"
+msgstr ""
+
+#: src/view/connection_custom_info_page.blp:209
 msgid "Enable the service by issuing the command:"
 msgstr "Habilite o serviço com o seguinte comando:"
 
-#: src/view/connection_custom_info_page.blp:232
+#: src/view/connection_custom_info_page.blp:266
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
 msgstr "Insira a seguinte URL aqui no campo de texto e crie a conexão:"
@@ -2433,14 +2337,6 @@ msgstr "Excluir"
 msgid "Local connection"
 msgstr "Conexão local"
 
-#: src/view/connection.rs:22
-msgid "There are ongoing actions whose progress will be irretrievably lost"
-msgstr "Há ações em curso cujo progresso será irrevogavelmente perdido"
-
-#: src/view/connection.rs:29 src/view/container_card.rs:577
-msgid "_Confirm"
-msgstr "_Confirmar"
-
 #: src/view/connections_sidebar.blp:21 src/view/connections_sidebar.blp:24
 msgid "New Connection (Ctrl+Shift+N)"
 msgstr "Nova conexão (Ctrl+Shift+N)"
@@ -2452,6 +2348,50 @@ msgstr "Confirme a conexão de comutação"
 #: src/view/connections_sidebar.rs:113
 msgid "Error on switching connection"
 msgstr "Erro ao alternar a conexão"
+
+#: src/view/container.rs:77 src/view/container.rs:119
+msgid "Error renaming container"
+msgstr "Erro ao renomear o contentor"
+
+#: src/view/container.rs:78
+msgid "Container has been deleted"
+msgstr "O contentor foi apagado"
+
+#: src/view/container.rs:88
+msgid "Rename Container"
+msgstr "Renomear contentor"
+
+#: src/view/container.rs:96
+msgid "_Rename"
+msgstr "_Renomear"
+
+#: src/view/container.rs:155 src/view/containers_panel.rs:909
+msgid "Error on starting container"
+msgstr "Erro ao iniciar o contentor"
+
+#: src/view/container.rs:156 src/view/containers_panel.rs:839
+msgid "Error on stopping container"
+msgstr "Erro ao parar o contentor"
+
+#: src/view/container.rs:157 src/view/containers_panel.rs:837
+msgid "Error on killing container"
+msgstr "Erro no contentor de eliminação"
+
+#: src/view/container.rs:158 src/view/containers_panel.rs:868
+msgid "Error on restarting container"
+msgstr "Erro ao reiniciar o contentor"
+
+#: src/view/container.rs:159 src/view/containers_panel.rs:936
+msgid "Error on pausing container"
+msgstr "Erro ao pausar o contentor"
+
+#: src/view/container.rs:160 src/view/containers_panel.rs:894
+msgid "Error on resuming container"
+msgstr "Erro ao retomar o contentor"
+
+#: src/view/container.rs:161 src/view/containers_panel.rs:992
+msgid "Error on deleting container"
+msgstr "Erro ao apagar o contentor"
 
 #: src/view/container_card.blp:93 src/view/container_card.blp:96
 msgid "Rename"
@@ -2492,7 +2432,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/view/container_card.blp:419 src/view/container_card.blp:422
-#: src/view/container_commit_page.blp:102
+#: src/view/container_commit_opts_dialog.blp:87
 #: src/view/container_details_page.blp:131
 #: src/view/container_details_page.blp:134 src/view/containers_panel.blp:328
 #: src/view/containers_panel.blp:331 src/view/pod_details_page.blp:131
@@ -2524,62 +2464,59 @@ msgstr ""
 msgid "{} / s"
 msgstr "{} / s"
 
-#: src/view/container_commit_page.blp:18
-#: src/view/container_creation_page.blp:27
-#: src/view/container_files_get_page.blp:18
-#: src/view/container_files_put_page.blp:27
-#: src/view/containers_prune_page.blp:18 src/view/image_build_page.blp:18
-#: src/view/images_prune_page.blp:18 src/view/pod_creation_page.blp:18
-#: src/view/pods_prune_page.blp:18 src/view/repo_tag_push_page.blp:19
-#: src/view/volume_creation_page.blp:18 src/view/volumes_prune_page.blp:18
-msgid "Preferences"
-msgstr "Preferências"
-
-#: src/view/container_commit_page.blp:35
+#: src/view/container_commit_action_view.rs:69
+#: src/view/container_commit_opts_dialog.blp:15
 msgid "Commit Container"
 msgstr "Fazer commit do contentor"
 
-#: src/view/container_commit_page.blp:45
+#: src/view/container_commit_action_view.rs:74
+#, fuzzy
+msgid "<Deleted>"
+msgstr "Excluir"
+
+#: src/view/container_commit_opts_dialog.blp:37
 msgid "_Commit"
 msgstr "_Commit"
 
-#: src/view/container_commit_page.blp:52
+#: src/view/container_commit_opts_dialog.blp:44
 msgid "General Commit Options"
 msgstr "Opções gerais de Commit"
 
-#: src/view/container_commit_page.blp:56
+#: src/view/container_commit_opts_dialog.blp:48
 msgid "Author"
 msgstr "Autor"
 
-#: src/view/container_commit_page.blp:65 src/view/container_commit_page.blp:68
+#: src/view/container_commit_opts_dialog.blp:57
+#: src/view/container_commit_opts_dialog.blp:60
 msgid "Fetch Username"
 msgstr "Buscar nome de usuário"
 
-#: src/view/container_commit_page.blp:77 src/view/image_history_page.rs:169
+#: src/view/container_commit_opts_dialog.blp:69
+#: src/view/image_history_page.rs:169
 msgid "Comment"
 msgstr "Comentário"
 
-#: src/view/container_commit_page.blp:82
+#: src/view/container_commit_opts_dialog.blp:74
 msgid "Repo"
 msgstr "Repositório"
 
-#: src/view/container_commit_page.blp:87 src/view/images_panel.blp:38
+#: src/view/container_commit_opts_dialog.blp:79 src/view/images_panel.blp:38
 msgid "Tag"
 msgstr "Etiqueta"
 
-#: src/view/container_commit_page.blp:91
+#: src/view/container_commit_opts_dialog.blp:83
 msgid "Format"
 msgstr "Formatar"
 
-#: src/view/container_commit_page.blp:103
+#: src/view/container_commit_opts_dialog.blp:88
 msgid "Pause the container before committing it"
 msgstr "Pause o contentor antes de confirmá-lo"
 
-#: src/view/container_commit_page.blp:108
+#: src/view/container_commit_opts_dialog.blp:93
 msgid "Changes"
 msgstr "Mudanças"
 
-#: src/view/container_commit_page.blp:109
+#: src/view/container_commit_opts_dialog.blp:94
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
 "foo\")"
@@ -2587,189 +2524,262 @@ msgstr ""
 "Instruções para aplicar ao confirmar no formato Dockerfile (por exemplo, "
 "\"CMD=/bin/foo\")"
 
-#: src/view/container_commit_page.rs:99
+#: src/view/container_commit_opts_dialog.rs:101
 msgid "Change"
 msgstr "Mudar"
 
-#: src/view/container_commit_page.rs:207
+#: src/view/container_commit_opts_dialog.rs:289
 msgid "Error on fetching user name"
 msgstr "Erro ao buscar o nome do utilizador"
 
-#: src/view/container_creation_page.blp:16
-msgid "_Create Only"
-msgstr "_Criar Apenas"
+#: src/view/container_copy_from_action_view.blp:13
+#, fuzzy
+msgid "Written"
+msgstr "Escrito: {}"
 
-#: src/view/container_creation_page.blp:44 src/view/containers_group.blp:12
-#: src/view/containers_panel.blp:44 src/view/containers_panel.blp:47
+#: src/view/container_copy_from_action_view.rs:104
+#: src/view/container_copy_from_opts_dialog.blp:17
+#, fuzzy
+msgid "Copy From Container"
+msgstr "Fazer commit do contentor"
+
+#: src/view/container_copy_from_opts_dialog.blp:39
+#: src/view/container_copy_to_opts_dialog.blp:48
+#: src/view/container_terminal.blp:6
+msgid "_Copy"
+msgstr "_Copia"
+
+#: src/view/container_copy_from_opts_dialog.blp:48
+#, fuzzy
+msgid "Container Path (’/’ if empty)"
+msgstr "Caminho do contêiner ('/' se vazio)"
+
+#: src/view/container_copy_from_opts_dialog.blp:54
+#: src/view/container_copy_from_opts_dialog.rs:143
+#: src/view/container_copy_to_opts_dialog.blp:58 src/view/device_row.blp:57
+#: src/view/mount_row.blp:88
+msgid "Host Path"
+msgstr "Caminho do host"
+
+#: src/view/container_copy_from_opts_dialog.blp:55
+msgid "Select a destination tar archive on the host"
+msgstr "Selecione um arquivo tar de destino no host"
+
+#: src/view/container_copy_from_opts_dialog.blp:60
+msgid "Select _Path…"
+msgstr "Selecione_Caminho…"
+
+#: src/view/container_copy_to_action_view.blp:9
+#, fuzzy
+msgid "Creating tar archive"
+msgstr "Criando um arquivo tar…"
+
+#: src/view/container_copy_to_action_view.blp:16
+#, fuzzy
+msgid "Unwrapping tar archive"
+msgstr "Descompactando arquivo tar…"
+
+#: src/view/container_copy_to_action_view.blp:23
+#, fuzzy
+msgid "Copying bytes"
+msgstr "A copiar ficheiros"
+
+#: src/view/container_copy_to_action_view.rs:159
+#: src/view/container_copy_to_opts_dialog.blp:26
+#, fuzzy
+msgid "Copy To Container"
+msgstr "Fazer commit do contentor"
+
+#: src/view/container_copy_to_opts_dialog.blp:16
+msgid "Select _Directory…"
+msgstr "Selecione _Diretório…"
+
+#: src/view/container_copy_to_opts_dialog.blp:59
+msgid "Select a file or a directory from the host to upload"
+msgstr "Selecione um ficheiro ou diretório do host para fazer upload"
+
+#: src/view/container_copy_to_opts_dialog.blp:64
+msgid "Select _File…"
+msgstr "Selecione_Arquivo…"
+
+#: src/view/container_copy_to_opts_dialog.blp:73
+msgid "Container Path ('/' if empty)"
+msgstr "Caminho do contêiner ('/' se vazio)"
+
+#: src/view/container_copy_to_opts_dialog.rs:152
+msgid "Select Host Directory"
+msgstr "Selecione o diretório do host"
+
+#: src/view/container_copy_to_opts_dialog.rs:154
+msgid "Select Host File"
+msgstr "Selecione o ficheiro host"
+
+#: src/view/container_create_action_view.rs:69
+#: src/view/container_create_opts_dialog.blp:24
+#: src/view/containers_group.blp:12 src/view/containers_panel.blp:44
+#: src/view/containers_panel.blp:47
 msgid "Create Container"
 msgstr "Criar contêiner"
 
-#: src/view/container_creation_page.blp:54
+#: src/view/container_create_opts_dialog.blp:16
+msgid "_Create Only"
+msgstr "_Criar Apenas"
+
+#: src/view/container_create_opts_dialog.blp:46
 msgid "_Run"
 msgstr "_Executar"
 
-#: src/view/container_creation_page.blp:82
-#: src/view/container_creation_page.blp:105 src/view/image_build_page.blp:72
-#: src/view/image_build_page.blp:89 src/view/pod_creation_page.blp:72
-#: src/view/pod_creation_page.blp:95
+#: src/view/container_create_opts_dialog.blp:74
+#: src/view/container_create_opts_dialog.blp:97
+#: src/view/image_build_opts_dialog.blp:66
+#: src/view/image_build_opts_dialog.blp:83
+#: src/view/pod_create_opts_dialog.blp:64
+#: src/view/pod_create_opts_dialog.blp:87
 msgid "Details"
 msgstr "Detalhes"
 
-#: src/view/container_creation_page.blp:88
-#: src/view/container_creation_page.blp:246 src/view/image_build_page.blp:78
-#: src/view/image_build_page.blp:119 src/view/pod_creation_page.blp:78
-#: src/view/pod_creation_page.blp:135
+#: src/view/container_create_opts_dialog.blp:80
+#: src/view/container_create_opts_dialog.blp:201
+#: src/view/image_build_opts_dialog.blp:72
+#: src/view/image_build_opts_dialog.blp:113
+#: src/view/pod_create_opts_dialog.blp:70
+#: src/view/pod_create_opts_dialog.blp:117
 msgid "Integration"
 msgstr "Integração"
 
-#: src/view/container_creation_page.blp:94
-#: src/view/container_creation_page.blp:297
+#: src/view/container_create_opts_dialog.blp:86
+#: src/view/container_create_opts_dialog.blp:252
 #: src/view/container_properties_group.blp:128
 msgid "Health Check"
 msgstr "Verificação de Integridade"
 
-#: src/view/container_creation_page.blp:116
+#: src/view/container_create_opts_dialog.blp:107
+#: src/view/container_properties_group.blp:155 src/view/containers_panel.blp:15
+#: src/view/image_details_page.blp:24 src/view/image_pull_opts_dialog.blp:52
+#: src/view/image_remote_selection_page.blp:51
+#: src/view/pod_create_opts_dialog.blp:199
+msgid "Image"
+msgstr "Imagem"
+
+#: src/view/container_create_opts_dialog.blp:112
 #: src/view/container_properties_group.blp:167 src/view/pod_details_page.blp:12
 msgid "Pod"
 msgstr "Pod"
 
-#: src/view/container_creation_page.blp:133
-#: src/view/container_creation_page.blp:136
-msgid "Clear Pod"
-msgstr "Limpar Pod"
-
-#: src/view/container_creation_page.blp:150 src/view/pod_creation_page.blp:219
+#: src/view/container_create_opts_dialog.blp:121
+#: src/view/pod_create_opts_dialog.blp:203
 msgid "Pull Latest Image"
 msgstr "Puxar a última imagem"
 
-#: src/view/container_creation_page.blp:159
+#: src/view/container_create_opts_dialog.blp:125
 #: src/view/container_details_page.blp:213
 msgid "Terminal"
 msgstr "Terminal"
 
-#: src/view/container_creation_page.blp:164
+#: src/view/container_create_opts_dialog.blp:129
 msgid "Privileged"
 msgstr "Privilegiado"
 
-#: src/view/container_creation_page.blp:165
+#: src/view/container_create_opts_dialog.blp:130
 msgid "Give extended privileges to container"
 msgstr "Conceder privilégios estendidos ao contentor"
 
-#: src/view/container_creation_page.blp:175
+#: src/view/container_create_opts_dialog.blp:140
 msgid "Memory Limit"
 msgstr "Limite de memória"
 
-#: src/view/container_creation_page.blp:210
+#: src/view/container_create_opts_dialog.blp:175
 msgid "KB"
 msgstr "KB"
 
-#: src/view/container_creation_page.blp:211
+#: src/view/container_create_opts_dialog.blp:176
 msgid "MB"
 msgstr "MB"
 
-#: src/view/container_creation_page.blp:212
+#: src/view/container_create_opts_dialog.blp:177
 msgid "GB"
 msgstr "GB"
 
-#: src/view/container_creation_page.blp:228
-#: src/view/container_creation_page.blp:303
+#: src/view/container_create_opts_dialog.blp:193
+#: src/view/container_create_opts_dialog.blp:258
 #: src/view/container_health_check_page.blp:34
-#: src/view/image_details_page.blp:87 src/view/pod_creation_page.blp:231
+#: src/view/image_details_page.blp:87 src/view/pod_create_opts_dialog.blp:215
 msgid "Command"
 msgstr "Comando"
 
-#: src/view/container_creation_page.blp:233 src/view/pod_creation_page.blp:122
-#: src/view/pod_creation_page.blp:236
-msgid "Arguments"
-msgstr "Argumentos"
-
-#: src/view/container_creation_page.blp:254 src/view/pod_creation_page.blp:143
+#: src/view/container_create_opts_dialog.blp:209
+#: src/view/pod_create_opts_dialog.blp:125
 msgid "Port Mappings"
 msgstr "Mapeamentos de portas"
 
-#: src/view/container_creation_page.blp:274
+#: src/view/container_create_opts_dialog.blp:229
 msgid "Environment Variables"
 msgstr "Variáveis de ambiente"
 
-#: src/view/container_creation_page.blp:284 src/view/image_build_page.blp:126
-#: src/view/pod_creation_page.blp:179
+#: src/view/container_create_opts_dialog.blp:239
+#: src/view/image_build_opts_dialog.blp:120
+#: src/view/pod_create_opts_dialog.blp:161
 msgid "Labels"
 msgstr "Rótulos"
 
-#: src/view/container_creation_page.blp:307
+#: src/view/container_create_opts_dialog.blp:262
 #: src/view/container_health_check_page.blp:38
 msgid "Interval"
 msgstr "Intervalo"
 
-#: src/view/container_creation_page.blp:308
+#: src/view/container_create_opts_dialog.blp:263
 msgid "Health check interval in seconds"
 msgstr "Intervalo de verificação de integridade em segundos"
 
-#: src/view/container_creation_page.blp:321
+#: src/view/container_create_opts_dialog.blp:275
 #: src/view/container_health_check_page.blp:46
 msgid "Timeout"
 msgstr "Tempo esgotado"
 
-#: src/view/container_creation_page.blp:322
+#: src/view/container_create_opts_dialog.blp:276
 msgid "Seconds allowed to complete the command before it fails"
 msgstr "Segundos permitidos para concluir o comando antes que ele falhe"
 
-#: src/view/container_creation_page.blp:335
+#: src/view/container_create_opts_dialog.blp:288
 msgid "Start Period"
 msgstr "Período de início"
 
-#: src/view/container_creation_page.blp:336
+#: src/view/container_create_opts_dialog.blp:289
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
 msgstr ""
 "Atraso inicial do comando em segundos para conceder tempo ao contentor para "
 "inicializar"
 
-#: src/view/container_creation_page.blp:349
+#: src/view/container_create_opts_dialog.blp:301
 #: src/view/container_health_check_page.blp:42
 msgid "Retries"
 msgstr "Novas tentativas"
 
-#: src/view/container_creation_page.blp:350
+#: src/view/container_create_opts_dialog.blp:302
 msgid "Number of retries allowed before a healthcheck fails"
 msgstr ""
 "Quantidade de tentativas permitidas antes que uma verificação de integridade "
 "falhe"
 
-#: src/view/container_creation_page.rs:193 src/view/pod_creation_page.rs:194
-#: src/view/pod_creation_page.rs:204 src/view/value_row.blp:5
-msgid "Argument"
-msgstr "Argumento"
-
-#: src/view/container_creation_page.rs:196 src/view/pod_creation_page.rs:197
-#: src/view/pod_creation_page.rs:207
-msgid "Add Argument"
-msgstr "Adicionar argumento"
-
-#: src/view/container_creation_page.rs:207 src/view/pod_creation_page.rs:177
+#: src/view/container_create_opts_dialog.rs:162
+#: src/view/pod_create_opts_dialog.rs:157
 msgid "Add Port Mapping"
 msgstr "Adicionar mapeamento de porta"
 
-#: src/view/container_creation_page.rs:215
+#: src/view/container_create_opts_dialog.rs:170
 msgid "Add Volume"
 msgstr "Adicionar volume"
 
-#: src/view/container_creation_page.rs:225
+#: src/view/container_create_opts_dialog.rs:180
 msgid "Add Environment Variable"
 msgstr "Adicionar variável de ambiente"
 
-#: src/view/container_creation_page.rs:235 src/view/image_build_page.rs:115
-#: src/view/pod_creation_page.rs:151
+#: src/view/container_create_opts_dialog.rs:190
+#: src/view/image_build_opts_dialog.rs:109
+#: src/view/pod_create_opts_dialog.rs:131
 msgid "Add Label"
 msgstr "Adicionar rótulo"
-
-#: src/view/container_creation_page.rs:461
-msgid "Failed to create container"
-msgstr "Falha ao criar o contentor"
-
-#: src/view/container_creation_page.rs:462
-msgid "no image selected"
-msgstr "Nenhuma imagem selecionada"
 
 #: src/view/container_details_page.blp:12
 msgid "Container"
@@ -2819,73 +2829,14 @@ msgstr "Processos"
 msgid "View and manage processes of the container"
 msgstr "Visualizar e gerir processos do contentor"
 
-#: src/view/container_details_page.rs:274
+#: src/view/container_details_page.rs:270
 msgid "Error on loading container details"
 msgstr "Erro ao carregar pormenores do contentor"
 
-#: src/view/container_details_page.rs:287
+#: src/view/container_details_page.rs:283
 #, rust-format
 msgid "Container '{}' has been deleted"
 msgstr "O contentor '{}' foi apagado"
-
-#: src/view/container_files_get_page.blp:35
-msgid "Download Files"
-msgstr "Baixar arquivos"
-
-#: src/view/container_files_get_page.blp:45
-msgid "_Download"
-msgstr "_Baixar"
-
-#: src/view/container_files_get_page.blp:54
-#: src/view/container_files_put_page.blp:78
-msgid "Container Path ('/' if empty)"
-msgstr "Caminho do contêiner ('/' se vazio)"
-
-#: src/view/container_files_get_page.blp:59
-#: src/view/container_files_put_page.blp:63 src/view/device_row.blp:57
-#: src/view/mount_row.blp:88
-msgid "Host Path"
-msgstr "Caminho do host"
-
-#: src/view/container_files_get_page.blp:60
-msgid "Select a destination tar archive on the host"
-msgstr "Selecione um arquivo tar de destino no host"
-
-#: src/view/container_files_get_page.blp:65
-msgid "Select _Path…"
-msgstr "Selecione_Caminho…"
-
-#: src/view/container_files_get_page.rs:169
-msgid "Select Host Destination Path"
-msgstr "Selecione o caminho de destino do host"
-
-#: src/view/container_files_put_page.blp:16
-msgid "Select _Directory…"
-msgstr "Selecione _Diretório…"
-
-#: src/view/container_files_put_page.blp:44
-msgid "Upload Files"
-msgstr "Fazer upload de arquivos"
-
-#: src/view/container_files_put_page.blp:54
-msgid "_Upload"
-msgstr "_Upload"
-
-#: src/view/container_files_put_page.blp:64
-msgid "Select a file or a directory from the host to upload"
-msgstr "Selecione um ficheiro ou diretório do host para fazer upload"
-
-#: src/view/container_files_put_page.blp:69
-msgid "Select _File…"
-msgstr "Selecione_Arquivo…"
-
-#: src/view/container_files_put_page.rs:172
-msgid "Select Host Directory"
-msgstr "Selecione o diretório do host"
-
-#: src/view/container_files_put_page.rs:174
-msgid "Select Host File"
-msgstr "Selecione o ficheiro host"
 
 #: src/view/container_health_check_log_row.rs:80
 msgid "Passed Health Run"
@@ -2898,7 +2849,7 @@ msgstr "Falha na execução de integridade: {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/container_health_check_log_row.rs:91
-#: src/view/image_history_page.rs:110
+#: src/view/image_history_page.rs:110 src/widget/date_time_row.rs:146
 msgid "%x %X"
 msgstr "%x %X"
 
@@ -2934,15 +2885,15 @@ msgstr ""
 msgid "_Run Health Check"
 msgstr "_Executar verificação de integridade"
 
-#: src/view/container_health_check_page.rs:195
-#: src/view/container_health_check_page.rs:211
+#: src/view/container_health_check_page.rs:198
+#: src/view/container_health_check_page.rs:214
 #, rust-format
 msgid "{} second"
 msgid_plural "{} seconds"
 msgstr[0] "{} segundo"
 msgstr[1] "{} segundos"
 
-#: src/view/container_health_check_page.rs:256
+#: src/view/container_health_check_page.rs:271
 msgid "Error on running health check"
 msgstr "Erro ao executar a verificação de integridade"
 
@@ -2994,15 +2945,11 @@ msgstr "A carregar linhas de log anteriores"
 msgid "Loading previous lines"
 msgstr "Carregando linhas anteriores"
 
-#: src/view/container_log_page.blp:158 src/view/container_log_page.blp:162
-msgid "Scroll to Bottom"
-msgstr "Role para baixo"
-
-#: src/view/container_log_page.blp:197
+#: src/view/container_log_page.blp:169
 msgid "Container log output"
 msgstr "Saída do log do contentor"
 
-#: src/view/container_log_page.blp:199
+#: src/view/container_log_page.blp:171
 msgid ""
 "Use Control+F to search logs. Press Escape to close search. Use "
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
@@ -3010,31 +2957,31 @@ msgstr ""
 "Use Control+ F para pesquisar logs. Pressione Esc para fechar a pesquisa. "
 "Use Control+Mais, Control+Menos e Control+0 para ajustar o zoom."
 
-#: src/view/container_log_page.rs:502
+#: src/view/container_log_page.rs:382
 msgid "Error while following log"
 msgstr "Erro ao seguir o log"
 
-#: src/view/container_log_page.rs:653
+#: src/view/container_log_page.rs:605
 msgid "Include timestamps"
 msgstr "Incluir carimbos de data/hora"
 
-#: src/view/container_log_page.rs:707
+#: src/view/container_log_page.rs:659
 msgid "Error on saving logs"
 msgstr "Erro ao gravar logs"
 
-#: src/view/container_log_page.rs:721
+#: src/view/container_log_page.rs:673
 msgid "Error on retrieving logs"
 msgstr "Erro ao recuperar logs"
 
-#: src/view/container_log_page.rs:734
+#: src/view/container_log_page.rs:686
 msgid "Log has been saved"
 msgstr "registos foram gravados"
 
-#: src/view/container_log_page.rs:765
+#: src/view/container_log_page.rs:716
 msgid "Error starting container"
 msgstr "Erro a iniciar o contentor"
 
-#: src/view/container_log_page.rs:779
+#: src/view/container_log_page.rs:730
 msgid "Error resuming container"
 msgstr "Erro a retomar o contentor"
 
@@ -3062,11 +3009,10 @@ msgstr "_Pausar"
 msgid "Re_name…"
 msgstr "Re_nomear…"
 
-#: src/view/container_menu_button.blp:46 src/view/containers_panel.rs:970
-#: src/view/image.rs:31 src/view/images_panel.rs:679
-#: src/view/pod_menu_button.blp:45 src/view/pod.rs:68
-#: src/view/pods_panel.rs:821 src/view/volume.rs:32
-#: src/view/volumes_panel.rs:664
+#: src/view/container_menu_button.blp:46 src/view/containers_panel.rs:967
+#: src/view/image.rs:35 src/view/images_panel.rs:677 src/view/pod.rs:68
+#: src/view/pod_menu_button.blp:45 src/view/pods_panel.rs:821
+#: src/view/volume.rs:33 src/view/volumes_panel.rs:661
 msgid "_Delete"
 msgstr "_Apagar"
 
@@ -3111,17 +3057,6 @@ msgstr "Enviar arquivos (Ctrl+U)"
 #: src/view/container_properties_group.blp:123
 msgid "Port bindings"
 msgstr "Mapeamento de portas"
-
-#: src/view/container_properties_group.blp:155 src/view/containers_panel.blp:15
-#: src/view/image_details_page.blp:24
-#: src/view/image_remote_selection_page.blp:48
-msgid "Image"
-msgstr "Imagem"
-
-#: src/view/container_properties_group.rs:243
-#, rust-format
-msgid "since {}"
-msgstr "desde {}"
 
 #: src/view/container_resources.blp:14
 msgid "Resources Quick Reference"
@@ -3170,49 +3105,54 @@ msgstr "{} / {} ({} %)"
 msgid "Select container"
 msgstr "Selecione o Contentor"
 
-#: src/view/container.rs:77 src/view/container.rs:119
-msgid "Error renaming container"
-msgstr "Erro ao renomear o contentor"
+#: src/view/container_terminal.blp:11
+msgid "Copy as _HTML"
+msgstr "Copiar como _HTML"
 
-#: src/view/container.rs:78
-msgid "Container has been deleted"
-msgstr "O contentor foi apagado"
+#: src/view/container_terminal.blp:16
+msgid "_Paste"
+msgstr "_Colar"
 
-#: src/view/container.rs:88
-msgid "Rename Container"
-msgstr "Renomear contentor"
+#: src/view/container_terminal.blp:32
+msgid "No Terminal"
+msgstr "Sem terminal"
 
-#: src/view/container.rs:96
-msgid "_Rename"
-msgstr "_Renomear"
+#: src/view/container_terminal.blp:33
+msgid "The container must be running to use the terminal"
+msgstr "O contentor deve estar em execução para usar o terminal"
 
-#: src/view/container.rs:155 src/view/containers_panel.rs:912
-msgid "Error on starting container"
-msgstr "Erro ao iniciar o contentor"
+#: src/view/container_terminal.blp:43
+msgid "Start"
+msgstr "Iniciar"
 
-#: src/view/container.rs:156 src/view/containers_panel.rs:842
-msgid "Error on stopping container"
-msgstr "Erro ao parar o contentor"
+#: src/view/container_terminal.blp:62
+msgid "Container terminal"
+msgstr "Terminal do Contentor"
 
-#: src/view/container.rs:157 src/view/containers_panel.rs:840
-msgid "Error on killing container"
-msgstr "Erro no contentor de eliminação"
+#: src/view/container_terminal.blp:64
+msgid ""
+"Use Control+Shift+C to copy, Control+Shift+V to paste, and Control+Plus, "
+"Control+Minus, or Control+0 to adjust zoom."
+msgstr ""
+"Use Control+Shift+C para copiar, Control+Shift+V para colar e Control+Mais, "
+"Control+menos ou Control+0 para ajustar o zoom."
 
-#: src/view/container.rs:158 src/view/containers_panel.rs:871
-msgid "Error on restarting container"
-msgstr "Erro ao reiniciar o contentor"
+#: src/view/container_terminal.rs:491
+msgid "Terminal error"
+msgstr "Erro terminal"
 
-#: src/view/container.rs:159 src/view/containers_panel.rs:939
-msgid "Error on pausing container"
-msgstr "Erro ao pausar o contentor"
+#: src/view/container_terminal.rs:492
+msgid "'/bin/sh' not found"
+msgstr "'/bin/sh' não encontrado"
 
-#: src/view/container.rs:160 src/view/containers_panel.rs:897
-msgid "Error on resuming container"
-msgstr "Erro ao retomar o contentor"
+#: src/view/container_terminal_page.blp:27
+#: src/view/container_terminal_page.blp:30
+msgid "Detach Terminal"
+msgstr "Desanexar Terminal"
 
-#: src/view/container.rs:161 src/view/containers_panel.rs:995
-msgid "Error on deleting container"
-msgstr "Erro ao apagar o contentor"
+#: src/view/container_terminal_page.blp:38
+msgid "Container Terminal"
+msgstr "Terminal do Contentor"
 
 #: src/view/containers_panel.blp:23 src/view/pods_panel.blp:23
 msgid "_Show Running First"
@@ -3229,7 +3169,6 @@ msgid "Select None"
 msgstr "Selecione nenhum"
 
 #: src/view/containers_panel.blp:54 src/view/containers_panel.blp:57
-#: src/view/containers_prune_page.blp:35
 msgid "Prune Stopped Containers"
 msgstr "Podar contentores parados"
 
@@ -3309,11 +3248,11 @@ msgstr "Visualização em lista"
 msgid "Grid View"
 msgstr "Visualização em grade"
 
-#: src/view/containers_panel.rs:961
+#: src/view/containers_panel.rs:958
 msgid "Confirm Forced Deletion of Multiple Containers"
 msgstr "Confirmar o apagar forçado de vários contentores"
 
-#: src/view/containers_panel.rs:964
+#: src/view/containers_panel.rs:961
 msgid ""
 "All the data created inside the containers will be lost and running "
 "containers will be stopped!"
@@ -3321,78 +3260,35 @@ msgstr ""
 "Todos os dados criados dentro dos contentores serão perdidos e os "
 "contentores em execução serão interrompidos!"
 
-#: src/view/containers_prune_page.blp:45 src/view/images_prune_page.blp:45
-#: src/view/pods_prune_page.blp:45 src/view/volumes_prune_page.blp:45
+#: src/view/containers_prune_action_view.rs:65
+#: src/view/images_prune_action_view.rs:65
+#: src/view/volumes_prune_action_view.rs:65
+#, fuzzy, rust-format
+msgid "Space Reclaimed: <b>{}</b>"
+msgstr "Iniciar novo contentor <b>{}</b>"
+
+#: src/view/containers_prune_opts_dialog.blp:38
+#: src/view/images_prune_opts_dialog.blp:38
+#: src/view/pods_prune_opts_dialog.blp:38
+#: src/view/volumes_prune_opts_dialog.blp:38
 msgid "_Prune"
 msgstr "_Limpar"
 
-#: src/view/containers_prune_page.blp:52 src/view/images_prune_page.blp:52
-#: src/view/volumes_prune_page.blp:54
+#: src/view/containers_prune_opts_dialog.blp:45
+#: src/view/images_prune_opts_dialog.blp:45
+#: src/view/volumes_prune_opts_dialog.blp:47
 msgid "Prune Options"
 msgstr "Opções de Limpeza"
 
-#: src/view/containers_prune_page.blp:55
+#: src/view/containers_prune_opts_dialog.blp:48
 msgid "Prune containers created before this timestamp"
 msgstr "Podar contentores criados antes deste registo de data e hora"
-
-#: src/view/container_terminal.blp:6
-msgid "_Copy"
-msgstr "_Copia"
-
-#: src/view/container_terminal.blp:11
-msgid "Copy as _HTML"
-msgstr "Copiar como _HTML"
-
-#: src/view/container_terminal.blp:16
-msgid "_Paste"
-msgstr "_Colar"
-
-#: src/view/container_terminal.blp:32
-msgid "No Terminal"
-msgstr "Sem terminal"
-
-#: src/view/container_terminal.blp:33
-msgid "The container must be running to use the terminal"
-msgstr "O contentor deve estar em execução para usar o terminal"
-
-#: src/view/container_terminal.blp:43
-msgid "Start"
-msgstr "Iniciar"
-
-#: src/view/container_terminal.blp:62
-msgid "Container terminal"
-msgstr "Terminal do Contentor"
-
-#: src/view/container_terminal.blp:64
-msgid ""
-"Use Control+Shift+C to copy, Control+Shift+V to paste, and Control+Plus, "
-"Control+Minus, or Control+0 to adjust zoom."
-msgstr ""
-"Use Control+Shift+C para copiar, Control+Shift+V para colar e Control+Mais, "
-"Control+menos ou Control+0 para ajustar o zoom."
-
-#: src/view/container_terminal_page.blp:27
-#: src/view/container_terminal_page.blp:30
-msgid "Detach Terminal"
-msgstr "Desanexar Terminal"
-
-#: src/view/container_terminal_page.blp:38
-msgid "Container Terminal"
-msgstr "Terminal do Contentor"
-
-#: src/view/container_terminal.rs:491
-msgid "Terminal error"
-msgstr "Erro terminal"
-
-#: src/view/container_terminal.rs:492
-msgid "'/bin/sh' not found"
-msgstr "'/bin/sh' não encontrado"
 
 #: src/view/device_row.blp:47 src/view/device_row.blp:50
 msgid "Remove Device"
 msgstr "Remover dispositivo"
 
-#: src/view/device_row.blp:61 src/view/mount_row.blp:122
+#: src/view/device_row.blp:61 src/view/mount_row.blp:97
 msgid "Container Path"
 msgstr "Caminho do Contentor"
 
@@ -3400,7 +3296,7 @@ msgstr "Caminho do Contentor"
 msgid "Readable"
 msgstr "Legível"
 
-#: src/view/device_row.blp:69 src/view/mount_row.blp:126
+#: src/view/device_row.blp:69 src/view/mount_row.blp:101
 msgid "Writable"
 msgstr "Gravável"
 
@@ -3408,39 +3304,56 @@ msgstr "Gravável"
 msgid "mknod"
 msgstr "mknod"
 
-#: src/view/image_build_page.blp:35
+#: src/view/image.rs:24
+msgid "Confirm Image Deletion"
+msgstr "Confirmar o apagar da imagem"
+
+#. Translators: The "{}" is a placeholder for the container name.
+#: src/view/image.rs:28
+#, rust-format
+msgid ""
+"Image is used by container <b>{}</b>. Deleting the image will also delete "
+"all its associated containers."
+msgstr ""
+"A imagem é usada pelo contentor <b>{}</b>. Apagar a imagem também apagará "
+"todos os contentores associados."
+
+#. Translators: The "{}" is a placeholder for the image id.
+#: src/view/image.rs:74
+#, rust-format
+msgid "Error on removing image '{}'"
+msgstr "Erro ao remover a imagem '{}'"
+
+#: src/view/image_build_action_view.rs:69
+#: src/view/image_build_opts_dialog.blp:17
 msgid "Build Image"
 msgstr "Construir Imagem"
 
-#: src/view/image_build_page.blp:45 src/view/images_panel.blp:21
+#: src/view/image_build_opts_dialog.blp:39 src/view/images_panel.blp:21
 msgid "_Build"
 msgstr "_Construir"
 
-#: src/view/image_build_page.blp:55
+#: src/view/image_build_opts_dialog.blp:49
 msgid "Image Name"
 msgstr "Nome da imagem"
 
-#: src/view/image_build_page.blp:99
+#: src/view/image_build_opts_dialog.blp:93
 msgid "Build Context Directory"
 msgstr "Criar Diretório de Contexto"
 
-#: src/view/image_build_page.blp:104
+#: src/view/image_build_opts_dialog.blp:98
 msgid "Select…"
 msgstr "Selecione…"
 
-#: src/view/image_build_page.blp:111
+#: src/view/image_build_opts_dialog.blp:105
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
 "Caminho do arquivo de contêiner relativo ao diretório de contexto de "
 "construção"
 
-#: src/view/image_build_page.rs:199
+#: src/view/image_build_opts_dialog.rs:197
 msgid "Select Build Context Directory"
 msgstr "Selecione Construir Diretório de Contexto"
-
-#: src/view/image_build_page.rs:246
-msgid "Image name must not contain uppercase characters"
-msgstr "O nome da imagem não deve conter caracteres maiúsculos"
 
 #: src/view/image_details_page.blp:7
 msgid "Create Repository Tag"
@@ -3557,17 +3470,13 @@ msgstr "_Criar Contêiner…"
 msgid "Image Actions"
 msgstr "Ações de imagem"
 
-#: src/view/image_pull_page.blp:9
+#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:17
 msgid "Pull Image"
 msgstr "Puxar imagem"
 
-#: src/view/image_pull_page.blp:15 src/view/images_panel.blp:16
+#: src/view/image_pull_opts_dialog.blp:39 src/view/images_panel.blp:16
 msgid "_Pull"
 msgstr "_Baixar"
-
-#: src/view/image_remote_selection_page.rs:213
-msgid "Failed to search for images"
-msgstr "Falha ao pesquisar imagens"
 
 #: src/view/image_row.blp:24
 msgid "Select image"
@@ -3578,27 +3487,7 @@ msgstr "Selecionar imagem"
 msgid "Image {}"
 msgstr "Imagem {}"
 
-#: src/view/image.rs:20
-msgid "Confirm Image Deletion"
-msgstr "Confirmar o apagar da imagem"
-
-#. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image.rs:24
-#, rust-format
-msgid ""
-"Image is used by container <b>{}</b>. Deleting the image will also delete "
-"all its associated containers."
-msgstr ""
-"A imagem é usada pelo contentor <b>{}</b>. Apagar a imagem também apagará "
-"todos os contentores associados."
-
-#. Translators: The "{}" is a placeholder for the image id.
-#: src/view/image.rs:69
-#, rust-format
-msgid "Error on removing image '{}'"
-msgstr "Erro ao remover a imagem '{}'"
-
-#: src/view/image_search_response_row.blp:31
+#: src/view/image_search_response_row.blp:29
 msgid "Official"
 msgstr "Oficial"
 
@@ -3635,27 +3524,27 @@ msgstr "Selecione a imagem local"
 msgid "Filter images"
 msgstr "Filtrar imagens"
 
-#: src/view/image_selection_page.blp:65 src/view/pod_selection_page.blp:92
-#: src/view/volume_selection_page.blp:92
+#: src/view/image_selection_page.blp:65
 msgid "Type to filter results. Press Enter to select the highlighted item."
 msgstr ""
 "Digite para filtrar resultados. Pressione Enter para selecionar o elemento "
 "destacado."
 
-#: src/view/image_selection_page.blp:81 src/view/pod_selection_page.blp:108
-#: src/view/volume_selection_page.blp:108
+#: src/view/image_selection_page.blp:81
 msgid "_Select"
 msgstr "_Selecionar"
 
-#: src/view/image_selection_page.blp:122 src/view/pod_selection_page.blp:149
-#: src/view/volume_selection_page.blp:149
+#: src/view/image_selection_page.blp:122
 msgid "No Results"
 msgstr "Nenhum resultado"
 
-#: src/view/image_selection_page.blp:133 src/view/pod_selection_page.blp:160
-#: src/view/volume_selection_page.blp:160
+#: src/view/image_selection_page.blp:133
 msgid "_Clear Filter"
 msgstr "_Limpar filtro"
+
+#: src/view/image_suggestion_entry_row.rs:149
+msgid "Failed to search for images"
+msgstr "Falha ao pesquisar imagens"
 
 #: src/view/images_panel.blp:65 src/view/images_panel.blp:68
 msgid "Create Image"
@@ -3719,11 +3608,11 @@ msgid_plural "{} Selected Images"
 msgstr[0] "{} imagem selecionada"
 msgstr[1] "{} imagens selecionadas"
 
-#: src/view/images_panel.rs:671
+#: src/view/images_panel.rs:669
 msgid "Confirm Forced Deletion of Multiple Images"
 msgstr "Confirmar apagar forçado de várias imagens"
 
-#: src/view/images_panel.rs:673
+#: src/view/images_panel.rs:671
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
@@ -3731,25 +3620,21 @@ msgstr ""
 "Pode haver contentores associados a essas imagens, que também serão "
 "removidos!"
 
-#. Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-#: src/view/images_panel.rs:704
+#: src/view/images_panel.rs:705
 #, rust-format
 msgid "Error on deleting image '{}'"
 msgstr "Erro ao apagar a imagem '{}'"
 
-#: src/view/images_prune_page.blp:35
-msgid "Prune Images"
-msgstr "Limpar Imagens"
-
-#: src/view/images_prune_page.blp:55 src/view/volumes_prune_page.blp:57
+#: src/view/images_prune_opts_dialog.blp:48
+#: src/view/volumes_prune_opts_dialog.blp:50
 msgid "Prune All"
 msgstr "Limpar Tudo"
 
-#: src/view/images_prune_page.blp:60
+#: src/view/images_prune_opts_dialog.blp:53
 msgid "Prune External"
 msgstr "Podar Externo"
 
-#: src/view/images_prune_page.blp:70
+#: src/view/images_prune_opts_dialog.blp:63
 msgid "Prune images created before this timestamp"
 msgstr "Podar imagens criadas antes deste registo de data e hora"
 
@@ -3773,8 +3658,8 @@ msgstr "Kernel"
 msgid "Architecture"
 msgstr "Arquitetura"
 
-#: src/view/info_panel.blp:80 src/view/pod_creation_page.blp:105
-#: src/view/pod_creation_page.rs:159 src/view/pod_details_page.blp:209
+#: src/view/info_panel.blp:80 src/view/pod_create_opts_dialog.blp:97
+#: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:209
 msgid "Hostname"
 msgstr "Nome do Host"
 
@@ -3838,112 +3723,21 @@ msgstr "Vincular"
 msgid "Volume"
 msgstr "Volume"
 
-#: src/view/mount_row.blp:105 src/view/mount_row.blp:108
-msgid "Clear Volume"
-msgstr "Limpar volume"
-
-#: src/view/mount_row.blp:130
+#: src/view/mount_row.blp:105
 msgid "SELinux"
 msgstr "SELinux"
 
-#: src/view/mount_row.blp:134
+#: src/view/mount_row.blp:109
 msgid "No label"
 msgstr "Sem rótulo"
 
-#: src/view/mount_row.blp:135
+#: src/view/mount_row.blp:110
 msgid "Shared"
 msgstr "Compartilhar"
 
-#: src/view/mount_row.blp:136
+#: src/view/mount_row.blp:111
 msgid "Private"
 msgstr "Privado"
-
-#: src/view/mount_row.rs:187
-msgid "No volume selected (will create a new one)"
-msgstr "Nenhum volume selecionado (será criado um novo)"
-
-#: src/view/pod_creation_page.blp:35 src/view/pod_selection_page.blp:51
-#: src/view/pod_selection_page.blp:54 src/view/pods_panel.blp:44
-#: src/view/pods_panel.blp:47
-msgid "Create Pod"
-msgstr "Criar Pod"
-
-#: src/view/pod_creation_page.blp:45 src/view/volume_creation_page.blp:45
-msgid "_Create"
-msgstr "_Criar"
-
-#: src/view/pod_creation_page.blp:84 src/view/pod_creation_page.blp:192
-msgid "Infra"
-msgstr "Infra"
-
-#: src/view/pod_creation_page.blp:109
-msgid "Disable /etc/resolv.conf management"
-msgstr "Desative o gerenciamento de /etc/resolv.conf"
-
-#: src/view/pod_creation_page.blp:117
-msgid "Pod Create Command"
-msgstr "Comando de criação de pod"
-
-#: src/view/pod_creation_page.blp:153
-msgid "Devices"
-msgstr "Dispositivos"
-
-#: src/view/pod_creation_page.blp:163
-msgid "Hosts"
-msgstr "Hosts"
-
-#: src/view/pod_creation_page.blp:202
-msgid "Disable Infra"
-msgstr "Desativar infra"
-
-#: src/view/pod_creation_page.blp:224
-msgid "Common PID File"
-msgstr "Arquivo PID comum"
-
-#: src/view/pod_creation_page.rs:160
-msgid "IP"
-msgstr "IP"
-
-#: src/view/pod_creation_page.rs:166
-msgid "Add Host"
-msgstr "Adicionar Host"
-
-#: src/view/pod_creation_page.rs:187
-msgid "Add Device"
-msgstr "Adicionar dispositivo"
-
-#: src/view/pod_details_page.blp:218
-msgid "View all pod properties in a structured text form"
-msgstr "Ver todas as propriedades do cápsula num formato de texto estruturado"
-
-#: src/view/pod_details_page.blp:230
-msgid "Generate Kubernetes YAML based on this pod"
-msgstr "Gere o YAML do Kubernetes com base nesta cápsula"
-
-#: src/view/pod_details_page.blp:242
-msgid "View processes of the pod"
-msgstr "Visualizar processos da cápsola"
-
-#: src/view/pod_details_page.rs:244
-msgid "Error on loading pod details"
-msgstr "Erro ao carregar pormenores do pod"
-
-#: src/view/pod_details_page.rs:255
-#, rust-format
-msgid "Pod '{}' has been deleted"
-msgstr "O pod '{}' foi apagado"
-
-#: src/view/pod_menu_button.blp:58 src/view/pod_menu_button.blp:61
-msgid "Pod Actions"
-msgstr "Ações do Pod"
-
-#: src/view/pod_row.blp:26
-msgid "Select pod"
-msgstr "Selecionar pod"
-
-#: src/view/pod_row.rs:278
-msgid "Pod Details"
-msgstr "Pormenores do pod"
 
 #: src/view/pod.rs:41 src/view/pods_panel.rs:710
 msgid "Error on starting pod"
@@ -3987,24 +3781,91 @@ msgstr ""
 "O pod contém o contentor <b>{}</b>. Apagar o pod também apagará todos os "
 "seus contentores."
 
-#: src/view/pod_selection_page.blp:20
-msgid "No Pod Available"
-msgstr "Nenhuma cápsula disponível"
+#: src/view/pod_create_action_view.rs:69 src/view/pod_create_opts_dialog.blp:15
+#: src/view/pods_panel.blp:44 src/view/pods_panel.blp:47
+msgid "Create Pod"
+msgstr "Criar Pod"
 
-#: src/view/pod_selection_page.blp:31 src/view/pods_panel.blp:401
-msgid "_Create Pod"
-msgstr "_Criar Pod"
+#: src/view/pod_create_opts_dialog.blp:37
+#: src/view/volume_create_opts_dialog.blp:38
+msgid "_Create"
+msgstr "_Criar"
 
-#: src/view/pod_selection_page.blp:79
-msgid "Select Pod"
-msgstr "Selecionar Pod"
+#: src/view/pod_create_opts_dialog.blp:76
+#: src/view/pod_create_opts_dialog.blp:174
+msgid "Infra"
+msgstr "Infra"
 
-#: src/view/pod_selection_page.blp:91
-msgid "Filter pods"
-msgstr "Filtrar pods"
+#: src/view/pod_create_opts_dialog.blp:101
+msgid "Disable /etc/resolv.conf management"
+msgstr "Desative o gerenciamento de /etc/resolv.conf"
+
+#: src/view/pod_create_opts_dialog.blp:109
+msgid "Pod Create Command"
+msgstr "Comando de criação de pod"
+
+#: src/view/pod_create_opts_dialog.blp:135
+msgid "Devices"
+msgstr "Dispositivos"
+
+#: src/view/pod_create_opts_dialog.blp:145
+msgid "Hosts"
+msgstr "Hosts"
+
+#: src/view/pod_create_opts_dialog.blp:184
+msgid "Disable Infra"
+msgstr "Desativar infra"
+
+#: src/view/pod_create_opts_dialog.blp:208
+msgid "Common PID File"
+msgstr "Arquivo PID comum"
+
+#: src/view/pod_create_opts_dialog.rs:140
+msgid "IP"
+msgstr "IP"
+
+#: src/view/pod_create_opts_dialog.rs:146
+msgid "Add Host"
+msgstr "Adicionar Host"
+
+#: src/view/pod_create_opts_dialog.rs:167
+msgid "Add Device"
+msgstr "Adicionar dispositivo"
+
+#: src/view/pod_details_page.blp:218
+msgid "View all pod properties in a structured text form"
+msgstr "Ver todas as propriedades do cápsula num formato de texto estruturado"
+
+#: src/view/pod_details_page.blp:230
+msgid "Generate Kubernetes YAML based on this pod"
+msgstr "Gere o YAML do Kubernetes com base nesta cápsula"
+
+#: src/view/pod_details_page.blp:242
+msgid "View processes of the pod"
+msgstr "Visualizar processos da cápsola"
+
+#: src/view/pod_details_page.rs:244
+msgid "Error on loading pod details"
+msgstr "Erro ao carregar pormenores do pod"
+
+#: src/view/pod_details_page.rs:255
+#, rust-format
+msgid "Pod '{}' has been deleted"
+msgstr "O pod '{}' foi apagado"
+
+#: src/view/pod_menu_button.blp:58 src/view/pod_menu_button.blp:61
+msgid "Pod Actions"
+msgstr "Ações do Pod"
+
+#: src/view/pod_row.blp:26
+msgid "Select pod"
+msgstr "Selecionar pod"
+
+#: src/view/pod_row.rs:278
+msgid "Pod Details"
+msgstr "Pormenores do pod"
 
 #: src/view/pods_panel.blp:54 src/view/pods_panel.blp:57
-#: src/view/pods_prune_page.blp:35
 msgid "Prune Stopped Pods"
 msgstr "Remover Pods Parados"
 
@@ -4035,6 +3896,10 @@ msgstr "Parar os pods selecionados"
 #: src/view/pods_panel.blp:391
 msgid "No Pods Available"
 msgstr "Nenhuma cápsula disponível"
+
+#: src/view/pods_panel.blp:401
+msgid "_Create Pod"
+msgstr "_Criar Pod"
 
 #: src/view/pods_panel.rs:306
 msgid "1 pod, running"
@@ -4119,67 +3984,69 @@ msgstr "Marcador do repositorio"
 msgid "Repo tag must contain a colon “:”"
 msgstr "A tag de repositório deve conter dois pontos \":\""
 
-#: src/view/repo_tag_push_page.blp:36
+#: src/view/repo_tag_push_action_view.rs:71
+#: src/view/repo_tag_push_opts_dialog.blp:32
 msgid "Push Image"
 msgstr "Remover imagens"
 
-#: src/view/repo_tag_push_page.blp:46
+#: src/view/repo_tag_push_opts_dialog.blp:42
 msgid "_Push"
 msgstr "_Empurrar"
 
-#: src/view/repo_tag_push_page.blp:53
+#: src/view/repo_tag_push_opts_dialog.blp:49
 msgid "Options"
 msgstr "Opções"
 
-#: src/view/repo_tag_push_page.blp:57
+#: src/view/repo_tag_push_opts_dialog.blp:53
 msgid "TLS Verify"
 msgstr "Verificação TLS"
 
-#: src/view/repo_tag_push_page.blp:58
+#: src/view/repo_tag_push_opts_dialog.blp:54
 msgid "Require TLS verification"
 msgstr "Exigir verificação TLS"
 
-#: src/view/repo_tag_push_page.blp:68
+#: src/view/repo_tag_push_opts_dialog.blp:68
 msgid "Login"
 msgstr "Login"
 
-#: src/view/repo_tag_push_page.blp:69
+#: src/view/repo_tag_push_opts_dialog.blp:69
 msgid "Some registries require authentication"
 msgstr "Alguns registos exigem autenticação"
 
-#: src/view/repo_tag_push_page.blp:79
+#: src/view/repo_tag_push_opts_dialog.blp:79
 msgid "Authentication"
 msgstr "Autenticação"
 
-#: src/view/repo_tag_push_page.blp:89
+#: src/view/repo_tag_push_opts_dialog.blp:89
 msgid "Basic"
 msgstr "Básico"
 
-#: src/view/repo_tag_push_page.blp:94 src/view/repo_tag_push_page.blp:114
+#: src/view/repo_tag_push_opts_dialog.blp:94
+#: src/view/repo_tag_push_opts_dialog.blp:114
 msgid "Token"
 msgstr "Token"
 
-#: src/view/repo_tag_push_page.blp:102
+#: src/view/repo_tag_push_opts_dialog.blp:102
 msgid "Username"
 msgstr "Nome de utilizador"
 
-#: src/view/repo_tag_push_page.blp:108
+#: src/view/repo_tag_push_opts_dialog.blp:108
 msgid "Password"
 msgstr "Senha"
 
-#: src/view/repo_tag_push_page.blp:120
+#: src/view/repo_tag_push_opts_dialog.blp:120
 msgid "Save Credentials"
 msgstr "Salvar Credenciais"
 
-#: src/view/repo_tag_push_page.rs:172
+#: src/view/repo_tag_push_opts_dialog.rs:174
 msgid "Error on accessing keyring"
 msgstr "Erro ao aceder o chaveiro"
 
-#: src/view/repo_tag_push_page.rs:278
+#: src/view/repo_tag_push_opts_dialog.rs:303
 msgid "Error saving credentials"
 msgstr "Erro ao gravar credenciais"
 
-#: src/view/repo_tag_push_page.rs:279
+#: src/view/repo_tag_push_opts_dialog.rs:304
 msgid "Secret Service is not available"
 msgstr "O Serviço Secreto não está disponível"
 
@@ -4441,12 +4308,36 @@ msgstr "COMANDO"
 msgid "Killing pod processes is not supported"
 msgstr "Matar processos de cápsulas não é suportado"
 
+#: src/view/value_row.blp:5
+msgid "Argument"
+msgstr "Argumento"
+
 #: src/view/value_row.blp:15 src/view/value_row.blp:18
 msgid "Remove Argument"
 msgstr "Remover argumento"
 
-#: src/view/volume_creation_page.blp:35 src/view/volume_selection_page.blp:51
-#: src/view/volume_selection_page.blp:54 src/view/volumes_group.blp:12
+#: src/view/volume.rs:22
+msgid "Confirm Volume Deletion"
+msgstr "Confirmar apagar o volume"
+
+#. Translators: The "{}" is a placeholder for the container name.
+#: src/view/volume.rs:26
+#, rust-format
+msgid ""
+"Volume is used by container <b>{}</b>. Deleting the volume will also delete "
+"these containers."
+msgstr ""
+"O volume é usado pelo contentor <b>{}</b>. Apagar o volume também apagará "
+"estes contentores."
+
+#. Translators: The "{}" is a placeholder for the volume name.
+#: src/view/volume.rs:54 src/view/volumes_panel.rs:680
+#, rust-format
+msgid "Error on deleting volume '{}'"
+msgstr "Erro ao apagar o volume '{}'"
+
+#: src/view/volume_create_action_view.rs:69
+#: src/view/volume_create_opts_dialog.blp:16 src/view/volumes_group.blp:12
 #: src/view/volumes_panel.blp:43 src/view/volumes_panel.blp:46
 msgid "Create Volume"
 msgstr "Criar volume"
@@ -4484,42 +4375,6 @@ msgstr "{} velho"
 msgid "Volume {}"
 msgstr "Volume {}"
 
-#: src/view/volume.rs:21
-msgid "Confirm Volume Deletion"
-msgstr "Confirmar apagar o volume"
-
-#. Translators: The "{}" is a placeholder for the container name.
-#: src/view/volume.rs:25
-#, rust-format
-msgid ""
-"Volume is used by container <b>{}</b>. Deleting the volume will also delete "
-"these containers."
-msgstr ""
-"O volume é usado pelo contentor <b>{}</b>. Apagar o volume também apagará "
-"estes contentores."
-
-#. Translators: The "{}" is a placeholder for the volume name.
-#: src/view/volume.rs:53 src/view/volumes_panel.rs:683
-#, rust-format
-msgid "Error on deleting volume '{}'"
-msgstr "Erro ao apagar o volume '{}'"
-
-#: src/view/volume_selection_page.blp:20
-msgid "No Volume Available"
-msgstr "Nenhum volume disponível"
-
-#: src/view/volume_selection_page.blp:31 src/view/volumes_panel.blp:289
-msgid "_Create Volume"
-msgstr "_Criar volume"
-
-#: src/view/volume_selection_page.blp:79
-msgid "Select Volume"
-msgstr "Selecione o volume"
-
-#: src/view/volume_selection_page.blp:91
-msgid "Filter volumes"
-msgstr "Filtrar volumes"
-
 #: src/view/volumes_panel.blp:15
 msgid "Age"
 msgstr "Idade"
@@ -4552,6 +4407,10 @@ msgstr "Apagar volumes selecionados"
 msgid "No Volumes Available"
 msgstr "Nenhum volume disponível"
 
+#: src/view/volumes_panel.blp:289
+msgid "_Create Volume"
+msgstr "_Criar volume"
+
 #: src/view/volumes_panel.rs:268
 msgid "1 volume, used"
 msgstr "1 volume, usado"
@@ -4574,11 +4433,11 @@ msgid_plural "{} Selected Volumes"
 msgstr[0] "{} Volume selecionado"
 msgstr[1] "{} Volumes selecionados"
 
-#: src/view/volumes_panel.rs:656
+#: src/view/volumes_panel.rs:653
 msgid "Confirm Forced Deletion of Multiple Volumes"
 msgstr "Confirmar o apagar forçado de vários volumes"
 
-#: src/view/volumes_panel.rs:658
+#: src/view/volumes_panel.rs:655
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
 "be removed!"
@@ -4586,17 +4445,13 @@ msgstr ""
 "Pode haver contentores associados a alguns dos volumes, que também serão "
 "removidos!"
 
-#: src/view/volumes_prune_page.blp:35
-msgid "Prune Volumes"
-msgstr "Remover Volumes"
-
-#: src/view/volumes_prune_page.blp:58
+#: src/view/volumes_prune_opts_dialog.blp:51
 msgid "Consider all (local) volumes for pruning and not just anonymous volumes"
 msgstr ""
 "Considere todos os volumes (locais) para limpeza e não apenas os volumes "
 "anônimos"
 
-#: src/view/volumes_prune_page.blp:67
+#: src/view/volumes_prune_opts_dialog.blp:60
 msgid "Prune volumes created before this timestamp"
 msgstr "Podar volumes criados antes deste registo de data e hora"
 
@@ -4616,24 +4471,24 @@ msgstr "_Nova Conexão"
 msgid "Confirm Exiting The Application"
 msgstr "Confirme a saída da aplicação"
 
+#: src/widget/auto_scrolled_window.blp:20
+#: src/widget/auto_scrolled_window.blp:24
+msgid "Scroll to Bottom"
+msgstr "Role para baixo"
+
 #: src/widget/date_time_row.blp:5
 msgid "Prune Until"
 msgstr "Podar até"
 
-#: src/widget/date_time_row.blp:79
+#: src/widget/date_time_row.blp:84
 msgid "AM"
 msgstr "AM"
 
-#: src/widget/date_time_row.blp:80
+#: src/widget/date_time_row.blp:85
 msgid "PM"
 msgstr "PM"
 
-#. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/widget/date_time_row.rs:136
-msgid "%x %H:%M %p"
-msgstr "%x %H:%M %p"
-
-#: src/widget/date_time_row.rs:141
+#: src/widget/date_time_row.rs:151
 msgid "Invalid date format"
 msgstr "Formato de data inválido"
 
@@ -4679,6 +4534,290 @@ msgstr "Sensível a maiúsculas e minúsculas"
 msgid "Whole Word"
 msgstr "Palavra inteira"
 
+#~ msgid "Implemented support for Docker (#927)"
+#~ msgstr "Implementado apoio ao Docker (#927)"
+
+#~ msgid "Prune unused images"
+#~ msgstr "Podar imagens não utilizadas"
+
+#~ msgid "Generating tarball of context directory..."
+#~ msgstr "Gerando tarball do diretório de contexto..."
+
+#~ msgid "Prune stopped containers"
+#~ msgstr "Podar contentores parados"
+
+#, rust-format
+#~ msgid "Create container <b>{}</b>"
+#~ msgstr "Criar contentor <b>{}</b>"
+
+#~ msgid "none"
+#~ msgstr "Nenhum"
+
+#, rust-format
+#~ msgid "Upload <b>{}</b> to <b>{}:{}</b>"
+#~ msgstr "Carregar <b>{}</b> para <b>{}:{}</b>"
+
+#~ msgid "Tar archive created"
+#~ msgstr "Arquivo tar criado"
+
+#~ msgid "Tar archive unwrapped"
+#~ msgstr "Arquivo tar descompactado"
+
+#~ msgid "Copying files into container…"
+#~ msgstr "Copiando arquivo para dentro do contêiner…"
+
+#, rust-format
+#~ msgid "Download <b>{}:{}</b> to <b>{}</b>"
+#~ msgstr "Download <b>{}:{}</b> to <b>{}</b>"
+
+#~ msgid "Writing to file…"
+#~ msgstr "A escrever para ficheiro…"
+
+#~ msgid "Flushing…"
+#~ msgstr "A limpar…"
+
+#~ msgid "Prune stopped pods"
+#~ msgstr "Podar pods parados"
+
+#, rust-format
+#~ msgid "Create volume <b>{}</b>"
+#~ msgstr "Criar volume <b>{}</b>"
+
+#~ msgid "Prune unused volumes"
+#~ msgstr "Remover volumes não utilizados"
+
+#~ msgid "_Retry"
+#~ msgstr "_Repetir"
+
+#~ msgid "Pruning Images"
+#~ msgstr "Imagens de poda"
+
+#~ msgid "Downloading Image"
+#~ msgstr "A descarregar a imagem"
+
+#~ msgid "Building Image"
+#~ msgstr "Imagem do edifício"
+
+#~ msgid "Pushing Image"
+#~ msgstr "A empurrar a imagem"
+
+#~ msgid "Creating Container"
+#~ msgstr "A criar contentor"
+
+#~ msgid "Starting Container"
+#~ msgstr "Recipiente inicial"
+
+#~ msgid "Committing Image"
+#~ msgstr "A comprometer imagem"
+
+#~ msgid "Creating Pod"
+#~ msgstr "A criar cápsulas"
+
+#~ msgid "Creating Volume"
+#~ msgstr "A criar Volume"
+
+#~ msgid "Pruning Volumes"
+#~ msgstr "Volumes de poda"
+
+#~ msgid "Images Pruned"
+#~ msgstr "Imagens podadas"
+
+#~ msgid "Image Downloaded"
+#~ msgstr "Imagem descarregada"
+
+#~ msgid "Image Built"
+#~ msgstr "Imagem construída"
+
+#~ msgid "Image Pushed"
+#~ msgstr "Imagem empurrada"
+
+#~ msgid "Containers Pruned"
+#~ msgstr "Recipientes podados"
+
+#~ msgid "Container Started"
+#~ msgstr "Recipiente iniciado"
+
+#~ msgid "Image Committed"
+#~ msgstr "Imagem Comprometida"
+
+#~ msgid "Files Copied"
+#~ msgstr "Ficheiros copiados"
+
+#~ msgid "Pods Pruned"
+#~ msgstr "cápsulas Podadas"
+
+#~ msgid "Volume Created"
+#~ msgstr "Volume criado"
+
+#~ msgid "Volumes Pruned"
+#~ msgstr "Volumes podados"
+
+#~ msgid "View Image"
+#~ msgstr "Ver imagem"
+
+#~ msgid "View Container"
+#~ msgstr "Ver Container"
+
+#~ msgid "View Pod"
+#~ msgstr "Ver Pod"
+
+#~ msgid "View Volume"
+#~ msgstr "Ver Volume"
+
+#~ msgid "View"
+#~ msgstr "Visualização"
+
+#~ msgid "Image Pruning Aborted"
+#~ msgstr "Corte de imagem abortado"
+
+#~ msgid "Image Download Aborted"
+#~ msgstr "Descarga de imagem abortada"
+
+#~ msgid "Image Built Aborted"
+#~ msgstr "Imagem construída abortada"
+
+#~ msgid "Image Push Aborted"
+#~ msgstr "Envio de imagem abortado"
+
+#~ msgid "Container Pruning Aborted"
+#~ msgstr "Poda de contentor abortada"
+
+#~ msgid "Container Creation Aborted"
+#~ msgstr "Criação de contentor abortada"
+
+#~ msgid "Container Start Aborted"
+#~ msgstr "Início do contentor abortado"
+
+#~ msgid "Image Commit Aborted"
+#~ msgstr "O processo de gravar as alterações na imagem foi abortado"
+
+#~ msgid "File Copying Aborted"
+#~ msgstr "Cópia de ficheiro abortada"
+
+#~ msgid "Pod Pruning Aborted"
+#~ msgstr "cápsula Poda foi Abortada"
+
+#~ msgid "Pod Creation Aborted"
+#~ msgstr "cápsula Criação foi Abortada"
+
+#~ msgid "Volume Creation Aborted"
+#~ msgstr "Criação de volume foi abortada"
+
+#~ msgid "Volume Pruning Aborted"
+#~ msgstr "Poda de volume foi abortada"
+
+#~ msgid "Pruning Image Failed"
+#~ msgstr "Falha na poda da imagem"
+
+#~ msgid "Downloading Image Failed"
+#~ msgstr "Falha na descarga da imagem"
+
+#~ msgid "Building Image Failed"
+#~ msgstr "Falha na construção da imagem"
+
+#~ msgid "Pushing Image Failed"
+#~ msgstr "Falha ao enviar imagem"
+
+#~ msgid "Pruning Containers Failed"
+#~ msgstr "Falha na poda de contentores"
+
+#~ msgid "Creating Container Failed"
+#~ msgstr "Falha ao criar contentor"
+
+#~ msgid "Starting Container Failed"
+#~ msgstr "Falha ao iniciar o contentor"
+
+#~ msgid "Committing Image Failed"
+#~ msgstr "Falha ao confirmar a imagem"
+
+#~ msgid "Copying Files Failed"
+#~ msgstr "Falha na cópia dos ficheiros"
+
+#~ msgid "Pruning Pods Failed"
+#~ msgstr "Poda de cápsulas falhou"
+
+#~ msgid "Creating Pod Failed"
+#~ msgstr "A criação das cápsulas falhou"
+
+#~ msgid "Creating Volume Failed"
+#~ msgstr "Falha ao criar volume"
+
+#~ msgid "Pruning Volumes Failed"
+#~ msgstr "Falha na poda de volumes"
+
+#~ msgid "Error on opening artifact"
+#~ msgstr "Erro ao abrir o artefato"
+
+#~ msgid "Artifact has been deleted"
+#~ msgstr "Artefato foi apagado"
+
+#, rust-format
+#~ msgid "Aborted after {}"
+#~ msgstr "Abortado após {}"
+
+#~ msgid "Preferences"
+#~ msgstr "Preferências"
+
+#~ msgid "Clear Pod"
+#~ msgstr "Limpar Pod"
+
+#~ msgid "Arguments"
+#~ msgstr "Argumentos"
+
+#~ msgid "Add Argument"
+#~ msgstr "Adicionar argumento"
+
+#~ msgid "Failed to create container"
+#~ msgstr "Falha ao criar o contentor"
+
+#~ msgid "no image selected"
+#~ msgstr "Nenhuma imagem selecionada"
+
+#~ msgid "Download Files"
+#~ msgstr "Baixar arquivos"
+
+#~ msgid "_Download"
+#~ msgstr "_Baixar"
+
+#~ msgid "Select Host Destination Path"
+#~ msgstr "Selecione o caminho de destino do host"
+
+#~ msgid "Upload Files"
+#~ msgstr "Fazer upload de arquivos"
+
+#~ msgid "_Upload"
+#~ msgstr "_Upload"
+
+#~ msgid "Image name must not contain uppercase characters"
+#~ msgstr "O nome da imagem não deve conter caracteres maiúsculos"
+
+#~ msgid "Clear Volume"
+#~ msgstr "Limpar volume"
+
+#~ msgid "No volume selected (will create a new one)"
+#~ msgstr "Nenhum volume selecionado (será criado um novo)"
+
+#~ msgid "No Pod Available"
+#~ msgstr "Nenhuma cápsula disponível"
+
+#~ msgid "Select Pod"
+#~ msgstr "Selecionar Pod"
+
+#~ msgid "Filter pods"
+#~ msgstr "Filtrar pods"
+
+#~ msgid "No Volume Available"
+#~ msgstr "Nenhum volume disponível"
+
+#~ msgid "Select Volume"
+#~ msgstr "Selecione o volume"
+
+#~ msgid "Filter volumes"
+#~ msgstr "Filtrar volumes"
+
+#~ msgid "%x %H:%M %p"
+#~ msgstr "%x %H:%M %p"
+
 #~ msgid "Whether to hide intermediate images"
 #~ msgstr "Se deve ocultar imagens intermediárias"
 
@@ -4700,65 +4839,11 @@ msgstr "Palavra inteira"
 #~ msgid "AdwMessageDialog"
 #~ msgstr "AdwMessageDialog"
 
-#~ msgid "translator-credits"
-#~ msgstr "créditos de tradução"
-
-#~ msgid "Translators"
-#~ msgstr "Tradutores"
-
-#~ msgid "Prints application version"
-#~ msgstr "Imprime a versão do aplicativo"
-
-#~ msgid "Specify the minimum log level"
-#~ msgstr "Especifique o nível mínimo do log"
-
 #~ msgid "Copying bytes into memory…"
 #~ msgstr "Copiando bytes para a memória…"
 
 #~ msgid "Connection '{}' already exists"
 #~ msgstr "A conexão '{}' já existe"
-
-#~ msgid "{} h {} min {} s"
-#~ msgstr "{} h {} min {} s"
-
-#~ msgid "{} h {} s"
-#~ msgstr "{} h {} s"
-
-#~ msgid "{} min {} s"
-#~ msgstr "{} min {} s"
-
-#~ msgid "{} min"
-#~ msgstr "{} min"
-
-#~ msgid "{} s"
-#~ msgstr "{} s"
-
-#~ msgid "a few seconds"
-#~ msgstr "alguns segundos"
-
-#~ msgid "{} minute"
-#~ msgid_plural "{} minutes"
-#~ msgstr[0] "{} minuto"
-#~ msgstr[1] "{} minutos"
-
-#~ msgid "{} hour"
-#~ msgid_plural "{} hours"
-#~ msgstr[0] "{} hora"
-#~ msgstr[1] "{} horas"
-
-#~ msgid "{} day"
-#~ msgid_plural "{} days"
-#~ msgstr[0] "{} dia"
-#~ msgstr[1] "{} dias"
-
-#~ msgid "{} ago"
-#~ msgstr "{} atrás"
-
-#~ msgid "<none>"
-#~ msgstr "<nenhum>"
-
-#~ msgid "Error on open file dialog"
-#~ msgstr "Erro ao abrir a caixa de diálogo do arquivo"
 
 #~ msgid "280"
 #~ msgstr "280"
@@ -4771,9 +4856,6 @@ msgstr "Palavra inteira"
 
 #~ msgid "Show Only Running Containers"
 #~ msgstr "Mostrar apenas contentores em execução"
-
-#~ msgid "Cancel"
-#~ msgstr "Cancelar"
 
 #~ msgid "No Results For {}"
 #~ msgstr "Nenhum resultado para {}"
