@@ -38,6 +38,39 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="3.1.0" date="2026-07-07">
+      <description translatable="no">
+        <p>Pods 3.1.0 contains the following changes:</p>
+        <p>Features</p>
+        <ul>
+          <li>Overhauled the internal background action system to use a dedicated modal dialog and stateful, editable actions. (#961)</li>
+          <li>Implemented an AutoScrolledWindow widget and ported the container log view to it, improving automatic terminal scrolling. (#932)</li>
+          <li>Introduced the ImageSuggestionEntryRow widget, featuring focus-leave handling, Ctrl+Space activation, and increased width alignment. (#933, #934, #943)</li>
+          <li>Added bi-directional timestamp synchronization and a visually improved numeric layout style to the date-time row widget. (#947, #951)</li>
+          <li>Updated the connection creation view with dynamic descriptions and modified the default podman-tcp.service template to bind strictly to localhost (127.0.0.1). (Thanks to @anli5005, #948)</li>
+          <li>Added interactive documentation links for podman-system-service configurations when setting up rootful instances. (Thanks to @anli5005, #946)</li>
+          <li>Enhanced image search result rows by ellipsizing long image names in the UI. (#945)</li>
+        </ul>
+        <p>Fixes</p>
+        <ul>
+          <li>Corrected desktop metadata classification to ensure Pods is no longer erroneously flagged as a terminal emulator, which previously broke xdg-terminal-exec behavior. (Thanks to @ehsanullahjan, #938)</li>
+          <li>Fixed severe application crashes during widget inspection by removing redundant GtkEditable interface implementations from custom rows. (#935, #942)</li>
+          <li>Forced the removal of local container images even when dependent containers are still attached. (#941)</li>
+          <li>Ensured a valid 1–12 hour range is strictly enforced when using the 12-hour clock configuration in the date-time picker. (#951)</li>
+          <li>Fixed a UI rendering bug where suggestion entry rows opened popups before being properly realized by the window manager. (#944)</li>
+          <li>Added escape key handling to ensure popovers drop down reliably when pressing Escape. (#936)</li>
+        </ul>
+        <p>Refactorings &amp; Infrastructure</p>
+        <ul>
+          <li>Migrated volume-prune time boundary options ('until') from generic representations to explicit i64 integers. (#949)</li>
+          <li>Moved internal engine health checking mechanisms directly into Engine Capabilities. (#945)</li>
+          <li>Enabled native Bollard transport features and configured explicit library paths within build manifests. (#953, #957)</li>
+          <li>Allowed the ISC license format within cargo-deny verification policies. (#957)</li>
+          <li>Optimized the devcontainer ecosystem by adding native Zed extensions and generating strict build lockfiles. (#958, #959)</li>
+          <li>Upgraded various internal Rust/Cargo dependencies and merged comprehensive global translation updates from Hosted Weblate. (#931, #950, #956, #960)</li>
+        </ul>
+      </description>
+    </release>
     <release version="3.0.0" date="2026-04-15">
       <description translatable="no">
         <p>Pods 3.0.0 contains the following changes:</p>
