@@ -105,7 +105,7 @@ mod imp {
             let action_state_expr = action_expr.chain_property::<model::Action>("state");
 
             action_icon_name_expr.bind(&*self.type_image, "icon-name", Some(obj));
-            action_description_expr.bind(obj, "tooltip-markup", Some(obj));
+            action_description_expr.bind(obj, "tooltip-text", Some(obj));
             action_description_expr.bind(&*self.description_label, "label", Some(obj));
 
             let classes = utils::css_classes(&*self.state_label);
@@ -370,41 +370,41 @@ fn action_description(action: &model::Action) -> String {
     if let Some(action) = action.downcast_ref::<model::ContainerCommitAction>() {
         action
             .container()
-            .map(|container| gettext_f("Commit <b>{}</b>", [container.name()]))
+            .map(|container| gettext_f("Commit “{}”", [container.name()]))
             .unwrap_or_else(|| gettext("Commit container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCopyFromAction>() {
         action
             .container()
-            .map(|container| gettext_f("Copy from <b>{}</b>", [container.name()]))
+            .map(|container| gettext_f("Copy from “{}”", [container.name()]))
             .unwrap_or_else(|| gettext("Copy from container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCopyToAction>() {
         action
             .container()
-            .map(|container| gettext_f("Copy to <b>{}</b>", [container.name()]))
+            .map(|container| gettext_f("Copy to “{}”", [container.name()]))
             .unwrap_or_else(|| gettext("Copy to container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCreateAction>() {
-        gettext_f("Create <b>{}</b>", [&action.opts().name])
+        gettext_f("Create “{}”", [&action.opts().name])
     } else if action
         .downcast_ref::<model::ContainersPruneAction>()
         .is_some()
     {
         gettext("Prune Containers")
     } else if let Some(action) = action.downcast_ref::<model::PodCreateAction>() {
-        gettext_f("Create <b>{}</b>", [&action.opts().name])
+        gettext_f("Create “{}”", [&action.opts().name])
     } else if action.downcast_ref::<model::PodsPruneAction>().is_some() {
         gettext("Prune Pods")
     } else if let Some(action) = action.downcast_ref::<model::ImageBuildAction>() {
-        gettext_f("Build <b>{}</b>", [&action.opts().tag])
+        gettext_f("Build “{}”", [&action.opts().tag])
     } else if let Some(action) = action.downcast_ref::<model::ImagePullAction>() {
-        gettext_f("Pull <b>{}</b>", [&action.opts().reference])
+        gettext_f("Pull “{}”", [&action.opts().reference])
     } else if let Some(action) = action.downcast_ref::<model::ImagePushAction>() {
         let opts = action.opts();
-        gettext_f("Push <b>{}</b>", [format!("{}:{}", opts.repo, opts.tag)])
+        gettext_f("Push “{}”", [format!("{}:{}", opts.repo, opts.tag)])
     } else if action.downcast_ref::<model::ImagesPruneAction>().is_some() {
         gettext("Prune Images")
     } else if let Some(action) = action.downcast_ref::<model::VolumeCreateAction>() {
         match action.opts().name.as_deref() {
-            Some(name) => gettext_f("Create <b>{}</b>", [name]),
+            Some(name) => gettext_f("Create “{}”", [name]),
             None => gettext("Create anonymous"),
         }
     } else if action.downcast_ref::<model::VolumesPruneAction>().is_some() {
