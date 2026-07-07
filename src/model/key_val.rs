@@ -7,6 +7,8 @@ use glib::subclass::Signal;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
+use crate::engine;
+
 mod imp {
     use super::*;
 
@@ -52,6 +54,27 @@ glib::wrapper! {
 impl Default for KeyVal {
     fn default() -> Self {
         glib::Object::new()
+    }
+}
+
+impl From<engine::opts::PodHost> for KeyVal {
+    fn from(value: engine::opts::PodHost) -> Self {
+        Self::from(&value)
+    }
+}
+
+impl From<&engine::opts::PodHost> for KeyVal {
+    fn from(value: &engine::opts::PodHost) -> Self {
+        Self::from((value.name.as_str(), value.ip.as_str()))
+    }
+}
+
+impl From<(&str, &str)> for KeyVal {
+    fn from(value: (&str, &str)) -> Self {
+        glib::Object::builder()
+            .property("key", value.0)
+            .property("value", value.1)
+            .build()
     }
 }
 

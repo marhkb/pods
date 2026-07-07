@@ -5,6 +5,7 @@ use glib::clone::Downgrade;
 use gtk::gio;
 use gtk::glib;
 
+use crate::engine;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -80,7 +81,31 @@ where
 }
 
 pub(crate) fn create_container<W: IsA<gtk::Widget>>(widget: &W, image: Option<model::Image>) {
-    if let Some(image) = image {
-        utils::Dialog::new(widget, &view::ContainerCreationPage::from(&image)).present();
-    }
+    let Some(image) = image else {
+        return;
+    };
+
+    let Some(client) = image
+        .image_list()
+        .and_then(|image_list| image_list.client())
+    else {
+        return;
+    };
+
+    view::ContainerCreateOptsDialog::new(
+        &client,
+        Some(
+            engine::opts::ContainerCreateOpts {
+                image: image
+                    .repo_tags()
+                    .get(0)
+                    .as_ref()
+                    .map(model::RepoTag::full)
+                    .unwrap_or_else(|| utils::format_id(&image.id()).to_owned()),
+                ..Default::default()
+            }
+            .into(),
+        ),
+    )
+    .present(Some(widget));
 }

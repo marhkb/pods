@@ -1,9 +1,11 @@
 use std::collections::HashMap;
 use std::fmt;
 
+use smart_default::SmartDefault;
+
 use crate::engine;
 
-#[derive(Clone)]
+#[derive(Clone, SmartDefault)]
 pub(crate) struct ContainerCreateOpts {
     pub(crate) cmd: Option<Vec<String>>,
     pub(crate) env: HashMap<String, String>,
@@ -12,12 +14,16 @@ pub(crate) struct ContainerCreateOpts {
     pub(crate) labels: HashMap<String, String>,
     pub(crate) memory_limit: Option<u64>,
     pub(crate) mounts: Vec<ContainerCreateMountOpts>,
+    #[default(names::Generator::default().next().unwrap_or_default())]
     pub(crate) name: String,
     // Podman only
     pub(crate) pod: Option<String>,
     pub(crate) port_mappings: Vec<engine::dto::PortMapping>,
+    // artificial option to trigger a pull before creating the container
+    pub(crate) pull_latest: bool,
     // Podman only
     pub(crate) privileged: bool,
+    #[default(true)]
     pub(crate) terminal: bool,
     pub(crate) volumes: Vec<ContainerCreateVolumeOpts>,
 }
@@ -185,7 +191,7 @@ impl From<ContainerCreateMountOpts> for podman_api::models::ContainerMount {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub(crate) struct ContainerCreateVolumeOpts {
     pub(crate) container_path: String,
     pub(crate) read_only: bool,
@@ -224,8 +230,9 @@ impl From<ContainerCreateVolumeOpts> for podman_api::models::NamedVolume {
     }
 }
 
-#[derive(Clone, Copy, Eq, PartialEq)]
+#[derive(Clone, Copy, Default, Eq, PartialEq)]
 pub(crate) enum SELinux {
+    #[default]
     NoLabel,
     Shared,
     Private,

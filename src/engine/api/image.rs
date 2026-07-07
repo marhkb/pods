@@ -1,3 +1,5 @@
+use std::mem;
+
 use futures::StreamExt;
 use futures::TryStreamExt;
 use futures::future;
@@ -65,18 +67,20 @@ impl Image {
 
     pub(crate) fn push(
         &self,
-        repo: String,
-        opts: engine::opts::ImagePushOpts,
-        credentials: Option<engine::auth::Credentials>,
+        mut opts: engine::opts::ImagePushOpts,
     ) -> BoxStream<'_, anyhow::Result<engine::dto::ImagePushReport>> {
         match self {
-            Self::Docker { docker, .. } => docker
-                .push_image(&repo, Some(opts), credentials.map(Into::into))
-                .map_err(anyhow::Error::from)
-                .map_ok(Into::into)
-                .boxed(),
+            Self::Docker { docker, .. } => {
+                let credentials = opts.credentials.take();
+                let repo = mem::take(&mut opts.repo);
+                docker
+                    .push_image(&repo, Some(opts), credentials.map(Into::into))
+                    .map_err(anyhow::Error::from)
+                    .map_ok(Into::into)
+                    .boxed()
+            }
             Self::Podman(image) => image
-                .push(&opts.into_podman(repo, credentials))
+                .push(&opts.into())
                 .map_err(anyhow::Error::from)
                 .map_ok(engine::dto::PodmanImagePushReport)
                 .and_then(|report| future::ready(report.try_into()))

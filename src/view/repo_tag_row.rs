@@ -162,28 +162,28 @@ impl RepoTagRow {
     }
 
     fn update(&self) {
-        if let Some(repo_tag) = self.repo_tag()
-            && let Some(action_list) = repo_tag
-                .repo_tag_list()
-                .as_ref()
-                .and_then(model::RepoTagList::image)
-                .as_ref()
-                .and_then(model::Image::image_list)
-                .as_ref()
-                .and_then(model::ImageList::client)
-                .as_ref()
-                .map(model::Client::action_list)
-        {
-            action_list.download_image(engine::opts::ImagePullOpts {
-                reference: repo_tag.full(),
-                ..Default::default()
-            });
-        }
+        let Some(repo_tag) = self.repo_tag() else {
+            return;
+        };
+
+        let Some(action_list) = repo_tag
+            .repo_tag_list()
+            .and_then(|repo_tag_list| repo_tag_list.image())
+            .and_then(|image| image.image_list())
+            .and_then(|image_list| image_list.client())
+            .map(|client| client.action_list())
+        else {
+            return;
+        };
+
+        action_list.pull_image(engine::opts::ImagePullOpts {
+            reference: repo_tag.full(),
+        });
     }
 
     fn push(&self) {
         if let Some(repo_tag) = self.repo_tag() {
-            utils::Dialog::new(self, &view::RepoTagPushPage::from(&repo_tag)).present();
+            view::RepoTagPushOptsDialog::new(&repo_tag, None).present(Some(self));
         }
     }
 

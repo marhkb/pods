@@ -88,34 +88,9 @@ template $PdsMountRow: Adw.ExpanderRow {
     title: _("Host Path");
   }
 
-  Adw.ActionRow volume_row {
+  $PdsVolumeSelectionComboRow volume_selection_combo_row {
     title: _("Volume");
-    action-name: "mount-row.select-volume";
-    activatable: true;
-    use-markup: true;
-
-    [suffix]
-    Button clear_volume_button {
-      styles [
-        "flat",
-      ]
-
-      action-name: "mount-row.clear-volume";
-      icon-name: "edit-delete-symbolic";
-      tooltip-text: _("Clear Volume");
-
-      accessibility {
-        label: _("Clear Volume");
-      }
-
-      valign: center;
-      visible: bind clear_volume_button.sensitive;
-    }
-
-    [suffix]
-    Image {
-      icon-name: "go-next-symbolic";
-    }
+    mount: bind template.mount;
   }
 
   Adw.EntryRow container_path_entry_row {

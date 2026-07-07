@@ -1,4 +1,3 @@
-use std::cell::Cell;
 use std::cell::RefCell;
 use std::marker::PhantomData;
 
@@ -8,10 +7,11 @@ use glib::Properties;
 use glib::clone;
 use gtk::gio;
 use gtk::glib;
-use indexmap::IndexMap;
+use indexmap::IndexSet;
 
 use crate::engine;
 use crate::model;
+use crate::model::ActionExt;
 
 mod imp {
     use super::*;
@@ -19,8 +19,7 @@ mod imp {
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::ActionList)]
     pub(crate) struct ActionList {
-        pub(super) list: RefCell<IndexMap<u32, model::Action>>,
-        pub(super) action_counter: Cell<u32>,
+        pub(super) list: RefCell<IndexSet<model::Action>>,
 
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
@@ -31,8 +30,8 @@ mod imp {
         _ongoing: PhantomData<u32>,
         #[property(get = Self::finished)]
         _finished: PhantomData<u32>,
-        #[property(get = Self::aborted)]
-        _aborted: PhantomData<u32>,
+        #[property(get = Self::cancelled)]
+        _cancelled: PhantomData<u32>,
         #[property(get = Self::failed)]
         _failed: PhantomData<u32>,
     }
@@ -79,7 +78,7 @@ mod imp {
             self.list
                 .borrow()
                 .get_index(position as usize)
-                .map(|(_, obj)| obj.upcast_ref())
+                .map(model::Action::upcast_ref)
                 .cloned()
         }
     }
@@ -97,8 +96,8 @@ mod imp {
             self.count_state(model::ActionState::Finished)
         }
 
-        fn aborted(&self) -> u32 {
-            self.count_state(model::ActionState::Aborted)
+        fn cancelled(&self) -> u32 {
+            self.count_state(model::ActionState::Cancelled)
         }
 
         fn failed(&self) -> u32 {
@@ -108,7 +107,7 @@ mod imp {
         fn count_state(&self, state: model::ActionState) -> u32 {
             self.list
                 .borrow()
-                .values()
+                .iter()
                 .filter(|action| action.state() == state)
                 .count() as u32
         }
@@ -127,23 +126,20 @@ impl From<&model::Client> for ActionList {
 }
 
 impl ActionList {
-    pub(crate) fn get(&self, num: u32) -> Option<model::Action> {
-        self.imp().list.borrow().get(&num).cloned()
-    }
-
-    pub(crate) fn remove(&self, num: u32) {
+    pub(crate) fn remove(&self, action: &model::Action) {
         let mut list = self.imp().list.borrow_mut();
-        if let Some((idx, _, _)) = list.shift_remove_full(&num) {
+        if let Some((idx, _)) = list.shift_remove_full(action) {
             drop(list);
             self.items_changed(idx as u32, 1, 0);
         }
     }
+
     pub(crate) fn clear(&self) {
         let indexes = {
             let mut list = self.imp().list.borrow_mut();
 
             let indexes = list
-                .values()
+                .iter()
                 .enumerate()
                 .rev()
                 .filter(|(_, action)| action.state() != model::ActionState::Ongoing)
@@ -162,59 +158,57 @@ impl ActionList {
         });
     }
 
-    pub(crate) fn prune_images(&self, opts: engine::opts::ImagesPruneOpts) -> model::Action {
-        self.insert_action(model::Action::prune_images(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            opts,
-        ))
+    fn notify_num_states(&self) {
+        self.notify_ongoing();
+        self.notify_finished();
+        self.notify_cancelled();
+        self.notify_failed();
     }
+}
 
-    pub(crate) fn download_image(&self, opts: engine::opts::ImagePullOpts) -> model::Action {
-        self.insert_action(model::Action::download_image(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            opts,
-        ))
-    }
-
-    pub(crate) fn push_image(
-        &self,
-        api: engine::api::Image,
-        repo: String,
-        opts: engine::opts::ImagePushOpts,
-        credentials: Option<engine::auth::Credentials>,
-    ) -> model::Action {
-        self.insert_action(model::Action::push_image(
-            self.imp().action_counter.get(),
-            api,
-            repo,
-            opts,
-            credentials,
-        ))
-    }
-
-    pub(crate) async fn build_image(
+impl ActionList {
+    pub(crate) fn build_image(
         &self,
         opts: engine::opts::ImageBuildOpts,
-        context_dir: String,
-    ) -> model::Action {
-        self.insert_action(
-            model::Action::build_image(
-                self.imp().action_counter.get(),
-                self.client().unwrap(),
-                opts,
-                context_dir,
-            )
-            .await,
-        )
+    ) -> model::ImageBuildAction {
+        self.insert_action(model::ImageBuildAction::new(self, opts))
     }
 
-    pub(crate) fn prune_containers(&self, until: Option<String>) -> model::Action {
-        self.insert_action(model::Action::prune_containers(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            until,
+    pub(crate) fn commit_container(
+        &self,
+        container: &model::Container,
+        opts: engine::opts::ContainerCommitOpts,
+    ) -> model::ContainerCommitAction {
+        self.insert_action(model::ContainerCommitAction::new(self, container, opts))
+    }
+
+    pub(crate) fn copy_from_container(
+        &self,
+        container: &model::Container,
+        container_path: &str,
+        host_path: &str,
+    ) -> model::ContainerCopyFromAction {
+        self.insert_action(model::ContainerCopyFromAction::new(
+            self,
+            container,
+            container_path,
+            host_path,
+        ))
+    }
+
+    pub(crate) fn copy_to_container(
+        &self,
+        container: &model::Container,
+        directory: bool,
+        host_path: &str,
+        container_path: &str,
+    ) -> model::ContainerCopyToAction {
+        self.insert_action(model::ContainerCopyToAction::new(
+            self,
+            container,
+            directory,
+            host_path,
+            container_path,
         ))
     }
 
@@ -222,146 +216,75 @@ impl ActionList {
         &self,
         opts: engine::opts::ContainerCreateOpts,
         run: bool,
-    ) -> model::Action {
-        self.insert_action(model::Action::create_container(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            opts,
-            run,
-        ))
+    ) -> model::ContainerCreateAction {
+        self.insert_action(model::ContainerCreateAction::new(self, opts, run, |_| {}))
     }
 
-    pub(crate) fn commit_container(
+    pub(crate) fn create_pod(&self, opts: engine::opts::PodCreateOpts) -> model::PodCreateAction {
+        self.insert_action(model::PodCreateAction::new(self, opts))
+    }
+
+    pub(crate) fn create_volume(
         &self,
-        container: &str,
-        api: engine::api::Container,
-        opts: engine::opts::ContainerCommitOpts,
-    ) -> model::Action {
-        self.insert_action(model::Action::commit_container(
-            self.imp().action_counter.get(),
-            container,
-            api,
-            opts,
-        ))
+        opts: engine::opts::VolumeCreateOpts,
+    ) -> model::VolumeCreateAction {
+        self.insert_action(model::VolumeCreateAction::new(self, opts))
     }
 
-    pub(crate) fn create_container_download_image(
+    pub(crate) fn pull_image(&self, opts: engine::opts::ImagePullOpts) -> model::ImagePullAction {
+        self.insert_action(model::ImagePullAction::new(self, opts))
+    }
+
+    pub(crate) fn push_image(
         &self,
-        image_pull_opts: engine::opts::ImagePullOpts,
-        container_create_opts: engine::opts::ContainerCreateOpts,
-        run: bool,
-    ) -> model::Action {
-        self.insert_action(model::Action::create_container_download_image(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            image_pull_opts,
-            container_create_opts,
-            run,
-        ))
+        repo_tag: &model::RepoTag,
+        opts: engine::opts::ImagePushOpts,
+    ) -> model::ImagePushAction {
+        self.insert_action(model::ImagePushAction::new(self, repo_tag, opts))
     }
 
-    pub(crate) fn copy_files_into_container(
+    pub(crate) fn prune_containers(
         &self,
-        host_path: String,
-        container_path: String,
-        directory: bool,
-        container: &model::Container,
-    ) -> model::Action {
-        self.insert_action(model::Action::copy_files_into_container(
-            self.imp().action_counter.get(),
-            host_path,
-            container_path,
-            directory,
-            container,
-        ))
+        opts: engine::opts::ContainersPruneOpts,
+    ) -> model::ContainersPruneAction {
+        self.insert_action(model::ContainersPruneAction::new(self, opts))
     }
 
-    pub(crate) fn copy_files_from_container(
+    pub(crate) fn prune_images(
         &self,
-        container: &model::Container,
-        container_path: String,
-        host_path: String,
-    ) -> model::Action {
-        self.insert_action(model::Action::copy_files_from_container(
-            self.imp().action_counter.get(),
-            container,
-            container_path,
-            host_path,
-        ))
+        opts: engine::opts::ImagesPruneOpts,
+    ) -> model::ImagesPruneAction {
+        self.insert_action(model::ImagesPruneAction::new(self, opts))
     }
 
-    pub(crate) fn prune_pods(&self) -> model::Action {
-        self.insert_action(model::Action::prune_pods(
-            self.imp().action_counter.get(),
-            self.client().unwrap().engine().pods(),
-        ))
+    pub(crate) fn prune_pods(&self) -> model::PodsPruneAction {
+        self.insert_action(model::PodsPruneAction::from(self))
     }
 
-    pub(crate) fn create_pod(&self, opts: engine::opts::PodCreateOpts) -> Option<model::Action> {
-        model::Action::create_pod(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            opts,
-        )
-        .map(|action| self.insert_action(action))
-    }
-
-    pub(crate) fn create_pod_download_infra(
+    pub(crate) fn prune_volumes(
         &self,
-        image_pull_opts: engine::opts::ImagePullOpts,
-        pod_create_opts: engine::opts::PodCreateOpts,
-    ) -> model::Action {
-        self.insert_action(model::Action::create_pod_download_infra(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            image_pull_opts,
-            pod_create_opts,
-        ))
+        opts: engine::opts::VolumesPruneOpts,
+    ) -> model::VolumesPruneAction {
+        self.insert_action(model::VolumesPruneAction::new(self, opts))
     }
 
-    pub(crate) fn create_volume(&self, name: String) -> model::Action {
-        self.insert_action(model::Action::create_volume(
-            self.imp().action_counter.get(),
-            name,
-            self.client().unwrap(),
-        ))
-    }
-
-    pub(crate) fn prune_volumes(&self, opts: engine::opts::VolumesPruneOpts) -> model::Action {
-        self.insert_action(model::Action::prune_volumes(
-            self.imp().action_counter.get(),
-            self.client().unwrap(),
-            opts,
-        ))
-    }
-
-    fn insert_action(&self, action: model::Action) -> model::Action {
+    fn insert_action<A: IsA<model::Action>>(&self, action: A) -> A {
         let imp = self.imp();
 
         let position = {
             let mut list = imp.list.borrow_mut();
-            list.insert(imp.action_counter.replace(action.num() + 1), action.clone());
+            list.insert(action.clone().upcast());
             list.len() - 1
         };
 
-        action.connect_notify_local(
-            Some("state"),
-            clone!(
-                #[weak(rename_to = obj)]
-                self,
-                move |_, _| obj.notify_num_states()
-            ),
-        );
+        action.connect_state_notify(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |_| obj.notify_num_states()
+        ));
 
         self.items_changed(position as u32, 0, 1);
 
         action
-    }
-
-    fn notify_num_states(&self) {
-        self.notify_ongoing();
-        self.notify_finished();
-        self.notify_aborted();
-        self.notify_failed();
     }
 }

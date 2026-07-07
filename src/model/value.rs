@@ -53,6 +53,12 @@ impl Default for Value {
     }
 }
 
+impl From<&str> for Value {
+    fn from(value: &str) -> Self {
+        glib::Object::builder().property("value", value).build()
+    }
+}
+
 impl Value {
     pub(crate) fn remove_request(&self) {
         self.emit_by_name::<()>("remove-request", &[]);

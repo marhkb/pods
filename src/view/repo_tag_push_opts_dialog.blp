@@ -1,0 +1,127 @@
+using Gtk 4.0;
+using Adw 1;
+
+SizeGroup {
+  mode: horizontal;
+
+  widgets [
+    cancel_button,
+    push_button,
+  ]
+}
+
+template $PdsRepoTagPushOptsDialog: Adw.Dialog {
+  default-widget: push_button;
+
+  Adw.ToastOverlay toast_overlay {
+    Adw.ToolbarView {
+      [top]
+      Adw.HeaderBar {
+        show-end-title-buttons: false;
+        show-start-title-buttons: false;
+
+        [start]
+        Button cancel_button {
+          action-name: "win.close";
+          label: _("_Cancel");
+          use-underline: true;
+        }
+
+        [title]
+        Adw.WindowTitle window_title {
+          title: _("Push Image");
+        }
+
+        [end]
+        Button push_button {
+          styles [
+            "suggested-action",
+          ]
+
+          action-name: "repo-tag-push-opts-dialog.push";
+          label: _("_Push");
+          use-underline: true;
+        }
+      }
+
+      Adw.PreferencesPage {
+        Adw.PreferencesGroup options_preferences_group {
+          title: _("Options");
+          visible: bind tls_verify_switch_row.visible;
+
+          Adw.SwitchRow tls_verify_switch_row {
+            title: _("TLS Verify");
+            subtitle: _("Require TLS verification");
+            visible: bind template
+              .repo-tag as <$RepoTag>
+              .repo-tag-list as <$RepoTagList>
+              .image as <$Image>
+              .image_list as <$ImageList>
+              .client as <$Client>
+              .engine as <$Engine>
+              .capabilities as <$EngineCapabilities>
+              .push_image_tls_verify;
+          }
+        }
+
+        Adw.PreferencesGroup login_group {
+          title: _("Login");
+          description: _("Some registries require authentication");
+          sensitive: false;
+
+          header-suffix: Switch login_switch {
+            active: false;
+            valign: center;
+          };
+
+          $PdsPropertyWidgetRow {
+            sensitive: bind login_switch.active;
+            key: _("Authentication");
+
+            widget: Adw.ToggleGroup auth_toggle_group {
+              styles [
+                "round",
+              ]
+
+              valign: center;
+
+              Adw.Toggle {
+                label: _("Basic");
+                name: "basic";
+              }
+
+              Adw.Toggle {
+                label: _("Token");
+                name: "token";
+              }
+            };
+          }
+
+          Adw.EntryRow username_entry_row {
+            activates-default: true;
+            title: _("Username");
+            sensitive: bind login_switch.active;
+          }
+
+          Adw.PasswordEntryRow password_entry_row {
+            activates-default: true;
+            title: _("Password");
+            sensitive: bind login_switch.active;
+          }
+
+          Adw.PasswordEntryRow token_entry_row {
+            activates-default: true;
+            title: _("Token");
+            visible: false;
+            sensitive: bind login_switch.active;
+          }
+
+          Adw.SwitchRow save_credentials_switch_row {
+            title: _("Save Credentials");
+            sensitive: bind save_credentials_switch_row.active;
+          }
+        }
+      }
+    }
+  }
+}

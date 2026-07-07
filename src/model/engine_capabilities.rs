@@ -24,15 +24,15 @@ mod imp {
         _kube_generation: PhantomData<bool>,
         #[property(get = Self::manual_health_check)]
         _manual_health_check: PhantomData<bool>,
+        #[property(get = Self::image_formats, nullable)]
+        image_formats: OnceCell<Option<gtk::StringList>>,
         #[property(get = Self::pods)]
         _pods: PhantomData<bool>,
         #[property(get = Self::privileged_containers)]
         _privileged_containers: PhantomData<bool>,
-        #[property(get = Self::pull_policy)]
-        _pull_policy: PhantomData<bool>,
         #[property(get = Self::prune_external_images)]
         _prune_external_images: PhantomData<bool>,
-        #[property(get = Self::push_image_with_tls_verify)]
+        #[property(get = Self::push_image_tls_verify)]
         _push_image_tls_verify: PhantomData<bool>,
         #[property(get = Self::prune_all_volumes)]
         _prune_all_volumes: PhantomData<bool>,
@@ -69,6 +69,18 @@ mod imp {
             self.obj().inner().manual_health_check
         }
 
+        pub(super) fn image_formats(&self) -> Option<gtk::StringList> {
+            self.image_formats
+                .get_or_init(|| {
+                    self.obj()
+                        .inner()
+                        .image_formats
+                        .as_deref()
+                        .map(gtk::StringList::new)
+                })
+                .to_owned()
+        }
+
         pub(super) fn pods(&self) -> bool {
             self.obj().inner().pods
         }
@@ -77,16 +89,12 @@ mod imp {
             self.obj().inner().privileged_containers
         }
 
-        pub(super) fn pull_policy(&self) -> bool {
-            self.obj().inner().pull_policy
-        }
-
         pub(super) fn prune_external_images(&self) -> bool {
             self.obj().inner().prune_external_images
         }
 
-        pub(super) fn push_image_with_tls_verify(&self) -> bool {
-            self.obj().inner().push_image_with_tls_verify
+        pub(super) fn push_image_tls_verify(&self) -> bool {
+            self.obj().inner().push_image_tls_verify
         }
 
         pub(super) fn prune_all_volumes(&self) -> bool {

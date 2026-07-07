@@ -1,25 +1,15 @@
+use smart_default::SmartDefault;
+
+#[derive(SmartDefault)]
 pub(crate) struct LogsOpts {
     pub(crate) follow: bool,
     pub(crate) since: i64,
     pub(crate) stderr: bool,
     pub(crate) stdout: bool,
+    #[default("all".to_string())]
     pub(crate) tail: String,
     pub(crate) timestamps: bool,
     pub(crate) until: i64,
-}
-
-impl Default for LogsOpts {
-    fn default() -> Self {
-        Self {
-            follow: false,
-            since: 0,
-            stderr: false,
-            stdout: false,
-            tail: "all".to_string(),
-            timestamps: false,
-            until: 0,
-        }
-    }
 }
 
 impl From<LogsOpts> for bollard::query_parameters::LogsOptions {

@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub(crate) enum Credentials {
     BasicAuth { username: String, password: String },
     IdentityToken(String),
