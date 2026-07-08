@@ -53,12 +53,8 @@
     <file compressed="true" preprocess="xml-stripblanks">view/image_menu_button.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_pull_action_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_pull_opts_dialog.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_remote_selection_page.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_search_response_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_selection_combo_row.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_selection_page.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/image_selection_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_suggestion_entry_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/images_prune_action_view.ui</file>
