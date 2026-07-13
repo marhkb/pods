@@ -417,15 +417,13 @@ impl ContainerTerminal {
                     tty: Some(true),
                     command: vec!["/bin/sh".to_owned()],
                 })
-                .await
-                .unwrap();
+                .await?;
 
             let (mut reader, mut writer) = exec
                 .start(true)
-                .await
-                .unwrap()
+                .await?
                 .into_attached()
-                .unwrap()
+                .ok_or_else(|| anyhow::anyhow!("tty is not attached"))?
                 .split();
 
             exec.resize(width as usize, height as usize).await?;
@@ -435,16 +433,10 @@ impl ContainerTerminal {
                     future::Either::Left((buf, _)) => match buf {
                         Some(input) => match input {
                             ExecInput::Data(buf) => {
-                                if let Err(e) = writer.write_all(&buf).await {
-                                    log::error!("Error on writing to terminal: {e}");
-                                    break;
-                                }
+                                writer.write_all(&buf).await?;
                             }
                             ExecInput::Resize { columns, rows } => {
-                                if let Err(e) = exec.resize(columns, rows).await {
-                                    log::error!("Error on resizing terminal: {e}");
-                                    break;
-                                }
+                                exec.resize(columns, rows).await?
                             }
 
                             ExecInput::Terminate => break,
@@ -452,15 +444,7 @@ impl ContainerTerminal {
                         None => break,
                     },
                     future::Either::Right((chunk, _)) => match chunk {
-                        Some(chunk) => match chunk {
-                            Ok(chunk) => {
-                                tx_output.send(chunk.into()).await.unwrap();
-                            }
-                            Err(e) => {
-                                log::error!("Error on reading from terminal: {e}");
-                                break;
-                            }
-                        },
+                        Some(chunk) => tx_output.send(chunk?.into()).await?,
                         None => break,
                     },
                 }
@@ -480,16 +464,12 @@ impl ContainerTerminal {
             #[weak(rename_to = obj)]
             self,
             move |result: anyhow::Result<_>| {
-                if result.is_err() {
+                if let Err(e) = result {
+                    log::error!("terminal error: {e}");
                     utils::show_error_toast(
-                        &gio::Application::default()
-                            .unwrap()
-                            .downcast::<crate::Application>()
-                            .unwrap()
-                            .main_window()
-                            .toast_overlay(),
+                        &obj,
                         &gettext("Terminal error"),
-                        &gettext("'/bin/sh' not found"),
+                        &gettext(e.to_string()),
                     );
                 }
                 obj.emit_by_name::<()>("terminated", &[]);
