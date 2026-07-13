@@ -157,29 +157,31 @@ impl From<&model::Container> for ContainerTerminalPage {
 
 impl ContainerTerminalPage {
     pub(crate) fn pip_out(&self) {
-        if let Some(navigation_view) = utils::try_navigation_view(self) {
-            self.imp().terminal.keep_alive_on_next_unroot();
+        let Some(navigation_view) = utils::try_navigation_view(self) else {
+            return;
+        };
 
-            self.action_set_enabled(ACTION_PIP_OUT, false);
+        self.imp().terminal.keep_alive_on_next_unroot();
 
-            let animate_transitions = navigation_view.is_animate_transitions();
-            navigation_view.set_animate_transitions(false);
+        self.action_set_enabled(ACTION_PIP_OUT, false);
 
-            let page = navigation_view.visible_page().unwrap();
-            navigation_view.pop();
+        let animate_transitions = navigation_view.is_animate_transitions();
+        navigation_view.set_animate_transitions(false);
 
-            navigation_view.set_animate_transitions(animate_transitions);
+        let page = navigation_view.visible_page().unwrap();
+        navigation_view.pop();
 
-            let toast_overlay = adw::ToastOverlay::new();
-            toast_overlay.set_child(Some(&page));
+        navigation_view.set_animate_transitions(animate_transitions);
 
-            let window = adw::Window::builder()
-                .content(&toast_overlay)
-                .default_height(500)
-                .default_width(700)
-                .build();
+        let toast_overlay = adw::ToastOverlay::new();
+        toast_overlay.set_child(Some(&page));
 
-            window.present();
-        }
+        let window = adw::Window::builder()
+            .content(&toast_overlay)
+            .default_height(500)
+            .default_width(700)
+            .build();
+
+        window.present();
     }
 }
