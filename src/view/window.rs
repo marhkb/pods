@@ -210,7 +210,7 @@ mod imp {
             let window = &*self.obj();
 
             if let Err(err) = window.save_window_size() {
-                log::warn!("Failed to save window state, {}", &err);
+                log::warn!("Failed to save window state, {err}");
             }
 
             if view::show_ongoing_actions_warning_dialog(
