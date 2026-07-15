@@ -35,6 +35,7 @@ template $PdsActionDialog: Adw.Dialog {
 
         Box {
           orientation: vertical;
+          spacing: 3;
 
           Label state_label {
             styles [
@@ -49,7 +50,7 @@ template $PdsActionDialog: Adw.Dialog {
 
             hscrollbar-policy: never;
             margin-top: 6;
-            min-content-height: 80;
+            max-content-height: 120;
             overflow: hidden;
             visible: bind template.action as <$Action>.has_error;
 
@@ -60,13 +61,15 @@ template $PdsActionDialog: Adw.Dialog {
               ]
 
               label: bind template.action as <$Action>.error;
-              margin-bottom: 9;
-              margin-end: 12;
-              margin-start: 12;
-              margin-top: 9;
+              margin-bottom: 6;
+              margin-end: 9;
+              margin-start: 9;
+              margin-top: 6;
               selectable: true;
               wrap: true;
               wrap-mode: word_char;
+              xalign: 0;
+              yalign: 0;
             }
           }
 
