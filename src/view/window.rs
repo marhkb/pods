@@ -275,10 +275,6 @@ impl Window {
         self.imp().connection_manager.clone()
     }
 
-    pub(crate) fn toast_overlay(&self) -> adw::ToastOverlay {
-        self.imp().toast_overlay.get()
-    }
-
     pub(crate) fn navigation_view(&self) -> &adw::NavigationView {
         self.imp().client_view.navigation_view()
     }

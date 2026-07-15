@@ -1,4 +1,3 @@
-use std::cell::Cell;
 use std::cell::RefCell;
 use std::marker::PhantomData;
 use std::sync::OnceLock;
@@ -48,7 +47,6 @@ mod imp {
     pub(crate) struct ContainerTerminal {
         pub(super) settings: utils::PodsSettings,
         pub(super) tx_input: RefCell<Option<tokio::sync::mpsc::UnboundedSender<ExecInput>>>,
-        pub(super) keep_alive_on_next_unroot: Cell<bool>,
 
         #[property(get, set, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
@@ -239,16 +237,6 @@ mod imp {
                 });
             }
         }
-
-        fn unroot(&self) {
-            if !self.keep_alive_on_next_unroot.get()
-                && let Some(tx_input) = &*self.tx_input.borrow()
-            {
-                _ = tx_input.send(ExecInput::Terminate);
-            }
-            self.keep_alive_on_next_unroot.set(false);
-            self.parent_unroot();
-        }
     }
 
     #[gtk::template_callbacks]
@@ -376,8 +364,10 @@ glib::wrapper! {
 }
 
 impl ContainerTerminal {
-    pub(crate) fn keep_alive_on_next_unroot(&self) {
-        self.imp().keep_alive_on_next_unroot.set(true);
+    pub(crate) fn terminate(&self) {
+        if let Some(tx_input) = &*self.imp().tx_input.borrow() {
+            _ = tx_input.send(ExecInput::Terminate);
+        }
     }
 
     fn setup_tty_connection(&self, container: &model::Container) {
@@ -398,10 +388,20 @@ impl ContainerTerminal {
         ));
 
         let (tx_input, mut rx_input) = tokio::sync::mpsc::unbounded_channel::<ExecInput>();
-        imp.tx_input.replace(Some(tx_input.clone()));
-        imp.terminal.connect_commit(move |_, data, _| {
-            _ = tx_input.send(ExecInput::Data(data.as_bytes().to_vec()));
-        });
+        imp.terminal.connect_commit(clone!(
+            #[strong]
+            tx_input,
+            move |_, data, _| {
+                _ = tx_input.send(ExecInput::Data(data.as_bytes().to_vec()));
+            }
+        ));
+        imp.tx_input.replace(Some(tx_input));
+
+        utils::application().connect_shutdown(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            move |_| obj.terminate()
+        ));
 
         let width = imp.terminal.column_count();
         let height = imp.terminal.row_count();
