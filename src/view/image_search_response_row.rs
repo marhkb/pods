@@ -1,7 +1,6 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
@@ -64,50 +63,10 @@ mod imp {
             let name_expr = response_expr.chain_property::<model::ImageSearchResponse>("name");
             let official_expr =
                 response_expr.chain_property::<model::ImageSearchResponse>("official");
-            let tag_expr = response_expr.chain_property::<model::ImageSearchResponse>("tag");
-            let has_no_tag_expr =
-                tag_expr.chain_closure::<bool>(closure!(|_: Self::Type, tag: Option<&str>| tag
-                    .filter(|tag| !tag.is_empty())
-                    .is_none()));
             let stars_expr = response_expr.chain_property::<model::ImageSearchResponse>("stars");
 
-            let style_manager = adw::StyleManager::default();
-
-            gtk::ClosureExpression::new::<String>(
-                [
-                    &name_expr,
-                    &tag_expr,
-                    &style_manager.property_expression("dark"),
-                    &style_manager.property_expression("accent-color"),
-                    &style_manager.property_expression("high-contrast"),
-                ],
-                closure!(|_: Self::Type,
-                          name: String,
-                          tag: Option<String>,
-                          is_dark: bool,
-                          accent_color: adw::AccentColor,
-                          is_hc: bool| {
-                    tag.map(|tag| {
-                        let accent_color = accent_color.to_standalone_rgba(is_dark);
-                        let tag = format!(
-                            "<span foreground=\"#{:02x}{:02x}{:02x}\"{}>{}</span>",
-                            (accent_color.red() * 255.0) as i32,
-                            (accent_color.green() * 255.0) as i32,
-                            (accent_color.blue() * 255.0) as i32,
-                            if is_hc { " weight=\"bold\"" } else { "" },
-                            tag,
-                        );
-
-                        format!("{name} {tag}")
-                    })
-                    .unwrap_or(name)
-                }),
-            )
-            .bind(&self.name_label.get(), "label", Some(obj));
-
+            name_expr.bind(&self.name_label.get(), "label", Some(obj));
             official_expr.bind(&self.official_icon.get(), "visible", Some(obj));
-
-            has_no_tag_expr.bind(&self.stars_box.get(), "visible", Some(obj));
             stars_expr.bind(&self.stars_label.get(), "label", Some(obj));
         }
 
