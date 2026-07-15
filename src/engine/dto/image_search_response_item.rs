@@ -5,7 +5,6 @@ pub(crate) struct ImageSearchResponseItem {
     pub(crate) is_official: bool,
     pub(crate) name: Option<String>,
     pub(crate) stars: u64,
-    pub(crate) tag: Option<String>,
 }
 
 impl From<bollard::plugin::ImageSearchResponseItem> for ImageSearchResponseItem {
@@ -17,7 +16,6 @@ impl From<bollard::plugin::ImageSearchResponseItem> for ImageSearchResponseItem 
             is_official: value.is_official.unwrap_or(false),
             name: value.name,
             stars: value.star_count.unwrap_or(0) as u64,
-            tag: None,
         }
     }
 }
@@ -34,7 +32,6 @@ impl From<podman_api::models::RegistrySearchResponse> for ImageSearchResponseIte
                 .unwrap_or(false),
             name: value.name,
             stars: value.stars.unwrap_or(0) as u64,
-            tag: value.tag,
         }
     }
 }

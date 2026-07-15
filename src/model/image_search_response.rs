@@ -28,8 +28,6 @@ mod imp {
         pub(super) stars: OnceCell<u64>,
         #[property(get, set, construct_only, nullable)]
         pub(super) suggestion_postfix: OnceCell<Option<String>>,
-        #[property(get, set, construct_only, nullable)]
-        pub(super) tag: OnceCell<Option<String>>,
     }
 
     #[glib::object_subclass]
@@ -69,7 +67,6 @@ impl From<engine::dto::ImageSearchResponseItem> for ImageSearchResponse {
             .property("official", value.is_official)
             .property("stars", value.stars)
             .property("suggestion-postfix", ":latest")
-            .property("tag", value.tag)
             .build()
     }
 }
