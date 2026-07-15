@@ -201,12 +201,15 @@ pub(crate) fn format_if_id(name: &str) -> &str {
     as_id(name).map(|id| &id[..12]).unwrap_or(name)
 }
 
-pub(crate) fn main_window() -> view::Window {
+pub(crate) fn application() -> crate::Application {
     gio::Application::default()
         .unwrap()
         .downcast::<crate::Application>()
         .unwrap()
-        .main_window()
+}
+
+pub(crate) fn main_window() -> view::Window {
+    application().main_window()
 }
 
 pub(crate) fn root<W: IsA<gtk::Widget>>(widget: &W) -> gtk::Window {

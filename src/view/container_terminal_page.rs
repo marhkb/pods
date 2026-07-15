@@ -1,9 +1,13 @@
+use std::cell::Cell;
+
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
+use glib::clone;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
+use smart_default::SmartDefault;
 
 use crate::model;
 use crate::utils;
@@ -18,10 +22,13 @@ const ACTION_ZOOM_NORMAL: &str = "container-terminal-page.zoom-normal";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[derive(Debug, SmartDefault, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::ContainerTerminalPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_terminal_page.ui")]
     pub(crate) struct ContainerTerminalPage {
+        #[default(Cell::new(true))]
+        pub(super) terminate_on_pop: Cell<bool>,
+
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
         #[template_child]
@@ -126,7 +133,25 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerTerminalPage {}
+    impl WidgetImpl for ContainerTerminalPage {
+        fn root(&self) {
+            self.parent_root();
+
+            let obj = &*self.obj();
+
+            if let Some(navigation_view) = utils::try_navigation_view(obj) {
+                navigation_view.connect_popped(clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        if obj.imp().terminate_on_pop.get() {
+                            obj.terminate();
+                        }
+                    }
+                ));
+            };
+        }
+    }
 
     #[gtk::template_callbacks]
     impl ContainerTerminalPage {
@@ -135,7 +160,9 @@ mod imp {
             let obj = &*self.obj();
             match utils::try_navigation_view(obj) {
                 Some(navigation_view) => {
-                    navigation_view.pop();
+                    if navigation_view.visible_page().map(|page| page.upcast()) == obj.parent() {
+                        navigation_view.pop();
+                    }
                 }
                 None => utils::root(obj).close(),
             }
@@ -156,30 +183,50 @@ impl From<&model::Container> for ContainerTerminalPage {
 }
 
 impl ContainerTerminalPage {
+    pub(crate) fn terminate(&self) {
+        self.imp().terminal.terminate();
+    }
+
     pub(crate) fn pip_out(&self) {
-        if let Some(navigation_view) = utils::try_navigation_view(self) {
-            self.imp().terminal.keep_alive_on_next_unroot();
+        let Some(navigation_view) = utils::try_navigation_view(self) else {
+            return;
+        };
 
-            self.action_set_enabled(ACTION_PIP_OUT, false);
+        let imp = self.imp();
+        imp.terminate_on_pop.set(false);
 
-            let animate_transitions = navigation_view.is_animate_transitions();
-            navigation_view.set_animate_transitions(false);
+        self.action_set_enabled(ACTION_PIP_OUT, false);
 
-            let page = navigation_view.visible_page().unwrap();
-            navigation_view.pop();
+        let animate_transitions = navigation_view.is_animate_transitions();
+        navigation_view.set_animate_transitions(false);
 
-            navigation_view.set_animate_transitions(animate_transitions);
+        let page = navigation_view.visible_page().unwrap();
+        navigation_view.pop();
 
-            let toast_overlay = adw::ToastOverlay::new();
-            toast_overlay.set_child(Some(&page));
+        navigation_view.set_animate_transitions(animate_transitions);
 
-            let window = adw::Window::builder()
-                .content(&toast_overlay)
-                .default_height(500)
-                .default_width(700)
-                .build();
+        let toast_overlay = adw::ToastOverlay::new();
+        toast_overlay.set_child(Some(&page));
 
-            window.present();
-        }
+        let window = adw::Window::builder()
+            .content(&toast_overlay)
+            .default_height(500)
+            .default_width(700)
+            .build();
+
+        window.connect_close_request(clone!(
+            #[weak(rename_to = obj)]
+            self,
+            #[upgrade_or]
+            glib::Propagation::Proceed,
+            move |_| {
+                obj.imp().terminal.terminate();
+                glib::Propagation::Proceed
+            }
+        ));
+
+        window.present();
+
+        imp.terminal.grab_focus();
     }
 }
