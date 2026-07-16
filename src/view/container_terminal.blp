@@ -34,6 +34,7 @@ template $PdsContainerTerminal: Widget {
         $VteTerminal terminal {
           notify::font-scale => $on_terminal_notify_font_scale() swapped;
           selection-changed => $on_terminal_selection_changed() swapped;
+          allow-hyperlink: true;
           backspace-binding: "ascii-delete";
           bold-is-bright: "True";
 
