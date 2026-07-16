@@ -55,8 +55,6 @@ mod imp {
         _font_scale: PhantomData<f64>,
 
         #[template_child]
-        pub(super) popover_menu: TemplateChild<gtk::PopoverMenu>,
-        #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) terminal: TemplateChild<vte4::Terminal>,
@@ -133,8 +131,6 @@ mod imp {
             self.settings
                 .bind("terminal-font-scale", obj, "font-scale")
                 .build();
-
-            self.popover_menu.set_parent(obj);
 
             self.terminal.set_colors(
                 None,
@@ -301,13 +297,6 @@ mod imp {
             } else {
                 false
             })
-        }
-
-        #[template_callback]
-        fn on_mouse_3_pressed(&self, _: i32, x: f64, y: f64) {
-            let popover_menu = &*self.popover_menu;
-            popover_menu.set_pointing_to(Some(&gdk::Rectangle::new(x as i32, y as i32, 0, 0)));
-            popover_menu.popup();
         }
 
         #[template_callback]
