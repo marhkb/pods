@@ -1,3 +1,8 @@
+.padded vte-terminal {
+  margin: 0 0 1px 0;
+  padding: 7px 6px 3px 6px;
+}
+
 row.combo.pod-disabled image,
 row.combo.pod-disabled label {
   opacity: var(--dim-opacity);
