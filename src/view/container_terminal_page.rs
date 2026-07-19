@@ -205,6 +205,8 @@ impl ContainerTerminalPage {
 
         navigation_view.set_animate_transitions(animate_transitions);
 
+        self.add_css_class("padded");
+
         let toast_overlay = adw::ToastOverlay::new();
         toast_overlay.set_child(Some(&page));
 

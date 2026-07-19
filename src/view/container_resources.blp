@@ -1,15 +1,6 @@
 using Gtk 4.0;
 using Adw 1;
 
-SizeGroup {
-  mode: horizontal;
-
-  widgets [
-    network_label,
-    block_label,
-  ]
-}
-
 template $PdsContainerResources: Adw.PreferencesGroup {
   title: _("Resources Quick Reference");
 
@@ -132,16 +123,17 @@ template $PdsContainerResources: Adw.PreferencesGroup {
         }
 
         Box {
-          spacing: 18;
+          orientation: vertical;
+          spacing: 9;
 
-          Label network_label {
+          Label {
             label: _("Network");
             xalign: 0.0;
             wrap: true;
           }
 
           Adw.WrapBox {
-            child-spacing: 9;
+            child-spacing: 18;
             line-spacing: 9;
             valign: center;
 
@@ -151,7 +143,7 @@ template $PdsContainerResources: Adw.PreferencesGroup {
               ]
 
               valign: center;
-              width-request: 148;
+              width-request: 180;
 
               Box {
                 margin-top: 6;
@@ -176,7 +168,7 @@ template $PdsContainerResources: Adw.PreferencesGroup {
               ]
 
               valign: center;
-              width-request: 148;
+              width-request: 180;
 
               Box {
                 margin-top: 6;
@@ -215,16 +207,17 @@ template $PdsContainerResources: Adw.PreferencesGroup {
         }
 
         Box {
-          spacing: 18;
+          orientation: vertical;
+          spacing: 9;
 
-          Label block_label {
+          Label {
             label: _("Disk");
             xalign: 0.0;
             wrap: true;
           }
 
           Adw.WrapBox {
-            child-spacing: 9;
+            child-spacing: 18;
             line-spacing: 9;
             valign: center;
 
@@ -234,7 +227,7 @@ template $PdsContainerResources: Adw.PreferencesGroup {
               ]
 
               valign: center;
-              width-request: 148;
+              width-request: 180;
 
               Box {
                 margin-top: 6;
@@ -259,7 +252,7 @@ template $PdsContainerResources: Adw.PreferencesGroup {
               ]
 
               valign: center;
-              width-request: 148;
+              width-request: 180;
 
               Box {
                 margin-top: 6;
