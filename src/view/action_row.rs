@@ -217,7 +217,7 @@ mod imp {
                                 ]))
                                 .priority(ashpd::notification::Priority::Low)
                         }
-                        .body(action_description(action).as_str())
+                        .markup_body(action_description(action).as_str())
                         .default_action("");
 
                         rt::Promise::new(async move {
@@ -366,40 +366,43 @@ fn action_description(action: &model::Action) -> String {
     if let Some(action) = action.downcast_ref::<model::ContainerCommitAction>() {
         action
             .container()
-            .map(|container| gettext!("Commit <b>{}</b>", container.name()))
+            .map(|container| gettext!("Commit <b>{}</b>", utils::escape(&container.name())))
             .unwrap_or_else(|| gettext("Commit container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCopyFromAction>() {
         action
             .container()
-            .map(|container| gettext!("Copy from <b>{}</b>", container.name()))
+            .map(|container| gettext!("Copy from <b>{}</b>", utils::escape(&container.name())))
             .unwrap_or_else(|| gettext("Copy from container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCopyToAction>() {
         action
             .container()
-            .map(|container| gettext!("Copy to <b>{}</b>", container.name()))
+            .map(|container| gettext!("Copy to <b>{}</b>", utils::escape(&container.name())))
             .unwrap_or_else(|| gettext("Copy to container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCreateAction>() {
-        gettext!("Create <b>{}</b>", action.opts().name)
+        gettext!("Create <b>{}</b>", utils::escape(&action.opts().name))
     } else if action
         .downcast_ref::<model::ContainersPruneAction>()
         .is_some()
     {
         gettext("Prune Containers")
     } else if let Some(action) = action.downcast_ref::<model::PodCreateAction>() {
-        gettext!("Create <b>{}</b>", action.opts().name)
+        gettext!("Create <b>{}</b>", utils::escape(&action.opts().name))
     } else if action.downcast_ref::<model::PodsPruneAction>().is_some() {
         gettext("Prune Pods")
     } else if let Some(action) = action.downcast_ref::<model::ImageBuildAction>() {
-        gettext!("Build <b>{}</b>", action.opts().tag)
+        gettext!("Build <b>{}</b>", utils::escape(&action.opts().tag))
     } else if let Some(action) = action.downcast_ref::<model::ImagePullAction>() {
-        gettext!("Pull <b>{}</b>", action.opts().reference)
+        gettext!("Pull <b>{}</b>", utils::escape(&action.opts().reference))
     } else if let Some(action) = action.downcast_ref::<model::ImagePushAction>() {
         let opts = action.opts();
-        gettext!("Push <b>{}</b>", format!("{}:{}", opts.repo, opts.tag))
+        gettext!(
+            "Push <b>{}</b>",
+            format!("{}:{}", utils::escape(&opts.repo), utils::escape(&opts.tag))
+        )
     } else if action.downcast_ref::<model::ImagesPruneAction>().is_some() {
         gettext("Prune Images")
     } else if let Some(action) = action.downcast_ref::<model::VolumeCreateAction>() {
-        match action.opts().name.as_deref() {
+        match action.opts().name.as_deref().map(utils::escape) {
             Some(name) => gettext!("Create <b>{}</b>", name),
             None => gettext("Create anonymous"),
         }
