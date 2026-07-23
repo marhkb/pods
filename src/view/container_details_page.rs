@@ -121,7 +121,7 @@ mod imp {
                 view::container::resume(widget, widget.container());
             });
             klass.install_action(ACTION_DELETE, None, |widget, _, _| {
-                view::container::remove(widget, widget.container());
+                view::container::safe_remove(widget, widget.container());
             });
             klass.install_action(ACTION_INSPECT, None, |widget, _, _| {
                 widget.show_inspection();
