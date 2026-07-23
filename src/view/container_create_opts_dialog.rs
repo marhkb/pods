@@ -54,6 +54,8 @@ mod imp {
         #[template_child]
         pub(super) privileged_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
+        pub(super) restart_policy_row: TemplateChild<adw::ComboRow>,
+        #[template_child]
         pub(super) memory_switch: TemplateChild<gtk::Switch>,
         #[template_child]
         pub(super) mem_value: TemplateChild<gtk::Adjustment>,
@@ -199,6 +201,13 @@ mod imp {
                 .set_active(opts.pull_latest);
             self.terminal_switch_row.set_active(opts.terminal);
             self.privileged_switch_row.set_active(opts.privileged);
+            self.restart_policy_row
+                .set_selected(match opts.restart_policy {
+                    engine::dto::RestartPolicy::No => 0,
+                    engine::dto::RestartPolicy::Always => 1,
+                    engine::dto::RestartPolicy::OnFailure => 2,
+                    engine::dto::RestartPolicy::UnlessStopped => 3,
+                });
             self.memory_switch.set_active(opts.memory_limit.is_some());
             self.mem_value
                 .set_value(opts.memory_limit.unwrap_or(512) as f64 / 1000.0);
@@ -383,6 +392,12 @@ impl ContainerCreateOptsDialog {
                 .collect(),
             pull_latest: imp.pull_latest_image_switch_row.is_active(),
             privileged: imp.privileged_switch_row.is_active(),
+            restart_policy: match imp.restart_policy_row.selected() {
+                1 => engine::dto::RestartPolicy::Always,
+                2 => engine::dto::RestartPolicy::OnFailure,
+                3 => engine::dto::RestartPolicy::UnlessStopped,
+                _ => engine::dto::RestartPolicy::No,
+            },
             terminal: imp.terminal_switch_row.is_active(),
             volumes: imp
                 .volumes()

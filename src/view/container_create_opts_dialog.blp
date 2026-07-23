@@ -135,6 +135,19 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
                     .privileged_containers;
                 }
 
+                Adw.ComboRow restart_policy_row {
+                  title: _("Restart Policy");
+
+                  model: StringList {
+                    strings [
+                      _("Never"),
+                      _("Always"),
+                      _("On failure"),
+                      _("Unless stopped"),
+                    ]
+                  };
+                }
+
                 Adw.ExpanderRow {
                   enable-expansion: bind memory_switch.active;
                   title: _("Memory Limit");

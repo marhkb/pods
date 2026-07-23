@@ -110,6 +110,7 @@ pub(crate) struct ContainerDetails {
     pub(crate) health_config: Option<HealthConfig>,
     pub(crate) health_failing_streak: u32,
     pub(crate) health_check_logs: Vec<HealthCheckLog>,
+    pub(crate) restart_policy: RestartPolicy,
     pub(crate) size: i64,
     pub(crate) up_since: i64,
 }
@@ -188,6 +189,10 @@ impl ContainerInspection {
                     .map(Into::into),
                 health_failing_streak,
                 health_check_logs: health_check_logs.into_iter().map(Into::into).collect(),
+                restart_policy: inspection
+                    .host_config
+                    .and_then(|host_config| host_config.restart_policy)
+                    .into(),
                 size: inspection.size_root_fs.unwrap_or(0) + inspection.size_rw.unwrap_or(0),
                 up_since: up_since
                     .and_then(|up_since| glib::DateTime::from_iso8601(&up_since, None).ok())
@@ -255,6 +260,10 @@ impl From<podman_api::models::ContainerInspectResponseLibpod> for ContainerInspe
                     .map(Into::into),
                 health_failing_streak,
                 health_check_logs: health_check_logs.into_iter().map(Into::into).collect(),
+                restart_policy: value
+                    .host_config
+                    .and_then(|host_config| host_config.restart_policy)
+                    .into(),
                 size: value.size_root_fs.unwrap_or(0) + value.size_rw.unwrap_or(0),
                 up_since: up_since.map(|date_time| date_time.timestamp()).unwrap_or(0),
             },
@@ -571,5 +580,73 @@ impl From<PodmanPortMap> for PortMappings {
                 .flatten()
                 .collect(),
         )
+    }
+}
+
+#[derive(Clone, Copy, Default)]
+pub(crate) enum RestartPolicy {
+    Always,
+    #[default]
+    No,
+    OnFailure,
+    UnlessStopped,
+}
+
+impl From<Option<bollard::models::RestartPolicy>> for RestartPolicy {
+    fn from(value: Option<bollard::models::RestartPolicy>) -> Self {
+        use bollard::models::RestartPolicyNameEnum::*;
+
+        value
+            .and_then(|restart_policy| restart_policy.name)
+            .map(|restart_policy| match restart_policy {
+                ALWAYS => Self::Always,
+                EMPTY | NO => Self::No,
+                ON_FAILURE => Self::OnFailure,
+                UNLESS_STOPPED => Self::UnlessStopped,
+            })
+            .unwrap_or(Self::No)
+    }
+}
+
+impl From<RestartPolicy> for Option<bollard::models::RestartPolicy> {
+    fn from(value: RestartPolicy) -> Self {
+        use bollard::models::RestartPolicyNameEnum::*;
+
+        Some(bollard::models::RestartPolicy {
+            name: Some(match value {
+                RestartPolicy::Always => ALWAYS,
+                RestartPolicy::No => NO,
+                RestartPolicy::OnFailure => ON_FAILURE,
+                RestartPolicy::UnlessStopped => UNLESS_STOPPED,
+            }),
+            ..Default::default()
+        })
+    }
+}
+
+impl From<Option<podman_api::models::InspectRestartPolicy>> for RestartPolicy {
+    fn from(value: Option<podman_api::models::InspectRestartPolicy>) -> Self {
+        value
+            .and_then(|restart_policy| restart_policy.name)
+            .map(|restart_policy| match restart_policy.as_str() {
+                "always" => Self::Always,
+                "on-failure" => Self::OnFailure,
+                "unless-stopped" => Self::UnlessStopped,
+                _ => Self::No,
+            })
+            .unwrap_or(Self::No)
+    }
+}
+
+impl From<RestartPolicy> for podman_api::opts::ContainerRestartPolicy {
+    fn from(value: RestartPolicy) -> Self {
+        use podman_api::opts::ContainerRestartPolicy::*;
+
+        match value {
+            RestartPolicy::Always => Always,
+            RestartPolicy::No => No,
+            RestartPolicy::OnFailure => OnFailure,
+            RestartPolicy::UnlessStopped => UnlessStopped,
+        }
     }
 }
