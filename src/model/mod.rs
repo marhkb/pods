@@ -14,6 +14,7 @@ mod container_create_action;
 mod container_details;
 mod container_health_status;
 mod container_list;
+mod container_restart_policy;
 mod container_status;
 mod container_volume;
 mod container_volume_list;
@@ -98,6 +99,7 @@ export_gobjects![
     pub(crate) use self::container_details::ContainerDetails;
     pub(crate) use self::container_health_status::ContainerHealthStatus;
     pub(crate) use self::container_list::ContainerList;
+    pub(crate) use self::container_restart_policy::ContainerRestartPolicy;
     pub(crate) use self::container_status::ContainerStatus;
     pub(crate) use self::container_volume::ContainerVolume;
     pub(crate) use self::container_volume_list::ContainerVolumeList;

@@ -30,6 +30,8 @@ mod imp {
         #[template_child]
         pub(super) size_row: TemplateChild<adw::ActionRow>,
         #[template_child]
+        pub(super) restart_policy_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
         pub(super) status_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
@@ -82,11 +84,13 @@ mod imp {
                 .chain_property::<gtk::Window>("application")
                 .chain_property::<crate::Application>("ticks");
             let container_expr = Self::Type::this_expression("container");
-            let container_details_expression =
+            let container_details_expr =
                 container_expr.chain_property::<model::Container>("details");
             let is_infra_expr = container_expr.chain_property::<model::Container>("is-infra");
             let not_is_infra_expr = is_infra_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_infra: bool| !is_infra));
+            let restart_policy_expr =
+                container_details_expr.chain_property::<model::ContainerDetails>("restart-policy");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health_status");
@@ -111,7 +115,7 @@ mod imp {
             )
             .bind(&*self.created_row, "subtitle", Some(obj));
 
-            container_details_expression
+            container_details_expr
                 .chain_property::<model::ContainerDetails>("size")
                 .chain_closure::<String>(closure!(|_: Self::Type, size: i64| glib::format_size(
                     size as u64
@@ -223,12 +227,26 @@ mod imp {
                 .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
                 .bind(&*self.port_bindings_row, "visible", Some(obj));
 
+            restart_policy_expr
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, restart_policy: model::ContainerRestartPolicy| {
+                        use model::ContainerRestartPolicy::*;
+
+                        match restart_policy {
+                            Always => gettext("Always"),
+                            No => gettext("None"),
+                            OnFailure => gettext("On failure"),
+                            UnlessStopped => gettext("Unless stopped"),
+                        }
+                    }
+                ))
+                .bind(&*self.restart_policy_row, "subtitle", Some(obj));
+
             gtk::ClosureExpression::new::<String>(
                 [
                     &ticks_expr,
                     &status_expr,
-                    &container_details_expression
-                        .chain_property::<model::ContainerDetails>("up-since"),
+                    &container_details_expr.chain_property::<model::ContainerDetails>("up-since"),
                 ],
                 closure!(|_: Self::Type,
                           _ticks: u64,

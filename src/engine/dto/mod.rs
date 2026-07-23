@@ -25,6 +25,7 @@ pub(crate) use container::HealthConfig;
 pub(crate) use container::HealthStatus;
 pub(crate) use container::Mount;
 pub(crate) use container::PortMappings;
+pub(crate) use container::RestartPolicy;
 pub(crate) use container_stats::AllContainerStats;
 pub(crate) use container_stats::ContainerStats;
 pub(crate) use container_stats::DockerContainerStats;

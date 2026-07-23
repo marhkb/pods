@@ -24,6 +24,8 @@ mod imp {
         pub(super) health_config: OnceCell<Option<BoxedHealthConfig>>,
         #[property(get, set)]
         pub(super) health_failing_streak: Cell<u32>,
+        #[property(get, set, construct_only, default)]
+        pub(super) restart_policy: Cell<model::ContainerRestartPolicy>,
         #[property(get, set, construct)]
         pub(super) size: Cell<i64>,
         #[property(get, set, construct)]
@@ -64,6 +66,10 @@ impl From<engine::dto::ContainerDetails> for ContainerDetails {
             )
             .property("health-config", value.health_config.map(BoxedHealthConfig))
             .property("health-failing-streak", value.health_failing_streak)
+            .property(
+                "restart-policy",
+                model::ContainerRestartPolicy::from(value.restart_policy),
+            )
             .property("size", value.size)
             .property("up-since", value.up_since)
             .build()

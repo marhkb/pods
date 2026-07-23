@@ -23,6 +23,7 @@ pub(crate) struct ContainerCreateOpts {
     pub(crate) pull_latest: bool,
     // Podman only
     pub(crate) privileged: bool,
+    pub(crate) restart_policy: engine::dto::RestartPolicy,
     #[default(true)]
     pub(crate) terminal: bool,
     pub(crate) volumes: Vec<ContainerCreateVolumeOpts>,
@@ -73,6 +74,7 @@ impl From<ContainerCreateOpts>
                         map
                     })
             }),
+            restart_policy: value.restart_policy.into(),
             ..Default::default()
         };
 
@@ -112,6 +114,7 @@ impl From<ContainerCreateOpts> for podman_api::opts::ContainerCreateOpts {
             .name(value.name)
             .mounts(value.mounts.into_iter().map(Into::into))
             .privileged(value.privileged)
+            .restart_policy(value.restart_policy.into())
             .terminal(value.terminal)
             .volumes(value.volumes.into_iter().map(Into::into));
 
