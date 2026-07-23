@@ -130,6 +130,30 @@ where
     }
 }
 
+pub(crate) fn safe_remove<W>(widget: &W, container: Option<model::Container>)
+where
+    W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
+{
+    let dialog = adw::AlertDialog::builder()
+        .heading(gettext("Delete Container?"))
+        .body_use_markup(true)
+        .body(gettext(
+            "All settings and all changes made within the container will be irreversibly lost",
+        ))
+        .build();
+
+    dialog.add_responses(&[
+        ("cancel", &gettext("_Cancel")),
+        ("confirm", &gettext("_Confirm")),
+    ]);
+    dialog.set_default_response(Some("cancel"));
+    dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
+
+    if glib::MainContext::default().block_on(dialog.choose_future(Some(widget))) == "confirm" {
+        remove(widget, container)
+    }
+}
+
 macro_rules! container_action {
     (fn $name:ident => $action:ident($($param:literal),*) => $error:tt) => {
         pub(crate) fn $name<W>(widget: &W, container: Option<crate::model::Container>)

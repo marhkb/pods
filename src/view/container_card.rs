@@ -564,24 +564,7 @@ impl ContainerCard {
     }
 
     pub(crate) fn delete(&self) {
-        let dialog = adw::AlertDialog::builder()
-            .heading(gettext("Delete Container?"))
-            .body_use_markup(true)
-            .body(gettext(
-                "All settings and all changes made within the container will be irreversibly lost",
-            ))
-            .build();
-
-        dialog.add_responses(&[
-            ("cancel", &gettext("_Cancel")),
-            ("confirm", &gettext("_Confirm")),
-        ]);
-        dialog.set_default_response(Some("cancel"));
-        dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
-
-        if glib::MainContext::default().block_on(dialog.choose_future(Some(self))) == "confirm" {
-            view::container::remove(self, self.container())
-        }
+        view::container::safe_remove(self, self.container())
     }
 
     fn bind_stats_fraction(&self, stats_expr: &gtk::Expression, progress_bar: &gtk::ProgressBar) {
