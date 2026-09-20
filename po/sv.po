@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-07 13:24+0000\n"
-"PO-Revision-Date: 2022-03-16 02:17+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-09-21 14:51+0000\n"
+"Last-Translator: Samuel <pettersson.samuel@proton.me>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/pods/main/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:120
@@ -24,25 +25,25 @@ msgstr ""
 #: src/view/pods_panel.blp:81 src/view/pods_panel.blp:127
 #: src/view/pods_panel.blp:385 src/view/search_panel.blp:56
 msgid "Pods"
-msgstr ""
+msgstr "Poddar"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
 msgid "Manage your Podman containers"
-msgstr ""
+msgstr "Hantera dina Podman-containrar"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:8
 msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr ""
+msgstr "Gnome;GTK;libadwaita;Podman;Containerisering;"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
 msgid "Default window width"
-msgstr ""
+msgstr "Fönstrets standardbredd"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:11
 #: data/com.github.marhkb.Pods.gschema.xml.in:12
 msgid "Default window height"
-msgstr ""
+msgstr "Fönstrets standardhöjd"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:16
 msgid "Default window maximized behaviour"
@@ -50,20 +51,22 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr ""
+msgstr "UUID till anslutningen som användes senast"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
-msgstr ""
+msgstr "Senast använda vyn"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:31
 msgid "The last used container file path"
-msgstr ""
+msgstr "Senast använda containerns sökväg"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
 #: src/view/images_prune_opts_dialog.blp:49
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
+"Ta bort alla images som inte används av containrar, inte bara dem utan "
+"referenser"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
 #: src/view/images_prune_opts_dialog.blp:54
@@ -71,205 +74,220 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
+"Ta bort images även om de används av externa containrar (t.ex. av bygg-"
+"containrar)"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "Whether to show a timestamp for each log line"
-msgstr ""
+msgstr "Om det ska visas en tidsstämpel för varje logg-rad"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:51
 #: data/com.github.marhkb.Pods.gschema.xml.in:56
 msgid "Whether to use a regex for search"
-msgstr ""
+msgstr "Om sök ska använda regex"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:61
 msgid "Whether search should be case-sensitive"
-msgstr ""
+msgstr "Om sök ska vara skiftlägeskänsligt"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:66
 msgid "Whether to match whole words when searching"
-msgstr ""
+msgstr "Om sök ska matcha hela ord"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:71
 msgid "The font scale of all text views"
-msgstr ""
+msgstr "Fontskalan i alla textvyer"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:76
 msgid "The font scale for terminals"
-msgstr ""
+msgstr "Fontskalan för terminaler"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:88
 msgid "Containers representation"
-msgstr ""
+msgstr "Containrars visning"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:97
 msgid "Sort direction for containers"
-msgstr ""
+msgstr "Sorteringsriktning för containrar"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:106
 msgid "sort attribute for containers"
-msgstr ""
+msgstr "Sorteringsattribut för containrar"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:111
 msgid "Whether to show running containers first"
-msgstr ""
+msgstr "Om körande containrar ska visas först"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:123
 msgid "Sort direction for pods"
-msgstr ""
+msgstr "Sorteringsriktning för poddar"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:132
 msgid "Sort attribute for pods"
-msgstr ""
+msgstr "Sorteringsattribut för poddar"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:137
 msgid "Whether to show running pods first"
-msgstr ""
+msgstr "Om körande poddar ska visas först"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:149
 msgid "Sort direction for images"
-msgstr ""
+msgstr "Sorteringsriktning för images"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:159
 msgid "Sort attribute for images"
-msgstr ""
+msgstr "Sorteringsattribut för images"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:171
 msgid "Sort direction for volumes"
-msgstr ""
+msgstr "Sorteringsriktning för volymer"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:181
 msgid "Sort attribute for volumes"
-msgstr ""
+msgstr "Sorteringsattribut för volymer"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 msgid "Manage your containers"
-msgstr ""
+msgstr "Hantera dina containrar"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
 msgid ""
 "Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
 "interface and strives to meet the design principles of GNOME."
 msgstr ""
+"Poddar är ett gränssnitt för Podman/Docker. Det använder libadwaita för sitt "
+"användargränssnitt och strävar efter att möta GNOME:s designprinciper."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
-msgstr ""
+msgstr "Med Poddar kan du, bland annat:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
 msgid "Connect to local and remote Podman/Docker instances."
-msgstr ""
+msgstr "Ansluta till lokala och fjärra Podman/Docker-instanser."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
-msgstr ""
+msgstr "Enkelt överse images, containrar, och poddar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:15
 msgid "View prepared information about images, containers, and pods."
-msgstr ""
+msgstr "Visa förberedd information om images, containrar, och poddar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:16
 msgid "Inspect images, containers and pods."
-msgstr ""
+msgstr "Inspektera images, containrar, och poddar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:17
 msgid "View and search container logs."
-msgstr ""
+msgstr "Se och söka container-loggar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:18
 msgid "Monitor processes of containers and pods."
-msgstr ""
+msgstr "Övervaka containrars och poddars processer."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:19
 msgid "Download images and build them using Dockerfiles."
-msgstr ""
+msgstr "Ladda ner images och bygga dem med Dockerfiler."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:20
 msgid "Create pods and containers."
-msgstr ""
+msgstr "Skapa poddar och containrar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:21
 msgid ""
 "Control the lifecycle of containers and pods (in bulk) (start, stop, pause, "
 "etc.)."
 msgstr ""
+"Kontrollera livscykeln av containrar och poddar (starta, stoppa, pausa, osv.)"
+"."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:22
 msgid "Delete images, containers, and pods (in bulk)."
-msgstr ""
+msgstr "Ta bort images, containrar, och poddar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:23
 msgid "Prune images."
-msgstr ""
+msgstr "Radera images."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:24
 msgid "Rename containers."
-msgstr ""
+msgstr "Byta namn på containrar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
 msgid "Pods main window"
-msgstr ""
+msgstr "Poddar huvudfönster"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:43
 msgid "Pods 3.0.0 contains the following changes:"
-msgstr ""
+msgstr "Poddar 3.0.0 innehåller följande ändringar:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:45
 msgid ""
 "Implemented a new backend architecture to support multiple container "
 "engines. (#927)"
 msgstr ""
+"Implementerade en ny backend-arkitekturer för att stödja flera container-"
+"motorer. (#927)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
 msgid ""
 "Experimental Docker support – please report any issues on GitHub. (#927)"
-msgstr ""
+msgstr "Experimentellt Docker-stöd – vänligen rapportera fel på GitHub. (#927)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
 msgid "Pods 2.4.0 contains the following changes:"
-msgstr ""
+msgstr "Poddar 2.4.0 innehåller följande ändringar:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
 msgid "Updated to GNOME 50. (#916)"
-msgstr ""
+msgstr "Uppdaterad till GNOME 50. (#916)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:55
 msgid "Sidebar ported to Adw.Sidebar. (#919)"
-msgstr ""
+msgstr "Sidofält portad till Adw.Sidebar. (#919)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:56
 msgid ""
 "Fixed a bug that prevented scrolling up in the container log page. (#920)"
 msgstr ""
+"Fixat en bugg som förhindrade att skrolla upp i containers loggar. (#920)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
 msgid "Pods 2.3.0 contains the following changes:"
-msgstr ""
+msgstr "Poddar 2.3.0 innehåller följande ändringar:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
 msgid ""
 "Replaced numerous mismatched or outdated widgets with modern alternatives "
 "from libadwaita 1.8. (#890, #899, #909, #910)"
 msgstr ""
+"Bytt ut missmatchade eller utdaterade widgetar med moderna alternativ från "
+"libadwaita 1.8. (#890, #899, #909, #910)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:65
 msgid ""
 "Actions such as container creation can now be retried in case of failure; "
 "thanks to @iamanaws. (#899)"
 msgstr ""
+"Åtgärder så som containerskapande kan nu försökas igen vid misslyckande; "
+"tack vare @iamanaws. (#899)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:66
 msgid "CVE-2025-62518 has been fixed; thanks to @bengsparks. (#895)"
-msgstr ""
+msgstr "CVE-2025-62518 har nu blivit fixad; tack vare @bengsparks. (#895)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:67
 msgid ""
 "Various fixes and improvements throughout the app; thanks to @iamanaws, "
 "@jardon and @Kekun. (#874, #879, #848, #880, #894, #899, #908, #904)"
 msgstr ""
+"Olika fixar och förbättringar runtom i appen; tack vare @iamanaws, @jardon, "
+"and @Kekun. (#874, #879, #848, #880, #894, #899, #908, #904)"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:68
 msgid "Updated translations."
-msgstr ""
+msgstr "Uppdaterade översättningar."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
 msgid "Pods 2.2.0 contains the following changes:"
@@ -1331,185 +1349,185 @@ msgstr ""
 
 #: src/application.rs:191
 msgid "translator-credits"
-msgstr ""
+msgstr "Samuel <samuel.smlxdesign@gmail.com>"
 
 #: src/application.rs:193
 msgid "Translators"
-msgstr ""
+msgstr "Översättare"
 
 #: src/main.rs:167
 msgid "Prints application version"
-msgstr ""
+msgstr "Skriver ut app-version"
 
 #: src/main.rs:176
 msgid "Specify the minimum log level"
-msgstr ""
+msgstr "Anger lägsta loggnivå"
 
 #: src/model/container_copy_from_action.rs:105
 msgid "Container has been removed"
-msgstr ""
+msgstr "Container har blivit borttagen"
 
 #: src/model/container_create_action.rs:154
 msgid "Container Created"
-msgstr ""
+msgstr "Container skapad"
 
 #: src/model/container_health_status.rs:35
 msgid "Healthy"
-msgstr ""
+msgstr "Hälsosam"
 
 #: src/model/container_health_status.rs:36
 msgid "Checking"
-msgstr ""
+msgstr "Undersöker"
 
 #: src/model/container_health_status.rs:37
 msgid "Unconfigured"
-msgstr ""
+msgstr "Okonfigurerad"
 
 #: src/model/container_health_status.rs:38
 msgid "Unhealthy"
-msgstr ""
+msgstr "Ohälsosam"
 
 #: src/model/container_status.rs:125
 msgid "Configured"
-msgstr ""
+msgstr "Konfigurerad"
 
 #: src/model/container_status.rs:126 src/model/pod_status.rs:114
 #: src/view/container_properties_group.blp:63
 #: src/view/image_details_page.blp:71 src/view/pod_details_page.blp:187
 #: src/view/volume_details_page.blp:57
 msgid "Created"
-msgstr ""
+msgstr "Skapad"
 
 #: src/model/container_status.rs:127 src/model/pod_status.rs:115
 msgid "Dead"
-msgstr ""
+msgstr "Död"
 
 #: src/model/container_status.rs:128 src/model/pod_status.rs:118
 msgid "Exited"
-msgstr ""
+msgstr "Avslutad"
 
 #: src/model/container_status.rs:129
 msgid "Initialized"
-msgstr ""
+msgstr "Initialiserad"
 
 #: src/model/container_status.rs:130 src/model/pod_status.rs:119
 msgid "Paused"
-msgstr ""
+msgstr "Pausad"
 
 #: src/model/container_status.rs:131
 msgid "Removing"
-msgstr ""
+msgstr "Tas bort"
 
 #: src/model/container_status.rs:132 src/model/pod_status.rs:120
 msgid "Restarting"
-msgstr ""
+msgstr "Startar om"
 
 #: src/model/container_status.rs:133 src/model/pod_status.rs:121
 msgid "Running"
-msgstr ""
+msgstr "Kör"
 
 #: src/model/container_status.rs:134 src/model/pod_status.rs:122
 msgid "Starting"
-msgstr ""
+msgstr "Startar"
 
 #: src/model/container_status.rs:135 src/model/pod_status.rs:123
 msgid "Stopped"
-msgstr ""
+msgstr "Stoppad"
 
 #: src/model/container_status.rs:136 src/model/pod_status.rs:124
 msgid "Stopping"
-msgstr ""
+msgstr "Stoppar"
 
 #: src/model/container_status.rs:137 src/model/pod_status.rs:125
 msgid "Unknown"
-msgstr ""
+msgstr "Okänt"
 
 #: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:311
 msgid "Docker"
-msgstr ""
+msgstr "Docker"
 
 #: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:312
 msgid "Podman"
-msgstr ""
+msgstr "Podman"
 
 #: src/model/pod_create_action.rs:150
 msgid "Pod Created"
-msgstr ""
+msgstr "Podd skapad"
 
 #: src/model/pod_status.rs:116
 msgid "Degraded"
-msgstr ""
+msgstr "Nedgraderad"
 
 #: src/model/pod_status.rs:117 src/view/connection_creation_page.rs:324
 #: src/view/image_details_page.rs:359 src/view/scalable_text_view_page.rs:463
 #: src/view/top_page.rs:544 src/view/top_page.rs:549
 msgid "Error"
-msgstr ""
+msgstr "Fel"
 
 #: src/utils.rs:119
 #, rust-format
 msgid "{} h {} min {} s"
-msgstr ""
+msgstr "{} h {} min {} s"
 
 #: src/utils.rs:121
 #, rust-format
 msgid "{} h {} s"
-msgstr ""
+msgstr "{} h {} s"
 
 #: src/utils.rs:128
 #, rust-format
 msgid "{} min {} s"
-msgstr ""
+msgstr "{} min {} s"
 
 #: src/utils.rs:130
 #, rust-format
 msgid "{} min"
-msgstr ""
+msgstr "{} min"
 
 #: src/utils.rs:133
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #: src/utils.rs:178
 msgid "a few seconds"
-msgstr ""
+msgstr "några sekunder"
 
 #: src/utils.rs:180
 #, rust-format
 msgid "{} minute"
 msgid_plural "{} minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} minut"
+msgstr[1] "{} minuter"
 
 #: src/utils.rs:182
 #, rust-format
 msgid "{} hour"
 msgid_plural "{} hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} timme"
+msgstr[1] "{} timmar"
 
 #: src/utils.rs:185
 #, rust-format
 msgid "{} day"
 msgid_plural "{} days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} dag"
+msgstr[1] "{} dagar"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
 #: src/utils.rs:191
 #, rust-format
 msgid "{} ago"
-msgstr ""
+msgstr "{} sedan"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
 #: src/utils.rs:308
 msgid "<none>"
-msgstr ""
+msgstr "<ingen>"
 
 #: src/utils.rs:407
 msgid "Error on open file dialog"
-msgstr ""
+msgstr "Fel när fildialogen öppnades"
 
 #: src/view/action_dialog.blp:97 src/view/connection.rs:28
 #: src/view/connection_creation_page.blp:30 src/view/container.rs:95
@@ -1529,206 +1547,207 @@ msgstr ""
 #: src/view/volume_create_opts_dialog.blp:27 src/view/volumes_panel.rs:660
 #: src/view/volumes_prune_opts_dialog.blp:27
 msgid "_Cancel"
-msgstr ""
+msgstr "_Avbryt"
 
 #: src/view/action_dialog.blp:116
 msgid "_Edit"
-msgstr ""
+msgstr "_Redigera"
 
 #: src/view/action_dialog.blp:128
 msgid "_View"
-msgstr ""
+msgstr "_Visa"
 
 #: src/view/action_dialog.rs:96
 msgid "Cancelled"
-msgstr ""
+msgstr "Avbröts"
 
 #: src/view/action_dialog.rs:97
 msgid "Failed"
-msgstr ""
+msgstr "Misslyckades"
 
 #: src/view/action_dialog.rs:98
 msgid "Finished"
-msgstr ""
+msgstr "Färdig"
 
 #: src/view/action_dialog.rs:99
 msgid "Ongoing"
-msgstr ""
+msgstr "Pågår"
 
 #: src/view/action_dialog.rs:290 src/view/container_properties_group.rs:243
 #, rust-format
 msgid "since {}"
-msgstr ""
+msgstr "sedan {}"
 
 #: src/view/action_dialog.rs:300
 #, rust-format
 msgid "after {}"
-msgstr ""
+msgstr "efter {}"
 
 #: src/view/action_dialog.rs:344
 msgid "Action"
-msgstr ""
+msgstr "Åtgärd"
 
 #: src/view/action_dialog.rs:373 src/view/action_dialog.rs:386
 #: src/view/action_dialog.rs:402
 msgid "Container Removed"
-msgstr ""
+msgstr "Container borttagen"
 
 #: src/view/action_dialog.rs:374
 msgid "Container cannot be committed because it has been removed."
-msgstr ""
+msgstr "Container kan inte bli incheckad eftersom den har blivit borttagen."
 
 #: src/view/action_dialog.rs:388 src/view/action_dialog.rs:404
 msgid "Files cannot be copied anymore because the container has been removed."
 msgstr ""
+"Filer kan inte kopieras längre eftersom containern har blivit borttagen."
 
 #: src/view/action_dialog.rs:426
 msgid "Tag Removed"
-msgstr ""
+msgstr "Tagg borttagen"
 
 #: src/view/action_dialog.rs:427
 msgid "Cannot push removed tag."
-msgstr ""
+msgstr "Kan inte skicka borttagen tagg."
 
 #: src/view/action_dialog.rs:450
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #: src/view/action_row.rs:140
 msgid "Abort"
-msgstr ""
+msgstr "Avbryt"
 
 #: src/view/action_row.rs:142 src/view/key_val_row.blp:44
 #: src/view/key_val_row.blp:47
 msgid "Remove"
-msgstr ""
+msgstr "Ta bort"
 
 #: src/view/action_row.rs:208
 msgid "Failed Pods Action"
-msgstr ""
+msgstr "Podd-åtgärd misslyckades"
 
 #: src/view/action_row.rs:214
 msgid "Finished Pods Action"
-msgstr ""
+msgstr "Podd-åtgärd färdig"
 
 #: src/view/action_row.rs:284
 #, rust-format
 msgid "Ongoing ({})"
-msgstr ""
+msgstr "Pågår ({})"
 
 #: src/view/action_row.rs:298
 #, rust-format
 msgid "Cancelled after {}"
-msgstr ""
+msgstr "Avbröts efter {}"
 
 #: src/view/action_row.rs:299
 #, rust-format
 msgid "Failed after {}"
-msgstr ""
+msgstr "Misslyckades efter {}"
 
 #: src/view/action_row.rs:300
 #, rust-format
 msgid "Finished after {}"
-msgstr ""
+msgstr "Blev färdig efter {}"
 
 #: src/view/action_row.rs:369
 #, rust-format
 msgid "Commit <b>{}</b>"
-msgstr ""
+msgstr "Checka in <b>{}</b>"
 
 #: src/view/action_row.rs:370
 msgid "Commit container"
-msgstr ""
+msgstr "Checka in container"
 
 #: src/view/action_row.rs:374
 #, rust-format
 msgid "Copy from <b>{}</b>"
-msgstr ""
+msgstr "Kopiera från <b>{}</b>"
 
 #: src/view/action_row.rs:375
 msgid "Copy from container"
-msgstr ""
+msgstr "Kopiera från container"
 
 #: src/view/action_row.rs:379
 #, rust-format
 msgid "Copy to <b>{}</b>"
-msgstr ""
+msgstr "Kopiera till <b>{}</b>"
 
 #: src/view/action_row.rs:380
 msgid "Copy to container"
-msgstr ""
+msgstr "Kopiera till container"
 
 #: src/view/action_row.rs:382 src/view/action_row.rs:389
 #: src/view/action_row.rs:403
 #, rust-format
 msgid "Create <b>{}</b>"
-msgstr ""
+msgstr "Skapa <b>{}</b>"
 
 #: src/view/action_row.rs:387 src/view/containers_prune_action_view.rs:94
 #: src/view/containers_prune_opts_dialog.blp:16
 msgid "Prune Containers"
-msgstr ""
+msgstr "Rensa containrar"
 
 #: src/view/action_row.rs:391 src/view/pods_prune_action_view.rs:69
 #: src/view/pods_prune_opts_dialog.blp:16
 msgid "Prune Pods"
-msgstr ""
+msgstr "Rensa poddar"
 
 #: src/view/action_row.rs:393
 #, rust-format
 msgid "Build <b>{}</b>"
-msgstr ""
+msgstr "Bygg <b>{}</b>"
 
 #: src/view/action_row.rs:395
 #, rust-format
 msgid "Pull <b>{}</b>"
-msgstr ""
+msgstr "Hämta <b>{}</b>"
 
 #: src/view/action_row.rs:398
 #, rust-format
 msgid "Push <b>{}</b>"
-msgstr ""
+msgstr "Skicka <b>{}</b>"
 
 #: src/view/action_row.rs:400 src/view/images_prune_action_view.rs:94
 #: src/view/images_prune_opts_dialog.blp:16
 msgid "Prune Images"
-msgstr ""
+msgstr "Rensa images"
 
 #: src/view/action_row.rs:404
 msgid "Create anonymous"
-msgstr ""
+msgstr "Skapa anonym"
 
 #: src/view/action_row.rs:407 src/view/volumes_prune_action_view.rs:94
 #: src/view/volumes_prune_opts_dialog.blp:16
 msgid "Prune Volumes"
-msgstr ""
+msgstr "Rensa volymer"
 
 #: src/view/action_row.rs:409
 msgid "Unknown Action"
-msgstr ""
+msgstr "Okänd åtgärd"
 
 #: src/view/actions_sidebar.blp:14 src/view/client_view.blp:83
 #: src/view/client_view.blp:288
 msgid "Actions"
-msgstr ""
+msgstr "Åtgärder"
 
 #: src/view/actions_sidebar.blp:21 src/view/actions_sidebar.blp:24
 msgid "Clear Finished Actions"
-msgstr ""
+msgstr "Rensa färdiga åtgärder"
 
 #: src/view/actions_sidebar.blp:41
 msgid "No Actions"
-msgstr ""
+msgstr "Inga åtgärder"
 
 #: src/view/client_view.blp:35 src/view/client_view.blp:40
 #: src/view/client_view.blp:372
 msgid "Home"
-msgstr ""
+msgstr "Hem"
 
 #: src/view/client_view.blp:54 src/view/client_view.blp:57
 #: src/view/client_view.blp:279 src/view/connections_sidebar.blp:14
 msgid "Connections"
-msgstr ""
+msgstr "Anslutningar"
 
 #: src/view/client_view.blp:65 src/view/client_view.blp:68
 #: src/view/container_log_page.blp:55 src/view/container_log_page.blp:58
@@ -1740,12 +1759,12 @@ msgstr ""
 #: src/view/top_page.blp:14 src/view/top_page.blp:17
 #: src/view/volumes_panel.blp:111 src/view/volumes_panel.blp:114
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
 #: src/view/client_view.blp:73
 msgctxt "app name"
 msgid "Pods"
-msgstr ""
+msgstr "Poddar"
 
 #: src/view/client_view.blp:99 src/view/client_view.rs:245
 #: src/view/containers_panel.blp:85 src/view/containers_panel.blp:131
@@ -1754,13 +1773,13 @@ msgstr ""
 #: src/view/pods_panel.blp:15 src/view/search_panel.blp:44
 #: src/view/volume_details_page.blp:87 src/view/volumes_panel.blp:21
 msgid "Containers"
-msgstr ""
+msgstr "Containrar"
 
 #: src/view/client_view.blp:184 src/view/client_view.rs:247
 #: src/view/images_panel.blp:103 src/view/images_panel.blp:149
 #: src/view/images_panel.blp:296 src/view/search_panel.blp:68
 msgid "Images"
-msgstr ""
+msgstr "Images"
 
 #: src/view/client_view.blp:214 src/view/client_view.rs:248
 #: src/view/container_create_opts_dialog.blp:219
@@ -1768,62 +1787,64 @@ msgstr ""
 #: src/view/volumes_panel.blp:80 src/view/volumes_panel.blp:126
 #: src/view/volumes_panel.blp:273
 msgid "Volumes"
-msgstr ""
+msgstr "Volymer"
 
 #: src/view/client_view.blp:299
 msgid "Content"
-msgstr ""
+msgstr "Innehåll"
 
 #: src/view/client_view.rs:249
 msgid "Info"
-msgstr ""
+msgstr "Information"
 
 #: src/view/connection.rs:22
 msgid "There are ongoing actions whose progress will be irretrievably lost"
-msgstr ""
+msgstr "Det finns pågående åtgärder vars förlopp kommer försvinna för alltid"
 
 #: src/view/connection.rs:29 src/view/container_card.rs:577
 msgid "_Confirm"
-msgstr ""
+msgstr "_Acceptera"
 
 #: src/view/connection_chooser_page.blp:19
 #: src/view/connection_chooser_page.blp:22 src/view/image_selection_page.blp:34
 #: src/view/image_selection_page.blp:37
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: src/view/connection_chooser_page.blp:46
 msgid "Filter connections"
-msgstr ""
+msgstr "Filtrera anslutningar"
 
 #: src/view/connection_chooser_page.blp:47
 msgid "Type to filter connections. Press Enter to open the first result."
 msgstr ""
+"Skriv för att filtrera anslutningar. Tryck enter för att öppna första "
+"resultatet."
 
 #: src/view/connection_chooser_page.blp:61
 msgid "Connect to Podman"
-msgstr ""
+msgstr "Anslut till Podman"
 
 #: src/view/connection_chooser_page.blp:62
 msgid "Choose an existing connection or create a new one"
-msgstr ""
+msgstr "Välj en existerande anslutning eller skapa en ny"
 
 #: src/view/connection_chooser_page.rs:173
 msgid "Error on establishing connection"
-msgstr ""
+msgstr "Misslyckades etablera anslutning"
 
 #: src/view/connection_creation_page.blp:19
 #: src/view/connection_creation_page.blp:36
 msgid "New Connection"
-msgstr ""
+msgstr "Ny anslutning"
 
 #: src/view/connection_creation_page.blp:50
 msgid "_Connect"
-msgstr ""
+msgstr "_Anslut"
 
 #: src/view/connection_creation_page.blp:71
 msgid "_Abort"
-msgstr ""
+msgstr "_Avbryt"
 
 #: src/view/connection_creation_page.blp:85
 #: src/view/container_create_opts_dialog.blp:57
@@ -1834,36 +1855,39 @@ msgstr ""
 #: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:47
 #: src/view/volume_details_page.blp:41 src/view/volumes_panel.blp:9
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: src/view/connection_creation_page.blp:90
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: src/view/connection_creation_page.blp:91
 msgid "Choose how to connect"
-msgstr ""
+msgstr "Välj hur du ska ansluta"
 
 #: src/view/connection_creation_page.blp:94
 msgid "Podman Unix Socket"
-msgstr ""
+msgstr "Podman Unix-socket"
 
 #: src/view/connection_creation_page.blp:111
 #: src/view/connection_creation_page.blp:114
 #: src/view/connection_creation_page.blp:241
 #: src/view/connection_creation_page.blp:244
 msgid "Socket Activation Info"
-msgstr ""
+msgstr "Information om att aktivera socket"
 
 #: src/view/connection_creation_page.blp:133
 msgid "Podman Socket Activation"
-msgstr ""
+msgstr "Podman socket-aktivering"
 
 #: src/view/connection_creation_page.blp:139
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"För att ansluta till den lokala Podman-instansen, måste systemd-socketen "
+"vara aktiverad. Du kan aktivera den permanent genom att använda följande "
+"kommando:"
 
 #: src/view/connection_creation_page.blp:186
 #: src/view/connection_creation_page.blp:189
@@ -1878,7 +1902,7 @@ msgstr ""
 #: src/view/connection_custom_info_page.blp:305
 #: src/view/connection_custom_info_page.blp:308
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Kopiera till urklipp"
 
 #: src/view/connection_creation_page.blp:195
 #: src/view/connection_creation_page.blp:325
@@ -1886,62 +1910,69 @@ msgid ""
 "You may have to restart Pods for it to be able to connect to a newly created "
 "socket."
 msgstr ""
+"Du kan behöva starta om Poddar för att det ska vara möjligt att ansluta till "
+"en nyligen skapad socket."
 
 #: src/view/connection_creation_page.blp:210
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
+"För att ansluta till den lokala rot-Podman-instanser, skapa en egen "
+"anslutning (läs tipsen där)."
 
 #: src/view/connection_creation_page.blp:224
 msgid "Docker Unix Socket"
-msgstr ""
+msgstr "Docker Unix-socket"
 
 #: src/view/connection_creation_page.blp:263
 msgid "Docker Socket Activation"
-msgstr ""
+msgstr "Docker socket-aktivering"
 
 #: src/view/connection_creation_page.blp:269
 msgid ""
 "To connect to the local Docker instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
 msgstr ""
+"För att ansluta till den lokala Docker-instansen, måste systemd-socketen "
+"vara aktiverad. Du kan aktivera den permanent genom att använda följande "
+"kommando:"
 
 #: src/view/connection_creation_page.blp:340
 msgid "Custom URL"
-msgstr ""
+msgstr "Egen URL"
 
 #: src/view/connection_creation_page.blp:355
 #: src/view/connection_creation_page.blp:358
 #: src/view/connection_creation_page.blp:400
 msgid "Custom Connection Info"
-msgstr ""
+msgstr "Info om egen anslutning"
 
 #: src/view/connection_creation_page.blp:374
 msgid "Color"
-msgstr ""
+msgstr "Färg"
 
 #: src/view/connection_creation_page.blp:375
 msgid "Set the color of this connection"
-msgstr ""
+msgstr "Välj färgen till denna anslutning"
 
 #: src/view/connection_creation_page.rs:156
 msgid "official documentation"
-msgstr ""
+msgstr "Officiell dokumentationen"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
 #: src/view/connection_creation_page.rs:153
 #, rust-format
 msgid "Visit the {} for more information."
-msgstr ""
+msgstr "Besök den {} för mer information."
 
 #: src/view/connection_creation_page.rs:272
 msgid "Confirm Connecting to New Instance"
-msgstr ""
+msgstr "Acceptera anslutning till ny instans"
 
 #: src/view/connection_custom_info_page.blp:12
 msgid "Custom Connection"
-msgstr ""
+msgstr "Egen anslutning"
 
 #: src/view/connection_custom_info_page.blp:27
 msgid ""
@@ -1949,14 +1980,18 @@ msgid ""
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
+"Du kan ansluta till en Podman-instans genom att använda <span "
+"weight=\"bold\">HTTP</span>, <span weight=\"bold\">TCP</span>, och <span "
+"weight=\"bold\">UNIX</span>-protokoll. Exempelvis kan anslutningssträngen se "
+"ut så här:"
 
 #: src/view/connection_custom_info_page.blp:48
 msgid "http://somewhere:8081"
-msgstr ""
+msgstr "http://somewhere:8081"
 
 #: src/view/connection_custom_info_page.blp:66
 msgid "Podman Root Connection"
-msgstr ""
+msgstr "Podman rot-anslutning"
 
 #: src/view/connection_custom_info_page.blp:75
 msgid ""
@@ -1965,6 +2000,10 @@ msgid ""
 "is not readable for normal users. However, there is a workaround using a "
 "systemd unit. Save the following snippet:"
 msgstr ""
+"Tyvärr är det inte möjligt att ansluta till rot-Podman-instansen direkt, då "
+"<span weight=\"bold\">/run/podman/podman.sock</span> inte är läsbart för "
+"normala användare. Däremot finns det en lösning genom en systemd-unit. Spara "
+"följande text:"
 
 #: src/view/connection_custom_info_page.blp:195
 msgid ""
@@ -1972,31 +2011,34 @@ msgid ""
 "href=\"https://docs.podman.io/en/stable/markdown/podman-system-"
 "service.1.html#security\">Check the docs for more info.</a>"
 msgstr ""
+"Att öppna upp en Podman-socket via TCP har säkerhetsrisker. <a "
+"href=\"https://docs.podman.io/en/stable/markdown/podman-system-"
+"service.1.html#security\">Läs dokumentationen för mer information.</a>"
 
 #: src/view/connection_custom_info_page.blp:209
 msgid "Enable the service by issuing the command:"
-msgstr ""
+msgstr "Aktivera servicen genom att använda kommandot:"
 
 #: src/view/connection_custom_info_page.blp:266
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
-msgstr ""
+msgstr "Ange följande URL här i textrutan och skapa anslutningen:"
 
 #: src/view/connection_custom_info_page.rs:139
 msgid "systemd unit path copied"
-msgstr ""
+msgstr "systemd unit-sökväg kopierad"
 
 #: src/view/connection_custom_info_page.rs:147
 msgid "systemd unit content copied"
-msgstr ""
+msgstr "systemd unit-innehåll koperiat"
 
 #: src/view/connection_custom_info_page.rs:155
 msgid "socket activation command copied"
-msgstr ""
+msgstr "socket-aktiveringskommando kopierat"
 
 #: src/view/connection_custom_info_page.rs:163
 msgid "URL copied"
-msgstr ""
+msgstr "URL kopierad"
 
 #: src/view/connection_row.blp:74 src/view/connection_row.blp:77
 #: src/view/container_card.blp:437 src/view/container_card.blp:440
@@ -2008,75 +2050,75 @@ msgstr ""
 #: src/view/pods_panel.blp:352 src/view/pods_panel.blp:355
 #: src/view/volumes_panel.blp:241 src/view/volumes_panel.blp:243
 msgid "Delete"
-msgstr ""
+msgstr "Radera"
 
 #: src/view/connection_row.rs:98
 msgid "Local connection"
-msgstr ""
+msgstr "Lokal anslutning"
 
 #: src/view/connections_sidebar.blp:21 src/view/connections_sidebar.blp:24
 msgid "New Connection (Ctrl+Shift+N)"
-msgstr ""
+msgstr "Ny anslutning (Ctrl+Shift+N)"
 
 #: src/view/connections_sidebar.rs:101
 msgid "Confirm Switching Connection"
-msgstr ""
+msgstr "Godkänn att byta anslutning"
 
 #: src/view/connections_sidebar.rs:113
 msgid "Error on switching connection"
-msgstr ""
+msgstr "Misslyckades byta anslutning"
 
 #: src/view/container.rs:77 src/view/container.rs:119
 msgid "Error renaming container"
-msgstr ""
+msgstr "Misslyckades byta namn på containern"
 
 #: src/view/container.rs:78
 msgid "Container has been deleted"
-msgstr ""
+msgstr "Containern har blivit raderad"
 
 #: src/view/container.rs:88
 msgid "Rename Container"
-msgstr ""
+msgstr "Byt namn på container"
 
 #: src/view/container.rs:96
 msgid "_Rename"
-msgstr ""
+msgstr "_Byt namn"
 
 #: src/view/container.rs:155 src/view/containers_panel.rs:909
 msgid "Error on starting container"
-msgstr ""
+msgstr "Misslyckades att starta container"
 
 #: src/view/container.rs:156 src/view/containers_panel.rs:839
 msgid "Error on stopping container"
-msgstr ""
+msgstr "Misslyckades att stoppa container"
 
 #: src/view/container.rs:157 src/view/containers_panel.rs:837
 msgid "Error on killing container"
-msgstr ""
+msgstr "Misslyckades att döda container"
 
 #: src/view/container.rs:158 src/view/containers_panel.rs:868
 msgid "Error on restarting container"
-msgstr ""
+msgstr "Misslyckades att starta om container"
 
 #: src/view/container.rs:159 src/view/containers_panel.rs:936
 msgid "Error on pausing container"
-msgstr ""
+msgstr "Misslyckades att pausa container"
 
 #: src/view/container.rs:160 src/view/containers_panel.rs:894
 msgid "Error on resuming container"
-msgstr ""
+msgstr "Misslyckades att återstarta container"
 
 #: src/view/container.rs:161 src/view/containers_panel.rs:992
 msgid "Error on deleting container"
-msgstr ""
+msgstr "Misslyckades att radera container"
 
 #: src/view/container_card.blp:93 src/view/container_card.blp:96
 msgid "Rename"
-msgstr ""
+msgstr "Byt namn"
 
 #: src/view/container_card.blp:297
 msgid "No Ports Mappings"
-msgstr ""
+msgstr "Inga port-mappningar"
 
 #: src/view/container_card.blp:338 src/view/container_card.blp:341
 #: src/view/container_details_page.blp:47
@@ -2085,7 +2127,7 @@ msgstr ""
 #: src/view/pod_details_page.blp:50 src/view/pods_panel.blp:250
 #: src/view/pods_panel.blp:253 src/view/top_page_action_bar.blp:17
 msgid "Kill"
-msgstr ""
+msgstr "Döda"
 
 #: src/view/container_card.blp:359 src/view/container_card.blp:362
 #: src/view/container_details_page.blp:69
@@ -2094,19 +2136,19 @@ msgstr ""
 #: src/view/pod_details_page.blp:72 src/view/pods_panel.blp:272
 #: src/view/pods_panel.blp:275
 msgid "Restart"
-msgstr ""
+msgstr "Starta om"
 
 #: src/view/container_card.blp:374 src/view/container_details_page.blp:86
 #: src/view/containers_panel.blp:288 src/view/pod_details_page.blp:86
 #: src/view/pods_panel.blp:293
 msgid "Start/Resume"
-msgstr ""
+msgstr "Starta/Återstarta"
 
 #: src/view/container_card.blp:388 src/view/container_details_page.blp:102
 #: src/view/containers_panel.blp:307 src/view/pod_details_page.blp:102
 #: src/view/pods_panel.blp:312
 msgid "Stop"
-msgstr ""
+msgstr "Stoppa"
 
 #: src/view/container_card.blp:419 src/view/container_card.blp:422
 #: src/view/container_commit_opts_dialog.blp:87
@@ -2116,183 +2158,187 @@ msgstr ""
 #: src/view/pod_details_page.blp:134 src/view/pods_panel.blp:333
 #: src/view/pods_panel.blp:336
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 #: src/view/container_card.rs:556 src/view/container_row.rs:368
 #, rust-format
 msgid "Container {}"
-msgstr ""
+msgstr "Container {}"
 
 #: src/view/container_card.rs:568
 msgid "Delete Container?"
-msgstr ""
+msgstr "Radera Container?"
 
 #: src/view/container_card.rs:571
 msgid ""
 "All settings and all changes made within the container will be irreversibly "
 "lost"
 msgstr ""
+"Alla inställningar och alla ändringar gjorda inuti containern kommer "
+"försvinna för alltid"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container_card.rs:646 src/view/container_resources.rs:285
 #, rust-format
 msgid "{} / s"
-msgstr ""
+msgstr "{} / s"
 
 #: src/view/container_commit_action_view.rs:69
 #: src/view/container_commit_opts_dialog.blp:15
 msgid "Commit Container"
-msgstr ""
+msgstr "Checka in container"
 
 #: src/view/container_commit_action_view.rs:74
 msgid "<Deleted>"
-msgstr ""
+msgstr "<Raderad>"
 
 #: src/view/container_commit_opts_dialog.blp:37
 msgid "_Commit"
-msgstr ""
+msgstr "_Checka in"
 
 #: src/view/container_commit_opts_dialog.blp:44
 msgid "General Commit Options"
-msgstr ""
+msgstr "Allmänna incheckningsalternativ"
 
 #: src/view/container_commit_opts_dialog.blp:48
 msgid "Author"
-msgstr ""
+msgstr "Författare"
 
 #: src/view/container_commit_opts_dialog.blp:57
 #: src/view/container_commit_opts_dialog.blp:60
 msgid "Fetch Username"
-msgstr ""
+msgstr "Hämta användarnamn"
 
 #: src/view/container_commit_opts_dialog.blp:69
 #: src/view/image_history_page.rs:169
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: src/view/container_commit_opts_dialog.blp:74
 msgid "Repo"
-msgstr ""
+msgstr "Kodförråd"
 
 #: src/view/container_commit_opts_dialog.blp:79 src/view/images_panel.blp:38
 msgid "Tag"
-msgstr ""
+msgstr "Tagg"
 
 #: src/view/container_commit_opts_dialog.blp:83
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: src/view/container_commit_opts_dialog.blp:88
 msgid "Pause the container before committing it"
-msgstr ""
+msgstr "Pausa containern innan den checkas in"
 
 #: src/view/container_commit_opts_dialog.blp:93
 msgid "Changes"
-msgstr ""
+msgstr "Ändringar"
 
 #: src/view/container_commit_opts_dialog.blp:94
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
 "foo\")"
 msgstr ""
+"Instruktioner att applicera medan den checkas in i Dockerfile-format (t.ex. "
+"\"CMD=/bin/foo\")"
 
 #: src/view/container_commit_opts_dialog.rs:101
 msgid "Change"
-msgstr ""
+msgstr "Ändra"
 
 #: src/view/container_commit_opts_dialog.rs:289
 msgid "Error on fetching user name"
-msgstr ""
+msgstr "Misslyckades att hämta användarnamn"
 
 #: src/view/container_copy_from_action_view.blp:13
 msgid "Written"
-msgstr ""
+msgstr "Skriven"
 
 #: src/view/container_copy_from_action_view.rs:104
 #: src/view/container_copy_from_opts_dialog.blp:17
 msgid "Copy From Container"
-msgstr ""
+msgstr "Kopiera från container"
 
 #: src/view/container_copy_from_opts_dialog.blp:39
 #: src/view/container_copy_to_opts_dialog.blp:48
 #: src/view/container_terminal.blp:6
 msgid "_Copy"
-msgstr ""
+msgstr "_Kopiera"
 
 #: src/view/container_copy_from_opts_dialog.blp:48
 msgid "Container Path (’/’ if empty)"
-msgstr ""
+msgstr "Container-sökväg (\"/\" om tom)"
 
 #: src/view/container_copy_from_opts_dialog.blp:54
 #: src/view/container_copy_from_opts_dialog.rs:143
 #: src/view/container_copy_to_opts_dialog.blp:58 src/view/device_row.blp:57
 #: src/view/mount_row.blp:88
 msgid "Host Path"
-msgstr ""
+msgstr "Värd-sökväg"
 
 #: src/view/container_copy_from_opts_dialog.blp:55
 msgid "Select a destination tar archive on the host"
-msgstr ""
+msgstr "Välj ett tar-arkiv för destinationen på värden"
 
 #: src/view/container_copy_from_opts_dialog.blp:60
 msgid "Select _Path…"
-msgstr ""
+msgstr "Välj _sökväg…"
 
 #: src/view/container_copy_to_action_view.blp:9
 msgid "Creating tar archive"
-msgstr ""
+msgstr "Skapar tar-arkiv"
 
 #: src/view/container_copy_to_action_view.blp:16
 msgid "Unwrapping tar archive"
-msgstr ""
+msgstr "Packar upp tar-arkiv"
 
 #: src/view/container_copy_to_action_view.blp:23
 msgid "Copying bytes"
-msgstr ""
+msgstr "Kopierar bitar"
 
 #: src/view/container_copy_to_action_view.rs:159
 #: src/view/container_copy_to_opts_dialog.blp:26
 msgid "Copy To Container"
-msgstr ""
+msgstr "Kopiera till container"
 
 #: src/view/container_copy_to_opts_dialog.blp:16
 msgid "Select _Directory…"
-msgstr ""
+msgstr "Välj _katalog…"
 
 #: src/view/container_copy_to_opts_dialog.blp:59
 msgid "Select a file or a directory from the host to upload"
-msgstr ""
+msgstr "Välj en fil eller katalog från värden att ladda upp"
 
 #: src/view/container_copy_to_opts_dialog.blp:64
 msgid "Select _File…"
-msgstr ""
+msgstr "Välj _fil…"
 
 #: src/view/container_copy_to_opts_dialog.blp:73
 msgid "Container Path ('/' if empty)"
-msgstr ""
+msgstr "Container-sökväg (\"/\" om tom)"
 
 #: src/view/container_copy_to_opts_dialog.rs:152
 msgid "Select Host Directory"
-msgstr ""
+msgstr "Välj värd-katalog"
 
 #: src/view/container_copy_to_opts_dialog.rs:154
 msgid "Select Host File"
-msgstr ""
+msgstr "Välj värd-fil"
 
 #: src/view/container_create_action_view.rs:69
 #: src/view/container_create_opts_dialog.blp:24
 #: src/view/containers_group.blp:12 src/view/containers_panel.blp:44
 #: src/view/containers_panel.blp:47
 msgid "Create Container"
-msgstr ""
+msgstr "Skapa container"
 
 #: src/view/container_create_opts_dialog.blp:16
 msgid "_Create Only"
-msgstr ""
+msgstr "_Skapa endast"
 
 #: src/view/container_create_opts_dialog.blp:46
 msgid "_Run"
-msgstr ""
+msgstr "_Kör"
 
 #: src/view/container_create_opts_dialog.blp:74
 #: src/view/container_create_opts_dialog.blp:97
@@ -2301,7 +2347,7 @@ msgstr ""
 #: src/view/pod_create_opts_dialog.blp:64
 #: src/view/pod_create_opts_dialog.blp:87
 msgid "Details"
-msgstr ""
+msgstr "Detaljer"
 
 #: src/view/container_create_opts_dialog.blp:80
 #: src/view/container_create_opts_dialog.blp:201
