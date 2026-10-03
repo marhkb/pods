@@ -1,11 +1,16 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
+        podman \
         flatpak \
         flatpak-builder \
         elfutils \
         rustup \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+USER vscode
+RUN systemctl --user enable podman.socket
+USER root
 
 COPY <<EOF /usr/local/bin/cargo-fmt
 #!/bin/bash

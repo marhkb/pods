@@ -33,11 +33,6 @@
       "type": "bind"
     },
     {
-      "source": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
-      "target": "${localEnv:XDG_RUNTIME_DIR}/podman/podman.sock",
-      "type": "bind"
-    },
-    {
       "source": "${localEnv:SSH_AUTH_SOCK}",
       "target": "/home/vscode/.ssh-agent/sock",
       "type": "bind"
