@@ -6,7 +6,7 @@ edition = "2024"
 license = "GPL-3.0-or-later"
 
 [dependencies]
-astral-tokio-tar = { version = "0.6", default-features = false }
+astral-tokio-tar = { version = "0.7", default-features = false }
 adw = { version = "0.9", package = "libadwaita", features = ["v1_9"] }
 anyhow = "1"
 ashpd = { version = "0.13", default-features = false, features = ["account", "file_chooser", "gtk4", "notification", "tokio"] }

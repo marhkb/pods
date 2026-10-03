@@ -14,14 +14,14 @@ EOF
 
 RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 RUN flatpak -y install \
-        org.gnome.Sdk//50 \
-        org.gnome.Platform//50 \
-        org.freedesktop.Sdk.Extension.rust-stable//25.08 \
-        org.freedesktop.Sdk.Extension.llvm21//25.08
+        org.gnome.Sdk//51 \
+        org.gnome.Platform//51 \
+        org.freedesktop.Sdk.Extension.rust-stable//26.08 \
+        org.freedesktop.Sdk.Extension.llvm22//26.08
 
 RUN mkdir -p /usr/lib/sdk/rust-stable/lib/rustlib/src/rust && \
     ln -s \
-    /var/lib/flatpak/runtime/org.freedesktop.Sdk.Extension.rust-stable/x86_64/25.08/active/files/lib/rustlib/src/rust/library \
+    /var/lib/flatpak/runtime/org.freedesktop.Sdk.Extension.rust-stable/x86_64/26.08/active/files/lib/rustlib/src/rust/library \
     /usr/lib/sdk/rust-stable/lib/rustlib/src/rust/library
 
 COPY <<EOF /usr/local/bin/flatpak-wrapper
