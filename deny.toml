@@ -2,6 +2,8 @@
 yanked = "deny"
 ignore = [
     "RUSTSEC-2024-0436",
+    # TODO: update gettext
+    "RUSTSEC-2026-0244",
 ]
 
 [bans]

@@ -1,5 +1,3 @@
-use std::convert::identity;
-
 pub(crate) struct Top(Vec<TopProcess>);
 
 impl Top {
@@ -161,7 +159,7 @@ fn parse_posix_time(input: &str) -> anyhow::Result<i64> {
     let mins = parse_next_posix_time_part(&mut parts)
         .ok_or_else(|| anyhow::anyhow!("missing mins"))
         .flatten()?;
-    let hours = parse_next_posix_time_part(&mut parts).map_or(Ok(0), identity)?;
+    let hours = parse_next_posix_time_part(&mut parts).unwrap_or(Ok(0))?;
 
     Ok((days * 86_400 + hours * 3_600 + mins * 60 + secs) * 1000)
 }
