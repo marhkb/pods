@@ -253,28 +253,6 @@ mod imp {
             );
 
             container_expr
-                .chain_property::<model::Container>("health-status")
-                .watch(
-                    Some(obj),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move || {
-                            obj.action_set_enabled(
-                                ACTION_SHOW_HEALTH_DETAILS,
-                                obj.container()
-                                    .as_ref()
-                                    .map(model::Container::health_status)
-                                    .map(|status| {
-                                        status != model::ContainerHealthStatus::Unconfigured
-                                    })
-                                    .unwrap_or(false),
-                            );
-                        }
-                    ),
-                );
-
-            container_expr
                 .chain_property::<model::Container>("image")
                 .watch(
                     Some(obj),
@@ -435,6 +413,16 @@ impl ContainerDetailsPage {
     }
 
     pub(crate) fn show_health_details(&self) {
+        if self
+            .container()
+            .map(|container| {
+                container.health_status() == model::ContainerHealthStatus::Unconfigured
+            })
+            .unwrap_or(true)
+        {
+            return;
+        }
+
         self.exec_action(|| {
             let Some(ref container) = self.container() else {
                 return;
