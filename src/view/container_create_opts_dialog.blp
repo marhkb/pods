@@ -128,11 +128,6 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
                 Adw.SwitchRow privileged_switch_row {
                   title: _("Privileged");
                   subtitle: _("Give extended privileges to container");
-                  visible: bind template
-                    .client as <$Client>
-                    .engine as <$Engine>
-                    .capabilities as <$EngineCapabilities>
-                    .privileged_containers;
                 }
 
                 Adw.ComboRow restart_policy_row {

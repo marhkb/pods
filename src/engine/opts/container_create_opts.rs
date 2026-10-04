@@ -21,7 +21,6 @@ pub(crate) struct ContainerCreateOpts {
     pub(crate) port_mappings: Vec<engine::dto::PortMapping>,
     // artificial option to trigger a pull before creating the container
     pub(crate) pull_latest: bool,
-    // Podman only
     pub(crate) privileged: bool,
     pub(crate) restart_policy: engine::dto::RestartPolicy,
     #[default(true)]
@@ -74,6 +73,7 @@ impl From<ContainerCreateOpts>
                         map
                     })
             }),
+            privileged: Some(value.privileged),
             restart_policy: value.restart_policy.into(),
             ..Default::default()
         };
