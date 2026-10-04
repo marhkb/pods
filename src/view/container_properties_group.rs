@@ -32,10 +32,6 @@ mod imp {
         #[template_child]
         pub(super) restart_policy_row: TemplateChild<adw::ActionRow>,
         #[template_child]
-        pub(super) status_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) status_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) port_bindings_row: TemplateChild<adw::ExpanderRow>,
         #[template_child]
         pub(super) health_row: TemplateChild<adw::ActionRow>,
@@ -91,7 +87,6 @@ mod imp {
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_infra: bool| !is_infra));
             let restart_policy_expr =
                 container_details_expr.chain_property::<model::ContainerDetails>("restart-policy");
-            let status_expr = container_expr.chain_property::<model::Container>("status");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health_status");
             let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
@@ -242,60 +237,13 @@ mod imp {
                 ))
                 .bind(&*self.restart_policy_row, "subtitle", Some(obj));
 
-            gtk::ClosureExpression::new::<String>(
-                [
-                    &ticks_expr,
-                    &status_expr,
-                    &container_details_expr.chain_property::<model::ContainerDetails>("up-since"),
-                ],
-                closure!(|_: Self::Type,
-                          _ticks: u64,
-                          status: model::ContainerStatus,
-                          up_since: i64| {
-                    use model::ContainerStatus::*;
-
-                    match status {
-                        Running | Paused => {
-                            // Translators: Example: since {3 hours}, since {a few seconds}
-                            gettext!(
-                                "since {}",
-                                utils::human_friendly_timespan(utils::timespan_now(up_since))
-                            )
-                        }
-                        _ => String::new(),
-                    }
-                }),
-            )
-            .bind(&*self.status_row, "subtitle", Some(obj));
-
-            status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| status.to_string()
-                ))
-                .bind(&*self.status_label, "label", Some(obj));
-
-            let css_classes = utils::css_classes(&*self.status_label);
-            status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(
-                                view::container::container_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.status_label, "css-classes", Some(obj));
-
             health_status_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
                 ))
                 .bind(&*self.health_status_label, "label", Some(obj));
 
-            let css_classes = utils::css_classes(&*self.status_label);
+            let css_classes = utils::css_classes(&*self.health_status_label);
             health_status_expr
                 .chain_closure::<Vec<String>>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| {

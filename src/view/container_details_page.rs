@@ -47,15 +47,19 @@ mod imp {
         pub(super) container: glib::WeakRef<model::Container>,
 
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
+        pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) action_row: TemplateChild<adw::PreferencesRow>,
+        pub(super) status_since_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) action_center_box: TemplateChild<gtk::CenterBox>,
         #[template_child]
         pub(super) start_or_resume_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) stop_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) spinning_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub(super) volumes_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
@@ -172,9 +176,58 @@ mod imp {
 
             let obj = &*self.obj();
 
+            let ticks_expr = Self::Type::this_expression("root")
+                .chain_property::<gtk::Window>("application")
+                .chain_property::<crate::Application>("ticks");
             let container_expr = Self::Type::this_expression("container");
-            let details_expr = container_expr.chain_property::<model::Container>("details");
             let status_expr = container_expr.chain_property::<model::Container>("status");
+            let details_expr = container_expr.chain_property::<model::Container>("details");
+            let up_since_expr = details_expr.chain_property::<model::ContainerDetails>("up-since");
+
+            status_expr
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, status: model::ContainerStatus| status.to_string()
+                ))
+                .bind(&*self.status_label, "label", Some(obj));
+
+            let css_classes = utils::css_classes(&*self.status_label);
+            status_expr
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: Self::Type, status: model::ContainerStatus| {
+                        css_classes
+                            .iter()
+                            .cloned()
+                            .chain(Some(String::from(view::container_status_css_class(status))))
+                            .collect::<Vec<_>>()
+                    }
+                ))
+                .bind(&*self.status_label, "css-classes", Some(obj));
+
+            gtk::ClosureExpression::new::<String>(
+                [&ticks_expr, &status_expr, &up_since_expr],
+                closure!(|_: Self::Type,
+                          _ticks: u64,
+                          status: model::ContainerStatus,
+                          up_since: i64| {
+                    match status {
+                        model::ContainerStatus::Running => {
+                            // Translators: Example: since {3 hours}, since {a few seconds}
+                            gettext!(
+                                "since {}",
+                                utils::human_friendly_timespan(utils::timespan_now(up_since))
+                            )
+                        }
+                        _ => String::new(),
+                    }
+                }),
+            )
+            .bind(&*self.status_since_label, "label", Some(obj));
+
+            status_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
+                    status == model::ContainerStatus::Running
+                }))
+                .bind(&*self.status_since_label, "visible", Some(obj));
 
             details_expr
                 .chain_closure::<String>(closure!(
@@ -338,7 +391,7 @@ impl ContainerDetailsPage {
 
         let imp = self.imp();
 
-        imp.action_row
+        imp.action_center_box
             .set_sensitive(!container.status().is_transition());
 
         let can_start_or_resume = container.status().can_start() || container.status().can_resume();

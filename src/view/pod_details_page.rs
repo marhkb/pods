@@ -35,12 +35,11 @@ mod imp {
         pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_pod, construct, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
+
         #[template_child]
-        pub(super) window_title: TemplateChild<adw::WindowTitle>,
+        pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) stack: TemplateChild<gtk::Stack>,
-        #[template_child]
-        pub(super) action_row: TemplateChild<adw::PreferencesRow>,
+        pub(super) action_center_box: TemplateChild<gtk::CenterBox>,
         #[template_child]
         pub(super) start_or_resume_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -48,11 +47,11 @@ mod imp {
         #[template_child]
         pub(super) spinning_button: TemplateChild<gtk::Button>,
         #[template_child]
+        pub(super) stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) id_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) created_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) hostname_row: TemplateChild<adw::ActionRow>,
     }
@@ -149,6 +148,25 @@ mod imp {
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
             let hostname_expr = details_expr.chain_property::<model::PodDetails>("hostname");
 
+            status_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, status: model::PodStatus| {
+                    status.to_string()
+                }))
+                .bind(&*self.status_label, "label", Some(obj));
+
+            let css_classes = utils::css_classes(&*self.status_label);
+            status_expr
+                .chain_closure::<Vec<String>>(closure!(
+                    |_: Self::Type, status: model::PodStatus| {
+                        css_classes
+                            .iter()
+                            .cloned()
+                            .chain(Some(String::from(view::pod_status_css_class(status))))
+                            .collect::<Vec<_>>()
+                    }
+                ))
+                .bind(&*self.status_label, "css-classes", Some(obj));
+
             details_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, details: Option<model::PodDetails>| details
@@ -176,27 +194,6 @@ mod imp {
                 }),
             )
             .bind(&*self.created_row, "subtitle", Some(obj));
-
-            status_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, status: model::PodStatus| {
-                    status.to_string()
-                }))
-                .bind(&*self.status_label, "label", Some(obj));
-
-            let css_classes = utils::css_classes(&*self.status_label);
-            status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::PodStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(super::super::pod_status_css_class(
-                                status,
-                            ))))
-                            .collect::<Vec<_>>()
-                    }
-                ))
-                .bind(&*self.status_label, "css-classes", Some(obj));
 
             hostname_expr.bind(&*self.hostname_row, "subtitle", Some(obj));
             hostname_expr
@@ -284,7 +281,8 @@ impl PodDetailsPage {
 
         let imp = self.imp();
 
-        imp.action_row.set_sensitive(!pod.status().is_transition());
+        imp.action_center_box
+            .set_sensitive(!pod.status().is_transition());
 
         let can_start_or_resume = pod.status().can_start() || pod.status().can_resume();
         let can_stop = pod.status().can_stop();

@@ -49,9 +49,6 @@ button.large {
   -gtk-icon-size: 24px;
 }
 
-.action-bar {
-  padding: 9px 18px;
-}
 
 .destructive-button label,
 .destructive-button image {
