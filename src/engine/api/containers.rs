@@ -124,31 +124,41 @@ impl Containers {
         match self {
             Self::Docker(docker) => async_stream::stream! {
                 let mut timer = tokio::time::interval(Duration::from_secs(interval as u64));
+                timer.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
 
-                let mut last_cpu_stats: HashMap<String, bollard::models::ContainerCpuStats> =
-                    HashMap::new();
+                let mut last_cpu_stats =
+                    HashMap::<String, bollard::models::ContainerCpuStats>::new();
 
                 loop {
                     timer.tick().await;
 
-                    let containers = docker
-                        .list_containers(Some(bollard::query_parameters::ListContainersOptions {
-                            filters: Some(HashMap::from([(
-                                "status".to_owned(),
-                                vec!["running".to_owned()],
-                            )])),
-                            ..Default::default()
-                        }))
-                        .await
-                        .unwrap();
+                    let containers = match tokio::time::timeout(
+                        Duration::from_secs(5),
+                        docker.list_containers(Some(
+                            bollard::query_parameters::ListContainersOptions {
+                                filters: Some(HashMap::from([(
+                                    "status".to_owned(),
+                                    vec!["running".to_owned()],
+                                )])),
+                                ..Default::default()
+                            },
+                        )),
+                    )
+                    .await
+                    {
+                        Ok(Ok(containers)) => containers,
+                        _ => {
+                            log::warn!("error or timeout on listing containers, retrying...");
+                            continue;
+                        }
+                    };
 
                     let stats_futures = containers.into_iter().filter_map(|container| {
                         let id = container.id?;
-
                         let prev_cpu_stats = last_cpu_stats.remove(&id);
 
                         Some(async move {
-                            let mut stream = docker.stats(
+                            let mut stats_stream = docker.stats(
                                 &id,
                                 Some(bollard::query_parameters::StatsOptions {
                                     stream: false,
@@ -156,20 +166,34 @@ impl Containers {
                                 }),
                             );
 
-                            match stream.next().await {
-                                Some(Ok(stats)) => Ok((id, engine::dto::DockerContainerStats { prev_cpu_stats, stats })),
-                                _ => Err(anyhow::anyhow!("error on retrieving stats for container {id}")),
+                            let stats =
+                                tokio::time::timeout(Duration::from_secs(3), stats_stream.next())
+                                    .await;
+
+                            match stats {
+                                Ok(Some(Ok(stats))) => Ok((
+                                    id,
+                                    engine::dto::DockerContainerStats {
+                                        prev_cpu_stats,
+                                        stats,
+                                    },
+                                )),
+                                _ => Err(anyhow::anyhow!(
+                                    "error or timeout on retrieving stats for container {id}"
+                                )),
                             }
                         })
                     });
 
-                    let stats = futures::future::join_all(stats_futures).await;
-
-                    let successful_stats = stats
+                    let successful_stats = futures::future::join_all(stats_futures)
+                        .await
                         .into_iter()
-                        .filter_map(|r| r.ok())
+                        .filter_map(|r| r.inspect_err(|e| log::warn!("{e}")).ok())
                         .inspect(|(id, stats)| {
-                            last_cpu_stats.insert(id.clone(), stats.stats.cpu_stats.clone().unwrap());
+                            match stats.stats.cpu_stats {
+                                Some(ref cpu) => last_cpu_stats.insert(id.clone(), cpu.clone()),
+                                None => last_cpu_stats.remove(id),
+                            };
                         })
                         .collect::<Vec<_>>();
 
@@ -177,7 +201,7 @@ impl Containers {
                 }
             }
             .boxed(),
-            Self::Podman (containers) => containers
+            Self::Podman(containers) => containers
                 .stats_stream(
                     &podman_api::opts::ContainerStatsOpts::builder()
                         .interval(interval)
