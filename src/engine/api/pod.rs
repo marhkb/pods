@@ -72,13 +72,16 @@ impl Pod {
     pub(crate) async fn restart(&self, force: bool) -> anyhow::Result<()> {
         match self {
             Self::Docker => anyhow::bail!("pods are not supported by the Docker API"),
-            Self::Podman(pod) => if force {
-                pod.kill().await?;
-                pod.start().await.map(|_| ())
-            } else {
-                pod.stop().await.map(|_| ())
+            Self::Podman(pod) => {
+                if force {
+                    pod.kill().await.map(|_| ())
+                } else {
+                    pod.stop().await.map(|_| ())
+                }
+                .map_err(anyhow::Error::from)?;
+
+                pod.start().await.map(|_| ()).map_err(anyhow::Error::from)
             }
-            .map_err(anyhow::Error::from),
         }
     }
 

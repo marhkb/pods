@@ -6,11 +6,176 @@ template $PdsContainerDetailsPage: Widget {
 
   Adw.ToolbarView {
     [top]
-    Adw.HeaderBar {
-      [title]
-      Adw.WindowTitle {
-        title: _("Container");
-        subtitle: bind template.container as <$Container>.name;
+    Adw.BreakpointBin {
+      height-request: 1;
+      width-request: 360;
+
+      Adw.Breakpoint {
+        condition ("max-width: 668sp")
+
+        setters {
+          status_since_label.visible: false;
+        }
+      }
+
+      Adw.HeaderBar {
+        [start]
+        Box {
+          margin-top: 4;
+          margin-bottom: 4;
+          spacing: 4;
+
+          Label status_label {
+            styles [
+              "status-badge",
+            ]
+          }
+
+          Label status_since_label {
+            styles [
+              "dimmed",
+            ]
+          }
+        }
+
+        [title]
+        Adw.WindowTitle {
+          title: _("Container");
+          subtitle: bind template.container as <$Container>.name;
+        }
+      }
+    }
+
+    [top]
+    CenterBox action_center_box {
+      halign: center;
+      margin-start: 24;
+      margin-top: 9;
+      margin-end: 24;
+      margin-bottom: 6;
+      width-request: 312;
+
+      [start]
+      Button {
+        styles [
+          "circular",
+          "raised",
+        ]
+
+        action-name: "container-details-page.kill";
+        icon-name: "skull-symbolic";
+        tooltip-text: _("Kill");
+
+        accessibility {
+          label: _("Kill");
+        }
+
+        valign: center;
+      }
+
+      [center]
+      Box {
+        halign: center;
+        hexpand: true;
+        spacing: 12;
+
+        Button {
+          styles [
+            "circular",
+            "raised",
+          ]
+
+          action-name: "container-details-page.restart";
+          icon-name: "view-refresh-symbolic";
+          tooltip-text: _("Restart");
+
+          accessibility {
+            label: _("Restart");
+          }
+
+          valign: center;
+        }
+
+        Button start_or_resume_button {
+          styles [
+            "circular",
+            "large",
+            "raised",
+          ]
+
+          action-name: "container-details-page.start";
+          tooltip-text: _("Start/Resume");
+          valign: center;
+
+          Image {
+            icon-name: "media-playback-start-symbolic";
+          }
+        }
+
+        Button stop_button {
+          styles [
+            "circular",
+            "large",
+            "raised",
+          ]
+
+          action-name: "container-details-page.stop";
+          tooltip-text: _("Stop");
+          valign: center;
+
+          Image {
+            icon-name: "media-playback-stop-symbolic";
+          }
+        }
+
+        Button spinning_button {
+          styles [
+            "circular",
+            "large",
+            "raised",
+          ]
+
+          sensitive: false;
+          valign: center;
+
+          Adw.Spinner {}
+        }
+
+        Button {
+          styles [
+            "circular",
+            "raised",
+          ]
+
+          action-name: "container-details-page.pause";
+          icon-name: "media-playback-pause-symbolic";
+          tooltip-text: _("Pause");
+
+          accessibility {
+            label: _("Pause");
+          }
+
+          valign: center;
+        }
+      }
+
+      [end]
+      Button {
+        styles [
+          "circular",
+          "destructive-button",
+          "raised",
+        ]
+
+        action-name: "container-details-page.delete";
+        icon-name: "user-trash-symbolic";
+        tooltip-text: _("Delete");
+
+        accessibility {
+          label: _("Delete");
+        }
+
+        valign: center;
       }
     }
 
@@ -25,140 +190,6 @@ template $PdsContainerDetailsPage: Widget {
         name: "loaded";
 
         child: Adw.PreferencesPage {
-          Adw.PreferencesGroup {
-            Adw.PreferencesRow action_row {
-              activatable: false;
-
-              CenterBox {
-                styles [
-                  "action-bar",
-                ]
-
-                hexpand: true;
-
-                start-widget: Button {
-                  styles [
-                    "circular",
-                    "raised",
-                  ]
-
-                  action-name: "container-details-page.kill";
-                  icon-name: "skull-symbolic";
-                  tooltip-text: _("Kill");
-
-                  accessibility {
-                    label: _("Kill");
-                  }
-
-                  valign: center;
-                };
-
-                center-widget: Box {
-                  halign: center;
-                  hexpand: true;
-                  spacing: 12;
-
-                  Button {
-                    styles [
-                      "circular",
-                      "raised",
-                    ]
-
-                    action-name: "container-details-page.restart";
-                    icon-name: "view-refresh-symbolic";
-                    tooltip-text: _("Restart");
-
-                    accessibility {
-                      label: _("Restart");
-                    }
-
-                    valign: center;
-                  }
-
-                  Button start_or_resume_button {
-                    styles [
-                      "circular",
-                      "large",
-                      "raised",
-                    ]
-
-                    action-name: "container-details-page.start";
-                    tooltip-text: _("Start/Resume");
-                    valign: center;
-
-                    Image {
-                      icon-name: "media-playback-start-symbolic";
-                    }
-                  }
-
-                  Button stop_button {
-                    styles [
-                      "circular",
-                      "large",
-                      "raised",
-                    ]
-
-                    action-name: "container-details-page.stop";
-                    tooltip-text: _("Stop");
-                    valign: center;
-
-                    Image {
-                      icon-name: "media-playback-stop-symbolic";
-                    }
-                  }
-
-                  Button spinning_button {
-                    styles [
-                      "circular",
-                      "large",
-                      "raised",
-                    ]
-
-                    sensitive: false;
-                    valign: center;
-
-                    Adw.Spinner {}
-                  }
-
-                  Button {
-                    styles [
-                      "circular",
-                      "raised",
-                    ]
-
-                    action-name: "container-details-page.pause";
-                    icon-name: "media-playback-pause-symbolic";
-                    tooltip-text: _("Pause");
-
-                    accessibility {
-                      label: _("Pause");
-                    }
-
-                    valign: center;
-                  }
-                };
-
-                end-widget: Button {
-                  styles [
-                    "circular",
-                    "destructive-button",
-                    "raised",
-                  ]
-
-                  action-name: "container-details-page.delete";
-                  icon-name: "user-trash-symbolic";
-                  tooltip-text: _("Delete");
-
-                  accessibility {
-                    label: _("Delete");
-                  }
-
-                  valign: center;
-                };
-              }
-            }
-          }
-
           $PdsContainerPropertiesGroup {
             container: bind template.container;
           }
