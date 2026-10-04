@@ -129,7 +129,9 @@ impl From<DockerContainerStats> for ContainerStats {
                 _ => None,
             },
             mem_perc: match (mem_usage, mem_limit) {
-                (Some(mem_usage), Some(mem_limit)) => Some(mem_usage as f64 / mem_limit as f64),
+                (Some(mem_usage), Some(mem_limit)) => {
+                    Some((mem_usage as f64 / mem_limit as f64) * 100.0)
+                }
                 _ => None,
             },
             mem_usage,
