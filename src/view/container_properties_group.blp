@@ -123,8 +123,6 @@ template $PdsContainerPropertiesGroup: Adw.PreferencesGroup {
   Adw.ActionRow health_row {
     title: _("Health Check");
     action-name: "container-details-page.show-health-details";
-    activatable: true;
-    visible: bind health_row.sensitive;
 
     Label health_status_label {
       styles [
@@ -134,7 +132,7 @@ template $PdsContainerPropertiesGroup: Adw.PreferencesGroup {
       valign: center;
     }
 
-    Image {
+    Image health_row_suffix_image {
       icon-name: "go-next-symbolic";
       margin-start: 6;
     }

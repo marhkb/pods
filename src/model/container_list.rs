@@ -249,20 +249,21 @@ impl ContainerList {
     }
 
     fn upsert_container(&self, dto: engine::dto::Container) {
-        if let Some(container) = self.get_container(dto.id()) {
-            container.update(dto);
-        } else {
-            let container = model::Container::new(self, dto);
+        match self.get_container(dto.id()) {
+            Some(container) => container.update(dto),
+            None => {
+                let container = model::Container::new(self, dto);
 
-            let index = self.len();
+                let index = self.len();
 
-            self.imp()
-                .list
-                .borrow_mut()
-                .insert(container.id(), container.clone());
+                self.imp()
+                    .list
+                    .borrow_mut()
+                    .insert(container.id(), container.clone());
 
-            self.items_changed(index, 0, 1);
-            self.container_added(&container);
+                self.items_changed(index, 0, 1);
+                self.container_added(&container);
+            }
         }
     }
 
@@ -486,6 +487,7 @@ impl ContainerList {
     ) where
         F: FnOnce(anyhow::Error) + Clone + 'static,
     {
+        log::error!("{id}: {health_status}");
         self.upsert_container_with(
             id,
             |container| {

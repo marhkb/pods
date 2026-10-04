@@ -38,6 +38,8 @@ mod imp {
         #[template_child]
         pub(super) health_status_label: TemplateChild<gtk::Label>,
         #[template_child]
+        pub(super) health_row_suffix_image: TemplateChild<gtk::Image>,
+        #[template_child]
         pub(super) image_action_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
@@ -89,6 +91,11 @@ mod imp {
                 container_details_expr.chain_property::<model::ContainerDetails>("restart-policy");
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health_status");
+            let is_health_check_configured_expr =
+                health_status_expr.chain_closure::<bool>(closure!(
+                    |_: Self::Type, health_status: model::ContainerHealthStatus| health_status
+                        != model::ContainerHealthStatus::Unconfigured
+                ));
             let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
 
@@ -216,6 +223,7 @@ mod imp {
                 ),
             );
 
+            // TODO
             container_expr
                 .chain_property::<model::Container>("ports")
                 .chain_property::<model::PortMappingList>("len")
@@ -237,6 +245,8 @@ mod imp {
                 ))
                 .bind(&*self.restart_policy_row, "subtitle", Some(obj));
 
+            is_health_check_configured_expr.bind(&*self.health_row, "activatable", Some(obj));
+
             health_status_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
@@ -257,6 +267,12 @@ mod imp {
                     }
                 ))
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
+
+            is_health_check_configured_expr.bind(
+                &*self.health_row_suffix_image,
+                "visible",
+                Some(obj),
+            );
 
             not_is_infra_expr.bind(&*self.image_action_row, "visible", Some(obj));
 
