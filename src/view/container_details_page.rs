@@ -63,6 +63,10 @@ mod imp {
         #[template_child]
         pub(super) image_action_row: TemplateChild<adw::ActionRow>,
         #[template_child]
+        pub(super) pod_preferences_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) pod_action_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
         pub(super) volumes_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) volumes_list_box: TemplateChild<gtk::ListBox>,
@@ -184,6 +188,16 @@ mod imp {
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
+            let pod_expr = container_expr.chain_property::<model::Container>("pod");
+            let has_pod_expr =
+                pod_expr.chain_closure::<bool>(closure!(
+                    |_: Self::Type, pod: Option<model::Pod>| { pod.is_some() }
+                ));
+            #[rustfmt::skip]
+            let pod_name_expr = pod_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
+                    pod.as_ref().map(model::Pod::name).unwrap_or_default()
+                }));
             let is_infra_expr = container_expr.chain_property::<model::Container>("is-infra");
             let not_is_infra_expr = is_infra_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_infra: bool| !is_infra));
@@ -251,6 +265,9 @@ mod imp {
                     .map(ToOwned::to_owned)
                     .unwrap_or_default()))
                 .bind(&*self.image_action_row, "subtitle", Some(obj));
+
+            has_pod_expr.bind(&*self.pod_preferences_group, "visible", Some(obj));
+            pod_name_expr.bind(&*self.pod_action_row, "subtitle", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {

@@ -207,6 +207,22 @@ template $PdsContainerDetailsPage: Widget {
             }
           }
 
+          Adw.PreferencesGroup pod_preferences_group {
+            Adw.ActionRow pod_action_row {
+              styles [
+                "property",
+              ]
+
+              title: _("Pod");
+              action-name: "container-details-page.show-pod-details";
+              activatable: true;
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+          }
+
           $PdsContainerPropertiesGroup {
             container: bind template.container;
           }
