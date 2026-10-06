@@ -61,6 +61,8 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) image_action_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
         pub(super) volumes_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) volumes_list_box: TemplateChild<gtk::ListBox>,
@@ -181,6 +183,10 @@ mod imp {
                 .chain_property::<crate::Application>("ticks");
             let container_expr = Self::Type::this_expression("container");
             let status_expr = container_expr.chain_property::<model::Container>("status");
+            let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
+            let is_infra_expr = container_expr.chain_property::<model::Container>("is-infra");
+            let not_is_infra_expr = is_infra_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, is_infra: bool| !is_infra));
             let details_expr = container_expr.chain_property::<model::Container>("details");
             let up_since_expr = details_expr.chain_property::<model::ContainerDetails>("up-since");
 
@@ -236,6 +242,15 @@ mod imp {
                         .unwrap_or("loading")
                 ))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
+
+            not_is_infra_expr.bind(&*self.image_action_row, "visible", Some(obj));
+
+            image_name_expr
+                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| name
+                    .map(utils::format_if_id)
+                    .map(ToOwned::to_owned)
+                    .unwrap_or_default()))
+                .bind(&*self.image_action_row, "subtitle", Some(obj));
 
             status_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {

@@ -190,6 +190,23 @@ template $PdsContainerDetailsPage: Widget {
         name: "loaded";
 
         child: Adw.PreferencesPage {
+          Adw.PreferencesGroup {
+            Adw.ActionRow image_action_row {
+              styles [
+                "property",
+              ]
+
+              action-name: "container-details-page.show-image-details";
+              activatable: true;
+              subtitle-lines: 2;
+              title: _("Image");
+
+              Image {
+                icon-name: "go-next-symbolic";
+              }
+            }
+          }
+
           $PdsContainerPropertiesGroup {
             container: bind template.container;
           }
