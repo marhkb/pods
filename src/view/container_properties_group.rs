@@ -39,8 +39,6 @@ mod imp {
         pub(super) health_status_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) health_row_suffix_image: TemplateChild<gtk::Image>,
-        #[template_child]
-        pub(super) pod_row: TemplateChild<adw::ActionRow>,
     }
 
     #[glib::object_subclass]
@@ -91,7 +89,6 @@ mod imp {
                     |_: Self::Type, health_status: model::ContainerHealthStatus| health_status
                         != model::ContainerHealthStatus::Unconfigured
                 ));
-            let pod_expr = container_expr.chain_property::<model::Container>("pod");
 
             container_expr
                 .chain_property::<model::Container>("id")
@@ -267,18 +264,6 @@ mod imp {
                 "visible",
                 Some(obj),
             );
-
-            pod_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
-                    pod.is_some()
-                }))
-                .bind(&*self.pod_row, "visible", Some(obj));
-
-            pod_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
-                    pod.as_ref().map(model::Pod::name).unwrap_or_default()
-                }))
-                .bind(&*self.pod_row, "subtitle", Some(obj));
         }
     }
 
