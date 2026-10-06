@@ -40,8 +40,6 @@ mod imp {
         #[template_child]
         pub(super) health_row_suffix_image: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) image_action_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
         pub(super) pod_row: TemplateChild<adw::ActionRow>,
     }
 
@@ -84,9 +82,6 @@ mod imp {
             let container_expr = Self::Type::this_expression("container");
             let container_details_expr =
                 container_expr.chain_property::<model::Container>("details");
-            let is_infra_expr = container_expr.chain_property::<model::Container>("is-infra");
-            let not_is_infra_expr = is_infra_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, is_infra: bool| !is_infra));
             let restart_policy_expr =
                 container_details_expr.chain_property::<model::ContainerDetails>("restart-policy");
             let health_status_expr =
@@ -96,7 +91,6 @@ mod imp {
                     |_: Self::Type, health_status: model::ContainerHealthStatus| health_status
                         != model::ContainerHealthStatus::Unconfigured
                 ));
-            let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
 
             container_expr
@@ -273,15 +267,6 @@ mod imp {
                 "visible",
                 Some(obj),
             );
-
-            not_is_infra_expr.bind(&*self.image_action_row, "visible", Some(obj));
-
-            image_name_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| name
-                    .map(utils::format_if_id)
-                    .map(ToOwned::to_owned)
-                    .unwrap_or_default()))
-                .bind(&*self.image_action_row, "subtitle", Some(obj));
 
             pod_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
