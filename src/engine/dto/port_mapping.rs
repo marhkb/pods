@@ -1,6 +1,6 @@
 use std::fmt;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub(crate) struct PortMapping {
     pub(crate) container_port: u16,
     pub(crate) host_ip: String,
@@ -42,7 +42,7 @@ impl From<PortMapping> for podman_api::models::PortMapping {
     }
 }
 
-#[derive(Clone, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default)]
 pub(crate) enum PortMappingProtocol {
     #[default]
     Tcp,
