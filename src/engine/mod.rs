@@ -24,7 +24,6 @@ pub(crate) struct Capabilities {
     /// list of image formats if there exist more than a standard format
     pub(crate) image_formats: Option<Vec<&'static str>>,
     pub(crate) pods: bool,
-    pub(crate) privileged_containers: bool,
     pub(crate) prune_external_images: bool,
     pub(crate) push_image_tls_verify: bool,
     pub(crate) prune_all_volumes: bool,
@@ -65,7 +64,6 @@ impl Engine {
                 manual_health_check: false,
                 image_formats: None,
                 pods: false,
-                privileged_containers: false,
                 prune_external_images: false,
                 push_image_tls_verify: false,
                 prune_all_volumes: true,
@@ -76,7 +74,6 @@ impl Engine {
                 manual_health_check: true,
                 image_formats: Some(vec!["oci", "docker"]),
                 pods: true,
-                privileged_containers: true,
                 prune_external_images: true,
                 push_image_tls_verify: true,
                 prune_all_volumes: false,

@@ -5,6 +5,7 @@ use smart_default::SmartDefault;
 
 use crate::engine;
 
+#[derive(Debug)]
 pub(crate) enum Container {
     Summary(engine::dto::ContainerSummary),
     Inspection(engine::dto::ContainerInspection),
@@ -19,6 +20,7 @@ impl Container {
     }
 }
 
+#[derive(Debug)]
 pub(crate) struct ContainerSummary {
     pub(crate) created: i64,
     pub(crate) health_status: engine::dto::HealthStatus,
@@ -106,6 +108,7 @@ impl From<podman_api::models::ListContainer> for ContainerSummary {
     }
 }
 
+#[derive(Debug)]
 pub(crate) struct ContainerDetails {
     pub(crate) health_config: Option<HealthConfig>,
     pub(crate) health_failing_streak: u32,
@@ -115,6 +118,7 @@ pub(crate) struct ContainerDetails {
     pub(crate) up_since: i64,
 }
 
+#[derive(Debug)]
 pub(crate) struct ContainerInspection {
     pub(crate) summary: engine::dto::ContainerSummary,
     pub(crate) details: engine::dto::ContainerDetails,
@@ -520,6 +524,7 @@ impl From<podman_api::models::InspectMount> for Mount {
     }
 }
 
+#[derive(Debug)]
 pub(crate) struct PortMappings(Vec<engine::dto::PortMapping>);
 
 impl PortMappings {
@@ -583,7 +588,7 @@ impl From<PodmanPortMap> for PortMappings {
     }
 }
 
-#[derive(Clone, Copy, Default)]
+#[derive(Clone, Copy, Debug, Default)]
 pub(crate) enum RestartPolicy {
     Always,
     #[default]

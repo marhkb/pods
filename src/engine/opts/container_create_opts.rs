@@ -21,7 +21,6 @@ pub(crate) struct ContainerCreateOpts {
     pub(crate) port_mappings: Vec<engine::dto::PortMapping>,
     // artificial option to trigger a pull before creating the container
     pub(crate) pull_latest: bool,
-    // Podman only
     pub(crate) privileged: bool,
     pub(crate) restart_policy: engine::dto::RestartPolicy,
     #[default(true)]
@@ -36,6 +35,29 @@ impl From<ContainerCreateOpts>
     )
 {
     fn from(value: ContainerCreateOpts) -> Self {
+        let mut port_bindings = HashMap::new();
+        let mut exposed_ports = Vec::new();
+
+        for port_mapping in value.port_mappings {
+            let port_key = format!("{}/{}", port_mapping.container_port, port_mapping.protocol);
+
+            exposed_ports.push(port_key.clone());
+
+            let binding = bollard::plugin::PortBinding {
+                host_port: port_mapping
+                    .host_port
+                    .map(|host_port| host_port.to_string()),
+                host_ip: None,
+            };
+
+            port_bindings
+                .entry(port_key)
+                .or_insert_with(|| Some(Vec::new()))
+                .as_mut()
+                .unwrap()
+                .push(binding);
+        }
+
         let host_config = bollard::plugin::HostConfig {
             mounts: Some(
                 value
@@ -46,34 +68,8 @@ impl From<ContainerCreateOpts>
                     .collect(),
             ),
             memory: value.memory_limit.map(|memory_limit| memory_limit as i64),
-            port_bindings: Some({
-                value
-                    .port_mappings
-                    .into_iter()
-                    .map(|port_mapping| {
-                        (
-                            format!(
-                                "{}/{}",
-                                port_mapping.container_port,
-                                port_mapping.host_port.unwrap_or_default()
-                            ),
-                            bollard::plugin::PortBinding {
-                                host_port: port_mapping
-                                    .host_port
-                                    .map(|host_port| host_port.to_string()),
-                                host_ip: None,
-                            },
-                        )
-                    })
-                    .fold(HashMap::new(), |mut map, (k, v)| {
-                        map.entry(k)
-                            .or_insert_with(|| Some(Vec::new()))
-                            .as_mut()
-                            .unwrap()
-                            .push(v);
-                        map
-                    })
-            }),
+            port_bindings: Some(port_bindings),
+            privileged: Some(value.privileged),
             restart_policy: value.restart_policy.into(),
             ..Default::default()
         };
@@ -97,6 +93,7 @@ impl From<ContainerCreateOpts>
             image: Some(value.image),
             labels: Some(value.labels),
             tty: Some(value.terminal),
+            exposed_ports: Some(exposed_ports),
             ..Default::default()
         };
 
