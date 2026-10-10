@@ -1,5 +1,4 @@
 using Gtk 4.0;
-using Adw 1;
 
 template $PdsContainerRow: ListBoxRow {
   notify::container => $on_notify_container();
@@ -62,7 +61,7 @@ template $PdsContainerRow: ListBoxRow {
           xalign: 0;
         }
 
-        Adw.WrapBox ports_wrap_box {
+        $PdsWrapBox ports_wrap_box {
           child-spacing: 6;
           line-spacing: 6;
         }

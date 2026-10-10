@@ -15,25 +15,25 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties)]
-    #[properties(wrapper_type = super::PortMapping)]
-    pub(crate) struct PortMapping {
+    #[properties(wrapper_type = super::PortBindingCreation)]
+    pub(crate) struct PortBindingCreation {
         #[property(get, set)]
         pub(super) ip_address: RefCell<String>,
         #[property(get, set)]
         pub(super) host_port: Cell<i32>,
-        #[property(get, set, minimum = 1, default = 1)]
-        pub(super) container_port: Cell<i32>,
         #[property(get, set, default)]
         pub(super) protocol: Cell<model::PortMappingProtocol>,
+        #[property(get, set, minimum = 1, default = 1)]
+        pub(super) target_port: Cell<i32>,
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for PortMapping {
-        const NAME: &'static str = "PortMapping";
-        type Type = super::PortMapping;
+    impl ObjectSubclass for PortBindingCreation {
+        const NAME: &'static str = "PortBindingCreation";
+        type Type = super::PortBindingCreation;
     }
 
-    impl ObjectImpl for PortMapping {
+    impl ObjectImpl for PortBindingCreation {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| vec![Signal::builder("remove-request").build()])
@@ -54,41 +54,19 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct PortMapping(ObjectSubclass<imp::PortMapping>);
+    pub(crate) struct PortBindingCreation(ObjectSubclass<imp::PortBindingCreation>);
 }
 
-impl Default for PortMapping {
+impl Default for PortBindingCreation {
     fn default() -> Self {
-        glib::Object::builder()
-            .property("container-port", 1)
-            .build()
+        glib::Object::builder().property("target-port", 1).build()
     }
 }
 
-impl From<engine::dto::PortMapping> for PortMapping {
-    fn from(value: engine::dto::PortMapping) -> Self {
-        Self::from(&value)
-    }
-}
-
-impl From<&engine::dto::PortMapping> for PortMapping {
-    fn from(value: &engine::dto::PortMapping) -> Self {
-        glib::Object::builder()
-            .property("ip-address", &value.host_ip)
-            .property(
-                "host-port",
-                value.host_port.map(|port| port as i32).unwrap_or(1),
-            )
-            .property("container-port", value.container_port as i32)
-            .property("protocol", model::PortMappingProtocol::from(value.protocol))
-            .build()
-    }
-}
-
-impl From<PortMapping> for engine::dto::PortMapping {
-    fn from(value: PortMapping) -> Self {
+impl From<PortBindingCreation> for engine::dto::PortBinding {
+    fn from(value: PortBindingCreation) -> Self {
         Self {
-            container_port: value.container_port() as u16,
+            target_port: value.target_port() as u16,
             host_ip: value.ip_address(),
             host_port: Some(value.host_port() as u16),
             protocol: value.protocol().into(),
@@ -96,7 +74,20 @@ impl From<PortMapping> for engine::dto::PortMapping {
     }
 }
 
-impl PortMapping {
+impl From<&engine::dto::PortBinding> for PortBindingCreation {
+    fn from(value: &engine::dto::PortBinding) -> Self {
+        glib::Object::builder()
+            .property("ip-address", &value.host_ip)
+            .property(
+                "host-port",
+                value.host_port.map(|port| port as i32).unwrap_or(1),
+            )
+            .property("protocol", model::PortMappingProtocol::from(value.protocol))
+            .property("target-port", value.target_port as i32)
+            .build()
+    }
+}
+impl PortBindingCreation {
     pub(crate) fn remove_request(&self) {
         self.emit_by_name::<()>("remove-request", &[]);
     }

@@ -36,7 +36,7 @@ mod imp {
         #[template_child]
         pub(super) repo_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) ports_wrap_box: TemplateChild<adw::WrapBox>,
+        pub(super) ports_wrap_box: TemplateChild<widget::WrapBox>,
         #[template_child]
         pub(super) stats_box: TemplateChild<gtk::Box>,
         #[template_child]
@@ -171,7 +171,7 @@ mod imp {
                     &pod_expr,
                     &container_expr
                         .chain_property::<model::Container>("ports")
-                        .chain_property::<model::PortMappingList>("len"),
+                        .chain_property::<model::PortBindingList>("len"),
                 ],
                 closure!(|_: Self::Type, pod: Option<&model::Pod>, len: u32| {
                     pod.is_none() && len > 0
@@ -261,40 +261,12 @@ mod imp {
                 bindings.push(binding);
 
                 if !container.has_pod() {
-                    container
-                        .ports()
-                        .iter::<model::PortMapping>()
-                        .map(Result::unwrap)
-                        .for_each(|port_mapping| {
-                            let label = gtk::Label::builder()
-                                .css_classes(["status-badge-small", "numeric"])
-                                .halign(gtk::Align::Center)
-                                .valign(gtk::Align::Center)
-                                .label(format!(
-                                    "{}/{}",
-                                    port_mapping.host_port(),
-                                    port_mapping.protocol()
-                                ))
-                                .build();
-
-                            let css_classes = utils::css_classes(&label);
-                            super::ContainerRow::this_expression("container")
-                                .chain_property::<model::Container>("status")
-                                .chain_closure::<Vec<String>>(closure!(
-                                    |_: super::ContainerRow, status: model::ContainerStatus| {
-                                        css_classes
-                                            .iter()
-                                            .cloned()
-                                            .chain(Some(String::from(
-                                                super::super::container_status_css_class(status),
-                                            )))
-                                            .collect::<Vec<_>>()
-                                    }
-                                ))
-                                .bind(&label, "css-classes", Some(obj));
-
-                            self.ports_wrap_box.append(&label);
-                        });
+                    self.ports_wrap_box.bind_model(
+                        Some(&super::super::port_binding::host_port_sorter(
+                            container.ports(),
+                        )),
+                        |item| view::HostPortPill::from(item.downcast_ref().unwrap()).upcast(),
+                    );
                 }
             }
         }

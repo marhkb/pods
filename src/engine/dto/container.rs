@@ -31,7 +31,7 @@ pub(crate) struct ContainerSummary {
     pub(crate) mounts: Vec<engine::dto::Mount>,
     pub(crate) name: String,
     pub(crate) pod_id: Option<String>,
-    pub(crate) ports: Vec<engine::dto::PortMapping>,
+    pub(crate) ports: Vec<engine::dto::PortBinding>,
     pub(crate) status: engine::dto::ContainerStatus,
 }
 
@@ -181,8 +181,8 @@ impl ContainerInspection {
                 ports: inspection
                     .network_settings
                     .and_then(|settings| settings.ports)
-                    .map(PortMappings::from)
-                    .map(PortMappings::into_inner)
+                    .map(PortBindings::from)
+                    .map(PortBindings::into_inner)
                     .unwrap_or_default(),
                 status: status.into(),
             },
@@ -252,8 +252,8 @@ impl From<podman_api::models::ContainerInspectResponseLibpod> for ContainerInspe
                 ports: value
                     .network_settings
                     .and_then(|settings| settings.ports)
-                    .map(PortMappings::from)
-                    .map(PortMappings::into_inner)
+                    .map(PortBindings::from)
+                    .map(PortBindings::into_inner)
                     .unwrap_or_default(),
                 status: PodmanContainerStatus(status).into(),
             },
@@ -525,15 +525,15 @@ impl From<podman_api::models::InspectMount> for Mount {
 }
 
 #[derive(Debug)]
-pub(crate) struct PortMappings(Vec<engine::dto::PortMapping>);
+pub(crate) struct PortBindings(Vec<engine::dto::PortBinding>);
 
-impl PortMappings {
-    pub(crate) fn into_inner(self) -> Vec<engine::dto::PortMapping> {
+impl PortBindings {
+    pub(crate) fn into_inner(self) -> Vec<engine::dto::PortBinding> {
         self.0
     }
 }
 
-impl From<bollard::plugin::PortMap> for PortMappings {
+impl From<bollard::plugin::PortMap> for PortBindings {
     fn from(value: bollard::plugin::PortMap) -> Self {
         Self(
             value
@@ -544,8 +544,8 @@ impl From<bollard::plugin::PortMap> for PortMappings {
                     bindings.map(|bindings| {
                         bindings
                             .into_iter()
-                            .map(|binding| engine::dto::PortMapping {
-                                container_port: container_port.parse().unwrap(),
+                            .map(|binding| engine::dto::PortBinding {
+                                target_port: container_port.parse().unwrap(),
                                 host_ip: binding.host_ip.unwrap_or_default(),
                                 host_port: binding.host_port.map(|port| port.parse().unwrap()),
                                 protocol: protocol.into(),
@@ -560,7 +560,7 @@ impl From<bollard::plugin::PortMap> for PortMappings {
 }
 
 type PodmanPortMap = HashMap<String, Option<Vec<podman_api::models::InspectHostPort>>>;
-impl From<PodmanPortMap> for PortMappings {
+impl From<PodmanPortMap> for PortBindings {
     fn from(value: PodmanPortMap) -> Self {
         Self(
             value
@@ -571,8 +571,8 @@ impl From<PodmanPortMap> for PortMappings {
                     bindings.map(|bindings| {
                         bindings
                             .into_iter()
-                            .map(|binding| engine::dto::PortMapping {
-                                container_port: container_port.parse().unwrap_or_default(),
+                            .map(|binding| engine::dto::PortBinding {
+                                target_port: container_port.parse().unwrap_or_default(),
                                 host_ip: binding.host_ip.unwrap_or_default(),
                                 host_port: binding
                                     .host_port

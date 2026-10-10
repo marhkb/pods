@@ -45,6 +45,7 @@
     <file compressed="true" preprocess="xml-stripblanks">view/containers_prune_action_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/containers_prune_opts_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/device_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/host_port_pill.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/id_or_name_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_build_action_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/image_build_opts_dialog.ui</file>
@@ -71,7 +72,8 @@
     <file compressed="true" preprocess="xml-stripblanks">view/pods_panel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pods_prune_action_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/pods_prune_opts_dialog.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">view/port_mapping_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/port_binding_creation_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">view/port_binding_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_add_dialog.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_action_view.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">view/repo_tag_push_opts_dialog.ui</file>
@@ -107,6 +109,7 @@
     <file compressed="true" preprocess="xml-stripblanks">widget/spinner.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/suggestion_entry_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/text_search_entry.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">widget/wrap_box.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/zoom_control.ui</file>
 
   </gresource>

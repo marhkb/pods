@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -6,6 +7,7 @@ use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
+use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
@@ -42,7 +44,6 @@ mod imp {
     #[properties(wrapper_type = super::ContainerDetailsPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/container_details_page.ui")]
     pub(crate) struct ContainerDetailsPage {
-        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_container, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
 
@@ -66,6 +67,10 @@ mod imp {
         pub(super) pod_preferences_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub(super) pod_action_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) ports_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) ports_list_box: TemplateChild<gtk::ListBox>,
         #[template_child]
         pub(super) volumes_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
@@ -198,6 +203,10 @@ mod imp {
                 .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
                     pod.as_ref().map(model::Pod::name).unwrap_or_default()
                 }));
+            let ports_expr = container_expr.chain_property::<model::Container>("ports");
+            let ports_len_expr = ports_expr.chain_property::<model::PortBindingList>("len");
+            let volumes_expr = container_expr.chain_property::<model::Container>("volume-list");
+            let volumes_len_expr = volumes_expr.chain_property::<model::ContainerVolumeList>("len");
             let is_infra_expr = container_expr.chain_property::<model::Container>("is-infra");
             let not_is_infra_expr = is_infra_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, is_infra: bool| !is_infra));
@@ -269,6 +278,14 @@ mod imp {
             has_pod_expr.bind(&*self.pod_preferences_group, "visible", Some(obj));
             pod_name_expr.bind(&*self.pod_action_row, "subtitle", Some(obj));
 
+            ports_len_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .bind(&*self.ports_group, "visible", Some(obj));
+
+            volumes_len_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .bind(&*self.volumes_group, "visible", Some(obj));
+
             status_expr
                 .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
                     status == model::ContainerStatus::Running
@@ -318,10 +335,6 @@ mod imp {
                 return;
             }
 
-            if let Some(container) = obj.container() {
-                container.disconnect(self.handler_id.take().unwrap());
-            }
-
             if let Some(container) = value {
                 if container.details().is_none() {
                     container.inspect_and_update(clone!(
@@ -337,10 +350,15 @@ mod imp {
                     ));
                 }
 
+                let handler_id_ref = Rc::new(RefCell::new(None));
                 let handler_id = container.connect_deleted(clone!(
                     #[weak]
                     obj,
+                    #[strong]
+                    handler_id_ref,
                     move |container| {
+                        container.disconnect(handler_id_ref.take().unwrap());
+
                         utils::show_toast(
                             &obj,
                             gettext!("Container '{}' has been deleted", container.name()),
@@ -348,24 +366,25 @@ mod imp {
                         utils::navigation_view(&obj).pop();
                     }
                 ));
-                self.handler_id.replace(Some(handler_id));
+                handler_id_ref.set(Some(handler_id));
 
-                let sorter = gtk::StringSorter::new(Some(
+                self.ports_list_box.bind_model(
+                    Some(&super::super::port_binding::full_sort_list_model(
+                        container.ports(),
+                    )),
+                    |item| view::PortBindingRow::from(item.downcast_ref().unwrap()).upcast(),
+                );
+
+                let volumes_sorter = gtk::StringSorter::new(Some(
                     model::ContainerVolume::this_expression("volume")
                         .chain_property::<model::Volume>("name"),
                 ));
-                let model = gtk::SortListModel::new(Some(container.volume_list()), Some(sorter));
-
-                self.volumes_list_box.bind_model(Some(&model), |item| {
-                    view::ContainerVolumeRow::from(item.downcast_ref().unwrap()).upcast()
-                });
-
-                obj.update_volumes_visibility();
-                container.volume_list().connect_items_changed(clone!(
-                    #[weak]
-                    obj,
-                    move |_, _, _, _| obj.update_volumes_visibility()
-                ));
+                let volumes_model =
+                    gtk::SortListModel::new(Some(container.volume_list()), Some(volumes_sorter));
+                self.volumes_list_box
+                    .bind_model(Some(&volumes_model), |item| {
+                        view::ContainerVolumeRow::from(item.downcast_ref().unwrap()).upcast()
+                    });
             }
 
             self.container.set(value);
@@ -388,12 +407,6 @@ impl From<&model::Container> for ContainerDetailsPage {
 }
 
 impl ContainerDetailsPage {
-    fn update_volumes_visibility(&self) {
-        let imp = self.imp();
-        imp.volumes_group
-            .set_visible(imp.volumes_list_box.row_at_index(0).is_some());
-    }
-
     fn update_actions(&self) {
         let Some(container) = self.container() else {
             return;

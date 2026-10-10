@@ -60,13 +60,9 @@ template $PdsPodRow: ListBoxRow {
           xalign: 0;
         }
 
-        FlowBox ports_flow_box {
-          can-target: false;
-          column-spacing: 3;
-          row-spacing: 3;
-          margin-top: 6;
-          max-children-per-line: 96;
-          selection-mode: none;
+        $PdsWrapBox ports_wrap_box {
+          child-spacing: 6;
+          line-spacing: 6;
         }
       }
 

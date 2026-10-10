@@ -1,14 +1,10 @@
-use std::borrow::Cow;
-
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
 use glib::Properties;
-use glib::clone;
 use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
-use gtk::pango;
 
 use crate::model;
 use crate::utils;
@@ -31,8 +27,6 @@ mod imp {
         pub(super) size_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) restart_policy_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) port_bindings_row: TemplateChild<adw::ExpanderRow>,
         #[template_child]
         pub(super) health_row: TemplateChild<adw::ActionRow>,
         #[template_child]
@@ -114,112 +108,6 @@ mod imp {
                     size as u64
                 )))
                 .bind(&*self.size_row, "subtitle", Some(obj));
-
-            container_expr.watch(
-                Some(obj),
-                clone!(
-                    #[weak]
-                    obj,
-                    move || {
-                        let imp = obj.imp();
-
-                        imp.port_bindings_row.set_subtitle("");
-                        utils::ChildIter::from(&*imp.port_bindings_row)
-                            .filter(|child| child.is::<gtk::ListBoxRow>())
-                            .for_each(|child| imp.port_bindings_row.remove(&child));
-
-                        let container = obj.container();
-
-                        if let Some(container) = container {
-                            let client = container.container_list().unwrap().client().unwrap();
-                            let connection = client.connection();
-
-                            imp.port_bindings_row
-                                .set_subtitle(&container.ports().len().to_string());
-
-                            container
-                                .ports()
-                                .iter::<model::PortMapping>()
-                                .map(Result::unwrap)
-                                .map(|port_mapping| {
-                                    let host = format!(
-                                        "{}:{}",
-                                        if port_mapping.ip_address().is_empty() {
-                                            if connection.is_remote() {
-                                                let url = connection.url();
-                                                let host_with_port =
-                                                    url.split_once("://").unwrap().1;
-
-                                                Cow::Owned(
-                                                    host_with_port
-                                                        .split_once(':')
-                                                        .map(|(host, _)| host)
-                                                        .unwrap_or(host_with_port)
-                                                        .to_string(),
-                                                )
-                                            } else {
-                                                Cow::Borrowed("127.0.0.1")
-                                            }
-                                        } else {
-                                            Cow::Owned(port_mapping.ip_address())
-                                        },
-                                        port_mapping.host_port()
-                                    );
-
-                                    let box_ = gtk::CenterBox::builder()
-                                        .margin_top(12)
-                                        .margin_end(12)
-                                        .margin_bottom(12)
-                                        .margin_start(12)
-                                        .build();
-
-                                    box_.set_start_widget(Some(
-                                        &gtk::Label::builder()
-                                            .label(format!("<a href='http://{host}'>{host}</a>"))
-                                            .hexpand(true)
-                                            .selectable(true)
-                                            .use_markup(true)
-                                            .wrap(true)
-                                            .wrap_mode(pango::WrapMode::WordChar)
-                                            .xalign(0.0)
-                                            .build(),
-                                    ));
-                                    box_.set_center_widget(Some(
-                                        &gtk::Image::builder()
-                                            .icon_name("arrow1-right-symbolic")
-                                            .margin_start(15)
-                                            .margin_end(12)
-                                            .build(),
-                                    ));
-                                    box_.set_end_widget(Some(
-                                        &gtk::Label::builder()
-                                            .label(port_mapping.container_port().to_string())
-                                            .css_classes(vec!["dim-label".to_string()])
-                                            .hexpand(true)
-                                            .selectable(true)
-                                            .wrap(true)
-                                            .wrap_mode(pango::WrapMode::WordChar)
-                                            .xalign(1.0)
-                                            .build(),
-                                    ));
-
-                                    gtk::ListBoxRow::builder()
-                                        .activatable(false)
-                                        .child(&box_)
-                                        .build()
-                                })
-                                .for_each(|row| imp.port_bindings_row.add_row(&row));
-                        }
-                    }
-                ),
-            );
-
-            // TODO
-            container_expr
-                .chain_property::<model::Container>("ports")
-                .chain_property::<model::PortMappingList>("len")
-                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
-                .bind(&*self.port_bindings_row, "visible", Some(obj));
 
             restart_policy_expr
                 .chain_closure::<String>(closure!(

@@ -278,7 +278,7 @@ template $PdsContainerCard: Widget {
         StackPage {
           name: "ports";
 
-          child: Adw.WrapBox ports_wrap_box {
+          child: $PdsWrapBox ports_wrap_box {
             align: 0.5;
             child-spacing: 6;
             line-spacing: 6;
@@ -294,7 +294,7 @@ template $PdsContainerCard: Widget {
               "dim-label",
             ]
 
-            label: _("No Ports Mappings");
+            label: _("No Ports");
           };
         }
 

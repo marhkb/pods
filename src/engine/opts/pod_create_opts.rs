@@ -14,7 +14,7 @@ pub(crate) struct PodCreateOpts {
     pub(crate) labels: HashMap<String, String>,
     #[default(names::Generator::default().next().unwrap_or_default())]
     pub(crate) name: String,
-    pub(crate) port_mappings: Vec<engine::dto::PortMapping>,
+    pub(crate) ports: Vec<engine::dto::PortBinding>,
 }
 
 impl From<PodCreateOpts> for podman_api::opts::PodCreateOpts {
@@ -25,7 +25,7 @@ impl From<PodCreateOpts> for podman_api::opts::PodCreateOpts {
             .name(value.name)
             .pod_create_command(value.create_cmd)
             .pod_devices(value.devices.into_iter().map(String::from))
-            .portmappings(value.port_mappings.into_iter().map(Into::into));
+            .portmappings(value.ports.into_iter().map(Into::into));
 
         builder = match value.host_management {
             PodHostManagement::Containers => builder.no_manage_hosts(true),

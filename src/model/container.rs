@@ -34,6 +34,8 @@ mod imp {
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get = Self::volume_list)]
         pub(super) volume_list: OnceCell<model::ContainerVolumeList>,
+        #[property(get = Self::ports)]
+        pub(super) ports: OnceCell<model::PortBindingList>,
 
         #[property(get, set, construct_only)]
         pub(super) created: OnceCell<i64>,
@@ -53,8 +55,6 @@ mod imp {
         pub(super) name: RefCell<String>,
         #[property(get = Self::pod_id, set, construct_only, nullable)]
         pub(super) pod_id: OnceCell<Option<String>>,
-        #[property(get, set, construct_only)]
-        pub(super) ports: OnceCell<model::PortMappingList>,
         #[property(get, set = Self::set_status, construct, explicit_notify, default)]
         pub(super) status: Cell<model::ContainerStatus>,
 
@@ -134,6 +134,12 @@ mod imp {
         pub(super) fn volume_list(&self) -> model::ContainerVolumeList {
             self.volume_list.get_or_init(Default::default).to_owned()
         }
+
+        pub(super) fn ports(&self) -> model::PortBindingList {
+            self.ports
+                .get_or_init(|| model::PortBindingList::from(&*self.obj()))
+                .to_owned()
+        }
     }
 }
 
@@ -175,7 +181,7 @@ impl Container {
     where
         F: FnOnce(glib::object::ObjectBuilder<Self>) -> glib::object::ObjectBuilder<Self>,
     {
-        op(glib::Object::builder()
+        let obj = op(glib::Object::builder()
             .property("container-list", container_list)
             .property("created", dto.created)
             .property(
@@ -189,9 +195,12 @@ impl Container {
             .property("mounts", BoxedMounts::from(dto.mounts))
             .property("name", dto.name)
             .property("pod-id", dto.pod_id)
-            .property("ports", model::PortMappingList::from(dto.ports))
             .property("status", model::ContainerStatus::from(dto.status)))
-        .build()
+        .build();
+
+        obj.ports().update(dto.ports);
+
+        obj
     }
 
     pub(crate) fn update(&self, dto: engine::dto::Container) {
@@ -205,6 +214,7 @@ impl Container {
         self.set_health_status(model::ContainerHealthStatus::from(dto.health_status));
         self.set_name(dto.name);
         self.set_status(model::ContainerStatus::from(dto.status));
+        self.ports().update(dto.ports);
     }
 
     pub(crate) fn update_from_inspection(&self, dto: engine::dto::ContainerInspection) {

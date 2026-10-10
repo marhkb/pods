@@ -74,7 +74,7 @@ mod imp {
         #[template_child]
         pub(super) ports_pod_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) ports_wrap_box: TemplateChild<adw::WrapBox>,
+        pub(super) ports_wrap_box: TemplateChild<widget::WrapBox>,
         #[template_child]
         pub(super) pod_center_box: TemplateChild<gtk::CenterBox>,
         #[template_child]
@@ -474,46 +474,29 @@ mod imp {
                 bindings.push(binding);
 
                 if !container.has_pod() {
-                    if container.ports().len() > 0 {
-                        self.ports_pod_stack.set_visible_child_name("ports");
+                    self.ports_pod_stack.set_visible_child_name("ports");
 
-                        container
-                            .ports()
-                            .iter::<model::PortMapping>()
-                            .map(Result::unwrap)
-                            .for_each(|port_mapping| {
-                                let label = gtk::Label::builder()
-                                    .css_classes(["status-badge-small", "numeric"])
-                                    .halign(gtk::Align::Center)
-                                    .valign(gtk::Align::Center)
-                                    .label(format!(
-                                        "{}/{}",
-                                        port_mapping.host_port(),
-                                        port_mapping.protocol()
-                                    ))
-                                    .build();
+                    model::Container::this_expression("ports")
+                        .chain_property::<model::PortBindingList>("len")
+                        .chain_closure::<String>(closure!(
+                            |_: model::Container, len: u32| if len > 0 {
+                                "ports"
+                            } else {
+                                "no-ports"
+                            }
+                        ))
+                        .bind(
+                            &*self.ports_pod_stack,
+                            "visible-child-name",
+                            Some(&container),
+                        );
 
-                                let css_classes = utils::css_classes(&label);
-                                super::ContainerCard::this_expression("container")
-                                    .chain_property::<model::Container>("status")
-                                    .chain_closure::<Vec<String>>(closure!(
-                                        |_: super::ContainerCard, status: model::ContainerStatus| {
-                                            css_classes
-                                                .iter()
-                                                .cloned()
-                                                .chain(Some(String::from(
-                                                    super::super::container_status_css_class(status)
-                                                )))
-                                                .collect::<Vec<_>>()
-                                        }
-                                    ))
-                                    .bind(&label, "css-classes", Some(obj));
-
-                                self.ports_wrap_box.append(&label);
-                            });
-                    } else {
-                        self.ports_pod_stack.set_visible_child_name("no-ports");
-                    }
+                    self.ports_wrap_box.bind_model(
+                        Some(&super::super::port_binding::host_port_sorter(
+                            container.ports(),
+                        )),
+                        |item| view::HostPortPill::from(item.downcast_ref().unwrap()).upcast(),
+                    );
                 } else {
                     self.ports_pod_stack.set_visible_child_name("pod");
                 }

@@ -12,7 +12,9 @@ mod source_view_search_widget;
 mod spinner;
 mod suggestion_entry_row;
 mod text_search_entry;
+mod wrap_box;
 mod zoom_control;
+
 use crate::export_gobjects;
 
 export_gobjects![
@@ -31,5 +33,6 @@ export_gobjects![
     pub(crate) use self::suggestion_entry_row::SuggestionEntryRow;
     pub(crate) use self::suggestion_entry_row::SuggestionEntryVisibleStackPage;
     pub(crate) use self::text_search_entry::TextSearchEntry;
+    pub(crate) use self::wrap_box::WrapBox;
     pub(crate) use self::zoom_control::ZoomControl;
 ];

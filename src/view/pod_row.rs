@@ -39,7 +39,7 @@ mod imp {
         #[template_child]
         pub(super) id_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) ports_flow_box: TemplateChild<gtk::FlowBox>,
+        pub(super) ports_wrap_box: TemplateChild<widget::WrapBox>,
         #[template_child]
         pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
     }
@@ -83,7 +83,9 @@ mod imp {
             let obj = &*self.obj();
 
             let pod_expr = Self::Type::this_expression("pod");
-
+            let infra_container_expr = pod_expr.chain_property::<model::Pod>("infra-container");
+            let ports_expr = infra_container_expr.chain_property::<model::Container>("ports");
+            let ports_len_expr = ports_expr.chain_property::<model::PortBindingList>("len");
             let selection_mode_expr = pod_expr
                 .chain_property::<model::Pod>("pod-list")
                 .chain_property::<model::PodList>("selection-mode");
@@ -149,6 +151,10 @@ mod imp {
                     |_: Self::Type, id: &str| utils::format_id(id).to_owned()
                 ))
                 .bind(&*self.id_label, "label", Some(obj));
+
+            ports_len_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .bind(&*self.ports_wrap_box, "visible", Some(obj));
         }
     }
 
@@ -196,56 +202,12 @@ mod imp {
             }
         }
 
-        fn setup_ports(&self, container: &model::Container) {
-            let obj = &self.obj();
-
-            model::Container::this_expression("ports")
-                .chain_property::<model::PortMappingList>("len")
-                .chain_closure::<bool>(closure!(|_: model::Container, len: u32| len > 0))
-                .bind(&self.ports_flow_box.get(), "visible", Some(container));
-
-            self.ports_flow_box.bind_model(
-                Some(&container.ports()),
-                clone!(
-                    #[weak]
-                    obj,
-                    #[upgrade_or_panic]
-                    move |item| {
-                        let port_mapping = item.downcast_ref::<model::PortMapping>().unwrap();
-
-                        let label = gtk::Label::builder()
-                            .css_classes(["status-badge-small", "numeric"])
-                            .halign(gtk::Align::Center)
-                            .label(format!(
-                                "{}/{}",
-                                port_mapping.host_port(),
-                                port_mapping.protocol()
-                            ))
-                            .build();
-
-                        let css_classes = utils::css_classes(&label);
-                        super::PodRow::this_expression("pod")
-                            .chain_property::<model::Pod>("status")
-                            .chain_closure::<Vec<String>>(closure!(
-                                |_: super::PodRow, status: model::PodStatus| {
-                                    css_classes
-                                        .iter()
-                                        .cloned()
-                                        .chain(Some(String::from(
-                                            super::super::pod_status_css_class(status),
-                                        )))
-                                        .collect::<Vec<_>>()
-                                }
-                            ))
-                            .bind(&label, "css-classes", Some(&obj));
-
-                        gtk::FlowBoxChild::builder()
-                            .halign(gtk::Align::Start)
-                            .child(&label)
-                            .build()
-                            .upcast()
-                    }
-                ),
+        fn setup_ports(&self, infra_container: &model::Container) {
+            self.ports_wrap_box.bind_model(
+                Some(&super::super::port_binding::host_port_sorter(
+                    infra_container.ports(),
+                )),
+                |item| view::HostPortPill::from(item.downcast_ref().unwrap()).upcast(),
             );
         }
     }

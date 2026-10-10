@@ -1,0 +1,83 @@
+using Gtk 4.0;
+
+template $PdsPortBindingRow: ListBoxRow {
+  activatable: false;
+  selectable: false;
+
+  CenterBox {
+    margin-top: 9;
+    margin-end: 12;
+    margin-bottom: 9;
+    margin-start: 12;
+
+    [start]
+    Box {
+      orientation: vertical;
+      spacing: 3;
+
+      Label {
+        styles [
+          "dimmed",
+          "subtitle",
+        ]
+
+        label: _("Host");
+        hexpand: true;
+        xalign: 0;
+      }
+
+      Label host_label {
+        styles [
+          "numeric",
+        ]
+
+        hexpand: true;
+        xalign: 0;
+      }
+    }
+
+    [center]
+    Image {
+      icon-name: "arrow1-right-symbolic";
+    }
+
+    [end]
+    Box {
+      spacing: 9;
+
+      Box {
+        orientation: vertical;
+        spacing: 3;
+
+        Label {
+          styles [
+            "dimmed",
+            "subtitle",
+          ]
+
+          label: _("Container");
+          hexpand: true;
+          xalign: 1;
+        }
+
+        Label container_port_label {
+          styles [
+            "numeric",
+          ]
+
+          hexpand: true;
+          xalign: 1;
+        }
+      }
+
+      Button open_link_button {
+        styles [
+          "flat",
+        ]
+
+        action-name: "port-binding-row.open";
+        icon-name: "external-link-symbolic";
+      }
+    }
+  }
+}
