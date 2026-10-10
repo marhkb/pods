@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 09:17+0000\n"
+"POT-Creation-Date: 2026-10-10 18:58+0000\n"
 "PO-Revision-Date: 2025-06-16 11:01+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/pods/main/ta/>\n"
@@ -226,1494 +226,6 @@ msgstr "கொள்கலன்களை மறுபெயரிடுங்�
 msgid "Pods main window"
 msgstr "சாளரத்தை மூடு"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:44
-#, fuzzy
-msgid "Pods 3.1.1 contains the following changes:"
-msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
-msgid ""
-"Fixed an issue where active terminal exec sessions were unexpectedly "
-"terminated when the window was resized and the sidebar collapsed. (#965)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
-msgid ""
-"Removed empty image tag markup in the search response row when using Podman. "
-"(#967)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
-msgid ""
-"Improved text alignment for errors in the action dialog and increased the "
-"height of the repo tag push view. (#968)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:49
-msgid ""
-"Added a link to the source repository in the application metainfo. (Thanks "
-"to @salim-b, #884)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:55
-#, fuzzy
-msgid "Pods 3.1.0 contains the following changes:"
-msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:56
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:120
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:134
-msgid "Features"
-msgstr "நற்பொருத்தங்கள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
-msgid ""
-"Overhauled the internal background action system to use a dedicated modal "
-"dialog and stateful, editable actions. (#961)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:59
-msgid ""
-"Implemented an AutoScrolledWindow widget and ported the container log view "
-"to it, improving automatic terminal scrolling. (#932)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:60
-msgid ""
-"Introduced the ImageSuggestionEntryRow widget, featuring focus-leave "
-"handling, Ctrl+Space activation, and increased width alignment. (#933, #934, "
-"#943)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:61
-msgid ""
-"Added bi-directional timestamp synchronization and a visually improved "
-"numeric layout style to the date-time row widget. (#947, #951)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
-msgid ""
-"Updated the connection creation view with dynamic descriptions and modified "
-"the default podman-tcp.service template to bind strictly to localhost "
-"(127.0.0.1). (Thanks to @anli5005, #948)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:63
-msgid ""
-"Added interactive documentation links for podman-system-service "
-"configurations when setting up rootful instances. (Thanks to @anli5005, #946)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
-msgid ""
-"Enhanced image search result rows by ellipsizing long image names in the UI. "
-"(#945)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:66
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:153
-msgid "Fixes"
-msgstr "திருத்தங்கள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:68
-msgid ""
-"Corrected desktop metadata classification to ensure Pods is no longer "
-"erroneously flagged as a terminal emulator, which previously broke xdg-"
-"terminal-exec behavior. (Thanks to @ehsanullahjan, #938)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:69
-msgid ""
-"Fixed severe application crashes during widget inspection by removing "
-"redundant GtkEditable interface implementations from custom rows. (#935, "
-"#942)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:70
-msgid ""
-"Forced the removal of local container images even when dependent containers "
-"are still attached. (#941)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:71
-msgid ""
-"Ensured a valid 1–12 hour range is strictly enforced when using the 12-hour "
-"clock configuration in the date-time picker. (#951)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:72
-msgid ""
-"Fixed a UI rendering bug where suggestion entry rows opened popups before "
-"being properly realized by the window manager. (#944)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:73
-msgid ""
-"Added escape key handling to ensure popovers drop down reliably when "
-"pressing Escape. (#936)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:75
-msgid "Refactorings & Infrastructure"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
-msgid ""
-"Migrated volume-prune time boundary options ('until') from generic "
-"representations to explicit i64 integers. (#949)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
-msgid ""
-"Moved internal engine health checking mechanisms directly into Engine "
-"Capabilities. (#945)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:79
-msgid ""
-"Enabled native Bollard transport features and configured explicit library "
-"paths within build manifests. (#953, #957)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:80
-msgid ""
-"Allowed the ISC license format within cargo-deny verification policies. "
-"(#957)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:81
-msgid ""
-"Optimized the devcontainer ecosystem by adding native Zed extensions and "
-"generating strict build lockfiles. (#958, #959)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:82
-msgid ""
-"Upgraded various internal Rust/Cargo dependencies and merged comprehensive "
-"global translation updates from Hosted Weblate. (#931, #950, #956, #960)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:88
-#, fuzzy
-msgid "Pods 3.0.0 contains the following changes:"
-msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:90
-msgid ""
-"Implemented a new backend architecture to support multiple container "
-"engines. (#927)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:91
-msgid ""
-"Experimental Docker support – please report any issues on GitHub. (#927)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:97
-#, fuzzy
-msgid "Pods 2.4.0 contains the following changes:"
-msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:99
-msgid "Updated to GNOME 50. (#916)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:100
-msgid "Sidebar ported to Adw.Sidebar. (#919)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:101
-#, fuzzy
-msgid ""
-"Fixed a bug that prevented scrolling up in the container log page. (#920)"
-msgstr "கொள்கலன் பதிவு பக்கத்தில் பேனரை கீழே இருந்து மேலே நகர்த்தியுள்ளோம். (#769)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
-#, fuzzy
-msgid "Pods 2.3.0 contains the following changes:"
-msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:109
-msgid ""
-"Replaced numerous mismatched or outdated widgets with modern alternatives "
-"from libadwaita 1.8. (#890, #899, #909, #910)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
-msgid ""
-"Actions such as container creation can now be retried in case of failure; "
-"thanks to @iamanaws. (#899)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:111
-msgid "CVE-2025-62518 has been fixed; thanks to @bengsparks. (#895)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:112
-msgid ""
-"Various fixes and improvements throughout the app; thanks to @iamanaws, "
-"@jardon and @Kekun. (#874, #879, #848, #880, #894, #899, #908, #904)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:113
-#, fuzzy
-msgid "Updated translations."
-msgstr "புதுப்பிக்கப்பட்ட திரை சாட்கள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:119
-#, fuzzy
-msgid "Pods 2.2.0 contains the following changes:"
-msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:122
-msgid "Add more powerful sorting options. (#848)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:123
-msgid ""
-"The search entry has been transformed into a toggle button in the headerbar. "
-"(#830)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
-msgid "Search is now possible in the connection chooser page. (#830)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:125
-msgid ""
-"The control elements of the header bar are now moved to a lower bar if space "
-"becomes too tight. (#837)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:126
-#, fuzzy
-msgid ""
-"Allow switching between grid and list view in the containers panel. (#838)"
-msgstr "கொள்கலன்கள் இப்போது கொள்கலன் பேனலில் உள்ள அட்டைகளால் குறிப்பிடப்படுகின்றன. (#778)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:127
-msgid "Various widgets have been updated to libadwaita 1.7. (#870)"
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:133
-msgid "Pods 2.1.0 contains the following changes:"
-msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:136
-msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
-msgstr ""
-"உச்சரிப்பு வண்ணங்கள் இப்போது சரியாக ஆதரிக்கப்படுகின்றன. ( #804, #807, #809, #811)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:137
-msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
-msgstr ""
-"அனைத்து உரையாடல்களும் அட்வியாலாக் நிறுவனத்திற்கு மிகவும் தகவமைப்புக்கு ஏற்றவாறு "
-"அனுப்பப்பட்டுள்ளன. (#810)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
-msgid "Containers are now represented by cards in the container panel. (#778)"
-msgstr "கொள்கலன்கள் இப்போது கொள்கலன் பேனலில் உள்ள அட்டைகளால் குறிப்பிடப்படுகின்றன. (#778)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:139
-msgid ""
-"The image search has been completely revised and is now much more "
-"streamlined. In addition, the tags of an image are suggested. (#758)"
-msgstr ""
-"படத் தேடல் முற்றிலும் திருத்தப்பட்டிருக்கிறது, இப்போது மிகவும் நெறிப்படுத்தப்பட்டுள்ளது. "
-"கூடுதலாக, ஒரு படத்தின் குறிச்சொற்கள் பரிந்துரைக்கப்படுகின்றன. (#758)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:143
-msgid "Port mappings can now be configured when creating pods. (#772)"
-msgstr "POD களை உருவாக்கும் போது துறைமுகம் மேப்பிங்ச் இப்போது கட்டமைக்கப்படலாம். (#772)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:144
-msgid "Enable searching for container and pod processes. (#747)"
-msgstr "கொள்கலன் மற்றும் நெற்று செயல்முறைகளைத் தேடுவதை இயக்கவும். (#747)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:145
-msgid "Killing container processes is now supported. (#748)"
-msgstr "கொள்கலன் செயல்முறைகளை கொல்வது இப்போது ஆதரிக்கப்படுகிறது. (#748)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:146
-msgid ""
-"The image search results now have an \"verified\" icon if an image is "
-"official. (#761)"
-msgstr ""
-"ஒரு படம் அதிகாரப்பூர்வமாக இருந்தால் பட தேடல் முடிவுகள் இப்போது \"சரிபார்க்கப்பட்ட\" "
-"ஐகானைக் கொண்டுள்ளன. (#761)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:147
-msgid "Logs are now sent to both std and syslog. (#763)"
-msgstr "பதிவுகள் இப்போது எச்.டி.டி மற்றும் சிச்லாக் இரண்டிற்கும் அனுப்பப்படுகின்றன. (#763)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:148
-msgid "Make it possible to create privileged containers. (#753)"
-msgstr "சலுகை பெற்ற கொள்கலன்களை உருவாக்குவதை சாத்தியமாக்குங்கள். (#753)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:149
-msgid ""
-"Better handling of empty states when selecting images, pods and volumes for "
-"a container to be created. (#769)"
-msgstr ""
-"ஒரு கொள்கலன் உருவாக்கப்பட வேண்டிய படங்கள், காய்கள் மற்றும் தொகுதிகளைத் தேர்ந்தெடுக்கும்போது "
-"வெற்று மாநிலங்களை சிறப்பாக கையாளுதல். (#769)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:150
-msgid "Unification of status and health status in the container row. (#774)"
-msgstr "கொள்கலன் வரிசையில் நிலை மற்றும் சுகாதார நிலையை ஒன்றிணைத்தல். (#774)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:151
-msgid ""
-"The recently introduced libadwaita Spinner now replaces all gtk Spinners. "
-"(#802)"
-msgstr ""
-"அண்மைக் காலத்தில் அறிமுகப்படுத்தப்பட்ட லிபாட்வைட்டா ச்பின்னர் இப்போது அனைத்து சி.டி.கே "
-"ச்பின்னர்களையும் மாற்றுகிறார். (#802)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:155
-msgid ""
-"All remaining processes are now closed after a container terminal exits. "
-"(#744)"
-msgstr ""
-"ஒரு கொள்கலன் முனையம் வெளியேறிய பிறகு மீதமுள்ள அனைத்து செயல்முறைகளும் இப்போது "
-"மூடப்பட்டுள்ளன. (#744)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:156
-msgid ""
-"Streams are now closed correctly so that they do not run forever when the "
-"user changes the connection. (#764)"
-msgstr ""
-"ச்ட்ரீம்கள் இப்போது சரியாக மூடப்பட்டுள்ளன, இதனால் பயனர் இணைப்பை மாற்றும்போது அவை எப்போதும் "
-"இயங்காது. (#764)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:157
-msgid ""
-"A bug was fixed where the content of the container log page was initially "
-"too large. (#769)"
-msgstr ""
-"கொள்கலன் பதிவு பக்கத்தின் உள்ளடக்கம் ஆரம்பத்தில் மிகப் பெரியதாக இருந்த இடத்தில் ஒரு பிழை "
-"சரி செய்யப்பட்டது. (#769)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:158
-msgid "Stop filtering out containers, pods and volumes by default. (#770)"
-msgstr ""
-"முன்னிருப்பாக கொள்கலன்கள், காய்கள் மற்றும் தொகுதிகளை வடிகட்டுவதை நிறுத்துங்கள். (#770)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:160
-msgid "Improvements"
-msgstr "மேம்பாடுகள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:162
-msgid "We now use appdata to construct the about dialog. (#743)"
-msgstr "பற்றி உரையாடலை உருவாக்க இப்போது AppData ஐப் பயன்படுத்துகிறோம். (#743)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:163
-msgid ""
-"Improve performance by utilizing the <em>SignalListItemFactory::setup</em> "
-"signal. (#745)"
-msgstr ""
-"<em> சிக்னலிச்டிட்எம்ஃபாக்டரி :: அமைவு </em> சமிக்ஞையைப் பயன்படுத்துவதன் மூலம் "
-"செயல்திறனை மேம்படுத்தவும். (#745)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:164
-msgid "Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)"
-msgstr ""
-"துறைமுகம் <em> gtktreeview </em> முதல் <em> gtkcolumnview </em> வரை. (#746)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:165
-msgid ""
-"After the last connection has been removed from the page with the connection "
-"selection, the home page is displayed again. (#760)"
-msgstr ""
-"இணைப்பு தேர்வோடு பக்கத்திலிருந்து கடைசி இணைப்பு அகற்றப்பட்ட பிறகு, முகப்பு பக்கம் மீண்டும் "
-"காட்டப்படும். (#760)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:169
-msgid ""
-"The same background color is now used for list views as for the window. "
-"(#769)"
-msgstr ""
-"அதே பின்னணி நிறம் இப்போது சாளரத்தைப் பொறுத்தவரை பட்டியல் காட்சிகளுக்கு "
-"பயன்படுத்தப்படுகிறது. (#769)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:170
-msgid ""
-"We have moved the banner from the bottom to the top in the container log "
-"page. (#769)"
-msgstr "கொள்கலன் பதிவு பக்கத்தில் பேனரை கீழே இருந்து மேலே நகர்த்தியுள்ளோம். (#769)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:171
-msgid "Some titles have been shortened. (#769)"
-msgstr "சில தலைப்புகள் சுருக்கப்பட்டுள்ளன. (#769)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:172
-msgid "We now use AboutDialog instead of AboutWindow. (803)"
-msgstr "நாங்கள் இப்போது பற்றிச் சாளரத்திற்கு பதில் பற்றி உரையாடல் பயன்படுத்துகிறோம். (803)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
-msgid "Various style improvements (#741, #757)"
-msgstr "பல்வேறு நடை மேம்பாடுகள் ( #741, #757)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:179
-msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
-msgstr "PODS 1.2.1 பின்வரும் பிழைத்திருத்தங்கள் மற்றும் மேம்பாடுகளைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:181
-msgid ""
-"Fixed a bug that caused the application to crash when the keyring could not "
-"be accessed."
-msgstr ""
-"கீரிங்கை அணுக முடியாதபோது பயன்பாட்டை செயலிழக்கச் செய்த ஒரு பிழை சரி செய்யப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:182
-msgid ""
-"Some languages like Romanian were not correctly included. This should be "
-"fixed now."
-msgstr ""
-"ருமேனிய போன்ற சில மொழிகள் சரியாக சேர்க்கப்படவில்லை. இது இப்போது சரி செய்யப்பட வேண்டும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:183
-msgid ""
-"Fixed a regression where the container list was not re-sorted once a "
-"container was renamed."
-msgstr ""
-"ஒரு கொள்கலன் மறுபெயரிடப்பட்டவுடன் கொள்கலன் பட்டியல் மீண்டும் வரிசைப்படுத்தப்படாத ஒரு "
-"பின்னடைவு சரி செய்யப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:184
-msgid "Minor cleanup work has been done in the code."
-msgstr "குறியீட்டில் சிறிய தூய்மைப்படுத்தும் பணிகள் செய்யப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:190
-msgid "Pods 1.2.0 contains the following new features:"
-msgstr "PODS 1.2.0 பின்வரும் புதிய அம்சங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:192
-msgid "Usabilty and UX has been improved in many places."
-msgstr "பல இடங்களில் பயன்பாட்டினை மற்றும் யுஎக்ச் மேம்படுத்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:193
-msgid "Pruning of containers and pods is now possible."
-msgstr "கொள்கலன்கள் மற்றும் காய்களை கத்தரிப்பது இப்போது சாத்தியமாகும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:194
-msgid "Container terminals are now detachable and can be used in parallel."
-msgstr "கொள்கலன் டெர்மினல்கள் இப்போது பிரிக்கக்கூடியவை மற்றும் இணையாக பயன்படுத்தலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:195
-msgid "Images can be pushed to a registry."
-msgstr "படங்களை ஒரு பதிவேட்டில் தள்ள முடியும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:196
-msgid "The CPU utilization now takes the number of cores into account."
-msgstr "சிபியு பயன்பாடு இப்போது கோர்களின் எண்ணிக்கையை கணக்கில் எடுத்துக்கொள்கிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
-msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
-msgstr ""
-"PODS 1.1.0 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் உள்ளன:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:204
-msgid ""
-"Dependencies have been updated. This includes the update to GNOME 44 "
-"libraries."
-msgstr ""
-"சார்புநிலைகள் புதுப்பிக்கப்பட்டுள்ளன. க்னோம் 44 நூலகங்களுக்கான புதுப்பிப்பு இதில் அடங்கும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:205
-msgid "AdwBanner is now used in the container log page instead of GtkInfoBar."
-msgstr ""
-"Adwbanner இப்போது Gtkinfobar க்கு பதிலாக கொள்கலன் பதிவு பக்கத்தில் "
-"பயன்படுத்தப்படுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:206
-msgid "The GNOME Coc is acknowledged in the README.md."
-msgstr "Gnome coc readme.md இல் ஒப்புக் கொள்ளப்படுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:207
-msgid "The main window and all dialogs can now be closed with Ctrl+W."
-msgstr "முதன்மையான சாளரம் மற்றும் அனைத்து உரையாடல்களும் இப்போது Ctrl+W உடன் மூடப்படலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:208
-msgid "The memory icon has been improved, thanks to @daudix-UFO."
-msgstr "நினைவக படவுரு மேம்படுத்தப்பட்டுள்ளது, @daudix-ufo க்கு நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:209
-msgid ""
-"Internal code improvements have landed, like the port to glib-rs' new "
-"properties proc macro."
-msgstr ""
-"GLIB-RS இன் புதிய பண்புகள் ப்ராக் மேக்ரோவுக்கு துறைமுகம் போன்ற உள் குறியீடு மேம்பாடுகள் "
-"இறங்கியுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:210
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:229
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:247
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:279
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:290
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:304
-msgid "Translations have been updated."
-msgstr "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:216
-msgid ""
-"Pods 1.1.0-beta.4 contains the following features, bug fixes and "
-"improvements:"
-msgstr ""
-"PODS 1.1.0-BETA.4 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
-"உள்ளன:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:218
-msgid ""
-"The connection color is now displayed by means of a colored dot in front of "
-"the connection name in the connection overview, instead of a vertical bar at "
-"the beginning."
-msgstr ""
-"ஆரம்பத்தில் செங்குத்து பட்டிக்கு பதிலாக, இணைப்பு கண்ணோட்டத்தில் இணைப்பு பெயருக்கு முன்னால் "
-"வண்ண புள்ளியின் மூலம் இணைப்பு வண்ணம் இப்போது காட்டப்படுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:219
-msgid ""
-"The penguin icon to the left of the Podman version has been removed from the "
-"status bar."
-msgstr ""
-"போட்மேன் பதிப்பின் இடதுபுறத்தில் உள்ள பென்குயின் படவுரு நிலைப் பட்டியில் இருந்து "
-"அகற்றப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:220
-msgid ""
-"The Podman menu button in the status bar now shows a loading indicator until "
-"the Podman version is determined."
-msgstr ""
-"நிலை பட்டியில் உள்ள போட்மேன் பட்டியல் பொத்தான் இப்போது போட்மேன் பதிப்பு தீர்மானிக்கப்படும் வரை "
-"ஏற்றுதல் குறிகாட்டியைக் காட்டுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:221
-msgid ""
-"The label to show the version of the Podman menu button in the status bar "
-"now uses the <em>numeric</em> style class, which looks more harmonious."
-msgstr ""
-"நிலை பட்டியில் போட்மேன் பட்டியல் பொத்தானின் பதிப்பைக் காண்பிப்பதற்கான சிட்டை இப்போது <em> "
-"எண் </em> பாணி வகுப்பைப் பயன்படுத்துகிறது, இது மிகவும் இணக்கமாகத் தெரிகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:222
-msgid ""
-"To eliminate the blur, the icons in the status bar now all have a size of 16 "
-"pixels instead of 12 pixels."
-msgstr ""
-"மங்கலை அகற்ற, நிலை பட்டியில் உள்ள சின்னங்கள் இப்போது அனைத்தும் 12 பிக்சல்களுக்கு பதிலாக 16 "
-"படப்புள்ளிகள் அளவைக் கொண்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
-msgid "The desktop entry now uses the updated short description as comment."
-msgstr ""
-"டெச்க்டாப் நுழைவு இப்போது புதுப்பிக்கப்பட்ட குறுகிய விளக்கத்தை கருத்தாகப் பயன்படுத்துகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:224
-msgid "Some appropriate categories have been added to the desktop entry."
-msgstr "டெச்க்டாப் நுழைவுக்கு சில பொருத்தமான பிரிவுகள் சேர்க்கப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:225
-msgid ""
-"Fixed a bug where the Id of a container was replaced by the name once the "
-"name of the container was changed."
-msgstr ""
-"கொள்கலனின் பெயர் மாற்றப்பட்டவுடன் ஒரு கொள்கலனின் ஐடி பெயரால் மாற்றப்பட்ட ஒரு பிழை சரி "
-"செய்யப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:226
-msgid ""
-"The container status <em>configured</em> was not handled before. This is now "
-"fixed."
-msgstr ""
-"கொள்கலன் நிலை <em> கட்டமைக்கப்பட்ட </em> இதற்கு முன் கையாளப்படவில்லை. இது இப்போது சரி "
-"செய்யப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
-msgid ""
-"The spinner within the container log page did not disappear earlier if the "
-"log was empty. This is fixed now."
-msgstr ""
-"பதிவு காலியாக இருந்தால் கொள்கலன் பதிவு பக்கத்திற்குள் உள்ள ச்பின்னர் முன்பே "
-"மறைந்துவிடவில்லை. இது இப்போது சரி செய்யப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:228
-msgid "The code has been improved in some places."
-msgstr "சில இடங்களில் குறியீடு மேம்படுத்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:230
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:248
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:264
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:280
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
-msgid "Dependencies have been updated."
-msgstr "சார்புநிலைகள் புதுப்பிக்கப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:236
-msgid ""
-"Pods 1.1.0-beta.3 contains the following features, bug fixes and "
-"improvements:"
-msgstr ""
-"PODS 1.1.0-BETA.3 பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
-"ஆகியவற்றைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:238
-msgid ""
-"The connection menu has received an entry for disconnecting the current "
-"Podman connection."
-msgstr "தற்போதைய போட்மேன் இணைப்பைத் துண்டிக்க இணைப்பு பட்டியல் ஒரு நுழைவு பெற்றுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:239
-msgid ""
-"The status bar now has a menu button that shows the current Podman version."
-msgstr ""
-"நிலை பட்டியில் இப்போது பட்டியல் பொத்தானைக் கொண்டுள்ளது, இது தற்போதைய போட்மேன் பதிப்பைக் "
-"காட்டுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:240
-msgid ""
-"The menu item to open the Podman information window has been moved from the "
-"main menu to the Podman menu in the status bar."
-msgstr ""
-"போட்மேன் செய்தி சாளரத்தைத் திறக்க பட்டியல் உருப்படி முதன்மையான மெனுவிலிருந்து போட்மேன் "
-"மெனுவுக்கு நிலை பட்டியில் நகர்த்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:241
-msgid ""
-"A new widget has been implemented that allows you to control the zoom level "
-"of text."
-msgstr ""
-"உரையின் சூம் அளவைக் கட்டுப்படுத்த உங்களை அனுமதிக்கும் புதிய விட்செட் செயல்படுத்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:242
-msgid ""
-"On all pages with text, such as the inspection page, the download button has "
-"been moved to a menu in the header bar together with the zoom control widget."
-msgstr ""
-"ஆய்வு பக்கம் போன்ற உரையுடன் அனைத்து பக்கங்களிலும், பதிவிறக்க பொத்தான் சூம் கட்டுப்பாட்டு "
-"விட்செட்டுடன் தலைப்பு பட்டியில் உள்ள மெனுவுக்கு மாற்றப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:243
-msgid ""
-"On the container log page some buttons together with zoom control widget are "
-"moved to a menu in the header bar."
-msgstr ""
-"கொள்கலன் பதிவு பக்கத்தில் சூம் கட்டுப்பாட்டு விட்செட்டுடன் சில பொத்தான்கள் தலைப்பு பட்டியில் "
-"உள்ள மெனுவுக்கு நகர்த்தப்படுகின்றன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:244
-msgid "The text in the container terminal can now be zoomed."
-msgstr "கொள்கலன் முனையத்தில் உள்ள உரையை இப்போது பெரிதாக்கலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:245
-msgid ""
-"Fixed a bug in the container log page where an explicit color was set for "
-"the default ANSI escape sequence. This resulted in text not being readable "
-"in the light theme under certain circumstances."
-msgstr ""
-"இயல்புநிலை ANSI தப்பிக்கும் வரிசைக்கு வெளிப்படையான வண்ணம் அமைக்கப்பட்ட கொள்கலன் பதிவு "
-"பக்கத்தில் ஒரு பிழை சரி செய்யப்பட்டது. இதனால் சில சூழ்நிலைகளில் ஒளி கருப்பொருளில் உரை "
-"படிக்க முடியாது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:246
-msgid ""
-"The text views, like the Inspection page, are now closed immediately if "
-"there is an error. For example, this would be the case if the cube YAML "
-"could not be generated."
-msgstr ""
-"பிழை இருந்தால், ஆய்வு பக்கத்தைப் போன்ற உரை காட்சிகள் இப்போது உடனடியாக மூடப்பட்டுள்ளன. "
-"எடுத்துக்காட்டாக, கியூப் யம்லை உருவாக்க முடியாவிட்டால் இதுதான்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:254
-msgid ""
-"Pods 1.1.0-beta.2 contains the following features, bug fixes and "
-"improvements:"
-msgstr ""
-"PODS 1.1.0-BETA.2 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
-"உள்ளன:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:256
-msgid ""
-"It is now possible to assign colors to connections. Then, when the "
-"connection is active, the status bar is colored accordingly."
-msgstr ""
-"இணைப்புகளுக்கு வண்ணங்களை ஒதுக்க முடியும். பின்னர், இணைப்பு செயலில் இருக்கும்போது, "
-"அதற்கேற்ப நிலை பட்டி வண்ணமயமாக்கப்படுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:257
-msgid "The progress bar in the status bar has been replaced by a label."
-msgstr "நிலை பட்டியில் முன்னேற்றப் பட்டி ஒரு லேபிளால் மாற்றப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:258
-msgid "The formatting of the container log is now correctly kept across lines."
-msgstr "கொள்கலன் பதிவின் வடிவமைப்பு இப்போது சரியாக கோடுகள் முழுவதும் வைக்கப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:259
-msgid ""
-"Some strings has been marked as translatable that where previously forgotten."
-msgstr "சில சரங்கள் முன்பு மறந்துவிட்ட இடத்தை மொழிபெயர்க்கக்கூடியவை என குறிக்கப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:260
-msgid "Some strings has been changed to be more accurate."
-msgstr "சில சரங்கள் மிகவும் துல்லியமாக மாற்றப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:261
-msgid ""
-"A workaround and a fix have been implemented specifically for crashes that "
-"led to crashes when using podman 3.0."
-msgstr ""
-"போட்மேன் 3.0 ஐப் பயன்படுத்தும் போது விபத்துக்களுக்கு வழிவகுத்த விபத்துக்களுக்கு ஒரு "
-"பணித்தொகுப்பு மற்றும் ஒரு பிழைத்திருத்தம் குறிப்பாக செயல்படுத்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:262
-msgid ""
-"Fixed a style bug that caused the inner scrollbar on the connection "
-"selection page to have an offset."
-msgstr ""
-"இணைப்பு தேர்வு பக்கத்தில் உள்ள உள் சுருள் பட்டியை ஆஃப்செட் கொண்டிருக்க காரணமாக ஒரு பாணி "
-"பிழை சரி செய்யப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:270
-msgid ""
-"Pods 1.1.0-beta.1 contains the following features, bug fixes and "
-"improvements:"
-msgstr ""
-"PODS 1.1.0-BETA.1 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
-"உள்ளன:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
-msgid ""
-"The fonts in all text views, such as those in the inspection pages, are now "
-"scalable using typical shortcuts."
-msgstr ""
-"ஆய்வு பக்கங்களில் உள்ள அனைத்து உரை காட்சிகளிலும் உள்ள எழுத்துருக்கள் இப்போது வழக்கமான "
-"குறுக்குவழிகளைப் பயன்படுத்தி அளவிடக்கூடியவை."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:273
-msgid ""
-"It is now prevented that actions in subpages like the container inspection "
-"subpage can be triggered via shortcuts (e.g. the action to download files)."
-msgstr ""
-"கொள்கலன் ஆய்வு துணைப்பிரிவு போன்ற துணைப்பிரிவுகளில் உள்ள செயல்களை குறுக்குவழிகள் வழியாக "
-"(எ.கா. கோப்புகளைப் பதிவிறக்குவதற்கான செயல்) தூண்டப்படலாம் என்று இப்போது தடுக்கப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:274
-msgid ""
-"More ANSI escape sequences like background colors and bright colors has been "
-"added to the container log page."
-msgstr ""
-"கொள்கலன் பதிவு பக்கத்தில் பின்னணி வண்ணங்கள் மற்றும் பிரகாசமான வண்ணங்கள் போன்ற கூடுதல் ANSI "
-"தப்பிக்கும் காட்சிகள் சேர்க்கப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:275
-msgid "Fixed a bug that caused some containers to not display most log lines."
-msgstr ""
-"சில கொள்கலன்கள் பெரும்பாலான பதிவு வரிகளைக் காண்பிக்காத ஒரு பிழை சரி செய்யப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:276
-msgid ""
-"The name of the container is now also displayed as a subtitle in the health "
-"check page."
-msgstr "கொள்கலனின் பெயர் இப்போது சுகாதார சோதனை பக்கத்தில் வசனமாக காட்டப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:277
-msgid "The README file has been updated and improved."
-msgstr "README கோப்பு புதுப்பிக்கப்பட்டு மேம்படுத்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:278
-msgid "There were a lot of internal improvements to the code."
-msgstr "குறியீட்டில் நிறைய உள் மேம்பாடுகள் இருந்தன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:286
-msgid "Pods 1.0.2 contains the following changes:"
-msgstr "PODS 1.0.2 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:288
-msgid ""
-"The search behavior has been adjusted so that pressing <em>Ctrl+F</em> again "
-"resets the search and that <em>Escape</em> closes it."
-msgstr ""
-"தேடல் நடத்தை சரிசெய்யப்பட்டுள்ளது, இதனால் <em> ctrl+f </em> ஐ அழுத்தி மீண்டும் தேடலை "
-"மீட்டமைக்கிறது, மேலும் <em> தப்பித்தல் </em> அதை மூடுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:289
-msgid ""
-"The application icon and symbolic icons have been further improved, thanks "
-"to @daudix-UFO."
-msgstr ""
-"பயன்பாட்டு படவுரு மற்றும் குறியீட்டு சின்னங்கள் மேலும் மேம்படுத்தப்பட்டுள்ளன, @ட ud டிக்ச்-"
-"யுஎஃப்ஓவுக்கு நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:296
-msgid ""
-"The stable 1.0 release of Pods includes the following changes since the last "
-"RC:"
-msgstr ""
-"POD களின் நிலையான 1.0 வெளியீடு கடைசி RC க்குப் பிறகு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:298
-msgid ""
-"The welcome page now has a very attractive, colorful illustration, thanks to "
-"@daudix-UFO."
-msgstr ""
-"வரவேற்பு பக்கம் இப்போது மிகவும் கவர்ச்சிகரமான, வண்ணமயமான எடுத்துக்காட்டு, @ட ud டிக்ச்-"
-"உஃபோவுக்கு நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:299
-msgid "Switching the Podman connection now no longer blocks the GUI."
-msgstr "போட்மேன் இணைப்பை மாற்றுவது இப்போது GUI ஐத் தடுக்காது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:300
-msgid ""
-"Creating new Podman connections can now be canceled during the connection "
-"attempt."
-msgstr ""
-"இணைப்பு முயற்சியின் போது புதிய போட்மேன் இணைப்புகளை உருவாக்குவது இப்போது ரத்து "
-"செய்யப்படலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:301
-msgid ""
-"Copying and pasting text from/to the container terminal now works with "
-"<em>Ctrl+Shift+C</em> and <em>Ctrl+Shift+V</em>, respectively."
-msgstr ""
-"உரையை நகலெடுத்து ஒட்டுதல்/கொள்கலன் முனையத்திற்கு இப்போது <em> Ctrl+Shift+C </em> "
-"மற்றும் <em> Ctrl+Shift+V </em> உடன் வேலை செய்கிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:302
-msgid "The container terminal now has a simple context menu."
-msgstr "கொள்கலன் முனையம் இப்போது ஒரு எளிய சூழல் மெனுவைக் கொண்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:303
-msgid "The animation of the internal spinner widget has been beautified."
-msgstr "உள் ச்பின்னர் விட்செட்டின் அனிமேசன் அழகுபடுத்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:311
-msgid "The third 1.0 release candidate of Pods contains the following changes:"
-msgstr "மூன்றாவது 1.0 வெளியீட்டு வேட்பாளர் பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:313
-msgid ""
-"The application icon and symbolic icons have been improved, thanks to "
-"@daudix-UFO"
-msgstr ""
-"பயன்பாட்டு படவுரு மற்றும் குறியீட்டு சின்னங்கள் மேம்படுத்தப்பட்டுள்ளன, @ட ud டிக்ச்-"
-"உஃபோவுக்கு நன்றி"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:314
-msgid ""
-"Actions, such as creating a container, can now be repeated initially if they "
-"fail."
-msgstr ""
-"ஒரு கொள்கலனை உருவாக்குவது போன்ற செயல்கள் இப்போது தோல்வியுற்றால் ஆரம்பத்தில் மறுநிகழ்வு "
-"செய்யப்படலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
-msgid ""
-"Fixed a bug that prevented the label displaying the id of an image from "
-"being striked through if the image was being deleted."
-msgstr ""
-"படம் நீக்கப்பட்டால் ஒரு படத்தின் ஐடியைக் காண்பிப்பதைத் தடுக்கும் ஒரு பிழை சரி செய்யப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:316
-msgid "Repository tags are now selectable within the image details page."
-msgstr "களஞ்சிய குறிச்சொற்கள் இப்போது பட விவரங்கள் பக்கத்திற்குள் தேர்ந்தெடுக்கப்படுகின்றன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
-msgid "Translations have been updated. Thanks to all who contributed."
-msgstr "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன. பங்களித்த அனைவருக்கும் நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
-msgid ""
-"Internal code improvements have been made, such as reducing dependencies and "
-"enabling LTO for release builds."
-msgstr ""
-"சார்புகளைக் குறைத்தல் மற்றும் வெளியீட்டு கட்டடங்களுக்கு எல்.டி.ஓவை செயல்படுத்துவது போன்ற உள் "
-"குறியீடு மேம்பாடுகள் செய்யப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:324
-msgid ""
-"This is a hotfix release that prevents the application from crashing when "
-"disconnected from Podman."
-msgstr ""
-"இது ஒரு ஆட்ஃபிக்ச் வெளியீடாகும், இது போட்மேனில் இருந்து துண்டிக்கப்படும்போது பயன்பாடு "
-"செயலிழக்காமல் தடுக்கிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:329
-msgid ""
-"All features for version 1.0 are now implemented and Pods is thus in the "
-"release candidate phase. Among the changes since the last release are:"
-msgstr ""
-"பதிப்பு 1.0 க்கான அனைத்து அம்சங்களும் இப்போது செயல்படுத்தப்படுகின்றன, மேலும் POD கள் "
-"வெளியீட்டு வேட்பாளர் கட்டத்தில் உள்ளன. கடைசி வெளியீட்டிலிருந்து ஏற்பட்ட மாற்றங்களில்:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
-msgid ""
-"Actions such as downloading an image or creating a container now take place "
-"in dialogs instead of in the main window."
-msgstr ""
-"ஒரு படத்தைப் பதிவிறக்குவது அல்லது ஒரு கொள்கலனை உருவாக்குவது போன்ற செயல்கள் இப்போது "
-"முதன்மையான சாளரத்திற்கு பதிலாக உரையாடல்களில் நடைபெறுகின்றன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:332
-msgid ""
-"Image Rows have been revised to better reflect the presence of multiple repo "
-"tags."
-msgstr ""
-"பல ரெப்போ குறிச்சொற்களின் இருப்பை சிறப்பாக பிரதிபலிக்கும் வகையில் பட வரிசைகள் "
-"திருத்தப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:333
-msgid "Repo tags can now be removed and added within the image details page."
-msgstr "ரெப்போ குறிச்சொற்களை இப்போது அகற்றி பட விவரங்கள் பக்கத்தில் சேர்க்கலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:334
-msgid ""
-"The subtitle property of the header bars is now used to display the image "
-"id, or the name of the container or pod."
-msgstr ""
-"தலைப்பு பார்களின் வசனச் சொத்து இப்போது பட ஐ ஐடியைக் காட்ட அல்லது கொள்கலன் அல்லது நெற்றின் "
-"பெயரைக் காட்டப் பயன்படுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
-msgid ""
-"The style of the container details page has been adjusted. Thus, some action "
-"rows have been moved to the properties."
-msgstr ""
-"கொள்கலன் விவரங்கள் பக்கத்தின் பாணி சரிசெய்யப்பட்டுள்ளது. இதனால், சில செயல் வரிசைகள் "
-"பண்புகளுக்கு நகர்த்தப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:336
-msgid "Shortcuts have been added to the container details page."
-msgstr "கொள்கலன் விவரங்கள் பக்கத்தில் குறுக்குவழிகள் சேர்க்கப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
-msgid "Small improvements in the spirit of the GNOME HIG took place."
-msgstr "க்னோம் இக் ஆவியில் சிறிய மேம்பாடுகள் நடந்தன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:338
-msgid ""
-"The usual changes such as improving the source code and updating the "
-"dependencies."
-msgstr ""
-"மூலக் குறியீட்டை மேம்படுத்துதல் மற்றும் சார்புகளை புதுப்பித்தல் போன்ற வழக்கமான மாற்றங்கள்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
-msgid ""
-"Translations have been updated and all translatable strings are now "
-"considered frozen."
-msgstr ""
-"மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன, மொழிபெயர்க்கக்கூடிய அனைத்து சரங்களும் இப்போது "
-"உறைந்ததாகக் கருதப்படுகின்றன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:345
-msgid ""
-"The ninth beta of Pods in an important step towards the stable first "
-"version. It contains the following changes:"
-msgstr ""
-"நிலையான முதல் பதிப்பை நோக்கி ஒரு முக்கியமான படியில் காய்களின் ஒன்பதாவது பீட்டா. இது "
-"பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:347
-msgid "It is now possible to have a terminal in a container."
-msgstr "இப்போது ஒரு கொள்கலனில் ஒரு முனையத்தை வைத்திருக்க முடியும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:348
-msgid ""
-"As one works with the terminal and views text in the form of logs or "
-"inspection data, the theme selector has been reintroduced. This is provided "
-"by <em>libpanel</em>, which should simplify maintenance."
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:349
-msgid ""
-"The dialog for renaming a container is now based on <em>AdwMessageDialog</"
-"em>."
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:350
-msgid "The style of the container series was tweaked in many ways."
-msgstr "கொள்கலன் தொடரின் பாணி பல வழிகளில் மாற்றப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:351
-msgid "Some minor internal code improvements have landed."
-msgstr "சில சிறிய உள் குறியீடு மேம்பாடுகள் இறங்கியுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:352
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:372
-msgid "Dependencies and translations have been updated."
-msgstr "சார்புநிலைகள் மற்றும் மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
-msgid "The eight beta release of Pods 1.0.0 includes the following changes:"
-msgstr "PODS 1.0.0 இன் எட்டு பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:360
-msgid ""
-"Pods now uses the <em>libpanel</em> library to display a status bar. Thus, "
-"notifications and the name of the Podman connection are always visible."
-msgstr ""
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:361
-msgid ""
-"When creating a new connection, there is now a hint on how to enable the "
-"Podman UNIX socket and a small example on how to use the Podman root "
-"instance."
-msgstr ""
-"ஒரு புதிய இணைப்பை உருவாக்கும் போது, போட்மேன் யுனிக்ச் சாக்கெட்டை எவ்வாறு செயல்படுத்துவது "
-"என்பது பற்றிய குறிப்பும், போட்மேன் ரூட் நிகழ்வை எவ்வாறு பயன்படுத்துவது என்பதற்கான ஒரு "
-"சிறிய உதாரணமும் உள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:362
-msgid "The history of an image can now be inspected."
-msgstr "ஒரு படத்தின் வரலாற்றை இப்போது ஆய்வு செய்யலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:363
-msgid ""
-"The design of the port bindings in the container details page has been "
-"revised."
-msgstr "கொள்கலன் விவரங்கள் பக்கத்தில் துறைமுக பிணைப்புகளின் வடிவமைப்பு திருத்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:364
-msgid "Kubernetes YAML files can now be generated for containers and pods."
-msgstr "குபெர்னெட்ச் யாம் கோப்புகளை இப்போது கொள்கலன்கள் மற்றும் காய்களுக்கு உருவாக்கலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:365
-msgid ""
-"Files can now be downloaded from a container as well as uploaded to a "
-"container."
-msgstr ""
-"கோப்புகளை இப்போது ஒரு கொள்கலனில் இருந்து பதிவிறக்கம் செய்து ஒரு கொள்கலனில் பதிவேற்றலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
-msgid ""
-"The design of the circular progress bar for displaying container resources "
-"has been adjusted to be more consistent with the rest of the application."
-msgstr ""
-"கொள்கலன் வளங்களைக் காண்பிப்பதற்கான வட்ட முன்னேற்றப் பட்டியின் வடிவமைப்பு மீதமுள்ள பயன்பாட்டுடன் "
-"மிகவும் ஒத்ததாக சரிசெய்யப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
-msgid ""
-"There is now a rotating animation when a container or pod is in a state "
-"transition (start, stop, pause)."
-msgstr ""
-"ஒரு கொள்கலன் அல்லது நெற்று ஒரு மாநில மாற்றத்தில் இருக்கும்போது இப்போது சுழலும் அனிமேசன் "
-"உள்ளது (தொடக்க, நிறுத்து, இடைநிறுத்தம்)."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:368
-msgid ""
-"If a container is in a pod, it will now get a badge with the pod name in the "
-"container list."
-msgstr ""
-"ஒரு கொள்கலன் ஒரு நெற்றில் இருந்தால், அது இப்போது கொள்கலன் பட்டியலில் நெற்று பெயருடன் ஒரு "
-"பேட்சைப் பெறும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:369
-msgid ""
-"Logs, the result of the inspection of images, containers, and pods, and the "
-"result Kubernetes YAML generation can now be saved directly as a file."
-msgstr ""
-"பதிவுகள், படங்கள், கொள்கலன்கள் மற்றும் காய்களை ஆய்வு செய்வதன் விளைவாக, மற்றும் இதன் விளைவாக "
-"குபெர்னெட்ச் யாம் தலைமுறை இப்போது நேரடியாக ஒரு கோப்பாக சேமிக்க முடியும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:370
-msgid "Headerbar titles were adjusted to be shorter and more concise"
-msgstr "எடர்பார் தலைப்புகள் குறுகியதாகவும் சுருக்கமாகவும் சரிசெய்யப்பட்டன"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:371
-msgid "Many minor internal code improvements have landed"
-msgstr "பல சிறிய உள் குறியீடு மேம்பாடுகள் இறங்கியுள்ளன"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:378
-msgid "The seventh beta release of Pods 1.0.0 includes the following changes:"
-msgstr "POD களின் ஏழாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:380
-msgid ""
-"Relative times are now used everywhere in the application. For example, you "
-"can quickly see how long a container has been running or how many days ago "
-"an image was created."
-msgstr ""
-"பயன்பாட்டில் எல்லா இடங்களிலும் உறவினர் நேரங்கள் இப்போது பயன்படுத்தப்படுகின்றன. "
-"எடுத்துக்காட்டாக, ஒரு கொள்கலன் எவ்வளவு காலம் இயங்குகிறது அல்லது எத்தனை நாட்களுக்கு முன்பு "
-"ஒரு படம் உருவாக்கப்பட்டது என்பதை நீங்கள் விரைவாகக் காணலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:381
-msgid ""
-"For the circular progress bar in the container row, icons are now used "
-"instead of text. Icons have also been added to the resource monitor in the "
-"container details page."
-msgstr ""
-"கொள்கலன் வரிசையில் வட்ட முன்னேற்றப் பட்டிக்கு, உரைக்கு பதிலாக ஐகான்கள் இப்போது "
-"பயன்படுத்தப்படுகின்றன. கொள்கலன் விவரங்கள் பக்கத்தில் உள்ள ஆதார மானிட்டரில் ஐகான்கள் "
-"சேர்க்கப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:382
-msgid ""
-"The text field for searching in the container logs and the inspection page "
-"has been completely redesigned visually."
-msgstr ""
-"கொள்கலன் பதிவுகள் மற்றும் ஆய்வு பக்கம் ஆகியவற்றில் தேடுவதற்கான உரை புலம் பார்வைக்கு "
-"முற்றிலும் மறுவடிவமைப்பு செய்யப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:383
-msgid ""
-"The container log page now displays an info bar if the container is not "
-"running. The info bar also offers the possibility to start or resume the "
-"container."
-msgstr ""
-"கொள்கலன் இயங்கவில்லை என்றால் கொள்கலன் பதிவு பக்கம் இப்போது ஒரு செய்தி பட்டியைக் "
-"காட்டுகிறது. செய்தி பட்டி கொள்கலனைத் தொடங்க அல்லது மீண்டும் தொடங்குவதற்கான வாய்ப்பையும் "
-"வழங்குகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:384
-msgid "Desktop notifications are now triggered on actions."
-msgstr "டெச்க்டாப் அறிவிப்புகள் இப்போது செயல்களில் தூண்டப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:385
-msgid ""
-"The selection of an image in the container creation page has been improved. "
-"For example, the list of images is sorted and image names are no longer "
-"ellipsized."
-msgstr ""
-"கொள்கலன் உருவாக்கும் பக்கத்தில் ஒரு படத்தைத் தேர்ந்தெடுப்பது மேம்படுத்தப்பட்டுள்ளது. "
-"எடுத்துக்காட்டாக, படங்களின் பட்டியல் வரிசைப்படுத்தப்பட்டுள்ளது மற்றும் பட பெயர்கள் இனி "
-"நீங்காது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:386
-msgid ""
-"Also the selection of a pod in the container creation page has been improved "
-"similarly to the image selection."
-msgstr ""
-"கொள்கலன் உருவாக்கும் பக்கத்தில் ஒரு நெற்று தேர்வு படத் தேர்வைப் போலவே மேம்படுத்தப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:387
-msgid ""
-"The image row now shows the tag of an image in the accent color to the right "
-"of the image id."
-msgstr ""
-"பட வரிசை இப்போது பட ஐடியின் வலதுபுறத்தில் உச்சரிப்பு நிறத்தில் ஒரு படத்தின் "
-"குறிச்சொல்லைக் காட்டுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
-msgid ""
-"The container row now displays the mapped host port of a container next to "
-"the container name, if there is one."
-msgstr ""
-"கொள்கலன் வரிசையில் ஒன்று இருந்தால், கொள்கலன் பெயருக்கு அடுத்த கொள்கலனின் வரைபட புரவலன் "
-"போர்ட்டைக் காட்டுகிறது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:389
-msgid ""
-"Port Bindings in the container details page are now shown inside an "
-"AdwExpanderRow"
-msgstr ""
-"கொள்கலன் விவரங்கள் பக்கத்தில் துறைமுகம் பிணைப்புகள் இப்போது ஒரு Adwexpanderrow க்குள் "
-"காட்டப்பட்டுள்ளன"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:390
-msgid ""
-"The multi-selection mode of images, containers and pods is now animated a "
-"bit more nicely."
-msgstr ""
-"படங்கள், கொள்கலன்கள் மற்றும் காய்களின் பல தேர்வு முறை இப்போது இன்னும் கொஞ்சம் நேர்த்தியாக "
-"அனிமேசன் செய்யப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:391
-msgid ""
-"The sizes of all GtkSpinners have been standardized throughout the "
-"application."
-msgstr "அனைத்து Gtkspinners இன் அளவுகள் பயன்பாடு முழுவதும் தரப்படுத்தப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:392
-msgid ""
-"The gtk-rs library was updated to version 0.5, which made many internal code "
-"improvements possible."
-msgstr ""
-"சி.டி.கே-ஆர்எச் நூலகம் பதிப்பு 0.5 க்கு புதுப்பிக்கப்பட்டது, இது பல உள் குறியீடு "
-"மேம்பாடுகளை சாத்தியமாக்கியது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:393
-msgid ""
-"As always, there were a number of minor bug fixes, visual improvements, "
-"internal code improvements, and translation updates that have not been "
-"mentioned here."
-msgstr ""
-"எப்போதும்போல, இங்கு குறிப்பிடப்படாத பல சிறிய பிழைத் திருத்தங்கள், காட்சி மேம்பாடுகள், உள் "
-"குறியீடு மேம்பாடுகள் மற்றும் மொழிபெயர்ப்பு புதுப்பிப்புகள் இருந்தன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:399
-msgid "The sixth beta release of Pods 1.0.0 includes the following changes:"
-msgstr "PODS 1.0.0 இன் ஆறாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:401
-msgid ""
-"The duration for individual actions such as downloading an image is now "
-"displayed."
-msgstr ""
-"ஒரு படத்தைப் பதிவிறக்குவது போன்ற தனிப்பட்ட செயல்களுக்கான காலம் இப்போது காட்டப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:402
-msgid ""
-"In the overview for all images, individual images can now be updated via the "
-"context menu."
-msgstr ""
-"எல்லா படங்களுக்கும் கண்ணோட்டத்தில், தனிப்பட்ட படங்களை இப்போது சூழல் பட்டியல் வழியாக "
-"புதுப்பிக்க முடியும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:403
-msgid "Missing settings for creating pods have been added, thanks to @vv9k."
-msgstr "காய்களை உருவாக்குவதற்கான அமைப்புகளைக் காணவில்லை, @vv9k க்கு நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:404
-msgid ""
-"A simple progress bar is now displayed in the action menu button under the "
-"bell icon to indicate how many actions are currently running."
-msgstr ""
-"தற்போது எத்தனை செயல்கள் இயங்குகின்றன என்பதைக் குறிக்க பெல் ஐகானின் கீழ் உள்ள செயல் பட்டியல் "
-"பொத்தானில் ஒரு எளிய முன்னேற்றப் பட்டி இப்போது காட்டப்பட்டுள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:405
-msgid ""
-"The icon of the button to return to the main view has been changed to a home "
-"symbol, thanks to @vv9k."
-msgstr ""
-"முதன்மையான பார்வைக்குத் திரும்புவதற்கான பொத்தானின் படவுரு வீட்டு சின்னமாக "
-"மாற்றப்பட்டுள்ளது, @vv9k க்கு நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:406
-msgid ""
-"The container details page and pod details page have been revised: The menus "
-"have been removed and instead there is now a control bar."
-msgstr ""
-"கொள்கலன் விவரங்கள் பக்கம் மற்றும் நெற்று விவரங்கள் பக்கம் திருத்தப்பட்டுள்ளன: மெனுக்கள் "
-"அகற்றப்பட்டுள்ளன, அதற்கு பதிலாக இப்போது ஒரு கட்டுப்பாட்டுப் பட்டி உள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:407
-msgid ""
-"Renaming a container within a container detail page must now be done via a "
-"button in the name row."
-msgstr ""
-"ஒரு கொள்கலன் விவரம் பக்கத்திற்குள் ஒரு கொள்கலனை மறுபெயரிடுவது இப்போது பெயர் வரிசையில் "
-"ஒரு பொத்தான் வழியாக செய்யப்பட வேண்டும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:408
-msgid ""
-"Fixed a bug in the container log page that caused that no more than 512 log "
-"lines could be loaded and date were truncated."
-msgstr ""
-"கொள்கலன் பதிவு பக்கத்தில் ஒரு பிழை சரி செய்யப்பட்டது, இது 512 பதிவு கோடுகளுக்கு மேல் "
-"ஏற்றப்படாமல் தேதி துண்டிக்கப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:409
-msgid ""
-"The progress bars for CPU and memory in the container details page are now "
-"animated."
-msgstr ""
-"கொள்கலன் விவரங்கள் பக்கத்தில் சிபியு மற்றும் நினைவகத்திற்கான முன்னேற்ற பார்கள் இப்போது "
-"அனிமேசன் செய்யப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:410
-msgid ""
-"The animations of the circular progress bars for CPU and memory in the "
-"overview of all containers now use better easing."
-msgstr ""
-"அனைத்து கொள்கலன்களின் கண்ணோட்டத்தில் சிபியு மற்றும் நினைவகத்திற்கான வட்ட முன்னேற்றத்தின் "
-"அனிமேசன்கள் இப்போது சிறந்த தளர்த்தலைப் பயன்படுத்துகின்றன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:411
-msgid ""
-"The icons and descriptions for actions like downloading an image have been "
-"made clearer."
-msgstr ""
-"ஒரு படத்தைப் பதிவிறக்குவது போன்ற செயல்களுக்கான சின்னங்கள் மற்றும் விளக்கங்கள் "
-"தெளிவுபடுத்தப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:412
-msgid ""
-"Committing a new image from a container can now be done in a fine-grained "
-"way, in a dedicated page."
-msgstr ""
-"ஒரு கொள்கலனிலிருந்து ஒரு புதிய படத்தைச் செய்வது இப்போது ஒரு பிரத்யேக பக்கத்தில் நன்றாகச் "
-"செய்யப்படலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:413
-msgid ""
-"As always, there were a number of minor bug fixes, visual improvements, "
-"internal code improvements and translation updates."
-msgstr ""
-"எப்போதும்போல, பல சிறிய பிழைத் திருத்தங்கள், காட்சி மேம்பாடுகள், உள் குறியீடு மேம்பாடுகள் "
-"மற்றும் மொழிபெயர்ப்பு புதுப்பிப்புகள் இருந்தன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:419
-msgid "The fifth beta release of Pods 1.0.0 includes the following changes:"
-msgstr "PODS 1.0.0 இன் ஐந்தாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:421
-msgid "Some typos were fixed, thanks to @kianmeng."
-msgstr "சில எழுத்துப்பிழைகள் சரி செய்யப்பட்டன, @Kianmeng க்கு நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:422
-msgid ""
-"A tab to specify infra settings were added to the pod creation page, thanks "
-"to @vv9k."
-msgstr ""
-"@VV9K க்கு நன்றி, POD உருவாக்கும் பக்கத்தில் அகச்சிவப்பு அமைப்புகளைக் குறிப்பிடுவதற்கான "
-"தாவல் சேர்க்கப்பட்டது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:423
-msgid ""
-"There is now a widget that provides an overview of actions, such as building "
-"an image. Thus, the state of most actions can now be tracked."
-msgstr ""
-"ஒரு படத்தை உருவாக்குவது போன்ற செயல்களின் கண்ணோட்டத்தை வழங்கும் ஒரு விட்செட் இப்போது "
-"உள்ளது. எனவே, பெரும்பாலான செயல்களின் நிலையை இப்போது கண்காணிக்க முடியும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:424
-msgid ""
-"The local search for images, containers and pods is now case-insensitive."
-msgstr "படங்கள், கொள்கலன்கள் மற்றும் காய்களுக்கான உள்ளக தேடல் இப்போது வழக்கு-உணர்வற்றது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:425
-msgid "There were small visual adjustments all over the place."
-msgstr "எல்லா இடங்களிலும் சிறிய காட்சி மாற்றங்கள் இருந்தன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:426
-msgid "Minor bug fixes"
-msgstr "சிறிய பிழை திருத்தங்கள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:427
-msgid "Internal code improvements"
-msgstr "உள் குறியீடு மேம்பாடுகள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:428
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:446
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:459
-msgid "Translation updates"
-msgstr "மொழிபெயர்ப்பு புதுப்பிப்புகள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:434
-msgid ""
-"Here comes the fourth beta release of Pods 1.0.0 with the following changes:"
-msgstr "பின்வரும் மாற்றங்களுடன் PODS 1.0.0 இன் நான்காவது பீட்டா வெளியீடு இங்கே வருகிறது:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:436
-msgid ""
-"The blurry symbolic application icon has been fixed, thanks to "
-"@allaeddineomc."
-msgstr ""
-"மங்கலான குறியீட்டு பயன்பாட்டு படவுரு சரி செய்யப்பட்டது, @AllaedDineomc க்கு நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:437
-msgid ""
-"A status page is now displayed if there are no images, containers or pods."
-msgstr "படங்கள், கொள்கலன்கள் அல்லது காய்கள் இல்லாவிட்டால் இப்போது ஒரு நிலை பக்கம் காட்டப்படும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:438
-msgid ""
-"The style has been improved, in particular, there is now better "
-"differentiation between light, dark and high contrast modes."
-msgstr ""
-"பாணி மேம்படுத்தப்பட்டுள்ளது, குறிப்பாக, ஒளி, இருண்ட மற்றும் உயர் மாறுபட்ட முறைகளுக்கு "
-"இடையில் இப்போது சிறந்த வேறுபாடு உள்ளது."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:439
-msgid ""
-"The feature for coloring the header bar has been removed. It will hopefully "
-"come back when there is API support for it."
-msgstr ""
-"தலைப்பு பட்டியை வண்ணமயமாக்குவதற்கான நற்பொருத்தம் அகற்றப்பட்டுள்ளது. பநிஇ உதவி "
-"இருக்கும்போது அது திரும்பி வரும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:440
-msgid ""
-"A lot of smaller UI improvements have been implemented to give Pods a more "
-"polished look."
-msgstr ""
-"காய்களுக்கு மிகவும் மெருகூட்டப்பட்ட தோற்றத்தை வழங்க சிறிய இடைமுகம் மேம்பாடுகள் நிறைய "
-"செயல்படுத்தப்பட்டுள்ளன."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:441
-msgid "The flatpak runtime has been updated to version 43"
-msgstr "பிளாட்பாக் இயக்க நேரம் பதிப்பு 43 க்கு புதுப்பிக்கப்பட்டுள்ளது"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:442
-msgid ""
-"Improvements in infrastructure like an issue template have landed, thanks to "
-"@vv9k."
-msgstr ""
-"ஒரு வெளியீட்டு வார்ப்புரு போன்ற உள்கட்டமைப்பின் மேம்பாடுகள் தரையிறங்கியுள்ளன, @vv9k க்கு "
-"நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:443
-msgid "Image downloads can now be aborted."
-msgstr "பட பதிவிறக்கங்களை இப்போது கைவிடலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:444
-msgid "Arguments can now be added to a container command, thanks to @vvk9."
-msgstr "@Vvk9 க்கு நன்றி, இப்போது ஒரு கொள்கலன் கட்டளையில் வாதங்களை சேர்க்கலாம்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:445
-msgid ""
-"It's now possible to set labels on images, containers and pods, thanks to "
-"@vv9k."
-msgstr ""
-"படங்கள், கொள்கலன்கள் மற்றும் காய்களில் லேபிள்களை அமைக்க இப்போது சாத்தியமாகும், @vv9k க்கு "
-"நன்றி."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:452
-msgid "The third beta release of Pods 1.0.0 contains the following changes:"
-msgstr "PODS 1.0.0 இன் மூன்றாவது பீட்டா வெளியீட்டில் பின்வரும் மாற்றங்கள் உள்ளன:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:454
-msgid ""
-"A periodic refresh interval to track entities which were created outside of "
-"podman (e.g. with buildah)"
-msgstr ""
-"போட்மேனுக்கு வெளியே உருவாக்கப்பட்ட நிறுவனங்களைக் கண்காணிக்க அவ்வப்போது புதுப்பிப்பு "
-"இடைவெளி (எ.கா. பில்டாவுடன்)"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:455
-msgid ""
-"Containers now provide a detailed view of health configuration and health "
-"status"
-msgstr ""
-"கொள்கலன்கள் இப்போது சுகாதார உள்ளமைவு மற்றும் சுகாதார நிலை பற்றிய விரிவான பார்வையை "
-"வழங்குகின்றன"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:456
-msgid "Several smaller UI improvements"
-msgstr "பல சிறிய இடைமுகம் மேம்பாடுகள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:457
-msgid "Several smaller bugfixes and internal code improvements"
-msgstr "பல சிறிய பிழைகள் மற்றும் உள் குறியீடு மேம்பாடுகள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:458
-msgid "Updated screenshots"
-msgstr "புதுப்பிக்கப்பட்ட திரை சாட்கள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:465
-msgid "A small update with app data fixes:"
-msgstr "பயன்பாட்டு தரவு திருத்தங்களுடன் ஒரு சிறிய புதுப்பிப்பு:"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:467
-msgid "Updated app data content rating"
-msgstr "பயன்பாட்டு தரவு உள்ளடக்க மதிப்பீடு புதுப்பிக்கப்பட்டது"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:468
-msgid "Added releases in app data"
-msgstr "பயன்பாட்டு தரவுகளில் வெளியீடுகள் சேர்க்கப்பட்டன"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:474
-msgid "This is the first 1.0.0 beta release of Pods."
-msgstr "காய்களின் முதல் 1.0.0 பீட்டா வெளியீடு இதுவாகும்."
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:487
-msgid "Marcus Behrendt"
-msgstr "மார்கச் பெஅ்ரெண்ட்"
-
 #: src/application.rs:191
 msgid "translator-credits"
 msgstr "மொழிபெயர்ப்பாளர்-வரவு"
@@ -1829,7 +341,7 @@ msgid "Degraded"
 msgstr "சீரழிந்தது"
 
 #: src/model/pod_status.rs:117 src/view/connection_creation_page.rs:324
-#: src/view/image_details_page.rs:359 src/view/scalable_text_view_page.rs:463
+#: src/view/image_details_page.rs:365 src/view/scalable_text_view_page.rs:463
 #: src/view/top_page.rs:544 src/view/top_page.rs:549
 msgid "Error"
 msgstr "பிழை"
@@ -1891,11 +403,11 @@ msgid "{} ago"
 msgstr "{} முன்பு"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:311
+#: src/utils.rs:321
 msgid "<none>"
 msgstr "<இல்லை>"
 
-#: src/utils.rs:410
+#: src/utils.rs:420
 msgid "Error on open file dialog"
 msgstr "திறந்த கோப்பு உரையாடலில் பிழை"
 
@@ -3506,28 +2018,28 @@ msgid "Repository Tags"
 msgstr "களஞ்சிய குறிச்சொற்கள்"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:194
+#: src/view/image_details_page.rs:195
 #, rust-format
 msgid "{} (Virtual: {})"
 msgstr "{} (மெய்நிகர்: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:203
+#: src/view/image_details_page.rs:204
 #, rust-format
 msgid "{} (Shared: {})"
 msgstr "{} (பகிரப்பட்டது: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:213
+#: src/view/image_details_page.rs:214
 #, rust-format
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (பகிரப்பட்டது: {}, மெய்நிகர்: {})"
 
-#: src/view/image_details_page.rs:290
+#: src/view/image_details_page.rs:288
 msgid "Error on loading image details"
 msgstr "பட விவரங்களை ஏற்றுவதில் பிழை"
 
-#: src/view/image_details_page.rs:303
+#: src/view/image_details_page.rs:306
 #, rust-format
 msgid "Image '{}' has been deleted"
 msgstr "படம் '{}' நீக்கப்பட்டது"
@@ -3921,7 +2433,7 @@ msgstr "நெற்றின் செயல்முறைகளைக் க�
 msgid "Error on loading pod details"
 msgstr "POD தரவை ஏற்றுவதில் பிழை"
 
-#: src/view/pod_details_page.rs:284
+#: src/view/pod_details_page.rs:285
 #, rust-format
 msgid "Pod '{}' has been deleted"
 msgstr "பாட் '{}' நீக்கப்பட்டது"
@@ -4451,7 +2963,7 @@ msgstr "மவுண்ட் பாதை"
 msgid "View all volume properties in a structured text form"
 msgstr "கட்டமைக்கப்பட்ட உரை வடிவத்தில் அனைத்து தொகுதி பண்புகளையும் காண்க"
 
-#: src/view/volume_details_page.rs:176
+#: src/view/volume_details_page.rs:180
 #, rust-format
 msgid "Volume '{}' has been deleted"
 msgstr "தொகுதி '{}' நீக்கப்பட்டது"
@@ -4631,6 +3143,1082 @@ msgstr "வழக்கு உணர்திறன்"
 #: src/widget/text_search_entry.blp:45
 msgid "Whole Word"
 msgstr "முழு சொல்"
+
+#, fuzzy
+#~ msgid "Pods 3.1.1 contains the following changes:"
+#~ msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#, fuzzy
+#~ msgid "Pods 3.1.0 contains the following changes:"
+#~ msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#~ msgid "Features"
+#~ msgstr "நற்பொருத்தங்கள்"
+
+#~ msgid "Fixes"
+#~ msgstr "திருத்தங்கள்"
+
+#, fuzzy
+#~ msgid "Pods 3.0.0 contains the following changes:"
+#~ msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#, fuzzy
+#~ msgid "Pods 2.4.0 contains the following changes:"
+#~ msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Fixed a bug that prevented scrolling up in the container log page. (#920)"
+#~ msgstr "கொள்கலன் பதிவு பக்கத்தில் பேனரை கீழே இருந்து மேலே நகர்த்தியுள்ளோம். (#769)"
+
+#, fuzzy
+#~ msgid "Pods 2.3.0 contains the following changes:"
+#~ msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#, fuzzy
+#~ msgid "Updated translations."
+#~ msgstr "புதுப்பிக்கப்பட்ட திரை சாட்கள்"
+
+#, fuzzy
+#~ msgid "Pods 2.2.0 contains the following changes:"
+#~ msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Allow switching between grid and list view in the containers panel. (#838)"
+#~ msgstr ""
+#~ "கொள்கலன்கள் இப்போது கொள்கலன் பேனலில் உள்ள அட்டைகளால் குறிப்பிடப்படுகின்றன. (#778)"
+
+#~ msgid "Pods 2.1.0 contains the following changes:"
+#~ msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#~ msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
+#~ msgstr ""
+#~ "உச்சரிப்பு வண்ணங்கள் இப்போது சரியாக ஆதரிக்கப்படுகின்றன. ( #804, #807, #809, #811)"
+
+#~ msgid ""
+#~ "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
+#~ msgstr ""
+#~ "அனைத்து உரையாடல்களும் அட்வியாலாக் நிறுவனத்திற்கு மிகவும் தகவமைப்புக்கு ஏற்றவாறு "
+#~ "அனுப்பப்பட்டுள்ளன. (#810)"
+
+#~ msgid ""
+#~ "Containers are now represented by cards in the container panel. (#778)"
+#~ msgstr ""
+#~ "கொள்கலன்கள் இப்போது கொள்கலன் பேனலில் உள்ள அட்டைகளால் குறிப்பிடப்படுகின்றன. (#778)"
+
+#~ msgid ""
+#~ "The image search has been completely revised and is now much more "
+#~ "streamlined. In addition, the tags of an image are suggested. (#758)"
+#~ msgstr ""
+#~ "படத் தேடல் முற்றிலும் திருத்தப்பட்டிருக்கிறது, இப்போது மிகவும் நெறிப்படுத்தப்பட்டுள்ளது. "
+#~ "கூடுதலாக, ஒரு படத்தின் குறிச்சொற்கள் பரிந்துரைக்கப்படுகின்றன. (#758)"
+
+#~ msgid "Port mappings can now be configured when creating pods. (#772)"
+#~ msgstr ""
+#~ "POD களை உருவாக்கும் போது துறைமுகம் மேப்பிங்ச் இப்போது கட்டமைக்கப்படலாம். (#772)"
+
+#~ msgid "Enable searching for container and pod processes. (#747)"
+#~ msgstr "கொள்கலன் மற்றும் நெற்று செயல்முறைகளைத் தேடுவதை இயக்கவும். (#747)"
+
+#~ msgid "Killing container processes is now supported. (#748)"
+#~ msgstr "கொள்கலன் செயல்முறைகளை கொல்வது இப்போது ஆதரிக்கப்படுகிறது. (#748)"
+
+#~ msgid ""
+#~ "The image search results now have an \"verified\" icon if an image is "
+#~ "official. (#761)"
+#~ msgstr ""
+#~ "ஒரு படம் அதிகாரப்பூர்வமாக இருந்தால் பட தேடல் முடிவுகள் இப்போது \"சரிபார்க்கப்பட்ட\" "
+#~ "ஐகானைக் கொண்டுள்ளன. (#761)"
+
+#~ msgid "Logs are now sent to both std and syslog. (#763)"
+#~ msgstr ""
+#~ "பதிவுகள் இப்போது எச்.டி.டி மற்றும் சிச்லாக் இரண்டிற்கும் அனுப்பப்படுகின்றன. (#763)"
+
+#~ msgid "Make it possible to create privileged containers. (#753)"
+#~ msgstr "சலுகை பெற்ற கொள்கலன்களை உருவாக்குவதை சாத்தியமாக்குங்கள். (#753)"
+
+#~ msgid ""
+#~ "Better handling of empty states when selecting images, pods and volumes "
+#~ "for a container to be created. (#769)"
+#~ msgstr ""
+#~ "ஒரு கொள்கலன் உருவாக்கப்பட வேண்டிய படங்கள், காய்கள் மற்றும் தொகுதிகளைத் "
+#~ "தேர்ந்தெடுக்கும்போது வெற்று மாநிலங்களை சிறப்பாக கையாளுதல். (#769)"
+
+#~ msgid "Unification of status and health status in the container row. (#774)"
+#~ msgstr "கொள்கலன் வரிசையில் நிலை மற்றும் சுகாதார நிலையை ஒன்றிணைத்தல். (#774)"
+
+#~ msgid ""
+#~ "The recently introduced libadwaita Spinner now replaces all gtk Spinners. "
+#~ "(#802)"
+#~ msgstr ""
+#~ "அண்மைக் காலத்தில் அறிமுகப்படுத்தப்பட்ட லிபாட்வைட்டா ச்பின்னர் இப்போது அனைத்து சி.டி.கே "
+#~ "ச்பின்னர்களையும் மாற்றுகிறார். (#802)"
+
+#~ msgid ""
+#~ "All remaining processes are now closed after a container terminal exits. "
+#~ "(#744)"
+#~ msgstr ""
+#~ "ஒரு கொள்கலன் முனையம் வெளியேறிய பிறகு மீதமுள்ள அனைத்து செயல்முறைகளும் இப்போது "
+#~ "மூடப்பட்டுள்ளன. (#744)"
+
+#~ msgid ""
+#~ "Streams are now closed correctly so that they do not run forever when the "
+#~ "user changes the connection. (#764)"
+#~ msgstr ""
+#~ "ச்ட்ரீம்கள் இப்போது சரியாக மூடப்பட்டுள்ளன, இதனால் பயனர் இணைப்பை மாற்றும்போது அவை "
+#~ "எப்போதும் இயங்காது. (#764)"
+
+#~ msgid ""
+#~ "A bug was fixed where the content of the container log page was initially "
+#~ "too large. (#769)"
+#~ msgstr ""
+#~ "கொள்கலன் பதிவு பக்கத்தின் உள்ளடக்கம் ஆரம்பத்தில் மிகப் பெரியதாக இருந்த இடத்தில் ஒரு பிழை "
+#~ "சரி செய்யப்பட்டது. (#769)"
+
+#~ msgid "Stop filtering out containers, pods and volumes by default. (#770)"
+#~ msgstr ""
+#~ "முன்னிருப்பாக கொள்கலன்கள், காய்கள் மற்றும் தொகுதிகளை வடிகட்டுவதை நிறுத்துங்கள். (#770)"
+
+#~ msgid "Improvements"
+#~ msgstr "மேம்பாடுகள்"
+
+#~ msgid "We now use appdata to construct the about dialog. (#743)"
+#~ msgstr "பற்றி உரையாடலை உருவாக்க இப்போது AppData ஐப் பயன்படுத்துகிறோம். (#743)"
+
+#~ msgid ""
+#~ "Improve performance by utilizing the <em>SignalListItemFactory::setup</"
+#~ "em> signal. (#745)"
+#~ msgstr ""
+#~ "<em> சிக்னலிச்டிட்எம்ஃபாக்டரி :: அமைவு </em> சமிக்ஞையைப் பயன்படுத்துவதன் மூலம் "
+#~ "செயல்திறனை மேம்படுத்தவும். (#745)"
+
+#~ msgid "Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)"
+#~ msgstr ""
+#~ "துறைமுகம் <em> gtktreeview </em> முதல் <em> gtkcolumnview </em> வரை. (#746)"
+
+#~ msgid ""
+#~ "After the last connection has been removed from the page with the "
+#~ "connection selection, the home page is displayed again. (#760)"
+#~ msgstr ""
+#~ "இணைப்பு தேர்வோடு பக்கத்திலிருந்து கடைசி இணைப்பு அகற்றப்பட்ட பிறகு, முகப்பு பக்கம் "
+#~ "மீண்டும் காட்டப்படும். (#760)"
+
+#~ msgid ""
+#~ "The same background color is now used for list views as for the window. "
+#~ "(#769)"
+#~ msgstr ""
+#~ "அதே பின்னணி நிறம் இப்போது சாளரத்தைப் பொறுத்தவரை பட்டியல் காட்சிகளுக்கு "
+#~ "பயன்படுத்தப்படுகிறது. (#769)"
+
+#~ msgid ""
+#~ "We have moved the banner from the bottom to the top in the container log "
+#~ "page. (#769)"
+#~ msgstr "கொள்கலன் பதிவு பக்கத்தில் பேனரை கீழே இருந்து மேலே நகர்த்தியுள்ளோம். (#769)"
+
+#~ msgid "Some titles have been shortened. (#769)"
+#~ msgstr "சில தலைப்புகள் சுருக்கப்பட்டுள்ளன. (#769)"
+
+#~ msgid "We now use AboutDialog instead of AboutWindow. (803)"
+#~ msgstr ""
+#~ "நாங்கள் இப்போது பற்றிச் சாளரத்திற்கு பதில் பற்றி உரையாடல் பயன்படுத்துகிறோம். (803)"
+
+#~ msgid "Various style improvements (#741, #757)"
+#~ msgstr "பல்வேறு நடை மேம்பாடுகள் ( #741, #757)"
+
+#~ msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
+#~ msgstr "PODS 1.2.1 பின்வரும் பிழைத்திருத்தங்கள் மற்றும் மேம்பாடுகளைக் கொண்டுள்ளது:"
+
+#~ msgid ""
+#~ "Fixed a bug that caused the application to crash when the keyring could "
+#~ "not be accessed."
+#~ msgstr ""
+#~ "கீரிங்கை அணுக முடியாதபோது பயன்பாட்டை செயலிழக்கச் செய்த ஒரு பிழை சரி செய்யப்பட்டது."
+
+#~ msgid ""
+#~ "Some languages like Romanian were not correctly included. This should be "
+#~ "fixed now."
+#~ msgstr ""
+#~ "ருமேனிய போன்ற சில மொழிகள் சரியாக சேர்க்கப்படவில்லை. இது இப்போது சரி செய்யப்பட "
+#~ "வேண்டும்."
+
+#~ msgid ""
+#~ "Fixed a regression where the container list was not re-sorted once a "
+#~ "container was renamed."
+#~ msgstr ""
+#~ "ஒரு கொள்கலன் மறுபெயரிடப்பட்டவுடன் கொள்கலன் பட்டியல் மீண்டும் வரிசைப்படுத்தப்படாத ஒரு "
+#~ "பின்னடைவு சரி செய்யப்பட்டது."
+
+#~ msgid "Minor cleanup work has been done in the code."
+#~ msgstr "குறியீட்டில் சிறிய தூய்மைப்படுத்தும் பணிகள் செய்யப்பட்டுள்ளன."
+
+#~ msgid "Pods 1.2.0 contains the following new features:"
+#~ msgstr "PODS 1.2.0 பின்வரும் புதிய அம்சங்களைக் கொண்டுள்ளது:"
+
+#~ msgid "Usabilty and UX has been improved in many places."
+#~ msgstr "பல இடங்களில் பயன்பாட்டினை மற்றும் யுஎக்ச் மேம்படுத்தப்பட்டுள்ளது."
+
+#~ msgid "Pruning of containers and pods is now possible."
+#~ msgstr "கொள்கலன்கள் மற்றும் காய்களை கத்தரிப்பது இப்போது சாத்தியமாகும்."
+
+#~ msgid "Container terminals are now detachable and can be used in parallel."
+#~ msgstr "கொள்கலன் டெர்மினல்கள் இப்போது பிரிக்கக்கூடியவை மற்றும் இணையாக பயன்படுத்தலாம்."
+
+#~ msgid "Images can be pushed to a registry."
+#~ msgstr "படங்களை ஒரு பதிவேட்டில் தள்ள முடியும்."
+
+#~ msgid "The CPU utilization now takes the number of cores into account."
+#~ msgstr "சிபியு பயன்பாடு இப்போது கோர்களின் எண்ணிக்கையை கணக்கில் எடுத்துக்கொள்கிறது."
+
+#~ msgid ""
+#~ "Pods 1.1.0 contains the following features, bug fixes and improvements:"
+#~ msgstr ""
+#~ "PODS 1.1.0 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் உள்ளன:"
+
+#~ msgid ""
+#~ "Dependencies have been updated. This includes the update to GNOME 44 "
+#~ "libraries."
+#~ msgstr ""
+#~ "சார்புநிலைகள் புதுப்பிக்கப்பட்டுள்ளன. க்னோம் 44 நூலகங்களுக்கான புதுப்பிப்பு இதில் "
+#~ "அடங்கும்."
+
+#~ msgid ""
+#~ "AdwBanner is now used in the container log page instead of GtkInfoBar."
+#~ msgstr ""
+#~ "Adwbanner இப்போது Gtkinfobar க்கு பதிலாக கொள்கலன் பதிவு பக்கத்தில் "
+#~ "பயன்படுத்தப்படுகிறது."
+
+#~ msgid "The GNOME Coc is acknowledged in the README.md."
+#~ msgstr "Gnome coc readme.md இல் ஒப்புக் கொள்ளப்படுகிறது."
+
+#~ msgid "The main window and all dialogs can now be closed with Ctrl+W."
+#~ msgstr ""
+#~ "முதன்மையான சாளரம் மற்றும் அனைத்து உரையாடல்களும் இப்போது Ctrl+W உடன் மூடப்படலாம்."
+
+#~ msgid "The memory icon has been improved, thanks to @daudix-UFO."
+#~ msgstr "நினைவக படவுரு மேம்படுத்தப்பட்டுள்ளது, @daudix-ufo க்கு நன்றி."
+
+#~ msgid ""
+#~ "Internal code improvements have landed, like the port to glib-rs' new "
+#~ "properties proc macro."
+#~ msgstr ""
+#~ "GLIB-RS இன் புதிய பண்புகள் ப்ராக் மேக்ரோவுக்கு துறைமுகம் போன்ற உள் குறியீடு "
+#~ "மேம்பாடுகள் இறங்கியுள்ளன."
+
+#~ msgid "Translations have been updated."
+#~ msgstr "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
+#~ "improvements:"
+#~ msgstr ""
+#~ "PODS 1.1.0-BETA.4 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
+#~ "உள்ளன:"
+
+#~ msgid ""
+#~ "The connection color is now displayed by means of a colored dot in front "
+#~ "of the connection name in the connection overview, instead of a vertical "
+#~ "bar at the beginning."
+#~ msgstr ""
+#~ "ஆரம்பத்தில் செங்குத்து பட்டிக்கு பதிலாக, இணைப்பு கண்ணோட்டத்தில் இணைப்பு பெயருக்கு "
+#~ "முன்னால் வண்ண புள்ளியின் மூலம் இணைப்பு வண்ணம் இப்போது காட்டப்படுகிறது."
+
+#~ msgid ""
+#~ "The penguin icon to the left of the Podman version has been removed from "
+#~ "the status bar."
+#~ msgstr ""
+#~ "போட்மேன் பதிப்பின் இடதுபுறத்தில் உள்ள பென்குயின் படவுரு நிலைப் பட்டியில் இருந்து "
+#~ "அகற்றப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "The Podman menu button in the status bar now shows a loading indicator "
+#~ "until the Podman version is determined."
+#~ msgstr ""
+#~ "நிலை பட்டியில் உள்ள போட்மேன் பட்டியல் பொத்தான் இப்போது போட்மேன் பதிப்பு தீர்மானிக்கப்படும் "
+#~ "வரை ஏற்றுதல் குறிகாட்டியைக் காட்டுகிறது."
+
+#~ msgid ""
+#~ "The label to show the version of the Podman menu button in the status bar "
+#~ "now uses the <em>numeric</em> style class, which looks more harmonious."
+#~ msgstr ""
+#~ "நிலை பட்டியில் போட்மேன் பட்டியல் பொத்தானின் பதிப்பைக் காண்பிப்பதற்கான சிட்டை இப்போது "
+#~ "<em> எண் </em> பாணி வகுப்பைப் பயன்படுத்துகிறது, இது மிகவும் இணக்கமாகத் தெரிகிறது."
+
+#~ msgid ""
+#~ "To eliminate the blur, the icons in the status bar now all have a size of "
+#~ "16 pixels instead of 12 pixels."
+#~ msgstr ""
+#~ "மங்கலை அகற்ற, நிலை பட்டியில் உள்ள சின்னங்கள் இப்போது அனைத்தும் 12 பிக்சல்களுக்கு பதிலாக "
+#~ "16 படப்புள்ளிகள் அளவைக் கொண்டுள்ளன."
+
+#~ msgid "The desktop entry now uses the updated short description as comment."
+#~ msgstr ""
+#~ "டெச்க்டாப் நுழைவு இப்போது புதுப்பிக்கப்பட்ட குறுகிய விளக்கத்தை கருத்தாகப் "
+#~ "பயன்படுத்துகிறது."
+
+#~ msgid "Some appropriate categories have been added to the desktop entry."
+#~ msgstr "டெச்க்டாப் நுழைவுக்கு சில பொருத்தமான பிரிவுகள் சேர்க்கப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "Fixed a bug where the Id of a container was replaced by the name once the "
+#~ "name of the container was changed."
+#~ msgstr ""
+#~ "கொள்கலனின் பெயர் மாற்றப்பட்டவுடன் ஒரு கொள்கலனின் ஐடி பெயரால் மாற்றப்பட்ட ஒரு பிழை சரி "
+#~ "செய்யப்பட்டது."
+
+#~ msgid ""
+#~ "The container status <em>configured</em> was not handled before. This is "
+#~ "now fixed."
+#~ msgstr ""
+#~ "கொள்கலன் நிலை <em> கட்டமைக்கப்பட்ட </em> இதற்கு முன் கையாளப்படவில்லை. இது இப்போது "
+#~ "சரி செய்யப்பட்டது."
+
+#~ msgid ""
+#~ "The spinner within the container log page did not disappear earlier if "
+#~ "the log was empty. This is fixed now."
+#~ msgstr ""
+#~ "பதிவு காலியாக இருந்தால் கொள்கலன் பதிவு பக்கத்திற்குள் உள்ள ச்பின்னர் முன்பே "
+#~ "மறைந்துவிடவில்லை. இது இப்போது சரி செய்யப்பட்டது."
+
+#~ msgid "The code has been improved in some places."
+#~ msgstr "சில இடங்களில் குறியீடு மேம்படுத்தப்பட்டுள்ளது."
+
+#~ msgid "Dependencies have been updated."
+#~ msgstr "சார்புநிலைகள் புதுப்பிக்கப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
+#~ "improvements:"
+#~ msgstr ""
+#~ "PODS 1.1.0-BETA.3 பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
+#~ "ஆகியவற்றைக் கொண்டுள்ளது:"
+
+#~ msgid ""
+#~ "The connection menu has received an entry for disconnecting the current "
+#~ "Podman connection."
+#~ msgstr "தற்போதைய போட்மேன் இணைப்பைத் துண்டிக்க இணைப்பு பட்டியல் ஒரு நுழைவு பெற்றுள்ளது."
+
+#~ msgid ""
+#~ "The status bar now has a menu button that shows the current Podman "
+#~ "version."
+#~ msgstr ""
+#~ "நிலை பட்டியில் இப்போது பட்டியல் பொத்தானைக் கொண்டுள்ளது, இது தற்போதைய போட்மேன் பதிப்பைக் "
+#~ "காட்டுகிறது."
+
+#~ msgid ""
+#~ "The menu item to open the Podman information window has been moved from "
+#~ "the main menu to the Podman menu in the status bar."
+#~ msgstr ""
+#~ "போட்மேன் செய்தி சாளரத்தைத் திறக்க பட்டியல் உருப்படி முதன்மையான மெனுவிலிருந்து போட்மேன் "
+#~ "மெனுவுக்கு நிலை பட்டியில் நகர்த்தப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "A new widget has been implemented that allows you to control the zoom "
+#~ "level of text."
+#~ msgstr ""
+#~ "உரையின் சூம் அளவைக் கட்டுப்படுத்த உங்களை அனுமதிக்கும் புதிய விட்செட் "
+#~ "செயல்படுத்தப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "On all pages with text, such as the inspection page, the download button "
+#~ "has been moved to a menu in the header bar together with the zoom control "
+#~ "widget."
+#~ msgstr ""
+#~ "ஆய்வு பக்கம் போன்ற உரையுடன் அனைத்து பக்கங்களிலும், பதிவிறக்க பொத்தான் சூம் கட்டுப்பாட்டு "
+#~ "விட்செட்டுடன் தலைப்பு பட்டியில் உள்ள மெனுவுக்கு மாற்றப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "On the container log page some buttons together with zoom control widget "
+#~ "are moved to a menu in the header bar."
+#~ msgstr ""
+#~ "கொள்கலன் பதிவு பக்கத்தில் சூம் கட்டுப்பாட்டு விட்செட்டுடன் சில பொத்தான்கள் தலைப்பு "
+#~ "பட்டியில் உள்ள மெனுவுக்கு நகர்த்தப்படுகின்றன."
+
+#~ msgid "The text in the container terminal can now be zoomed."
+#~ msgstr "கொள்கலன் முனையத்தில் உள்ள உரையை இப்போது பெரிதாக்கலாம்."
+
+#~ msgid ""
+#~ "Fixed a bug in the container log page where an explicit color was set for "
+#~ "the default ANSI escape sequence. This resulted in text not being "
+#~ "readable in the light theme under certain circumstances."
+#~ msgstr ""
+#~ "இயல்புநிலை ANSI தப்பிக்கும் வரிசைக்கு வெளிப்படையான வண்ணம் அமைக்கப்பட்ட கொள்கலன் பதிவு "
+#~ "பக்கத்தில் ஒரு பிழை சரி செய்யப்பட்டது. இதனால் சில சூழ்நிலைகளில் ஒளி கருப்பொருளில் "
+#~ "உரை படிக்க முடியாது."
+
+#~ msgid ""
+#~ "The text views, like the Inspection page, are now closed immediately if "
+#~ "there is an error. For example, this would be the case if the cube YAML "
+#~ "could not be generated."
+#~ msgstr ""
+#~ "பிழை இருந்தால், ஆய்வு பக்கத்தைப் போன்ற உரை காட்சிகள் இப்போது உடனடியாக மூடப்பட்டுள்ளன. "
+#~ "எடுத்துக்காட்டாக, கியூப் யம்லை உருவாக்க முடியாவிட்டால் இதுதான்."
+
+#~ msgid ""
+#~ "Pods 1.1.0-beta.2 contains the following features, bug fixes and "
+#~ "improvements:"
+#~ msgstr ""
+#~ "PODS 1.1.0-BETA.2 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
+#~ "உள்ளன:"
+
+#~ msgid ""
+#~ "It is now possible to assign colors to connections. Then, when the "
+#~ "connection is active, the status bar is colored accordingly."
+#~ msgstr ""
+#~ "இணைப்புகளுக்கு வண்ணங்களை ஒதுக்க முடியும். பின்னர், இணைப்பு செயலில் இருக்கும்போது, "
+#~ "அதற்கேற்ப நிலை பட்டி வண்ணமயமாக்கப்படுகிறது."
+
+#~ msgid "The progress bar in the status bar has been replaced by a label."
+#~ msgstr "நிலை பட்டியில் முன்னேற்றப் பட்டி ஒரு லேபிளால் மாற்றப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "The formatting of the container log is now correctly kept across lines."
+#~ msgstr ""
+#~ "கொள்கலன் பதிவின் வடிவமைப்பு இப்போது சரியாக கோடுகள் முழுவதும் வைக்கப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "Some strings has been marked as translatable that where previously "
+#~ "forgotten."
+#~ msgstr ""
+#~ "சில சரங்கள் முன்பு மறந்துவிட்ட இடத்தை மொழிபெயர்க்கக்கூடியவை என குறிக்கப்பட்டுள்ளன."
+
+#~ msgid "Some strings has been changed to be more accurate."
+#~ msgstr "சில சரங்கள் மிகவும் துல்லியமாக மாற்றப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "A workaround and a fix have been implemented specifically for crashes "
+#~ "that led to crashes when using podman 3.0."
+#~ msgstr ""
+#~ "போட்மேன் 3.0 ஐப் பயன்படுத்தும் போது விபத்துக்களுக்கு வழிவகுத்த விபத்துக்களுக்கு ஒரு "
+#~ "பணித்தொகுப்பு மற்றும் ஒரு பிழைத்திருத்தம் குறிப்பாக செயல்படுத்தப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "Fixed a style bug that caused the inner scrollbar on the connection "
+#~ "selection page to have an offset."
+#~ msgstr ""
+#~ "இணைப்பு தேர்வு பக்கத்தில் உள்ள உள் சுருள் பட்டியை ஆஃப்செட் கொண்டிருக்க காரணமாக ஒரு "
+#~ "பாணி பிழை சரி செய்யப்பட்டது."
+
+#~ msgid ""
+#~ "Pods 1.1.0-beta.1 contains the following features, bug fixes and "
+#~ "improvements:"
+#~ msgstr ""
+#~ "PODS 1.1.0-BETA.1 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
+#~ "உள்ளன:"
+
+#~ msgid ""
+#~ "The fonts in all text views, such as those in the inspection pages, are "
+#~ "now scalable using typical shortcuts."
+#~ msgstr ""
+#~ "ஆய்வு பக்கங்களில் உள்ள அனைத்து உரை காட்சிகளிலும் உள்ள எழுத்துருக்கள் இப்போது வழக்கமான "
+#~ "குறுக்குவழிகளைப் பயன்படுத்தி அளவிடக்கூடியவை."
+
+#~ msgid ""
+#~ "It is now prevented that actions in subpages like the container "
+#~ "inspection subpage can be triggered via shortcuts (e.g. the action to "
+#~ "download files)."
+#~ msgstr ""
+#~ "கொள்கலன் ஆய்வு துணைப்பிரிவு போன்ற துணைப்பிரிவுகளில் உள்ள செயல்களை குறுக்குவழிகள் "
+#~ "வழியாக (எ.கா. கோப்புகளைப் பதிவிறக்குவதற்கான செயல்) தூண்டப்படலாம் என்று இப்போது "
+#~ "தடுக்கப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "More ANSI escape sequences like background colors and bright colors has "
+#~ "been added to the container log page."
+#~ msgstr ""
+#~ "கொள்கலன் பதிவு பக்கத்தில் பின்னணி வண்ணங்கள் மற்றும் பிரகாசமான வண்ணங்கள் போன்ற கூடுதல் "
+#~ "ANSI தப்பிக்கும் காட்சிகள் சேர்க்கப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "Fixed a bug that caused some containers to not display most log lines."
+#~ msgstr ""
+#~ "சில கொள்கலன்கள் பெரும்பாலான பதிவு வரிகளைக் காண்பிக்காத ஒரு பிழை சரி செய்யப்பட்டது."
+
+#~ msgid ""
+#~ "The name of the container is now also displayed as a subtitle in the "
+#~ "health check page."
+#~ msgstr "கொள்கலனின் பெயர் இப்போது சுகாதார சோதனை பக்கத்தில் வசனமாக காட்டப்பட்டுள்ளது."
+
+#~ msgid "The README file has been updated and improved."
+#~ msgstr "README கோப்பு புதுப்பிக்கப்பட்டு மேம்படுத்தப்பட்டுள்ளது."
+
+#~ msgid "There were a lot of internal improvements to the code."
+#~ msgstr "குறியீட்டில் நிறைய உள் மேம்பாடுகள் இருந்தன."
+
+#~ msgid "Pods 1.0.2 contains the following changes:"
+#~ msgstr "PODS 1.0.2 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#~ msgid ""
+#~ "The search behavior has been adjusted so that pressing <em>Ctrl+F</em> "
+#~ "again resets the search and that <em>Escape</em> closes it."
+#~ msgstr ""
+#~ "தேடல் நடத்தை சரிசெய்யப்பட்டுள்ளது, இதனால் <em> ctrl+f </em> ஐ அழுத்தி மீண்டும் தேடலை "
+#~ "மீட்டமைக்கிறது, மேலும் <em> தப்பித்தல் </em> அதை மூடுகிறது."
+
+#~ msgid ""
+#~ "The application icon and symbolic icons have been further improved, "
+#~ "thanks to @daudix-UFO."
+#~ msgstr ""
+#~ "பயன்பாட்டு படவுரு மற்றும் குறியீட்டு சின்னங்கள் மேலும் மேம்படுத்தப்பட்டுள்ளன, @ட ud டிக்ச்-"
+#~ "யுஎஃப்ஓவுக்கு நன்றி."
+
+#~ msgid ""
+#~ "The stable 1.0 release of Pods includes the following changes since the "
+#~ "last RC:"
+#~ msgstr ""
+#~ "POD களின் நிலையான 1.0 வெளியீடு கடைசி RC க்குப் பிறகு பின்வரும் மாற்றங்களை "
+#~ "உள்ளடக்கியது:"
+
+#~ msgid ""
+#~ "The welcome page now has a very attractive, colorful illustration, thanks "
+#~ "to @daudix-UFO."
+#~ msgstr ""
+#~ "வரவேற்பு பக்கம் இப்போது மிகவும் கவர்ச்சிகரமான, வண்ணமயமான எடுத்துக்காட்டு, @ட ud டிக்ச்-"
+#~ "உஃபோவுக்கு நன்றி."
+
+#~ msgid "Switching the Podman connection now no longer blocks the GUI."
+#~ msgstr "போட்மேன் இணைப்பை மாற்றுவது இப்போது GUI ஐத் தடுக்காது."
+
+#~ msgid ""
+#~ "Creating new Podman connections can now be canceled during the connection "
+#~ "attempt."
+#~ msgstr ""
+#~ "இணைப்பு முயற்சியின் போது புதிய போட்மேன் இணைப்புகளை உருவாக்குவது இப்போது ரத்து "
+#~ "செய்யப்படலாம்."
+
+#~ msgid ""
+#~ "Copying and pasting text from/to the container terminal now works with "
+#~ "<em>Ctrl+Shift+C</em> and <em>Ctrl+Shift+V</em>, respectively."
+#~ msgstr ""
+#~ "உரையை நகலெடுத்து ஒட்டுதல்/கொள்கலன் முனையத்திற்கு இப்போது <em> Ctrl+Shift+C </em> "
+#~ "மற்றும் <em> Ctrl+Shift+V </em> உடன் வேலை செய்கிறது."
+
+#~ msgid "The container terminal now has a simple context menu."
+#~ msgstr "கொள்கலன் முனையம் இப்போது ஒரு எளிய சூழல் மெனுவைக் கொண்டுள்ளது."
+
+#~ msgid "The animation of the internal spinner widget has been beautified."
+#~ msgstr "உள் ச்பின்னர் விட்செட்டின் அனிமேசன் அழகுபடுத்தப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "The third 1.0 release candidate of Pods contains the following changes:"
+#~ msgstr "மூன்றாவது 1.0 வெளியீட்டு வேட்பாளர் பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#~ msgid ""
+#~ "The application icon and symbolic icons have been improved, thanks to "
+#~ "@daudix-UFO"
+#~ msgstr ""
+#~ "பயன்பாட்டு படவுரு மற்றும் குறியீட்டு சின்னங்கள் மேம்படுத்தப்பட்டுள்ளன, @ட ud டிக்ச்-"
+#~ "உஃபோவுக்கு நன்றி"
+
+#~ msgid ""
+#~ "Actions, such as creating a container, can now be repeated initially if "
+#~ "they fail."
+#~ msgstr ""
+#~ "ஒரு கொள்கலனை உருவாக்குவது போன்ற செயல்கள் இப்போது தோல்வியுற்றால் ஆரம்பத்தில் மறுநிகழ்வு "
+#~ "செய்யப்படலாம்."
+
+#~ msgid ""
+#~ "Fixed a bug that prevented the label displaying the id of an image from "
+#~ "being striked through if the image was being deleted."
+#~ msgstr ""
+#~ "படம் நீக்கப்பட்டால் ஒரு படத்தின் ஐடியைக் காண்பிப்பதைத் தடுக்கும் ஒரு பிழை சரி "
+#~ "செய்யப்பட்டது."
+
+#~ msgid "Repository tags are now selectable within the image details page."
+#~ msgstr "களஞ்சிய குறிச்சொற்கள் இப்போது பட விவரங்கள் பக்கத்திற்குள் தேர்ந்தெடுக்கப்படுகின்றன."
+
+#~ msgid "Translations have been updated. Thanks to all who contributed."
+#~ msgstr "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன. பங்களித்த அனைவருக்கும் நன்றி."
+
+#~ msgid ""
+#~ "Internal code improvements have been made, such as reducing dependencies "
+#~ "and enabling LTO for release builds."
+#~ msgstr ""
+#~ "சார்புகளைக் குறைத்தல் மற்றும் வெளியீட்டு கட்டடங்களுக்கு எல்.டி.ஓவை செயல்படுத்துவது போன்ற "
+#~ "உள் குறியீடு மேம்பாடுகள் செய்யப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "This is a hotfix release that prevents the application from crashing when "
+#~ "disconnected from Podman."
+#~ msgstr ""
+#~ "இது ஒரு ஆட்ஃபிக்ச் வெளியீடாகும், இது போட்மேனில் இருந்து துண்டிக்கப்படும்போது பயன்பாடு "
+#~ "செயலிழக்காமல் தடுக்கிறது."
+
+#~ msgid ""
+#~ "All features for version 1.0 are now implemented and Pods is thus in the "
+#~ "release candidate phase. Among the changes since the last release are:"
+#~ msgstr ""
+#~ "பதிப்பு 1.0 க்கான அனைத்து அம்சங்களும் இப்போது செயல்படுத்தப்படுகின்றன, மேலும் POD கள் "
+#~ "வெளியீட்டு வேட்பாளர் கட்டத்தில் உள்ளன. கடைசி வெளியீட்டிலிருந்து ஏற்பட்ட மாற்றங்களில்:"
+
+#~ msgid ""
+#~ "Actions such as downloading an image or creating a container now take "
+#~ "place in dialogs instead of in the main window."
+#~ msgstr ""
+#~ "ஒரு படத்தைப் பதிவிறக்குவது அல்லது ஒரு கொள்கலனை உருவாக்குவது போன்ற செயல்கள் இப்போது "
+#~ "முதன்மையான சாளரத்திற்கு பதிலாக உரையாடல்களில் நடைபெறுகின்றன."
+
+#~ msgid ""
+#~ "Image Rows have been revised to better reflect the presence of multiple "
+#~ "repo tags."
+#~ msgstr ""
+#~ "பல ரெப்போ குறிச்சொற்களின் இருப்பை சிறப்பாக பிரதிபலிக்கும் வகையில் பட வரிசைகள் "
+#~ "திருத்தப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "Repo tags can now be removed and added within the image details page."
+#~ msgstr "ரெப்போ குறிச்சொற்களை இப்போது அகற்றி பட விவரங்கள் பக்கத்தில் சேர்க்கலாம்."
+
+#~ msgid ""
+#~ "The subtitle property of the header bars is now used to display the image "
+#~ "id, or the name of the container or pod."
+#~ msgstr ""
+#~ "தலைப்பு பார்களின் வசனச் சொத்து இப்போது பட ஐ ஐடியைக் காட்ட அல்லது கொள்கலன் அல்லது "
+#~ "நெற்றின் பெயரைக் காட்டப் பயன்படுகிறது."
+
+#~ msgid ""
+#~ "The style of the container details page has been adjusted. Thus, some "
+#~ "action rows have been moved to the properties."
+#~ msgstr ""
+#~ "கொள்கலன் விவரங்கள் பக்கத்தின் பாணி சரிசெய்யப்பட்டுள்ளது. இதனால், சில செயல் வரிசைகள் "
+#~ "பண்புகளுக்கு நகர்த்தப்பட்டுள்ளன."
+
+#~ msgid "Shortcuts have been added to the container details page."
+#~ msgstr "கொள்கலன் விவரங்கள் பக்கத்தில் குறுக்குவழிகள் சேர்க்கப்பட்டுள்ளன."
+
+#~ msgid "Small improvements in the spirit of the GNOME HIG took place."
+#~ msgstr "க்னோம் இக் ஆவியில் சிறிய மேம்பாடுகள் நடந்தன."
+
+#~ msgid ""
+#~ "The usual changes such as improving the source code and updating the "
+#~ "dependencies."
+#~ msgstr ""
+#~ "மூலக் குறியீட்டை மேம்படுத்துதல் மற்றும் சார்புகளை புதுப்பித்தல் போன்ற வழக்கமான மாற்றங்கள்."
+
+#~ msgid ""
+#~ "Translations have been updated and all translatable strings are now "
+#~ "considered frozen."
+#~ msgstr ""
+#~ "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன, மொழிபெயர்க்கக்கூடிய அனைத்து சரங்களும் இப்போது "
+#~ "உறைந்ததாகக் கருதப்படுகின்றன."
+
+#~ msgid ""
+#~ "The ninth beta of Pods in an important step towards the stable first "
+#~ "version. It contains the following changes:"
+#~ msgstr ""
+#~ "நிலையான முதல் பதிப்பை நோக்கி ஒரு முக்கியமான படியில் காய்களின் ஒன்பதாவது பீட்டா. இது "
+#~ "பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#~ msgid "It is now possible to have a terminal in a container."
+#~ msgstr "இப்போது ஒரு கொள்கலனில் ஒரு முனையத்தை வைத்திருக்க முடியும்."
+
+#~ msgid "The style of the container series was tweaked in many ways."
+#~ msgstr "கொள்கலன் தொடரின் பாணி பல வழிகளில் மாற்றப்பட்டது."
+
+#~ msgid "Some minor internal code improvements have landed."
+#~ msgstr "சில சிறிய உள் குறியீடு மேம்பாடுகள் இறங்கியுள்ளன."
+
+#~ msgid "Dependencies and translations have been updated."
+#~ msgstr "சார்புநிலைகள் மற்றும் மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன."
+
+#~ msgid "The eight beta release of Pods 1.0.0 includes the following changes:"
+#~ msgstr "PODS 1.0.0 இன் எட்டு பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
+
+#~ msgid ""
+#~ "When creating a new connection, there is now a hint on how to enable the "
+#~ "Podman UNIX socket and a small example on how to use the Podman root "
+#~ "instance."
+#~ msgstr ""
+#~ "ஒரு புதிய இணைப்பை உருவாக்கும் போது, போட்மேன் யுனிக்ச் சாக்கெட்டை எவ்வாறு "
+#~ "செயல்படுத்துவது என்பது பற்றிய குறிப்பும், போட்மேன் ரூட் நிகழ்வை எவ்வாறு பயன்படுத்துவது "
+#~ "என்பதற்கான ஒரு சிறிய உதாரணமும் உள்ளது."
+
+#~ msgid "The history of an image can now be inspected."
+#~ msgstr "ஒரு படத்தின் வரலாற்றை இப்போது ஆய்வு செய்யலாம்."
+
+#~ msgid ""
+#~ "The design of the port bindings in the container details page has been "
+#~ "revised."
+#~ msgstr ""
+#~ "கொள்கலன் விவரங்கள் பக்கத்தில் துறைமுக பிணைப்புகளின் வடிவமைப்பு திருத்தப்பட்டுள்ளது."
+
+#~ msgid "Kubernetes YAML files can now be generated for containers and pods."
+#~ msgstr "குபெர்னெட்ச் யாம் கோப்புகளை இப்போது கொள்கலன்கள் மற்றும் காய்களுக்கு உருவாக்கலாம்."
+
+#~ msgid ""
+#~ "Files can now be downloaded from a container as well as uploaded to a "
+#~ "container."
+#~ msgstr ""
+#~ "கோப்புகளை இப்போது ஒரு கொள்கலனில் இருந்து பதிவிறக்கம் செய்து ஒரு கொள்கலனில் "
+#~ "பதிவேற்றலாம்."
+
+#~ msgid ""
+#~ "The design of the circular progress bar for displaying container "
+#~ "resources has been adjusted to be more consistent with the rest of the "
+#~ "application."
+#~ msgstr ""
+#~ "கொள்கலன் வளங்களைக் காண்பிப்பதற்கான வட்ட முன்னேற்றப் பட்டியின் வடிவமைப்பு மீதமுள்ள "
+#~ "பயன்பாட்டுடன் மிகவும் ஒத்ததாக சரிசெய்யப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "There is now a rotating animation when a container or pod is in a state "
+#~ "transition (start, stop, pause)."
+#~ msgstr ""
+#~ "ஒரு கொள்கலன் அல்லது நெற்று ஒரு மாநில மாற்றத்தில் இருக்கும்போது இப்போது சுழலும் "
+#~ "அனிமேசன் உள்ளது (தொடக்க, நிறுத்து, இடைநிறுத்தம்)."
+
+#~ msgid ""
+#~ "If a container is in a pod, it will now get a badge with the pod name in "
+#~ "the container list."
+#~ msgstr ""
+#~ "ஒரு கொள்கலன் ஒரு நெற்றில் இருந்தால், அது இப்போது கொள்கலன் பட்டியலில் நெற்று பெயருடன் "
+#~ "ஒரு பேட்சைப் பெறும்."
+
+#~ msgid ""
+#~ "Logs, the result of the inspection of images, containers, and pods, and "
+#~ "the result Kubernetes YAML generation can now be saved directly as a file."
+#~ msgstr ""
+#~ "பதிவுகள், படங்கள், கொள்கலன்கள் மற்றும் காய்களை ஆய்வு செய்வதன் விளைவாக, மற்றும் இதன் "
+#~ "விளைவாக குபெர்னெட்ச் யாம் தலைமுறை இப்போது நேரடியாக ஒரு கோப்பாக சேமிக்க முடியும்."
+
+#~ msgid "Headerbar titles were adjusted to be shorter and more concise"
+#~ msgstr "எடர்பார் தலைப்புகள் குறுகியதாகவும் சுருக்கமாகவும் சரிசெய்யப்பட்டன"
+
+#~ msgid "Many minor internal code improvements have landed"
+#~ msgstr "பல சிறிய உள் குறியீடு மேம்பாடுகள் இறங்கியுள்ளன"
+
+#~ msgid ""
+#~ "The seventh beta release of Pods 1.0.0 includes the following changes:"
+#~ msgstr "POD களின் ஏழாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
+
+#~ msgid ""
+#~ "Relative times are now used everywhere in the application. For example, "
+#~ "you can quickly see how long a container has been running or how many "
+#~ "days ago an image was created."
+#~ msgstr ""
+#~ "பயன்பாட்டில் எல்லா இடங்களிலும் உறவினர் நேரங்கள் இப்போது பயன்படுத்தப்படுகின்றன. "
+#~ "எடுத்துக்காட்டாக, ஒரு கொள்கலன் எவ்வளவு காலம் இயங்குகிறது அல்லது எத்தனை நாட்களுக்கு "
+#~ "முன்பு ஒரு படம் உருவாக்கப்பட்டது என்பதை நீங்கள் விரைவாகக் காணலாம்."
+
+#~ msgid ""
+#~ "For the circular progress bar in the container row, icons are now used "
+#~ "instead of text. Icons have also been added to the resource monitor in "
+#~ "the container details page."
+#~ msgstr ""
+#~ "கொள்கலன் வரிசையில் வட்ட முன்னேற்றப் பட்டிக்கு, உரைக்கு பதிலாக ஐகான்கள் இப்போது "
+#~ "பயன்படுத்தப்படுகின்றன. கொள்கலன் விவரங்கள் பக்கத்தில் உள்ள ஆதார மானிட்டரில் ஐகான்கள் "
+#~ "சேர்க்கப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "The text field for searching in the container logs and the inspection "
+#~ "page has been completely redesigned visually."
+#~ msgstr ""
+#~ "கொள்கலன் பதிவுகள் மற்றும் ஆய்வு பக்கம் ஆகியவற்றில் தேடுவதற்கான உரை புலம் பார்வைக்கு "
+#~ "முற்றிலும் மறுவடிவமைப்பு செய்யப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "The container log page now displays an info bar if the container is not "
+#~ "running. The info bar also offers the possibility to start or resume the "
+#~ "container."
+#~ msgstr ""
+#~ "கொள்கலன் இயங்கவில்லை என்றால் கொள்கலன் பதிவு பக்கம் இப்போது ஒரு செய்தி பட்டியைக் "
+#~ "காட்டுகிறது. செய்தி பட்டி கொள்கலனைத் தொடங்க அல்லது மீண்டும் தொடங்குவதற்கான வாய்ப்பையும் "
+#~ "வழங்குகிறது."
+
+#~ msgid "Desktop notifications are now triggered on actions."
+#~ msgstr "டெச்க்டாப் அறிவிப்புகள் இப்போது செயல்களில் தூண்டப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "The selection of an image in the container creation page has been "
+#~ "improved. For example, the list of images is sorted and image names are "
+#~ "no longer ellipsized."
+#~ msgstr ""
+#~ "கொள்கலன் உருவாக்கும் பக்கத்தில் ஒரு படத்தைத் தேர்ந்தெடுப்பது மேம்படுத்தப்பட்டுள்ளது. "
+#~ "எடுத்துக்காட்டாக, படங்களின் பட்டியல் வரிசைப்படுத்தப்பட்டுள்ளது மற்றும் பட பெயர்கள் இனி "
+#~ "நீங்காது."
+
+#~ msgid ""
+#~ "Also the selection of a pod in the container creation page has been "
+#~ "improved similarly to the image selection."
+#~ msgstr ""
+#~ "கொள்கலன் உருவாக்கும் பக்கத்தில் ஒரு நெற்று தேர்வு படத் தேர்வைப் போலவே "
+#~ "மேம்படுத்தப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "The image row now shows the tag of an image in the accent color to the "
+#~ "right of the image id."
+#~ msgstr ""
+#~ "பட வரிசை இப்போது பட ஐடியின் வலதுபுறத்தில் உச்சரிப்பு நிறத்தில் ஒரு படத்தின் "
+#~ "குறிச்சொல்லைக் காட்டுகிறது."
+
+#~ msgid ""
+#~ "The container row now displays the mapped host port of a container next "
+#~ "to the container name, if there is one."
+#~ msgstr ""
+#~ "கொள்கலன் வரிசையில் ஒன்று இருந்தால், கொள்கலன் பெயருக்கு அடுத்த கொள்கலனின் வரைபட புரவலன் "
+#~ "போர்ட்டைக் காட்டுகிறது."
+
+#~ msgid ""
+#~ "Port Bindings in the container details page are now shown inside an "
+#~ "AdwExpanderRow"
+#~ msgstr ""
+#~ "கொள்கலன் விவரங்கள் பக்கத்தில் துறைமுகம் பிணைப்புகள் இப்போது ஒரு Adwexpanderrow க்குள் "
+#~ "காட்டப்பட்டுள்ளன"
+
+#~ msgid ""
+#~ "The multi-selection mode of images, containers and pods is now animated a "
+#~ "bit more nicely."
+#~ msgstr ""
+#~ "படங்கள், கொள்கலன்கள் மற்றும் காய்களின் பல தேர்வு முறை இப்போது இன்னும் கொஞ்சம் நேர்த்தியாக "
+#~ "அனிமேசன் செய்யப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "The sizes of all GtkSpinners have been standardized throughout the "
+#~ "application."
+#~ msgstr "அனைத்து Gtkspinners இன் அளவுகள் பயன்பாடு முழுவதும் தரப்படுத்தப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "The gtk-rs library was updated to version 0.5, which made many internal "
+#~ "code improvements possible."
+#~ msgstr ""
+#~ "சி.டி.கே-ஆர்எச் நூலகம் பதிப்பு 0.5 க்கு புதுப்பிக்கப்பட்டது, இது பல உள் குறியீடு "
+#~ "மேம்பாடுகளை சாத்தியமாக்கியது."
+
+#~ msgid ""
+#~ "As always, there were a number of minor bug fixes, visual improvements, "
+#~ "internal code improvements, and translation updates that have not been "
+#~ "mentioned here."
+#~ msgstr ""
+#~ "எப்போதும்போல, இங்கு குறிப்பிடப்படாத பல சிறிய பிழைத் திருத்தங்கள், காட்சி மேம்பாடுகள், "
+#~ "உள் குறியீடு மேம்பாடுகள் மற்றும் மொழிபெயர்ப்பு புதுப்பிப்புகள் இருந்தன."
+
+#~ msgid "The sixth beta release of Pods 1.0.0 includes the following changes:"
+#~ msgstr "PODS 1.0.0 இன் ஆறாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
+
+#~ msgid ""
+#~ "The duration for individual actions such as downloading an image is now "
+#~ "displayed."
+#~ msgstr ""
+#~ "ஒரு படத்தைப் பதிவிறக்குவது போன்ற தனிப்பட்ட செயல்களுக்கான காலம் இப்போது "
+#~ "காட்டப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "In the overview for all images, individual images can now be updated via "
+#~ "the context menu."
+#~ msgstr ""
+#~ "எல்லா படங்களுக்கும் கண்ணோட்டத்தில், தனிப்பட்ட படங்களை இப்போது சூழல் பட்டியல் வழியாக "
+#~ "புதுப்பிக்க முடியும்."
+
+#~ msgid "Missing settings for creating pods have been added, thanks to @vv9k."
+#~ msgstr "காய்களை உருவாக்குவதற்கான அமைப்புகளைக் காணவில்லை, @vv9k க்கு நன்றி."
+
+#~ msgid ""
+#~ "A simple progress bar is now displayed in the action menu button under "
+#~ "the bell icon to indicate how many actions are currently running."
+#~ msgstr ""
+#~ "தற்போது எத்தனை செயல்கள் இயங்குகின்றன என்பதைக் குறிக்க பெல் ஐகானின் கீழ் உள்ள செயல் "
+#~ "பட்டியல் பொத்தானில் ஒரு எளிய முன்னேற்றப் பட்டி இப்போது காட்டப்பட்டுள்ளது."
+
+#~ msgid ""
+#~ "The icon of the button to return to the main view has been changed to a "
+#~ "home symbol, thanks to @vv9k."
+#~ msgstr ""
+#~ "முதன்மையான பார்வைக்குத் திரும்புவதற்கான பொத்தானின் படவுரு வீட்டு சின்னமாக "
+#~ "மாற்றப்பட்டுள்ளது, @vv9k க்கு நன்றி."
+
+#~ msgid ""
+#~ "The container details page and pod details page have been revised: The "
+#~ "menus have been removed and instead there is now a control bar."
+#~ msgstr ""
+#~ "கொள்கலன் விவரங்கள் பக்கம் மற்றும் நெற்று விவரங்கள் பக்கம் திருத்தப்பட்டுள்ளன: மெனுக்கள் "
+#~ "அகற்றப்பட்டுள்ளன, அதற்கு பதிலாக இப்போது ஒரு கட்டுப்பாட்டுப் பட்டி உள்ளது."
+
+#~ msgid ""
+#~ "Renaming a container within a container detail page must now be done via "
+#~ "a button in the name row."
+#~ msgstr ""
+#~ "ஒரு கொள்கலன் விவரம் பக்கத்திற்குள் ஒரு கொள்கலனை மறுபெயரிடுவது இப்போது பெயர் "
+#~ "வரிசையில் ஒரு பொத்தான் வழியாக செய்யப்பட வேண்டும்."
+
+#~ msgid ""
+#~ "Fixed a bug in the container log page that caused that no more than 512 "
+#~ "log lines could be loaded and date were truncated."
+#~ msgstr ""
+#~ "கொள்கலன் பதிவு பக்கத்தில் ஒரு பிழை சரி செய்யப்பட்டது, இது 512 பதிவு கோடுகளுக்கு "
+#~ "மேல் ஏற்றப்படாமல் தேதி துண்டிக்கப்பட்டது."
+
+#~ msgid ""
+#~ "The progress bars for CPU and memory in the container details page are "
+#~ "now animated."
+#~ msgstr ""
+#~ "கொள்கலன் விவரங்கள் பக்கத்தில் சிபியு மற்றும் நினைவகத்திற்கான முன்னேற்ற பார்கள் இப்போது "
+#~ "அனிமேசன் செய்யப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "The animations of the circular progress bars for CPU and memory in the "
+#~ "overview of all containers now use better easing."
+#~ msgstr ""
+#~ "அனைத்து கொள்கலன்களின் கண்ணோட்டத்தில் சிபியு மற்றும் நினைவகத்திற்கான வட்ட முன்னேற்றத்தின் "
+#~ "அனிமேசன்கள் இப்போது சிறந்த தளர்த்தலைப் பயன்படுத்துகின்றன."
+
+#~ msgid ""
+#~ "The icons and descriptions for actions like downloading an image have "
+#~ "been made clearer."
+#~ msgstr ""
+#~ "ஒரு படத்தைப் பதிவிறக்குவது போன்ற செயல்களுக்கான சின்னங்கள் மற்றும் விளக்கங்கள் "
+#~ "தெளிவுபடுத்தப்பட்டுள்ளன."
+
+#~ msgid ""
+#~ "Committing a new image from a container can now be done in a fine-grained "
+#~ "way, in a dedicated page."
+#~ msgstr ""
+#~ "ஒரு கொள்கலனிலிருந்து ஒரு புதிய படத்தைச் செய்வது இப்போது ஒரு பிரத்யேக பக்கத்தில் "
+#~ "நன்றாகச் செய்யப்படலாம்."
+
+#~ msgid ""
+#~ "As always, there were a number of minor bug fixes, visual improvements, "
+#~ "internal code improvements and translation updates."
+#~ msgstr ""
+#~ "எப்போதும்போல, பல சிறிய பிழைத் திருத்தங்கள், காட்சி மேம்பாடுகள், உள் குறியீடு "
+#~ "மேம்பாடுகள் மற்றும் மொழிபெயர்ப்பு புதுப்பிப்புகள் இருந்தன."
+
+#~ msgid "The fifth beta release of Pods 1.0.0 includes the following changes:"
+#~ msgstr "PODS 1.0.0 இன் ஐந்தாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
+
+#~ msgid "Some typos were fixed, thanks to @kianmeng."
+#~ msgstr "சில எழுத்துப்பிழைகள் சரி செய்யப்பட்டன, @Kianmeng க்கு நன்றி."
+
+#~ msgid ""
+#~ "A tab to specify infra settings were added to the pod creation page, "
+#~ "thanks to @vv9k."
+#~ msgstr ""
+#~ "@VV9K க்கு நன்றி, POD உருவாக்கும் பக்கத்தில் அகச்சிவப்பு அமைப்புகளைக் "
+#~ "குறிப்பிடுவதற்கான தாவல் சேர்க்கப்பட்டது."
+
+#~ msgid ""
+#~ "There is now a widget that provides an overview of actions, such as "
+#~ "building an image. Thus, the state of most actions can now be tracked."
+#~ msgstr ""
+#~ "ஒரு படத்தை உருவாக்குவது போன்ற செயல்களின் கண்ணோட்டத்தை வழங்கும் ஒரு விட்செட் இப்போது "
+#~ "உள்ளது. எனவே, பெரும்பாலான செயல்களின் நிலையை இப்போது கண்காணிக்க முடியும்."
+
+#~ msgid ""
+#~ "The local search for images, containers and pods is now case-insensitive."
+#~ msgstr "படங்கள், கொள்கலன்கள் மற்றும் காய்களுக்கான உள்ளக தேடல் இப்போது வழக்கு-உணர்வற்றது."
+
+#~ msgid "There were small visual adjustments all over the place."
+#~ msgstr "எல்லா இடங்களிலும் சிறிய காட்சி மாற்றங்கள் இருந்தன."
+
+#~ msgid "Minor bug fixes"
+#~ msgstr "சிறிய பிழை திருத்தங்கள்"
+
+#~ msgid "Internal code improvements"
+#~ msgstr "உள் குறியீடு மேம்பாடுகள்"
+
+#~ msgid "Translation updates"
+#~ msgstr "மொழிபெயர்ப்பு புதுப்பிப்புகள்"
+
+#~ msgid ""
+#~ "Here comes the fourth beta release of Pods 1.0.0 with the following "
+#~ "changes:"
+#~ msgstr ""
+#~ "பின்வரும் மாற்றங்களுடன் PODS 1.0.0 இன் நான்காவது பீட்டா வெளியீடு இங்கே வருகிறது:"
+
+#~ msgid ""
+#~ "The blurry symbolic application icon has been fixed, thanks to "
+#~ "@allaeddineomc."
+#~ msgstr ""
+#~ "மங்கலான குறியீட்டு பயன்பாட்டு படவுரு சரி செய்யப்பட்டது, @AllaedDineomc க்கு நன்றி."
+
+#~ msgid ""
+#~ "A status page is now displayed if there are no images, containers or pods."
+#~ msgstr ""
+#~ "படங்கள், கொள்கலன்கள் அல்லது காய்கள் இல்லாவிட்டால் இப்போது ஒரு நிலை பக்கம் காட்டப்படும்."
+
+#~ msgid ""
+#~ "The style has been improved, in particular, there is now better "
+#~ "differentiation between light, dark and high contrast modes."
+#~ msgstr ""
+#~ "பாணி மேம்படுத்தப்பட்டுள்ளது, குறிப்பாக, ஒளி, இருண்ட மற்றும் உயர் மாறுபட்ட முறைகளுக்கு "
+#~ "இடையில் இப்போது சிறந்த வேறுபாடு உள்ளது."
+
+#~ msgid ""
+#~ "The feature for coloring the header bar has been removed. It will "
+#~ "hopefully come back when there is API support for it."
+#~ msgstr ""
+#~ "தலைப்பு பட்டியை வண்ணமயமாக்குவதற்கான நற்பொருத்தம் அகற்றப்பட்டுள்ளது. பநிஇ உதவி "
+#~ "இருக்கும்போது அது திரும்பி வரும்."
+
+#~ msgid ""
+#~ "A lot of smaller UI improvements have been implemented to give Pods a "
+#~ "more polished look."
+#~ msgstr ""
+#~ "காய்களுக்கு மிகவும் மெருகூட்டப்பட்ட தோற்றத்தை வழங்க சிறிய இடைமுகம் மேம்பாடுகள் நிறைய "
+#~ "செயல்படுத்தப்பட்டுள்ளன."
+
+#~ msgid "The flatpak runtime has been updated to version 43"
+#~ msgstr "பிளாட்பாக் இயக்க நேரம் பதிப்பு 43 க்கு புதுப்பிக்கப்பட்டுள்ளது"
+
+#~ msgid ""
+#~ "Improvements in infrastructure like an issue template have landed, thanks "
+#~ "to @vv9k."
+#~ msgstr ""
+#~ "ஒரு வெளியீட்டு வார்ப்புரு போன்ற உள்கட்டமைப்பின் மேம்பாடுகள் தரையிறங்கியுள்ளன, @vv9k "
+#~ "க்கு நன்றி."
+
+#~ msgid "Image downloads can now be aborted."
+#~ msgstr "பட பதிவிறக்கங்களை இப்போது கைவிடலாம்."
+
+#~ msgid "Arguments can now be added to a container command, thanks to @vvk9."
+#~ msgstr "@Vvk9 க்கு நன்றி, இப்போது ஒரு கொள்கலன் கட்டளையில் வாதங்களை சேர்க்கலாம்."
+
+#~ msgid ""
+#~ "It's now possible to set labels on images, containers and pods, thanks to "
+#~ "@vv9k."
+#~ msgstr ""
+#~ "படங்கள், கொள்கலன்கள் மற்றும் காய்களில் லேபிள்களை அமைக்க இப்போது சாத்தியமாகும், @vv9k "
+#~ "க்கு நன்றி."
+
+#~ msgid "The third beta release of Pods 1.0.0 contains the following changes:"
+#~ msgstr "PODS 1.0.0 இன் மூன்றாவது பீட்டா வெளியீட்டில் பின்வரும் மாற்றங்கள் உள்ளன:"
+
+#~ msgid ""
+#~ "A periodic refresh interval to track entities which were created outside "
+#~ "of podman (e.g. with buildah)"
+#~ msgstr ""
+#~ "போட்மேனுக்கு வெளியே உருவாக்கப்பட்ட நிறுவனங்களைக் கண்காணிக்க அவ்வப்போது புதுப்பிப்பு "
+#~ "இடைவெளி (எ.கா. பில்டாவுடன்)"
+
+#~ msgid ""
+#~ "Containers now provide a detailed view of health configuration and health "
+#~ "status"
+#~ msgstr ""
+#~ "கொள்கலன்கள் இப்போது சுகாதார உள்ளமைவு மற்றும் சுகாதார நிலை பற்றிய விரிவான பார்வையை "
+#~ "வழங்குகின்றன"
+
+#~ msgid "Several smaller UI improvements"
+#~ msgstr "பல சிறிய இடைமுகம் மேம்பாடுகள்"
+
+#~ msgid "Several smaller bugfixes and internal code improvements"
+#~ msgstr "பல சிறிய பிழைகள் மற்றும் உள் குறியீடு மேம்பாடுகள்"
+
+#~ msgid "Updated screenshots"
+#~ msgstr "புதுப்பிக்கப்பட்ட திரை சாட்கள்"
+
+#~ msgid "A small update with app data fixes:"
+#~ msgstr "பயன்பாட்டு தரவு திருத்தங்களுடன் ஒரு சிறிய புதுப்பிப்பு:"
+
+#~ msgid "Updated app data content rating"
+#~ msgstr "பயன்பாட்டு தரவு உள்ளடக்க மதிப்பீடு புதுப்பிக்கப்பட்டது"
+
+#~ msgid "Added releases in app data"
+#~ msgstr "பயன்பாட்டு தரவுகளில் வெளியீடுகள் சேர்க்கப்பட்டன"
+
+#~ msgid "This is the first 1.0.0 beta release of Pods."
+#~ msgstr "காய்களின் முதல் 1.0.0 பீட்டா வெளியீடு இதுவாகும்."
+
+#~ msgid "Marcus Behrendt"
+#~ msgstr "மார்கச் பெஅ்ரெண்ட்"
 
 #~ msgid "No Ports Mappings"
 #~ msgstr "துறைமுக வரைபடங்கள் இல்லை"
