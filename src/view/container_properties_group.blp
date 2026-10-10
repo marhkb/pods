@@ -111,15 +111,6 @@ template $PdsContainerPropertiesGroup: Adw.PreferencesGroup {
     title: _("Restart Policy");
   }
 
-  Adw.ExpanderRow port_bindings_row {
-    styles [
-      "property",
-    ]
-
-    title: _("Port bindings");
-    visible: false;
-  }
-
   Adw.ActionRow health_row {
     title: _("Health Check");
     action-name: "container-details-page.show-health-details";

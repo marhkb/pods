@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -6,6 +7,7 @@ use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
+use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
@@ -32,7 +34,6 @@ mod imp {
     #[properties(wrapper_type = super::PodDetailsPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/pod_details_page.ui")]
     pub(crate) struct PodDetailsPage {
-        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_pod, construct, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
 
@@ -54,6 +55,10 @@ mod imp {
         pub(super) created_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) hostname_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) ports_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
+        pub(super) ports_list_box: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]
@@ -145,6 +150,9 @@ mod imp {
 
             let pod_expr = Self::Type::this_expression("pod");
             let details_expr = pod_expr.chain_property::<model::Pod>("details");
+            let infra_container_expr = pod_expr.chain_property::<model::Pod>("infra-container");
+            let ports_expr = infra_container_expr.chain_property::<model::Container>("ports");
+            let ports_len_expr = ports_expr.chain_property::<model::PortBindingList>("len");
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
             let hostname_expr = details_expr.chain_property::<model::PodDetails>("hostname");
 
@@ -202,6 +210,10 @@ mod imp {
                 ))
                 .bind(&*self.hostname_row, "visible", Some(obj));
 
+            ports_len_expr
+                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .bind(&*self.ports_group, "visible", Some(obj));
+
             status_expr.watch(
                 Some(obj),
                 clone!(
@@ -226,10 +238,6 @@ mod imp {
                 return;
             }
 
-            if let Some(pod) = obj.pod() {
-                pod.disconnect(self.handler_id.take().unwrap());
-            }
-
             if let Some(pod) = value {
                 if pod.details().is_none() {
                     pod.inspect_and_update(clone!(
@@ -245,18 +253,51 @@ mod imp {
                     ));
                 }
 
+                match pod.infra_container() {
+                    Some(container) => self.setup_ports(&container),
+                    None => {
+                        let handler_id_ref = Rc::new(RefCell::new(None));
+                        let handler_id = pod.connect_infra_container_notify(clone!(
+                            #[weak]
+                            obj,
+                            #[strong]
+                            handler_id_ref,
+                            move |pod| {
+                                if let Some(container) = pod.infra_container() {
+                                    pod.disconnect(handler_id_ref.take().unwrap());
+                                    obj.imp().setup_ports(&container);
+                                }
+                            }
+                        ));
+                        handler_id_ref.set(Some(handler_id));
+                    }
+                }
+
+                let handler_id_ref = Rc::new(RefCell::new(None));
                 let handler_id = pod.connect_deleted(clone!(
                     #[weak]
                     obj,
+                    #[strong]
+                    handler_id_ref,
                     move |pod| {
+                        pod.disconnect(handler_id_ref.take().unwrap());
                         utils::show_toast(&obj, gettext!("Pod '{}' has been deleted", pod.name()));
                         utils::navigation_view(&obj).pop();
                     }
                 ));
-                self.handler_id.replace(Some(handler_id));
+                handler_id_ref.set(Some(handler_id));
             }
 
             self.pod.set(value);
+        }
+
+        fn setup_ports(&self, container: &model::Container) {
+            self.ports_list_box.bind_model(
+                Some(&super::super::port_binding::full_sort_list_model(
+                    container.ports(),
+                )),
+                |item| view::PortBindingRow::from(item.downcast_ref().unwrap()).upcast(),
+            );
         }
     }
 }

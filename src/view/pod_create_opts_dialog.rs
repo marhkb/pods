@@ -16,7 +16,7 @@ use crate::widget;
 
 const ACTION_ADD_LABEL: &str = "pod-create-opts-dialog.add-label";
 const ACTION_ADD_HOST: &str = "pod-create-opts-dialog.add-host";
-const ACTION_ADD_PORT_MAPPING: &str = "pod-create-opts-dialog.add-port-mapping";
+const ACTION_ADD_PORT: &str = "pod-create-opts-dialog.add-port";
 const ACTION_ADD_DEVICE: &str = "pod-create-opts-dialog.add-device";
 const ACTION_CREATE: &str = "pod-create-opts-dialog.create";
 
@@ -29,7 +29,7 @@ mod imp {
     pub(crate) struct PodCreateOptsDialog {
         pub(super) labels: OnceCell<gio::ListStore>,
         pub(super) hosts: OnceCell<gio::ListStore>,
-        pub(super) port_mappings: OnceCell<gio::ListStore>,
+        pub(super) ports: OnceCell<gio::ListStore>,
         pub(super) devices: OnceCell<gio::ListStore>,
 
         #[property(get, set, construct_only, nullable)]
@@ -87,8 +87,8 @@ mod imp {
             klass.install_action(ACTION_ADD_HOST, None, |widget, _, _| {
                 widget.add_host(None);
             });
-            klass.install_action(ACTION_ADD_PORT_MAPPING, None, |widget, _, _| {
-                widget.add_port_mapping(None);
+            klass.install_action(ACTION_ADD_PORT, None, |widget, _, _| {
+                widget.add_port_binding(None);
             });
             klass.install_action(ACTION_ADD_DEVICE, None, |widget, _, _| {
                 widget.add_device(None);
@@ -148,13 +148,15 @@ mod imp {
 
             bind_model(
                 &self.port_mapping_list_box,
-                self.port_mappings(),
+                self.ports(),
                 |item| {
-                    view::PortMappingRow::from(item.downcast_ref::<model::PortMapping>().unwrap())
-                        .upcast()
+                    view::PortBindingCreationRow::from(
+                        item.downcast_ref::<model::PortBindingCreation>().unwrap(),
+                    )
+                    .upcast()
                 },
-                ACTION_ADD_PORT_MAPPING,
-                &gettext("Add Port Mapping"),
+                ACTION_ADD_PORT,
+                &gettext("Add Port"),
             );
 
             bind_model(
@@ -196,8 +198,8 @@ mod imp {
                 obj.add_label(Some(model::KeyVal::from((key.as_str(), val.as_str()))))
             });
 
-            opts.port_mappings.iter().for_each(|port_mapping| {
-                obj.add_port_mapping(Some(port_mapping.into()));
+            opts.ports.iter().for_each(|port_binding| {
+                obj.add_port_binding(Some(port_binding.into()));
             });
 
             opts.devices.iter().for_each(|device| {
@@ -293,9 +295,9 @@ mod imp {
             self.hosts.get_or_init(gio::ListStore::new::<model::KeyVal>)
         }
 
-        pub(super) fn port_mappings(&self) -> &gio::ListStore {
-            self.port_mappings
-                .get_or_init(gio::ListStore::new::<model::PortMapping>)
+        pub(super) fn ports(&self) -> &gio::ListStore {
+            self.ports
+                .get_or_init(gio::ListStore::new::<model::PortBindingCreation>)
         }
 
         pub(super) fn devices(&self) -> &gio::ListStore {
@@ -395,9 +397,9 @@ impl PodCreateOptsDialog {
                 .map(|entry| (entry.key(), entry.value()))
                 .collect(),
             name: imp.name_entry_row.text().into(),
-            port_mappings: imp
-                .port_mappings()
-                .iter::<model::PortMapping>()
+            ports: imp
+                .ports()
+                .iter::<model::PortBindingCreation>()
                 .map(Result::unwrap)
                 .map(Into::into)
                 .collect(),
@@ -412,8 +414,11 @@ impl PodCreateOptsDialog {
         add_key_val(self.imp().hosts(), host);
     }
 
-    fn add_port_mapping(&self, port_mapping: Option<model::PortMapping>) -> model::PortMapping {
-        add_port_mapping(self.imp().port_mappings(), port_mapping)
+    fn add_port_binding(
+        &self,
+        port_binding: Option<model::PortBindingCreation>,
+    ) -> model::PortBindingCreation {
+        add_port_binding(self.imp().ports(), port_binding)
     }
 
     fn add_device(&self, device: Option<model::Device>) -> model::Device {
@@ -464,11 +469,11 @@ fn add_key_val(model: &gio::ListStore, key_val: Option<model::KeyVal>) -> model:
     key_val
 }
 
-fn add_port_mapping(
+fn add_port_binding(
     model: &gio::ListStore,
-    port_mapping: Option<model::PortMapping>,
-) -> model::PortMapping {
-    let port_mapping = port_mapping.unwrap_or_default();
+    port_binding: Option<model::PortBindingCreation>,
+) -> model::PortBindingCreation {
+    let port_mapping = port_binding.unwrap_or_default();
 
     port_mapping.connect_remove_request(clone!(
         #[weak]

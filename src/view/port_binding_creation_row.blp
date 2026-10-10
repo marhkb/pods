@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $PdsPortMappingRow: Adw.ExpanderRow {
+template $PdsPortBindingCreationRow: Adw.ExpanderRow {
   activatable: false;
   selectable: false;
 
@@ -45,7 +45,7 @@ template $PdsPortMappingRow: Adw.ExpanderRow {
       margin-start: 4;
     }
 
-    Label container_port_label {
+    Label target_port_label {
       name: "badge";
     }
   }
@@ -56,12 +56,12 @@ template $PdsPortMappingRow: Adw.ExpanderRow {
       "flat",
     ]
 
-    action-name: "port-mapping-row.remove";
+    action-name: "port-binding-creation-row.remove";
     icon-name: "edit-delete-symbolic";
-    tooltip-text: _("Remove Port Mapping");
+    tooltip-text: _("Remove Port Binding");
 
     accessibility {
-      label: _("Remove Port Mapping");
+      label: _("Remove Port Binding");
     }
 
     valign: center;
@@ -97,10 +97,10 @@ template $PdsPortMappingRow: Adw.ExpanderRow {
   }
 
   Adw.SpinRow {
-    title: _("Container Port");
+    title: _("Target Port");
     numeric: true;
 
-    adjustment: Adjustment container_port_adjustment {
+    adjustment: Adjustment target_port_adjustment {
       lower: 1;
       upper: 65536;
       page-increment: 16;

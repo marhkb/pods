@@ -1,0 +1,15 @@
+using Gtk 4.0;
+
+template $PdsHostPortPill: Widget {
+  layout-manager: BinLayout {};
+
+  Label label {
+    styles [
+      "status-badge-small",
+      "numeric",
+    ]
+
+    halign: center;
+    valign: center;
+  }
+}

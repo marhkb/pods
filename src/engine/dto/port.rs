@@ -1,39 +1,39 @@
 use std::fmt;
 
 #[derive(Clone, Debug)]
-pub(crate) struct PortMapping {
-    pub(crate) container_port: u16,
+pub(crate) struct PortBinding {
     pub(crate) host_ip: String,
     pub(crate) host_port: Option<u16>,
     pub(crate) protocol: PortMappingProtocol,
+    pub(crate) target_port: u16,
 }
 
-impl From<bollard::plugin::PortSummary> for PortMapping {
+impl From<bollard::plugin::PortSummary> for PortBinding {
     fn from(value: bollard::plugin::PortSummary) -> Self {
         Self {
-            container_port: value.private_port,
             host_ip: value.ip.unwrap_or_default(),
             host_port: value.public_port,
             protocol: value.typ.into(),
+            target_port: value.private_port,
         }
     }
 }
 
-impl From<podman_api::models::PortMapping> for PortMapping {
+impl From<podman_api::models::PortMapping> for PortBinding {
     fn from(value: podman_api::models::PortMapping) -> Self {
         Self {
-            container_port: value.container_port.unwrap_or(0),
             host_ip: value.host_ip.unwrap_or_default(),
             host_port: value.host_port,
             protocol: value.protocol.as_deref().into(),
+            target_port: value.container_port.unwrap_or(0),
         }
     }
 }
 
-impl From<PortMapping> for podman_api::models::PortMapping {
-    fn from(value: PortMapping) -> Self {
+impl From<PortBinding> for podman_api::models::PortMapping {
+    fn from(value: PortBinding) -> Self {
         Self {
-            container_port: Some(value.container_port),
+            container_port: Some(value.target_port),
             host_ip: None,
             host_port: value.host_port,
             protocol: Some(value.protocol.to_string()),

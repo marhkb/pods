@@ -18,7 +18,7 @@ pub(crate) struct ContainerCreateOpts {
     pub(crate) name: String,
     // Podman only
     pub(crate) pod: Option<String>,
-    pub(crate) port_mappings: Vec<engine::dto::PortMapping>,
+    pub(crate) ports: Vec<engine::dto::PortBinding>,
     // artificial option to trigger a pull before creating the container
     pub(crate) pull_latest: bool,
     pub(crate) privileged: bool,
@@ -38,8 +38,8 @@ impl From<ContainerCreateOpts>
         let mut port_bindings = HashMap::new();
         let mut exposed_ports = Vec::new();
 
-        for port_mapping in value.port_mappings {
-            let port_key = format!("{}/{}", port_mapping.container_port, port_mapping.protocol);
+        for port_mapping in value.ports {
+            let port_key = format!("{}/{}", port_mapping.target_port, port_mapping.protocol);
 
             exposed_ports.push(port_key.clone());
 
@@ -144,7 +144,7 @@ impl From<ContainerCreateOpts> for podman_api::opts::ContainerCreateOpts {
 
         match value.pod {
             Some(pod) => builder.pod(pod),
-            None => builder.portmappings(value.port_mappings.into_iter().map(Into::into)),
+            None => builder.portmappings(value.ports.into_iter().map(Into::into)),
         }
         .build()
     }

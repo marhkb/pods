@@ -227,6 +227,18 @@ template $PdsContainerDetailsPage: Widget {
             container: bind template.container;
           }
 
+          Adw.PreferencesGroup ports_group {
+            title: _("Ports");
+
+            ListBox ports_list_box {
+              styles [
+                "boxed-list",
+              ]
+
+              selection-mode: none;
+            }
+          }
+
           Adw.PreferencesGroup volumes_group {
             title: _("Volumes");
 

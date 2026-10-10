@@ -17,7 +17,7 @@ use crate::widget;
 
 const ACTION_ADD_ENV_VAR: &str = "container-create-opts-dialog.add-env-var";
 const ACTION_ADD_LABEL: &str = "container-create-opts-dialog.add-label";
-const ACTION_ADD_PORT_MAPPING: &str = "container-create-opts-dialog.add-port-mapping";
+const ACTION_ADD_PORT_BINDING: &str = "container-create-opts-dialog.add-port-binding";
 const ACTION_ADD_VOLUME: &str = "container-create-opts-dialog.add-volume";
 const ACTION_CREATE: &str = "container-create-opts-dialog.create";
 const ACTION_CREATE_AND_RUN: &str = "container-create-opts-dialog.create-and-run";
@@ -93,7 +93,7 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
-            klass.install_action(ACTION_ADD_PORT_MAPPING, None, |widget, _, _| {
+            klass.install_action(ACTION_ADD_PORT_BINDING, None, |widget, _, _| {
                 widget.add_port_mapping(None);
             });
             klass.install_action(ACTION_ADD_VOLUME, None, |widget, _, _| {
@@ -157,11 +157,13 @@ mod imp {
                 &self.port_mapping_list_box,
                 self.port_mappings(),
                 |item| {
-                    view::PortMappingRow::from(item.downcast_ref::<model::PortMapping>().unwrap())
-                        .upcast()
+                    view::PortBindingCreationRow::from(
+                        item.downcast_ref::<model::PortBindingCreation>().unwrap(),
+                    )
+                    .upcast()
                 },
-                ACTION_ADD_PORT_MAPPING,
-                &gettext("Add Port Mapping"),
+                ACTION_ADD_PORT_BINDING,
+                &gettext("Add Port"),
             );
 
             bind_model(
@@ -219,8 +221,8 @@ mod imp {
                     .unwrap_or_default(),
             );
 
-            opts.port_mappings.iter().for_each(|port_mapping| {
-                obj.add_port_mapping(Some(model::PortMapping::from(port_mapping)));
+            opts.ports.iter().for_each(|port_binding| {
+                obj.add_port_mapping(Some(model::PortBindingCreation::from(port_binding)));
             });
             opts.volumes.iter().for_each(|volume_opts| {
                 if let Some(mount) = obj
@@ -278,7 +280,7 @@ mod imp {
 
         pub(super) fn port_mappings(&self) -> &gio::ListStore {
             self.port_mappings
-                .get_or_init(gio::ListStore::new::<model::PortMapping>)
+                .get_or_init(gio::ListStore::new::<model::PortBindingCreation>)
         }
 
         pub(super) fn volumes(&self) -> &gio::ListStore {
@@ -384,9 +386,9 @@ impl ContainerCreateOptsDialog {
                 .then(|| imp.pod_selection_combo_row.selected_pod())
                 .flatten()
                 .map(|pod| pod.name()),
-            port_mappings: imp
+            ports: imp
                 .port_mappings()
-                .iter::<model::PortMapping>()
+                .iter::<model::PortBindingCreation>()
                 .map(Result::unwrap)
                 .map(Into::into)
                 .collect(),
@@ -418,7 +420,10 @@ impl ContainerCreateOptsDialog {
         }
     }
 
-    fn add_port_mapping(&self, port_mapping: Option<model::PortMapping>) -> model::PortMapping {
+    fn add_port_mapping(
+        &self,
+        port_mapping: Option<model::PortBindingCreation>,
+    ) -> model::PortBindingCreation {
         add_port_mapping(self.imp().port_mappings(), port_mapping)
     }
 
@@ -464,8 +469,8 @@ fn bind_model<F>(
 
 fn add_port_mapping(
     model: &gio::ListStore,
-    port_mapping: Option<model::PortMapping>,
-) -> model::PortMapping {
+    port_mapping: Option<model::PortBindingCreation>,
+) -> model::PortBindingCreation {
     let port_mapping = port_mapping.unwrap_or_default();
 
     port_mapping.connect_remove_request(clone!(

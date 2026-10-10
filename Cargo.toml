@@ -9,7 +9,7 @@ license = "GPL-3.0-or-later"
 astral-tokio-tar = { version = "0.7", default-features = false }
 adw = { version = "0.9", package = "libadwaita", features = ["v1_9"] }
 anyhow = "1"
-ashpd = { version = "0.13", default-features = false, features = ["account", "file_chooser", "gtk4", "notification", "tokio"] }
+ashpd = { version = "0.13", default-features = false, features = ["account", "file_chooser", "gtk4", "notification", "open_uri", "tokio"] }
 async-stream = "0.3"
 bollard = { version = "0.21", features = ["ssh", "ssl"] }
 bytes = "1"
