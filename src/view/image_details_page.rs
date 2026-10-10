@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -6,6 +7,7 @@ use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
+use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
@@ -27,7 +29,6 @@ mod imp {
     #[properties(wrapper_type = super::ImageDetailsPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/image_details_page.ui")]
     pub(crate) struct ImageDetailsPage {
-        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_image, construct, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
 
@@ -274,9 +275,6 @@ mod imp {
                 return;
             }
 
-            if let Some(image) = obj.image() {
-                image.disconnect(self.handler_id.take().unwrap());
-            }
             self.repo_tags_list_box.unbind_model();
 
             if let Some(image) = value {
@@ -294,18 +292,26 @@ mod imp {
                     ));
                 }
 
+                let handler_id_ref = Rc::new(RefCell::new(None));
                 let handler_id = image.connect_deleted(clone!(
                     #[weak]
                     obj,
+                    #[strong]
+                    handler_id_ref,
                     move |image| {
+                        image.disconnect(handler_id_ref.take().unwrap());
+
                         utils::show_toast(
                             &obj,
                             gettext!("Image '{}' has been deleted", utils::format_id(&image.id())),
                         );
-                        utils::navigation_view(&obj).pop();
+
+                        let navigation_view = utils::navigation_view(&obj);
+                        navigation_view.pop_to_page(&utils::navigation_page(&obj));
+                        navigation_view.pop();
                     }
                 ));
-                self.handler_id.replace(Some(handler_id));
+                handler_id_ref.set(Some(handler_id));
 
                 let model = gtk::SortListModel::new(
                     Some(image.repo_tags()),

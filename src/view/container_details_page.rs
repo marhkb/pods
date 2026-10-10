@@ -363,7 +363,10 @@ mod imp {
                             &obj,
                             gettext!("Container '{}' has been deleted", container.name()),
                         );
-                        utils::navigation_view(&obj).pop();
+
+                        let navigation_view = utils::navigation_view(&obj);
+                        navigation_view.pop_to_page(&utils::navigation_page(&obj));
+                        navigation_view.pop();
                     }
                 ));
                 handler_id_ref.set(Some(handler_id));

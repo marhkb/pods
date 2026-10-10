@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -6,6 +7,7 @@ use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
+use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
@@ -24,9 +26,9 @@ mod imp {
     #[properties(wrapper_type = super::VolumeDetailsPage)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/volume_details_page.ui")]
     pub(crate) struct VolumeDetailsPage {
-        pub(super) handler_id: RefCell<Option<glib::SignalHandlerId>>,
         #[property(get, set = Self::set_volume, construct, explicit_notify, nullable)]
         pub(super) volume: glib::WeakRef<model::Volume>,
+
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
@@ -159,26 +161,31 @@ mod imp {
             }
 
             self.window_title.set_subtitle("");
-            if let Some(volume) = obj.volume() {
-                volume.disconnect(self.handler_id.take().unwrap());
-            }
 
             if let Some(volume) = value {
                 self.window_title
                     .set_subtitle(utils::format_volume_name(&volume.name()));
 
+                let handler_id_ref = Rc::new(RefCell::new(None));
                 let handler_id = volume.connect_deleted(clone!(
                     #[weak]
                     obj,
+                    #[strong]
+                    handler_id_ref,
                     move |volume| {
+                        volume.disconnect(handler_id_ref.take().unwrap());
+
                         utils::show_toast(
                             &obj,
                             gettext!("Volume '{}' has been deleted", volume.name()),
                         );
-                        utils::navigation_view(&obj).pop();
+
+                        let navigation_view = utils::navigation_view(&obj);
+                        navigation_view.pop_to_page(&utils::navigation_page(&obj));
+                        navigation_view.pop();
                     }
                 ));
-                self.handler_id.replace(Some(handler_id));
+                handler_id_ref.set(Some(handler_id));
             }
 
             self.volume.set(value);
