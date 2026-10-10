@@ -281,8 +281,12 @@ mod imp {
                     handler_id_ref,
                     move |pod| {
                         pod.disconnect(handler_id_ref.take().unwrap());
+
                         utils::show_toast(&obj, gettext!("Pod '{}' has been deleted", pod.name()));
-                        utils::navigation_view(&obj).pop();
+
+                        let navigation_view = utils::navigation_view(&obj);
+                        navigation_view.pop_to_page(&utils::navigation_page(&obj));
+                        navigation_view.pop();
                     }
                 ));
                 handler_id_ref.set(Some(handler_id));

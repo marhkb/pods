@@ -284,14 +284,24 @@ pub(crate) fn show_error_toast<W: IsA<gtk::Widget>>(widget: &W, title: &str, msg
     show_toast(widget, format!("{title}: {msg}"));
 }
 
-pub(crate) fn try_navigation_view<W: IsA<gtk::Widget>>(widget: &W) -> Option<adw::NavigationView> {
-    widget
-        .ancestor(adw::NavigationView::static_type())
-        .and_downcast::<adw::NavigationView>()
+pub(crate) fn try_ancestor<A: IsA<gtk::Widget>>(widget: &impl IsA<gtk::Widget>) -> Option<A> {
+    widget.ancestor(A::static_type()).and_downcast()
 }
 
-pub(crate) fn navigation_view<W: IsA<gtk::Widget>>(widget: &W) -> adw::NavigationView {
-    try_navigation_view(widget).unwrap()
+pub(crate) fn ancestor<A: IsA<gtk::Widget>>(widget: &impl IsA<gtk::Widget>) -> A {
+    try_ancestor(widget).unwrap()
+}
+
+pub(crate) fn try_navigation_view(widget: &impl IsA<gtk::Widget>) -> Option<adw::NavigationView> {
+    try_ancestor(widget)
+}
+
+pub(crate) fn navigation_view(widget: &impl IsA<gtk::Widget>) -> adw::NavigationView {
+    ancestor(widget)
+}
+
+pub(crate) fn navigation_page(widget: &impl IsA<gtk::Widget>) -> adw::NavigationPage {
+    ancestor(widget)
 }
 
 pub(crate) fn escape(text: &str) -> String {
