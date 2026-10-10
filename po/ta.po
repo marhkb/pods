@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-07 13:24+0000\n"
+"POT-Creation-Date: 2026-10-10 09:17+0000\n"
 "PO-Revision-Date: 2025-06-16 11:01+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/pods/main/ta/>\n"
@@ -226,133 +226,295 @@ msgstr "கொள்கலன்களை மறுபெயரிடுங்�
 msgid "Pods main window"
 msgstr "சாளரத்தை மூடு"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:43
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:44
+#, fuzzy
+msgid "Pods 3.1.1 contains the following changes:"
+msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
+msgid ""
+"Fixed an issue where active terminal exec sessions were unexpectedly "
+"terminated when the window was resized and the sidebar collapsed. (#965)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:47
+msgid ""
+"Removed empty image tag markup in the search response row when using Podman. "
+"(#967)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:48
+msgid ""
+"Improved text alignment for errors in the action dialog and increased the "
+"height of the repo tag push view. (#968)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:49
+msgid ""
+"Added a link to the source repository in the application metainfo. (Thanks "
+"to @salim-b, #884)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:55
+#, fuzzy
+msgid "Pods 3.1.0 contains the following changes:"
+msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:56
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:120
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:134
+msgid "Features"
+msgstr "நற்பொருத்தங்கள்"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:58
+msgid ""
+"Overhauled the internal background action system to use a dedicated modal "
+"dialog and stateful, editable actions. (#961)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:59
+msgid ""
+"Implemented an AutoScrolledWindow widget and ported the container log view "
+"to it, improving automatic terminal scrolling. (#932)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:60
+msgid ""
+"Introduced the ImageSuggestionEntryRow widget, featuring focus-leave "
+"handling, Ctrl+Space activation, and increased width alignment. (#933, #934, "
+"#943)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:61
+msgid ""
+"Added bi-directional timestamp synchronization and a visually improved "
+"numeric layout style to the date-time row widget. (#947, #951)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
+msgid ""
+"Updated the connection creation view with dynamic descriptions and modified "
+"the default podman-tcp.service template to bind strictly to localhost "
+"(127.0.0.1). (Thanks to @anli5005, #948)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:63
+msgid ""
+"Added interactive documentation links for podman-system-service "
+"configurations when setting up rootful instances. (Thanks to @anli5005, #946)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
+msgid ""
+"Enhanced image search result rows by ellipsizing long image names in the UI. "
+"(#945)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:66
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:153
+msgid "Fixes"
+msgstr "திருத்தங்கள்"
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:68
+msgid ""
+"Corrected desktop metadata classification to ensure Pods is no longer "
+"erroneously flagged as a terminal emulator, which previously broke xdg-"
+"terminal-exec behavior. (Thanks to @ehsanullahjan, #938)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:69
+msgid ""
+"Fixed severe application crashes during widget inspection by removing "
+"redundant GtkEditable interface implementations from custom rows. (#935, "
+"#942)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:70
+msgid ""
+"Forced the removal of local container images even when dependent containers "
+"are still attached. (#941)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:71
+msgid ""
+"Ensured a valid 1–12 hour range is strictly enforced when using the 12-hour "
+"clock configuration in the date-time picker. (#951)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:72
+msgid ""
+"Fixed a UI rendering bug where suggestion entry rows opened popups before "
+"being properly realized by the window manager. (#944)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:73
+msgid ""
+"Added escape key handling to ensure popovers drop down reliably when "
+"pressing Escape. (#936)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:75
+msgid "Refactorings & Infrastructure"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
+msgid ""
+"Migrated volume-prune time boundary options ('until') from generic "
+"representations to explicit i64 integers. (#949)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
+msgid ""
+"Moved internal engine health checking mechanisms directly into Engine "
+"Capabilities. (#945)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:79
+msgid ""
+"Enabled native Bollard transport features and configured explicit library "
+"paths within build manifests. (#953, #957)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:80
+msgid ""
+"Allowed the ISC license format within cargo-deny verification policies. "
+"(#957)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:81
+msgid ""
+"Optimized the devcontainer ecosystem by adding native Zed extensions and "
+"generating strict build lockfiles. (#958, #959)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:82
+msgid ""
+"Upgraded various internal Rust/Cargo dependencies and merged comprehensive "
+"global translation updates from Hosted Weblate. (#931, #950, #956, #960)"
+msgstr ""
+
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:88
 #, fuzzy
 msgid "Pods 3.0.0 contains the following changes:"
 msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:45
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:90
 msgid ""
 "Implemented a new backend architecture to support multiple container "
 "engines. (#927)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:91
 msgid ""
 "Experimental Docker support – please report any issues on GitHub. (#927)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:52
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:97
 #, fuzzy
 msgid "Pods 2.4.0 contains the following changes:"
 msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:54
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:99
 msgid "Updated to GNOME 50. (#916)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:55
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:100
 msgid "Sidebar ported to Adw.Sidebar. (#919)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:56
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:101
 #, fuzzy
 msgid ""
 "Fixed a bug that prevented scrolling up in the container log page. (#920)"
 msgstr "கொள்கலன் பதிவு பக்கத்தில் பேனரை கீழே இருந்து மேலே நகர்த்தியுள்ளோம். (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:62
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:107
 #, fuzzy
 msgid "Pods 2.3.0 contains the following changes:"
 msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:64
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:109
 msgid ""
 "Replaced numerous mismatched or outdated widgets with modern alternatives "
 "from libadwaita 1.8. (#890, #899, #909, #910)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:65
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
 msgid ""
 "Actions such as container creation can now be retried in case of failure; "
 "thanks to @iamanaws. (#899)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:66
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:111
 msgid "CVE-2025-62518 has been fixed; thanks to @bengsparks. (#895)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:67
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:112
 msgid ""
 "Various fixes and improvements throughout the app; thanks to @iamanaws, "
 "@jardon and @Kekun. (#874, #879, #848, #880, #894, #899, #908, #904)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:68
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:113
 #, fuzzy
 msgid "Updated translations."
 msgstr "புதுப்பிக்கப்பட்ட திரை சாட்கள்"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:74
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:119
 #, fuzzy
 msgid "Pods 2.2.0 contains the following changes:"
 msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:75
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:89
-msgid "Features"
-msgstr "நற்பொருத்தங்கள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:77
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:122
 msgid "Add more powerful sorting options. (#848)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:78
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:123
 msgid ""
 "The search entry has been transformed into a toggle button in the headerbar. "
 "(#830)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:79
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
 msgid "Search is now possible in the connection chooser page. (#830)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:80
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:125
 msgid ""
 "The control elements of the header bar are now moved to a lower bar if space "
 "becomes too tight. (#837)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:81
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:126
 #, fuzzy
 msgid ""
 "Allow switching between grid and list view in the containers panel. (#838)"
 msgstr "கொள்கலன்கள் இப்போது கொள்கலன் பேனலில் உள்ள அட்டைகளால் குறிப்பிடப்படுகின்றன. (#778)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:82
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:127
 msgid "Various widgets have been updated to libadwaita 1.7. (#870)"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:88
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:133
 msgid "Pods 2.1.0 contains the following changes:"
 msgstr "PODS 2.1.0 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:91
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:136
 msgid "Accent colors are now properly supported. (#804, #807, #809, #811)"
 msgstr ""
 "உச்சரிப்பு வண்ணங்கள் இப்போது சரியாக ஆதரிக்கப்படுகின்றன. ( #804, #807, #809, #811)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:92
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:137
 msgid "All dialogs have been ported to AdwDialog to be more adaptive. (#810)"
 msgstr ""
 "அனைத்து உரையாடல்களும் அட்வியாலாக் நிறுவனத்திற்கு மிகவும் தகவமைப்புக்கு ஏற்றவாறு "
 "அனுப்பப்பட்டுள்ளன. (#810)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:93
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
 msgid "Containers are now represented by cards in the container panel. (#778)"
 msgstr "கொள்கலன்கள் இப்போது கொள்கலன் பேனலில் உள்ள அட்டைகளால் குறிப்பிடப்படுகின்றன. (#778)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:94
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:139
 msgid ""
 "The image search has been completely revised and is now much more "
 "streamlined. In addition, the tags of an image are suggested. (#758)"
@@ -360,19 +522,19 @@ msgstr ""
 "படத் தேடல் முற்றிலும் திருத்தப்பட்டிருக்கிறது, இப்போது மிகவும் நெறிப்படுத்தப்பட்டுள்ளது. "
 "கூடுதலாக, ஒரு படத்தின் குறிச்சொற்கள் பரிந்துரைக்கப்படுகின்றன. (#758)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:98
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:143
 msgid "Port mappings can now be configured when creating pods. (#772)"
 msgstr "POD களை உருவாக்கும் போது துறைமுகம் மேப்பிங்ச் இப்போது கட்டமைக்கப்படலாம். (#772)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:99
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:144
 msgid "Enable searching for container and pod processes. (#747)"
 msgstr "கொள்கலன் மற்றும் நெற்று செயல்முறைகளைத் தேடுவதை இயக்கவும். (#747)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:100
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:145
 msgid "Killing container processes is now supported. (#748)"
 msgstr "கொள்கலன் செயல்முறைகளை கொல்வது இப்போது ஆதரிக்கப்படுகிறது. (#748)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:101
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:146
 msgid ""
 "The image search results now have an \"verified\" icon if an image is "
 "official. (#761)"
@@ -380,15 +542,15 @@ msgstr ""
 "ஒரு படம் அதிகாரப்பூர்வமாக இருந்தால் பட தேடல் முடிவுகள் இப்போது \"சரிபார்க்கப்பட்ட\" "
 "ஐகானைக் கொண்டுள்ளன. (#761)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:102
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:147
 msgid "Logs are now sent to both std and syslog. (#763)"
 msgstr "பதிவுகள் இப்போது எச்.டி.டி மற்றும் சிச்லாக் இரண்டிற்கும் அனுப்பப்படுகின்றன. (#763)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:103
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:148
 msgid "Make it possible to create privileged containers. (#753)"
 msgstr "சலுகை பெற்ற கொள்கலன்களை உருவாக்குவதை சாத்தியமாக்குங்கள். (#753)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:104
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:149
 msgid ""
 "Better handling of empty states when selecting images, pods and volumes for "
 "a container to be created. (#769)"
@@ -396,11 +558,11 @@ msgstr ""
 "ஒரு கொள்கலன் உருவாக்கப்பட வேண்டிய படங்கள், காய்கள் மற்றும் தொகுதிகளைத் தேர்ந்தெடுக்கும்போது "
 "வெற்று மாநிலங்களை சிறப்பாக கையாளுதல். (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:105
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:150
 msgid "Unification of status and health status in the container row. (#774)"
 msgstr "கொள்கலன் வரிசையில் நிலை மற்றும் சுகாதார நிலையை ஒன்றிணைத்தல். (#774)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:106
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:151
 msgid ""
 "The recently introduced libadwaita Spinner now replaces all gtk Spinners. "
 "(#802)"
@@ -408,11 +570,7 @@ msgstr ""
 "அண்மைக் காலத்தில் அறிமுகப்படுத்தப்பட்ட லிபாட்வைட்டா ச்பின்னர் இப்போது அனைத்து சி.டி.கே "
 "ச்பின்னர்களையும் மாற்றுகிறார். (#802)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:108
-msgid "Fixes"
-msgstr "திருத்தங்கள்"
-
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:110
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:155
 msgid ""
 "All remaining processes are now closed after a container terminal exits. "
 "(#744)"
@@ -420,7 +578,7 @@ msgstr ""
 "ஒரு கொள்கலன் முனையம் வெளியேறிய பிறகு மீதமுள்ள அனைத்து செயல்முறைகளும் இப்போது "
 "மூடப்பட்டுள்ளன. (#744)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:111
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:156
 msgid ""
 "Streams are now closed correctly so that they do not run forever when the "
 "user changes the connection. (#764)"
@@ -428,7 +586,7 @@ msgstr ""
 "ச்ட்ரீம்கள் இப்போது சரியாக மூடப்பட்டுள்ளன, இதனால் பயனர் இணைப்பை மாற்றும்போது அவை எப்போதும் "
 "இயங்காது. (#764)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:112
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:157
 msgid ""
 "A bug was fixed where the content of the container log page was initially "
 "too large. (#769)"
@@ -436,20 +594,20 @@ msgstr ""
 "கொள்கலன் பதிவு பக்கத்தின் உள்ளடக்கம் ஆரம்பத்தில் மிகப் பெரியதாக இருந்த இடத்தில் ஒரு பிழை "
 "சரி செய்யப்பட்டது. (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:113
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:158
 msgid "Stop filtering out containers, pods and volumes by default. (#770)"
 msgstr ""
 "முன்னிருப்பாக கொள்கலன்கள், காய்கள் மற்றும் தொகுதிகளை வடிகட்டுவதை நிறுத்துங்கள். (#770)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:115
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:160
 msgid "Improvements"
 msgstr "மேம்பாடுகள்"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:117
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:162
 msgid "We now use appdata to construct the about dialog. (#743)"
 msgstr "பற்றி உரையாடலை உருவாக்க இப்போது AppData ஐப் பயன்படுத்துகிறோம். (#743)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:118
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:163
 msgid ""
 "Improve performance by utilizing the <em>SignalListItemFactory::setup</em> "
 "signal. (#745)"
@@ -457,12 +615,12 @@ msgstr ""
 "<em> சிக்னலிச்டிட்எம்ஃபாக்டரி :: அமைவு </em> சமிக்ஞையைப் பயன்படுத்துவதன் மூலம் "
 "செயல்திறனை மேம்படுத்தவும். (#745)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:119
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:164
 msgid "Port <em>GtkTreeView</em> to <em>GtkColumnView</em>. (#746)"
 msgstr ""
 "துறைமுகம் <em> gtktreeview </em> முதல் <em> gtkcolumnview </em> வரை. (#746)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:120
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:165
 msgid ""
 "After the last connection has been removed from the page with the connection "
 "selection, the home page is displayed again. (#760)"
@@ -470,7 +628,7 @@ msgstr ""
 "இணைப்பு தேர்வோடு பக்கத்திலிருந்து கடைசி இணைப்பு அகற்றப்பட்ட பிறகு, முகப்பு பக்கம் மீண்டும் "
 "காட்டப்படும். (#760)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:124
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:169
 msgid ""
 "The same background color is now used for list views as for the window. "
 "(#769)"
@@ -478,43 +636,43 @@ msgstr ""
 "அதே பின்னணி நிறம் இப்போது சாளரத்தைப் பொறுத்தவரை பட்டியல் காட்சிகளுக்கு "
 "பயன்படுத்தப்படுகிறது. (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:125
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:170
 msgid ""
 "We have moved the banner from the bottom to the top in the container log "
 "page. (#769)"
 msgstr "கொள்கலன் பதிவு பக்கத்தில் பேனரை கீழே இருந்து மேலே நகர்த்தியுள்ளோம். (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:126
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:171
 msgid "Some titles have been shortened. (#769)"
 msgstr "சில தலைப்புகள் சுருக்கப்பட்டுள்ளன. (#769)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:127
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:172
 msgid "We now use AboutDialog instead of AboutWindow. (803)"
 msgstr "நாங்கள் இப்போது பற்றிச் சாளரத்திற்கு பதில் பற்றி உரையாடல் பயன்படுத்துகிறோம். (803)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:128
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
 msgid "Various style improvements (#741, #757)"
 msgstr "பல்வேறு நடை மேம்பாடுகள் ( #741, #757)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:134
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:179
 msgid "Pods 1.2.1 contains the following bugfixes and improvements:"
 msgstr "PODS 1.2.1 பின்வரும் பிழைத்திருத்தங்கள் மற்றும் மேம்பாடுகளைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:136
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:181
 msgid ""
 "Fixed a bug that caused the application to crash when the keyring could not "
 "be accessed."
 msgstr ""
 "கீரிங்கை அணுக முடியாதபோது பயன்பாட்டை செயலிழக்கச் செய்த ஒரு பிழை சரி செய்யப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:137
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:182
 msgid ""
 "Some languages like Romanian were not correctly included. This should be "
 "fixed now."
 msgstr ""
 "ருமேனிய போன்ற சில மொழிகள் சரியாக சேர்க்கப்படவில்லை. இது இப்போது சரி செய்யப்பட வேண்டும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:138
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:183
 msgid ""
 "Fixed a regression where the container list was not re-sorted once a "
 "container was renamed."
@@ -522,65 +680,65 @@ msgstr ""
 "ஒரு கொள்கலன் மறுபெயரிடப்பட்டவுடன் கொள்கலன் பட்டியல் மீண்டும் வரிசைப்படுத்தப்படாத ஒரு "
 "பின்னடைவு சரி செய்யப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:139
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:184
 msgid "Minor cleanup work has been done in the code."
 msgstr "குறியீட்டில் சிறிய தூய்மைப்படுத்தும் பணிகள் செய்யப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:145
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:190
 msgid "Pods 1.2.0 contains the following new features:"
 msgstr "PODS 1.2.0 பின்வரும் புதிய அம்சங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:147
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:192
 msgid "Usabilty and UX has been improved in many places."
 msgstr "பல இடங்களில் பயன்பாட்டினை மற்றும் யுஎக்ச் மேம்படுத்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:148
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:193
 msgid "Pruning of containers and pods is now possible."
 msgstr "கொள்கலன்கள் மற்றும் காய்களை கத்தரிப்பது இப்போது சாத்தியமாகும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:149
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:194
 msgid "Container terminals are now detachable and can be used in parallel."
 msgstr "கொள்கலன் டெர்மினல்கள் இப்போது பிரிக்கக்கூடியவை மற்றும் இணையாக பயன்படுத்தலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:150
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:195
 msgid "Images can be pushed to a registry."
 msgstr "படங்களை ஒரு பதிவேட்டில் தள்ள முடியும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:151
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:196
 msgid "The CPU utilization now takes the number of cores into account."
 msgstr "சிபியு பயன்பாடு இப்போது கோர்களின் எண்ணிக்கையை கணக்கில் எடுத்துக்கொள்கிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:157
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
 msgid "Pods 1.1.0 contains the following features, bug fixes and improvements:"
 msgstr ""
 "PODS 1.1.0 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் உள்ளன:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:159
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:204
 msgid ""
 "Dependencies have been updated. This includes the update to GNOME 44 "
 "libraries."
 msgstr ""
 "சார்புநிலைகள் புதுப்பிக்கப்பட்டுள்ளன. க்னோம் 44 நூலகங்களுக்கான புதுப்பிப்பு இதில் அடங்கும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:160
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:205
 msgid "AdwBanner is now used in the container log page instead of GtkInfoBar."
 msgstr ""
 "Adwbanner இப்போது Gtkinfobar க்கு பதிலாக கொள்கலன் பதிவு பக்கத்தில் "
 "பயன்படுத்தப்படுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:161
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:206
 msgid "The GNOME Coc is acknowledged in the README.md."
 msgstr "Gnome coc readme.md இல் ஒப்புக் கொள்ளப்படுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:162
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:207
 msgid "The main window and all dialogs can now be closed with Ctrl+W."
 msgstr "முதன்மையான சாளரம் மற்றும் அனைத்து உரையாடல்களும் இப்போது Ctrl+W உடன் மூடப்படலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:163
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:208
 msgid "The memory icon has been improved, thanks to @daudix-UFO."
 msgstr "நினைவக படவுரு மேம்படுத்தப்பட்டுள்ளது, @daudix-ufo க்கு நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:164
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:209
 msgid ""
 "Internal code improvements have landed, like the port to glib-rs' new "
 "properties proc macro."
@@ -588,17 +746,17 @@ msgstr ""
 "GLIB-RS இன் புதிய பண்புகள் ப்ராக் மேக்ரோவுக்கு துறைமுகம் போன்ற உள் குறியீடு மேம்பாடுகள் "
 "இறங்கியுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:165
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:184
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:202
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:218
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:234
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:245
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:259
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:210
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:229
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:247
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:263
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:279
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:290
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:304
 msgid "Translations have been updated."
 msgstr "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:171
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:216
 msgid ""
 "Pods 1.1.0-beta.4 contains the following features, bug fixes and "
 "improvements:"
@@ -606,7 +764,7 @@ msgstr ""
 "PODS 1.1.0-BETA.4 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
 "உள்ளன:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:173
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:218
 msgid ""
 "The connection color is now displayed by means of a colored dot in front of "
 "the connection name in the connection overview, instead of a vertical bar at "
@@ -615,7 +773,7 @@ msgstr ""
 "ஆரம்பத்தில் செங்குத்து பட்டிக்கு பதிலாக, இணைப்பு கண்ணோட்டத்தில் இணைப்பு பெயருக்கு முன்னால் "
 "வண்ண புள்ளியின் மூலம் இணைப்பு வண்ணம் இப்போது காட்டப்படுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:174
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:219
 msgid ""
 "The penguin icon to the left of the Podman version has been removed from the "
 "status bar."
@@ -623,7 +781,7 @@ msgstr ""
 "போட்மேன் பதிப்பின் இடதுபுறத்தில் உள்ள பென்குயின் படவுரு நிலைப் பட்டியில் இருந்து "
 "அகற்றப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:175
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:220
 msgid ""
 "The Podman menu button in the status bar now shows a loading indicator until "
 "the Podman version is determined."
@@ -631,7 +789,7 @@ msgstr ""
 "நிலை பட்டியில் உள்ள போட்மேன் பட்டியல் பொத்தான் இப்போது போட்மேன் பதிப்பு தீர்மானிக்கப்படும் வரை "
 "ஏற்றுதல் குறிகாட்டியைக் காட்டுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:176
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:221
 msgid ""
 "The label to show the version of the Podman menu button in the status bar "
 "now uses the <em>numeric</em> style class, which looks more harmonious."
@@ -639,7 +797,7 @@ msgstr ""
 "நிலை பட்டியில் போட்மேன் பட்டியல் பொத்தானின் பதிப்பைக் காண்பிப்பதற்கான சிட்டை இப்போது <em> "
 "எண் </em> பாணி வகுப்பைப் பயன்படுத்துகிறது, இது மிகவும் இணக்கமாகத் தெரிகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:177
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:222
 msgid ""
 "To eliminate the blur, the icons in the status bar now all have a size of 16 "
 "pixels instead of 12 pixels."
@@ -647,16 +805,16 @@ msgstr ""
 "மங்கலை அகற்ற, நிலை பட்டியில் உள்ள சின்னங்கள் இப்போது அனைத்தும் 12 பிக்சல்களுக்கு பதிலாக 16 "
 "படப்புள்ளிகள் அளவைக் கொண்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:178
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:223
 msgid "The desktop entry now uses the updated short description as comment."
 msgstr ""
 "டெச்க்டாப் நுழைவு இப்போது புதுப்பிக்கப்பட்ட குறுகிய விளக்கத்தை கருத்தாகப் பயன்படுத்துகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:179
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:224
 msgid "Some appropriate categories have been added to the desktop entry."
 msgstr "டெச்க்டாப் நுழைவுக்கு சில பொருத்தமான பிரிவுகள் சேர்க்கப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:180
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:225
 msgid ""
 "Fixed a bug where the Id of a container was replaced by the name once the "
 "name of the container was changed."
@@ -664,7 +822,7 @@ msgstr ""
 "கொள்கலனின் பெயர் மாற்றப்பட்டவுடன் ஒரு கொள்கலனின் ஐடி பெயரால் மாற்றப்பட்ட ஒரு பிழை சரி "
 "செய்யப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:181
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:226
 msgid ""
 "The container status <em>configured</em> was not handled before. This is now "
 "fixed."
@@ -672,7 +830,7 @@ msgstr ""
 "கொள்கலன் நிலை <em> கட்டமைக்கப்பட்ட </em> இதற்கு முன் கையாளப்படவில்லை. இது இப்போது சரி "
 "செய்யப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:182
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
 msgid ""
 "The spinner within the container log page did not disappear earlier if the "
 "log was empty. This is fixed now."
@@ -680,19 +838,19 @@ msgstr ""
 "பதிவு காலியாக இருந்தால் கொள்கலன் பதிவு பக்கத்திற்குள் உள்ள ச்பின்னர் முன்பே "
 "மறைந்துவிடவில்லை. இது இப்போது சரி செய்யப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:183
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:228
 msgid "The code has been improved in some places."
 msgstr "சில இடங்களில் குறியீடு மேம்படுத்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:185
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:203
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:219
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:235
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:260
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:230
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:248
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:264
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:280
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
 msgid "Dependencies have been updated."
 msgstr "சார்புநிலைகள் புதுப்பிக்கப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:191
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:236
 msgid ""
 "Pods 1.1.0-beta.3 contains the following features, bug fixes and "
 "improvements:"
@@ -700,20 +858,20 @@ msgstr ""
 "PODS 1.1.0-BETA.3 பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
 "ஆகியவற்றைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:193
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:238
 msgid ""
 "The connection menu has received an entry for disconnecting the current "
 "Podman connection."
 msgstr "தற்போதைய போட்மேன் இணைப்பைத் துண்டிக்க இணைப்பு பட்டியல் ஒரு நுழைவு பெற்றுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:194
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:239
 msgid ""
 "The status bar now has a menu button that shows the current Podman version."
 msgstr ""
 "நிலை பட்டியில் இப்போது பட்டியல் பொத்தானைக் கொண்டுள்ளது, இது தற்போதைய போட்மேன் பதிப்பைக் "
 "காட்டுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:195
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:240
 msgid ""
 "The menu item to open the Podman information window has been moved from the "
 "main menu to the Podman menu in the status bar."
@@ -721,14 +879,14 @@ msgstr ""
 "போட்மேன் செய்தி சாளரத்தைத் திறக்க பட்டியல் உருப்படி முதன்மையான மெனுவிலிருந்து போட்மேன் "
 "மெனுவுக்கு நிலை பட்டியில் நகர்த்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:196
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:241
 msgid ""
 "A new widget has been implemented that allows you to control the zoom level "
 "of text."
 msgstr ""
 "உரையின் சூம் அளவைக் கட்டுப்படுத்த உங்களை அனுமதிக்கும் புதிய விட்செட் செயல்படுத்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:197
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:242
 msgid ""
 "On all pages with text, such as the inspection page, the download button has "
 "been moved to a menu in the header bar together with the zoom control widget."
@@ -736,7 +894,7 @@ msgstr ""
 "ஆய்வு பக்கம் போன்ற உரையுடன் அனைத்து பக்கங்களிலும், பதிவிறக்க பொத்தான் சூம் கட்டுப்பாட்டு "
 "விட்செட்டுடன் தலைப்பு பட்டியில் உள்ள மெனுவுக்கு மாற்றப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:198
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:243
 msgid ""
 "On the container log page some buttons together with zoom control widget are "
 "moved to a menu in the header bar."
@@ -744,11 +902,11 @@ msgstr ""
 "கொள்கலன் பதிவு பக்கத்தில் சூம் கட்டுப்பாட்டு விட்செட்டுடன் சில பொத்தான்கள் தலைப்பு பட்டியில் "
 "உள்ள மெனுவுக்கு நகர்த்தப்படுகின்றன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:199
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:244
 msgid "The text in the container terminal can now be zoomed."
 msgstr "கொள்கலன் முனையத்தில் உள்ள உரையை இப்போது பெரிதாக்கலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:200
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:245
 msgid ""
 "Fixed a bug in the container log page where an explicit color was set for "
 "the default ANSI escape sequence. This resulted in text not being readable "
@@ -758,7 +916,7 @@ msgstr ""
 "பக்கத்தில் ஒரு பிழை சரி செய்யப்பட்டது. இதனால் சில சூழ்நிலைகளில் ஒளி கருப்பொருளில் உரை "
 "படிக்க முடியாது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:201
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:246
 msgid ""
 "The text views, like the Inspection page, are now closed immediately if "
 "there is an error. For example, this would be the case if the cube YAML "
@@ -767,7 +925,7 @@ msgstr ""
 "பிழை இருந்தால், ஆய்வு பக்கத்தைப் போன்ற உரை காட்சிகள் இப்போது உடனடியாக மூடப்பட்டுள்ளன. "
 "எடுத்துக்காட்டாக, கியூப் யம்லை உருவாக்க முடியாவிட்டால் இதுதான்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:209
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:254
 msgid ""
 "Pods 1.1.0-beta.2 contains the following features, bug fixes and "
 "improvements:"
@@ -775,7 +933,7 @@ msgstr ""
 "PODS 1.1.0-BETA.2 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
 "உள்ளன:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:211
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:256
 msgid ""
 "It is now possible to assign colors to connections. Then, when the "
 "connection is active, the status bar is colored accordingly."
@@ -783,24 +941,24 @@ msgstr ""
 "இணைப்புகளுக்கு வண்ணங்களை ஒதுக்க முடியும். பின்னர், இணைப்பு செயலில் இருக்கும்போது, "
 "அதற்கேற்ப நிலை பட்டி வண்ணமயமாக்கப்படுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:212
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:257
 msgid "The progress bar in the status bar has been replaced by a label."
 msgstr "நிலை பட்டியில் முன்னேற்றப் பட்டி ஒரு லேபிளால் மாற்றப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:213
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:258
 msgid "The formatting of the container log is now correctly kept across lines."
 msgstr "கொள்கலன் பதிவின் வடிவமைப்பு இப்போது சரியாக கோடுகள் முழுவதும் வைக்கப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:214
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:259
 msgid ""
 "Some strings has been marked as translatable that where previously forgotten."
 msgstr "சில சரங்கள் முன்பு மறந்துவிட்ட இடத்தை மொழிபெயர்க்கக்கூடியவை என குறிக்கப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:215
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:260
 msgid "Some strings has been changed to be more accurate."
 msgstr "சில சரங்கள் மிகவும் துல்லியமாக மாற்றப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:216
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:261
 msgid ""
 "A workaround and a fix have been implemented specifically for crashes that "
 "led to crashes when using podman 3.0."
@@ -808,7 +966,7 @@ msgstr ""
 "போட்மேன் 3.0 ஐப் பயன்படுத்தும் போது விபத்துக்களுக்கு வழிவகுத்த விபத்துக்களுக்கு ஒரு "
 "பணித்தொகுப்பு மற்றும் ஒரு பிழைத்திருத்தம் குறிப்பாக செயல்படுத்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:217
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:262
 msgid ""
 "Fixed a style bug that caused the inner scrollbar on the connection "
 "selection page to have an offset."
@@ -816,7 +974,7 @@ msgstr ""
 "இணைப்பு தேர்வு பக்கத்தில் உள்ள உள் சுருள் பட்டியை ஆஃப்செட் கொண்டிருக்க காரணமாக ஒரு பாணி "
 "பிழை சரி செய்யப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:225
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:270
 msgid ""
 "Pods 1.1.0-beta.1 contains the following features, bug fixes and "
 "improvements:"
@@ -824,7 +982,7 @@ msgstr ""
 "PODS 1.1.0-BETA.1 இல் பின்வரும் நற்பொருத்தங்கள், பிழை திருத்தங்கள் மற்றும் மேம்பாடுகள் "
 "உள்ளன:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:227
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
 msgid ""
 "The fonts in all text views, such as those in the inspection pages, are now "
 "scalable using typical shortcuts."
@@ -832,7 +990,7 @@ msgstr ""
 "ஆய்வு பக்கங்களில் உள்ள அனைத்து உரை காட்சிகளிலும் உள்ள எழுத்துருக்கள் இப்போது வழக்கமான "
 "குறுக்குவழிகளைப் பயன்படுத்தி அளவிடக்கூடியவை."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:228
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:273
 msgid ""
 "It is now prevented that actions in subpages like the container inspection "
 "subpage can be triggered via shortcuts (e.g. the action to download files)."
@@ -840,7 +998,7 @@ msgstr ""
 "கொள்கலன் ஆய்வு துணைப்பிரிவு போன்ற துணைப்பிரிவுகளில் உள்ள செயல்களை குறுக்குவழிகள் வழியாக "
 "(எ.கா. கோப்புகளைப் பதிவிறக்குவதற்கான செயல்) தூண்டப்படலாம் என்று இப்போது தடுக்கப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:229
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:274
 msgid ""
 "More ANSI escape sequences like background colors and bright colors has been "
 "added to the container log page."
@@ -848,30 +1006,30 @@ msgstr ""
 "கொள்கலன் பதிவு பக்கத்தில் பின்னணி வண்ணங்கள் மற்றும் பிரகாசமான வண்ணங்கள் போன்ற கூடுதல் ANSI "
 "தப்பிக்கும் காட்சிகள் சேர்க்கப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:230
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:275
 msgid "Fixed a bug that caused some containers to not display most log lines."
 msgstr ""
 "சில கொள்கலன்கள் பெரும்பாலான பதிவு வரிகளைக் காண்பிக்காத ஒரு பிழை சரி செய்யப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:231
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:276
 msgid ""
 "The name of the container is now also displayed as a subtitle in the health "
 "check page."
 msgstr "கொள்கலனின் பெயர் இப்போது சுகாதார சோதனை பக்கத்தில் வசனமாக காட்டப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:232
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:277
 msgid "The README file has been updated and improved."
 msgstr "README கோப்பு புதுப்பிக்கப்பட்டு மேம்படுத்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:233
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:278
 msgid "There were a lot of internal improvements to the code."
 msgstr "குறியீட்டில் நிறைய உள் மேம்பாடுகள் இருந்தன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:241
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:286
 msgid "Pods 1.0.2 contains the following changes:"
 msgstr "PODS 1.0.2 பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:243
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:288
 msgid ""
 "The search behavior has been adjusted so that pressing <em>Ctrl+F</em> again "
 "resets the search and that <em>Escape</em> closes it."
@@ -879,7 +1037,7 @@ msgstr ""
 "தேடல் நடத்தை சரிசெய்யப்பட்டுள்ளது, இதனால் <em> ctrl+f </em> ஐ அழுத்தி மீண்டும் தேடலை "
 "மீட்டமைக்கிறது, மேலும் <em> தப்பித்தல் </em> அதை மூடுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:244
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:289
 msgid ""
 "The application icon and symbolic icons have been further improved, thanks "
 "to @daudix-UFO."
@@ -887,14 +1045,14 @@ msgstr ""
 "பயன்பாட்டு படவுரு மற்றும் குறியீட்டு சின்னங்கள் மேலும் மேம்படுத்தப்பட்டுள்ளன, @ட ud டிக்ச்-"
 "யுஎஃப்ஓவுக்கு நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:251
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:296
 msgid ""
 "The stable 1.0 release of Pods includes the following changes since the last "
 "RC:"
 msgstr ""
 "POD களின் நிலையான 1.0 வெளியீடு கடைசி RC க்குப் பிறகு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:253
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:298
 msgid ""
 "The welcome page now has a very attractive, colorful illustration, thanks to "
 "@daudix-UFO."
@@ -902,11 +1060,11 @@ msgstr ""
 "வரவேற்பு பக்கம் இப்போது மிகவும் கவர்ச்சிகரமான, வண்ணமயமான எடுத்துக்காட்டு, @ட ud டிக்ச்-"
 "உஃபோவுக்கு நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:254
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:299
 msgid "Switching the Podman connection now no longer blocks the GUI."
 msgstr "போட்மேன் இணைப்பை மாற்றுவது இப்போது GUI ஐத் தடுக்காது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:255
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:300
 msgid ""
 "Creating new Podman connections can now be canceled during the connection "
 "attempt."
@@ -914,7 +1072,7 @@ msgstr ""
 "இணைப்பு முயற்சியின் போது புதிய போட்மேன் இணைப்புகளை உருவாக்குவது இப்போது ரத்து "
 "செய்யப்படலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:256
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:301
 msgid ""
 "Copying and pasting text from/to the container terminal now works with "
 "<em>Ctrl+Shift+C</em> and <em>Ctrl+Shift+V</em>, respectively."
@@ -922,19 +1080,19 @@ msgstr ""
 "உரையை நகலெடுத்து ஒட்டுதல்/கொள்கலன் முனையத்திற்கு இப்போது <em> Ctrl+Shift+C </em> "
 "மற்றும் <em> Ctrl+Shift+V </em> உடன் வேலை செய்கிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:257
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:302
 msgid "The container terminal now has a simple context menu."
 msgstr "கொள்கலன் முனையம் இப்போது ஒரு எளிய சூழல் மெனுவைக் கொண்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:258
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:303
 msgid "The animation of the internal spinner widget has been beautified."
 msgstr "உள் ச்பின்னர் விட்செட்டின் அனிமேசன் அழகுபடுத்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:266
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:311
 msgid "The third 1.0 release candidate of Pods contains the following changes:"
 msgstr "மூன்றாவது 1.0 வெளியீட்டு வேட்பாளர் பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:268
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:313
 msgid ""
 "The application icon and symbolic icons have been improved, thanks to "
 "@daudix-UFO"
@@ -942,7 +1100,7 @@ msgstr ""
 "பயன்பாட்டு படவுரு மற்றும் குறியீட்டு சின்னங்கள் மேம்படுத்தப்பட்டுள்ளன, @ட ud டிக்ச்-"
 "உஃபோவுக்கு நன்றி"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:269
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:314
 msgid ""
 "Actions, such as creating a container, can now be repeated initially if they "
 "fail."
@@ -950,22 +1108,22 @@ msgstr ""
 "ஒரு கொள்கலனை உருவாக்குவது போன்ற செயல்கள் இப்போது தோல்வியுற்றால் ஆரம்பத்தில் மறுநிகழ்வு "
 "செய்யப்படலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:270
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
 msgid ""
 "Fixed a bug that prevented the label displaying the id of an image from "
 "being striked through if the image was being deleted."
 msgstr ""
 "படம் நீக்கப்பட்டால் ஒரு படத்தின் ஐடியைக் காண்பிப்பதைத் தடுக்கும் ஒரு பிழை சரி செய்யப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:271
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:316
 msgid "Repository tags are now selectable within the image details page."
 msgstr "களஞ்சிய குறிச்சொற்கள் இப்போது பட விவரங்கள் பக்கத்திற்குள் தேர்ந்தெடுக்கப்படுகின்றன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:272
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
 msgid "Translations have been updated. Thanks to all who contributed."
 msgstr "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன. பங்களித்த அனைவருக்கும் நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:273
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
 msgid ""
 "Internal code improvements have been made, such as reducing dependencies and "
 "enabling LTO for release builds."
@@ -973,7 +1131,7 @@ msgstr ""
 "சார்புகளைக் குறைத்தல் மற்றும் வெளியீட்டு கட்டடங்களுக்கு எல்.டி.ஓவை செயல்படுத்துவது போன்ற உள் "
 "குறியீடு மேம்பாடுகள் செய்யப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:279
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:324
 msgid ""
 "This is a hotfix release that prevents the application from crashing when "
 "disconnected from Podman."
@@ -981,7 +1139,7 @@ msgstr ""
 "இது ஒரு ஆட்ஃபிக்ச் வெளியீடாகும், இது போட்மேனில் இருந்து துண்டிக்கப்படும்போது பயன்பாடு "
 "செயலிழக்காமல் தடுக்கிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:284
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:329
 msgid ""
 "All features for version 1.0 are now implemented and Pods is thus in the "
 "release candidate phase. Among the changes since the last release are:"
@@ -989,7 +1147,7 @@ msgstr ""
 "பதிப்பு 1.0 க்கான அனைத்து அம்சங்களும் இப்போது செயல்படுத்தப்படுகின்றன, மேலும் POD கள் "
 "வெளியீட்டு வேட்பாளர் கட்டத்தில் உள்ளன. கடைசி வெளியீட்டிலிருந்து ஏற்பட்ட மாற்றங்களில்:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:286
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:331
 msgid ""
 "Actions such as downloading an image or creating a container now take place "
 "in dialogs instead of in the main window."
@@ -997,7 +1155,7 @@ msgstr ""
 "ஒரு படத்தைப் பதிவிறக்குவது அல்லது ஒரு கொள்கலனை உருவாக்குவது போன்ற செயல்கள் இப்போது "
 "முதன்மையான சாளரத்திற்கு பதிலாக உரையாடல்களில் நடைபெறுகின்றன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:287
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:332
 msgid ""
 "Image Rows have been revised to better reflect the presence of multiple repo "
 "tags."
@@ -1005,11 +1163,11 @@ msgstr ""
 "பல ரெப்போ குறிச்சொற்களின் இருப்பை சிறப்பாக பிரதிபலிக்கும் வகையில் பட வரிசைகள் "
 "திருத்தப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:288
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:333
 msgid "Repo tags can now be removed and added within the image details page."
 msgstr "ரெப்போ குறிச்சொற்களை இப்போது அகற்றி பட விவரங்கள் பக்கத்தில் சேர்க்கலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:289
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:334
 msgid ""
 "The subtitle property of the header bars is now used to display the image "
 "id, or the name of the container or pod."
@@ -1017,7 +1175,7 @@ msgstr ""
 "தலைப்பு பார்களின் வசனச் சொத்து இப்போது பட ஐ ஐடியைக் காட்ட அல்லது கொள்கலன் அல்லது நெற்றின் "
 "பெயரைக் காட்டப் பயன்படுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:290
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
 msgid ""
 "The style of the container details page has been adjusted. Thus, some action "
 "rows have been moved to the properties."
@@ -1025,22 +1183,22 @@ msgstr ""
 "கொள்கலன் விவரங்கள் பக்கத்தின் பாணி சரிசெய்யப்பட்டுள்ளது. இதனால், சில செயல் வரிசைகள் "
 "பண்புகளுக்கு நகர்த்தப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:291
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:336
 msgid "Shortcuts have been added to the container details page."
 msgstr "கொள்கலன் விவரங்கள் பக்கத்தில் குறுக்குவழிகள் சேர்க்கப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:292
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
 msgid "Small improvements in the spirit of the GNOME HIG took place."
 msgstr "க்னோம் இக் ஆவியில் சிறிய மேம்பாடுகள் நடந்தன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:293
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:338
 msgid ""
 "The usual changes such as improving the source code and updating the "
 "dependencies."
 msgstr ""
 "மூலக் குறியீட்டை மேம்படுத்துதல் மற்றும் சார்புகளை புதுப்பித்தல் போன்ற வழக்கமான மாற்றங்கள்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:294
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
 msgid ""
 "Translations have been updated and all translatable strings are now "
 "considered frozen."
@@ -1048,7 +1206,7 @@ msgstr ""
 "மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன, மொழிபெயர்க்கக்கூடிய அனைத்து சரங்களும் இப்போது "
 "உறைந்ததாகக் கருதப்படுகின்றன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:300
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:345
 msgid ""
 "The ninth beta of Pods in an important step towards the stable first "
 "version. It contains the following changes:"
@@ -1056,47 +1214,47 @@ msgstr ""
 "நிலையான முதல் பதிப்பை நோக்கி ஒரு முக்கியமான படியில் காய்களின் ஒன்பதாவது பீட்டா. இது "
 "பின்வரும் மாற்றங்களைக் கொண்டுள்ளது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:302
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:347
 msgid "It is now possible to have a terminal in a container."
 msgstr "இப்போது ஒரு கொள்கலனில் ஒரு முனையத்தை வைத்திருக்க முடியும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:303
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:348
 msgid ""
 "As one works with the terminal and views text in the form of logs or "
 "inspection data, the theme selector has been reintroduced. This is provided "
 "by <em>libpanel</em>, which should simplify maintenance."
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:304
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:349
 msgid ""
 "The dialog for renaming a container is now based on <em>AdwMessageDialog</"
 "em>."
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:305
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:350
 msgid "The style of the container series was tweaked in many ways."
 msgstr "கொள்கலன் தொடரின் பாணி பல வழிகளில் மாற்றப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:306
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:351
 msgid "Some minor internal code improvements have landed."
 msgstr "சில சிறிய உள் குறியீடு மேம்பாடுகள் இறங்கியுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:307
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:327
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:352
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:372
 msgid "Dependencies and translations have been updated."
 msgstr "சார்புநிலைகள் மற்றும் மொழிபெயர்ப்புகள் புதுப்பிக்கப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:313
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
 msgid "The eight beta release of Pods 1.0.0 includes the following changes:"
 msgstr "PODS 1.0.0 இன் எட்டு பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:315
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:360
 msgid ""
 "Pods now uses the <em>libpanel</em> library to display a status bar. Thus, "
 "notifications and the name of the Podman connection are always visible."
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:316
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:361
 msgid ""
 "When creating a new connection, there is now a hint on how to enable the "
 "Podman UNIX socket and a small example on how to use the Podman root "
@@ -1106,28 +1264,28 @@ msgstr ""
 "என்பது பற்றிய குறிப்பும், போட்மேன் ரூட் நிகழ்வை எவ்வாறு பயன்படுத்துவது என்பதற்கான ஒரு "
 "சிறிய உதாரணமும் உள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:317
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:362
 msgid "The history of an image can now be inspected."
 msgstr "ஒரு படத்தின் வரலாற்றை இப்போது ஆய்வு செய்யலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:318
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:363
 msgid ""
 "The design of the port bindings in the container details page has been "
 "revised."
 msgstr "கொள்கலன் விவரங்கள் பக்கத்தில் துறைமுக பிணைப்புகளின் வடிவமைப்பு திருத்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:319
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:364
 msgid "Kubernetes YAML files can now be generated for containers and pods."
 msgstr "குபெர்னெட்ச் யாம் கோப்புகளை இப்போது கொள்கலன்கள் மற்றும் காய்களுக்கு உருவாக்கலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:320
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:365
 msgid ""
 "Files can now be downloaded from a container as well as uploaded to a "
 "container."
 msgstr ""
 "கோப்புகளை இப்போது ஒரு கொள்கலனில் இருந்து பதிவிறக்கம் செய்து ஒரு கொள்கலனில் பதிவேற்றலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:321
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
 msgid ""
 "The design of the circular progress bar for displaying container resources "
 "has been adjusted to be more consistent with the rest of the application."
@@ -1135,7 +1293,7 @@ msgstr ""
 "கொள்கலன் வளங்களைக் காண்பிப்பதற்கான வட்ட முன்னேற்றப் பட்டியின் வடிவமைப்பு மீதமுள்ள பயன்பாட்டுடன் "
 "மிகவும் ஒத்ததாக சரிசெய்யப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:322
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
 msgid ""
 "There is now a rotating animation when a container or pod is in a state "
 "transition (start, stop, pause)."
@@ -1143,7 +1301,7 @@ msgstr ""
 "ஒரு கொள்கலன் அல்லது நெற்று ஒரு மாநில மாற்றத்தில் இருக்கும்போது இப்போது சுழலும் அனிமேசன் "
 "உள்ளது (தொடக்க, நிறுத்து, இடைநிறுத்தம்)."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:323
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:368
 msgid ""
 "If a container is in a pod, it will now get a badge with the pod name in the "
 "container list."
@@ -1151,7 +1309,7 @@ msgstr ""
 "ஒரு கொள்கலன் ஒரு நெற்றில் இருந்தால், அது இப்போது கொள்கலன் பட்டியலில் நெற்று பெயருடன் ஒரு "
 "பேட்சைப் பெறும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:324
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:369
 msgid ""
 "Logs, the result of the inspection of images, containers, and pods, and the "
 "result Kubernetes YAML generation can now be saved directly as a file."
@@ -1159,19 +1317,19 @@ msgstr ""
 "பதிவுகள், படங்கள், கொள்கலன்கள் மற்றும் காய்களை ஆய்வு செய்வதன் விளைவாக, மற்றும் இதன் விளைவாக "
 "குபெர்னெட்ச் யாம் தலைமுறை இப்போது நேரடியாக ஒரு கோப்பாக சேமிக்க முடியும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:325
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:370
 msgid "Headerbar titles were adjusted to be shorter and more concise"
 msgstr "எடர்பார் தலைப்புகள் குறுகியதாகவும் சுருக்கமாகவும் சரிசெய்யப்பட்டன"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:326
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:371
 msgid "Many minor internal code improvements have landed"
 msgstr "பல சிறிய உள் குறியீடு மேம்பாடுகள் இறங்கியுள்ளன"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:333
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:378
 msgid "The seventh beta release of Pods 1.0.0 includes the following changes:"
 msgstr "POD களின் ஏழாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:335
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:380
 msgid ""
 "Relative times are now used everywhere in the application. For example, you "
 "can quickly see how long a container has been running or how many days ago "
@@ -1181,7 +1339,7 @@ msgstr ""
 "எடுத்துக்காட்டாக, ஒரு கொள்கலன் எவ்வளவு காலம் இயங்குகிறது அல்லது எத்தனை நாட்களுக்கு முன்பு "
 "ஒரு படம் உருவாக்கப்பட்டது என்பதை நீங்கள் விரைவாகக் காணலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:336
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:381
 msgid ""
 "For the circular progress bar in the container row, icons are now used "
 "instead of text. Icons have also been added to the resource monitor in the "
@@ -1191,7 +1349,7 @@ msgstr ""
 "பயன்படுத்தப்படுகின்றன. கொள்கலன் விவரங்கள் பக்கத்தில் உள்ள ஆதார மானிட்டரில் ஐகான்கள் "
 "சேர்க்கப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:337
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:382
 msgid ""
 "The text field for searching in the container logs and the inspection page "
 "has been completely redesigned visually."
@@ -1199,7 +1357,7 @@ msgstr ""
 "கொள்கலன் பதிவுகள் மற்றும் ஆய்வு பக்கம் ஆகியவற்றில் தேடுவதற்கான உரை புலம் பார்வைக்கு "
 "முற்றிலும் மறுவடிவமைப்பு செய்யப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:338
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:383
 msgid ""
 "The container log page now displays an info bar if the container is not "
 "running. The info bar also offers the possibility to start or resume the "
@@ -1209,11 +1367,11 @@ msgstr ""
 "காட்டுகிறது. செய்தி பட்டி கொள்கலனைத் தொடங்க அல்லது மீண்டும் தொடங்குவதற்கான வாய்ப்பையும் "
 "வழங்குகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:339
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:384
 msgid "Desktop notifications are now triggered on actions."
 msgstr "டெச்க்டாப் அறிவிப்புகள் இப்போது செயல்களில் தூண்டப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:340
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:385
 msgid ""
 "The selection of an image in the container creation page has been improved. "
 "For example, the list of images is sorted and image names are no longer "
@@ -1223,14 +1381,14 @@ msgstr ""
 "எடுத்துக்காட்டாக, படங்களின் பட்டியல் வரிசைப்படுத்தப்பட்டுள்ளது மற்றும் பட பெயர்கள் இனி "
 "நீங்காது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:341
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:386
 msgid ""
 "Also the selection of a pod in the container creation page has been improved "
 "similarly to the image selection."
 msgstr ""
 "கொள்கலன் உருவாக்கும் பக்கத்தில் ஒரு நெற்று தேர்வு படத் தேர்வைப் போலவே மேம்படுத்தப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:342
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:387
 msgid ""
 "The image row now shows the tag of an image in the accent color to the right "
 "of the image id."
@@ -1238,7 +1396,7 @@ msgstr ""
 "பட வரிசை இப்போது பட ஐடியின் வலதுபுறத்தில் உச்சரிப்பு நிறத்தில் ஒரு படத்தின் "
 "குறிச்சொல்லைக் காட்டுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:343
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:388
 msgid ""
 "The container row now displays the mapped host port of a container next to "
 "the container name, if there is one."
@@ -1246,7 +1404,7 @@ msgstr ""
 "கொள்கலன் வரிசையில் ஒன்று இருந்தால், கொள்கலன் பெயருக்கு அடுத்த கொள்கலனின் வரைபட புரவலன் "
 "போர்ட்டைக் காட்டுகிறது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:344
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:389
 msgid ""
 "Port Bindings in the container details page are now shown inside an "
 "AdwExpanderRow"
@@ -1254,7 +1412,7 @@ msgstr ""
 "கொள்கலன் விவரங்கள் பக்கத்தில் துறைமுகம் பிணைப்புகள் இப்போது ஒரு Adwexpanderrow க்குள் "
 "காட்டப்பட்டுள்ளன"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:345
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:390
 msgid ""
 "The multi-selection mode of images, containers and pods is now animated a "
 "bit more nicely."
@@ -1262,13 +1420,13 @@ msgstr ""
 "படங்கள், கொள்கலன்கள் மற்றும் காய்களின் பல தேர்வு முறை இப்போது இன்னும் கொஞ்சம் நேர்த்தியாக "
 "அனிமேசன் செய்யப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:346
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:391
 msgid ""
 "The sizes of all GtkSpinners have been standardized throughout the "
 "application."
 msgstr "அனைத்து Gtkspinners இன் அளவுகள் பயன்பாடு முழுவதும் தரப்படுத்தப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:347
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:392
 msgid ""
 "The gtk-rs library was updated to version 0.5, which made many internal code "
 "improvements possible."
@@ -1276,7 +1434,7 @@ msgstr ""
 "சி.டி.கே-ஆர்எச் நூலகம் பதிப்பு 0.5 க்கு புதுப்பிக்கப்பட்டது, இது பல உள் குறியீடு "
 "மேம்பாடுகளை சாத்தியமாக்கியது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:348
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:393
 msgid ""
 "As always, there were a number of minor bug fixes, visual improvements, "
 "internal code improvements, and translation updates that have not been "
@@ -1285,18 +1443,18 @@ msgstr ""
 "எப்போதும்போல, இங்கு குறிப்பிடப்படாத பல சிறிய பிழைத் திருத்தங்கள், காட்சி மேம்பாடுகள், உள் "
 "குறியீடு மேம்பாடுகள் மற்றும் மொழிபெயர்ப்பு புதுப்பிப்புகள் இருந்தன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:354
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:399
 msgid "The sixth beta release of Pods 1.0.0 includes the following changes:"
 msgstr "PODS 1.0.0 இன் ஆறாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:356
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:401
 msgid ""
 "The duration for individual actions such as downloading an image is now "
 "displayed."
 msgstr ""
 "ஒரு படத்தைப் பதிவிறக்குவது போன்ற தனிப்பட்ட செயல்களுக்கான காலம் இப்போது காட்டப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:357
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:402
 msgid ""
 "In the overview for all images, individual images can now be updated via the "
 "context menu."
@@ -1304,11 +1462,11 @@ msgstr ""
 "எல்லா படங்களுக்கும் கண்ணோட்டத்தில், தனிப்பட்ட படங்களை இப்போது சூழல் பட்டியல் வழியாக "
 "புதுப்பிக்க முடியும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:358
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:403
 msgid "Missing settings for creating pods have been added, thanks to @vv9k."
 msgstr "காய்களை உருவாக்குவதற்கான அமைப்புகளைக் காணவில்லை, @vv9k க்கு நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:359
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:404
 msgid ""
 "A simple progress bar is now displayed in the action menu button under the "
 "bell icon to indicate how many actions are currently running."
@@ -1316,7 +1474,7 @@ msgstr ""
 "தற்போது எத்தனை செயல்கள் இயங்குகின்றன என்பதைக் குறிக்க பெல் ஐகானின் கீழ் உள்ள செயல் பட்டியல் "
 "பொத்தானில் ஒரு எளிய முன்னேற்றப் பட்டி இப்போது காட்டப்பட்டுள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:360
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:405
 msgid ""
 "The icon of the button to return to the main view has been changed to a home "
 "symbol, thanks to @vv9k."
@@ -1324,7 +1482,7 @@ msgstr ""
 "முதன்மையான பார்வைக்குத் திரும்புவதற்கான பொத்தானின் படவுரு வீட்டு சின்னமாக "
 "மாற்றப்பட்டுள்ளது, @vv9k க்கு நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:361
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:406
 msgid ""
 "The container details page and pod details page have been revised: The menus "
 "have been removed and instead there is now a control bar."
@@ -1332,7 +1490,7 @@ msgstr ""
 "கொள்கலன் விவரங்கள் பக்கம் மற்றும் நெற்று விவரங்கள் பக்கம் திருத்தப்பட்டுள்ளன: மெனுக்கள் "
 "அகற்றப்பட்டுள்ளன, அதற்கு பதிலாக இப்போது ஒரு கட்டுப்பாட்டுப் பட்டி உள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:362
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:407
 msgid ""
 "Renaming a container within a container detail page must now be done via a "
 "button in the name row."
@@ -1340,7 +1498,7 @@ msgstr ""
 "ஒரு கொள்கலன் விவரம் பக்கத்திற்குள் ஒரு கொள்கலனை மறுபெயரிடுவது இப்போது பெயர் வரிசையில் "
 "ஒரு பொத்தான் வழியாக செய்யப்பட வேண்டும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:363
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:408
 msgid ""
 "Fixed a bug in the container log page that caused that no more than 512 log "
 "lines could be loaded and date were truncated."
@@ -1348,7 +1506,7 @@ msgstr ""
 "கொள்கலன் பதிவு பக்கத்தில் ஒரு பிழை சரி செய்யப்பட்டது, இது 512 பதிவு கோடுகளுக்கு மேல் "
 "ஏற்றப்படாமல் தேதி துண்டிக்கப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:364
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:409
 msgid ""
 "The progress bars for CPU and memory in the container details page are now "
 "animated."
@@ -1356,7 +1514,7 @@ msgstr ""
 "கொள்கலன் விவரங்கள் பக்கத்தில் சிபியு மற்றும் நினைவகத்திற்கான முன்னேற்ற பார்கள் இப்போது "
 "அனிமேசன் செய்யப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:365
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:410
 msgid ""
 "The animations of the circular progress bars for CPU and memory in the "
 "overview of all containers now use better easing."
@@ -1364,7 +1522,7 @@ msgstr ""
 "அனைத்து கொள்கலன்களின் கண்ணோட்டத்தில் சிபியு மற்றும் நினைவகத்திற்கான வட்ட முன்னேற்றத்தின் "
 "அனிமேசன்கள் இப்போது சிறந்த தளர்த்தலைப் பயன்படுத்துகின்றன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:366
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:411
 msgid ""
 "The icons and descriptions for actions like downloading an image have been "
 "made clearer."
@@ -1372,7 +1530,7 @@ msgstr ""
 "ஒரு படத்தைப் பதிவிறக்குவது போன்ற செயல்களுக்கான சின்னங்கள் மற்றும் விளக்கங்கள் "
 "தெளிவுபடுத்தப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:367
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:412
 msgid ""
 "Committing a new image from a container can now be done in a fine-grained "
 "way, in a dedicated page."
@@ -1380,7 +1538,7 @@ msgstr ""
 "ஒரு கொள்கலனிலிருந்து ஒரு புதிய படத்தைச் செய்வது இப்போது ஒரு பிரத்யேக பக்கத்தில் நன்றாகச் "
 "செய்யப்படலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:368
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:413
 msgid ""
 "As always, there were a number of minor bug fixes, visual improvements, "
 "internal code improvements and translation updates."
@@ -1388,15 +1546,15 @@ msgstr ""
 "எப்போதும்போல, பல சிறிய பிழைத் திருத்தங்கள், காட்சி மேம்பாடுகள், உள் குறியீடு மேம்பாடுகள் "
 "மற்றும் மொழிபெயர்ப்பு புதுப்பிப்புகள் இருந்தன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:374
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:419
 msgid "The fifth beta release of Pods 1.0.0 includes the following changes:"
 msgstr "PODS 1.0.0 இன் ஐந்தாவது பீட்டா வெளியீடு பின்வரும் மாற்றங்களை உள்ளடக்கியது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:376
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:421
 msgid "Some typos were fixed, thanks to @kianmeng."
 msgstr "சில எழுத்துப்பிழைகள் சரி செய்யப்பட்டன, @Kianmeng க்கு நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:377
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:422
 msgid ""
 "A tab to specify infra settings were added to the pod creation page, thanks "
 "to @vv9k."
@@ -1404,7 +1562,7 @@ msgstr ""
 "@VV9K க்கு நன்றி, POD உருவாக்கும் பக்கத்தில் அகச்சிவப்பு அமைப்புகளைக் குறிப்பிடுவதற்கான "
 "தாவல் சேர்க்கப்பட்டது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:378
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:423
 msgid ""
 "There is now a widget that provides an overview of actions, such as building "
 "an image. Thus, the state of most actions can now be tracked."
@@ -1412,47 +1570,47 @@ msgstr ""
 "ஒரு படத்தை உருவாக்குவது போன்ற செயல்களின் கண்ணோட்டத்தை வழங்கும் ஒரு விட்செட் இப்போது "
 "உள்ளது. எனவே, பெரும்பாலான செயல்களின் நிலையை இப்போது கண்காணிக்க முடியும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:379
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:424
 msgid ""
 "The local search for images, containers and pods is now case-insensitive."
 msgstr "படங்கள், கொள்கலன்கள் மற்றும் காய்களுக்கான உள்ளக தேடல் இப்போது வழக்கு-உணர்வற்றது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:380
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:425
 msgid "There were small visual adjustments all over the place."
 msgstr "எல்லா இடங்களிலும் சிறிய காட்சி மாற்றங்கள் இருந்தன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:381
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:426
 msgid "Minor bug fixes"
 msgstr "சிறிய பிழை திருத்தங்கள்"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:382
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:427
 msgid "Internal code improvements"
 msgstr "உள் குறியீடு மேம்பாடுகள்"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:383
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:401
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:414
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:428
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:446
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:459
 msgid "Translation updates"
 msgstr "மொழிபெயர்ப்பு புதுப்பிப்புகள்"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:389
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:434
 msgid ""
 "Here comes the fourth beta release of Pods 1.0.0 with the following changes:"
 msgstr "பின்வரும் மாற்றங்களுடன் PODS 1.0.0 இன் நான்காவது பீட்டா வெளியீடு இங்கே வருகிறது:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:391
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:436
 msgid ""
 "The blurry symbolic application icon has been fixed, thanks to "
 "@allaeddineomc."
 msgstr ""
 "மங்கலான குறியீட்டு பயன்பாட்டு படவுரு சரி செய்யப்பட்டது, @AllaedDineomc க்கு நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:392
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:437
 msgid ""
 "A status page is now displayed if there are no images, containers or pods."
 msgstr "படங்கள், கொள்கலன்கள் அல்லது காய்கள் இல்லாவிட்டால் இப்போது ஒரு நிலை பக்கம் காட்டப்படும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:393
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:438
 msgid ""
 "The style has been improved, in particular, there is now better "
 "differentiation between light, dark and high contrast modes."
@@ -1460,7 +1618,7 @@ msgstr ""
 "பாணி மேம்படுத்தப்பட்டுள்ளது, குறிப்பாக, ஒளி, இருண்ட மற்றும் உயர் மாறுபட்ட முறைகளுக்கு "
 "இடையில் இப்போது சிறந்த வேறுபாடு உள்ளது."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:394
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:439
 msgid ""
 "The feature for coloring the header bar has been removed. It will hopefully "
 "come back when there is API support for it."
@@ -1468,7 +1626,7 @@ msgstr ""
 "தலைப்பு பட்டியை வண்ணமயமாக்குவதற்கான நற்பொருத்தம் அகற்றப்பட்டுள்ளது. பநிஇ உதவி "
 "இருக்கும்போது அது திரும்பி வரும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:395
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:440
 msgid ""
 "A lot of smaller UI improvements have been implemented to give Pods a more "
 "polished look."
@@ -1476,11 +1634,11 @@ msgstr ""
 "காய்களுக்கு மிகவும் மெருகூட்டப்பட்ட தோற்றத்தை வழங்க சிறிய இடைமுகம் மேம்பாடுகள் நிறைய "
 "செயல்படுத்தப்பட்டுள்ளன."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:396
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:441
 msgid "The flatpak runtime has been updated to version 43"
 msgstr "பிளாட்பாக் இயக்க நேரம் பதிப்பு 43 க்கு புதுப்பிக்கப்பட்டுள்ளது"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:397
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:442
 msgid ""
 "Improvements in infrastructure like an issue template have landed, thanks to "
 "@vv9k."
@@ -1488,15 +1646,15 @@ msgstr ""
 "ஒரு வெளியீட்டு வார்ப்புரு போன்ற உள்கட்டமைப்பின் மேம்பாடுகள் தரையிறங்கியுள்ளன, @vv9k க்கு "
 "நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:398
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:443
 msgid "Image downloads can now be aborted."
 msgstr "பட பதிவிறக்கங்களை இப்போது கைவிடலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:399
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:444
 msgid "Arguments can now be added to a container command, thanks to @vvk9."
 msgstr "@Vvk9 க்கு நன்றி, இப்போது ஒரு கொள்கலன் கட்டளையில் வாதங்களை சேர்க்கலாம்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:400
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:445
 msgid ""
 "It's now possible to set labels on images, containers and pods, thanks to "
 "@vv9k."
@@ -1504,11 +1662,11 @@ msgstr ""
 "படங்கள், கொள்கலன்கள் மற்றும் காய்களில் லேபிள்களை அமைக்க இப்போது சாத்தியமாகும், @vv9k க்கு "
 "நன்றி."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:407
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:452
 msgid "The third beta release of Pods 1.0.0 contains the following changes:"
 msgstr "PODS 1.0.0 இன் மூன்றாவது பீட்டா வெளியீட்டில் பின்வரும் மாற்றங்கள் உள்ளன:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:409
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:454
 msgid ""
 "A periodic refresh interval to track entities which were created outside of "
 "podman (e.g. with buildah)"
@@ -1516,7 +1674,7 @@ msgstr ""
 "போட்மேனுக்கு வெளியே உருவாக்கப்பட்ட நிறுவனங்களைக் கண்காணிக்க அவ்வப்போது புதுப்பிப்பு "
 "இடைவெளி (எ.கா. பில்டாவுடன்)"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:410
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:455
 msgid ""
 "Containers now provide a detailed view of health configuration and health "
 "status"
@@ -1524,35 +1682,35 @@ msgstr ""
 "கொள்கலன்கள் இப்போது சுகாதார உள்ளமைவு மற்றும் சுகாதார நிலை பற்றிய விரிவான பார்வையை "
 "வழங்குகின்றன"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:411
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:456
 msgid "Several smaller UI improvements"
 msgstr "பல சிறிய இடைமுகம் மேம்பாடுகள்"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:412
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:457
 msgid "Several smaller bugfixes and internal code improvements"
 msgstr "பல சிறிய பிழைகள் மற்றும் உள் குறியீடு மேம்பாடுகள்"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:413
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:458
 msgid "Updated screenshots"
 msgstr "புதுப்பிக்கப்பட்ட திரை சாட்கள்"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:420
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:465
 msgid "A small update with app data fixes:"
 msgstr "பயன்பாட்டு தரவு திருத்தங்களுடன் ஒரு சிறிய புதுப்பிப்பு:"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:422
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:467
 msgid "Updated app data content rating"
 msgstr "பயன்பாட்டு தரவு உள்ளடக்க மதிப்பீடு புதுப்பிக்கப்பட்டது"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:423
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:468
 msgid "Added releases in app data"
 msgstr "பயன்பாட்டு தரவுகளில் வெளியீடுகள் சேர்க்கப்பட்டன"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:429
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:474
 msgid "This is the first 1.0.0 beta release of Pods."
 msgstr "காய்களின் முதல் 1.0.0 பீட்டா வெளியீடு இதுவாகும்."
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:442
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:487
 msgid "Marcus Behrendt"
 msgstr "மார்கச் பெஅ்ரெண்ட்"
 
@@ -1603,7 +1761,7 @@ msgstr "கட்டமைக்கப்பட்ட"
 
 #: src/model/container_status.rs:126 src/model/pod_status.rs:114
 #: src/view/container_properties_group.blp:63
-#: src/view/image_details_page.blp:71 src/view/pod_details_page.blp:187
+#: src/view/image_details_page.blp:71 src/view/pod_details_page.blp:196
 #: src/view/volume_details_page.blp:57
 msgid "Created"
 msgstr "உருவாக்கப்பட்டது"
@@ -1733,39 +1891,38 @@ msgid "{} ago"
 msgstr "{} முன்பு"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:308
+#: src/utils.rs:311
 msgid "<none>"
 msgstr "<இல்லை>"
 
-#: src/utils.rs:407
+#: src/utils.rs:410
 msgid "Error on open file dialog"
 msgstr "திறந்த கோப்பு உரையாடலில் பிழை"
 
-#: src/view/action_dialog.blp:97 src/view/connection.rs:28
+#: src/view/action_dialog.blp:99 src/view/connection.rs:28
 #: src/view/connection_creation_page.blp:30 src/view/container.rs:95
-#: src/view/container_card.rs:576 src/view/container_commit_opts_dialog.blp:26
-#: src/view/container_copy_from_opts_dialog.blp:28
-#: src/view/container_copy_to_opts_dialog.blp:37
-#: src/view/container_create_opts_dialog.blp:35
+#: src/view/container.rs:146 src/view/container_commit_opts_dialog.blp:27
+#: src/view/container_copy_from_opts_dialog.blp:27
+#: src/view/container_copy_to_opts_dialog.blp:36
+#: src/view/container_create_opts_dialog.blp:36
 #: src/view/containers_panel.rs:966
 #: src/view/containers_prune_opts_dialog.blp:27 src/view/image.rs:34
-#: src/view/image_build_opts_dialog.blp:28
-#: src/view/image_pull_opts_dialog.blp:28
-#: src/view/image_remote_selection_page.blp:26 src/view/images_panel.rs:676
+#: src/view/image_build_opts_dialog.blp:27
+#: src/view/image_pull_opts_dialog.blp:27 src/view/images_panel.rs:676
 #: src/view/images_prune_opts_dialog.blp:27 src/view/pod.rs:67
-#: src/view/pod_create_opts_dialog.blp:26 src/view/pods_panel.rs:820
+#: src/view/pod_create_opts_dialog.blp:27 src/view/pods_panel.rs:820
 #: src/view/pods_prune_opts_dialog.blp:27 src/view/repo_tag_add_dialog.blp:11
-#: src/view/repo_tag_push_opts_dialog.blp:26 src/view/volume.rs:32
+#: src/view/repo_tag_push_opts_dialog.blp:27 src/view/volume.rs:32
 #: src/view/volume_create_opts_dialog.blp:27 src/view/volumes_panel.rs:660
 #: src/view/volumes_prune_opts_dialog.blp:27
 msgid "_Cancel"
 msgstr "_CANCEL"
 
-#: src/view/action_dialog.blp:116
+#: src/view/action_dialog.blp:118
 msgid "_Edit"
 msgstr ""
 
-#: src/view/action_dialog.blp:128
+#: src/view/action_dialog.blp:130
 msgid "_View"
 msgstr "காட்சி (_V)"
 
@@ -1787,7 +1944,7 @@ msgstr "முடிந்தது"
 msgid "Ongoing"
 msgstr "நடந்துகொண்டிருக்கும் ({})"
 
-#: src/view/action_dialog.rs:290 src/view/container_properties_group.rs:243
+#: src/view/action_dialog.rs:290 src/view/container_details_page.rs:245
 #, rust-format
 msgid "since {}"
 msgstr "{} முதல்"
@@ -1903,13 +2060,13 @@ msgid "Create <b>{}</b>"
 msgstr "பாட் <b> {} </b> ஐ உருவாக்கவும்"
 
 #: src/view/action_row.rs:387 src/view/containers_prune_action_view.rs:94
-#: src/view/containers_prune_opts_dialog.blp:16
+#: src/view/containers_prune_opts_dialog.blp:15
 #, fuzzy
 msgid "Prune Containers"
 msgstr "கத்தரிக்காய் கொள்கலன்கள்"
 
 #: src/view/action_row.rs:391 src/view/pods_prune_action_view.rs:69
-#: src/view/pods_prune_opts_dialog.blp:16
+#: src/view/pods_prune_opts_dialog.blp:15
 #, fuzzy
 msgid "Prune Pods"
 msgstr "கத்தரிக்காய் காய்கள்"
@@ -1930,7 +2087,7 @@ msgid "Push <b>{}</b>"
 msgstr "படத்தை தள்ளுங்கள் <b> {} </b>"
 
 #: src/view/action_row.rs:400 src/view/images_prune_action_view.rs:94
-#: src/view/images_prune_opts_dialog.blp:16
+#: src/view/images_prune_opts_dialog.blp:15
 msgid "Prune Images"
 msgstr "படங்களை கத்தரிக்காய்"
 
@@ -1940,7 +2097,7 @@ msgid "Create anonymous"
 msgstr "_ கிரேட் மட்டும்"
 
 #: src/view/action_row.rs:407 src/view/volumes_prune_action_view.rs:94
-#: src/view/volumes_prune_opts_dialog.blp:16
+#: src/view/volumes_prune_opts_dialog.blp:15
 msgid "Prune Volumes"
 msgstr "கத்தரிக்காய் தொகுதிகள்"
 
@@ -1992,7 +2149,7 @@ msgstr "காய்கள்"
 #: src/view/client_view.blp:99 src/view/client_view.rs:245
 #: src/view/containers_panel.blp:85 src/view/containers_panel.blp:131
 #: src/view/containers_panel.blp:383 src/view/image_details_page.blp:147
-#: src/view/images_panel.blp:44 src/view/pod_details_page.blp:255
+#: src/view/images_panel.blp:44 src/view/pod_details_page.blp:262
 #: src/view/pods_panel.blp:15 src/view/search_panel.blp:44
 #: src/view/volume_details_page.blp:87 src/view/volumes_panel.blp:21
 msgid "Containers"
@@ -2005,8 +2162,8 @@ msgid "Images"
 msgstr "படங்கள்"
 
 #: src/view/client_view.blp:214 src/view/client_view.rs:248
-#: src/view/container_create_opts_dialog.blp:219
-#: src/view/container_details_page.blp:167 src/view/search_panel.blp:80
+#: src/view/container_create_opts_dialog.blp:228
+#: src/view/container_details_page.blp:243 src/view/search_panel.blp:80
 #: src/view/volumes_panel.blp:80 src/view/volumes_panel.blp:126
 #: src/view/volumes_panel.blp:273
 msgid "Volumes"
@@ -2024,13 +2181,12 @@ msgstr "தகவல்"
 msgid "There are ongoing actions whose progress will be irretrievably lost"
 msgstr "தொடர்ந்து நடவடிக்கைகள் உள்ளன, அதன் முன்னேற்றம் மீளமுடியாமல் இழக்கப்படும்"
 
-#: src/view/connection.rs:29 src/view/container_card.rs:577
+#: src/view/connection.rs:29 src/view/container.rs:147
 msgid "_Confirm"
 msgstr "_உறுதி"
 
 #: src/view/connection_chooser_page.blp:19
-#: src/view/connection_chooser_page.blp:22 src/view/image_selection_page.blp:34
-#: src/view/image_selection_page.blp:37
+#: src/view/connection_chooser_page.blp:22
 msgid "Filter"
 msgstr "வடிப்பி"
 
@@ -2069,11 +2225,11 @@ msgid "_Abort"
 msgstr "_போர்ட்"
 
 #: src/view/connection_creation_page.blp:85
-#: src/view/container_create_opts_dialog.blp:57
+#: src/view/container_create_opts_dialog.blp:58
 #: src/view/container_properties_group.blp:14 src/view/container_renamer.blp:10
 #: src/view/containers_panel.blp:9 src/view/images_panel.blp:32
-#: src/view/pod_create_opts_dialog.blp:47
-#: src/view/pod_create_opts_dialog.blp:195 src/view/pod_details_page.blp:170
+#: src/view/pod_create_opts_dialog.blp:48
+#: src/view/pod_create_opts_dialog.blp:196 src/view/pod_details_page.blp:179
 #: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:47
 #: src/view/volume_details_page.blp:41 src/view/volumes_panel.blp:9
 msgid "Name"
@@ -2262,8 +2418,8 @@ msgstr "முகவரி நகலெடுக்கப்பட்டது"
 
 #: src/view/connection_row.blp:74 src/view/connection_row.blp:77
 #: src/view/container_card.blp:437 src/view/container_card.blp:440
-#: src/view/container_details_page.blp:150
-#: src/view/container_details_page.blp:153 src/view/containers_panel.blp:347
+#: src/view/container_details_page.blp:172
+#: src/view/container_details_page.blp:175 src/view/containers_panel.blp:347
 #: src/view/containers_panel.blp:350 src/view/image_menu_button.blp:11
 #: src/view/images_panel.blp:264 src/view/images_panel.blp:266
 #: src/view/pod_details_page.blp:150 src/view/pod_details_page.blp:153
@@ -2304,31 +2460,43 @@ msgstr "கொள்கலன் மறுபெயரிடுங்கள்"
 msgid "_Rename"
 msgstr "_ரினேம்"
 
-#: src/view/container.rs:155 src/view/containers_panel.rs:909
+#: src/view/container.rs:138
+msgid "Delete Container?"
+msgstr "கொள்கலனை நீக்கவா?"
+
+#: src/view/container.rs:141
+msgid ""
+"All settings and all changes made within the container will be irreversibly "
+"lost"
+msgstr ""
+"அனைத்து அமைப்புகளும், கொள்கலனுக்குள் செய்யப்பட்ட அனைத்து மாற்றங்களும் மாற்றமுடியாமல் "
+"இழக்கப்படும்"
+
+#: src/view/container.rs:179 src/view/containers_panel.rs:909
 msgid "Error on starting container"
 msgstr "கொள்கலனைத் தொடங்குவதில் பிழை"
 
-#: src/view/container.rs:156 src/view/containers_panel.rs:839
+#: src/view/container.rs:180 src/view/containers_panel.rs:839
 msgid "Error on stopping container"
 msgstr "கொள்கலனை நிறுத்துவதில் பிழை"
 
-#: src/view/container.rs:157 src/view/containers_panel.rs:837
+#: src/view/container.rs:181 src/view/containers_panel.rs:837
 msgid "Error on killing container"
 msgstr "கொள்கலனைக் கொல்வதில் பிழை"
 
-#: src/view/container.rs:158 src/view/containers_panel.rs:868
+#: src/view/container.rs:182 src/view/containers_panel.rs:868
 msgid "Error on restarting container"
 msgstr "கொள்கலனை மறுதொடக்கம் செய்வதில் பிழை"
 
-#: src/view/container.rs:159 src/view/containers_panel.rs:936
+#: src/view/container.rs:183 src/view/containers_panel.rs:936
 msgid "Error on pausing container"
 msgstr "கொள்கலனை இடைநிறுத்துவதில் பிழை"
 
-#: src/view/container.rs:160 src/view/containers_panel.rs:894
+#: src/view/container.rs:184 src/view/containers_panel.rs:894
 msgid "Error on resuming container"
 msgstr "மீண்டும் கொள்கலனில் பிழை"
 
-#: src/view/container.rs:161 src/view/containers_panel.rs:992
+#: src/view/container.rs:185 src/view/containers_panel.rs:992
 msgid "Error on deleting container"
 msgstr "கொள்கலனை நீக்குவதில் பிழை"
 
@@ -2337,68 +2505,57 @@ msgid "Rename"
 msgstr "மறுபெயரிடுங்கள்"
 
 #: src/view/container_card.blp:297
-msgid "No Ports Mappings"
-msgstr "துறைமுக வரைபடங்கள் இல்லை"
+#, fuzzy
+msgid "No Ports"
+msgstr "துறைமுகங்கள்"
 
 #: src/view/container_card.blp:338 src/view/container_card.blp:341
-#: src/view/container_details_page.blp:47
-#: src/view/container_details_page.blp:50 src/view/containers_panel.blp:245
-#: src/view/containers_panel.blp:248 src/view/pod_details_page.blp:47
-#: src/view/pod_details_page.blp:50 src/view/pods_panel.blp:250
+#: src/view/container_details_page.blp:67
+#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:245
+#: src/view/containers_panel.blp:248 src/view/pod_details_page.blp:45
+#: src/view/pod_details_page.blp:48 src/view/pods_panel.blp:250
 #: src/view/pods_panel.blp:253 src/view/top_page_action_bar.blp:17
 msgid "Kill"
 msgstr "கொலை"
 
 #: src/view/container_card.blp:359 src/view/container_card.blp:362
-#: src/view/container_details_page.blp:69
-#: src/view/container_details_page.blp:72 src/view/containers_panel.blp:267
-#: src/view/containers_panel.blp:270 src/view/pod_details_page.blp:69
-#: src/view/pod_details_page.blp:72 src/view/pods_panel.blp:272
+#: src/view/container_details_page.blp:90
+#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:267
+#: src/view/containers_panel.blp:270 src/view/pod_details_page.blp:68
+#: src/view/pod_details_page.blp:71 src/view/pods_panel.blp:272
 #: src/view/pods_panel.blp:275
 msgid "Restart"
 msgstr "மறுதொடக்கம்"
 
-#: src/view/container_card.blp:374 src/view/container_details_page.blp:86
-#: src/view/containers_panel.blp:288 src/view/pod_details_page.blp:86
+#: src/view/container_card.blp:374 src/view/container_details_page.blp:107
+#: src/view/containers_panel.blp:288 src/view/pod_details_page.blp:85
 #: src/view/pods_panel.blp:293
 msgid "Start/Resume"
 msgstr "தொடங்க/மீண்டும் தொடங்கவும்"
 
-#: src/view/container_card.blp:388 src/view/container_details_page.blp:102
-#: src/view/containers_panel.blp:307 src/view/pod_details_page.blp:102
+#: src/view/container_card.blp:388 src/view/container_details_page.blp:123
+#: src/view/containers_panel.blp:307 src/view/pod_details_page.blp:101
 #: src/view/pods_panel.blp:312
 msgid "Stop"
 msgstr "நிறுத்து"
 
 #: src/view/container_card.blp:419 src/view/container_card.blp:422
-#: src/view/container_commit_opts_dialog.blp:87
-#: src/view/container_details_page.blp:131
-#: src/view/container_details_page.blp:134 src/view/containers_panel.blp:328
-#: src/view/containers_panel.blp:331 src/view/pod_details_page.blp:131
-#: src/view/pod_details_page.blp:134 src/view/pods_panel.blp:333
+#: src/view/container_commit_opts_dialog.blp:88
+#: src/view/container_details_page.blp:152
+#: src/view/container_details_page.blp:155 src/view/containers_panel.blp:328
+#: src/view/containers_panel.blp:331 src/view/pod_details_page.blp:130
+#: src/view/pod_details_page.blp:133 src/view/pods_panel.blp:333
 #: src/view/pods_panel.blp:336
 msgid "Pause"
 msgstr "இடைநிறுத்தம்"
 
-#: src/view/container_card.rs:556 src/view/container_row.rs:368
+#: src/view/container_card.rs:539 src/view/container_row.rs:340
 #, rust-format
 msgid "Container {}"
 msgstr "கொள்கலன் {}"
 
-#: src/view/container_card.rs:568
-msgid "Delete Container?"
-msgstr "கொள்கலனை நீக்கவா?"
-
-#: src/view/container_card.rs:571
-msgid ""
-"All settings and all changes made within the container will be irreversibly "
-"lost"
-msgstr ""
-"அனைத்து அமைப்புகளும், கொள்கலனுக்குள் செய்யப்பட்ட அனைத்து மாற்றங்களும் மாற்றமுடியாமல் "
-"இழக்கப்படும்"
-
 #. Translators: For example 5 MB / s.
-#: src/view/container_card.rs:646 src/view/container_resources.rs:285
+#: src/view/container_card.rs:612 src/view/container_resources.rs:285
 #, rust-format
 msgid "{} / s"
 msgstr "{} / s"
@@ -2413,49 +2570,49 @@ msgstr "கொள்கலன் செய்யுங்கள்"
 msgid "<Deleted>"
 msgstr "நீக்கு"
 
-#: src/view/container_commit_opts_dialog.blp:37
+#: src/view/container_commit_opts_dialog.blp:38
 msgid "_Commit"
 msgstr "_COMMIT"
 
-#: src/view/container_commit_opts_dialog.blp:44
+#: src/view/container_commit_opts_dialog.blp:45
 msgid "General Commit Options"
 msgstr "பொது கமிட் விருப்பங்கள்"
 
-#: src/view/container_commit_opts_dialog.blp:48
+#: src/view/container_commit_opts_dialog.blp:49
 msgid "Author"
 msgstr "நூலாசிரியர்"
 
-#: src/view/container_commit_opts_dialog.blp:57
-#: src/view/container_commit_opts_dialog.blp:60
+#: src/view/container_commit_opts_dialog.blp:58
+#: src/view/container_commit_opts_dialog.blp:61
 msgid "Fetch Username"
 msgstr "பயனர்பெயரைப் பெறுங்கள்"
 
-#: src/view/container_commit_opts_dialog.blp:69
+#: src/view/container_commit_opts_dialog.blp:70
 #: src/view/image_history_page.rs:169
 msgid "Comment"
 msgstr "கருத்து"
 
-#: src/view/container_commit_opts_dialog.blp:74
+#: src/view/container_commit_opts_dialog.blp:75
 msgid "Repo"
 msgstr "களஞ்சி"
 
-#: src/view/container_commit_opts_dialog.blp:79 src/view/images_panel.blp:38
+#: src/view/container_commit_opts_dialog.blp:80 src/view/images_panel.blp:38
 msgid "Tag"
 msgstr "குறிச்சொல்"
 
-#: src/view/container_commit_opts_dialog.blp:83
+#: src/view/container_commit_opts_dialog.blp:84
 msgid "Format"
 msgstr "வடிவம்"
 
-#: src/view/container_commit_opts_dialog.blp:88
+#: src/view/container_commit_opts_dialog.blp:89
 msgid "Pause the container before committing it"
 msgstr "கொள்கலனைச் செய்வதற்கு முன் இடைநிறுத்தவும்"
 
-#: src/view/container_commit_opts_dialog.blp:93
+#: src/view/container_commit_opts_dialog.blp:94
 msgid "Changes"
 msgstr "மாற்றங்கள்"
 
-#: src/view/container_commit_opts_dialog.blp:94
+#: src/view/container_commit_opts_dialog.blp:95
 msgid ""
 "Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
 "foo\")"
@@ -2476,34 +2633,34 @@ msgid "Written"
 msgstr "அளவு: {}"
 
 #: src/view/container_copy_from_action_view.rs:104
-#: src/view/container_copy_from_opts_dialog.blp:17
+#: src/view/container_copy_from_opts_dialog.blp:15
 #, fuzzy
 msgid "Copy From Container"
 msgstr "கொள்கலன் செய்யுங்கள்"
 
-#: src/view/container_copy_from_opts_dialog.blp:39
-#: src/view/container_copy_to_opts_dialog.blp:48
-#: src/view/container_terminal.blp:6
+#: src/view/container_copy_from_opts_dialog.blp:38
+#: src/view/container_copy_to_opts_dialog.blp:47
+#: src/view/container_terminal.blp:43
 msgid "_Copy"
 msgstr "_ கோபி"
 
-#: src/view/container_copy_from_opts_dialog.blp:48
+#: src/view/container_copy_from_opts_dialog.blp:47
 #, fuzzy
 msgid "Container Path (’/’ if empty)"
 msgstr "கொள்கலன் பாதை ('/' காலியாக இருந்தால்)"
 
-#: src/view/container_copy_from_opts_dialog.blp:54
+#: src/view/container_copy_from_opts_dialog.blp:53
 #: src/view/container_copy_from_opts_dialog.rs:143
-#: src/view/container_copy_to_opts_dialog.blp:58 src/view/device_row.blp:57
-#: src/view/mount_row.blp:88
+#: src/view/container_copy_to_opts_dialog.blp:57 src/view/device_row.blp:69
+#: src/view/mount_row.blp:102
 msgid "Host Path"
 msgstr "புரவலன் பாதை"
 
-#: src/view/container_copy_from_opts_dialog.blp:55
+#: src/view/container_copy_from_opts_dialog.blp:54
 msgid "Select a destination tar archive on the host"
 msgstr "ஓச்டில் இலக்கு தார் காப்பகத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/container_copy_from_opts_dialog.blp:60
+#: src/view/container_copy_from_opts_dialog.blp:59
 msgid "Select _Path…"
 msgstr "_ பாத் என்பதைத் தேர்ந்தெடுக்கவும்…"
 
@@ -2523,7 +2680,7 @@ msgid "Copying bytes"
 msgstr "கோப்புகளை நகலெடுக்கும்"
 
 #: src/view/container_copy_to_action_view.rs:159
-#: src/view/container_copy_to_opts_dialog.blp:26
+#: src/view/container_copy_to_opts_dialog.blp:24
 #, fuzzy
 msgid "Copy To Container"
 msgstr "கொள்கலன் செய்யுங்கள்"
@@ -2532,15 +2689,15 @@ msgstr "கொள்கலன் செய்யுங்கள்"
 msgid "Select _Directory…"
 msgstr "_ அடைவு என்பதைத் தேர்ந்தெடுக்கவும்…"
 
-#: src/view/container_copy_to_opts_dialog.blp:59
+#: src/view/container_copy_to_opts_dialog.blp:58
 msgid "Select a file or a directory from the host to upload"
 msgstr "பதிவேற்ற ஓச்டிலிருந்து ஒரு கோப்பு அல்லது கோப்பகத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/container_copy_to_opts_dialog.blp:64
+#: src/view/container_copy_to_opts_dialog.blp:63
 msgid "Select _File…"
 msgstr "_ பைல் என்பதைத் தேர்ந்தெடுக்கவும்…"
 
-#: src/view/container_copy_to_opts_dialog.blp:73
+#: src/view/container_copy_to_opts_dialog.blp:72
 msgid "Container Path ('/' if empty)"
 msgstr "கொள்கலன் பாதை ('/' காலியாக இருந்தால்)"
 
@@ -2563,209 +2720,236 @@ msgstr "கொள்கலனை உருவாக்கவும்"
 msgid "_Create Only"
 msgstr "_ கிரேட் மட்டும்"
 
-#: src/view/container_create_opts_dialog.blp:46
+#: src/view/container_create_opts_dialog.blp:47
 msgid "_Run"
 msgstr "_ ரன்"
 
-#: src/view/container_create_opts_dialog.blp:74
-#: src/view/container_create_opts_dialog.blp:97
-#: src/view/image_build_opts_dialog.blp:66
-#: src/view/image_build_opts_dialog.blp:83
-#: src/view/pod_create_opts_dialog.blp:64
-#: src/view/pod_create_opts_dialog.blp:87
+#: src/view/container_create_opts_dialog.blp:75
+#: src/view/container_create_opts_dialog.blp:98
+#: src/view/image_build_opts_dialog.blp:65
+#: src/view/image_build_opts_dialog.blp:82
+#: src/view/pod_create_opts_dialog.blp:65
+#: src/view/pod_create_opts_dialog.blp:88
 msgid "Details"
 msgstr "விவரங்கள்"
 
-#: src/view/container_create_opts_dialog.blp:80
-#: src/view/container_create_opts_dialog.blp:201
-#: src/view/image_build_opts_dialog.blp:72
-#: src/view/image_build_opts_dialog.blp:113
-#: src/view/pod_create_opts_dialog.blp:70
-#: src/view/pod_create_opts_dialog.blp:117
+#: src/view/container_create_opts_dialog.blp:81
+#: src/view/container_create_opts_dialog.blp:210
+#: src/view/image_build_opts_dialog.blp:71
+#: src/view/image_build_opts_dialog.blp:112
+#: src/view/pod_create_opts_dialog.blp:71
+#: src/view/pod_create_opts_dialog.blp:118
 msgid "Integration"
 msgstr "ஒருங்கிணைப்பு"
 
-#: src/view/container_create_opts_dialog.blp:86
-#: src/view/container_create_opts_dialog.blp:252
-#: src/view/container_properties_group.blp:128
+#: src/view/container_create_opts_dialog.blp:87
+#: src/view/container_create_opts_dialog.blp:261
+#: src/view/container_properties_group.blp:115
 msgid "Health Check"
 msgstr "சுகாதார சோதனை"
 
-#: src/view/container_create_opts_dialog.blp:107
-#: src/view/container_properties_group.blp:155 src/view/containers_panel.blp:15
-#: src/view/image_details_page.blp:24 src/view/image_pull_opts_dialog.blp:52
-#: src/view/image_remote_selection_page.blp:51
-#: src/view/pod_create_opts_dialog.blp:199
+#: src/view/container_create_opts_dialog.blp:108
+#: src/view/container_details_page.blp:202 src/view/containers_panel.blp:15
+#: src/view/image_details_page.blp:24 src/view/image_pull_opts_dialog.blp:51
+#: src/view/pod_create_opts_dialog.blp:200
 msgid "Image"
 msgstr "படம்"
 
-#: src/view/container_create_opts_dialog.blp:112
-#: src/view/container_properties_group.blp:167 src/view/pod_details_page.blp:12
+#: src/view/container_create_opts_dialog.blp:113
+#: src/view/container_details_page.blp:216 src/view/pod_details_page.blp:22
 msgid "Pod"
 msgstr "நெற்று"
 
-#: src/view/container_create_opts_dialog.blp:121
-#: src/view/pod_create_opts_dialog.blp:203
+#: src/view/container_create_opts_dialog.blp:122
+#: src/view/pod_create_opts_dialog.blp:204
 msgid "Pull Latest Image"
 msgstr "அண்மைக் கால படத்தை இழுக்கவும்"
 
-#: src/view/container_create_opts_dialog.blp:125
-#: src/view/container_details_page.blp:213
+#: src/view/container_create_opts_dialog.blp:126
+#: src/view/container_details_page.blp:289
 msgid "Terminal"
 msgstr "முனையத்தில்"
 
-#: src/view/container_create_opts_dialog.blp:129
+#: src/view/container_create_opts_dialog.blp:130
 msgid "Privileged"
 msgstr "பெரிய"
 
-#: src/view/container_create_opts_dialog.blp:130
+#: src/view/container_create_opts_dialog.blp:131
 msgid "Give extended privileges to container"
 msgstr "கொள்கலனுக்கு நீட்டிக்கப்பட்ட சலுகைகளை கொடுங்கள்"
 
+#: src/view/container_create_opts_dialog.blp:135
+#: src/view/container_properties_group.blp:111
+#, fuzzy
+msgid "Restart Policy"
+msgstr "மறுதொடக்கம்"
+
+#: src/view/container_create_opts_dialog.blp:139
+msgid "Never"
+msgstr ""
+
 #: src/view/container_create_opts_dialog.blp:140
+#: src/view/container_properties_group.rs:118
+msgid "Always"
+msgstr ""
+
+#: src/view/container_create_opts_dialog.blp:141
+#: src/view/container_properties_group.rs:120
+msgid "On failure"
+msgstr ""
+
+#: src/view/container_create_opts_dialog.blp:142
+#: src/view/container_properties_group.rs:121
+#, fuzzy
+msgid "Unless stopped"
+msgstr "ப்ரூன் காய்களை நிறுத்தியது"
+
+#: src/view/container_create_opts_dialog.blp:149
 msgid "Memory Limit"
 msgstr "நினைவக வரம்பு"
 
-#: src/view/container_create_opts_dialog.blp:175
+#: src/view/container_create_opts_dialog.blp:184
 msgid "KB"
 msgstr "கே.பி."
 
-#: src/view/container_create_opts_dialog.blp:176
+#: src/view/container_create_opts_dialog.blp:185
 msgid "MB"
 msgstr "எம்பி"
 
-#: src/view/container_create_opts_dialog.blp:177
+#: src/view/container_create_opts_dialog.blp:186
 msgid "GB"
 msgstr "சிபி"
 
-#: src/view/container_create_opts_dialog.blp:193
-#: src/view/container_create_opts_dialog.blp:258
+#: src/view/container_create_opts_dialog.blp:202
+#: src/view/container_create_opts_dialog.blp:267
 #: src/view/container_health_check_page.blp:34
-#: src/view/image_details_page.blp:87 src/view/pod_create_opts_dialog.blp:215
+#: src/view/image_details_page.blp:87 src/view/pod_create_opts_dialog.blp:216
 msgid "Command"
 msgstr "கட்டளை"
 
-#: src/view/container_create_opts_dialog.blp:209
-#: src/view/pod_create_opts_dialog.blp:125
-msgid "Port Mappings"
-msgstr "துறைமுகம் மேப்பிங்ச்"
+#: src/view/container_create_opts_dialog.blp:218
+#: src/view/container_details_page.blp:231 src/view/image_details_page.blp:103
+#: src/view/pod_create_opts_dialog.blp:126 src/view/pod_details_page.blp:209
+msgid "Ports"
+msgstr "துறைமுகங்கள்"
 
-#: src/view/container_create_opts_dialog.blp:229
+#: src/view/container_create_opts_dialog.blp:238
 msgid "Environment Variables"
 msgstr "சுற்றுச்சூழல் மாறிகள்"
 
-#: src/view/container_create_opts_dialog.blp:239
-#: src/view/image_build_opts_dialog.blp:120
-#: src/view/pod_create_opts_dialog.blp:161
+#: src/view/container_create_opts_dialog.blp:248
+#: src/view/image_build_opts_dialog.blp:119
+#: src/view/pod_create_opts_dialog.blp:162
 msgid "Labels"
 msgstr "சிட்டைகள்"
 
-#: src/view/container_create_opts_dialog.blp:262
+#: src/view/container_create_opts_dialog.blp:271
 #: src/view/container_health_check_page.blp:38
 msgid "Interval"
 msgstr "இடைவேளை"
 
-#: src/view/container_create_opts_dialog.blp:263
+#: src/view/container_create_opts_dialog.blp:272
 msgid "Health check interval in seconds"
 msgstr "நொடிகளில் சுகாதார சோதனை இடைவெளி"
 
-#: src/view/container_create_opts_dialog.blp:275
+#: src/view/container_create_opts_dialog.blp:284
 #: src/view/container_health_check_page.blp:46
 msgid "Timeout"
 msgstr "நேரம் முடிந்தது"
 
-#: src/view/container_create_opts_dialog.blp:276
+#: src/view/container_create_opts_dialog.blp:285
 msgid "Seconds allowed to complete the command before it fails"
 msgstr "கட்டளை தோல்வியடைவதற்கு முன்பு அதை முடிக்க விநாடிகள் அனுமதிக்கப்பட்டன"
 
-#: src/view/container_create_opts_dialog.blp:288
+#: src/view/container_create_opts_dialog.blp:297
 msgid "Start Period"
 msgstr "தொடக்க காலம்"
 
-#: src/view/container_create_opts_dialog.blp:289
+#: src/view/container_create_opts_dialog.blp:298
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
 msgstr "துவக்க கொள்கலனின் நேரத்தை வழங்க நொடிகளில் கட்டளையின் ஆரம்ப நேரந்தவறுகை"
 
-#: src/view/container_create_opts_dialog.blp:301
+#: src/view/container_create_opts_dialog.blp:310
 #: src/view/container_health_check_page.blp:42
 msgid "Retries"
 msgstr "மறுமுயற்சிகள்"
 
-#: src/view/container_create_opts_dialog.blp:302
+#: src/view/container_create_opts_dialog.blp:311
 msgid "Number of retries allowed before a healthcheck fails"
 msgstr "ஒரு எல்த் செக் தோல்வியடைவதற்கு முன்பு அனுமதிக்கப்பட்ட முயற்சிகளின் எண்ணிக்கை"
 
-#: src/view/container_create_opts_dialog.rs:162
-#: src/view/pod_create_opts_dialog.rs:157
-msgid "Add Port Mapping"
-msgstr "துறைமுகம் மேப்பிங்கைச் சேர்க்கவும்"
+#: src/view/container_create_opts_dialog.rs:166
+#: src/view/pod_create_opts_dialog.rs:159
+#, fuzzy
+msgid "Add Port"
+msgstr "ஓச்டைச் சேர்க்கவும்"
 
-#: src/view/container_create_opts_dialog.rs:170
+#: src/view/container_create_opts_dialog.rs:174
 msgid "Add Volume"
 msgstr "தொகுதி சேர்க்கவும்"
 
-#: src/view/container_create_opts_dialog.rs:180
+#: src/view/container_create_opts_dialog.rs:184
 msgid "Add Environment Variable"
 msgstr "சுற்றுச்சூழல் மாறியைச் சேர்க்கவும்"
 
-#: src/view/container_create_opts_dialog.rs:190
+#: src/view/container_create_opts_dialog.rs:194
 #: src/view/image_build_opts_dialog.rs:109
 #: src/view/pod_create_opts_dialog.rs:131
 msgid "Add Label"
 msgstr "லேபிளைச் சேர்க்கவும்"
 
-#: src/view/container_details_page.blp:12
+#: src/view/container_details_page.blp:43 src/view/port_binding_row.blp:58
 msgid "Container"
 msgstr "சரக்குப் பெட்டகம்"
 
-#: src/view/container_details_page.blp:179 src/view/image_details_page.blp:108
-#: src/view/pod_details_page.blp:214 src/view/volume_details_page.blp:70
+#: src/view/container_details_page.blp:255 src/view/image_details_page.blp:108
+#: src/view/pod_details_page.blp:221 src/view/volume_details_page.blp:70
 msgid "Utilities"
 msgstr "பயன்பாடுகள்"
 
-#: src/view/container_details_page.blp:182 src/view/image_details_page.blp:111
-#: src/view/pod_details_page.blp:217 src/view/volume_details_page.blp:73
+#: src/view/container_details_page.blp:258 src/view/image_details_page.blp:111
+#: src/view/pod_details_page.blp:224 src/view/volume_details_page.blp:73
 msgid "Inspection"
 msgstr "ஆய்வு"
 
-#: src/view/container_details_page.blp:183
+#: src/view/container_details_page.blp:259
 msgid "View all container properties in a structured text form"
 msgstr "கட்டமைக்கப்பட்ட உரை வடிவத்தில் அனைத்து கொள்கலன் பண்புகளையும் காண்க"
 
-#: src/view/container_details_page.blp:194 src/view/pod_details_page.blp:229
+#: src/view/container_details_page.blp:270 src/view/pod_details_page.blp:236
 msgid "Kube"
 msgstr "குபே"
 
-#: src/view/container_details_page.blp:195
+#: src/view/container_details_page.blp:271
 msgid "Generate Kubernetes YAML based on this container"
 msgstr "இந்த கொள்கலனின் அடிப்படையில் குபெர்னெட்ச் யாம்லை உருவாக்குங்கள்"
 
-#: src/view/container_details_page.blp:214
+#: src/view/container_details_page.blp:290
 msgid "Connect to the container's terminal"
 msgstr "கொள்கலனின் முனையத்துடன் இணைக்கவும்"
 
-#: src/view/container_details_page.blp:225
+#: src/view/container_details_page.blp:301
 msgid "Logs"
 msgstr "பதிவுகள்"
 
-#: src/view/container_details_page.blp:226
+#: src/view/container_details_page.blp:302
 msgid "View and search through container logs"
 msgstr "கொள்கலன் பதிவுகள் மூலம் பார்க்கவும் தேடவும்"
 
-#: src/view/container_details_page.blp:237 src/view/pod_details_page.blp:241
+#: src/view/container_details_page.blp:313 src/view/pod_details_page.blp:248
 msgid "Processes"
 msgstr "செயல்முறைகள்"
 
-#: src/view/container_details_page.blp:238
+#: src/view/container_details_page.blp:314
 msgid "View and manage processes of the container"
 msgstr "கொள்கலனின் செயல்முறைகளைக் காணவும் நிர்வகிக்கவும்"
 
-#: src/view/container_details_page.rs:270
+#: src/view/container_details_page.rs:346
 msgid "Error on loading container details"
 msgstr "கொள்கலன் விவரங்களை ஏற்றுவதில் பிழை"
 
-#: src/view/container_details_page.rs:283
+#: src/view/container_details_page.rs:364
 #, rust-format
 msgid "Container '{}' has been deleted"
 msgstr "கொள்கலன் '{}' நீக்கப்பட்டது"
@@ -2794,8 +2978,6 @@ msgid "Configuration"
 msgstr "உள்ளமைவு"
 
 #: src/view/container_health_check_page.blp:22
-#: src/view/container_properties_group.blp:107
-#: src/view/pod_details_page.blp:191
 msgid "Status"
 msgstr "நிலை"
 
@@ -2953,7 +3135,7 @@ msgid "Container Actions"
 msgstr "கொள்கலன் ஆய்வு"
 
 #: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:40
-#: src/view/pod_details_page.blp:163 src/view/volume_details_page.blp:18
+#: src/view/pod_details_page.blp:172 src/view/volume_details_page.blp:18
 msgid "Properties"
 msgstr "பண்புகள்"
 
@@ -2963,7 +3145,7 @@ msgid "Rename (F2)"
 msgstr "மறுபெயரிடுங்கள் (F2)"
 
 #: src/view/container_properties_group.blp:38
-#: src/view/image_details_page.blp:63 src/view/pod_details_page.blp:179
+#: src/view/image_details_page.blp:63 src/view/pod_details_page.blp:188
 msgid "Id"
 msgstr "ஐடி"
 
@@ -2986,23 +3168,24 @@ msgstr "கோப்புகளைப் பதிவிறக்குங்�
 msgid "Upload Files (Ctrl+U)"
 msgstr "கோப்புகளை பதிவேற்றவும் (Ctrl+U)"
 
-#: src/view/container_properties_group.blp:123
-msgid "Port bindings"
-msgstr "துறைமுகம் பிணைப்புகள்"
+#: src/view/container_properties_group.rs:119
+#, fuzzy
+msgid "None"
+msgstr "<இல்லை>"
 
-#: src/view/container_resources.blp:14
+#: src/view/container_resources.blp:5
 msgid "Resources Quick Reference"
 msgstr "வளங்கள் விரைவான குறிப்பு"
 
-#: src/view/container_resources.blp:91 src/view/info_panel.blp:98
+#: src/view/container_resources.blp:82 src/view/info_panel.blp:98
 msgid "Memory"
 msgstr "நினைவகம்"
 
-#: src/view/container_resources.blp:138
+#: src/view/container_resources.blp:130
 msgid "Network"
 msgstr "பிணையம்"
 
-#: src/view/container_resources.blp:221
+#: src/view/container_resources.blp:214
 msgid "Disk"
 msgstr "வட்டு"
 
@@ -3033,49 +3216,45 @@ msgstr "{} %"
 msgid "{} / {} ({} %)"
 msgstr "{} / {} ({} %)"
 
-#: src/view/container_row.blp:27
+#: src/view/container_row.blp:26
 #, fuzzy
 msgid "Select container"
 msgstr "{} தேர்ந்தெடுக்கப்பட்ட கொள்கலன்"
 
 #: src/view/container_terminal.blp:11
-msgid "Copy as _HTML"
-msgstr "உஉகுமொ ஆக நகலெடுக்கவும்"
-
-#: src/view/container_terminal.blp:16
-msgid "_Paste"
-msgstr "_ பேச்ட்"
-
-#: src/view/container_terminal.blp:32
 msgid "No Terminal"
 msgstr "முனையம் இல்லை"
 
-#: src/view/container_terminal.blp:33
+#: src/view/container_terminal.blp:12
 msgid "The container must be running to use the terminal"
 msgstr "முனையத்தைப் பயன்படுத்த கொள்கலன் இயங்க வேண்டும்"
 
-#: src/view/container_terminal.blp:43
+#: src/view/container_terminal.blp:22
 msgid "Start"
 msgstr "தொடங்கு"
 
-#: src/view/container_terminal.blp:62
+#: src/view/container_terminal.blp:48
+msgid "Copy as _HTML"
+msgstr "உஉகுமொ ஆக நகலெடுக்கவும்"
+
+#: src/view/container_terminal.blp:53
+msgid "_Paste"
+msgstr "_ பேச்ட்"
+
+#: src/view/container_terminal.blp:59
 #, fuzzy
 msgid "Container terminal"
 msgstr "கொள்கலன் முனையம்"
 
-#: src/view/container_terminal.blp:64
+#: src/view/container_terminal.blp:61
 msgid ""
 "Use Control+Shift+C to copy, Control+Shift+V to paste, and Control+Plus, "
 "Control+Minus, or Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/container_terminal.rs:491
+#: src/view/container_terminal.rs:460
 msgid "Terminal error"
 msgstr "முனைய பிழை"
-
-#: src/view/container_terminal.rs:492
-msgid "'/bin/sh' not found"
-msgstr "'/பின்/சி' கிடைக்கவில்லை"
 
 #: src/view/container_terminal_page.blp:27
 #: src/view/container_terminal_page.blp:30
@@ -3224,24 +3403,24 @@ msgstr "கத்தரிக்காய் விருப்பங்கள�
 msgid "Prune containers created before this timestamp"
 msgstr "இந்த நேர முத்திரைக்கு முன் உருவாக்கப்பட்ட கத்தரிக்காய் கொள்கலன்கள்"
 
-#: src/view/device_row.blp:47 src/view/device_row.blp:50
+#: src/view/device_row.blp:59 src/view/device_row.blp:62
 #, fuzzy
 msgid "Remove Device"
 msgstr "அகற்று"
 
-#: src/view/device_row.blp:61 src/view/mount_row.blp:97
+#: src/view/device_row.blp:73 src/view/mount_row.blp:111
 msgid "Container Path"
 msgstr "கொள்கலன் பாதை"
 
-#: src/view/device_row.blp:65
+#: src/view/device_row.blp:77
 msgid "Readable"
 msgstr "படிக்கக்கூடியது"
 
-#: src/view/device_row.blp:69 src/view/mount_row.blp:101
+#: src/view/device_row.blp:81 src/view/mount_row.blp:115
 msgid "Writable"
 msgstr "எழுதக்கூடியது"
 
-#: src/view/device_row.blp:73
+#: src/view/device_row.blp:85
 msgid "mknod"
 msgstr "mknod"
 
@@ -3266,27 +3445,27 @@ msgid "Error on removing image '{}'"
 msgstr "படத்தை நீக்குவதில் பிழை '{}'"
 
 #: src/view/image_build_action_view.rs:69
-#: src/view/image_build_opts_dialog.blp:17
+#: src/view/image_build_opts_dialog.blp:15
 msgid "Build Image"
 msgstr "படத்தை உருவாக்குங்கள்"
 
-#: src/view/image_build_opts_dialog.blp:39 src/view/images_panel.blp:21
+#: src/view/image_build_opts_dialog.blp:38 src/view/images_panel.blp:21
 msgid "_Build"
 msgstr "கட்டு (_B)"
 
-#: src/view/image_build_opts_dialog.blp:49
+#: src/view/image_build_opts_dialog.blp:48
 msgid "Image Name"
 msgstr "படத்தின் பெயர்"
 
-#: src/view/image_build_opts_dialog.blp:93
+#: src/view/image_build_opts_dialog.blp:92
 msgid "Build Context Directory"
 msgstr "சூழல் கோப்பகத்தை உருவாக்குங்கள்"
 
-#: src/view/image_build_opts_dialog.blp:98
+#: src/view/image_build_opts_dialog.blp:97
 msgid "Select…"
 msgstr "தேர்ந்தெடுக்கவும்…"
 
-#: src/view/image_build_opts_dialog.blp:105
+#: src/view/image_build_opts_dialog.blp:104
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr "சூழல் கோப்பகத்தை உருவாக்குவதற்கு தொடர்புடைய கொள்கலன் பாதை"
 
@@ -3309,10 +3488,6 @@ msgstr "வட்டு இடம்"
 #: src/view/image_details_page.blp:95
 msgid "Entry Point"
 msgstr "நுழைவு புள்ளி"
-
-#: src/view/image_details_page.blp:103
-msgid "Ports"
-msgstr "துறைமுகங்கள்"
 
 #: src/view/image_details_page.blp:112
 msgid "View all image properties in a structured text form"
@@ -3410,12 +3585,12 @@ msgstr "_ கிரீட் கொள்கலன்…"
 msgid "Image Actions"
 msgstr "பட ஆய்வு"
 
-#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:17
+#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:15
 #, fuzzy
 msgid "Pull Image"
 msgstr "படத்தை தள்ளுங்கள்"
 
-#: src/view/image_pull_opts_dialog.blp:39 src/view/images_panel.blp:16
+#: src/view/image_pull_opts_dialog.blp:38 src/view/images_panel.blp:16
 msgid "_Pull"
 msgstr ""
 
@@ -3432,56 +3607,6 @@ msgstr "படம் {}"
 #: src/view/image_search_response_row.blp:29
 msgid "Official"
 msgstr "அதிகாரி"
-
-#: src/view/image_selection_combo_row.blp:5
-#: src/view/image_selection_combo_row.blp:16
-#: src/view/image_selection_combo_row.blp:19
-#: src/view/image_selection_combo_row.rs:88
-msgid "Local Image"
-msgstr "உள்ளக படம்"
-
-#: src/view/image_selection_combo_row.blp:32
-#: src/view/image_selection_combo_row.blp:35
-#: src/view/image_selection_combo_row.rs:89
-msgid "Remote Image"
-msgstr "தொலை படம்"
-
-#: src/view/image_selection_combo_row.rs:87
-msgid "Select Image"
-msgstr "படத்தைத் தேர்ந்தெடுக்கவும்"
-
-#: src/view/image_selection_combo_row.rs:153
-msgid "Select"
-msgstr "தேர்ந்தெடு"
-
-#: src/view/image_selection_page.blp:17
-msgid "No Local Images Available"
-msgstr "உள்ளக படங்கள் எதுவும் கிடைக்கவில்லை"
-
-#: src/view/image_selection_page.blp:52
-msgid "Select Local Image"
-msgstr "உள்ளக படத்தைத் தேர்ந்தெடுக்கவும்"
-
-#: src/view/image_selection_page.blp:64
-#, fuzzy
-msgid "Filter images"
-msgstr "படங்களைத் தேடத் தவறிவிட்டது"
-
-#: src/view/image_selection_page.blp:65
-msgid "Type to filter results. Press Enter to select the highlighted item."
-msgstr ""
-
-#: src/view/image_selection_page.blp:81
-msgid "_Select"
-msgstr "_ தேர்ந்தெடுக்கவும்"
-
-#: src/view/image_selection_page.blp:122
-msgid "No Results"
-msgstr "முடிவுகள் இல்லை"
-
-#: src/view/image_selection_page.blp:133
-msgid "_Clear Filter"
-msgstr "_ கிளையர் வடிகட்டி"
 
 #: src/view/image_suggestion_entry_row.rs:149
 msgid "Failed to search for images"
@@ -3601,8 +3726,8 @@ msgstr ""
 msgid "Architecture"
 msgstr ""
 
-#: src/view/info_panel.blp:80 src/view/pod_create_opts_dialog.blp:97
-#: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:209
+#: src/view/info_panel.blp:80 src/view/pod_create_opts_dialog.blp:98
+#: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:204
 msgid "Hostname"
 msgstr "புரவலன்பெயர்"
 
@@ -3652,37 +3777,37 @@ msgstr "மதிப்பு"
 msgid "Value for the current key"
 msgstr ""
 
-#: src/view/mount_row.blp:57 src/view/mount_row.blp:60
+#: src/view/mount_row.blp:71 src/view/mount_row.blp:74
 #, fuzzy
 msgid "Remove Mount"
 msgstr "அகற்று"
 
-#: src/view/mount_row.blp:67
+#: src/view/mount_row.blp:81
 msgid "Type"
 msgstr "வகை"
 
-#: src/view/mount_row.blp:78
+#: src/view/mount_row.blp:92
 msgid "Bind"
 msgstr "பிணைப்பு"
 
-#: src/view/mount_row.blp:82 src/view/mount_row.blp:92
+#: src/view/mount_row.blp:96 src/view/mount_row.blp:106
 #: src/view/volume_details_page.blp:12
 msgid "Volume"
 msgstr "தொகுதி"
 
-#: src/view/mount_row.blp:105
+#: src/view/mount_row.blp:119
 msgid "SELinux"
 msgstr "செலினக்ச்"
 
-#: src/view/mount_row.blp:109
+#: src/view/mount_row.blp:123
 msgid "No label"
 msgstr "சிட்டை இல்லை"
 
-#: src/view/mount_row.blp:110
+#: src/view/mount_row.blp:124
 msgid "Shared"
 msgstr "பகிரப்பட்டது"
 
-#: src/view/mount_row.blp:111
+#: src/view/mount_row.blp:125
 msgid "Private"
 msgstr "தனிப்பட்ட"
 
@@ -3733,37 +3858,37 @@ msgstr ""
 msgid "Create Pod"
 msgstr "நெற்று உருவாக்கவும்"
 
-#: src/view/pod_create_opts_dialog.blp:37
+#: src/view/pod_create_opts_dialog.blp:38
 #: src/view/volume_create_opts_dialog.blp:38
 msgid "_Create"
 msgstr "_ கிரேட்"
 
-#: src/view/pod_create_opts_dialog.blp:76
-#: src/view/pod_create_opts_dialog.blp:174
+#: src/view/pod_create_opts_dialog.blp:77
+#: src/view/pod_create_opts_dialog.blp:175
 msgid "Infra"
 msgstr "அகச்சிவப்பு"
 
-#: src/view/pod_create_opts_dialog.blp:101
+#: src/view/pod_create_opts_dialog.blp:102
 msgid "Disable /etc/resolv.conf management"
 msgstr "/Etc/resolv.conf நிர்வாகத்தை முடக்கு"
 
-#: src/view/pod_create_opts_dialog.blp:109
+#: src/view/pod_create_opts_dialog.blp:110
 msgid "Pod Create Command"
 msgstr "நெற்று கட்டளை உருவாக்கு"
 
-#: src/view/pod_create_opts_dialog.blp:135
+#: src/view/pod_create_opts_dialog.blp:136
 msgid "Devices"
 msgstr "சாதனங்கள்"
 
-#: src/view/pod_create_opts_dialog.blp:145
+#: src/view/pod_create_opts_dialog.blp:146
 msgid "Hosts"
 msgstr "ஓச்ட்கள்"
 
-#: src/view/pod_create_opts_dialog.blp:184
+#: src/view/pod_create_opts_dialog.blp:185
 msgid "Disable Infra"
 msgstr "அகச்சிவப்பு முடக்கு"
 
-#: src/view/pod_create_opts_dialog.blp:208
+#: src/view/pod_create_opts_dialog.blp:209
 msgid "Common PID File"
 msgstr "பொதுவான பிஐடி கோப்பு"
 
@@ -3775,28 +3900,28 @@ msgstr "ஐபி"
 msgid "Add Host"
 msgstr "ஓச்டைச் சேர்க்கவும்"
 
-#: src/view/pod_create_opts_dialog.rs:167
+#: src/view/pod_create_opts_dialog.rs:169
 msgid "Add Device"
 msgstr "சாதனத்தைச் சேர்க்கவும்"
 
-#: src/view/pod_details_page.blp:218
+#: src/view/pod_details_page.blp:225
 msgid "View all pod properties in a structured text form"
 msgstr "கட்டமைக்கப்பட்ட உரை வடிவத்தில் அனைத்து நெற்று பண்புகளையும் காண்க"
 
-#: src/view/pod_details_page.blp:230
+#: src/view/pod_details_page.blp:237
 msgid "Generate Kubernetes YAML based on this pod"
 msgstr "இந்த பாட் அடிப்படையில் குபெர்னெட்ச் யம்லை உருவாக்குங்கள்"
 
-#: src/view/pod_details_page.blp:242
+#: src/view/pod_details_page.blp:249
 msgid "View processes of the pod"
 msgstr "நெற்றின் செயல்முறைகளைக் காண்க"
 
-#: src/view/pod_details_page.rs:244
+#: src/view/pod_details_page.rs:249
 #, fuzzy
 msgid "Error on loading pod details"
 msgstr "POD தரவை ஏற்றுவதில் பிழை"
 
-#: src/view/pod_details_page.rs:255
+#: src/view/pod_details_page.rs:284
 #, rust-format
 msgid "Pod '{}' has been deleted"
 msgstr "பாட் '{}' நீக்கப்பட்டது"
@@ -3811,7 +3936,7 @@ msgstr "செயல்கள் இல்லை"
 msgid "Select pod"
 msgstr "நெற்று என்பதைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/pod_row.rs:278
+#: src/view/pod_row.rs:240
 msgid "Pod Details"
 msgstr "நெற்று விவரங்கள்"
 
@@ -3885,43 +4010,59 @@ msgstr "பல காய்களை கட்டாயமாக நீக்க
 msgid "All associated containers will also be removed!"
 msgstr "தொடர்புடைய அனைத்து கொள்கலன்களும் அகற்றப்படும்!"
 
-#: src/view/port_mapping_row.blp:61 src/view/port_mapping_row.blp:64
+#: src/view/port_binding_creation_row.blp:73
+#: src/view/port_binding_creation_row.blp:76
 #, fuzzy
-msgid "Remove Port Mapping"
+msgid "Remove Port Binding"
 msgstr "துறைமுக வரைபடங்கள் இல்லை"
 
-#: src/view/port_mapping_row.blp:71
+#: src/view/port_binding_creation_row.blp:83
 msgid "Protocol"
 msgstr "நெறிமுறை"
 
-#: src/view/port_mapping_row.blp:75
+#: src/view/port_binding_creation_row.blp:87
 msgid "TCP"
 msgstr "டி.சி.பி."
 
-#: src/view/port_mapping_row.blp:76
+#: src/view/port_binding_creation_row.blp:88
 msgid "UDP"
 msgstr "யுடிபி"
 
-#: src/view/port_mapping_row.blp:77
+#: src/view/port_binding_creation_row.blp:89
 msgid "SCTP"
 msgstr "SCTP"
 
-#: src/view/port_mapping_row.blp:83
+#: src/view/port_binding_creation_row.blp:95
 msgid "IP Address"
 msgstr "ஐபி முகவரி"
 
-#: src/view/port_mapping_row.blp:87
+#: src/view/port_binding_creation_row.blp:99
 msgid "Host Port"
 msgstr "புரவலன் துறைமுகம்"
 
-#: src/view/port_mapping_row.blp:88
+#: src/view/port_binding_creation_row.blp:100
 msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
 "0 என்றால், ஓச்டில் ஒரு சீரற்ற துறைமுகம் ஒதுக்கப்பட்டுள்ளது (1024 க்கு மேலே உத்தரவாதம்)"
 
-#: src/view/port_mapping_row.blp:100
-msgid "Container Port"
-msgstr "கொள்கலன் துறைமுகம்"
+#: src/view/port_binding_creation_row.blp:112
+#, fuzzy
+msgid "Target Port"
+msgstr "புரவலன் துறைமுகம்"
+
+#: src/view/port_binding_row.blp:24
+#, fuzzy
+msgid "Host"
+msgstr "ஓச்ட்கள்"
+
+#: src/view/port_binding_row.rs:189
+msgid "Invalid URL"
+msgstr ""
+
+#: src/view/port_binding_row.rs:206
+#, fuzzy
+msgid "Error opening link"
+msgstr "கலைப்பொருளைத் திறப்பதில் பிழை"
 
 #: src/view/repo_tag_add_dialog.blp:7
 msgid "Add Repository Tag"
@@ -3940,56 +4081,56 @@ msgid "Repo tag must contain a colon “:”"
 msgstr "ரெப்போ குறிச்சொல்லில் ஒரு பெருங்குடல் இருக்க வேண்டும் “:”"
 
 #: src/view/repo_tag_push_action_view.rs:71
-#: src/view/repo_tag_push_opts_dialog.blp:32
+#: src/view/repo_tag_push_opts_dialog.blp:33
 msgid "Push Image"
 msgstr "படத்தை தள்ளுங்கள்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:42
+#: src/view/repo_tag_push_opts_dialog.blp:43
 msgid "_Push"
 msgstr "_ புச்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:49
+#: src/view/repo_tag_push_opts_dialog.blp:50
 msgid "Options"
 msgstr "விருப்பங்கள்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:53
+#: src/view/repo_tag_push_opts_dialog.blp:54
 msgid "TLS Verify"
 msgstr "Tls சரிபார்க்கவும்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:54
+#: src/view/repo_tag_push_opts_dialog.blp:55
 msgid "Require TLS verification"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:68
+#: src/view/repo_tag_push_opts_dialog.blp:69
 msgid "Login"
 msgstr "புகுபதிவு"
 
-#: src/view/repo_tag_push_opts_dialog.blp:69
+#: src/view/repo_tag_push_opts_dialog.blp:70
 msgid "Some registries require authentication"
 msgstr "சில பதிவுகளுக்கு ஏற்பு தேவை"
 
-#: src/view/repo_tag_push_opts_dialog.blp:79
+#: src/view/repo_tag_push_opts_dialog.blp:80
 msgid "Authentication"
 msgstr "ஏற்பு"
 
-#: src/view/repo_tag_push_opts_dialog.blp:89
+#: src/view/repo_tag_push_opts_dialog.blp:90
 msgid "Basic"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:94
-#: src/view/repo_tag_push_opts_dialog.blp:114
+#: src/view/repo_tag_push_opts_dialog.blp:95
+#: src/view/repo_tag_push_opts_dialog.blp:115
 msgid "Token"
 msgstr "கிள்ளாக்கு"
 
-#: src/view/repo_tag_push_opts_dialog.blp:102
+#: src/view/repo_tag_push_opts_dialog.blp:103
 msgid "Username"
 msgstr "பயனர்பெயர்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:108
+#: src/view/repo_tag_push_opts_dialog.blp:109
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:120
+#: src/view/repo_tag_push_opts_dialog.blp:121
 msgid "Save Credentials"
 msgstr "நற்சான்றிதழ்களைச் சேமிக்கவும்"
 
@@ -4292,7 +4433,7 @@ msgid "Error on deleting volume '{}'"
 msgstr "'{}' அளவை நீக்குவதில் பிழை"
 
 #: src/view/volume_create_action_view.rs:69
-#: src/view/volume_create_opts_dialog.blp:16 src/view/volumes_group.blp:12
+#: src/view/volume_create_opts_dialog.blp:15 src/view/volumes_group.blp:12
 #: src/view/volumes_panel.blp:43 src/view/volumes_panel.blp:46
 msgid "Create Volume"
 msgstr "தொகுதியை உருவாக்கவும்"
@@ -4491,6 +4632,55 @@ msgstr "வழக்கு உணர்திறன்"
 msgid "Whole Word"
 msgstr "முழு சொல்"
 
+#~ msgid "No Ports Mappings"
+#~ msgstr "துறைமுக வரைபடங்கள் இல்லை"
+
+#~ msgid "Port Mappings"
+#~ msgstr "துறைமுகம் மேப்பிங்ச்"
+
+#~ msgid "Add Port Mapping"
+#~ msgstr "துறைமுகம் மேப்பிங்கைச் சேர்க்கவும்"
+
+#~ msgid "Port bindings"
+#~ msgstr "துறைமுகம் பிணைப்புகள்"
+
+#~ msgid "'/bin/sh' not found"
+#~ msgstr "'/பின்/சி' கிடைக்கவில்லை"
+
+#~ msgid "Local Image"
+#~ msgstr "உள்ளக படம்"
+
+#~ msgid "Remote Image"
+#~ msgstr "தொலை படம்"
+
+#~ msgid "Select Image"
+#~ msgstr "படத்தைத் தேர்ந்தெடுக்கவும்"
+
+#~ msgid "Select"
+#~ msgstr "தேர்ந்தெடு"
+
+#~ msgid "No Local Images Available"
+#~ msgstr "உள்ளக படங்கள் எதுவும் கிடைக்கவில்லை"
+
+#~ msgid "Select Local Image"
+#~ msgstr "உள்ளக படத்தைத் தேர்ந்தெடுக்கவும்"
+
+#, fuzzy
+#~ msgid "Filter images"
+#~ msgstr "படங்களைத் தேடத் தவறிவிட்டது"
+
+#~ msgid "_Select"
+#~ msgstr "_ தேர்ந்தெடுக்கவும்"
+
+#~ msgid "No Results"
+#~ msgstr "முடிவுகள் இல்லை"
+
+#~ msgid "_Clear Filter"
+#~ msgstr "_ கிளையர் வடிகட்டி"
+
+#~ msgid "Container Port"
+#~ msgstr "கொள்கலன் துறைமுகம்"
+
 #~ msgid "Prune unused images"
 #~ msgstr "பயன்படுத்தப்படாத படங்களை கத்தரிக்கவும்"
 
@@ -4527,9 +4717,6 @@ msgstr "முழு சொல்"
 #, fuzzy
 #~ msgid "Writing to file…"
 #~ msgstr "தார் காப்பகத்தை உருவாக்குதல்…"
-
-#~ msgid "Prune stopped pods"
-#~ msgstr "ப்ரூன் காய்களை நிறுத்தியது"
 
 #, rust-format
 #~ msgid "Create volume <b>{}</b>"
@@ -4701,9 +4888,6 @@ msgstr "முழு சொல்"
 
 #~ msgid "Pruning Volumes Failed"
 #~ msgstr "கத்தரிக்காய் தொகுதிகள் தோல்வியடைந்தன"
-
-#~ msgid "Error on opening artifact"
-#~ msgstr "கலைப்பொருளைத் திறப்பதில் பிழை"
 
 #~ msgid "Artifact has been deleted"
 #~ msgstr "கலைப்பொருள் நீக்கப்பட்டது"
