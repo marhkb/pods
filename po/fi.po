@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-07 13:24+0000\n"
-"PO-Revision-Date: 2025-03-01 11:22+0000\n"
-"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
+"PO-Revision-Date: 2026-10-05 15:51+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/pods/main/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.3-dev\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:120
@@ -154,27 +154,24 @@ msgid "Sort attribute for volumes"
 msgstr ""
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Manage your containers"
-msgstr "Pidä Podman-kontit hallinnassasi"
+msgstr "Hallinnoi kontteja"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
-#, fuzzy
 msgid ""
 "Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
 "interface and strives to meet the design principles of GNOME."
 msgstr ""
-"Podit on podmanin käyttöliittymä. Se käyttää libadwaitaa käyttöliittymässään "
-"ja pyrkii noudattamaan Gnomen suunnitteluperiaatteita."
+"Podit on Podmanin/Dockerin käyttöliittymä. Se käyttää libadwaitaa "
+"käyttöliittymässään ja pyrkii noudattamaan Gnomen suunnitteluperiaatteita."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
 msgstr "Podit muun muassa mahdollistaa seuraavat asiat:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
-#, fuzzy
 msgid "Connect to local and remote Podman/Docker instances."
-msgstr "Yhdistä paikallisiin ja etänä oleviin Podman-instansseihin."
+msgstr "Yhdistä paikallisiin ja etänä oleviin Podman- tai Docker-instansseihin."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
@@ -225,13 +222,12 @@ msgid "Rename containers."
 msgstr "Nimeä kontteja uudelleen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Pods main window"
-msgstr "Sulje ikkuna"
+msgstr "Podit-sovelluksen käyttöliittymä"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:43
 msgid "Pods 3.0.0 contains the following changes:"
-msgstr ""
+msgstr "Pods 3.0.0 sisältää seuraavat muutokset:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:45
 msgid ""
@@ -1376,9 +1372,8 @@ msgid "Specify the minimum log level"
 msgstr "Määritä lokin vähimmäistaso"
 
 #: src/model/container_copy_from_action.rs:105
-#, fuzzy
 msgid "Container has been removed"
-msgstr "Kontti '{}' on poistettu"
+msgstr "Kontti on poistettu"
 
 #: src/model/container_create_action.rs:154
 msgid "Container Created"
@@ -1440,9 +1435,8 @@ msgid "Running"
 msgstr "Käynnissä"
 
 #: src/model/container_status.rs:134 src/model/pod_status.rs:122
-#, fuzzy
 msgid "Starting"
-msgstr "Käynnistetään uudelleen"
+msgstr "Käynnistetään"
 
 #: src/model/container_status.rs:135 src/model/pod_status.rs:123
 msgid "Stopped"
@@ -1458,7 +1452,7 @@ msgstr "Tuntematon"
 
 #: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:311
 msgid "Docker"
-msgstr ""
+msgstr "Docker"
 
 #: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:312
 msgid "Podman"
@@ -1540,9 +1534,8 @@ msgid "<none>"
 msgstr "<ei mitään>"
 
 #: src/utils.rs:407
-#, fuzzy
 msgid "Error on open file dialog"
-msgstr "Virhe artifaktia avatessa"
+msgstr "Virhe tiedostoikkunaa avattaessa"
 
 #: src/view/action_dialog.blp:97 src/view/connection.rs:28
 #: src/view/connection_creation_page.blp:30 src/view/container.rs:95
@@ -1566,29 +1559,27 @@ msgstr "_Peru"
 
 #: src/view/action_dialog.blp:116
 msgid "_Edit"
-msgstr ""
+msgstr "_Muokkaa"
 
 #: src/view/action_dialog.blp:128
 msgid "_View"
 msgstr "_Näytä"
 
 #: src/view/action_dialog.rs:96
-#, fuzzy
 msgid "Cancelled"
-msgstr "Peru"
+msgstr "Peruttu"
 
 #: src/view/action_dialog.rs:97
 msgid "Failed"
-msgstr ""
+msgstr "Epäonnistui"
 
 #: src/view/action_dialog.rs:98
 msgid "Finished"
 msgstr "Valmis"
 
 #: src/view/action_dialog.rs:99
-#, fuzzy
 msgid "Ongoing"
-msgstr "Meneillään ({})"
+msgstr "Meneillään"
 
 #: src/view/action_dialog.rs:290 src/view/container_properties_group.rs:243
 #, rust-format
@@ -1606,9 +1597,8 @@ msgstr "Toimenpide"
 
 #: src/view/action_dialog.rs:373 src/view/action_dialog.rs:386
 #: src/view/action_dialog.rs:402
-#, fuzzy
 msgid "Container Removed"
-msgstr "Kontti luotu"
+msgstr "Kontti poistettu"
 
 #: src/view/action_dialog.rs:374
 #, fuzzy
@@ -1630,7 +1620,7 @@ msgstr ""
 
 #: src/view/action_dialog.rs:450
 msgid "Close"
-msgstr ""
+msgstr "Sulje"
 
 #: src/view/action_row.rs:140
 msgid "Abort"
@@ -1702,9 +1692,9 @@ msgstr "Kommitoi kontti"
 
 #: src/view/action_row.rs:382 src/view/action_row.rs:389
 #: src/view/action_row.rs:403
-#, fuzzy, rust-format
+#, rust-format
 msgid "Create <b>{}</b>"
-msgstr "Luo podi <b>{}</b>"
+msgstr "Luo <b>{}</b>"
 
 #: src/view/action_row.rs:387 src/view/containers_prune_action_view.rs:94
 #: src/view/containers_prune_opts_dialog.blp:16
@@ -1719,9 +1709,9 @@ msgid "Prune Pods"
 msgstr "Näytä vain käynnissä olevat podit"
 
 #: src/view/action_row.rs:393
-#, fuzzy, rust-format
+#, rust-format
 msgid "Build <b>{}</b>"
-msgstr "Koosta levykuva <b>{}</b>"
+msgstr "Koosta <b>{}</b>"
 
 #: src/view/action_row.rs:395
 #, fuzzy, rust-format
@@ -1729,9 +1719,9 @@ msgid "Pull <b>{}</b>"
 msgstr "Nouda levykuva: <b>{}</b>"
 
 #: src/view/action_row.rs:398
-#, fuzzy, rust-format
+#, rust-format
 msgid "Push <b>{}</b>"
-msgstr "Työnnä levykuva <b>{}</b>"
+msgstr "Työnnä <b>{}</b>"
 
 #: src/view/action_row.rs:400 src/view/images_prune_action_view.rs:94
 #: src/view/images_prune_opts_dialog.blp:16
@@ -1750,9 +1740,8 @@ msgid "Prune Volumes"
 msgstr "Poista käyttämättömät levykuvat"
 
 #: src/view/action_row.rs:409
-#, fuzzy
 msgid "Unknown Action"
-msgstr "Tuntematon päiväys"
+msgstr "Tuntematon toiminto"
 
 #: src/view/actions_sidebar.blp:14 src/view/client_view.blp:83
 #: src/view/client_view.blp:288
@@ -1787,7 +1776,7 @@ msgstr "Yhteydet"
 #: src/view/top_page.blp:14 src/view/top_page.blp:17
 #: src/view/volumes_panel.blp:111 src/view/volumes_panel.blp:114
 msgid "Search"
-msgstr "Etsi"
+msgstr "Haku"
 
 #: src/view/client_view.blp:73
 msgctxt "app name"
@@ -1841,13 +1830,14 @@ msgid "Filter"
 msgstr "Suodata"
 
 #: src/view/connection_chooser_page.blp:46
-#, fuzzy
 msgid "Filter connections"
-msgstr "Paikallinen yhteys"
+msgstr "Suodata yhteyksiä"
 
 #: src/view/connection_chooser_page.blp:47
 msgid "Type to filter connections. Press Enter to open the first result."
 msgstr ""
+"Kirjoita suodattaaksesi yhteyksiä. Paina Enter avataksesi ensimmäisen "
+"tuloksen."
 
 #: src/view/connection_chooser_page.blp:61
 msgid "Connect to Podman"
@@ -1890,22 +1880,19 @@ msgid "URL"
 msgstr "URL-osoite"
 
 #: src/view/connection_creation_page.blp:91
-#, fuzzy
 msgid "Choose how to connect"
-msgstr "Valitse miten haluat yhdistää Podmaniin"
+msgstr "Valitse miten haluat yhdistää"
 
 #: src/view/connection_creation_page.blp:94
-#, fuzzy
 msgid "Podman Unix Socket"
-msgstr "Unix-pistoke"
+msgstr "Podmanin Unix-pistoke"
 
 #: src/view/connection_creation_page.blp:111
 #: src/view/connection_creation_page.blp:114
 #: src/view/connection_creation_page.blp:241
 #: src/view/connection_creation_page.blp:244
-#, fuzzy
 msgid "Socket Activation Info"
-msgstr "Podman-pistokkeen aktivointi"
+msgstr "TIetoa pistokkeen aktivoinnista"
 
 #: src/view/connection_creation_page.blp:133
 msgid "Podman Socket Activation"
@@ -1940,6 +1927,8 @@ msgid ""
 "You may have to restart Pods for it to be able to connect to a newly created "
 "socket."
 msgstr ""
+"Podit tulee mahdollisesti käynnistää uudelleen, jotta äskettäin luotuihin "
+"pistokkeisiin voi yhdistää."
 
 #: src/view/connection_creation_page.blp:210
 msgid ""
@@ -1950,9 +1939,8 @@ msgstr ""
 "(lue vinkit tästä)."
 
 #: src/view/connection_creation_page.blp:224
-#, fuzzy
 msgid "Docker Unix Socket"
-msgstr "Unix-pistoke"
+msgstr "Dockerin Unix-pistoke"
 
 #: src/view/connection_creation_page.blp:263
 #, fuzzy
@@ -2096,14 +2084,12 @@ msgid "Error on switching connection"
 msgstr "Virhe yhteyttä vaihtaessa"
 
 #: src/view/container.rs:77 src/view/container.rs:119
-#, fuzzy
 msgid "Error renaming container"
-msgstr "Virhe konttia palauttaessa"
+msgstr "Virhe kontin nimeä vaihtaessa"
 
 #: src/view/container.rs:78
-#, fuzzy
 msgid "Container has been deleted"
-msgstr "Kontti '{}' on poistettu"
+msgstr "Kontti on poistettu"
 
 #: src/view/container.rs:88
 msgid "Rename Container"
@@ -2142,14 +2128,12 @@ msgid "Error on deleting container"
 msgstr "Virhe poistaessa konttia"
 
 #: src/view/container_card.blp:93 src/view/container_card.blp:96
-#, fuzzy
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
 #: src/view/container_card.blp:297
-#, fuzzy
 msgid "No Ports Mappings"
-msgstr "Porttisidokset"
+msgstr "Ei porttisidoksia"
 
 #: src/view/container_card.blp:338 src/view/container_card.blp:341
 #: src/view/container_details_page.blp:47
@@ -2197,15 +2181,15 @@ msgid "Container {}"
 msgstr "Kontti {}"
 
 #: src/view/container_card.rs:568
-#, fuzzy
 msgid "Delete Container?"
-msgstr "{} valittu kontti"
+msgstr "Poistetaanko kontti?"
 
 #: src/view/container_card.rs:571
 msgid ""
 "All settings and all changes made within the container will be irreversibly "
 "lost"
 msgstr ""
+"Kaikki asetukset ja kaikki kontissa tehdyt muutokset poistetaan pysyvästi"
 
 #. Translators: For example 5 MB / s.
 #: src/view/container_card.rs:646 src/view/container_resources.rs:285
@@ -2219,9 +2203,8 @@ msgid "Commit Container"
 msgstr "Kommitoi kontti"
 
 #: src/view/container_commit_action_view.rs:74
-#, fuzzy
 msgid "<Deleted>"
-msgstr "Poista"
+msgstr "<Poistettu>"
 
 #: src/view/container_commit_opts_dialog.blp:37
 msgid "_Commit"
@@ -2290,9 +2273,8 @@ msgstr "Koko: {}"
 
 #: src/view/container_copy_from_action_view.rs:104
 #: src/view/container_copy_from_opts_dialog.blp:17
-#, fuzzy
 msgid "Copy From Container"
-msgstr "Kommitoi kontti"
+msgstr "Kopioi kontista"
 
 #: src/view/container_copy_from_opts_dialog.blp:39
 #: src/view/container_copy_to_opts_dialog.blp:48
@@ -2301,9 +2283,8 @@ msgid "_Copy"
 msgstr "_Kopioi"
 
 #: src/view/container_copy_from_opts_dialog.blp:48
-#, fuzzy
 msgid "Container Path (’/’ if empty)"
-msgstr "Kontin polku ('/' jos tyhjä)"
+msgstr "Kontin polku (’/’ jos tyhjä)"
 
 #: src/view/container_copy_from_opts_dialog.blp:54
 #: src/view/container_copy_from_opts_dialog.rs:143
@@ -2337,9 +2318,8 @@ msgstr "Kopioidaan tiedostoja"
 
 #: src/view/container_copy_to_action_view.rs:159
 #: src/view/container_copy_to_opts_dialog.blp:26
-#, fuzzy
 msgid "Copy To Container"
-msgstr "Kommitoi kontti"
+msgstr "Kopioi konttiin"
 
 #: src/view/container_copy_to_opts_dialog.blp:16
 msgid "Select _Directory…"
@@ -2431,7 +2411,7 @@ msgstr "Pääte"
 
 #: src/view/container_create_opts_dialog.blp:129
 msgid "Privileged"
-msgstr ""
+msgstr "Etuoikeutettu"
 
 #: src/view/container_create_opts_dialog.blp:130
 msgid "Give extended privileges to container"
@@ -2659,9 +2639,8 @@ msgstr "Konttilokit"
 #: src/view/container_log_page.blp:72 src/view/container_log_page.blp:75
 #: src/view/scalable_text_view_page.blp:56
 #: src/view/scalable_text_view_page.blp:59
-#, fuzzy
 msgid "Menu"
-msgstr "Päävalikko"
+msgstr "Valikko"
 
 #: src/view/container_log_page.blp:94
 msgid "Start/Resume Container"
@@ -2678,26 +2657,23 @@ msgstr "Virhe konttia palauttaessa"
 
 #: src/view/container_log_page.blp:99
 msgid "Container logs are unavailable until the container is running"
-msgstr ""
+msgstr "Kontin lokit eivät ole saatavilla, ennen kuin kontti on käynnissä"
 
 #: src/view/container_log_page.blp:111
-#, fuzzy
 msgid "Loading logs"
-msgstr "Virhe lokeja tallentaessa"
+msgstr "Ladataan lokeja"
 
 #: src/view/container_log_page.blp:126
-#, fuzzy
 msgid "Loading previous log lines"
-msgstr "Ladataan aiemmat rivit"
+msgstr "Ladataan aiempia lokirivejä"
 
 #: src/view/container_log_page.blp:139
 msgid "Loading previous lines"
 msgstr "Ladataan aiemmat rivit"
 
 #: src/view/container_log_page.blp:169
-#, fuzzy
 msgid "Container log output"
-msgstr "Konttilokit"
+msgstr "Konttilokin tuloste"
 
 #: src/view/container_log_page.blp:171
 msgid ""
@@ -2765,9 +2741,8 @@ msgid "_Delete"
 msgstr "P_oista"
 
 #: src/view/container_menu_button.blp:59 src/view/container_menu_button.blp:62
-#, fuzzy
 msgid "Container Actions"
-msgstr "Kontin tutkinta"
+msgstr "Konttitoiminnot"
 
 #: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:40
 #: src/view/pod_details_page.blp:163 src/view/volume_details_page.blp:18
@@ -2851,9 +2826,8 @@ msgid "{} / {} ({} %)"
 msgstr "{} / {} ({} %)"
 
 #: src/view/container_row.blp:27
-#, fuzzy
 msgid "Select container"
-msgstr "{} valittu kontti"
+msgstr "Valitse kontti"
 
 #: src/view/container_terminal.blp:11
 msgid "Copy as _HTML"
@@ -2876,7 +2850,6 @@ msgid "Start"
 msgstr "Käynnistä"
 
 #: src/view/container_terminal.blp:62
-#, fuzzy
 msgid "Container terminal"
 msgstr "Kontin pääte"
 
@@ -2904,9 +2877,8 @@ msgid "Container Terminal"
 msgstr "Kontin pääte"
 
 #: src/view/containers_panel.blp:23 src/view/pods_panel.blp:23
-#, fuzzy
 msgid "_Show Running First"
-msgstr "Näytä vain käynnissä olevat podit"
+msgstr "Näytä _käynnissä olevat ensin"
 
 #: src/view/containers_panel.blp:31 src/view/images_panel.blp:53
 #: src/view/pods_panel.blp:31 src/view/volumes_panel.blp:30
@@ -2924,17 +2896,15 @@ msgid "Prune Stopped Containers"
 msgstr "Luo kontti"
 
 #: src/view/containers_panel.blp:96
-#, fuzzy
 msgid "Loading containers"
-msgstr "Virhe ladatessa kontteja"
+msgstr "Ladataan kontteja"
 
 #: src/view/containers_panel.blp:138 src/view/containers_panel.blp:141
 #: src/view/images_panel.blp:156 src/view/images_panel.blp:159
 #: src/view/pods_panel.blp:134 src/view/pods_panel.blp:137
 #: src/view/volumes_panel.blp:133 src/view/volumes_panel.blp:136
-#, fuzzy
 msgid "Start Multi-Selection"
-msgstr "Monivalinta"
+msgstr "Aloita monivalinta"
 
 #: src/view/containers_panel.blp:167
 #, fuzzy
@@ -2945,9 +2915,8 @@ msgstr "{} valittu kontti"
 #: src/view/images_panel.blp:191 src/view/images_panel.blp:194
 #: src/view/pods_panel.blp:169 src/view/pods_panel.blp:172
 #: src/view/volumes_panel.blp:168 src/view/volumes_panel.blp:171
-#, fuzzy
 msgid "Exit Multi-Selection"
-msgstr "Monivalinta"
+msgstr "Poistu monivalinnasta"
 
 #: src/view/containers_panel.blp:208
 #, fuzzy
@@ -2959,14 +2928,12 @@ msgid "_Show All Containers"
 msgstr "Näytä _kaikki kontit"
 
 #: src/view/containers_panel.blp:292
-#, fuzzy
 msgid "Start or resume selected containers"
-msgstr "Käynnistä/palauta kontti"
+msgstr "Käynnistä tai palauta valitut kontit"
 
 #: src/view/containers_panel.blp:311
-#, fuzzy
 msgid "Stop selected containers"
-msgstr "{} valittu kontti"
+msgstr "Pysäytä valitut kontit"
 
 #: src/view/containers_panel.blp:389
 msgid "No Containers Available"
@@ -3000,11 +2967,11 @@ msgstr[1] "{} valittua konttia"
 
 #: src/view/containers_panel.rs:521
 msgid "List View"
-msgstr ""
+msgstr "Luettelonäkymä"
 
 #: src/view/containers_panel.rs:528
 msgid "Grid View"
-msgstr ""
+msgstr "Ruudukkonäkymä"
 
 #: src/view/containers_panel.rs:958
 msgid "Confirm Forced Deletion of Multiple Containers"
@@ -3039,14 +3006,12 @@ msgid "Prune Options"
 msgstr "Käyttämättömien poistamisen asetukset"
 
 #: src/view/containers_prune_opts_dialog.blp:48
-#, fuzzy
 msgid "Prune containers created before this timestamp"
-msgstr "Poista levykuvat, jotka on luotu ennen tätä aikaleimaa."
+msgstr "Poista kontit, jotka on luotu ennen tätä aikaleimaa"
 
 #: src/view/device_row.blp:47 src/view/device_row.blp:50
-#, fuzzy
 msgid "Remove Device"
-msgstr "Etälevykuva"
+msgstr "Poista laite"
 
 #: src/view/device_row.blp:61 src/view/mount_row.blp:97
 msgid "Container Path"
@@ -3065,9 +3030,8 @@ msgid "mknod"
 msgstr "mknod"
 
 #: src/view/image.rs:24
-#, fuzzy
 msgid "Confirm Image Deletion"
-msgstr "Vahvista pakotettu levykuvan poisto"
+msgstr "Vahvista levykuvan poisto"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/image.rs:28
@@ -3081,7 +3045,7 @@ msgstr ""
 
 #. Translators: The "{}" is a placeholder for the image id.
 #: src/view/image.rs:74
-#, fuzzy, rust-format
+#, rust-format
 msgid "Error on removing image '{}'"
 msgstr "Virhe levykuvaa '{}' poistaessa"
 
@@ -3109,6 +3073,7 @@ msgstr "Valitse…"
 #: src/view/image_build_opts_dialog.blp:105
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
+"Containerfilen polku relatiivinen suhteessa koostamisen kontekstihakemistoon"
 
 #: src/view/image_build_opts_dialog.rs:197
 msgid "Select Build Context Directory"
@@ -3231,16 +3196,14 @@ msgid "Image Actions"
 msgstr "Levykuvan tutkinta"
 
 #: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:17
-#, fuzzy
 msgid "Pull Image"
-msgstr "Poista käyttämättömät levykuvat"
+msgstr "Vedä levykuva"
 
 #: src/view/image_pull_opts_dialog.blp:39 src/view/images_panel.blp:16
 msgid "_Pull"
-msgstr ""
+msgstr "_Vedä"
 
 #: src/view/image_row.blp:24
-#, fuzzy
 msgid "Select image"
 msgstr "Valitse levykuva"
 
@@ -3283,9 +3246,8 @@ msgid "Select Local Image"
 msgstr "Valitse paikallinen levykuva"
 
 #: src/view/image_selection_page.blp:64
-#, fuzzy
 msgid "Filter images"
-msgstr "Levykuvien etsiminen epäonnistui"
+msgstr "Suodata levykuvia"
 
 #: src/view/image_selection_page.blp:65
 msgid "Type to filter results. Press Enter to select the highlighted item."
@@ -3317,28 +3279,24 @@ msgid "Prune Unused Images"
 msgstr "Poista käyttämättömät levykuvat"
 
 #: src/view/images_panel.blp:114
-#, fuzzy
 msgid "Loading images"
-msgstr "Ladataan levykuva"
+msgstr "Ladataan levykuvia"
 
 #: src/view/images_panel.blp:182
-#, fuzzy
 msgid "Selected images"
-msgstr "Valitse levykuva"
+msgstr "Valitut levykuvat"
 
 #: src/view/images_panel.blp:235
-#, fuzzy
 msgid "No Matching Images"
-msgstr "Ei tagitettuja levykuvia"
+msgstr "Ei vastaavia levykuvia"
 
 #: src/view/images_panel.blp:245
 msgid "_Show All Images"
 msgstr "Näytä kaikki _levykuvat"
 
 #: src/view/images_panel.blp:270
-#, fuzzy
 msgid "Delete selected images"
-msgstr "{} valittu levykuva"
+msgstr "Poista valitut levykuvat"
 
 #: src/view/images_panel.blp:302
 msgid "No Images Available"
@@ -3410,19 +3368,19 @@ msgstr "Versio"
 
 #: src/view/info_panel.blp:46
 msgid "System"
-msgstr ""
+msgstr "Järjestelmä"
 
 #: src/view/info_panel.blp:53
 msgid "Operating System"
-msgstr ""
+msgstr "Käyttöjärjestelmä"
 
 #: src/view/info_panel.blp:62
 msgid "Kernel"
-msgstr ""
+msgstr "Ydin"
 
 #: src/view/info_panel.blp:71
 msgid "Architecture"
-msgstr ""
+msgstr "Arkkitehtuuri"
 
 #: src/view/info_panel.blp:80 src/view/pod_create_opts_dialog.blp:97
 #: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:209
@@ -3431,7 +3389,7 @@ msgstr "Isäntänimi"
 
 #: src/view/info_panel.blp:89
 msgid "Cpus"
-msgstr ""
+msgstr "Suorittimet"
 
 #: src/view/info_panel.blp:104
 msgid "Storage"
@@ -3443,18 +3401,16 @@ msgid "Driver"
 msgstr "Ajuri"
 
 #: src/view/info_panel.blp:120
-#, fuzzy
 msgid "Root"
-msgstr "Suorituksen juuri"
+msgstr "Juuri"
 
 #: src/view/info_panel.blp:126
 msgid "Cgroup"
 msgstr ""
 
 #: src/view/info_panel.blp:151
-#, fuzzy
 msgid "Show Details"
-msgstr "Podien tiedot"
+msgstr "Näytä yksityiskohdat"
 
 #: src/view/key_val_row.blp:18 src/view/key_val_row.blp:21
 #: src/view/key_val_row.rs:142
@@ -3476,9 +3432,8 @@ msgid "Value for the current key"
 msgstr ""
 
 #: src/view/mount_row.blp:57 src/view/mount_row.blp:60
-#, fuzzy
 msgid "Remove Mount"
-msgstr "Poista"
+msgstr "Poista liitos"
 
 #: src/view/mount_row.blp:67
 msgid "Type"
@@ -3538,9 +3493,8 @@ msgid "Error on deleting pod"
 msgstr "Virhe poistaessa podia"
 
 #: src/view/pod.rs:57
-#, fuzzy
 msgid "Confirm Pod Deletion"
-msgstr "Vahvista podin pakotettu poisto"
+msgstr "Vahvista podin poisto"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/pod.rs:61
@@ -3616,9 +3570,8 @@ msgid "View processes of the pod"
 msgstr "Tarkastele podin prosesseja"
 
 #: src/view/pod_details_page.rs:244
-#, fuzzy
 msgid "Error on loading pod details"
-msgstr "Virhe ladatessa podin dataa"
+msgstr "Virhe ladatessa podin yksityiskohtia"
 
 #: src/view/pod_details_page.rs:255
 #, rust-format
@@ -3626,12 +3579,10 @@ msgid "Pod '{}' has been deleted"
 msgstr "Podi '{}' on poistettu"
 
 #: src/view/pod_menu_button.blp:58 src/view/pod_menu_button.blp:61
-#, fuzzy
 msgid "Pod Actions"
-msgstr "Ei toimenpiteitä"
+msgstr "Poditoiminnot"
 
 #: src/view/pod_row.blp:26
-#, fuzzy
 msgid "Select pod"
 msgstr "Valitse podi"
 
@@ -3645,19 +3596,16 @@ msgid "Prune Stopped Pods"
 msgstr "Käyttämättömien poistamisen asetukset"
 
 #: src/view/pods_panel.blp:92
-#, fuzzy
 msgid "Loading pods"
-msgstr "Virhe ladatessa podeja"
+msgstr "Ladataan podeja"
 
 #: src/view/pods_panel.blp:160
-#, fuzzy
 msgid "Selected pods"
-msgstr "{} valittu podi"
+msgstr "Valitut podit"
 
 #: src/view/pods_panel.blp:213
-#, fuzzy
 msgid "No Matching Pods"
-msgstr "Ei käynnissä olevia podeja"
+msgstr "Ei vastaavia podeja"
 
 #: src/view/pods_panel.blp:223
 msgid "_Show All Pods"
@@ -3665,12 +3613,11 @@ msgstr "Näytä kaikki _podit"
 
 #: src/view/pods_panel.blp:297
 msgid "Start or resume selected pods"
-msgstr ""
+msgstr "Käynnistä tai palauta valitut podit"
 
 #: src/view/pods_panel.blp:316
-#, fuzzy
 msgid "Stop selected pods"
-msgstr "{} valittu podi"
+msgstr "Pysäytä valitut podit"
 
 #: src/view/pods_panel.blp:391
 msgid "No Pods Available"
@@ -3711,9 +3658,8 @@ msgid "All associated containers will also be removed!"
 msgstr "Kaikki liittyvät kontit poistetaan myös!"
 
 #: src/view/port_mapping_row.blp:61 src/view/port_mapping_row.blp:64
-#, fuzzy
 msgid "Remove Port Mapping"
-msgstr "Porttisidokset"
+msgstr "Poista porttisidos"
 
 #: src/view/port_mapping_row.blp:71
 msgid "Protocol"
@@ -3767,13 +3713,12 @@ msgstr "Tietovaraston tagin tulee sisältää kaksoispiste “:”"
 
 #: src/view/repo_tag_push_action_view.rs:71
 #: src/view/repo_tag_push_opts_dialog.blp:32
-#, fuzzy
 msgid "Push Image"
-msgstr "Poista käyttämättömät levykuvat"
+msgstr "Työnnä levykuva"
 
 #: src/view/repo_tag_push_opts_dialog.blp:42
 msgid "_Push"
-msgstr ""
+msgstr "_Työnnä"
 
 #: src/view/repo_tag_push_opts_dialog.blp:49
 msgid "Options"
@@ -3781,11 +3726,11 @@ msgstr "Valinnat"
 
 #: src/view/repo_tag_push_opts_dialog.blp:53
 msgid "TLS Verify"
-msgstr ""
+msgstr "TLS-vahvistus"
 
 #: src/view/repo_tag_push_opts_dialog.blp:54
 msgid "Require TLS verification"
-msgstr ""
+msgstr "Vaadi TLS-vahvistus"
 
 #: src/view/repo_tag_push_opts_dialog.blp:68
 msgid "Login"
@@ -3852,7 +3797,7 @@ msgstr "Virhe levykuvaa '{}' poistaessa"
 
 #: src/view/scalable_text_view_page.blp:81
 msgid "Loading content"
-msgstr ""
+msgstr "Ladataan sisältöä"
 
 #: src/view/scalable_text_view_page.blp:112
 #, fuzzy
@@ -3892,9 +3837,8 @@ msgid "Volume Inspection"
 msgstr "Taltion tutkinta"
 
 #: src/view/scalable_text_view_page.rs:308
-#, fuzzy
 msgid "Detailed Information"
-msgstr "_Näytä tiedot"
+msgstr "Yksityiskohtaiset tiedot"
 
 #: src/view/scalable_text_view_page.rs:334
 #, rust-format
@@ -3955,7 +3899,7 @@ msgstr "Sulje ikkuna"
 #: src/view/shortcuts.blp:34
 msgctxt "shortcut window"
 msgid "Search"
-msgstr "Etsi"
+msgstr "Haku"
 
 #: src/view/shortcuts.blp:40
 msgctxt "shortcut window"
@@ -4023,7 +3967,6 @@ msgid "Terminal"
 msgstr "Pääte"
 
 #: src/view/shortcuts.blp:115
-#, fuzzy
 msgctxt "shortcut window"
 msgid ""
 "Copy selection to\n"
@@ -4104,9 +4047,8 @@ msgid "Remove Argument"
 msgstr "Argumentti"
 
 #: src/view/volume.rs:22
-#, fuzzy
 msgid "Confirm Volume Deletion"
-msgstr "Vahvista pakotettu taltion poisto"
+msgstr "Vahvista taltion poisto"
 
 #. Translators: The "{}" is a placeholder for the container name.
 #: src/view/volume.rs:26
@@ -4149,7 +4091,6 @@ msgid "Volume '{}' has been deleted"
 msgstr "Taltio '{}' on poistettu"
 
 #: src/view/volume_row.blp:25
-#, fuzzy
 msgid "Select volume"
 msgstr "Valitse taltio"
 
@@ -4165,7 +4106,7 @@ msgstr "Taltio {}"
 
 #: src/view/volumes_panel.blp:15
 msgid "Age"
-msgstr ""
+msgstr "Ikä"
 
 #: src/view/volumes_panel.blp:53 src/view/volumes_panel.blp:56
 #, fuzzy
@@ -4173,28 +4114,24 @@ msgid "Prune Unused Volumes"
 msgstr "Poista käyttämättömät levykuvat"
 
 #: src/view/volumes_panel.blp:91
-#, fuzzy
 msgid "Loading volumes"
-msgstr "Virhe ladatessa taltioita"
+msgstr "Ladataan taltioita"
 
 #: src/view/volumes_panel.blp:159
-#, fuzzy
 msgid "Selected volumes"
-msgstr "Valitse taltio"
+msgstr "Valitut taltiot"
 
 #: src/view/volumes_panel.blp:212
-#, fuzzy
 msgid "No Matching Volumes"
-msgstr "Luodaan taltio"
+msgstr "Ei vastaavia taltioita"
 
 #: src/view/volumes_panel.blp:222
 msgid "_Show All Volumes"
 msgstr "Näytä kaikki _taltiot"
 
 #: src/view/volumes_panel.blp:247
-#, fuzzy
 msgid "Delete selected volumes"
-msgstr "{} valittu taltio"
+msgstr "Poista valitut taltiot"
 
 #: src/view/volumes_panel.blp:279
 msgid "No Volumes Available"
