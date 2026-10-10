@@ -1,0 +1,51 @@
+name: Create Release Draft
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout selected tag
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
+      - name: Install cargo-vendor-filterer
+        run: cargo install cargo-vendor-filterer
+
+      - name: Create vendored sources
+        run: build-aux/dist-vendor.sh ../ src
+        shell: bash
+
+      - name: Archive repository
+        run: git archive --format tar HEAD > pods-${{ github.ref_name }}.tar
+
+      - name: Add vendored sources and cargo config to tarball
+        run: tar -rf pods-${{ github.ref_name }}.tar .cargo vendor
+
+      - name: Compress tarball
+        run: xz -z pods-${{ github.ref_name }}.tar
+
+      - name: Generate checksum
+        run: sha256sum pods-${{ github.ref_name }}.tar.xz > pods-${{ github.ref_name }}.tar.xz.sha256sum
+
+      - name: Extract release notes
+        run: |
+          echo 'RELEASE_NOTES<<EOF' >> $GITHUB_ENV
+          xmllint --xpath '//release[1]/description' data/com.github.marhkb.Pods.metainfo.xml.in.in | xmllint --format - >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          draft: true
+          body: ${{ env.RELEASE_NOTES }}
+          prerelease: ${{ contains(github.ref_name, 'beta') }}
+          files: |
+            pods-${{ github.ref_name }}.tar.xz
+            pods-${{ github.ref_name }}.tar.xz.sha256sum
