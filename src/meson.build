@@ -102,6 +102,7 @@ blueprints = custom_target(
     'widget/spinner.blp',
     'widget/suggestion_entry_row.blp',
     'widget/text_search_entry.blp',
+    'widget/wrap_box.blp',
     'widget/zoom_control.blp',
   ),
   output: '.',

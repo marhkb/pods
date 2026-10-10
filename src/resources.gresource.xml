@@ -107,6 +107,7 @@
     <file compressed="true" preprocess="xml-stripblanks">widget/spinner.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/suggestion_entry_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/text_search_entry.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">widget/wrap_box.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">widget/zoom_control.ui</file>
 
   </gresource>
