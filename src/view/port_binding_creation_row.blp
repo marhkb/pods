@@ -6,14 +6,17 @@ template $PdsPortBindingCreationRow: Adw.ExpanderRow {
   selectable: false;
 
   [prefix]
-  Box {
+  Adw.WrapBox {
     styles [
       "numeric",
       "rich-expander-row-header",
       "title-4",
     ]
 
-    spacing: 9;
+    child-spacing: 9;
+    line-spacing: 6;
+    margin-bottom: 6;
+    margin-top: 6;
     valign: center;
 
     Box {
@@ -21,32 +24,41 @@ template $PdsPortBindingCreationRow: Adw.ExpanderRow {
 
       Label protocol_label {
         name: "badge";
+        valign: center;
       }
 
       Label {
         label: "://";
+        valign: center;
       }
 
       Label ip_address_label {
         name: "badge";
+        valign: center;
+        wrap: true;
+        wrap-mode: word_char;
       }
 
       Label {
         label: ":";
+        valign: center;
       }
 
       Label host_port_label {
         name: "badge";
+        valign: center;
       }
     }
 
     Image {
       icon-name: "arrow1-right-symbolic";
       margin-start: 4;
+      valign: center;
     }
 
     Label target_port_label {
       name: "badge";
+      valign: center;
     }
   }
 

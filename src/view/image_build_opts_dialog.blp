@@ -11,10 +11,9 @@ SizeGroup {
 }
 
 template $PdsImageBuildOptsDialog: Adw.Dialog {
-  content-width: 360;
   default-widget: build_button;
-  follows-content-size: true;
   title: _("Build Image");
+  width-request: 360;
 
   Adw.ToolbarView {
     [top]

@@ -6,6 +6,7 @@ use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
+use gtk::pango;
 
 use crate::model;
 use crate::utils;
@@ -139,7 +140,12 @@ mod imp {
 
         #[template_callback]
         fn on_setup(&self, list_item: &gtk::ListItem) {
-            list_item.set_child(Some(&gtk::Label::builder().xalign(0.0).build()));
+            list_item.set_child(Some(
+                &gtk::Label::builder()
+                    .ellipsize(pango::EllipsizeMode::Middle)
+                    .xalign(0.0)
+                    .build(),
+            ));
         }
 
         #[template_callback]

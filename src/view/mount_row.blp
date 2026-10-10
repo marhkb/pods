@@ -6,43 +6,57 @@ template $PdsMountRow: Adw.ExpanderRow {
   selectable: false;
 
   [prefix]
-  Box {
+  Adw.WrapBox {
     styles [
       "rich-expander-row-header",
       "title-4",
     ]
 
-    spacing: 1;
+    child-spacing: 1;
+    line-spacing: 6;
+    margin-bottom: 6;
+    margin-top: 6;
     valign: center;
 
     Label type_label {
       name: "badge";
+      valign: center;
     }
 
     Image {
       icon-name: "arrow1-right-symbolic";
+      valign: center;
       margin-end: 3;
       margin-start: 6;
     }
 
     Label src_label {
       name: "badge";
+      valign: center;
+      wrap: true;
+      wrap-mode: word_char;
     }
 
     Label {
       label: ":";
+      valign: center;
     }
 
     Label container_path_label {
       name: "badge";
+      valign: center;
+      wrap: true;
+      wrap-mode: word_char;
     }
 
     Label {
       label: ":";
+      valign: center;
     }
 
     Label options_label {
       name: "badge";
+      valign: center;
     }
   }
 
