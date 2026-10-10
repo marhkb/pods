@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-10 09:17+0000\n"
-"PO-Revision-Date: 2025-04-28 08:02+0000\n"
-"Last-Translator: Dejan Spasic <dejan.spasic@bitweise.biz>\n"
+"PO-Revision-Date: 2026-10-11 00:15+0000\n"
+"Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:120
@@ -51,7 +51,7 @@ msgstr "Standardverhalten bei maximiertem Fenster"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:21
 msgid "The uuid of the connection that was used the last time"
-msgstr "Die uuid der Verbindung, die das letzte Mal verwendet wurde"
+msgstr "Die UUID der Verbindung, die das letzte Mal verwendet wurde"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:26
 msgid "The last used view"
@@ -73,8 +73,8 @@ msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
 msgstr ""
-"Bilder entfernen, auch wenn sie von externen Containern verwendet werden (z. "
-"B. von Build-Containern)."
+"Abbilder entfernen, auch wenn sie von externen Containern verwendet werden "
+"(z. B. von Build-Containern)."
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:46
 msgid "Whether to show a timestamp for each log line"
@@ -102,14 +102,12 @@ msgid "The font scale for terminals"
 msgstr "Der Schriftgrad für Terminals"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:88
-#, fuzzy
 msgid "Containers representation"
-msgstr "Container-Kube-Erzeugung"
+msgstr "Containerrepräsentation"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:97
-#, fuzzy
 msgid "Sort direction for containers"
-msgstr "Fehler beim Laden der Container"
+msgstr "Sortierreihenfolge für Container"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:106
 #, fuzzy
@@ -117,52 +115,47 @@ msgid "sort attribute for containers"
 msgstr "Pods und Container erstellen."
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:111
-#, fuzzy
 msgid "Whether to show running containers first"
 msgstr "Ob nur laufende Container angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:123
 msgid "Sort direction for pods"
-msgstr ""
+msgstr "Sortierreihenfolfe für Pods"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:132
 msgid "Sort attribute for pods"
-msgstr ""
+msgstr "Sortierattribut für Pods"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:137
-#, fuzzy
 msgid "Whether to show running pods first"
-msgstr "Ob nur laufende Pods angezeigt werden sollen"
+msgstr "Ob laufende Pods zuerst angezeigt werden sollen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:149
 msgid "Sort direction for images"
-msgstr ""
+msgstr "Sortierreihenfolge für Abbilder"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:159
 msgid "Sort attribute for images"
-msgstr ""
+msgstr "Sortierreihenfolge für Abbilder"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:171
-#, fuzzy
 msgid "Sort direction for volumes"
-msgstr "Fehler beim Laden der Volumes"
+msgstr "Sortierreihenfolge für Volumen"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:181
 msgid "Sort attribute for volumes"
-msgstr ""
+msgstr "Sortierattribut für Volumen"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
 msgid "Manage your containers"
-msgstr "Verwalten Sie Ihre Podman-Container"
+msgstr "Verwalten Sie Ihre Container"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
-#, fuzzy
 msgid ""
 "Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
 "interface and strives to meet the design principles of GNOME."
 msgstr ""
-"Pods ist ein Frontend für Podman. Es verwendet Libadwaita für seine "
+"Pods ist ein Frontend für Podman/Docker. Es verwendet Libadwaita für seine "
 "Benutzeroberfläche und orientiert sich an den Designprinzipien von GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
@@ -170,9 +163,8 @@ msgid "With Pods you can, among other things:"
 msgstr "Mit Pods kannst du unter anderem:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:13
-#, fuzzy
 msgid "Connect to local and remote Podman/Docker instances."
-msgstr "Zu lokalen und entfernten Podman-Instanzen verbinden."
+msgstr "Zu lokalen und entfernten Podman–/Docker–Instanzen verbinden."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:14
 msgid "Easily overview images, containers and pods."
@@ -223,14 +215,12 @@ msgid "Rename containers."
 msgstr "Container umbenennen."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:34
-#, fuzzy
 msgid "Pods main window"
-msgstr "Fenster schließen"
+msgstr "Pods Hauptfenster"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:44
-#, fuzzy
 msgid "Pods 3.1.1 contains the following changes:"
-msgstr "Pods 2.1.0 enthält die folgenden Änderungen:"
+msgstr "Pods 3.1.1 enthält die folgenden Änderungen:"
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:46
 msgid ""
@@ -2771,7 +2761,7 @@ msgstr "Prozesse"
 
 #: src/view/container_details_page.blp:314
 msgid "View and manage processes of the container"
-msgstr " Betrachte und durchsuche Container-Protokoll"
+msgstr "Betrachte und durchsuche Container-Protokoll"
 
 #: src/view/container_details_page.rs:346
 msgid "Error on loading container details"
