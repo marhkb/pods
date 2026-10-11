@@ -3,6 +3,10 @@
   padding: 7px 6px 3px 6px;
 }
 
+.undimmed {
+  opacity: 1.0;
+}
+
 row.combo.pod-disabled image,
 row.combo.pod-disabled label {
   opacity: var(--dim-opacity);
@@ -167,9 +171,13 @@ connectionchooserpage connectionrow {
   padding: 5px 7px;
 }
 
-.repo-tags-small {
+list.repo-tags-small {
   background-color: transparent;
-  margin: 0 0 -3px -2px;
+  margin: 3px 0 0 -2px;
+}
+
+list.repo-tags-small > row {
+  margin: -2px 0;
 }
 
 .version,
