@@ -39,6 +39,22 @@ template $PdsVolumeDetailsPage: Widget {
           ]
 
           title: _("Name");
+
+          Button {
+            styles [
+              "flat",
+            ]
+
+            action-name: "volume-details-page.copy-name-to-clipboard";
+            icon-name: "edit-copy-symbolic";
+            tooltip-text: _("Copy to clipboard");
+
+            accessibility {
+              label: _("Copy name to clipboard");
+            }
+
+            valign: center;
+          }
         }
 
         Adw.ActionRow driver_row {

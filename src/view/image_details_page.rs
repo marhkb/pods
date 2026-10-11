@@ -17,6 +17,7 @@ use crate::rt;
 use crate::utils;
 use crate::view;
 
+const ACTION_COPY_ID_TO_CLIPBOARD: &str = "image-details-page.copy-id-to-clipboard";
 const ACTION_TAG: &str = "image-details-page.tag";
 const ACTION_INSPECT_IMAGE: &str = "image-details-page.inspect-image";
 const ACTION_SHOW_HISTORY: &str = "image-details-page.show-history";
@@ -62,6 +63,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action(ACTION_COPY_ID_TO_CLIPBOARD, None, |widget, _, _| {
+                widget.copy_id_to_clipboard();
+            });
 
             klass.install_action_async(ACTION_TAG, None, |widget, _, _| async move {
                 widget.tag().await;
@@ -344,6 +349,15 @@ impl From<&model::Image> for ImageDetailsPage {
 }
 
 impl ImageDetailsPage {
+    fn copy_id_to_clipboard(&self) {
+        let Some(image) = self.image() else {
+            return;
+        };
+        self.display().clipboard().set_text(&image.id());
+
+        utils::show_toast(self, gettext("Copied to clipboard"));
+    }
+
     async fn tag(&self) {
         self.exec_action(async || {
             let Some(api) = self.image().and_then(|image| image.api()) else {

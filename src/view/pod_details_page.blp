@@ -178,6 +178,22 @@ template $PdsPodDetailsPage: Widget {
 
               title: _("Name");
               subtitle: bind template.pod as <$Pod>.name;
+
+              Button {
+                styles [
+                  "flat",
+                ]
+
+                action-name: "pod-details-page.copy-name-to-clipboard";
+                icon-name: "edit-copy-symbolic";
+                tooltip-text: _("Copy to clipboard");
+
+                accessibility {
+                  label: _("Copy name to clipboard");
+                }
+
+                valign: center;
+              }
             }
 
             Adw.ActionRow id_row {
@@ -186,6 +202,22 @@ template $PdsPodDetailsPage: Widget {
               ]
 
               title: _("ID");
+
+              Button {
+                styles [
+                  "flat",
+                ]
+
+                action-name: "pod-details-page.copy-id-to-clipboard";
+                icon-name: "edit-copy-symbolic";
+                tooltip-text: _("Copy to clipboard");
+
+                accessibility {
+                  label: _("Copy ID to clipboard");
+                }
+
+                valign: center;
+              }
             }
 
             Adw.ActionRow created_row {

@@ -18,6 +18,22 @@ template $PdsContainerPropertiesGroup: Adw.PreferencesGroup {
         "flat",
       ]
 
+      action-name: "container-details-page.copy-name-to-clipboard";
+      icon-name: "edit-copy-symbolic";
+      tooltip-text: _("Copy to clipboard");
+
+      accessibility {
+        label: _("Copy name to clipboard");
+      }
+
+      valign: center;
+    }
+
+    Button {
+      styles [
+        "flat",
+      ]
+
       action-name: "container-details-page.rename";
       icon-name: "document-edit-symbolic";
       tooltip-text: _("Rename (F2)");
@@ -37,6 +53,22 @@ template $PdsContainerPropertiesGroup: Adw.PreferencesGroup {
 
     title: _("ID");
     subtitle-lines: 2;
+
+    Button {
+      styles [
+        "flat",
+      ]
+
+      action-name: "container-details-page.copy-id-to-clipboard";
+      icon-name: "edit-copy-symbolic";
+      tooltip-text: _("Copy to clipboard");
+
+      accessibility {
+        label: _("Copy ID to clipboard");
+      }
+
+      valign: center;
+    }
 
     Button {
       styles [

@@ -16,6 +16,7 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_COPY_NAME_TO_CLIPBOARD: &str = "volume-details-page.copy-name-to-clipboard";
 const ACTION_INSPECT_VOLUME: &str = "volume-details-page.inspect-volume";
 const ACTION_DELETE_VOLUME: &str = "volume-details-page.delete-volume";
 
@@ -49,6 +50,10 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+
+            klass.install_action(ACTION_COPY_NAME_TO_CLIPBOARD, None, |widget, _, _| {
+                widget.copy_name_to_clipboard();
+            });
 
             klass.install_action_async(ACTION_INSPECT_VOLUME, None, async |widget, _, _| {
                 widget.show_inspection().await;
@@ -207,6 +212,15 @@ impl From<&model::Volume> for VolumeDetailsPage {
 }
 
 impl VolumeDetailsPage {
+    pub(crate) fn copy_name_to_clipboard(&self) {
+        let Some(volume) = self.volume() else {
+            return;
+        };
+        self.display().clipboard().set_text(&volume.name());
+
+        utils::show_toast(self, gettext("Copied to clipboard"));
+    }
+
     pub(crate) async fn show_inspection(&self) {
         self.exec_action(async || {
             let Some(volume) = self.volume() else {

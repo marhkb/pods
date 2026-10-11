@@ -16,7 +16,9 @@ use crate::model;
 use crate::utils;
 use crate::view;
 
+const ACTION_COPY_NAME_TO_CLIPBOARD: &str = "container-details-page.copy-name-to-clipboard";
 const ACTION_RENAME: &str = "container-details-page.rename";
+const ACTION_COPY_ID_TO_CLIPBOARD: &str = "container-details-page.copy-id-to-clipboard";
 const ACTION_COMMIT: &str = "container-details-page.commit";
 const ACTION_COPY_FROM: &str = "container-details-page.copy-from";
 const ACTION_COPY_TO: &str = "container-details-page.copy-to";
@@ -90,8 +92,14 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
 
+            klass.install_action(ACTION_COPY_NAME_TO_CLIPBOARD, None, |widget, _, _| {
+                widget.copy_name_to_clipboard();
+            });
             klass.install_action(ACTION_RENAME, None, |widget, _, _| {
                 view::container::rename(widget, widget.container().as_ref());
+            });
+            klass.install_action(ACTION_COPY_ID_TO_CLIPBOARD, None, |widget, _, _| {
+                widget.copy_id_to_clipboard();
             });
             klass.install_action(ACTION_COMMIT, None, |widget, _, _| {
                 widget.commit();
@@ -436,6 +444,23 @@ impl ContainerDetailsPage {
         self.action_set_enabled(ACTION_RESTART, container.status().can_restart());
         self.action_set_enabled(ACTION_PAUSE, container.status().can_pause());
         self.action_set_enabled(ACTION_DELETE, container.status().can_force_delete());
+    }
+
+    fn copy_to_clipboard<F: Fn(&model::Container) -> String>(&self, op: F) {
+        let Some(container) = self.container() else {
+            return;
+        };
+        self.display().clipboard().set_text(&op(&container));
+
+        utils::show_toast(self, gettext("Copied to clipboard"));
+    }
+
+    pub(crate) fn copy_name_to_clipboard(&self) {
+        self.copy_to_clipboard(model::Container::name);
+    }
+
+    pub(crate) fn copy_id_to_clipboard(&self) {
+        self.copy_to_clipboard(model::Container::id);
     }
 
     pub(crate) fn commit(&self) {
