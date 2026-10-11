@@ -164,7 +164,21 @@ mod imp {
             let obj = &*self.obj();
 
             let container_expr = Self::Type::this_expression("container");
+            let name_expr = container_expr.chain_property::<model::Container>("name");
+            let to_be_deleted_expr =
+                container_expr.chain_property::<model::Container>("to-be-deleted");
+            let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
+            #[rustfmt::skip]
+            let repo_expr = image_name_expr.chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| {
+                name
+                    .map(utils::format_if_id)
+                    .map(ToOwned::to_owned)
+                    .unwrap_or_default()
+            }));
             let status_expr = container_expr.chain_property::<model::Container>("status");
+            let status_is_transition_expr = status_expr.chain_closure::<bool>(closure!(
+                |_: Self::Type, status: model::ContainerStatus| { status.is_transition() }
+            ));
             let container_list_expr =
                 container_expr.chain_property::<model::Container>("container-list");
             let selection_mode_expr =
@@ -200,16 +214,6 @@ mod imp {
                     move || obj.update_actions()
                 ),
             );
-            container_expr
-                .chain_property::<model::Container>("status")
-                .watch(
-                    Some(obj),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move || obj.update_actions()
-                    ),
-                );
 
             let css_classes = utils::css_classes(obj);
             status_expr
@@ -228,12 +232,7 @@ mod imp {
                 ))
                 .bind(obj, "css-classes", Some(obj));
 
-            container_expr
-                .chain_property::<model::Container>("status")
-                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
-                    status.is_transition()
-                }))
-                .bind(&*self.spinner, "spinning", Some(obj));
+            status_is_transition_expr.bind(&*self.spinner, "spinning", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 [&status_expr, &health_status_expr],
@@ -274,10 +273,7 @@ mod imp {
             .bind(&*self.spinner, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
-                &[
-                    container_expr.chain_property::<model::Container>("name"),
-                    container_expr.chain_property::<model::Container>("to-be-deleted"),
-                ],
+                &[name_expr.upcast_ref(), to_be_deleted_expr.upcast_ref()],
                 closure!(|_: Self::Type, name: &str, to_be_deleted: bool| {
                     let name = utils::escape(name);
                     if to_be_deleted {
@@ -289,14 +285,7 @@ mod imp {
             )
             .bind(&*self.name_label, "label", Some(obj));
 
-            container_expr
-                .chain_property::<model::Container>("image-name")
-                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| {
-                    name.map(utils::format_if_id)
-                        .map(ToOwned::to_owned)
-                        .unwrap_or_default()
-                }))
-                .bind(&*self.repo_label, "label", Some(obj));
+            repo_expr.bind(&*self.repo_label, "label", Some(obj));
 
             status_expr
                 .chain_closure::<String>(closure!(
