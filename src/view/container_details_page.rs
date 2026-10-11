@@ -62,6 +62,8 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
+        pub(super) image_preferences_group: TemplateChild<adw::PreferencesGroup>,
+        #[template_child]
         pub(super) image_action_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) pod_preferences_group: TemplateChild<adw::PreferencesGroup>,
@@ -266,7 +268,7 @@ mod imp {
                 ))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
 
-            not_is_infra_expr.bind(&*self.image_action_row, "visible", Some(obj));
+            not_is_infra_expr.bind(&*self.image_preferences_group, "visible", Some(obj));
 
             image_name_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| name
