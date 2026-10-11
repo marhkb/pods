@@ -39,6 +39,11 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="3.2.1" date="2026-10-11">
+      <description translatable="no">
+        <p>Pods 3.2.1 is a small release fixing some design inconsistencies</p>
+      </description>
+    </release>
     <release version="3.2.0" date="2026-10-10">
       <description translatable="no">
         <p>Pods 3.2.0 contains the following changes:</p>
