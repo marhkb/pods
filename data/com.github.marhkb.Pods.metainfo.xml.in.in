@@ -39,6 +39,18 @@
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="3.3.0" date="2026-10-11">
+      <description translatable="no">
+        <p>Pods 3.3.0 contains the following changes:</p>
+        <ul>
+          <li>Fixed missing port bindings by fanning out port ranges in the Podman container summary. (#986, #1002)</li>
+          <li>Added copy-to-clipboard actions across views. (#998)</li>
+          <li>Correctly hide the image preferences group for infrastructure containers. (#1000)</li>
+          <li>Improved container card layout, performance, and text ellipsization.</li>
+          <li>Standardized ID capitalization across views. (#999)</li>
+        </ul>
+      </description>
+    </release>
     <release version="3.2.1" date="2026-10-11">
       <description translatable="no">
         <p>Pods 3.2.1 is a small release fixing some design inconsistencies</p>
