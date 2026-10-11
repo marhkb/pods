@@ -61,6 +61,22 @@ template $PdsImageDetailsPage: Widget {
               ]
 
               title: _("ID");
+
+              Button {
+                styles [
+                  "flat",
+                ]
+
+                action-name: "image-details-page.copy-id-to-clipboard";
+                icon-name: "edit-copy-symbolic";
+                tooltip-text: _("Copy to clipboard");
+
+                accessibility {
+                  label: _("Copy ID to clipboard");
+                }
+
+                valign: center;
+              }
             }
 
             Adw.ActionRow created_row {
