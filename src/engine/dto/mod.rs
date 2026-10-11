@@ -48,6 +48,7 @@ pub(crate) use pod::PodStatus;
 pub(crate) use pod::PodSummary;
 pub(crate) use pods_prune_report::PodsPruneReport;
 pub(crate) use port::PortBinding;
+pub(crate) use port::PortBindings;
 pub(crate) use port::PortMappingProtocol;
 pub(crate) use prune_report::PruneReport;
 pub(crate) use top::Top;

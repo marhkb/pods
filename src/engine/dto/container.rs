@@ -101,7 +101,13 @@ impl From<podman_api::models::ListContainer> for ContainerSummary {
             pod_id: value.pod,
             ports: value
                 .ports
-                .map(|ports| ports.into_iter().map(Into::into).collect())
+                .map(|ports| {
+                    ports
+                        .into_iter()
+                        .map(engine::dto::PortBindings::from)
+                        .flat_map(|ports| ports.0.into_iter())
+                        .collect()
+                })
                 .unwrap_or_default(),
             status: PodmanContainerStatus(value.state).into(),
         }
