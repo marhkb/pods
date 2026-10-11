@@ -37,76 +37,75 @@ template $PdsContainerCard: Widget {
         css-name: "row";
         margin-start: 12;
         margin-end: 12;
+        spacing: 9;
+
+        $PdsSpinner spinner {
+          valign: "start";
+        }
 
         Box {
-          spacing: 9;
+          hexpand: true;
+          orientation: vertical;
+          spacing: 3;
+          valign: start;
 
-          $PdsSpinner spinner {
-            valign: "start";
+          Label name_label {
+            styles [
+              "title",
+            ]
+
+            use-markup: true;
+            ellipsize: middle;
+            xalign: 0;
+            yalign: 0;
           }
 
-          Box {
-            hexpand: true;
-            orientation: vertical;
-            valign: start;
+          Label repo_label {
+            styles [
+              "subtitle",
+            ]
 
-            Label name_label {
+            ellipsize: middle;
+            height-request: 30;
+            lines: 2;
+            use-markup: true;
+            wrap: true;
+            wrap-mode: word_char;
+            xalign: 0;
+            yalign: 0;
+          }
+        }
+
+        Stack edit_select_stack {
+          transition-type: crossfade;
+          valign: start;
+
+          StackPage {
+            name: "edit";
+
+            child: Button {
               styles [
-                "title",
+                "circular",
               ]
 
-              use-markup: true;
-              ellipsize: middle;
-              xalign: 0;
-            }
+              action-name: "container-card.rename";
+              icon-name: "document-edit-symbolic";
+              tooltip-text: _("Rename");
 
-            Label repo_label {
-              styles [
-                "subtitle",
-              ]
-
-              ellipsize: middle;
-              height-request: 30;
-              lines: 2;
-              use-markup: true;
-              wrap: true;
-              wrap-mode: word_char;
-              xalign: 0;
-              yalign: 0;
-            }
+              accessibility {
+                label: _("Rename");
+              }
+            };
           }
 
-          Stack edit_select_stack {
-            transition-type: crossfade;
-            valign: start;
+          StackPage {
+            name: "select";
 
-            StackPage {
-              name: "edit";
-
-              child: Button {
-                styles [
-                  "circular",
-                ]
-
-                action-name: "container-card.rename";
-                icon-name: "document-edit-symbolic";
-                tooltip-text: _("Rename");
-
-                accessibility {
-                  label: _("Rename");
-                }
-              };
-            }
-
-            StackPage {
-              name: "select";
-
-              child: CheckButton selection_check_button {
-                styles [
-                  "selection-mode",
-                ]
-              };
-            }
+            child: CheckButton selection_check_button {
+              styles [
+                "selection-mode",
+              ]
+            };
           }
         }
       }
