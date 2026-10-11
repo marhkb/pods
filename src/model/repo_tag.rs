@@ -1,5 +1,6 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
+use std::marker::PhantomData;
 
 use glib::Properties;
 use glib::prelude::*;
@@ -18,6 +19,12 @@ mod imp {
         pub(super) repo_tag_list: glib::WeakRef<model::RepoTagList>,
         #[property(get, set, construct_only)]
         pub(super) full: OnceCell<String>,
+
+        #[property(get = Self::repo)]
+        _repo: PhantomData<String>,
+        #[property(get = Self::tag)]
+        _tag: PhantomData<String>,
+
         #[property(get, set)]
         pub(super) to_be_deleted: Cell<bool>,
     }
@@ -41,6 +48,16 @@ mod imp {
             self.derived_property(id, pspec)
         }
     }
+
+    impl RepoTag {
+        pub(super) fn repo(&self) -> String {
+            split_repo_tag(&self.obj().full()).0.to_owned()
+        }
+
+        pub(super) fn tag(&self) -> String {
+            split_repo_tag(&self.obj().full()).1.to_owned()
+        }
+    }
 }
 
 glib::wrapper! {
@@ -53,14 +70,6 @@ impl RepoTag {
             .property("repo-tag-list", repo_tag_list)
             .property("full", full)
             .build()
-    }
-
-    pub(crate) fn repo(&self) -> String {
-        split_repo_tag(&self.full()).0.to_owned()
-    }
-
-    pub(crate) fn tag(&self) -> String {
-        split_repo_tag(&self.full()).1.to_owned()
     }
 }
 

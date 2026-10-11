@@ -1,7 +1,6 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::clone;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
@@ -16,8 +15,11 @@ mod imp {
     pub(crate) struct RepoTagSimpleRow {
         #[property(get, set, construct_only, nullable)]
         pub(super) repo_tag: glib::WeakRef<model::RepoTag>,
+
         #[template_child]
-        pub(super) label: TemplateChild<gtk::Label>,
+        pub(super) repo_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub(super) tag_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -47,37 +49,6 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            let obj = &*self.obj();
-
-            let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.set_label(style_manager);
-                }
-            ));
-            style_manager.connect_accent_color_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.set_label(style_manager);
-                }
-            ));
-            style_manager.connect_high_contrast_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.set_label(style_manager);
-                }
-            ));
-
-            obj.set_label(&style_manager);
-        }
     }
 
     impl WidgetImpl for RepoTagSimpleRow {}
@@ -95,40 +66,5 @@ impl From<&model::RepoTag> for RepoTagSimpleRow {
         glib::Object::builder()
             .property("repo-tag", repo_tag)
             .build()
-    }
-}
-
-impl RepoTagSimpleRow {
-    fn set_label(&self, style_manager: &adw::StyleManager) {
-        if let Some(repo_tag) = self.repo_tag() {
-            let repo = repo_tag.repo();
-            let repo = if style_manager.is_high_contrast() {
-                repo
-            } else {
-                format!("<span alpha=\"55%\">{repo}</span>")
-            };
-
-            let accent_color = style_manager
-                .accent_color()
-                .to_standalone_rgba(style_manager.is_dark());
-            let tag = format!(
-                "<span foreground=\"#{:02x}{:02x}{:02x}\"{}>{}</span>",
-                (accent_color.red() * 255.0) as i32,
-                (accent_color.green() * 255.0) as i32,
-                (accent_color.blue() * 255.0) as i32,
-                if style_manager.is_high_contrast() {
-                    " weight=\"bold\""
-                } else {
-                    ""
-                },
-                repo_tag.tag(),
-            );
-
-            self.imp().label.set_markup(&if repo_tag.to_be_deleted() {
-                format!("<s>{repo} {tag}</s>")
-            } else {
-                format!("{repo} {tag}")
-            });
-        }
     }
 }
