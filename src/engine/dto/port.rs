@@ -19,14 +19,24 @@ impl From<bollard::plugin::PortSummary> for PortBinding {
     }
 }
 
-impl From<podman_api::models::PortMapping> for PortBinding {
+pub(crate) struct PortBindings(pub(crate) Vec<PortBinding>);
+impl From<podman_api::models::PortMapping> for PortBindings {
     fn from(value: podman_api::models::PortMapping) -> Self {
-        Self {
-            host_ip: value.host_ip.unwrap_or_default(),
-            host_port: value.host_port,
-            protocol: value.protocol.as_deref().into(),
-            target_port: value.container_port.unwrap_or(0),
-        }
+        let protocol = value.protocol.as_deref().into();
+        let host_ip = value.host_ip.unwrap_or_default();
+        let host_port = value.host_port;
+        let target_port = value.container_port.unwrap_or(0);
+
+        PortBindings(
+            (0..value.range.unwrap_or(1))
+                .map(|i| PortBinding {
+                    host_ip: host_ip.clone(),
+                    host_port: host_port.map(|port| port + i),
+                    protocol,
+                    target_port: target_port + i,
+                })
+                .collect(),
+        )
     }
 }
 
