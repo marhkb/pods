@@ -1,8 +1,9 @@
 use std::cell::Cell;
-use std::sync::OnceLock;
+use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
@@ -11,12 +12,14 @@ use crate::utils;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Spinner)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/spinner.ui")]
     pub(crate) struct Spinner {
+        #[property(get, set, nullable)]
+        pub(super) icon_name: RefCell<Option<String>>,
+        #[property(get, set = Self::set_spinning, explicit_notify)]
         pub(super) spinning: Cell<bool>,
-        #[template_child]
-        pub(super) image: TemplateChild<gtk::Image>,
     }
 
     #[glib::object_subclass]
@@ -27,7 +30,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -37,35 +39,15 @@ mod imp {
 
     impl ObjectImpl for Spinner {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                vec![
-                    glib::ParamSpecString::builder("icon-name")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("spinning")
-                        .explicit_notify()
-                        .build(),
-                ]
-            })
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "icon-name" => obj.set_icon_name(value.get().unwrap_or_default()),
-                "spinning" => obj.set_spinning(value.get().unwrap_or_default()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "icon-name" => obj.icon_name().to_value(),
-                "spinning" => obj.is_spinning().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn dispose(&self) {
@@ -75,11 +57,15 @@ mod imp {
 
     impl WidgetImpl for Spinner {}
 
-    #[gtk::template_callbacks]
     impl Spinner {
-        #[template_callback]
-        fn on_image_notify_icon_name(&self) {
-            self.obj().notify("icon-name");
+        fn set_spinning(&self, value: bool) {
+            let obj = &*self.obj();
+            if obj.spinning() == value {
+                return;
+            }
+
+            self.spinning.set(value);
+            obj.notify_spinning();
         }
     }
 }
@@ -88,27 +74,4 @@ glib::wrapper! {
     pub(crate) struct Spinner(ObjectSubclass<imp::Spinner>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
-}
-
-impl Spinner {
-    pub(crate) fn icon_name(&self) -> Option<glib::GString> {
-        self.imp().image.icon_name()
-    }
-
-    pub(crate) fn set_icon_name(&self, value: Option<&str>) {
-        self.imp().image.set_icon_name(value);
-    }
-
-    pub(crate) fn is_spinning(&self) -> bool {
-        self.imp().spinning.get()
-    }
-
-    pub(crate) fn set_spinning(&self, value: bool) {
-        if self.is_spinning() == value {
-            return;
-        }
-
-        self.imp().spinning.set(value);
-        self.notify("spinning");
-    }
 }

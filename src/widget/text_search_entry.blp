@@ -16,7 +16,7 @@ template $PdsTextSearchEntry: Widget {
       "numeric",
     ]
 
-    notify::label => $on_info_label_notify_label() swapped;
+    label: bind template.info bidirectional;
     xalign: 1;
   }
 
@@ -25,22 +25,22 @@ template $PdsTextSearchEntry: Widget {
       "linked",
     ]
 
-    ToggleButton regex_button {
-      notify::active => $on_regex_button_notify_active() swapped;
+    ToggleButton {
+      active: bind template.regex bidirectional;
       icon-name: "regex-symbolic";
       tooltip-text: _("Regular Expression");
       valign: center;
     }
 
-    ToggleButton case_button {
-      notify::active => $on_case_button_notify_active() swapped;
+    ToggleButton {
+      active: bind template.case-sensitive bidirectional;
       icon-name: "uppercase-symbolic";
       tooltip-text: _("Case Sensitive");
       valign: center;
     }
 
-    ToggleButton word_button {
-      notify::active => $on_word_button_notify_active() swapped;
+    ToggleButton {
+      active: bind template.whole-word bidirectional;
       icon-name: "whole-word-symbolic";
       tooltip-text: _("Whole Word");
       valign: center;

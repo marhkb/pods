@@ -2,12 +2,13 @@ using Gtk 4.0;
 using Adw 1;
 
 template $PdsPropertyRow: Adw.ActionRow {
-  notify::title => $on_notify_title() swapped;
-  notify::label => $on_notify_label() swapped;
-  notify::wrap-mode => $on_notify_wrap_mode() swapped;
+  title: bind template.key bidirectional;
   activatable: false;
 
   Label value_label {
+    label: bind template.value bidirectional;
+    notify::wrap-mode => $on_value_label_notify_wrap_mode() swapped;
+
     styles [
       "dim-label",
     ]

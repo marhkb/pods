@@ -26,8 +26,10 @@ mod imp {
         pub(super) search_settings: sourceview5::SearchSettings,
         pub(super) search_context: RefCell<Option<sourceview5::SearchContext>>,
         pub(super) search_iters: RefCell<Option<(gtk::TextIter, gtk::TextIter)>>,
+
         #[property(get, set = Self::set_source_view, nullable)]
         pub(super) source_view: glib::WeakRef<sourceview5::View>,
+
         #[template_child]
         pub(super) search_entry: TemplateChild<widget::TextSearchEntry>,
     }
@@ -155,7 +157,7 @@ mod imp {
                     move |ctx| {
                         obj.imp()
                             .search_entry
-                            .set_info(&gettext!("0 of {}", ctx.occurrences_count(),));
+                            .set_info(gettext!("0 of {}", ctx.occurrences_count(),));
                     }
                 ));
 
@@ -179,7 +181,7 @@ impl SourceViewSearchWidget {
 
         if let Some(search_context) = imp.search_context.borrow().as_ref() {
             let count = search_context.occurrences_count();
-            imp.search_entry.set_info(&if count > 0 {
+            imp.search_entry.set_info(if count > 0 {
                 gettext!(
                     "{} of {}",
                     imp.search_iters

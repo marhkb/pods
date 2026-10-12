@@ -5,7 +5,7 @@ template $PdsCountBadge: Widget {
   layout-manager: BinLayout {};
 
   Adw.Bin child_bin {
-    notify::child => $on_child_bin_notify_child() swapped;
+    child: bind template.child bidirectional;
   }
 
   Adw.Bin count_mask {

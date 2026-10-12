@@ -5,7 +5,7 @@ template $PdsCircularProgressBar: Widget {
   valign: center;
 
   Image image {
-    notify::icon-name => $on_image_notify_icon_name() swapped;
+    icon-name: bind template.icon-name bidirectional;
 
     styles [
       "dim-icon",

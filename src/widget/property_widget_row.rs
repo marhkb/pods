@@ -1,18 +1,25 @@
-use std::sync::OnceLock;
+use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::PropertyWidgetRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/property_widget_row.ui")]
     pub(crate) struct PropertyWidgetRow {
-        #[template_child]
-        pub(super) bin: TemplateChild<adw::Bin>,
+        #[property(
+            get,
+            set = |imp: &Self, key: Option<String>| { imp.key.replace(key.unwrap_or_default()); }
+        )]
+        pub(super) key: RefCell<String>,
+        #[property(get, set, nullable)]
+        pub(super) widget: RefCell<Option<gtk::Widget>>,
     }
 
     #[glib::object_subclass]
@@ -23,7 +30,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -33,35 +39,15 @@ mod imp {
 
     impl ObjectImpl for PropertyWidgetRow {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                vec![
-                    glib::ParamSpecString::builder("key")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecObject::builder::<gtk::Widget>("widget")
-                        .explicit_notify()
-                        .build(),
-                ]
-            })
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "key" => obj.set_key(value.get().unwrap_or_default()),
-                "widget" => obj.set_widget(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "key" => obj.key().to_value(),
-                "widget" => obj.widget().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 
@@ -69,19 +55,6 @@ mod imp {
     impl ListBoxRowImpl for PropertyWidgetRow {}
     impl PreferencesRowImpl for PropertyWidgetRow {}
     impl ActionRowImpl for PropertyWidgetRow {}
-
-    #[gtk::template_callbacks]
-    impl PropertyWidgetRow {
-        #[template_callback]
-        fn on_notify_title(&self) {
-            self.obj().notify("key");
-        }
-
-        #[template_callback]
-        fn on_bin_notify_child(&self) {
-            self.obj().notify("widget");
-        }
-    }
 }
 
 glib::wrapper! {
@@ -93,29 +66,5 @@ glib::wrapper! {
 impl Default for PropertyWidgetRow {
     fn default() -> Self {
         glib::Object::new()
-    }
-}
-
-impl PropertyWidgetRow {
-    pub(crate) fn key(&self) -> glib::GString {
-        self.title()
-    }
-
-    pub(crate) fn set_key(&self, key: &str) {
-        if key == self.key().as_str() {
-            return;
-        }
-        self.set_title(key);
-    }
-
-    pub(crate) fn widget(&self) -> Option<gtk::Widget> {
-        self.imp().bin.child()
-    }
-
-    pub(crate) fn set_widget(&self, value: Option<&gtk::Widget>) {
-        if self.widget().as_ref() == value {
-            return;
-        }
-        self.imp().bin.set_child(value);
     }
 }
