@@ -9,14 +9,15 @@ use glib::clone;
 use glib::subclass::Signal;
 use gtk::gio;
 use gtk::glib;
+use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 
 use crate::engine;
 use crate::model;
+use crate::rt;
 
 mod imp {
     use super::*;
-    use crate::rt;
 
     #[derive(Debug, Default, Properties)]
     #[properties(wrapper_type = super::ProcessList)]
@@ -96,8 +97,6 @@ mod imp {
                             });
 
                             top.into_processes().into_iter().for_each(|process| {
-                                use indexmap::map::Entry;
-
                                 let items_changed = match imp.list.borrow_mut().entry(process.pid) {
                                     Entry::Vacant(e) => {
                                         e.insert(model::Process::new(&obj, process));
