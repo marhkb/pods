@@ -33,8 +33,6 @@ mod imp {
 
         #[template_child]
         pub(super) button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) image: TemplateChild<gtk::Image>,
     }
 
     #[glib::object_subclass]

@@ -26,6 +26,7 @@ mod imp {
     pub(crate) struct ContainerHealthCheckPage {
         #[property(get, set = Self::set_container, construct_only, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
+
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -36,8 +37,6 @@ mod imp {
         pub(super) retries_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
         pub(super) timeout_row: TemplateChild<widget::PropertyRow>,
-        #[template_child]
-        pub(super) failing_streak_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
         pub(super) log_list_box: TemplateChild<gtk::ListBox>,
     }

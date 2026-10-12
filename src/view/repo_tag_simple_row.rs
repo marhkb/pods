@@ -15,11 +15,6 @@ mod imp {
     pub(crate) struct RepoTagSimpleRow {
         #[property(get, set, construct_only, nullable)]
         pub(super) repo_tag: glib::WeakRef<model::RepoTag>,
-
-        #[template_child]
-        pub(super) repo_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) tag_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]

@@ -49,7 +49,7 @@ template $PdsContainerLogPage: Widget {
     [top]
     Adw.HeaderBar {
       [start]
-      ToggleButton search_button {
+      ToggleButton {
         active: bind search_bar.search-mode-enabled bidirectional;
         icon-name: "system-search-symbolic";
         tooltip-text: _("Search");

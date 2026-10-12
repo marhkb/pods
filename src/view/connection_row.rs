@@ -27,8 +27,6 @@ mod imp {
         #[template_child]
         pub(super) checkmark: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) name_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) url_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) color_bin: TemplateChild<adw::Bin>,

@@ -27,7 +27,7 @@ template $PdsConnectionRow: Widget {
     orientation: vertical;
     valign: center;
 
-    Label name_label {
+    Label {
       label: bind template.connection as <$Connection>.name;
       ellipsize: end;
       hexpand: true;

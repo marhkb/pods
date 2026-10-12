@@ -46,7 +46,7 @@ template $PdsContainerHealthCheckPage: Widget {
           key: _("Timeout");
         }
 
-        $PdsPropertyRow failing_streak_row {
+        $PdsPropertyRow {
           key: _("Failing Streak");
           value: bind template.container as <$Container>.details as <$ContainerDetails>.health-failing-streak;
         }

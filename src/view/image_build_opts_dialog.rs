@@ -35,8 +35,6 @@ mod imp {
         pub(super) opts: OnceCell<model::BoxedImageBuildOpts>,
 
         #[template_child]
-        pub(super) build_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) image_name_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) context_dir_row: TemplateChild<adw::ActionRow>,

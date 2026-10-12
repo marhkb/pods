@@ -115,8 +115,6 @@ mod imp {
         #[template_child]
         pub(super) selected_images_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
-        pub(super) images_group: TemplateChild<adw::PreferencesGroup>,
-        #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_entry: TemplateChild<gtk::SearchEntry>,

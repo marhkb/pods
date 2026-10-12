@@ -34,8 +34,6 @@ mod imp {
         #[template_child]
         pub(super) zoom_control: TemplateChild<widget::ZoomControl>,
         #[template_child]
-        pub(super) toolbar_view: TemplateChild<adw::ToolbarView>,
-        #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) terminal: TemplateChild<view::ContainerTerminal>,

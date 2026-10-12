@@ -74,8 +74,6 @@ mod imp {
         #[template_child]
         pub(super) timestamps_renderer: TemplateChild<sourceview5::GutterRendererText>,
         #[template_child]
-        pub(super) search_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,

@@ -21,8 +21,6 @@ mod imp {
         #[template_child]
         pub(super) official_icon: TemplateChild<gtk::Image>,
         #[template_child]
-        pub(super) stars_box: TemplateChild<gtk::Box>,
-        #[template_child]
         pub(super) stars_label: TemplateChild<gtk::Label>,
     }
 

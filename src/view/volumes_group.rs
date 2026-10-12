@@ -23,8 +23,6 @@ mod imp {
         #[template_child]
         pub(super) create_volume_row: TemplateChild<gtk::ListBoxRow>,
         #[template_child]
-        pub(super) create_volume_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }
 
