@@ -1,9 +1,10 @@
 use std::borrow::Borrow;
 use std::cell::RefCell;
-use std::sync::OnceLock;
+use std::marker::PhantomData;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
+use glib::Properties;
 use gtk::gio;
 use gtk::glib;
 use indexmap::map::IndexMap;
@@ -14,10 +15,34 @@ use crate::model::prelude::*;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default)]
-    pub(crate) struct SimpleContainerList(
-        pub(super) RefCell<IndexMap<String, glib::WeakRef<model::Container>>>,
-    );
+    #[derive(Debug, Default, Properties)]
+    #[properties(wrapper_type = super::SimpleContainerList)]
+    pub(crate) struct SimpleContainerList {
+        pub(super) list: RefCell<IndexMap<String, glib::WeakRef<model::Container>>>,
+
+        #[property(get = Self::n_items)]
+        _containers: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Created))]
+        _created: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Dead))]
+        _dead: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Exited))]
+        _exited: PhantomData<u32>,
+        #[property(get = Self::n_items)]
+        _len: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.n_items() - imp.obj().running())]
+        _not_running: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Paused))]
+        _paused: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Removing))]
+        _removing: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Running))]
+        _running: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Stopped))]
+        _stopped: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Stopping))]
+        _stopping: PhantomData<u32>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for SimpleContainerList {
@@ -28,44 +53,15 @@ mod imp {
 
     impl ObjectImpl for SimpleContainerList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                vec![
-                    glib::ParamSpecUInt::builder("len").read_only().build(),
-                    glib::ParamSpecUInt::builder("containers")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("created").read_only().build(),
-                    glib::ParamSpecUInt::builder("dead").read_only().build(),
-                    glib::ParamSpecUInt::builder("exited").read_only().build(),
-                    glib::ParamSpecUInt::builder("not-running")
-                        .read_only()
-                        .build(),
-                    glib::ParamSpecUInt::builder("paused").read_only().build(),
-                    glib::ParamSpecUInt::builder("removing").read_only().build(),
-                    glib::ParamSpecUInt::builder("running").read_only().build(),
-                    glib::ParamSpecUInt::builder("stopped").read_only().build(),
-                    glib::ParamSpecUInt::builder("stopping").read_only().build(),
-                ]
-            })
+            Self::derived_properties()
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "len" => obj.len().to_value(),
-                "containers" => obj.containers().to_value(),
-                "created" => obj.created().to_value(),
-                "dead" => obj.dead().to_value(),
-                "exited" => obj.exited().to_value(),
-                "not-running" => obj.not_running().to_value(),
-                "paused" => obj.paused().to_value(),
-                "removing" => obj.removing().to_value(),
-                "running" => obj.running().to_value(),
-                "stopped" => obj.stopped().to_value(),
-                "stopping" => obj.stopping().to_value(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
+        }
+
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -80,14 +76,25 @@ mod imp {
         }
 
         fn n_items(&self) -> u32 {
-            self.0.borrow().len() as u32
+            self.list.borrow().len() as u32
         }
 
         fn item(&self, position: u32) -> Option<glib::Object> {
-            self.0
+            self.list
                 .borrow()
                 .get_index(position as usize)
                 .and_then(|(_, obj)| obj.upgrade().map(|c| c.upcast()))
+        }
+    }
+
+    impl SimpleContainerList {
+        fn num_containers_of_status(&self, status: model::ContainerStatus) -> u32 {
+            self.list
+                .borrow()
+                .values()
+                .filter_map(glib::WeakRef::upgrade)
+                .filter(|container| container.status() == status)
+                .count() as u32
         }
     }
 }
@@ -106,7 +113,7 @@ impl Default for SimpleContainerList {
 impl SimpleContainerList {
     pub(crate) fn first_non_infra(&self) -> Option<model::Container> {
         self.imp()
-            .0
+            .list
             .borrow()
             .values()
             .filter_map(glib::WeakRef::upgrade)
@@ -121,7 +128,7 @@ impl SimpleContainerList {
 
     pub(crate) fn get(&self, index: usize) -> Option<model::Container> {
         self.imp()
-            .0
+            .list
             .borrow()
             .get_index(index)
             .map(|(_, c)| c)
@@ -129,7 +136,7 @@ impl SimpleContainerList {
     }
 
     pub(crate) fn add_container(&self, container: &model::Container) {
-        let (index, _) = self.imp().0.borrow_mut().insert_full(container.id(), {
+        let (index, _) = self.imp().list.borrow_mut().insert_full(container.id(), {
             let weak_ref = glib::WeakRef::new();
             weak_ref.set(Some(container));
             weak_ref
@@ -140,7 +147,7 @@ impl SimpleContainerList {
     }
 
     pub(crate) fn remove_container<Q: Borrow<str> + ?Sized>(&self, id: &Q) {
-        let mut list = self.imp().0.borrow_mut();
+        let mut list = self.imp().list.borrow_mut();
         if let Some((idx, _, container)) = list.shift_remove_full(id.borrow()) {
             drop(list);
 
@@ -149,55 +156,5 @@ impl SimpleContainerList {
                 self.container_removed(&container);
             }
         }
-    }
-
-    pub(crate) fn len(&self) -> u32 {
-        self.n_items()
-    }
-
-    pub(crate) fn containers(&self) -> u32 {
-        self.len()
-    }
-
-    pub(crate) fn created(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Created)
-    }
-
-    pub(crate) fn dead(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Dead)
-    }
-
-    pub(crate) fn exited(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Exited)
-    }
-
-    pub(crate) fn paused(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Paused)
-    }
-
-    pub(crate) fn removing(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Removing)
-    }
-
-    pub(crate) fn running(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Running)
-    }
-
-    pub(crate) fn stopped(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Stopped)
-    }
-
-    pub(crate) fn stopping(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Stopping)
-    }
-
-    pub(crate) fn num_containers_of_status(&self, status: model::ContainerStatus) -> u32 {
-        self.imp()
-            .0
-            .borrow()
-            .values()
-            .filter_map(glib::WeakRef::upgrade)
-            .filter(|container| container.status() == status)
-            .count() as u32
     }
 }

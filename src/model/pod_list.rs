@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::marker::PhantomData;
 use std::sync::OnceLock;
 
 use gio::prelude::*;
@@ -24,14 +25,32 @@ mod imp {
     #[properties(wrapper_type = super::PodList)]
     pub(crate) struct PodList {
         pub(super) list: RefCell<IndexMap<String, model::Pod>>,
+
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
+
+        #[property(get = |imp: &Self| imp.initialized.get().is_some(), type = bool)]
+        pub(super) initialized: OnceCell<()>,
         #[property(get)]
         pub(super) listing: Cell<bool>,
-        #[property(get = Self::is_initialized, type = bool)]
-        pub(super) initialized: OnceCell<()>,
         #[property(get, set)]
         pub(super) selection_mode: Cell<bool>,
+
+        #[property(get = |imp: &Self| imp.num_pods_of_status(model::PodStatus::Degraded))]
+        _degraded: PhantomData<u32>,
+        #[property(get = Self::n_items)]
+        _len: PhantomData<u32>,
+        #[property(get = |imp: &Self| {
+            let obj = imp.obj();
+            obj.len() - obj.running() - obj.paused() - obj.degraded()
+        })]
+        _not_running: PhantomData<u32>,
+        #[property(get = |imp: &Self| SelectableListExt::num_selected(&*imp.obj()))]
+        _num_selected: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_pods_of_status(model::PodStatus::Paused))]
+        _paused: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_pods_of_status(model::PodStatus::Running))]
+        _running: PhantomData<u32>,
     }
 
     #[glib::object_subclass]
@@ -57,25 +76,7 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(vec![
-                        glib::ParamSpecUInt::builder("len").read_only().build(),
-                        glib::ParamSpecUInt::builder("degraded").read_only().build(),
-                        glib::ParamSpecUInt::builder("not-running")
-                            .read_only()
-                            .build(),
-                        glib::ParamSpecUInt::builder("paused").read_only().build(),
-                        glib::ParamSpecUInt::builder("running").read_only().build(),
-                        glib::ParamSpecUInt::builder("num-selected")
-                            .read_only()
-                            .build(),
-                    ])
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
@@ -83,16 +84,9 @@ mod imp {
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "len" => self.obj().len().to_value(),
-                "degraded" => self.obj().degraded().to_value(),
-                "not-running" => self.obj().not_running().to_value(),
-                "paused" => self.obj().paused().to_value(),
-                "running" => self.obj().running().to_value(),
-                "num-selected" => self.obj().num_selected().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
+
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
@@ -130,16 +124,18 @@ mod imp {
     }
 
     impl PodList {
-        pub(super) fn is_initialized(&self) -> bool {
-            self.initialized.get().is_some()
+        fn num_pods_of_status(&self, status: model::PodStatus) -> u32 {
+            self.list
+                .borrow()
+                .values()
+                .filter(|pod| pod.status() == status)
+                .count() as u32
         }
 
         pub(super) fn set_as_initialized(&self) {
-            if self.is_initialized() {
-                return;
+            if self.initialized.set(()).is_ok() {
+                self.obj().notify_initialized();
             }
-            self.initialized.set(()).unwrap();
-            self.obj().notify_initialized();
         }
 
         pub(super) fn set_listing(&self, value: bool) {
@@ -170,35 +166,6 @@ impl PodList {
         self.notify("not-running");
         self.notify("paused");
         self.notify("running");
-    }
-
-    pub(crate) fn len(&self) -> u32 {
-        self.n_items()
-    }
-
-    pub(crate) fn degraded(&self) -> u32 {
-        self.num_pods_of_status(model::PodStatus::Degraded)
-    }
-
-    pub(crate) fn not_running(&self) -> u32 {
-        self.len() - self.running() - self.paused() - self.degraded()
-    }
-
-    pub(crate) fn paused(&self) -> u32 {
-        self.num_pods_of_status(model::PodStatus::Paused)
-    }
-
-    pub(crate) fn running(&self) -> u32 {
-        self.num_pods_of_status(model::PodStatus::Running)
-    }
-
-    pub(crate) fn num_pods_of_status(&self, status: model::PodStatus) -> u32 {
-        self.imp()
-            .list
-            .borrow()
-            .values()
-            .filter(|pod| pod.status() == status)
-            .count() as u32
     }
 
     pub(crate) fn upsert_pod(&self, dto: engine::dto::Pod) {

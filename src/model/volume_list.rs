@@ -2,6 +2,7 @@ use std::borrow::Borrow;
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::marker::PhantomData;
 use std::sync::OnceLock;
 
 use gio::prelude::*;
@@ -25,16 +26,33 @@ mod imp {
     #[properties(wrapper_type = super::VolumeList)]
     pub(crate) struct VolumeList {
         pub(super) list: RefCell<IndexMap<String, model::Volume>>,
-        #[property(get, set)]
-        pub(super) test: Cell<u32>,
+
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
+
+        #[property(get = |imp: &Self| imp.initialized.get().is_some(), type = bool)]
+        pub(super) initialized: OnceCell<()>,
         #[property(get)]
         pub(super) listing: Cell<bool>,
-        #[property(get = Self::is_initialized, type = bool)]
-        pub(super) initialized: OnceCell<()>,
         #[property(get, set)]
         pub(super) selection_mode: Cell<bool>,
+        #[property(get, set)]
+        pub(super) test: Cell<u32>,
+
+        #[property(get = Self::n_items)]
+        _len: PhantomData<u32>,
+        #[property(get = |imp: &Self| SelectableListExt::num_selected(&*imp.obj()))]
+        _num_selected: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.n_items() - imp.obj().used())]
+        _unused: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp
+            .list
+            .borrow()
+            .values()
+            .filter(|volume| volume.container_list().n_items() > 0)
+            .count() as u32
+        )]
+        _used: PhantomData<u32>,
     }
 
     #[glib::object_subclass]
@@ -62,21 +80,7 @@ mod imp {
             })
         }
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(vec![
-                        glib::ParamSpecUInt::builder("len").read_only().build(),
-                        glib::ParamSpecUInt::builder("unused").read_only().build(),
-                        glib::ParamSpecUInt::builder("used").read_only().build(),
-                        glib::ParamSpecUInt::builder("num-selected")
-                            .read_only()
-                            .build(),
-                    ])
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
@@ -84,14 +88,9 @@ mod imp {
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "len" => self.obj().len().to_value(),
-                "unused" => self.obj().unused().to_value(),
-                "used" => self.obj().used().to_value(),
-                "num-selected" => self.obj().num_selected().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
+
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
@@ -124,16 +123,10 @@ mod imp {
     }
 
     impl VolumeList {
-        pub(super) fn is_initialized(&self) -> bool {
-            self.initialized.get().is_some()
-        }
-
         pub(super) fn set_as_initialized(&self) {
-            if self.is_initialized() {
-                return;
+            if self.initialized.set(()).is_ok() {
+                self.obj().notify("initialized");
             }
-            self.initialized.set(()).unwrap();
-            self.obj().notify("initialized");
         }
 
         pub(super) fn set_listing(&self, value: bool) {
@@ -162,23 +155,6 @@ impl VolumeList {
     pub(crate) fn notify_num_volumes(&self) {
         self.notify("unused");
         self.notify("used");
-    }
-
-    pub(crate) fn len(&self) -> u32 {
-        self.n_items()
-    }
-
-    pub(crate) fn unused(&self) -> u32 {
-        self.len() - self.used()
-    }
-
-    pub(crate) fn used(&self) -> u32 {
-        self.imp()
-            .list
-            .borrow()
-            .values()
-            .filter(|volume| volume.container_list().n_items() > 0)
-            .count() as u32
     }
 
     fn add_volume(&self, inspection: engine::dto::Volume) {

@@ -1,7 +1,7 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
-use std::sync::OnceLock;
+use std::marker::PhantomData;
 
 use gio::prelude::*;
 use gio::subclass::prelude::*;
@@ -23,14 +23,47 @@ mod imp {
     #[properties(wrapper_type = super::ContainerList)]
     pub(crate) struct ContainerList {
         pub(super) list: RefCell<IndexMap<String, model::Container>>,
+
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
+
+        #[property(get = |imp: &Self| imp.initialized.get().is_some(), type = bool)]
+        pub(super) initialized: OnceCell<()>,
         #[property(get)]
         pub(super) listing: Cell<bool>,
-        #[property(get = Self::is_initialized, type = bool)]
-        pub(super) initialized: OnceCell<()>,
         #[property(get, set)]
         pub(super) selection_mode: Cell<bool>,
+
+        #[property(get = |imp: &Self| imp
+            .list
+            .borrow()
+            .values()
+            .filter(|container| !container.is_infra())
+            .count() as u32
+        )]
+        _containers: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Created))]
+        _created: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Dead))]
+        _dead: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Exited))]
+        _exited: PhantomData<u32>,
+        #[property(get = Self::n_items)]
+        _len: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.obj().containers() - imp.obj().running())]
+        _not_running: PhantomData<u32>,
+        #[property(get = |imp: &Self| model::SelectableListExt::num_selected(&*imp.obj()))]
+        _num_selected: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Paused))]
+        _paused: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Removing))]
+        _removing: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Running))]
+        _running: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Stopped))]
+        _stopped: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.num_containers_of_status(model::ContainerStatus::Stopping))]
+        _stopping: PhantomData<u32>,
     }
 
     #[glib::object_subclass]
@@ -46,33 +79,7 @@ mod imp {
 
     impl ObjectImpl for ContainerList {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(vec![
-                        glib::ParamSpecUInt::builder("len").read_only().build(),
-                        glib::ParamSpecUInt::builder("containers")
-                            .read_only()
-                            .build(),
-                        glib::ParamSpecUInt::builder("created").read_only().build(),
-                        glib::ParamSpecUInt::builder("dead").read_only().build(),
-                        glib::ParamSpecUInt::builder("exited").read_only().build(),
-                        glib::ParamSpecUInt::builder("not-running")
-                            .read_only()
-                            .build(),
-                        glib::ParamSpecUInt::builder("paused").read_only().build(),
-                        glib::ParamSpecUInt::builder("removing").read_only().build(),
-                        glib::ParamSpecUInt::builder("running").read_only().build(),
-                        glib::ParamSpecUInt::builder("stopped").read_only().build(),
-                        glib::ParamSpecUInt::builder("stopping").read_only().build(),
-                        glib::ParamSpecUInt::builder("num-selected")
-                            .read_only()
-                            .build(),
-                    ])
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
@@ -80,23 +87,9 @@ mod imp {
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "len" => obj.len().to_value(),
-                "containers" => obj.containers().to_value(),
-                "created" => obj.created().to_value(),
-                "dead" => obj.dead().to_value(),
-                "exited" => obj.exited().to_value(),
-                "not-running" => obj.not_running().to_value(),
-                "paused" => obj.paused().to_value(),
-                "removing" => obj.removing().to_value(),
-                "running" => obj.running().to_value(),
-                "stopped" => obj.stopped().to_value(),
-                "stopping" => obj.stopping().to_value(),
-                "num-selected" => obj.num_selected().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
+
         fn constructed(&self) {
             self.parent_constructed();
 
@@ -159,16 +152,18 @@ mod imp {
     }
 
     impl ContainerList {
-        pub(super) fn is_initialized(&self) -> bool {
-            self.initialized.get().is_some()
+        fn num_containers_of_status(&self, status: model::ContainerStatus) -> u32 {
+            self.list
+                .borrow()
+                .values()
+                .filter(|container| !container.is_infra() && container.status() == status)
+                .count() as u32
         }
 
         pub(super) fn set_as_initialized(&self) {
-            if self.is_initialized() {
-                return;
+            if self.initialized.set(()).is_ok() {
+                self.obj().notify_initialized();
             }
-            self.initialized.set(()).unwrap();
-            self.obj().notify_initialized();
         }
 
         pub(super) fn set_listing(&self, value: bool) {
@@ -194,60 +189,6 @@ impl From<&model::Client> for ContainerList {
 }
 
 impl ContainerList {
-    pub(crate) fn len(&self) -> u32 {
-        self.n_items()
-    }
-
-    pub(crate) fn containers(&self) -> u32 {
-        self.imp()
-            .list
-            .borrow()
-            .values()
-            .filter(|container| !container.is_infra())
-            .count() as u32
-    }
-
-    pub(crate) fn created(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Created)
-    }
-
-    pub(crate) fn dead(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Dead)
-    }
-
-    pub(crate) fn exited(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Exited)
-    }
-
-    pub(crate) fn paused(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Paused)
-    }
-
-    pub(crate) fn removing(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Removing)
-    }
-
-    pub(crate) fn running(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Running)
-    }
-
-    pub(crate) fn stopped(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Stopped)
-    }
-
-    pub(crate) fn stopping(&self) -> u32 {
-        self.num_containers_of_status(model::ContainerStatus::Stopping)
-    }
-
-    pub(crate) fn num_containers_of_status(&self, status: model::ContainerStatus) -> u32 {
-        self.imp()
-            .list
-            .borrow()
-            .values()
-            .filter(|container| !container.is_infra() && container.status() == status)
-            .count() as u32
-    }
-
     fn upsert_container(&self, dto: engine::dto::Container) {
         match self.get_container(dto.id()) {
             Some(container) => container.update(dto),
