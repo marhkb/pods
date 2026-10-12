@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::marker::PhantomData;
 
 use adw::subclass::prelude::*;
 use gio::prelude::*;
@@ -11,8 +12,6 @@ use gtk::glib;
 use crate::utils;
 
 mod imp {
-    use std::marker::PhantomData;
-
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]

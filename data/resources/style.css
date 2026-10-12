@@ -1,11 +1,22 @@
-.padded vte-terminal {
-  margin: 0 0 1px 0;
-  padding: 7px 6px 3px 6px;
-}
+/* Utilities */
 
 .undimmed {
   opacity: 1.0;
 }
+
+.circle {
+  border-radius: 9999px;
+}
+
+.dim-icon {
+  color: alpha(var(--window-fg-color), 0.75);
+}
+
+.text-view {
+  font-size: 0.85em;
+}
+
+/* Lists, rows and containers */
 
 row.combo.pod-disabled image,
 row.combo.pod-disabled label {
@@ -22,6 +33,15 @@ listview.no-outline row {
   outline: none;
 }
 
+list.repo-tags-small {
+  background-color: transparent;
+  margin: 3px 0 0 -2px;
+}
+
+list.repo-tags-small > row {
+  margin: -2px 0;
+}
+
 containercard.not-running {
   background-color: var(--secondary-sidebar-bg-color);
 }
@@ -30,13 +50,12 @@ containercard.not-running {
   background: none;
 }
 
-.circle {
-  border-radius: 9999px;
+.padded vte-terminal {
+  margin: 0 0 1px 0;
+  padding: 7px 6px 3px 6px;
 }
 
-.dim-icon {
-  color: alpha(var(--window-fg-color), 0.75);
-}
+/* Buttons */
 
 entry button {
   margin: 0;
@@ -44,20 +63,21 @@ entry button {
 }
 
 button.medium {
-  padding: 6px;
   -gtk-icon-size: 24px;
+  padding: 6px;
 }
 
 button.large {
-  padding: 9px;
   -gtk-icon-size: 24px;
+  padding: 9px;
 }
-
 
 .destructive-button label,
 .destructive-button image {
   color: var(--destructive-color);
 }
+
+/* Actions button */
 
 actionsbutton .action-count-mask {
   background-color: var(--headerbar-bg-color);
@@ -71,8 +91,8 @@ actionsbutton .action-count-badge {
   font-feature-settings: "tnum";
   font-size: x-small;
   font-weight: bold;
-  margin-top: 1px;
   margin-left: 10px;
+  margin-top: 1px;
   padding: 6px;
 }
 
@@ -89,6 +109,8 @@ actionsbutton.finished .action-count-badge {
 actionsbutton.failed .image-button {
   color: var(--error-color);
 }
+
+/* Connection rows and sidebars */
 
 connectionrow #selection-indicator #background,
 actionssidebar #type {
@@ -123,10 +145,10 @@ connectionchooserpage connectionrow #delete-button {
 }
 
 connectionrow #selection-indicator #checkmark {
-  color: var(--light-1);
-  border-radius: 9999px;
-  border: solid var(--accent-bg-color) 1px;
   background-color: var(--accent-bg-color);
+  border: solid var(--accent-bg-color) 1px;
+  border-radius: 9999px;
+  color: var(--light-1);
 }
 
 connectionrow #selection-indicator .selected-connection {
@@ -135,8 +157,8 @@ connectionrow #selection-indicator .selected-connection {
 
 connectionrow #selection-indicator .unselected-connection,
 actionssidebar #type {
-  padding: 1px;
   border: 1px solid var(--border-color);
+  padding: 1px;
 }
 
 connectionssidebar connectionrow,
@@ -148,44 +170,38 @@ connectionchooserpage connectionrow {
   padding: 6px;
 }
 
+/* Status badges */
+
 .status-badge {
+  border-radius: 9999px;
   font-size: 0.9em;
   font-weight: bold;
   min-width: 1.7em;
-  border-radius: 9999px;
   padding: 5px 7px;
 }
 
 .status-badge-small {
+  border-radius: 9999px;
+  font-feature-settings: "tnum";
   font-size: small;
   font-weight: bold;
-  font-feature-settings: "tnum";
-  border-radius: 9999px;
   padding: 1px 4px 0 5px;
 }
 
 .status-badge-normal {
+  border-radius: 9999px;
   font-weight: bold;
   min-width: 1.7em;
-  border-radius: 9999px;
   padding: 5px 7px;
 }
 
-list.repo-tags-small {
-  background-color: transparent;
-  margin: 3px 0 0 -2px;
-}
-
-list.repo-tags-small > row {
-  margin: -2px 0;
-}
+/* Status colors */
 
 .version,
 .container-health-status-not-running,
 .container-status-not-running,
 .image-unused,
 .pod-status-not-running,
-.volume-unused,
 .volume-unused,
 .rich-expander-row-header #badge {
   background-color: var(--dark-1);
@@ -222,15 +238,19 @@ list.repo-tags-small > row {
   color: oklab(from var(--accent-red) var(--standalone-color-oklab));
 }
 
+/* Rich expander row */
+
 .rich-expander-row-header {
   color: alpha(var(--window-fg-color), 0.75);
 }
 
 .rich-expander-row-header #badge {
   border-radius: 6px;
-  padding: 1px 4px;
   font-weight: bold;
+  padding: 1px 4px;
 }
+
+/* Progress bars */
 
 progressbar.success progress {
   background-color: var(--success-bg-color);
@@ -244,18 +264,18 @@ progressbar.error progress {
   background-color: var(--error-bg-color);
 }
 
-.text-view {
-  font-size: 0.85em;
-}
+/* Stars */
 
 .star > count {
-  font-size: 0.85em;
   font-feature-settings: "tnum";
+  font-size: 0.85em;
 }
 
 .star > icon {
   color: var(--yellow-3);
 }
+
+/* Dark */
 
 @media (prefers-color-scheme: dark) {
   containercard separator {
@@ -274,10 +294,12 @@ progressbar.error progress {
   .pod-status-not-running,
   .volume-unused,
   .rich-expander-row-header #badge {
-    color: var(--dark-3);
     background-color: var(--light-5);
+    color: var(--dark-3);
   }
 }
+
+/* High contrast */
 
 @media (prefers-contrast: more) {
   containercard.not-running {
@@ -318,10 +340,12 @@ progressbar.error progress {
   }
 
   .container-health-status-healthy {
-    color: var(--accent-fg-color);
     background-color: var(--accent-green);
+    color: var(--accent-fg-color);
   }
 }
+
+/* Dark and high contrast */
 
 @media (prefers-color-scheme: dark) and (prefers-contrast: more) {
   containercard separator {

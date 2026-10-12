@@ -1,7 +1,9 @@
-use std::sync::OnceLock;
+use std::cell::Cell;
+use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
@@ -12,9 +14,19 @@ const LAYOUT_SPACING: i32 = 6;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::TextSearchEntry)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/text_search_entry.ui")]
     pub(crate) struct TextSearchEntry {
+        #[property(get, set)]
+        pub(super) case_sensitive: Cell<bool>,
+        #[property(get, set)]
+        pub(super) info: RefCell<String>,
+        #[property(get, set)]
+        pub(super) regex: Cell<bool>,
+        #[property(get, set)]
+        pub(super) whole_word: Cell<bool>,
+
         #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
         #[template_child]
@@ -23,12 +35,6 @@ mod imp {
         pub(super) info_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) options_box: TemplateChild<gtk::Box>,
-        #[template_child]
-        pub(super) regex_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) case_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
-        pub(super) word_button: TemplateChild<gtk::ToggleButton>,
     }
 
     #[glib::object_subclass]
@@ -53,59 +59,37 @@ mod imp {
 
     impl ObjectImpl for TextSearchEntry {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                vec![
-                    glib::ParamSpecString::builder("info")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("regex")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("case-sensitive")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecBoolean::builder("whole-word")
-                        .explicit_notify()
-                        .build(),
-                ]
-            })
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "info" => obj.set_info(value.get().unwrap()),
-                "regex" => obj.set_regex(value.get().unwrap()),
-                "case-sensitive" => obj.set_case_sensitive(value.get().unwrap()),
-                "whole-word" => obj.set_whole_word(value.get().unwrap()),
-                property => self.text.set_property_from_value(property, value),
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            if id <= Self::derived_properties().len() {
+                self.derived_set_property(id, value, pspec);
+            } else {
+                self.delegate_set_property(id, value, pspec);
             }
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "info" => obj.info().to_value(),
-                "regex" => obj.is_regex().to_value(),
-                "case-sensitive" => obj.is_case_sensitive().to_value(),
-                "whole-word" => obj.is_whole_word().to_value(),
-                property => self.text.property_value(property),
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            if id <= Self::derived_properties().len() {
+                self.derived_property(id, pspec)
+            } else {
+                self.delegate_get_property(id, pspec).unwrap()
             }
         }
 
         fn constructed(&self) {
             self.parent_constructed();
 
+            let obj = &*self.obj();
+
             let settings = utils::PodsSettings::default();
+            settings.bind("search-regex", obj, "regex").build();
             settings
-                .bind("search-regex", &self.regex_button.get(), "active")
+                .bind("search-case-sensitive", obj, "case-sensitive")
                 .build();
             settings
-                .bind("search-case-sensitive", &self.case_button.get(), "active")
-                .build();
-            settings
-                .bind("search-whole-word", &self.word_button.get(), "active")
+                .bind("search-whole-word", obj, "whole-word")
                 .build();
         }
 
@@ -194,26 +178,6 @@ mod imp {
                 obj.notify(pspec.name());
             }
         }
-
-        #[template_callback]
-        fn on_info_label_notify_label(&self) {
-            self.obj().notify("info");
-        }
-
-        #[template_callback]
-        fn on_regex_button_notify_active(&self) {
-            self.obj().notify("regex");
-        }
-
-        #[template_callback]
-        fn on_case_button_notify_active(&self) {
-            self.obj().notify("case-sensitive");
-        }
-
-        #[template_callback]
-        fn on_word_button_notify_active(&self) {
-            self.obj().notify("whole-word");
-        }
     }
 }
 
@@ -221,41 +185,4 @@ glib::wrapper! {
     pub(crate) struct TextSearchEntry(ObjectSubclass<imp::TextSearchEntry>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Editable;
-}
-
-impl TextSearchEntry {
-    pub(crate) fn info(&self) -> glib::GString {
-        self.imp().info_label.label()
-    }
-
-    pub(crate) fn set_info(&self, value: &str) {
-        if self.info().as_str() == value {
-            return;
-        }
-        self.imp().info_label.set_label(value);
-    }
-
-    pub(crate) fn is_regex(&self) -> bool {
-        self.imp().regex_button.is_active()
-    }
-
-    pub(crate) fn set_regex(&self, value: bool) {
-        self.imp().regex_button.set_active(value);
-    }
-
-    pub(crate) fn is_case_sensitive(&self) -> bool {
-        self.imp().case_button.is_active()
-    }
-
-    pub(crate) fn set_case_sensitive(&self, value: bool) {
-        self.imp().case_button.set_active(value);
-    }
-
-    pub(crate) fn is_whole_word(&self) -> bool {
-        self.imp().word_button.is_active()
-    }
-
-    pub(crate) fn set_whole_word(&self, value: bool) {
-        self.imp().word_button.set_active(value);
-    }
 }

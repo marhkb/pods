@@ -1,5 +1,5 @@
 use std::cell::Cell;
-use std::sync::OnceLock;
+use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -18,8 +18,11 @@ mod imp {
     #[properties(wrapper_type = super::CountBadge)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/count_badge.ui")]
     pub(crate) struct CountBadge {
+        #[property(get, set, nullable)]
+        pub(super) child: RefCell<Option<gtk::Widget>>,
         #[property(get, set = Self::set_count, explicit_notify)]
         pub(super) count: Cell<u32>,
+
         #[template_child]
         pub(super) child_bin: TemplateChild<adw::Bin>,
         #[template_child]
@@ -38,7 +41,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             Self::bind_template(klass);
-            Self::bind_template_callbacks(klass);
             klass.set_css_name("countbadge");
         }
 
@@ -49,35 +51,17 @@ mod imp {
 
     impl ObjectImpl for CountBadge {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(Some(
-                        glib::ParamSpecObject::builder::<gtk::Widget>("child")
-                            .flags(glib::ParamFlags::READWRITE | glib::ParamFlags::EXPLICIT_NOTIFY)
-                            .build(),
-                    ))
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "child" => obj.set_child(value.get().unwrap_or_default()),
-                _ => self.derived_set_property(id, value, pspec),
-            }
+            self.derived_set_property(id, value, pspec);
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "child" => obj.child().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
+
         fn constructed(&self) {
             self.parent_constructed();
 
@@ -123,13 +107,7 @@ mod imp {
         }
     }
 
-    #[gtk::template_callbacks]
     impl CountBadge {
-        #[template_callback]
-        fn on_child_bin_notify_child(&self) {
-            self.obj().notify("child");
-        }
-
         fn set_count(&self, value: u32) {
             let obj = &*self.obj();
 
@@ -153,17 +131,4 @@ glib::wrapper! {
     pub(crate) struct CountBadge(ObjectSubclass<imp::CountBadge>)
         @extends gtk::Widget,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
-}
-
-impl CountBadge {
-    pub(crate) fn child(&self) -> Option<gtk::Widget> {
-        self.imp().child_bin.child()
-    }
-
-    pub(crate) fn set_child(&self, value: Option<&gtk::Widget>) {
-        if self.child().as_ref() == value {
-            return;
-        }
-        self.imp().child_bin.set_child(value);
-    }
 }

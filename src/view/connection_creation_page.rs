@@ -52,8 +52,6 @@ mod imp {
         #[template_child]
         pub(super) podman_socket_url_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) docker_unix_socket_radio_button: TemplateChild<gtk::CheckButton>,
-        #[template_child]
         pub(super) docker_socket_activation_command_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) custom_url_radio_button: TemplateChild<gtk::CheckButton>,

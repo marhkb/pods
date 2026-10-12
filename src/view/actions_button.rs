@@ -1,4 +1,4 @@
-use std::sync::OnceLock;
+use std::marker::PhantomData;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
@@ -19,10 +19,20 @@ mod imp {
     pub(crate) struct ActionsButton {
         #[property(get, set)]
         pub(super) action_list: glib::WeakRef<model::ActionList>,
+
+        #[property(get = Self::action_name, set = Self::set_action_name, explicit_notify, nullable)]
+        _action_name: PhantomData<Option<glib::GString>>,
+        #[property(
+            get = Self::action_target_value,
+            set = Self::set_action_target,
+            explicit_notify,
+            nullable,
+            builder(glib::VariantTy::ANY)
+        )]
+        _action_target: PhantomData<Option<glib::Variant>>,
+
         #[template_child]
         pub(super) button: TemplateChild<gtk::Button>,
-        #[template_child]
-        pub(super) image: TemplateChild<gtk::Image>,
     }
 
     #[glib::object_subclass]
@@ -44,39 +54,15 @@ mod imp {
 
     impl ObjectImpl for ActionsButton {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(vec![
-                        glib::ParamSpecString::builder("action-name")
-                            .explicit_notify()
-                            .build(),
-                        glib::ParamSpecVariant::builder("action-target", glib::VariantTy::ANY)
-                            .explicit_notify()
-                            .build(),
-                    ])
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "action-name" => self.set_action_name(value.get().unwrap()),
-                "action-target" => self.set_action_target_value(
-                    value.get::<Option<glib::Variant>>().unwrap().as_ref(),
-                ),
-                _ => self.derived_set_property(id, value, pspec),
-            }
+            self.derived_set_property(id, value, pspec);
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "action-name" => self.action_name().to_value(),
-                "action-target" => self.action_name().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -111,6 +97,12 @@ mod imp {
     }
 
     impl WidgetImpl for ActionsButton {}
+
+    impl ActionsButton {
+        fn set_action_target(&self, value: Option<glib::Variant>) {
+            self.set_action_target_value(value.as_ref());
+        }
+    }
 
     impl ActionableImpl for ActionsButton {
         fn action_name(&self) -> Option<glib::GString> {

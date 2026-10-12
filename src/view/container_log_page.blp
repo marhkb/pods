@@ -32,7 +32,7 @@ $PdsZoomControl zoom_control {
 
 $GtkSourceGutterRendererText timestamps_renderer {
   query-data => $on_timestamps_renderer_query_data() swapped;
-  notify::visible => $on_timestamps_renderer_notify_visible() swapped;
+  visible: bind template.show-timestamps bidirectional;
   margin-end: "6";
 }
 
@@ -49,7 +49,7 @@ template $PdsContainerLogPage: Widget {
     [top]
     Adw.HeaderBar {
       [start]
-      ToggleButton search_button {
+      ToggleButton {
         active: bind search_bar.search-mode-enabled bidirectional;
         icon-name: "system-search-symbolic";
         tooltip-text: _("Search");

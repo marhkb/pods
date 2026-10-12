@@ -39,8 +39,6 @@ mod imp {
         _produces_artifact: PhantomData<bool>,
 
         #[template_child]
-        pub(super) header_bar: TemplateChild<adw::HeaderBar>,
-        #[template_child]
         pub(super) state_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) time_label: TemplateChild<gtk::Label>,

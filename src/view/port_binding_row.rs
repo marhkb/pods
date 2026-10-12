@@ -35,8 +35,6 @@ mod imp {
         pub(super) host_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) container_port_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) open_link_button: TemplateChild<gtk::Button>,
     }
 
     #[glib::object_subclass]

@@ -162,34 +162,30 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
                       margin-end: 12;
                       margin-start: 12;
                       margin-top: 18;
-                      spacing: 36;
+                      spacing: 6;
+                      valign: center;
 
-                      Box {
-                        spacing: 6;
+                      SpinButton {
+                        adjustment: Adjustment mem_value {
+                          lower: 0;
+                          upper: 2147483647;
+                          value: 512;
+                          page-increment: 32;
+                          step-increment: 1;
+                        };
+                      }
+
+                      DropDown mem_drop_down {
+                        model: StringList {
+                          strings [
+                            _("KB"),
+                            _("MB"),
+                            _("GB"),
+                          ]
+                        };
+
+                        selected: 1;
                         valign: center;
-
-                        SpinButton {
-                          adjustment: Adjustment mem_value {
-                            lower: 0;
-                            upper: 2147483647;
-                            value: 512;
-                            page-increment: 32;
-                            step-increment: 1;
-                          };
-                        }
-
-                        DropDown mem_drop_down {
-                          model: StringList {
-                            strings [
-                              _("KB"),
-                              _("MB"),
-                              _("GB"),
-                            ]
-                          };
-
-                          selected: 1;
-                          valign: center;
-                        }
                       }
                     }
                   }

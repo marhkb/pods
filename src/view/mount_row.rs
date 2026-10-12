@@ -12,7 +12,6 @@ use gtk::glib;
 use crate::model;
 use crate::utils;
 use crate::view;
-use crate::widget;
 
 const ACTION_REMOVE: &str = "mount-row.remove";
 
@@ -34,8 +33,6 @@ mod imp {
         pub(super) container_path_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub(super) options_label: TemplateChild<gtk::Label>,
-        #[template_child]
-        pub(super) mount_type_row: TemplateChild<widget::PropertyWidgetRow>,
         #[template_child]
         pub(super) mount_button: TemplateChild<gtk::ToggleButton>,
         #[template_child]

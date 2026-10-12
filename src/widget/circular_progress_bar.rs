@@ -1,16 +1,16 @@
 use std::cell::Cell;
+use std::cell::RefCell;
 use std::f64;
-use std::sync::OnceLock;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::graphene;
 use gtk::gsk;
-use gtk::prelude::ParamSpecBuilderExt;
 
 use crate::utils;
 
@@ -20,10 +20,15 @@ const BORDER_WIDTH: i32 = 6;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::CircularProgressBar)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/circular_progress_bar.ui")]
     pub(crate) struct CircularProgressBar {
+        #[property(get, set, nullable)]
+        pub(super) icon_name: RefCell<Option<String>>,
+        #[property(get, set = Self::set_percentage, maximum = 1.0, explicit_notify)]
         pub(super) percentage: Cell<f64>,
+
         #[template_child]
         pub(super) image: TemplateChild<gtk::Image>,
     }
@@ -36,7 +41,6 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -46,36 +50,15 @@ mod imp {
 
     impl ObjectImpl for CircularProgressBar {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                vec![
-                    glib::ParamSpecDouble::builder("percentage")
-                        .maximum(1.0)
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("icon-name")
-                        .explicit_notify()
-                        .build(),
-                ]
-            })
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "percentage" => obj.set_percentage(value.get().unwrap()),
-                "icon-name" => obj.set_icon_name(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "percentage" => obj.percentage().to_value(),
-                "icon-name" => obj.icon_name().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -240,11 +223,17 @@ mod imp {
         }
     }
 
-    #[gtk::template_callbacks]
     impl CircularProgressBar {
-        #[template_callback]
-        fn on_image_notify_icon_name(&self) {
-            self.obj().notify("icon-name");
+        fn set_percentage(&self, value: f64) {
+            let obj = &*self.obj();
+
+            let value = (value.clamp(0.0, 1.0) * 100.0).round() / 100.0;
+
+            if obj.percentage() != value {
+                self.percentage.set(value);
+                obj.queue_draw();
+                obj.notify_percentage();
+            }
         }
     }
 }
@@ -258,29 +247,5 @@ glib::wrapper! {
 impl Default for CircularProgressBar {
     fn default() -> Self {
         glib::Object::new()
-    }
-}
-
-impl CircularProgressBar {
-    pub(crate) fn percentage(&self) -> f64 {
-        self.imp().percentage.get()
-    }
-
-    pub(crate) fn set_percentage(&self, value: f64) {
-        let value = (value.clamp(0.0, 1.0) * 100.0).round() / 100.0;
-
-        if self.percentage() != value {
-            self.imp().percentage.set(value);
-            self.queue_draw();
-            self.notify("percentage");
-        }
-    }
-
-    pub(crate) fn icon_name(&self) -> Option<glib::GString> {
-        self.imp().image.icon_name()
-    }
-
-    pub(crate) fn set_icon_name(&self, value: Option<&str>) {
-        self.imp().image.set_icon_name(value);
     }
 }

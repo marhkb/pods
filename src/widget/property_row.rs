@@ -1,7 +1,9 @@
-use std::sync::OnceLock;
+use std::cell::RefCell;
+use std::marker::PhantomData;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::pango;
@@ -9,9 +11,29 @@ use gtk::pango;
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::PropertyRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/widget/property_row.ui")]
     pub(crate) struct PropertyRow {
+        #[property(
+            get,
+            set = |imp: &Self, key: Option<String>| { imp.key.replace(key.unwrap_or_default()); }
+        )]
+        pub(super) key: RefCell<String>,
+        #[property(
+            get,
+            set = |imp: &Self, value: Option<String>| { imp.value.replace(value.unwrap_or_default()); }
+        )]
+        pub(super) value: RefCell<String>,
+
+        #[property(
+            get = |imp: &Self| imp.value_label.wrap_mode(),
+            set = Self::set_value_wrap_mode,
+            explicit_notify,
+            builder(pango::WrapMode::Word)
+        )]
+        _value_wrap_mode: PhantomData<pango::WrapMode>,
+
         #[template_child]
         pub(super) value_label: TemplateChild<gtk::Label>,
     }
@@ -34,43 +56,15 @@ mod imp {
 
     impl ObjectImpl for PropertyRow {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                vec![
-                    glib::ParamSpecString::builder("key")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecString::builder("value")
-                        .explicit_notify()
-                        .build(),
-                    glib::ParamSpecEnum::builder_with_default::<pango::WrapMode>(
-                        "value-wrap-mode",
-                        pango::WrapMode::Word,
-                    )
-                    .explicit_notify()
-                    .build(),
-                ]
-            })
+            Self::derived_properties()
         }
 
-        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "key" => obj.set_key(value.get().unwrap_or_default()),
-                "value" => obj.set_value(value.get().unwrap_or_default()),
-                "value-wrap-mode" => obj.set_value_wrap_mode(value.get().unwrap()),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            let obj = &*self.obj();
-            match pspec.name() {
-                "key" => obj.key().to_value(),
-                "value" => obj.value().to_value(),
-                "value-wrap-mode" => obj.value_wrap_mode().to_value(),
-                _ => unimplemented!(),
-            }
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
     }
 
@@ -82,18 +76,15 @@ mod imp {
     #[gtk::template_callbacks]
     impl PropertyRow {
         #[template_callback]
-        fn on_notify_title(&self) {
-            self.obj().notify("key");
+        fn on_value_label_notify_wrap_mode(&self) {
+            self.obj().notify_value_wrap_mode();
         }
 
-        #[template_callback]
-        fn on_notify_label(&self) {
-            self.obj().notify("value");
-        }
-
-        #[template_callback]
-        fn on_notify_wrap_mode(&self) {
-            self.obj().notify("value-wrap-mode");
+        fn set_value_wrap_mode(&self, mode: pango::WrapMode) {
+            if mode == self.value_label.wrap_mode() {
+                return;
+            }
+            self.value_label.set_wrap_mode(mode);
         }
     }
 }
@@ -116,39 +107,5 @@ impl PropertyRow {
             .property("key", key)
             .property("value", value)
             .build()
-    }
-
-    pub(crate) fn key(&self) -> glib::GString {
-        self.title()
-    }
-
-    pub(crate) fn set_key(&self, key: &str) {
-        if key == self.key().as_str() {
-            return;
-        }
-        self.set_title(key);
-    }
-
-    pub(crate) fn value(&self) -> glib::GString {
-        self.imp().value_label.label()
-    }
-
-    pub(crate) fn set_value(&self, value: &str) {
-        self.style_context().color();
-        if value == self.value().as_str() {
-            return;
-        }
-        self.imp().value_label.set_label(value);
-    }
-
-    pub(crate) fn value_wrap_mode(&self) -> pango::WrapMode {
-        self.imp().value_label.wrap_mode()
-    }
-
-    pub(crate) fn set_value_wrap_mode(&self, mode: pango::WrapMode) {
-        if mode == self.value_wrap_mode() {
-            return;
-        }
-        self.imp().value_label.set_wrap_mode(mode);
     }
 }

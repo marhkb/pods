@@ -2,10 +2,10 @@ using Gtk 4.0;
 using Adw 1;
 
 template $PdsPropertyWidgetRow: Adw.ActionRow {
-  notify::title => $on_notify_title() swapped;
+  title: bind template.key bidirectional;
   activatable: false;
 
-  Adw.Bin bin {
-    notify::child => $on_bin_notify_child() swapped;
+  Adw.Bin {
+    child: bind template.widget bidirectional;
   }
 }

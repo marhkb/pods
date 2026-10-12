@@ -26,6 +26,7 @@ mod imp {
     pub(crate) struct ContainerHealthCheckPage {
         #[property(get, set = Self::set_container, construct_only, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
+
         #[template_child]
         pub(super) status_label: TemplateChild<gtk::Label>,
         #[template_child]
@@ -36,8 +37,6 @@ mod imp {
         pub(super) retries_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
         pub(super) timeout_row: TemplateChild<widget::PropertyRow>,
-        #[template_child]
-        pub(super) failing_streak_row: TemplateChild<widget::PropertyRow>,
         #[template_child]
         pub(super) log_list_box: TemplateChild<gtk::ListBox>,
     }
@@ -184,14 +183,14 @@ mod imp {
 
                 if let Some(config) = container_details.health_config() {
                     self.command_row.set_value(
-                        &config
+                        config
                             .test
                             .as_ref()
                             .map(|s| s.join(" "))
                             .unwrap_or_default(),
                     );
                     self.interval_row.set_value(
-                        &config
+                        config
                             .interval
                             .map(|nanos| {
                                 let secs = nanos / 1000000000;
@@ -200,14 +199,14 @@ mod imp {
                             .unwrap_or_default(),
                     );
                     self.retries_row.set_value(
-                        &config
+                        config
                             .retries
                             .as_ref()
                             .map(ToString::to_string)
                             .unwrap_or_default(),
                     );
                     self.timeout_row.set_value(
-                        &config
+                        config
                             .timeout
                             .map(|nanos| {
                                 let secs = nanos / 1000000000;

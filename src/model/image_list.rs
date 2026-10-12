@@ -1,6 +1,7 @@
 use std::cell::Cell;
 use std::cell::OnceCell;
 use std::cell::RefCell;
+use std::marker::PhantomData;
 use std::sync::OnceLock;
 
 use gio::prelude::*;
@@ -28,12 +29,27 @@ mod imp {
         #[property(get, set, construct_only, nullable)]
         pub(super) client: glib::WeakRef<model::Client>,
 
+        #[property(get = |imp: &Self| imp.initialized.get().is_some(), type = bool)]
+        pub(super) initialized: OnceCell<()>,
         #[property(get)]
         pub(super) listing: Cell<bool>,
-        #[property(get = Self::is_initialized, type = bool)]
-        pub(super) initialized: OnceCell<()>,
         #[property(get, set)]
         pub(super) selection_mode: Cell<bool>,
+
+        #[property(get = |imp: &Self| imp
+            .list
+            .borrow()
+            .values()
+            .filter(|image| image.repo_tags().n_items() == 0)
+            .count() as u32
+        )]
+        _intermediates: PhantomData<u32>,
+        #[property(get = Self::n_items)]
+        _len: PhantomData<u32>,
+        #[property(get = |imp: &Self| SelectableListExt::num_selected(&*imp.obj()))]
+        _num_selected: PhantomData<u32>,
+        #[property(get = |imp: &Self| imp.n_items() - imp.obj().intermediates())]
+        _used: PhantomData<u32>,
     }
 
     #[glib::object_subclass]
@@ -65,23 +81,7 @@ mod imp {
         }
 
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(vec![
-                        glib::ParamSpecUInt::builder("len").read_only().build(),
-                        glib::ParamSpecUInt::builder("intermediates")
-                            .read_only()
-                            .build(),
-                        glib::ParamSpecUInt::builder("used").read_only().build(),
-                        glib::ParamSpecUInt::builder("num-selected")
-                            .read_only()
-                            .build(),
-                    ])
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
@@ -89,14 +89,9 @@ mod imp {
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "len" => self.obj().len().to_value(),
-                "intermediates" => self.obj().intermediates().to_value(),
-                "used" => self.obj().used().to_value(),
-                "num-selected" => self.obj().num_selected().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
+
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
@@ -126,16 +121,10 @@ mod imp {
     }
 
     impl ImageList {
-        pub(super) fn is_initialized(&self) -> bool {
-            self.initialized.get().is_some()
-        }
-
         pub(super) fn set_as_initialized(&self) {
-            if self.is_initialized() {
-                return;
+            if self.initialized.set(()).is_ok() {
+                self.obj().notify_initialized();
             }
-            self.initialized.set(()).unwrap();
-            self.obj().notify_initialized();
         }
 
         pub(super) fn set_listing(&self, value: bool) {
@@ -170,23 +159,6 @@ impl ImageList {
     pub(crate) fn notify_num_images(&self) {
         self.notify("intermediates");
         self.notify("used");
-    }
-
-    pub(crate) fn len(&self) -> u32 {
-        self.n_items()
-    }
-
-    pub(crate) fn intermediates(&self) -> u32 {
-        self.imp()
-            .list
-            .borrow()
-            .values()
-            .filter(|image| image.repo_tags().n_items() == 0)
-            .count() as u32
-    }
-
-    pub(crate) fn used(&self) -> u32 {
-        self.len() - self.intermediates()
     }
 
     pub(crate) fn total_size(&self) -> u64 {

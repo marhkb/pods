@@ -42,8 +42,6 @@ mod imp {
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
-        pub(super) push_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) tls_verify_switch_row: TemplateChild<adw::SwitchRow>,
         #[template_child]
         pub(super) login_group: TemplateChild<adw::PreferencesGroup>,

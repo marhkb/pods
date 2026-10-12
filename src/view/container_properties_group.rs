@@ -112,13 +112,13 @@ mod imp {
             restart_policy_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, restart_policy: model::ContainerRestartPolicy| {
-                        use model::ContainerRestartPolicy::*;
-
                         match restart_policy {
-                            Always => gettext("Always"),
-                            No => gettext("None"),
-                            OnFailure => gettext("On failure"),
-                            UnlessStopped => gettext("Unless stopped"),
+                            model::ContainerRestartPolicy::Always => gettext("Always"),
+                            model::ContainerRestartPolicy::No => gettext("None"),
+                            model::ContainerRestartPolicy::OnFailure => gettext("On failure"),
+                            model::ContainerRestartPolicy::UnlessStopped => {
+                                gettext("Unless stopped")
+                            }
                         }
                     }
                 ))

@@ -6,7 +6,6 @@ use std::collections::VecDeque;
 use std::io::BufWriter;
 use std::io::Write;
 use std::mem;
-use std::sync::OnceLock;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
 
@@ -61,10 +60,15 @@ mod imp {
         pub(super) fetch_until: OnceCell<String>,
         pub(super) fetch_lines_state: Cell<FetchLinesState>,
         pub(super) fetched_lines: RefCell<VecDeque<Bytes>>,
+
         #[property(get, set, construct, nullable)]
         pub(super) container: glib::WeakRef<model::Container>,
+
+        #[property(get, set)]
+        pub(super) show_timestamps: Cell<bool>,
         #[property(get, set)]
         pub(super) sticky: Cell<bool>,
+
         #[template_child]
         pub(super) zoom_control: TemplateChild<widget::ZoomControl>,
         #[template_child]
@@ -72,11 +76,11 @@ mod imp {
         #[template_child]
         pub(super) menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
-        pub(super) search_button: TemplateChild<gtk::ToggleButton>,
-        #[template_child]
         pub(super) search_bar: TemplateChild<gtk::SearchBar>,
         #[template_child]
         pub(super) search_widget: TemplateChild<widget::SourceViewSearchWidget>,
+        #[template_child]
+        pub(super) banner: TemplateChild<adw::Banner>,
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
@@ -87,8 +91,6 @@ mod imp {
         pub(super) scalable_text_view: TemplateChild<widget::ScalableTextView>,
         #[template_child]
         pub(super) source_buffer: TemplateChild<sourceview5::Buffer>,
-        #[template_child]
-        pub(super) banner: TemplateChild<adw::Banner>,
     }
 
     #[glib::object_subclass]
@@ -179,32 +181,15 @@ mod imp {
 
     impl ObjectImpl for ContainerLogPage {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                Self::derived_properties()
-                    .iter()
-                    .cloned()
-                    .chain(Some(
-                        glib::ParamSpecBoolean::builder("show-timestamps")
-                            .explicit_notify()
-                            .build(),
-                    ))
-                    .collect::<Vec<_>>()
-            })
+            Self::derived_properties()
         }
 
         fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
-            match pspec.name() {
-                "show-timestamps" => self.obj().set_show_timestamps(value.get().unwrap()),
-                _ => self.derived_set_property(id, value, pspec),
-            }
+            self.derived_set_property(id, value, pspec);
         }
 
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "show-timestamps" => self.obj().show_timestamps().to_value(),
-                _ => self.derived_property(id, pspec),
-            }
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -213,11 +198,7 @@ mod imp {
             let obj = &*self.obj();
 
             self.settings
-                .bind(
-                    "show-log-timestamps",
-                    &self.timestamps_renderer.get(),
-                    "visible",
-                )
+                .bind("show-log-timestamps", obj, "show-timestamps")
                 .build();
 
             self.menu_button
@@ -442,11 +423,6 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_timestamps_renderer_notify_visible(&self) {
-            self.obj().notify("show-timestamps");
-        }
-
-        #[template_callback]
         fn on_scroll(
             &self,
             _dx: f64,
@@ -580,18 +556,6 @@ impl From<&model::Container> for ContainerLogPage {
 }
 
 impl ContainerLogPage {
-    pub(crate) fn show_timestamps(&self) -> bool {
-        self.imp().timestamps_renderer.is_visible()
-    }
-
-    pub(crate) fn set_show_timestamps(&self, value: bool) {
-        if self.show_timestamps() == value {
-            return;
-        }
-
-        self.imp().timestamps_renderer.set_visible(value);
-    }
-
     pub(crate) async fn save_to_file(&self) {
         let Some(container) = self.container() else {
             return;

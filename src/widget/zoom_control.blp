@@ -8,7 +8,9 @@ template $PdsZoomControl: Widget {
   margin-start: 6;
   margin-end: 6;
 
-  Button zoom_out_button {
+  Button {
+    action-name: bind template.zoom-out-action-name bidirectional;
+
     styles [
       "circular",
       "flat",
@@ -18,6 +20,8 @@ template $PdsZoomControl: Widget {
   }
 
   Button zoom_normal_button {
+    action-name: bind template.zoom-normal-action-name bidirectional;
+
     styles [
       "flat",
     ]
@@ -26,7 +30,9 @@ template $PdsZoomControl: Widget {
     width-request: 80;
   }
 
-  Button zoom_in_button {
+  Button {
+    action-name: bind template.zoom-in-action-name bidirectional;
+
     styles [
       "circular",
       "flat",

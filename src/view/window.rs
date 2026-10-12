@@ -1,9 +1,8 @@
-use std::sync::OnceLock;
-
 use adw::prelude::*;
 use adw::subclass::prelude::AdwApplicationWindowImpl;
 use adw::subclass::prelude::*;
 use gettextrs::gettext;
+use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
@@ -25,11 +24,15 @@ const ACTION_REMOVE_CONNECTION: &str = "win.remove-connection";
 mod imp {
     use super::*;
 
-    #[derive(Debug, Default, CompositeTemplate)]
+    #[derive(Debug, Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::Window)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/window.ui")]
     pub(crate) struct Window {
         pub(super) settings: utils::PodsSettings,
+
+        #[property(get)]
         pub(super) connection_manager: model::ConnectionManager,
+
         #[template_child]
         pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
@@ -94,23 +97,15 @@ mod imp {
 
     impl ObjectImpl for Window {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
-            PROPERTIES.get_or_init(|| {
-                vec![
-                    glib::ParamSpecObject::builder::<model::ConnectionManager>(
-                        "connection-manager",
-                    )
-                    .read_only()
-                    .build(),
-                ]
-            })
+            Self::derived_properties()
         }
 
-        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
-            match pspec.name() {
-                "connection-manager" => self.obj().connection_manager().to_value(),
-                _ => unimplemented!(),
-            }
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            self.derived_set_property(id, value, pspec);
+        }
+
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            self.derived_property(id, pspec)
         }
 
         fn constructed(&self) {
@@ -269,10 +264,6 @@ impl Window {
             "connection-chooser" => imp.connection_chooser_page.toggle_filter_mode(),
             _ => {}
         }
-    }
-
-    pub(crate) fn connection_manager(&self) -> model::ConnectionManager {
-        self.imp().connection_manager.clone()
     }
 
     pub(crate) fn navigation_view(&self) -> &adw::NavigationView {
