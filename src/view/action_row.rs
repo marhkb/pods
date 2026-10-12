@@ -126,17 +126,17 @@ mod imp {
 
             action_state_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
-                    if state == model::ActionState::Cancelled {
-                        "window-close-symbolic"
+                    if state == model::ActionState::Ongoing {
+                        "media-playback-stop-symbolic"
                     } else {
-                        "cross-symbolic"
+                        "window-close-symbolic"
                     }
                 }))
                 .bind(&*self.action_button, "icon-name", Some(obj));
 
             action_state_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
-                    if state == model::ActionState::Cancelled {
+                    if state == model::ActionState::Ongoing {
                         gettext("Abort")
                     } else {
                         gettext("Remove")
