@@ -32,7 +32,7 @@ $PdsZoomControl zoom_control {
 
 $GtkSourceGutterRendererText timestamps_renderer {
   query-data => $on_timestamps_renderer_query_data() swapped;
-  notify::visible => $on_timestamps_renderer_notify_visible() swapped;
+  visible: bind template.show-timestamps bidirectional;
   margin-end: "6";
 }
 
