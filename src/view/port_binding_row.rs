@@ -113,10 +113,7 @@ mod imp {
                     move || {
                         obj.action_set_enabled(
                             ACTION_OPEN,
-                            is_tcp_expr
-                                .evaluate(Some(&obj))
-                                .map(|v| v.get().unwrap())
-                                .unwrap_or(false),
+                            is_tcp_expr.evaluate_as(Some(&obj)).unwrap_or(false),
                         );
                     }
                 ),

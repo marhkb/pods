@@ -57,6 +57,46 @@ template $PdsVolumeDetailsPage: Widget {
           }
         }
 
+        Adw.ActionRow mountpoint_row {
+          styles [
+            "property",
+          ]
+
+          title: _("Mount Path");
+
+          Button open_mount_path_button {
+            styles [
+              "flat",
+            ]
+
+            action-name: "volume-details-page.open-mount-path";
+            icon-name: "external-link-symbolic";
+            tooltip-text: _("Open in file manager");
+
+            accessibility {
+              label: _("Open mount path in file manager");
+            }
+
+            valign: center;
+          }
+
+          Button {
+            styles [
+              "flat",
+            ]
+
+            action-name: "volume-details-page.copy-mount-path-to-clipboard";
+            icon-name: "edit-copy-symbolic";
+            tooltip-text: _("Copy to clipboard");
+
+            accessibility {
+              label: _("Copy mount path to clipboard");
+            }
+
+            valign: center;
+          }
+        }
+
         Adw.ActionRow driver_row {
           styles [
             "property",
@@ -71,14 +111,6 @@ template $PdsVolumeDetailsPage: Widget {
           ]
 
           title: _("Created");
-        }
-
-        Adw.ActionRow mountpoint_row {
-          styles [
-            "property",
-          ]
-
-          title: _("Mount Path");
         }
       }
 
