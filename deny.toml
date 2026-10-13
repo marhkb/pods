@@ -20,7 +20,6 @@ allow = [
     "GPL-3.0-or-later",
     "ISC",
     "MIT",
-    "MPL-2.0",
     "Unicode-3.0",
     "Zlib",
 ]
