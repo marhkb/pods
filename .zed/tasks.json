@@ -33,6 +33,13 @@
     "save": "all"
   },
   {
+    "label": "flatpak: update po",
+    "command": "./build-aux/devcontainer/update-po.sh",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "save": "all"
+  },
+  {
     "label": "flatpak: open build terminal",
     "command": "./build-aux/devcontainer/open-build-terminal.sh",
     "use_new_terminal": true,

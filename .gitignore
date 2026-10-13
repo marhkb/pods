@@ -9,5 +9,4 @@ src/config.rs
 *.ui~
 .flatpak/
 vendor
-.vscode
 __pycache__/

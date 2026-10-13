@@ -1,0 +1,28 @@
+{
+  "files.watcherExclude": {
+    ".git/objects/**": true,
+    ".git/subtree-cache/**": true,
+    ".hg/store/**": true,
+    "*/.git/objects/**": true,
+    "*/.git/subtree-cache/**": true,
+    "*/.hg/store/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.hg/store/**": true,
+    "**/target/**": true,
+    "**/node_modules/*/**": true,
+    ".flatpak/**": true,
+    "_build/**": true
+  },
+  "rust-analyzer.runnables.extraArgs": ["--target-dir=_build/src"],
+  "rust-analyzer.showUnlinkedFileNotification": false,
+  "rust-analyzer.files.exclude": [
+    ".flatpak",
+    ".flatpak-builder",
+    "_build",
+    "build",
+    "builddir"
+  ],
+  "rust-analyzer.server.path": "${workspaceFolder}/.flatpak/rust-analyzer.sh",
+  "rust-analyzer.runnables.command": "${workspaceFolder}/.flatpak/cargo.sh"
+}
