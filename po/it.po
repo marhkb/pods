@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 17:32+0000\n"
+"POT-Creation-Date: 2026-10-13 18:50+0000\n"
 "PO-Revision-Date: 2023-06-19 10:49+0000\n"
 "Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/pods/main/it/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:119
 #: src/view/client_view.blp:139 src/view/client_view.rs:246
 #: src/view/pods_panel.blp:81 src/view/pods_panel.blp:127
-#: src/view/pods_panel.blp:385 src/view/search_panel.blp:56
+#: src/view/pods_panel.blp:387 src/view/search_panel.blp:56
 msgid "Pods"
 msgstr "Pods"
 
@@ -281,7 +281,7 @@ msgstr "Configurato"
 
 #: src/model/container_status.rs:126 src/model/pod_status.rs:114
 #: src/view/container_properties_group.blp:95
-#: src/view/image_details_page.blp:87 src/view/pod_details_page.blp:228
+#: src/view/image_details_page.blp:91 src/view/pod_details_page.blp:234
 #: src/view/volume_details_page.blp:113
 msgid "Created"
 msgstr "Creato"
@@ -446,16 +446,16 @@ msgstr ""
 msgid "_View"
 msgstr "_Visualizza"
 
-#: src/view/action_dialog.rs:95
+#: src/view/action_dialog.rs:95 src/widget/action_state_indicator.blp:37
 #, fuzzy
 msgid "Cancelled"
 msgstr "Cancella"
 
-#: src/view/action_dialog.rs:96
+#: src/view/action_dialog.rs:96 src/widget/action_state_indicator.blp:54
 msgid "Failed"
 msgstr ""
 
-#: src/view/action_dialog.rs:97
+#: src/view/action_dialog.rs:97 src/widget/action_state_indicator.blp:71
 msgid "Finished"
 msgstr "Completato"
 
@@ -507,129 +507,129 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/view/action_row.rs:141
+#: src/view/action_row.rs:172 src/view/connection_creation_page.blp:66
 msgid "Abort"
 msgstr "Interrompi"
 
-#: src/view/action_row.rs:143 src/view/key_val_row.blp:44
+#: src/view/action_row.rs:174 src/view/key_val_row.blp:44
 #: src/view/key_val_row.blp:47
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: src/view/action_row.rs:209
+#: src/view/action_row.rs:212
 msgid "Failed Pods Action"
 msgstr "Azione pod non riuscita"
 
-#: src/view/action_row.rs:215
+#: src/view/action_row.rs:218
 msgid "Finished Pods Action"
 msgstr "Azione pod terminata"
 
-#: src/view/action_row.rs:285
+#: src/view/action_row.rs:288
 #, rust-format
 msgid "Ongoing ({})"
 msgstr "In corso ({})"
 
-#: src/view/action_row.rs:299
+#: src/view/action_row.rs:302
 #, rust-format
 msgid "Cancelled after {}"
 msgstr "Annullato dopo {}"
 
-#: src/view/action_row.rs:300
+#: src/view/action_row.rs:303
 #, rust-format
 msgid "Failed after {}"
 msgstr "Fallito dopo {}"
 
-#: src/view/action_row.rs:301
+#: src/view/action_row.rs:304
 #, rust-format
 msgid "Finished after {}"
 msgstr "Completato dopo {}"
 
-#: src/view/action_row.rs:370
+#: src/view/action_row.rs:373
 #, fuzzy, rust-format
 msgid "Commit <b>{}</b>"
 msgstr "Immagine: <b>{}</b> ← {}"
 
-#: src/view/action_row.rs:371
+#: src/view/action_row.rs:374
 #, fuzzy
 msgid "Commit container"
 msgstr "Contenitore commit"
 
-#: src/view/action_row.rs:375
+#: src/view/action_row.rs:378
 #, fuzzy, rust-format
 msgid "Copy from <b>{}</b>"
 msgstr "Crea pod <b>{}</b>"
 
-#: src/view/action_row.rs:376
+#: src/view/action_row.rs:379
 #, fuzzy
 msgid "Copy from container"
 msgstr "Da {} contenitori"
 
-#: src/view/action_row.rs:380
+#: src/view/action_row.rs:383
 #, fuzzy, rust-format
 msgid "Copy to <b>{}</b>"
 msgstr "Crea pod <b>{}</b>"
 
-#: src/view/action_row.rs:381
+#: src/view/action_row.rs:384
 #, fuzzy
 msgid "Copy to container"
 msgstr "Da {} contenitori"
 
-#: src/view/action_row.rs:383 src/view/action_row.rs:390
-#: src/view/action_row.rs:404
+#: src/view/action_row.rs:386 src/view/action_row.rs:393
+#: src/view/action_row.rs:407
 #, fuzzy, rust-format
 msgid "Create <b>{}</b>"
 msgstr "Crea pod <b>{}</b>"
 
-#: src/view/action_row.rs:388 src/view/containers_prune_action_view.rs:97
+#: src/view/action_row.rs:391 src/view/containers_prune_action_view.rs:97
 #: src/view/containers_prune_opts_dialog.blp:15
 #, fuzzy
 msgid "Prune Containers"
 msgstr "Mostra solo contenitori _in esecuzione"
 
-#: src/view/action_row.rs:392 src/view/pods_prune_action_view.rs:69
+#: src/view/action_row.rs:395 src/view/pods_prune_action_view.rs:69
 #: src/view/pods_prune_opts_dialog.blp:15
 #, fuzzy
 msgid "Prune Pods"
 msgstr "Mostra solo contenitori _in esecuzione"
 
-#: src/view/action_row.rs:394
+#: src/view/action_row.rs:397
 #, fuzzy, rust-format
 msgid "Build <b>{}</b>"
 msgstr "Costruisci immagine <b>{}</b>"
 
-#: src/view/action_row.rs:396
+#: src/view/action_row.rs:399
 #, fuzzy, rust-format
 msgid "Pull <b>{}</b>"
 msgstr "Tira immagine <b>{}</b>"
 
-#: src/view/action_row.rs:399
+#: src/view/action_row.rs:402
 #, fuzzy, rust-format
 msgid "Push <b>{}</b>"
 msgstr "Tira immagine <b>{}</b>"
 
-#: src/view/action_row.rs:401 src/view/images_prune_action_view.rs:97
+#: src/view/action_row.rs:404 src/view/images_prune_action_view.rs:97
 #: src/view/images_prune_opts_dialog.blp:15
 msgid "Prune Images"
 msgstr "Elimina immagini"
 
-#: src/view/action_row.rs:405
+#: src/view/action_row.rs:408
 #, fuzzy
 msgid "Create anonymous"
 msgstr "_Crea solo"
 
-#: src/view/action_row.rs:408 src/view/volumes_prune_action_view.rs:97
+#: src/view/action_row.rs:411 src/view/volumes_prune_action_view.rs:97
 #: src/view/volumes_prune_opts_dialog.blp:15
 #, fuzzy
 msgid "Prune Volumes"
 msgstr "Elimina immagini"
 
-#: src/view/action_row.rs:410
+#: src/view/action_row.rs:413
 #, fuzzy
 msgid "Unknown Action"
 msgstr "Data sconosciuta"
 
-#: src/view/actions_sidebar.blp:14 src/view/client_view.blp:83
-#: src/view/client_view.blp:288
+#: src/view/actions_button.blp:12 src/view/actions_sidebar.blp:14
+#: src/view/client_view.blp:83 src/view/client_view.blp:292
 msgid "Actions"
 msgstr "Azioni"
 
@@ -642,18 +642,18 @@ msgid "No Actions"
 msgstr "Nessuna azione"
 
 #: src/view/client_view.blp:35 src/view/client_view.blp:40
-#: src/view/client_view.blp:372
+#: src/view/client_view.blp:376
 msgid "Home"
 msgstr ""
 
 #: src/view/client_view.blp:54 src/view/client_view.blp:57
-#: src/view/client_view.blp:279 src/view/connections_sidebar.blp:14
+#: src/view/client_view.blp:283 src/view/connections_sidebar.blp:14
 msgid "Connections"
 msgstr "Connessioni"
 
 #: src/view/client_view.blp:65 src/view/client_view.blp:68
 #: src/view/container_log_page.blp:55 src/view/container_log_page.blp:58
-#: src/view/containers_panel.blp:116 src/view/containers_panel.blp:119
+#: src/view/containers_panel.blp:120 src/view/containers_panel.blp:123
 #: src/view/images_panel.blp:134 src/view/images_panel.blp:137
 #: src/view/pods_panel.blp:112 src/view/pods_panel.blp:115
 #: src/view/scalable_text_view_page.blp:42
@@ -670,11 +670,11 @@ msgid "Pods"
 msgstr "Pods"
 
 #: src/view/client_view.blp:99 src/view/client_view.rs:245
-#: src/view/containers_panel.blp:85 src/view/containers_panel.blp:131
-#: src/view/containers_panel.blp:383 src/view/image_details_page.blp:163
-#: src/view/images_panel.blp:44 src/view/pod_details_page.blp:294
+#: src/view/containers_panel.blp:89 src/view/containers_panel.blp:135
+#: src/view/containers_panel.blp:389 src/view/image_details_page.blp:169
+#: src/view/images_panel.blp:44 src/view/pod_details_page.blp:303
 #: src/view/pods_panel.blp:15 src/view/search_panel.blp:44
-#: src/view/volume_details_page.blp:135 src/view/volumes_panel.blp:21
+#: src/view/volume_details_page.blp:136 src/view/volumes_panel.blp:21
 msgid "Containers"
 msgstr "Contenitori"
 
@@ -686,13 +686,18 @@ msgstr "Immagini"
 
 #: src/view/client_view.blp:214 src/view/client_view.rs:248
 #: src/view/container_create_opts_dialog.blp:224
-#: src/view/container_details_page.blp:243 src/view/search_panel.blp:80
+#: src/view/container_details_page.blp:251 src/view/search_panel.blp:80
 #: src/view/volumes_panel.blp:80 src/view/volumes_panel.blp:126
 #: src/view/volumes_panel.blp:273
 msgid "Volumes"
 msgstr "Volumi"
 
-#: src/view/client_view.blp:299
+#: src/view/client_view.blp:263
+#, fuzzy
+msgid "Loading"
+msgstr "Registro di salvataggio"
+
+#: src/view/client_view.blp:303
 #, fuzzy
 msgid "Content"
 msgstr "Container"
@@ -749,48 +754,48 @@ msgstr "Nuova connessione"
 msgid "_Connect"
 msgstr "_Connetti"
 
-#: src/view/connection_creation_page.blp:71
+#: src/view/connection_creation_page.blp:75
 msgid "_Abort"
 msgstr "_Interrompi"
 
-#: src/view/connection_creation_page.blp:85
+#: src/view/connection_creation_page.blp:89
 #: src/view/container_create_opts_dialog.blp:58
 #: src/view/container_properties_group.blp:14 src/view/container_renamer.blp:10
 #: src/view/containers_panel.blp:9 src/view/images_panel.blp:32
 #: src/view/pod_create_opts_dialog.blp:48
-#: src/view/pod_create_opts_dialog.blp:196 src/view/pod_details_page.blp:179
+#: src/view/pod_create_opts_dialog.blp:196 src/view/pod_details_page.blp:185
 #: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:47
 #: src/view/volume_details_page.blp:41 src/view/volumes_panel.blp:9
 msgid "Name"
 msgstr "Nome"
 
-#: src/view/connection_creation_page.blp:90
+#: src/view/connection_creation_page.blp:94
 msgid "URL"
 msgstr "URL"
 
-#: src/view/connection_creation_page.blp:91
+#: src/view/connection_creation_page.blp:95
 #, fuzzy
 msgid "Choose how to connect"
 msgstr "Metodo di connessione a Podman."
 
-#: src/view/connection_creation_page.blp:94
+#: src/view/connection_creation_page.blp:98
 #, fuzzy
 msgid "Podman Unix Socket"
 msgstr "Socket Unix"
 
-#: src/view/connection_creation_page.blp:111
-#: src/view/connection_creation_page.blp:114
-#: src/view/connection_creation_page.blp:241
-#: src/view/connection_creation_page.blp:244
+#: src/view/connection_creation_page.blp:115
+#: src/view/connection_creation_page.blp:118
+#: src/view/connection_creation_page.blp:245
+#: src/view/connection_creation_page.blp:248
 #, fuzzy
 msgid "Socket Activation Info"
 msgstr "Attivazione socket Podman"
 
-#: src/view/connection_creation_page.blp:133
+#: src/view/connection_creation_page.blp:137
 msgid "Podman Socket Activation"
 msgstr "Attivazione socket Podman"
 
-#: src/view/connection_creation_page.blp:139
+#: src/view/connection_creation_page.blp:143
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
@@ -799,29 +804,29 @@ msgstr ""
 "abilitato. È possibile abilitarlo in modo permanente usando il seguente "
 "comando:"
 
-#: src/view/connection_creation_page.blp:186
-#: src/view/connection_creation_page.blp:189
-#: src/view/connection_creation_page.blp:316
-#: src/view/connection_creation_page.blp:319
+#: src/view/connection_creation_page.blp:190
+#: src/view/connection_creation_page.blp:193
+#: src/view/connection_creation_page.blp:320
+#: src/view/connection_creation_page.blp:323
 #: src/view/connection_custom_info_page.blp:122
 #: src/view/connection_custom_info_page.blp:125
 #: src/view/connection_custom_info_page.blp:166
 #: src/view/connection_custom_info_page.blp:169
-#: src/view/connection_custom_info_page.blp:257
-#: src/view/connection_custom_info_page.blp:260
-#: src/view/connection_custom_info_page.blp:305
-#: src/view/connection_custom_info_page.blp:308
+#: src/view/connection_custom_info_page.blp:261
+#: src/view/connection_custom_info_page.blp:264
+#: src/view/connection_custom_info_page.blp:309
+#: src/view/connection_custom_info_page.blp:312
 msgid "Copy to Clipboard"
 msgstr "Copia negli appunti"
 
-#: src/view/connection_creation_page.blp:195
-#: src/view/connection_creation_page.blp:325
+#: src/view/connection_creation_page.blp:199
+#: src/view/connection_creation_page.blp:329
 msgid ""
 "You may have to restart Pods for it to be able to connect to a newly created "
 "socket."
 msgstr ""
 
-#: src/view/connection_creation_page.blp:210
+#: src/view/connection_creation_page.blp:214
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
@@ -829,17 +834,17 @@ msgstr ""
 "Per connetterti all'istanza Podman root locale, crea una connessione "
 "personalizzata (leggi i suggerimenti qui)."
 
-#: src/view/connection_creation_page.blp:224
+#: src/view/connection_creation_page.blp:228
 #, fuzzy
 msgid "Docker Unix Socket"
 msgstr "Socket Unix"
 
-#: src/view/connection_creation_page.blp:263
+#: src/view/connection_creation_page.blp:267
 #, fuzzy
 msgid "Docker Socket Activation"
 msgstr "Attivazione socket Podman"
 
-#: src/view/connection_creation_page.blp:269
+#: src/view/connection_creation_page.blp:273
 #, fuzzy
 msgid ""
 "To connect to the local Docker instance, the systemd socket must be enabled. "
@@ -849,23 +854,23 @@ msgstr ""
 "abilitato. È possibile abilitarlo in modo permanente usando il seguente "
 "comando:"
 
-#: src/view/connection_creation_page.blp:340
+#: src/view/connection_creation_page.blp:344
 #, fuzzy
 msgid "Custom URL"
 msgstr "Personalizzato"
 
-#: src/view/connection_creation_page.blp:355
-#: src/view/connection_creation_page.blp:358
-#: src/view/connection_creation_page.blp:400
+#: src/view/connection_creation_page.blp:359
+#: src/view/connection_creation_page.blp:362
+#: src/view/connection_creation_page.blp:404
 #, fuzzy
 msgid "Custom Connection Info"
 msgstr "Connessione personalizzata"
 
-#: src/view/connection_creation_page.blp:374
+#: src/view/connection_creation_page.blp:378
 msgid "Color"
 msgstr "Colore"
 
-#: src/view/connection_creation_page.blp:375
+#: src/view/connection_creation_page.blp:379
 #, fuzzy
 msgid "Set the color of this connection"
 msgstr ""
@@ -920,18 +925,22 @@ msgstr ""
 "leggibile per gli utenti normali. Tuttavia, esiste una soluzione alternativa "
 "utilizzando un'unità systemd. Salva il seguente frammento:"
 
-#: src/view/connection_custom_info_page.blp:195
+#: src/view/connection_custom_info_page.blp:193
+msgid "Warning"
+msgstr ""
+
+#: src/view/connection_custom_info_page.blp:199
 msgid ""
 "Exposing a Podman socket over TCP has security implications. <a "
 "href=\"https://docs.podman.io/en/stable/markdown/podman-system-"
 "service.1.html#security\">Check the docs for more info.</a>"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:209
+#: src/view/connection_custom_info_page.blp:213
 msgid "Enable the service by issuing the command:"
 msgstr "Abilita il servizio eseguendo il comando:"
 
-#: src/view/connection_custom_info_page.blp:266
+#: src/view/connection_custom_info_page.blp:270
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
 msgstr ""
@@ -953,14 +962,19 @@ msgstr "comando di attivazione socket copiato"
 msgid "URL copied"
 msgstr "URL copiato"
 
-#: src/view/connection_row.blp:74 src/view/connection_row.blp:77
-#: src/view/container_card.blp:436 src/view/container_card.blp:439
-#: src/view/container_details_page.blp:172
-#: src/view/container_details_page.blp:175 src/view/containers_panel.blp:347
-#: src/view/containers_panel.blp:350 src/view/image_menu_button.blp:11
+#: src/view/connection_row.blp:26
+#, fuzzy
+msgid "Active Connection"
+msgstr "Nuova connessione"
+
+#: src/view/connection_row.blp:79 src/view/connection_row.blp:82
+#: src/view/container_card.blp:462 src/view/container_card.blp:465
+#: src/view/container_details_page.blp:178
+#: src/view/container_details_page.blp:181 src/view/containers_panel.blp:353
+#: src/view/containers_panel.blp:356 src/view/image_menu_button.blp:11
 #: src/view/images_panel.blp:264 src/view/images_panel.blp:266
-#: src/view/pod_details_page.blp:150 src/view/pod_details_page.blp:153
-#: src/view/pods_panel.blp:352 src/view/pods_panel.blp:355
+#: src/view/pod_details_page.blp:156 src/view/pod_details_page.blp:159
+#: src/view/pods_panel.blp:354 src/view/pods_panel.blp:357
 #: src/view/volumes_panel.blp:241 src/view/volumes_panel.blp:243
 msgid "Delete"
 msgstr "Cancella"
@@ -1043,48 +1057,76 @@ msgstr "Errore durante l'eliminazione del contenitore"
 msgid "Rename"
 msgstr "Rinomina"
 
-#: src/view/container_card.blp:296
+#: src/view/container_card.blp:141
+msgid "CPU"
+msgstr "CPU"
+
+#: src/view/container_card.blp:163 src/view/container_resources.blp:84
+#: src/view/info_panel.blp:98
+msgid "Memory"
+msgstr "Memoria"
+
+#: src/view/container_card.blp:183 src/view/container_resources.blp:133
+msgid "Network"
+msgstr "Rete"
+
+#: src/view/container_card.blp:231 src/view/container_resources.blp:218
+msgid "Disk"
+msgstr "Disco"
+
+#: src/view/container_card.blp:312
 #, fuzzy
 msgid "No Ports"
 msgstr "Porte"
 
-#: src/view/container_card.blp:337 src/view/container_card.blp:340
+#: src/view/container_card.blp:331
+#: src/view/container_create_opts_dialog.blp:113
+#: src/view/container_details_page.blp:223 src/view/pod_details_page.blp:22
+msgid "Pod"
+msgstr "Pod"
+
+#: src/view/container_card.blp:357 src/view/container_card.blp:360
 #: src/view/container_details_page.blp:67
-#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:245
-#: src/view/containers_panel.blp:248 src/view/pod_details_page.blp:45
+#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:249
+#: src/view/containers_panel.blp:252 src/view/pod_details_page.blp:45
 #: src/view/pod_details_page.blp:48 src/view/pods_panel.blp:250
 #: src/view/pods_panel.blp:253 src/view/top_page_action_bar.blp:17
 msgid "Kill"
 msgstr "Termina"
 
-#: src/view/container_card.blp:358 src/view/container_card.blp:361
+#: src/view/container_card.blp:378 src/view/container_card.blp:381
 #: src/view/container_details_page.blp:90
-#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:267
-#: src/view/containers_panel.blp:270 src/view/pod_details_page.blp:68
+#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:271
+#: src/view/containers_panel.blp:274 src/view/pod_details_page.blp:68
 #: src/view/pod_details_page.blp:71 src/view/pods_panel.blp:272
 #: src/view/pods_panel.blp:275
 msgid "Restart"
 msgstr "Riavvia"
 
-#: src/view/container_card.blp:373 src/view/container_details_page.blp:107
-#: src/view/containers_panel.blp:288 src/view/pod_details_page.blp:85
+#: src/view/container_card.blp:393 src/view/container_details_page.blp:107
+#: src/view/containers_panel.blp:292 src/view/pod_details_page.blp:85
 #: src/view/pods_panel.blp:293
 msgid "Start/Resume"
 msgstr "Avvia/Riprendi"
 
-#: src/view/container_card.blp:387 src/view/container_details_page.blp:123
-#: src/view/containers_panel.blp:307 src/view/pod_details_page.blp:101
-#: src/view/pods_panel.blp:312
+#: src/view/container_card.blp:408 src/view/container_details_page.blp:124
+#: src/view/containers_panel.blp:312 src/view/pod_details_page.blp:102
+#: src/view/pods_panel.blp:313
 msgid "Stop"
 msgstr "Arresto"
 
-#: src/view/container_card.blp:418 src/view/container_card.blp:421
+#: src/view/container_card.blp:426 src/view/container_details_page.blp:144
+#: src/view/pod_details_page.blp:122
+msgid "In Progress"
+msgstr ""
+
+#: src/view/container_card.blp:444 src/view/container_card.blp:447
 #: src/view/container_commit_opts_dialog.blp:88
-#: src/view/container_details_page.blp:152
-#: src/view/container_details_page.blp:155 src/view/containers_panel.blp:328
-#: src/view/containers_panel.blp:331 src/view/pod_details_page.blp:130
-#: src/view/pod_details_page.blp:133 src/view/pods_panel.blp:333
-#: src/view/pods_panel.blp:336
+#: src/view/container_details_page.blp:158
+#: src/view/container_details_page.blp:161 src/view/containers_panel.blp:334
+#: src/view/containers_panel.blp:337 src/view/pod_details_page.blp:136
+#: src/view/pod_details_page.blp:139 src/view/pods_panel.blp:335
+#: src/view/pods_panel.blp:338
 msgid "Pause"
 msgstr "Pausa"
 
@@ -1194,7 +1236,7 @@ msgstr "Percorso contenitore ('/' se vuoto)"
 #: src/view/container_copy_from_opts_dialog.blp:53
 #: src/view/container_copy_from_opts_dialog.rs:143
 #: src/view/container_copy_to_opts_dialog.blp:57 src/view/device_row.blp:69
-#: src/view/mount_row.blp:102
+#: src/view/mount_row.blp:103
 msgid "Host Path"
 msgstr "Percorso host"
 
@@ -1255,8 +1297,8 @@ msgstr "Seleziona file host"
 
 #: src/view/container_create_action_view.rs:69
 #: src/view/container_create_opts_dialog.blp:24
-#: src/view/containers_group.blp:12 src/view/containers_panel.blp:44
-#: src/view/containers_panel.blp:47
+#: src/view/containers_group.blp:12 src/view/containers_group.blp:15
+#: src/view/containers_panel.blp:44 src/view/containers_panel.blp:47
 msgid "Create Container"
 msgstr "Crea contenitore"
 
@@ -1293,16 +1335,11 @@ msgid "Health Check"
 msgstr "Controllo integrità"
 
 #: src/view/container_create_opts_dialog.blp:108
-#: src/view/container_details_page.blp:202 src/view/containers_panel.blp:15
-#: src/view/image_details_page.blp:24 src/view/image_pull_opts_dialog.blp:51
+#: src/view/container_details_page.blp:208 src/view/containers_panel.blp:15
+#: src/view/image_details_page.blp:28 src/view/image_pull_opts_dialog.blp:51
 #: src/view/pod_create_opts_dialog.blp:200
 msgid "Image"
 msgstr "Immagine"
-
-#: src/view/container_create_opts_dialog.blp:113
-#: src/view/container_details_page.blp:216 src/view/pod_details_page.blp:22
-msgid "Pod"
-msgstr "Pod"
 
 #: src/view/container_create_opts_dialog.blp:122
 #: src/view/pod_create_opts_dialog.blp:204
@@ -1311,7 +1348,7 @@ msgid "Pull Latest Image"
 msgstr "Recupera immagine più recente"
 
 #: src/view/container_create_opts_dialog.blp:126
-#: src/view/container_details_page.blp:289
+#: src/view/container_details_page.blp:299
 msgid "Terminal"
 msgstr "Terminale"
 
@@ -1369,13 +1406,13 @@ msgstr "GB"
 #: src/view/container_create_opts_dialog.blp:198
 #: src/view/container_create_opts_dialog.blp:263
 #: src/view/container_health_check_page.blp:34
-#: src/view/image_details_page.blp:103 src/view/pod_create_opts_dialog.blp:216
+#: src/view/image_details_page.blp:107 src/view/pod_create_opts_dialog.blp:216
 msgid "Command"
 msgstr "Comando"
 
 #: src/view/container_create_opts_dialog.blp:214
-#: src/view/container_details_page.blp:231 src/view/image_details_page.blp:119
-#: src/view/pod_create_opts_dialog.blp:126 src/view/pod_details_page.blp:241
+#: src/view/container_details_page.blp:239 src/view/image_details_page.blp:123
+#: src/view/pod_create_opts_dialog.blp:126 src/view/pod_details_page.blp:247
 msgid "Ports"
 msgstr "Porte"
 
@@ -1453,53 +1490,53 @@ msgstr "Variabili d'ambiente"
 msgid "Add Label"
 msgstr "Etichette"
 
-#: src/view/container_details_page.blp:43 src/view/port_binding_row.blp:58
+#: src/view/container_details_page.blp:43 src/view/port_binding_row.blp:59
 msgid "Container"
 msgstr "Container"
 
-#: src/view/container_details_page.blp:255 src/view/image_details_page.blp:124
-#: src/view/pod_details_page.blp:253 src/view/volume_details_page.blp:118
+#: src/view/container_details_page.blp:263 src/view/image_details_page.blp:128
+#: src/view/pod_details_page.blp:259 src/view/volume_details_page.blp:118
 msgid "Utilities"
 msgstr "Utilità"
 
-#: src/view/container_details_page.blp:258 src/view/image_details_page.blp:127
-#: src/view/pod_details_page.blp:256 src/view/volume_details_page.blp:121
+#: src/view/container_details_page.blp:266 src/view/image_details_page.blp:131
+#: src/view/pod_details_page.blp:262 src/view/volume_details_page.blp:121
 msgid "Inspection"
 msgstr "Ispezione"
 
-#: src/view/container_details_page.blp:259
+#: src/view/container_details_page.blp:267
 #, fuzzy
 msgid "View all container properties in a structured text form"
 msgstr "Visualizza tutte le proprietà del contenitore come testo strutturato."
 
-#: src/view/container_details_page.blp:270 src/view/pod_details_page.blp:268
+#: src/view/container_details_page.blp:279 src/view/pod_details_page.blp:275
 msgid "Kube"
 msgstr "Kube"
 
-#: src/view/container_details_page.blp:271
+#: src/view/container_details_page.blp:280
 #, fuzzy
 msgid "Generate Kubernetes YAML based on this container"
 msgstr "Genera YAML di Kubernetes basato su questo contenitore."
 
-#: src/view/container_details_page.blp:290
+#: src/view/container_details_page.blp:300
 #, fuzzy
 msgid "Connect to the container's terminal"
 msgstr "Connettiti al terminale del container."
 
-#: src/view/container_details_page.blp:301
+#: src/view/container_details_page.blp:312
 msgid "Logs"
 msgstr "Registri"
 
-#: src/view/container_details_page.blp:302
+#: src/view/container_details_page.blp:313
 #, fuzzy
 msgid "View and search through container logs"
 msgstr "Visualizza e cerca nei registri dei contenitori."
 
-#: src/view/container_details_page.blp:313 src/view/pod_details_page.blp:280
+#: src/view/container_details_page.blp:325 src/view/pod_details_page.blp:288
 msgid "Processes"
 msgstr "Processi"
 
-#: src/view/container_details_page.blp:314
+#: src/view/container_details_page.blp:326
 #, fuzzy
 msgid "View and manage processes of the container"
 msgstr "Leggere e cercare nei registri dei contenitori."
@@ -1705,21 +1742,21 @@ msgstr "_Cancella"
 msgid "Container Actions"
 msgstr "Controlla contenitore"
 
-#: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:40
-#: src/view/pod_details_page.blp:172 src/view/volume_details_page.blp:18
+#: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:44
+#: src/view/pod_details_page.blp:178 src/view/volume_details_page.blp:18
 msgid "Properties"
 msgstr "Proprietà"
 
 #: src/view/container_properties_group.blp:23
 #: src/view/container_properties_group.blp:64
-#: src/view/image_details_page.blp:72 src/view/pod_details_page.blp:189
-#: src/view/pod_details_page.blp:213 src/view/volume_details_page.blp:50
+#: src/view/image_details_page.blp:76 src/view/pod_details_page.blp:195
+#: src/view/pod_details_page.blp:219 src/view/volume_details_page.blp:50
 #: src/view/volume_details_page.blp:90
 #, fuzzy
 msgid "Copy to clipboard"
 msgstr "Copia negli appunti"
 
-#: src/view/container_properties_group.blp:26 src/view/pod_details_page.blp:192
+#: src/view/container_properties_group.blp:26 src/view/pod_details_page.blp:198
 #: src/view/volume_details_page.blp:53
 #, fuzzy
 msgid "Copy name to clipboard"
@@ -1731,12 +1768,12 @@ msgid "Rename (F2)"
 msgstr "Rinomina (F2)"
 
 #: src/view/container_properties_group.blp:54
-#: src/view/image_details_page.blp:63 src/view/pod_details_page.blp:204
+#: src/view/image_details_page.blp:67 src/view/pod_details_page.blp:210
 msgid "ID"
 msgstr ""
 
 #: src/view/container_properties_group.blp:67
-#: src/view/image_details_page.blp:75 src/view/pod_details_page.blp:216
+#: src/view/image_details_page.blp:79 src/view/pod_details_page.blp:222
 #, fuzzy
 msgid "Copy ID to clipboard"
 msgstr "Copia negli appunti"
@@ -1768,18 +1805,6 @@ msgstr "<nessuno>"
 #: src/view/container_resources.blp:5
 msgid "Resources Quick Reference"
 msgstr "Riferimento rapido alle risorse"
-
-#: src/view/container_resources.blp:82 src/view/info_panel.blp:98
-msgid "Memory"
-msgstr "Memoria"
-
-#: src/view/container_resources.blp:130
-msgid "Network"
-msgstr "Rete"
-
-#: src/view/container_resources.blp:214
-msgid "Disk"
-msgstr "Disco"
 
 #: src/view/container_resources.rs:91
 #, rust-format
@@ -1859,6 +1884,21 @@ msgstr "Stacca terminale"
 msgid "Container Terminal"
 msgstr "Dettagli contenitore"
 
+#: src/view/containers_count_bar.blp:25
+#, fuzzy
+msgid "Dead Containers"
+msgstr "Contenitori"
+
+#: src/view/containers_count_bar.blp:47
+#, fuzzy
+msgid "Not Running Containers"
+msgstr "Mostra solo contenitori _in esecuzione"
+
+#: src/view/containers_count_bar.blp:69
+#, fuzzy
+msgid "Running Containers"
+msgstr "Mostra solo contenitori _in esecuzione"
+
 #: src/view/containers_panel.blp:23 src/view/pods_panel.blp:23
 #, fuzzy
 msgid "_Show Running First"
@@ -1880,12 +1920,16 @@ msgstr "Deseleziona tutto"
 msgid "Prune Stopped Containers"
 msgstr "Crea contenitore"
 
-#: src/view/containers_panel.blp:96
+#: src/view/containers_panel.blp:65
+msgid "Toggle View"
+msgstr ""
+
+#: src/view/containers_panel.blp:100
 #, fuzzy
 msgid "Loading containers"
 msgstr "Contenitori"
 
-#: src/view/containers_panel.blp:138 src/view/containers_panel.blp:141
+#: src/view/containers_panel.blp:142 src/view/containers_panel.blp:145
 #: src/view/images_panel.blp:156 src/view/images_panel.blp:159
 #: src/view/pods_panel.blp:134 src/view/pods_panel.blp:137
 #: src/view/volumes_panel.blp:133 src/view/volumes_panel.blp:136
@@ -1893,12 +1937,12 @@ msgstr "Contenitori"
 msgid "Start Multi-Selection"
 msgstr "Selezione multipla"
 
-#: src/view/containers_panel.blp:167
+#: src/view/containers_panel.blp:171
 #, fuzzy
 msgid "Selected containers"
 msgstr "{} contenitore selezionato"
 
-#: src/view/containers_panel.blp:176 src/view/containers_panel.blp:179
+#: src/view/containers_panel.blp:180 src/view/containers_panel.blp:183
 #: src/view/images_panel.blp:191 src/view/images_panel.blp:194
 #: src/view/pods_panel.blp:169 src/view/pods_panel.blp:172
 #: src/view/volumes_panel.blp:168 src/view/volumes_panel.blp:171
@@ -1906,32 +1950,32 @@ msgstr "{} contenitore selezionato"
 msgid "Exit Multi-Selection"
 msgstr "Selezione multipla"
 
-#: src/view/containers_panel.blp:208
+#: src/view/containers_panel.blp:212
 #, fuzzy
 msgid "No Matching Containers"
 msgstr "Mostra solo contenitori _in esecuzione"
 
-#: src/view/containers_panel.blp:218
+#: src/view/containers_panel.blp:222
 #, fuzzy
 msgid "_Show All Containers"
 msgstr "Mostra solo contenitori _in esecuzione"
 
-#: src/view/containers_panel.blp:292
+#: src/view/containers_panel.blp:296
 #, fuzzy
 msgid "Start or resume selected containers"
 msgstr "Avvia/ripristina Container."
 
-#: src/view/containers_panel.blp:311
+#: src/view/containers_panel.blp:316
 #, fuzzy
 msgid "Stop selected containers"
 msgstr "{} contenitore selezionato"
 
-#: src/view/containers_panel.blp:389
+#: src/view/containers_panel.blp:395
 #, fuzzy
 msgid "No Containers Available"
 msgstr "Nessun contenitore trovato"
 
-#: src/view/containers_panel.blp:399
+#: src/view/containers_panel.blp:405
 #, fuzzy
 msgid "_Create Container"
 msgstr "Crea contenitore"
@@ -2008,7 +2052,7 @@ msgstr "Elimina le immagini create prima di questo timestamp."
 msgid "Remove Device"
 msgstr "Immagine remota"
 
-#: src/view/device_row.blp:73 src/view/mount_row.blp:111
+#: src/view/device_row.blp:73 src/view/mount_row.blp:112
 #, fuzzy
 msgid "Container Path"
 msgstr "Percorso contenitore"
@@ -2017,7 +2061,7 @@ msgstr "Percorso contenitore"
 msgid "Readable"
 msgstr "Leggibile"
 
-#: src/view/device_row.blp:81 src/view/mount_row.blp:115
+#: src/view/device_row.blp:81 src/view/mount_row.blp:116
 msgid "Writable"
 msgstr "Scrivibile"
 
@@ -2075,39 +2119,39 @@ msgstr "Percorso file contenitore relativo alla directory di compilazione"
 msgid "Select Build Context Directory"
 msgstr "Seleziona directory di compilazione"
 
-#: src/view/image_details_page.blp:7
+#: src/view/image_details_page.blp:7 src/view/image_details_page.blp:15
 #, fuzzy
 msgid "Create Repository Tag"
 msgstr "Tag Repository"
 
-#: src/view/image_details_page.blp:51 src/view/image_details_page.blp:54
+#: src/view/image_details_page.blp:55 src/view/image_details_page.blp:58
 msgid "Delete Image"
 msgstr "Elimina immagine"
 
-#: src/view/image_details_page.blp:95
+#: src/view/image_details_page.blp:99
 #, fuzzy
 msgid "Disk Space"
 msgstr "Spazio sul disco"
 
-#: src/view/image_details_page.blp:111
+#: src/view/image_details_page.blp:115
 msgid "Entry Point"
 msgstr "Punto di ingresso"
 
-#: src/view/image_details_page.blp:128
+#: src/view/image_details_page.blp:132
 #, fuzzy
 msgid "View all image properties in a structured text form"
 msgstr "Visualizza tutte le proprietà dell'immagine come testo strutturato."
 
-#: src/view/image_details_page.blp:139
+#: src/view/image_details_page.blp:144
 msgid "History"
 msgstr "Cronologia"
 
-#: src/view/image_details_page.blp:140
+#: src/view/image_details_page.blp:145
 #, fuzzy
 msgid "View parent layers of this image"
 msgstr "Visualizza i livelli principali di questa immagine."
 
-#: src/view/image_details_page.blp:152
+#: src/view/image_details_page.blp:158
 msgid "Repository Tags"
 msgstr "Tag del repository"
 
@@ -2211,8 +2255,14 @@ msgid "Image {}"
 msgstr "Immagine"
 
 #: src/view/image_search_response_row.blp:29
+#: src/view/image_search_response_row.blp:32
 msgid "Official"
 msgstr ""
+
+#: src/view/image_search_response_row.blp:56
+#, fuzzy
+msgid "Stars"
+msgstr "Avvia"
 
 #: src/view/image_suggestion_entry_row.rs:149
 msgid "Failed to search for images"
@@ -2340,7 +2390,7 @@ msgid "Architecture"
 msgstr ""
 
 #: src/view/info_panel.blp:80 src/view/pod_create_opts_dialog.blp:98
-#: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:236
+#: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:242
 msgid "Hostname"
 msgstr "Hostname"
 
@@ -2390,38 +2440,38 @@ msgstr "Valore"
 msgid "Value for the current key"
 msgstr ""
 
-#: src/view/mount_row.blp:71 src/view/mount_row.blp:74
+#: src/view/mount_row.blp:72 src/view/mount_row.blp:75
 #, fuzzy
 msgid "Remove Mount"
 msgstr "Rimuovi"
 
-#: src/view/mount_row.blp:81
+#: src/view/mount_row.blp:82
 msgid "Type"
 msgstr ""
 
-#: src/view/mount_row.blp:92
+#: src/view/mount_row.blp:93
 msgid "Bind"
 msgstr ""
 
-#: src/view/mount_row.blp:96 src/view/mount_row.blp:106
+#: src/view/mount_row.blp:97 src/view/mount_row.blp:107
 #: src/view/volume_details_page.blp:12
 #, fuzzy
 msgid "Volume"
 msgstr "Volumi"
 
-#: src/view/mount_row.blp:119
+#: src/view/mount_row.blp:120
 msgid "SELinux"
 msgstr "SELinux"
 
-#: src/view/mount_row.blp:123
+#: src/view/mount_row.blp:124
 msgid "No label"
 msgstr "Senza etichetta"
 
-#: src/view/mount_row.blp:124
+#: src/view/mount_row.blp:125
 msgid "Shared"
 msgstr "Condiviso"
 
-#: src/view/mount_row.blp:125
+#: src/view/mount_row.blp:126
 msgid "Private"
 msgstr "Privato"
 
@@ -2521,17 +2571,17 @@ msgstr "Hosts"
 msgid "Add Device"
 msgstr "Dispositivi"
 
-#: src/view/pod_details_page.blp:257
+#: src/view/pod_details_page.blp:263
 #, fuzzy
 msgid "View all pod properties in a structured text form"
 msgstr "Visualizza tutte le proprietà del pod come testo strutturato."
 
-#: src/view/pod_details_page.blp:269
+#: src/view/pod_details_page.blp:276
 #, fuzzy
 msgid "Generate Kubernetes YAML based on this pod"
 msgstr "Genera Kubernetes YAML in base a questo pod."
 
-#: src/view/pod_details_page.blp:281
+#: src/view/pod_details_page.blp:289
 #, fuzzy
 msgid "View processes of the pod"
 msgstr "Monitora i processi di contenitori e pod."
@@ -2589,16 +2639,16 @@ msgstr "Mostra solo contenitori _in esecuzione"
 msgid "Start or resume selected pods"
 msgstr ""
 
-#: src/view/pods_panel.blp:316
+#: src/view/pods_panel.blp:317
 #, fuzzy
 msgid "Stop selected pods"
 msgstr "{} pod selezionato"
 
-#: src/view/pods_panel.blp:391
+#: src/view/pods_panel.blp:393
 msgid "No Pods Available"
 msgstr ""
 
-#: src/view/pods_panel.blp:401
+#: src/view/pods_panel.blp:403
 #, fuzzy
 msgid "_Create Pod"
 msgstr "Crea pod"
@@ -2633,43 +2683,43 @@ msgstr "Conferma l'eliminazione forzata di più pod"
 msgid "All associated containers will also be removed!"
 msgstr "Tutti i contenitori associati verranno eliminati!"
 
-#: src/view/port_binding_creation_row.blp:73
-#: src/view/port_binding_creation_row.blp:76
+#: src/view/port_binding_creation_row.blp:74
+#: src/view/port_binding_creation_row.blp:77
 #, fuzzy
 msgid "Remove Port Binding"
 msgstr "Mappature porte"
 
-#: src/view/port_binding_creation_row.blp:83
+#: src/view/port_binding_creation_row.blp:84
 msgid "Protocol"
 msgstr "Protocollo"
 
-#: src/view/port_binding_creation_row.blp:87
+#: src/view/port_binding_creation_row.blp:88
 msgid "TCP"
 msgstr "TCP"
 
-#: src/view/port_binding_creation_row.blp:88
+#: src/view/port_binding_creation_row.blp:89
 msgid "UDP"
 msgstr "UDP"
 
-#: src/view/port_binding_creation_row.blp:89
+#: src/view/port_binding_creation_row.blp:90
 msgid "SCTP"
 msgstr ""
 
-#: src/view/port_binding_creation_row.blp:95
+#: src/view/port_binding_creation_row.blp:96
 #, fuzzy
 msgid "IP Address"
 msgstr "Indirizzo IP"
 
-#: src/view/port_binding_creation_row.blp:99
+#: src/view/port_binding_creation_row.blp:100
 #, fuzzy
 msgid "Host Port"
 msgstr "Porta host"
 
-#: src/view/port_binding_creation_row.blp:100
+#: src/view/port_binding_creation_row.blp:101
 msgid "If 0, a random port is assigned on the host (guaranteed above 1024)"
 msgstr ""
 
-#: src/view/port_binding_creation_row.blp:112
+#: src/view/port_binding_creation_row.blp:113
 #, fuzzy
 msgid "Target Port"
 msgstr "Porta host"
@@ -2678,6 +2728,10 @@ msgstr "Porta host"
 #, fuzzy
 msgid "Host"
 msgstr "Hosts"
+
+#: src/view/port_binding_row.blp:81
+msgid "Open in Browser"
+msgstr ""
 
 #: src/view/port_binding_row.rs:184
 msgid "Invalid URL"
@@ -3069,7 +3123,8 @@ msgstr "Errore nell'eliminazione dell'immagine '{}'"
 
 #: src/view/volume_create_action_view.rs:69
 #: src/view/volume_create_opts_dialog.blp:15 src/view/volumes_group.blp:12
-#: src/view/volumes_panel.blp:43 src/view/volumes_panel.blp:46
+#: src/view/volumes_group.blp:15 src/view/volumes_panel.blp:43
+#: src/view/volumes_panel.blp:46
 #, fuzzy
 msgid "Create Volume"
 msgstr "Crea immagine"
@@ -3214,16 +3269,16 @@ msgstr ""
 msgid "Prune volumes created before this timestamp"
 msgstr "Elimina le immagini create prima di questo timestamp."
 
-#: src/view/welcome_page.blp:46
+#: src/view/welcome_page.blp:47
 msgid "Welcome to Pods"
 msgstr "Benvenuto in Pods"
 
-#: src/view/welcome_page.blp:53
+#: src/view/welcome_page.blp:54
 #, fuzzy
 msgid "Create a new connection to Podman to get started"
 msgstr "Verifica connessione al servizio Podman"
 
-#: src/view/welcome_page.blp:66
+#: src/view/welcome_page.blp:67
 msgid "_New Connection"
 msgstr "_Nuova connessione"
 
@@ -3266,6 +3321,10 @@ msgstr "_Informazioni su Pods"
 msgid "Main Menu"
 msgstr "Vista principale"
 
+#: src/widget/random_name_entry_row.blp:13
+msgid "Generate Random Name"
+msgstr ""
+
 #: src/widget/source_view_search_widget.blp:18
 msgid "Previous (Ctrl+Shift+G)"
 msgstr "Precedente (Ctrl+Shift+G)"
@@ -3284,17 +3343,32 @@ msgstr "0 di {}"
 msgid "{} of {}"
 msgstr "{} di {}"
 
-#: src/widget/text_search_entry.blp:31
+#: src/widget/text_search_entry.blp:32
 msgid "Regular Expression"
 msgstr "Espressione regolare"
 
-#: src/widget/text_search_entry.blp:38
+#: src/widget/text_search_entry.blp:39
 msgid "Case Sensitive"
 msgstr "Maiuscole/minuscole"
 
-#: src/widget/text_search_entry.blp:45
+#: src/widget/text_search_entry.blp:46
 msgid "Whole Word"
 msgstr "Parola intera"
+
+#: src/widget/zoom_control.blp:20
+#, fuzzy
+msgid "Zoom Out"
+msgstr "Rimpicciolisci"
+
+#: src/widget/zoom_control.blp:31
+#, fuzzy
+msgid "Reset Zoom"
+msgstr "Remposta zoom"
+
+#: src/widget/zoom_control.blp:44
+#, fuzzy
+msgid "Zoom In"
+msgstr "Ingrandisci"
 
 #, fuzzy
 #~ msgid "Enable searching for container and pod processes. (#747)"
@@ -3763,10 +3837,6 @@ msgstr "Parola intera"
 #~ msgid "More Actions"
 #~ msgstr "Nessuna azione"
 
-#, fuzzy
-#~ msgid "Show Only Running Containers"
-#~ msgstr "Mostra solo contenitori _in esecuzione"
-
 #~ msgid "No Results For {}"
 #~ msgstr "Nessun risultato per {}"
 
@@ -4209,9 +4279,6 @@ msgstr "Parola intera"
 
 #~ msgid "Discard"
 #~ msgstr "Abbandona"
-
-#~ msgid "CPU"
-#~ msgstr "CPU"
 
 #~ msgid "Failed to create pod"
 #~ msgstr "Impossibile creare il pod"
