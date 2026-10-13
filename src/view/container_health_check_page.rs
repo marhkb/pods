@@ -1,7 +1,5 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
-use gettextrs::ngettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -9,6 +7,8 @@ use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::ngettext;
 use crate::model;
 use crate::rt;
 use crate::utils;
@@ -194,7 +194,7 @@ mod imp {
                             .interval
                             .map(|nanos| {
                                 let secs = nanos / 1000000000;
-                                ngettext!("{} second", "{} seconds", secs as u32, secs)
+                                ngettext("{} second", "{} seconds", secs as u32)
                             })
                             .unwrap_or_default(),
                     );
@@ -210,7 +210,7 @@ mod imp {
                             .timeout
                             .map(|nanos| {
                                 let secs = nanos / 1000000000;
-                                ngettext!("{} second", "{} seconds", secs as u32, secs)
+                                ngettext("{} second", "{} seconds", secs as u32)
                             })
                             .unwrap_or_default(),
                     );

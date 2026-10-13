@@ -1,10 +1,11 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 
 mod imp {
@@ -81,7 +82,7 @@ mod imp {
                     } else {
                         self.exit_code_image.set_icon_name(Some("error-symbolic"));
                         self.exit_code_image.add_css_class("error");
-                        obj.set_title(&gettext!("Failed Health Run: {}", log.exit_code()));
+                        obj.set_title(&gettext_f("Failed Health Run: {}", [log.exit_code()]));
                     }
                     self.start_label.set_label(
                         &glib::DateTime::from_iso8601(&log.start(), None)

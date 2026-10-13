@@ -2,7 +2,6 @@ use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::gdk;
@@ -10,6 +9,7 @@ use gtk::glib;
 use gtk::glib::clone;
 use sourceview5::prelude::*;
 
+use crate::gettext::gettext_f;
 use crate::utils;
 use crate::widget;
 
@@ -157,7 +157,7 @@ mod imp {
                     move |ctx| {
                         obj.imp()
                             .search_entry
-                            .set_info(gettext!("0 of {}", ctx.occurrences_count(),));
+                            .set_info(gettext_f("0 of {}", [ctx.occurrences_count()]));
                     }
                 ));
 
@@ -182,15 +182,19 @@ impl SourceViewSearchWidget {
         if let Some(search_context) = imp.search_context.borrow().as_ref() {
             let count = search_context.occurrences_count();
             imp.search_entry.set_info(if count > 0 {
-                gettext!(
+                gettext_f(
                     "{} of {}",
-                    imp.search_iters
-                        .borrow()
-                        .as_ref()
-                        .map(|(start_iter, end_iter)| search_context
-                            .occurrence_position(start_iter, end_iter))
-                        .unwrap_or(0),
-                    count
+                    [
+                        imp.search_iters
+                            .borrow()
+                            .as_ref()
+                            .map(|(start_iter, end_iter)| {
+                                search_context.occurrence_position(start_iter, end_iter)
+                            })
+                            .unwrap_or(0)
+                            .to_string(),
+                        count.to_string(),
+                    ],
                 )
             } else {
                 String::new()

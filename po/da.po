@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-12 17:02+0000\n"
+"POT-Creation-Date: 2026-10-13 17:32+0000\n"
 "PO-Revision-Date: 2023-10-19 04:12+0000\n"
 "Last-Translator: Lars Nielsen <lnc13.lars@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/pods/main/da/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Weblate 5.1\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:120
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:119
 #: src/view/client_view.blp:139 src/view/client_view.rs:246
 #: src/view/pods_panel.blp:81 src/view/pods_panel.blp:127
 #: src/view/pods_panel.blp:385 src/view/search_panel.blp:56
@@ -230,20 +230,20 @@ msgstr ""
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
-#: src/application.rs:191
+#: src/application.rs:196
 #, fuzzy
 msgid "translator-credits"
 msgstr "Oversættere"
 
-#: src/application.rs:193
+#: src/application.rs:198
 msgid "Translators"
 msgstr "Oversættere"
 
-#: src/main.rs:167
+#: src/main.rs:166
 msgid "Prints application version"
 msgstr "Printer applikations version"
 
-#: src/main.rs:176
+#: src/main.rs:175
 msgid "Specify the minimum log level"
 msgstr "Specificer minimum log niveau"
 
@@ -280,7 +280,7 @@ msgstr "Konfigureret"
 #: src/model/container_status.rs:126 src/model/pod_status.rs:114
 #: src/view/container_properties_group.blp:95
 #: src/view/image_details_page.blp:87 src/view/pod_details_page.blp:228
-#: src/view/volume_details_page.blp:73
+#: src/view/volume_details_page.blp:113
 msgid "Created"
 msgstr "Oprettet"
 
@@ -329,11 +329,11 @@ msgstr "Stopper"
 msgid "Unknown"
 msgstr "Ukendt"
 
-#: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:311
+#: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:312
 msgid "Docker"
 msgstr ""
 
-#: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:312
+#: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:313
 msgid "Podman"
 msgstr ""
 
@@ -346,56 +346,56 @@ msgstr "Oprettet"
 msgid "Degraded"
 msgstr "Forringet"
 
-#: src/model/pod_status.rs:117 src/view/connection_creation_page.rs:324
-#: src/view/image_details_page.rs:379 src/view/scalable_text_view_page.rs:463
+#: src/model/pod_status.rs:117 src/view/connection_creation_page.rs:320
+#: src/view/image_details_page.rs:383 src/view/scalable_text_view_page.rs:467
 #: src/view/top_page.rs:544 src/view/top_page.rs:549
 msgid "Error"
 msgstr "Fejl"
 
-#: src/utils.rs:119
+#: src/utils.rs:120
 #, rust-format
 msgid "{} h {} min {} s"
 msgstr "{} t {} min {} s"
 
-#: src/utils.rs:121
+#: src/utils.rs:122
 #, rust-format
 msgid "{} h {} s"
 msgstr "{} t {} s"
 
-#: src/utils.rs:128
+#: src/utils.rs:129
 #, rust-format
 msgid "{} min {} s"
 msgstr "{} min {} s"
 
-#: src/utils.rs:130
+#: src/utils.rs:131
 #, rust-format
 msgid "{} min"
 msgstr "{} min"
 
-#: src/utils.rs:133
+#: src/utils.rs:134
 #, rust-format
 msgid "{} s"
 msgstr "{} s"
 
-#: src/utils.rs:178
+#: src/utils.rs:179
 msgid "a few seconds"
 msgstr "et par sekunder"
 
-#: src/utils.rs:180
+#: src/utils.rs:181
 #, rust-format
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
 msgstr[1] "{} minutter"
 
-#: src/utils.rs:182
+#: src/utils.rs:183
 #, rust-format
 msgid "{} hour"
 msgid_plural "{} hours"
 msgstr[0] "{} time"
 msgstr[1] "{} timer"
 
-#: src/utils.rs:185
+#: src/utils.rs:186
 #, rust-format
 msgid "{} day"
 msgid_plural "{} days"
@@ -403,17 +403,17 @@ msgstr[0] "{} dag"
 msgstr[1] "{} dage"
 
 #. Translators: Example: {3 hours} ago, {a few seconds} ago
-#: src/utils.rs:191
+#: src/utils.rs:192
 #, rust-format
 msgid "{} ago"
 msgstr "{} siden"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:321
+#: src/utils.rs:322
 msgid "<none>"
 msgstr "<ingen>"
 
-#: src/utils.rs:420
+#: src/utils.rs:421
 msgid "Error on open file dialog"
 msgstr "Fejl ved åbning af fildialog"
 
@@ -423,14 +423,14 @@ msgstr "Fejl ved åbning af fildialog"
 #: src/view/container_copy_from_opts_dialog.blp:27
 #: src/view/container_copy_to_opts_dialog.blp:36
 #: src/view/container_create_opts_dialog.blp:36
-#: src/view/containers_panel.rs:966
-#: src/view/containers_prune_opts_dialog.blp:27 src/view/image.rs:34
+#: src/view/containers_panel.rs:965
+#: src/view/containers_prune_opts_dialog.blp:27 src/view/image.rs:32
 #: src/view/image_build_opts_dialog.blp:27
-#: src/view/image_pull_opts_dialog.blp:27 src/view/images_panel.rs:676
-#: src/view/images_prune_opts_dialog.blp:27 src/view/pod.rs:67
-#: src/view/pod_create_opts_dialog.blp:27 src/view/pods_panel.rs:820
+#: src/view/image_pull_opts_dialog.blp:27 src/view/images_panel.rs:677
+#: src/view/images_prune_opts_dialog.blp:27 src/view/pod.rs:65
+#: src/view/pod_create_opts_dialog.blp:27 src/view/pods_panel.rs:819
 #: src/view/pods_prune_opts_dialog.blp:27 src/view/repo_tag_add_dialog.blp:11
-#: src/view/repo_tag_push_opts_dialog.blp:27 src/view/volume.rs:32
+#: src/view/repo_tag_push_opts_dialog.blp:27 src/view/volume.rs:30
 #: src/view/volume_create_opts_dialog.blp:27 src/view/volumes_panel.rs:660
 #: src/view/volumes_prune_opts_dialog.blp:27
 msgid "_Cancel"
@@ -444,182 +444,182 @@ msgstr ""
 msgid "_View"
 msgstr "_Se"
 
-#: src/view/action_dialog.rs:96
+#: src/view/action_dialog.rs:95
 #, fuzzy
 msgid "Cancelled"
 msgstr "_Annuller"
 
-#: src/view/action_dialog.rs:97
+#: src/view/action_dialog.rs:96
 msgid "Failed"
 msgstr ""
 
-#: src/view/action_dialog.rs:98
+#: src/view/action_dialog.rs:97
 msgid "Finished"
 msgstr "Færdig"
 
-#: src/view/action_dialog.rs:99
+#: src/view/action_dialog.rs:98
 msgid "Ongoing"
 msgstr ""
 
-#: src/view/action_dialog.rs:290 src/view/container_details_page.rs:255
+#: src/view/action_dialog.rs:289 src/view/container_details_page.rs:256
 #, rust-format
 msgid "since {}"
 msgstr ""
 
-#: src/view/action_dialog.rs:300
+#: src/view/action_dialog.rs:299
 #, fuzzy, rust-format
 msgid "after {}"
 msgstr "Kontainer"
 
-#: src/view/action_dialog.rs:344
+#: src/view/action_dialog.rs:343
 #, fuzzy
 msgid "Action"
 msgstr "Ingen Operationer"
 
-#: src/view/action_dialog.rs:373 src/view/action_dialog.rs:386
-#: src/view/action_dialog.rs:402
+#: src/view/action_dialog.rs:372 src/view/action_dialog.rs:385
+#: src/view/action_dialog.rs:401
 #, fuzzy
 msgid "Container Removed"
 msgstr "Container er blevet oprettet"
 
-#: src/view/action_dialog.rs:374
+#: src/view/action_dialog.rs:373
 #, fuzzy
 msgid "Container cannot be committed because it has been removed."
 msgstr "Kontainer"
 
-#: src/view/action_dialog.rs:388 src/view/action_dialog.rs:404
+#: src/view/action_dialog.rs:387 src/view/action_dialog.rs:403
 msgid "Files cannot be copied anymore because the container has been removed."
 msgstr ""
 
-#: src/view/action_dialog.rs:426
+#: src/view/action_dialog.rs:425
 msgid "Tag Removed"
 msgstr ""
 
-#: src/view/action_dialog.rs:427
+#: src/view/action_dialog.rs:426
 msgid "Cannot push removed tag."
 msgstr ""
 
-#: src/view/action_dialog.rs:450
+#: src/view/action_dialog.rs:449
 msgid "Close"
 msgstr ""
 
-#: src/view/action_row.rs:140
+#: src/view/action_row.rs:141
 msgid "Abort"
 msgstr ""
 
-#: src/view/action_row.rs:142 src/view/key_val_row.blp:44
+#: src/view/action_row.rs:143 src/view/key_val_row.blp:44
 #: src/view/key_val_row.blp:47
 msgid "Remove"
 msgstr ""
 
-#: src/view/action_row.rs:208
+#: src/view/action_row.rs:209
 msgid "Failed Pods Action"
 msgstr ""
 
-#: src/view/action_row.rs:214
+#: src/view/action_row.rs:215
 msgid "Finished Pods Action"
 msgstr ""
 
-#: src/view/action_row.rs:284
+#: src/view/action_row.rs:285
 #, rust-format
 msgid "Ongoing ({})"
 msgstr ""
 
-#: src/view/action_row.rs:298
+#: src/view/action_row.rs:299
 #, rust-format
 msgid "Cancelled after {}"
 msgstr ""
 
-#: src/view/action_row.rs:299
+#: src/view/action_row.rs:300
 #, rust-format
 msgid "Failed after {}"
 msgstr ""
 
-#: src/view/action_row.rs:300
+#: src/view/action_row.rs:301
 #, rust-format
 msgid "Finished after {}"
 msgstr ""
 
-#: src/view/action_row.rs:369
+#: src/view/action_row.rs:370
 #, fuzzy, rust-format
 msgid "Commit <b>{}</b>"
 msgstr "Opret pod <b>{}</b>"
 
-#: src/view/action_row.rs:370
+#: src/view/action_row.rs:371
 #, fuzzy
 msgid "Commit container"
 msgstr "Kontainer"
 
-#: src/view/action_row.rs:374
+#: src/view/action_row.rs:375
 #, fuzzy, rust-format
 msgid "Copy from <b>{}</b>"
 msgstr "Opret pod <b>{}</b>"
 
-#: src/view/action_row.rs:375
+#: src/view/action_row.rs:376
 #, fuzzy
 msgid "Copy from container"
 msgstr "Kopiere filer ind i container…"
 
-#: src/view/action_row.rs:379
+#: src/view/action_row.rs:380
 #, fuzzy, rust-format
 msgid "Copy to <b>{}</b>"
 msgstr "Opret pod <b>{}</b>"
 
-#: src/view/action_row.rs:380
+#: src/view/action_row.rs:381
 #, fuzzy
 msgid "Copy to container"
 msgstr "Kopiere filer ind i container…"
 
-#: src/view/action_row.rs:382 src/view/action_row.rs:389
-#: src/view/action_row.rs:403
+#: src/view/action_row.rs:383 src/view/action_row.rs:390
+#: src/view/action_row.rs:404
 #, fuzzy, rust-format
 msgid "Create <b>{}</b>"
 msgstr "Opret pod <b>{}</b>"
 
-#: src/view/action_row.rs:387 src/view/containers_prune_action_view.rs:94
+#: src/view/action_row.rs:388 src/view/containers_prune_action_view.rs:97
 #: src/view/containers_prune_opts_dialog.blp:15
 #, fuzzy
 msgid "Prune Containers"
 msgstr "Skal kun kørende container vises"
 
-#: src/view/action_row.rs:391 src/view/pods_prune_action_view.rs:69
+#: src/view/action_row.rs:392 src/view/pods_prune_action_view.rs:69
 #: src/view/pods_prune_opts_dialog.blp:15
 #, fuzzy
 msgid "Prune Pods"
 msgstr "Skal kun kørende pods vises"
 
-#: src/view/action_row.rs:393
+#: src/view/action_row.rs:394
 #, fuzzy, rust-format
 msgid "Build <b>{}</b>"
 msgstr "Byg billede <b>{}</b>"
 
-#: src/view/action_row.rs:395
+#: src/view/action_row.rs:396
 #, fuzzy, rust-format
 msgid "Pull <b>{}</b>"
 msgstr "Hent billede <b>{}</b>"
 
-#: src/view/action_row.rs:398
+#: src/view/action_row.rs:399
 #, fuzzy, rust-format
 msgid "Push <b>{}</b>"
 msgstr "Hent billede <b>{}</b>"
 
-#: src/view/action_row.rs:400 src/view/images_prune_action_view.rs:94
+#: src/view/action_row.rs:401 src/view/images_prune_action_view.rs:97
 #: src/view/images_prune_opts_dialog.blp:15
 msgid "Prune Images"
 msgstr ""
 
-#: src/view/action_row.rs:404
+#: src/view/action_row.rs:405
 #, fuzzy
 msgid "Create anonymous"
 msgstr "Fjern billede"
 
-#: src/view/action_row.rs:407 src/view/volumes_prune_action_view.rs:94
+#: src/view/action_row.rs:408 src/view/volumes_prune_action_view.rs:97
 #: src/view/volumes_prune_opts_dialog.blp:15
 #, fuzzy
 msgid "Prune Volumes"
 msgstr "Fjern ubrugt billeder"
 
-#: src/view/action_row.rs:409
+#: src/view/action_row.rs:410
 #, fuzzy
 msgid "Unknown Action"
 msgstr "Ukendt"
@@ -671,7 +671,7 @@ msgstr "Pods"
 #: src/view/containers_panel.blp:383 src/view/image_details_page.blp:163
 #: src/view/images_panel.blp:44 src/view/pod_details_page.blp:294
 #: src/view/pods_panel.blp:15 src/view/search_panel.blp:44
-#: src/view/volume_details_page.blp:103 src/view/volumes_panel.blp:21
+#: src/view/volume_details_page.blp:135 src/view/volumes_panel.blp:21
 msgid "Containers"
 msgstr ""
 
@@ -682,7 +682,7 @@ msgid "Images"
 msgstr ""
 
 #: src/view/client_view.blp:214 src/view/client_view.rs:248
-#: src/view/container_create_opts_dialog.blp:228
+#: src/view/container_create_opts_dialog.blp:224
 #: src/view/container_details_page.blp:243 src/view/search_panel.blp:80
 #: src/view/volumes_panel.blp:80 src/view/volumes_panel.blp:126
 #: src/view/volumes_panel.blp:273
@@ -863,17 +863,17 @@ msgstr "Farve"
 msgid "Set the color of this connection"
 msgstr ""
 
-#: src/view/connection_creation_page.rs:156
+#: src/view/connection_creation_page.rs:153
 msgid "official documentation"
 msgstr ""
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
-#: src/view/connection_creation_page.rs:153
+#: src/view/connection_creation_page.rs:151
 #, rust-format
 msgid "Visit the {} for more information."
 msgstr ""
 
-#: src/view/connection_creation_page.rs:272
+#: src/view/connection_creation_page.rs:268
 msgid "Confirm Connecting to New Instance"
 msgstr ""
 
@@ -952,7 +952,7 @@ msgstr ""
 msgid "Delete"
 msgstr "Slet"
 
-#: src/view/connection_row.rs:98
+#: src/view/connection_row.rs:96
 msgid "Local connection"
 msgstr ""
 
@@ -998,31 +998,31 @@ msgid ""
 "lost"
 msgstr ""
 
-#: src/view/container.rs:179 src/view/containers_panel.rs:909
+#: src/view/container.rs:179 src/view/containers_panel.rs:908
 msgid "Error on starting container"
 msgstr ""
 
-#: src/view/container.rs:180 src/view/containers_panel.rs:839
+#: src/view/container.rs:180 src/view/containers_panel.rs:838
 msgid "Error on stopping container"
 msgstr ""
 
-#: src/view/container.rs:181 src/view/containers_panel.rs:837
+#: src/view/container.rs:181 src/view/containers_panel.rs:836
 msgid "Error on killing container"
 msgstr ""
 
-#: src/view/container.rs:182 src/view/containers_panel.rs:868
+#: src/view/container.rs:182 src/view/containers_panel.rs:867
 msgid "Error on restarting container"
 msgstr ""
 
-#: src/view/container.rs:183 src/view/containers_panel.rs:936
+#: src/view/container.rs:183 src/view/containers_panel.rs:935
 msgid "Error on pausing container"
 msgstr ""
 
-#: src/view/container.rs:184 src/view/containers_panel.rs:894
+#: src/view/container.rs:184 src/view/containers_panel.rs:893
 msgid "Error on resuming container"
 msgstr ""
 
-#: src/view/container.rs:185 src/view/containers_panel.rs:992
+#: src/view/container.rs:185 src/view/containers_panel.rs:991
 msgid "Error on deleting container"
 msgstr ""
 
@@ -1082,7 +1082,7 @@ msgid "Container {}"
 msgstr "Kontainer"
 
 #. Translators: For example 5 MB / s.
-#: src/view/container_card.rs:601 src/view/container_resources.rs:285
+#: src/view/container_card.rs:601 src/view/container_resources.rs:283
 #, rust-format
 msgid "{} / s"
 msgstr ""
@@ -1115,7 +1115,7 @@ msgid "Fetch Username"
 msgstr "Hent Brugernavn"
 
 #: src/view/container_commit_opts_dialog.blp:70
-#: src/view/image_history_page.rs:169
+#: src/view/image_history_page.rs:170
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -1260,16 +1260,16 @@ msgid "Details"
 msgstr "Detaljer"
 
 #: src/view/container_create_opts_dialog.blp:81
-#: src/view/container_create_opts_dialog.blp:210
+#: src/view/container_create_opts_dialog.blp:206
 #: src/view/image_build_opts_dialog.blp:71
-#: src/view/image_build_opts_dialog.blp:112
+#: src/view/image_build_opts_dialog.blp:107
 #: src/view/pod_create_opts_dialog.blp:71
 #: src/view/pod_create_opts_dialog.blp:118
 msgid "Integration"
 msgstr "Integration"
 
 #: src/view/container_create_opts_dialog.blp:87
-#: src/view/container_create_opts_dialog.blp:261
+#: src/view/container_create_opts_dialog.blp:257
 #: src/view/container_properties_group.blp:147
 msgid "Health Check"
 msgstr "Sundhedstjek"
@@ -1316,17 +1316,17 @@ msgid "Never"
 msgstr ""
 
 #: src/view/container_create_opts_dialog.blp:140
-#: src/view/container_properties_group.rs:118
+#: src/view/container_properties_group.rs:116
 msgid "Always"
 msgstr ""
 
 #: src/view/container_create_opts_dialog.blp:141
-#: src/view/container_properties_group.rs:120
+#: src/view/container_properties_group.rs:118
 msgid "On failure"
 msgstr ""
 
 #: src/view/container_create_opts_dialog.blp:142
-#: src/view/container_properties_group.rs:121
+#: src/view/container_properties_group.rs:120
 #, fuzzy
 msgid "Unless stopped"
 msgstr "Fjerne stoppede pods"
@@ -1336,75 +1336,75 @@ msgstr "Fjerne stoppede pods"
 msgid "Memory Limit"
 msgstr "Hukommelsesgrænse"
 
-#: src/view/container_create_opts_dialog.blp:184
+#: src/view/container_create_opts_dialog.blp:181
 msgid "KB"
 msgstr "KB"
 
-#: src/view/container_create_opts_dialog.blp:185
+#: src/view/container_create_opts_dialog.blp:182
 msgid "MB"
 msgstr "MB"
 
-#: src/view/container_create_opts_dialog.blp:186
+#: src/view/container_create_opts_dialog.blp:183
 msgid "GB"
 msgstr "GB"
 
-#: src/view/container_create_opts_dialog.blp:202
-#: src/view/container_create_opts_dialog.blp:267
+#: src/view/container_create_opts_dialog.blp:198
+#: src/view/container_create_opts_dialog.blp:263
 #: src/view/container_health_check_page.blp:34
 #: src/view/image_details_page.blp:103 src/view/pod_create_opts_dialog.blp:216
 msgid "Command"
 msgstr "Kommando"
 
-#: src/view/container_create_opts_dialog.blp:218
+#: src/view/container_create_opts_dialog.blp:214
 #: src/view/container_details_page.blp:231 src/view/image_details_page.blp:119
 #: src/view/pod_create_opts_dialog.blp:126 src/view/pod_details_page.blp:241
 msgid "Ports"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:238
+#: src/view/container_create_opts_dialog.blp:234
 msgid "Environment Variables"
 msgstr "Miljøvariabler"
 
-#: src/view/container_create_opts_dialog.blp:248
-#: src/view/image_build_opts_dialog.blp:119
+#: src/view/container_create_opts_dialog.blp:244
+#: src/view/image_build_opts_dialog.blp:110
 #: src/view/pod_create_opts_dialog.blp:162
 msgid "Labels"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:271
+#: src/view/container_create_opts_dialog.blp:267
 #: src/view/container_health_check_page.blp:38
 msgid "Interval"
 msgstr "Interval"
 
-#: src/view/container_create_opts_dialog.blp:272
+#: src/view/container_create_opts_dialog.blp:268
 msgid "Health check interval in seconds"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:284
+#: src/view/container_create_opts_dialog.blp:280
 #: src/view/container_health_check_page.blp:46
 msgid "Timeout"
 msgstr "Timeout"
 
-#: src/view/container_create_opts_dialog.blp:285
+#: src/view/container_create_opts_dialog.blp:281
 msgid "Seconds allowed to complete the command before it fails"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:297
+#: src/view/container_create_opts_dialog.blp:293
 #, fuzzy
 msgid "Start Period"
 msgstr "Start periode"
 
-#: src/view/container_create_opts_dialog.blp:298
+#: src/view/container_create_opts_dialog.blp:294
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:310
+#: src/view/container_create_opts_dialog.blp:306
 #: src/view/container_health_check_page.blp:42
 msgid "Retries"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:311
+#: src/view/container_create_opts_dialog.blp:307
 msgid "Number of retries allowed before a healthcheck fails"
 msgstr ""
 
@@ -1425,7 +1425,7 @@ msgid "Add Environment Variable"
 msgstr "Miljøvariabler"
 
 #: src/view/container_create_opts_dialog.rs:194
-#: src/view/image_build_opts_dialog.rs:109
+#: src/view/image_build_opts_dialog.rs:107
 #: src/view/pod_create_opts_dialog.rs:131
 msgid "Add Label"
 msgstr ""
@@ -1435,12 +1435,12 @@ msgid "Container"
 msgstr "Kontainer"
 
 #: src/view/container_details_page.blp:255 src/view/image_details_page.blp:124
-#: src/view/pod_details_page.blp:253 src/view/volume_details_page.blp:86
+#: src/view/pod_details_page.blp:253 src/view/volume_details_page.blp:118
 msgid "Utilities"
 msgstr "Værktøjer"
 
 #: src/view/container_details_page.blp:258 src/view/image_details_page.blp:127
-#: src/view/pod_details_page.blp:256 src/view/volume_details_page.blp:89
+#: src/view/pod_details_page.blp:256 src/view/volume_details_page.blp:121
 msgid "Inspection"
 msgstr "Inspektion"
 
@@ -1479,33 +1479,33 @@ msgstr "Processer"
 msgid "View and manage processes of the container"
 msgstr "Vis og søg i containerlogs."
 
-#: src/view/container_details_page.rs:356
+#: src/view/container_details_page.rs:359
 msgid "Error on loading container details"
 msgstr ""
 
-#: src/view/container_details_page.rs:374
+#: src/view/container_details_page.rs:377
 #, rust-format
 msgid "Container '{}' has been deleted"
 msgstr ""
 
-#: src/view/container_details_page.rs:455 src/view/image_details_page.rs:358
-#: src/view/pod_details_page.rs:363 src/view/volume_details_page.rs:221
+#: src/view/container_details_page.rs:458 src/view/image_details_page.rs:362
+#: src/view/pod_details_page.rs:367 src/view/volume_details_page.rs:248
 #, fuzzy
 msgid "Copied to clipboard"
 msgstr "Kopier til Udklipsholderen"
 
-#: src/view/container_health_check_log_row.rs:80
+#: src/view/container_health_check_log_row.rs:81
 msgid "Passed Health Run"
 msgstr ""
 
-#: src/view/container_health_check_log_row.rs:84
+#: src/view/container_health_check_log_row.rs:85
 #, rust-format
 msgid "Failed Health Run: {}"
 msgstr ""
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
-#: src/view/container_health_check_log_row.rs:91
-#: src/view/image_history_page.rs:110 src/widget/date_time_row.rs:146
+#: src/view/container_health_check_log_row.rs:92
+#: src/view/image_history_page.rs:111 src/widget/date_time_row.rs:146
 msgid "%x %X"
 msgstr ""
 
@@ -1537,15 +1537,15 @@ msgstr ""
 msgid "_Run Health Check"
 msgstr ""
 
-#: src/view/container_health_check_page.rs:198
-#: src/view/container_health_check_page.rs:214
+#: src/view/container_health_check_page.rs:197
+#: src/view/container_health_check_page.rs:213
 #, rust-format
 msgid "{} second"
 msgid_plural "{} seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/container_health_check_page.rs:271
+#: src/view/container_health_check_page.rs:270
 msgid "Error on running health check"
 msgstr ""
 
@@ -1609,32 +1609,32 @@ msgid ""
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/container_log_page.rs:382
+#: src/view/container_log_page.rs:363
 msgid "Error while following log"
 msgstr ""
 
-#: src/view/container_log_page.rs:605
+#: src/view/container_log_page.rs:569
 msgid "Include timestamps"
 msgstr ""
 
-#: src/view/container_log_page.rs:659
+#: src/view/container_log_page.rs:623
 msgid "Error on saving logs"
 msgstr ""
 
-#: src/view/container_log_page.rs:673
+#: src/view/container_log_page.rs:637
 msgid "Error on retrieving logs"
 msgstr ""
 
-#: src/view/container_log_page.rs:686
+#: src/view/container_log_page.rs:650
 #, fuzzy
 msgid "Log has been saved"
 msgstr "Pods er blevet oprettet"
 
-#: src/view/container_log_page.rs:716
+#: src/view/container_log_page.rs:680
 msgid "Error starting container"
 msgstr ""
 
-#: src/view/container_log_page.rs:730
+#: src/view/container_log_page.rs:694
 msgid "Error resuming container"
 msgstr ""
 
@@ -1662,10 +1662,10 @@ msgstr ""
 msgid "Re_name…"
 msgstr ""
 
-#: src/view/container_menu_button.blp:46 src/view/containers_panel.rs:967
-#: src/view/image.rs:35 src/view/images_panel.rs:677 src/view/pod.rs:68
-#: src/view/pod_menu_button.blp:45 src/view/pods_panel.rs:821
-#: src/view/volume.rs:33 src/view/volumes_panel.rs:661
+#: src/view/container_menu_button.blp:46 src/view/containers_panel.rs:966
+#: src/view/image.rs:33 src/view/images_panel.rs:678 src/view/pod.rs:66
+#: src/view/pod_menu_button.blp:45 src/view/pods_panel.rs:820
+#: src/view/volume.rs:31 src/view/volumes_panel.rs:661
 msgid "_Delete"
 msgstr ""
 
@@ -1683,6 +1683,7 @@ msgstr ""
 #: src/view/container_properties_group.blp:64
 #: src/view/image_details_page.blp:72 src/view/pod_details_page.blp:189
 #: src/view/pod_details_page.blp:213 src/view/volume_details_page.blp:50
+#: src/view/volume_details_page.blp:90
 #, fuzzy
 msgid "Copy to clipboard"
 msgstr "Kopier til Udklipsholderen"
@@ -1728,7 +1729,7 @@ msgstr ""
 msgid "Upload Files (Ctrl+U)"
 msgstr ""
 
-#: src/view/container_properties_group.rs:119
+#: src/view/container_properties_group.rs:117
 msgid "None"
 msgstr ""
 
@@ -1755,22 +1756,22 @@ msgid_plural "Processor ({} CPUs)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/container_resources.rs:97
+#: src/view/container_resources.rs:93
 msgid "Processor (? CPUs)"
 msgstr ""
 
-#: src/view/container_resources.rs:109 src/view/container_resources.rs:144
-#: src/view/container_resources.rs:149 src/view/container_resources.rs:153
-#: src/view/container_resources.rs:156
+#: src/view/container_resources.rs:105 src/view/container_resources.rs:141
+#: src/view/container_resources.rs:146 src/view/container_resources.rs:150
+#: src/view/container_resources.rs:154
 msgid "?"
 msgstr ""
 
-#: src/view/container_resources.rs:106
+#: src/view/container_resources.rs:102
 #, rust-format
 msgid "{} %"
 msgstr ""
 
-#: src/view/container_resources.rs:139
+#: src/view/container_resources.rs:135
 #, rust-format
 msgid "{} / {} ({} %)"
 msgstr ""
@@ -1900,15 +1901,15 @@ msgstr "Container Oversigt"
 msgid "_Create Container"
 msgstr "Opret kontainer"
 
-#: src/view/containers_panel.rs:362
+#: src/view/containers_panel.rs:363
 msgid "1 container, running"
 msgstr ""
 
-#: src/view/containers_panel.rs:364
+#: src/view/containers_panel.rs:365
 msgid "1 container, stopped"
 msgstr ""
 
-#: src/view/containers_panel.rs:368
+#: src/view/containers_panel.rs:369
 #, rust-format
 msgid "{} container total, {} running"
 msgid_plural "{} containers total, {} running"
@@ -1922,27 +1923,27 @@ msgid_plural "{} Selected Containers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/containers_panel.rs:521
+#: src/view/containers_panel.rs:520
 msgid "List View"
 msgstr ""
 
-#: src/view/containers_panel.rs:528
+#: src/view/containers_panel.rs:527
 msgid "Grid View"
 msgstr ""
 
-#: src/view/containers_panel.rs:958
+#: src/view/containers_panel.rs:957
 msgid "Confirm Forced Deletion of Multiple Containers"
 msgstr ""
 
-#: src/view/containers_panel.rs:961
+#: src/view/containers_panel.rs:960
 msgid ""
 "All the data created inside the containers will be lost and running "
 "containers will be stopped!"
 msgstr ""
 
-#: src/view/containers_prune_action_view.rs:65
-#: src/view/images_prune_action_view.rs:65
-#: src/view/volumes_prune_action_view.rs:65
+#: src/view/containers_prune_action_view.rs:67
+#: src/view/images_prune_action_view.rs:67
+#: src/view/volumes_prune_action_view.rs:67
 #, fuzzy, rust-format
 msgid "Space Reclaimed: <b>{}</b>"
 msgstr "Start ny container <b>{}</b>"
@@ -1986,7 +1987,7 @@ msgstr ""
 msgid "mknod"
 msgstr ""
 
-#: src/view/image.rs:24
+#: src/view/image.rs:25
 msgid "Confirm Image Deletion"
 msgstr ""
 
@@ -1999,7 +2000,7 @@ msgid ""
 msgstr ""
 
 #. Translators: The "{}" is a placeholder for the image id.
-#: src/view/image.rs:74
+#: src/view/image.rs:72
 #, fuzzy, rust-format
 msgid "Error on removing image '{}'"
 msgstr "Fejl ved åbning af fildialog"
@@ -2017,19 +2018,19 @@ msgstr ""
 msgid "Image Name"
 msgstr ""
 
-#: src/view/image_build_opts_dialog.blp:92
+#: src/view/image_build_opts_dialog.blp:88
 msgid "Build Context Directory"
 msgstr ""
 
-#: src/view/image_build_opts_dialog.blp:97
+#: src/view/image_build_opts_dialog.blp:93
 msgid "Select…"
 msgstr ""
 
-#: src/view/image_build_opts_dialog.blp:104
+#: src/view/image_build_opts_dialog.blp:100
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
 
-#: src/view/image_build_opts_dialog.rs:197
+#: src/view/image_build_opts_dialog.rs:195
 msgid "Select Build Context Directory"
 msgstr ""
 
@@ -2067,7 +2068,7 @@ msgid "Repository Tags"
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:200
+#: src/view/image_details_page.rs:201
 #, rust-format
 msgid "{} (Virtual: {})"
 msgstr ""
@@ -2079,16 +2080,16 @@ msgid "{} (Shared: {})"
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:219
+#: src/view/image_details_page.rs:218
 #, rust-format
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr ""
 
-#: src/view/image_details_page.rs:293
+#: src/view/image_details_page.rs:294
 msgid "Error on loading image details"
 msgstr ""
 
-#: src/view/image_details_page.rs:311
+#: src/view/image_details_page.rs:313
 #, rust-format
 msgid "Image '{}' has been deleted"
 msgstr ""
@@ -2101,39 +2102,39 @@ msgstr ""
 msgid "History List"
 msgstr ""
 
-#: src/view/image_history_page.rs:84
+#: src/view/image_history_page.rs:85
 #, rust-format
 msgid "{} entry"
 msgid_plural "{} entries"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/image_history_page.rs:86
+#: src/view/image_history_page.rs:87
 #, rust-format
 msgid "{} in total"
 msgstr ""
 
-#: src/view/image_history_page.rs:100
+#: src/view/image_history_page.rs:101
 msgid "<None>"
 msgstr ""
 
-#: src/view/image_history_page.rs:115
+#: src/view/image_history_page.rs:116
 msgid "Unknown Date"
 msgstr ""
 
-#: src/view/image_history_page.rs:126
+#: src/view/image_history_page.rs:127
 msgid "Unknown size"
 msgstr ""
 
-#: src/view/image_history_page.rs:143
+#: src/view/image_history_page.rs:144
 msgid "Created by"
 msgstr ""
 
-#: src/view/image_history_page.rs:173
+#: src/view/image_history_page.rs:174
 msgid "Tags"
 msgstr ""
 
-#: src/view/image_history_page.rs:189
+#: src/view/image_history_page.rs:190
 msgid "Error on retrieving history"
 msgstr ""
 
@@ -2236,24 +2237,24 @@ msgid_plural "{} images total ({}), {} unused ({})"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/images_panel.rs:310
+#: src/view/images_panel.rs:312
 #, rust-format
 msgid "{} Selected Image"
 msgid_plural "{} Selected Images"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/images_panel.rs:669
+#: src/view/images_panel.rs:670
 msgid "Confirm Forced Deletion of Multiple Images"
 msgstr ""
 
-#: src/view/images_panel.rs:671
+#: src/view/images_panel.rs:672
 msgid ""
 "There may be containers associated with those images, which will also be "
 "removed!"
 msgstr ""
 
-#: src/view/images_panel.rs:705
+#: src/view/images_panel.rs:706
 #, rust-format
 msgid "Error on deleting image '{}'"
 msgstr ""
@@ -2305,7 +2306,7 @@ msgid "Storage"
 msgstr ""
 
 #: src/view/info_panel.blp:111 src/view/info_panel.blp:133
-#: src/view/volume_details_page.blp:65
+#: src/view/volume_details_page.blp:105
 msgid "Driver"
 msgstr ""
 
@@ -2375,35 +2376,35 @@ msgstr ""
 msgid "Private"
 msgstr ""
 
-#: src/view/pod.rs:41 src/view/pods_panel.rs:710
+#: src/view/pod.rs:42 src/view/pods_panel.rs:709
 msgid "Error on starting pod"
 msgstr ""
 
-#: src/view/pod.rs:42 src/view/pods_panel.rs:742 src/view/pods_panel.rs:769
+#: src/view/pod.rs:43 src/view/pods_panel.rs:741 src/view/pods_panel.rs:768
 msgid "Error on stopping pod"
 msgstr ""
 
-#: src/view/pod.rs:43 src/view/pods_panel.rs:740
+#: src/view/pod.rs:44 src/view/pods_panel.rs:739
 msgid "Error on killing pod"
 msgstr ""
 
-#: src/view/pod.rs:44 src/view/pods_panel.rs:796
+#: src/view/pod.rs:45 src/view/pods_panel.rs:795
 msgid "Error on restarting pod"
 msgstr ""
 
-#: src/view/pod.rs:45
+#: src/view/pod.rs:46
 msgid "Error on pausing pod"
 msgstr ""
 
-#: src/view/pod.rs:46 src/view/pods_panel.rs:695
+#: src/view/pod.rs:47 src/view/pods_panel.rs:694
 msgid "Error on resuming pod"
 msgstr ""
 
-#: src/view/pod.rs:47 src/view/pods_panel.rs:847
+#: src/view/pod.rs:48 src/view/pods_panel.rs:846
 msgid "Error on deleting pod"
 msgstr ""
 
-#: src/view/pod.rs:57
+#: src/view/pod.rs:58
 msgid "Confirm Pod Deletion"
 msgstr ""
 
@@ -2479,12 +2480,12 @@ msgstr ""
 msgid "View processes of the pod"
 msgstr "Monitorer processer for containere og pods."
 
-#: src/view/pod_details_page.rs:258
+#: src/view/pod_details_page.rs:259
 #, fuzzy
 msgid "Error on loading pod details"
 msgstr "Opret pods og container."
 
-#: src/view/pod_details_page.rs:294
+#: src/view/pod_details_page.rs:297
 #, rust-format
 msgid "Pod '{}' has been deleted"
 msgstr ""
@@ -2544,15 +2545,15 @@ msgstr ""
 msgid "_Create Pod"
 msgstr ""
 
-#: src/view/pods_panel.rs:306
+#: src/view/pods_panel.rs:307
 msgid "1 pod, running"
 msgstr "1 pod, køre"
 
-#: src/view/pods_panel.rs:308
+#: src/view/pods_panel.rs:309
 msgid "1 pod, stopped"
 msgstr "1 pod, stoppet"
 
-#: src/view/pods_panel.rs:312
+#: src/view/pods_panel.rs:313
 #, fuzzy, rust-format
 msgid "{} pod total, {} running"
 msgid_plural "{} pods total, {} running"
@@ -2566,11 +2567,11 @@ msgid_plural "{} Selected Pods"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/pods_panel.rs:814
+#: src/view/pods_panel.rs:813
 msgid "Confirm Forced Deletion of Multiple Pods"
 msgstr ""
 
-#: src/view/pods_panel.rs:816
+#: src/view/pods_panel.rs:815
 msgid "All associated containers will also be removed!"
 msgstr ""
 
@@ -2618,11 +2619,11 @@ msgstr "Host Sti"
 msgid "Host"
 msgstr "Host Sti"
 
-#: src/view/port_binding_row.rs:189
+#: src/view/port_binding_row.rs:184
 msgid "Invalid URL"
 msgstr ""
 
-#: src/view/port_binding_row.rs:206
+#: src/view/port_binding_row.rs:201 src/view/volume_details_page.rs:281
 #, fuzzy
 msgid "Error opening link"
 msgstr "Fejl ved åbning af fildialog"
@@ -2639,7 +2640,7 @@ msgstr ""
 msgid "Repository Tag"
 msgstr ""
 
-#: src/view/repo_tag_add_dialog.rs:89
+#: src/view/repo_tag_add_dialog.rs:90
 msgid "Repo tag must contain a colon “:”"
 msgstr ""
 
@@ -2699,15 +2700,15 @@ msgstr ""
 msgid "Save Credentials"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.rs:174
+#: src/view/repo_tag_push_opts_dialog.rs:172
 msgid "Error on accessing keyring"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.rs:303
+#: src/view/repo_tag_push_opts_dialog.rs:301
 msgid "Error saving credentials"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.rs:304
+#: src/view/repo_tag_push_opts_dialog.rs:302
 msgid "Secret Service is not available"
 msgstr ""
 
@@ -2742,45 +2743,45 @@ msgid ""
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:275
+#: src/view/scalable_text_view_page.rs:276
 msgid "Image Inspection"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:282
+#: src/view/scalable_text_view_page.rs:283
 msgid "Container Inspection"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:283
+#: src/view/scalable_text_view_page.rs:284
 msgid "Container Kube Generation"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:293
+#: src/view/scalable_text_view_page.rs:294
 msgid "Pod Inspection"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:294
+#: src/view/scalable_text_view_page.rs:295
 msgid "Pod Kube Generation"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:301
+#: src/view/scalable_text_view_page.rs:302
 #, fuzzy
 msgid "Volume Inspection"
 msgstr "Inspektion"
 
-#: src/view/scalable_text_view_page.rs:308
+#: src/view/scalable_text_view_page.rs:309
 msgid "Detailed Information"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:334
+#: src/view/scalable_text_view_page.rs:337
 #, rust-format
 msgid "Could not set language to '{}'"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:417
+#: src/view/scalable_text_view_page.rs:421
 msgid "Inspection error"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:418
+#: src/view/scalable_text_view_page.rs:422
 msgid "Kube generation error"
 msgstr ""
 
@@ -2985,7 +2986,7 @@ msgstr ""
 msgid "Remove Argument"
 msgstr "Argumenter"
 
-#: src/view/volume.rs:22
+#: src/view/volume.rs:23
 #, fuzzy
 msgid "Confirm Volume Deletion"
 msgstr "Inspektion"
@@ -2999,7 +3000,7 @@ msgid ""
 msgstr ""
 
 #. Translators: The "{}" is a placeholder for the volume name.
-#: src/view/volume.rs:54 src/view/volumes_panel.rs:680
+#: src/view/volume.rs:52 src/view/volumes_panel.rs:680
 #, rust-format
 msgid "Error on deleting volume '{}'"
 msgstr ""
@@ -3017,16 +3018,29 @@ msgstr "Fjern billede"
 msgid "Delete Volume"
 msgstr "Fjern billede"
 
-#: src/view/volume_details_page.blp:81
+#: src/view/volume_details_page.blp:65
 #, fuzzy
 msgid "Mount Path"
 msgstr "Host Sti"
 
-#: src/view/volume_details_page.blp:90
+#: src/view/volume_details_page.blp:74
+msgid "Open in file manager"
+msgstr ""
+
+#: src/view/volume_details_page.blp:77
+msgid "Open mount path in file manager"
+msgstr ""
+
+#: src/view/volume_details_page.blp:93
+#, fuzzy
+msgid "Copy mount path to clipboard"
+msgstr "Kopier til Udklipsholderen"
+
+#: src/view/volume_details_page.blp:122
 msgid "View all volume properties in a structured text form"
 msgstr ""
 
-#: src/view/volume_details_page.rs:185
+#: src/view/volume_details_page.rs:212
 #, rust-format
 msgid "Volume '{}' has been deleted"
 msgstr ""
@@ -3041,7 +3055,7 @@ msgstr "Fjern billede"
 msgid "{} old"
 msgstr ""
 
-#: src/view/volume_row.rs:268
+#: src/view/volume_row.rs:270
 #, rust-format
 msgid "Volume {}"
 msgstr ""
@@ -3090,22 +3104,22 @@ msgstr "Ingen pods fundet"
 msgid "_Create Volume"
 msgstr "Fjern billede"
 
-#: src/view/volumes_panel.rs:268
+#: src/view/volumes_panel.rs:270
 msgid "1 volume, used"
 msgstr ""
 
-#: src/view/volumes_panel.rs:270
+#: src/view/volumes_panel.rs:272
 msgid "1 volume, unused"
 msgstr ""
 
-#: src/view/volumes_panel.rs:274
+#: src/view/volumes_panel.rs:276
 #, rust-format
 msgid "{} volumes total, {} unused"
 msgid_plural "{} volumes total, {} unused"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/view/volumes_panel.rs:301
+#: src/view/volumes_panel.rs:302
 #, fuzzy, rust-format
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
@@ -3143,7 +3157,7 @@ msgstr ""
 msgid "_New Connection"
 msgstr "Ny Forbindelse"
 
-#: src/view/window.rs:219
+#: src/view/window.rs:214
 msgid "Confirm Exiting The Application"
 msgstr ""
 
@@ -3188,12 +3202,12 @@ msgstr "Forrige (Ctrl+Shift+G)"
 msgid "Next (Ctrl+G)"
 msgstr "Næste (Ctrl+G)"
 
-#: src/widget/source_view_search_widget.rs:158
+#: src/widget/source_view_search_widget.rs:160
 #, rust-format
 msgid "0 of {}"
 msgstr ""
 
-#: src/widget/source_view_search_widget.rs:184
+#: src/widget/source_view_search_widget.rs:186
 #, rust-format
 msgid "{} of {}"
 msgstr ""

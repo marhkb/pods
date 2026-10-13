@@ -2,7 +2,6 @@ use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -10,6 +9,7 @@ use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::SelectableExt;
 use crate::model::SelectableListExt;
@@ -162,9 +162,11 @@ mod imp {
                 ],
                 closure!(|_: Self::Type, _ticks: u64, created_at: i64| {
                     // Translators: This will resolve to sth. like "{a few minutes} old" or "{15 days} old".
-                    gettext!(
+                    gettext_f(
                         "{} old",
-                        utils::human_friendly_timespan(utils::timespan_now(created_at))
+                        [utils::human_friendly_timespan(utils::timespan_now(
+                            created_at,
+                        ))],
                     )
                 }),
             )
@@ -264,9 +266,9 @@ impl VolumeRow {
             } else {
                 utils::navigation_view(self).push(
                     &adw::NavigationPage::builder()
-                        .title(gettext!(
+                        .title(gettext_f(
                             "Volume {}",
-                            utils::format_volume_name(&volume.name())
+                            [utils::format_volume_name(&volume.name())],
                         ))
                         .child(&view::VolumeDetailsPage::from(volume))
                         .build(),

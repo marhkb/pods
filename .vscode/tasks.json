@@ -1,0 +1,92 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "flatpak: clean",
+      "type": "shell",
+      "command": "./build-aux/devcontainer/clean.sh",
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "flatpak: build deps",
+      "type": "shell",
+      "command": "./build-aux/devcontainer/build-deps.sh",
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "flatpak: build",
+      "type": "shell",
+      "command": "./build-aux/devcontainer/build.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "flatpak: run",
+      "type": "shell",
+      "command": "./build-aux/devcontainer/run.sh",
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "flatpak: build & run",
+      "type": "shell",
+      "command": "./build-aux/devcontainer/build-and-run.sh",
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "flatpak: update po",
+      "type": "shell",
+      "command": "./build-aux/devcontainer/update-po.sh",
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "flatpak: open build terminal",
+      "type": "shell",
+      "command": "./build-aux/devcontainer/open-build-terminal.sh",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "hide": true
+    }
+  ]
+}

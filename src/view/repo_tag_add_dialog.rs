@@ -2,10 +2,11 @@ use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
+
+use crate::gettext::gettext;
 
 mod imp {
     use super::*;

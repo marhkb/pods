@@ -7,7 +7,6 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use bytes::Bytes;
 use futures::StreamExt;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -16,6 +15,7 @@ use gtk::gdk;
 use gtk::glib;
 
 use crate::engine;
+use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
 use crate::utils;

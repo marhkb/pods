@@ -3,13 +3,13 @@ use std::cell::OnceCell;
 use adw::prelude::*;
 use futures::StreamExt;
 use futures::future;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::subclass::prelude::*;
 use gtk::glib;
 
 use crate::engine;
+use crate::gettext::gettext;
 use crate::model;
 use crate::model::prelude::*;
 use crate::rt;

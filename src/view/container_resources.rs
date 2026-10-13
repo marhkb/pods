@@ -2,8 +2,6 @@ use std::cell::Cell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
-use gettextrs::ngettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -11,6 +9,9 @@ use glib::closure_local;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
+use crate::gettext::ngettext;
 use crate::model;
 use crate::utils;
 
@@ -87,12 +88,7 @@ mod imp {
             cpus_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, cpus: i64| {
                     if cpus > 0 {
-                        ngettext!(
-                            "Processor ({} CPU)",
-                            "Processor ({} CPUs)",
-                            cpus as u32,
-                            cpus
-                        )
+                        ngettext("Processor ({} CPU)", "Processor ({} CPUs)", cpus as u32)
                     } else {
                         gettext("Processor (? CPUs)")
                     }
@@ -102,11 +98,11 @@ mod imp {
             stats_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                        gettext!(
+                        gettext_f(
                             "{} %",
-                            stats
+                            [stats
                                 .and_then(|stats| stats.cpu.map(|perc| format!("{perc:.1}")))
-                                .unwrap_or_else(|| gettext("?")),
+                                .unwrap_or_else(|| gettext("?"))],
                         )
                     }
                 ))
@@ -135,22 +131,24 @@ mod imp {
                     |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
                         stats
                             .map(|stats| {
-                                gettext!(
+                                gettext_f(
                                     "{} / {} ({} %)",
-                                    stats
-                                        .mem_usage
-                                        .map(glib::format_size)
-                                        .map(String::from)
-                                        .unwrap_or_else(|| gettext("?")),
-                                    stats
-                                        .mem_limit
-                                        .map(glib::format_size)
-                                        .map(String::from)
-                                        .unwrap_or_else(|| gettext("?")),
-                                    stats
-                                        .mem_perc
-                                        .map(|perc| format!("{perc:.1}"))
-                                        .unwrap_or_else(|| gettext("?")),
+                                    [
+                                        stats
+                                            .mem_usage
+                                            .map(glib::format_size)
+                                            .map(String::from)
+                                            .unwrap_or_else(|| gettext("?")),
+                                        stats
+                                            .mem_limit
+                                            .map(glib::format_size)
+                                            .map(String::from)
+                                            .unwrap_or_else(|| gettext("?")),
+                                        stats
+                                            .mem_perc
+                                            .map(|perc| format!("{perc:.1}"))
+                                            .unwrap_or_else(|| gettext("?")),
+                                    ],
                                 )
                             })
                             .unwrap_or_else(|| gettext("?"))
@@ -280,14 +278,14 @@ impl ContainerResources {
 
         stats_expr
             .chain_closure::<String>(closure_local!(move |_: Self, value: u64| {
-                let s = gettext!(
+                let s = gettext_f(
                     // Translators: For example 5 MB / s.
                     "{} / s",
-                    glib::format_size(if prev_value.get() >= value {
+                    [glib::format_size(if prev_value.get() >= value {
                         0
                     } else {
                         value - prev_value.get()
-                    })
+                    })],
                 );
 
                 prev_value.set(value);

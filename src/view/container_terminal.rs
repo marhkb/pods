@@ -8,7 +8,6 @@ use bytes::Bytes;
 use futures::AsyncWriteExt;
 use futures::StreamExt;
 use futures::future;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -21,6 +20,7 @@ use vte4::TerminalExt;
 use vte4::TerminalExtManual;
 
 use crate::engine;
+use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
 use crate::utils;

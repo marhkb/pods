@@ -5,8 +5,6 @@ use std::ops::Deref;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
-use gettextrs::ngettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -17,6 +15,10 @@ use gtk::glib;
 use smart_default::SmartDefault;
 
 use crate::config;
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
+use crate::gettext::ngettext;
+use crate::gettext::ngettext_f;
 use crate::model;
 use crate::model::SelectableListExt;
 use crate::utils;
@@ -272,14 +274,16 @@ mod imp {
                                     gettext("1 image, unused")
                                 }
                             } else {
-                                ngettext!(
+                                ngettext_f(
                                     "{} image total ({}), {} unused ({})",
                                     "{} images total ({}), {} unused ({})",
                                     len,
-                                    len,
-                                    glib::format_size(list.total_size()),
-                                    intermediates,
-                                    glib::format_size(list.unused_size()),
+                                    [
+                                        len.to_string(),
+                                        glib::format_size(list.total_size()).to_string(),
+                                        intermediates.to_string(),
+                                        glib::format_size(list.unused_size()).to_string(),
+                                    ],
                                 )
                             }
                         }
@@ -304,10 +308,9 @@ mod imp {
 
             image_list_expr
                 .chain_property::<model::ImageList>("num-selected")
-                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
+                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext(
                     "{} Selected Image",
                     "{} Selected Images",
-                    selected,
                     selected
                 )))
                 .bind(&self.selected_images_button.get(), "label", Some(obj));
@@ -699,9 +702,9 @@ impl ImagesPanel {
                                             utils::show_error_toast(
                                                 &obj,
                                                 // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
-                                                &gettext!(
+                                                &gettext_f(
                                                     "Error on deleting image '{}'",
-                                                    image.id()
+                                                    [image.id()],
                                                 ),
                                                 &e.to_string(),
                                             );

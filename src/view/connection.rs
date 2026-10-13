@@ -1,7 +1,7 @@
 use adw::prelude::*;
-use gettextrs::gettext;
 use gtk::glib;
 
+use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
 

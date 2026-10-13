@@ -5,8 +5,6 @@ use std::ops::Deref;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
-use gettextrs::ngettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -17,6 +15,9 @@ use gtk::glib;
 use smart_default::SmartDefault;
 
 use crate::config;
+use crate::gettext::gettext;
+use crate::gettext::ngettext;
+use crate::gettext::ngettext_f;
 use crate::model;
 use crate::model::SelectableListExt;
 use crate::utils;
@@ -308,12 +309,11 @@ mod imp {
                             gettext("1 pod, stopped")
                         }
                     } else {
-                        ngettext!(
+                        ngettext_f(
                             "{} pod total, {} running",
                             "{} pods total, {} running",
                             len,
-                            len,
-                            running,
+                            [len, running],
                         )
                     }
                 }),
@@ -335,10 +335,9 @@ mod imp {
 
             pod_list_expr
                 .chain_property::<model::PodList>("num-selected")
-                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
+                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext(
                     "{} Selected Pod",
                     "{} Selected Pods",
-                    selected,
                     selected
                 )))
                 .bind(&self.selected_pods_button.get(), "label", Some(obj));

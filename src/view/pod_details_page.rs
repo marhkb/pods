@@ -3,7 +3,6 @@ use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -12,6 +11,8 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -291,7 +292,10 @@ mod imp {
                     move |pod| {
                         pod.disconnect(handler_id_ref.take().unwrap());
 
-                        utils::show_toast(&obj, gettext!("Pod '{}' has been deleted", pod.name()));
+                        utils::show_toast(
+                            &obj,
+                            gettext_f("Pod '{}' has been deleted", [pod.name()]),
+                        );
 
                         let navigation_view = utils::navigation_view(&obj);
                         navigation_view.pop_to_page(&utils::navigation_page(&obj));

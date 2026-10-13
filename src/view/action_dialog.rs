@@ -3,13 +3,14 @@ use std::marker::PhantomData;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::prelude::*;
 use crate::utils;
@@ -284,21 +285,21 @@ impl ActionDialog {
 
         match action.state() {
             model::ActionState::Ongoing => {
-                label.set_label(&gettext!(
+                label.set_label(&gettext_f(
                     "since {}",
-                    utils::human_friendly_duration(
+                    [utils::human_friendly_duration(
                         glib::DateTime::now_local().unwrap().to_unix() - action.start_timestamp(),
-                    )
+                    )],
                 ));
 
                 glib::ControlFlow::Continue
             }
             _ => {
-                label.set_label(&gettext!(
+                label.set_label(&gettext_f(
                     "after {}",
-                    utils::human_friendly_duration(
+                    [utils::human_friendly_duration(
                         action.end_timestamp() - action.start_timestamp(),
-                    )
+                    )],
                 ));
 
                 glib::ControlFlow::Break

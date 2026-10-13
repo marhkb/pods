@@ -2,13 +2,13 @@ use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::prelude::*;
 use crate::utils;
@@ -336,9 +336,9 @@ impl ContainerRow {
 
                 Self::this_expression("container")
                     .chain_property::<model::Container>("name")
-                    .chain_closure::<String>(closure!(|_: Self, name: &str| gettext!(
+                    .chain_closure::<String>(closure!(|_: Self, name: &str| gettext_f(
                         "Container {}",
-                        name
+                        [name]
                     )))
                     .bind(&nav_page, "title", Some(self));
 

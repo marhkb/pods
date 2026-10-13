@@ -5,7 +5,6 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use ashpd::WindowIdentifier;
 use ashpd::desktop::file_chooser::SaveFileRequest;
-use gettextrs::gettext;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
@@ -14,6 +13,8 @@ use gtk::glib::clone;
 use sourceview5::prelude::*;
 
 use crate::engine;
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::rt;
 use crate::utils;
@@ -331,7 +332,10 @@ impl From<Entity> for ScalableTextViewPage {
             Some(lang) => imp.source_buffer.set_language(Some(&lang)),
             None => {
                 log::warn!("Could not set language to '{language}'");
-                utils::show_toast(&obj, gettext!("Could not set language to '{}'", language));
+                utils::show_toast(
+                    &obj,
+                    gettext_f("Could not set language to '{}'", [language]),
+                );
             }
         }
 

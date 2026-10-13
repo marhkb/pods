@@ -9,7 +9,6 @@ use futures::TryFutureExt;
 use futures::future;
 use futures::lock::Mutex;
 use futures::stream;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::subclass::prelude::*;
@@ -17,6 +16,7 @@ use gtk::glib;
 use tokio::io::AsyncWriteExt;
 use tokio::io::BufWriter;
 
+use crate::gettext::gettext;
 use crate::model;
 use crate::model::prelude::*;
 use crate::rt;

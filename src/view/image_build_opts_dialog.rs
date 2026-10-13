@@ -4,7 +4,6 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use ashpd::WindowIdentifier;
 use ashpd::desktop::file_chooser::OpenFileRequest;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use gtk::CompositeTemplate;
@@ -12,6 +11,7 @@ use gtk::gio;
 use gtk::glib;
 
 use crate::engine;
+use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
 use crate::view;

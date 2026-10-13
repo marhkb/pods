@@ -4,13 +4,14 @@ use std::cell::RefCell;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use ashpd::desktop as ashpd;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::prelude::*;
 use crate::rt;
@@ -280,11 +281,11 @@ impl ActionRow {
 
         match action.state() {
             model::ActionState::Ongoing => {
-                state_label.set_text(&gettext!(
+                state_label.set_text(&gettext_f(
                     "Ongoing ({})",
-                    &utils::human_friendly_duration(
-                        glib::DateTime::now_local().unwrap().to_unix() - action.start_timestamp()
-                    )
+                    [&utils::human_friendly_duration(
+                        glib::DateTime::now_local().unwrap().to_unix() - action.start_timestamp(),
+                    )],
                 ));
 
                 glib::ControlFlow::Continue
@@ -295,9 +296,9 @@ impl ActionRow {
                 );
 
                 state_label.set_text(&match action.state() {
-                    model::ActionState::Cancelled => gettext!("Cancelled after {}", duration),
-                    model::ActionState::Failed => gettext!("Failed after {}", duration),
-                    model::ActionState::Finished => gettext!("Finished after {}", duration),
+                    model::ActionState::Cancelled => gettext_f("Cancelled after {}", [duration]),
+                    model::ActionState::Failed => gettext_f("Failed after {}", [duration]),
+                    model::ActionState::Finished => gettext_f("Finished after {}", [duration]),
                     _ => unreachable!(),
                 });
 
@@ -366,41 +367,41 @@ fn action_description(action: &model::Action) -> String {
     if let Some(action) = action.downcast_ref::<model::ContainerCommitAction>() {
         action
             .container()
-            .map(|container| gettext!("Commit <b>{}</b>", container.name()))
+            .map(|container| gettext_f("Commit <b>{}</b>", [container.name()]))
             .unwrap_or_else(|| gettext("Commit container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCopyFromAction>() {
         action
             .container()
-            .map(|container| gettext!("Copy from <b>{}</b>", container.name()))
+            .map(|container| gettext_f("Copy from <b>{}</b>", [container.name()]))
             .unwrap_or_else(|| gettext("Copy from container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCopyToAction>() {
         action
             .container()
-            .map(|container| gettext!("Copy to <b>{}</b>", container.name()))
+            .map(|container| gettext_f("Copy to <b>{}</b>", [container.name()]))
             .unwrap_or_else(|| gettext("Copy to container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCreateAction>() {
-        gettext!("Create <b>{}</b>", action.opts().name)
+        gettext_f("Create <b>{}</b>", [&action.opts().name])
     } else if action
         .downcast_ref::<model::ContainersPruneAction>()
         .is_some()
     {
         gettext("Prune Containers")
     } else if let Some(action) = action.downcast_ref::<model::PodCreateAction>() {
-        gettext!("Create <b>{}</b>", action.opts().name)
+        gettext_f("Create <b>{}</b>", [&action.opts().name])
     } else if action.downcast_ref::<model::PodsPruneAction>().is_some() {
         gettext("Prune Pods")
     } else if let Some(action) = action.downcast_ref::<model::ImageBuildAction>() {
-        gettext!("Build <b>{}</b>", action.opts().tag)
+        gettext_f("Build <b>{}</b>", [&action.opts().tag])
     } else if let Some(action) = action.downcast_ref::<model::ImagePullAction>() {
-        gettext!("Pull <b>{}</b>", action.opts().reference)
+        gettext_f("Pull <b>{}</b>", [&action.opts().reference])
     } else if let Some(action) = action.downcast_ref::<model::ImagePushAction>() {
         let opts = action.opts();
-        gettext!("Push <b>{}</b>", format!("{}:{}", opts.repo, opts.tag))
+        gettext_f("Push <b>{}</b>", [format!("{}:{}", opts.repo, opts.tag)])
     } else if action.downcast_ref::<model::ImagesPruneAction>().is_some() {
         gettext("Prune Images")
     } else if let Some(action) = action.downcast_ref::<model::VolumeCreateAction>() {
         match action.opts().name.as_deref() {
-            Some(name) => gettext!("Create <b>{}</b>", name),
+            Some(name) => gettext_f("Create <b>{}</b>", [name]),
             None => gettext("Create anonymous"),
         }
     } else if action.downcast_ref::<model::VolumesPruneAction>().is_some() {

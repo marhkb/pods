@@ -1,10 +1,10 @@
 use adw::prelude::*;
-use gettextrs::gettext;
 use glib::clone;
 use glib::closure;
 use gtk::glib;
 use gtk::glib::clone::Downgrade;
 
+use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
 use crate::view;

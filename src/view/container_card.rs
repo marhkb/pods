@@ -3,7 +3,6 @@ use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -12,6 +11,7 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::prelude::*;
 use crate::utils;
@@ -524,9 +524,9 @@ impl ContainerCard {
 
                 Self::this_expression("container")
                     .chain_property::<model::Container>("name")
-                    .chain_closure::<String>(closure!(|_: Self, name: &str| gettext!(
+                    .chain_closure::<String>(closure!(|_: Self, name: &str| gettext_f(
                         "Container {}",
-                        name
+                        [name]
                     )))
                     .bind(&nav_page, "title", Some(self));
 
@@ -596,10 +596,10 @@ impl ContainerCard {
     ) {
         self.curr_value_expr(stats_expr)
             .chain_closure::<String>(closure!(|_: Self, value: u64| {
-                gettext!(
+                gettext_f(
                     // Translators: For example 5 MB / s.
                     "{} / s",
-                    glib::format_size(value)
+                    [glib::format_size(value)],
                 )
             }))
             .bind(label, "label", Some(self));

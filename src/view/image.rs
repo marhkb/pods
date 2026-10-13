@@ -1,11 +1,12 @@
 use adw::prelude::*;
-use gettextrs::gettext;
 use glib::clone;
 use glib::clone::Downgrade;
 use gtk::gio;
 use gtk::glib;
 
 use crate::engine;
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -23,11 +24,8 @@ where
             let dialog = adw::AlertDialog::builder()
                     .heading(gettext("Confirm Image Deletion"))
                     .body_use_markup(true)
-                    .body(gettext!(
-                        // Translators: The "{}" is a placeholder for the container name.
-                        "Image is used by container <b>{}</b>. Deleting the image will also delete all its associated containers.",
-                        container.name(),
-                    ))
+                    .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
+                        "Image is used by container <b>{}</b>. Deleting the image will also delete all its associated containers.", [container.name()]))
                     .build();
 
             dialog.add_responses(&[
@@ -71,7 +69,7 @@ where
                     utils::show_error_toast(
                         &widget,
                         // Translators: The "{}" is a placeholder for the image id.
-                        &gettext!("Error on removing image '{}'", image.id()),
+                        &gettext_f("Error on removing image '{}'", [image.id()]),
                         &e.to_string(),
                     );
                 }

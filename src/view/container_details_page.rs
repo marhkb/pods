@@ -3,7 +3,6 @@ use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -12,6 +11,8 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -251,9 +252,11 @@ mod imp {
                     match status {
                         model::ContainerStatus::Running => {
                             // Translators: Example: since {3 hours}, since {a few seconds}
-                            gettext!(
+                            gettext_f(
                                 "since {}",
-                                utils::human_friendly_timespan(utils::timespan_now(up_since))
+                                [utils::human_friendly_timespan(utils::timespan_now(
+                                    up_since,
+                                ))],
                             )
                         }
                         _ => String::new(),
@@ -371,7 +374,7 @@ mod imp {
 
                         utils::show_toast(
                             &obj,
-                            gettext!("Container '{}' has been deleted", container.name()),
+                            gettext_f("Container '{}' has been deleted", [container.name()]),
                         );
 
                         let navigation_view = utils::navigation_view(&obj);
