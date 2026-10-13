@@ -5,6 +5,7 @@ mod application;
 #[rustfmt::skip]
 mod config;
 mod engine;
+mod gettext;
 mod model;
 mod rt;
 mod utils;
@@ -17,14 +18,13 @@ use std::str::FromStr;
 use std::sync::OnceLock;
 
 use adw::prelude::*;
-use gettextrs::LocaleCategory;
-use gettextrs::gettext;
 use glib::clone;
 use gtk::gio;
 use gtk::glib;
 use smart_default::SmartDefault;
 
 use self::application::Application;
+use self::gettext::gettext;
 
 pub(crate) static APPLICATION_OPTS: OnceLock<ApplicationOptions> = OnceLock::new();
 pub(crate) static KEYRING: OnceLock<oo7::Keyring> = OnceLock::new();
@@ -111,7 +111,6 @@ fn main() {
             crate::init();
 
             // Prepare i18n
-            gettextrs::setlocale(LocaleCategory::LcAll, "");
             gettextrs::bindtextdomain(config::GETTEXT_PACKAGE, config::LOCALEDIR)
                 .expect("Unable to bind the text domain");
             gettextrs::textdomain(config::GETTEXT_PACKAGE)

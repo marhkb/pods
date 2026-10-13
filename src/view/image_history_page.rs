@@ -1,12 +1,13 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
-use gettextrs::ngettext;
 use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::glib::clone;
 use gtk::pango;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
+use crate::gettext::ngettext;
 use crate::model;
 use crate::rt;
 use crate::utils;
@@ -81,12 +82,12 @@ impl From<&model::Image> for ImageHistoryPage {
 
                         imp.preferences_group.set_description(Some(&format!(
                             "{}, {}",
-                            ngettext!("{} entry", "{} entries", len, len,),
-                            gettext!(
+                            ngettext("{} entry", "{} entries", len),
+                            gettext_f(
                                 "{} in total",
-                                glib::format_size(
+                                [glib::format_size(
                                     entries.iter().filter_map(|item| item.size).sum()
-                                ),
+                                )]
                             )
                         )));
 

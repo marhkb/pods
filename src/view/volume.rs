@@ -1,9 +1,10 @@
 use adw::prelude::*;
-use gettextrs::gettext;
 use glib::clone::Downgrade;
 use gtk::glib;
 
 use crate::engine;
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -21,11 +22,8 @@ where
             let dialog = adw::AlertDialog::builder()
                 .heading(gettext("Confirm Volume Deletion"))
                 .body_use_markup(true)
-                .body(gettext!(
-                    // Translators: The "{}" is a placeholder for the container name.
-                    "Volume is used by container <b>{}</b>. Deleting the volume will also delete these containers.",
-                    container.name(),
-                ))
+                .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
+                    "Volume is used by container <b>{}</b>. Deleting the volume will also delete these containers.", [container.name()]))
                 .build();
 
             dialog.add_responses(&[
@@ -51,7 +49,7 @@ where
         utils::show_error_toast(
             widget,
             // Translators: The "{}" is a placeholder for the volume name.
-            &gettext!("Error on deleting volume '{}'", &volume.name()),
+            &gettext_f("Error on deleting volume '{}'", [&volume.name()]),
             &e.to_string(),
         );
     }

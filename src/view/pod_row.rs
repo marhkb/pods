@@ -3,7 +3,6 @@ use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -11,6 +10,7 @@ use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::gettext::gettext;
 use crate::model;
 use crate::model::SelectableExt;
 use crate::model::SelectableListExt;

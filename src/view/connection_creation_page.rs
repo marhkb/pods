@@ -3,7 +3,6 @@ use std::cell::OnceCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -11,6 +10,8 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -146,14 +147,11 @@ mod imp {
             self.podman_unix_socket_url_row
                 .set_subtitle(&utils::unix_socket_url());
 
-            self.podman_socket_url_label.set_markup(&gettext!(
-                // Translators: The placeholder '{}' is replaced by 'official documentation'.
-                "Visit the {} for more information.",
-                format!(
+            self.podman_socket_url_label.set_markup(&gettext_f(// Translators: The placeholder '{}' is replaced by 'official documentation'.
+                "Visit the {} for more information.", [format!(
                     "<a href=\"https://github.com/containers/podman/blob/cea9340242f3f6cf41f20fb0b6239aa3db5decd6/docs/tutorials/socket_activation.md\">{}</a>",
                     gettext("official documentation")
-                )
-            ));
+                )]));
 
             self.custom_url_radio_button
                 .set_active(obj.connection_manager().contains_local_connection());

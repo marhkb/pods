@@ -5,7 +5,6 @@ use std::marker::PhantomData;
 use std::path::PathBuf;
 
 use futures::future;
-use gettextrs::gettext;
 use gio::prelude::*;
 use gio::subclass::prelude::*;
 use glib::Properties;
@@ -17,6 +16,7 @@ use indexmap::IndexMap;
 use tokio::io::AsyncWriteExt;
 
 use crate::engine;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::rt;
 use crate::utils;
@@ -197,9 +197,9 @@ impl ConnectionManager {
         let imp = self.imp();
 
         if imp.connections.borrow().values().any(|c| c.name() == name) {
-            return Some(Err(anyhow::anyhow!(gettext!(
+            return Some(Err(anyhow::anyhow!(gettext_f(
                 "Connection '{}' already exists",
-                name
+                [name]
             ))));
         }
 

@@ -5,8 +5,6 @@ use std::ops::Deref;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
-use gettextrs::ngettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -17,6 +15,9 @@ use gtk::glib;
 use smart_default::SmartDefault;
 
 use crate::config;
+use crate::gettext::gettext;
+use crate::gettext::ngettext;
+use crate::gettext::ngettext_f;
 use crate::model;
 use crate::model::AbstractContainerListExt;
 use crate::model::SelectableListExt;
@@ -364,12 +365,11 @@ mod imp {
                             gettext("1 container, stopped")
                         }
                     } else {
-                        ngettext!(
+                        ngettext_f(
                             "{} container total, {} running",
                             "{} containers total, {} running",
                             containers,
-                            containers,
-                            running,
+                            [containers, running],
                         )
                     }
                 }),
@@ -391,10 +391,9 @@ mod imp {
 
             container_list_expr
                 .chain_property::<model::ContainerList>("num-selected")
-                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
+                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext(
                     "{} Selected Container",
                     "{} Selected Containers",
-                    selected,
                     selected
                 )))
                 .bind(&self.selected_containers_button.get(), "label", Some(obj));

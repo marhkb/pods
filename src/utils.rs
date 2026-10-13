@@ -6,8 +6,6 @@ use adw::prelude::*;
 use ashpd::desktop::file_chooser::OpenFileRequest;
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use ashpd::desktop::file_chooser::SelectedFiles;
-use gettextrs::gettext;
-use gettextrs::ngettext;
 use gtk::gio;
 use gtk::glib;
 use gtk::glib::clone::Downgrade;
@@ -15,6 +13,9 @@ use smart_default::SmartDefault;
 
 use crate::APPLICATION_OPTS;
 use crate::config;
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
+use crate::gettext::ngettext;
 use crate::rt;
 use crate::view;
 
@@ -116,21 +117,21 @@ pub(crate) fn human_friendly_duration(mut seconds: i64) -> String {
         let minutes = seconds / 60;
         if minutes > 0 {
             seconds %= 60;
-            gettext!("{} h {} min {} s", hours, minutes, seconds)
+            gettext_f("{} h {} min {} s", [hours, minutes, seconds])
         } else {
-            gettext!("{} h {} s", hours, seconds)
+            gettext_f("{} h {} s", [hours, seconds])
         }
     } else {
         let minutes = seconds / 60;
         if minutes > 0 {
             seconds %= 60;
             if seconds > 0 {
-                gettext!("{} min {} s", minutes, seconds)
+                gettext_f("{} min {} s", [minutes, seconds])
             } else {
-                gettext!("{} min", minutes)
+                gettext_f("{} min", [minutes])
             }
         } else {
-            gettext!("{} s", seconds)
+            gettext_f("{} s", [seconds])
         }
     }
 }
@@ -177,18 +178,18 @@ pub(crate) fn human_friendly_timespan(timespan: glib::TimeSpan) -> String {
     if minutes < 1 {
         gettext("a few seconds")
     } else if minutes < 60 {
-        ngettext!("{} minute", "{} minutes", minutes as u32, minutes)
+        ngettext("{} minute", "{} minutes", minutes as u32)
     } else if hours < 24 {
-        ngettext!("{} hour", "{} hours", hours as u32, hours)
+        ngettext("{} hour", "{} hours", hours as u32)
     } else {
         let days = timespan.as_days();
-        ngettext!("{} day", "{} days", days as u32, days)
+        ngettext("{} day", "{} days", days as u32)
     }
 }
 
 pub(crate) fn format_ago(timespan: glib::TimeSpan) -> String {
     // Translators: Example: {3 hours} ago, {a few seconds} ago
-    gettext!("{} ago", human_friendly_timespan(timespan))
+    gettext_f("{} ago", [human_friendly_timespan(timespan)])
 }
 
 pub(crate) fn format_id(id: &str) -> &str {

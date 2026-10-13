@@ -3,7 +3,6 @@ use std::collections::HashMap;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use gtk::CompositeTemplate;
@@ -12,6 +11,7 @@ use serde::Deserialize;
 use serde::Serialize;
 
 use crate::engine;
+use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
 use crate::utils;

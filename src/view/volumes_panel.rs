@@ -7,8 +7,6 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use futures::StreamExt;
 use futures::stream;
-use gettextrs::gettext;
-use gettextrs::ngettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -19,6 +17,10 @@ use gtk::glib;
 use smart_default::SmartDefault;
 
 use crate::config;
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
+use crate::gettext::ngettext;
+use crate::gettext::ngettext_f;
 use crate::model;
 use crate::model::SelectableListExt;
 use crate::utils;
@@ -270,12 +272,11 @@ mod imp {
                             gettext("1 volume, unused")
                         }
                     } else {
-                        ngettext!(
+                        ngettext_f(
                             "{} volumes total, {} unused",
                             "{} volumes total, {} unused",
                             len,
-                            len,
-                            unused,
+                            [len, unused],
                         )
                     }
                 }),
@@ -297,10 +298,9 @@ mod imp {
 
             volume_list_expr
                 .chain_property::<model::VolumeList>("num-selected")
-                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext!(
+                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext(
                     "{} Selected Volume",
                     "{} Selected Volumes",
-                    selected,
                     selected
                 )))
                 .bind(&self.selected_volumes_button.get(), "label", Some(obj));
@@ -677,7 +677,7 @@ impl VolumesPanel {
             if let Err(e) = volume.delete(true).await {
                 utils::show_error_toast(
                     self,
-                    &gettext!("Error on deleting volume '{}'", volume.name()),
+                    &gettext_f("Error on deleting volume '{}'", [volume.name()]),
                     &e.to_string(),
                 );
             }

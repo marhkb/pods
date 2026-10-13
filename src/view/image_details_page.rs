@@ -3,7 +3,6 @@ use std::rc::Rc;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -12,6 +11,8 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::rt;
 use crate::utils;
@@ -195,31 +196,31 @@ mod imp {
                             if shared_size == virtual_size {
                                 formatted_size.to_string()
                             } else {
-                                gettext!(
+                                gettext_f(
                                     // Translators: "{}" are placeholders for storage space.
                                     "{} (Virtual: {})",
-                                    formatted_size,
-                                    glib::format_size(virtual_size),
+                                    [formatted_size, glib::format_size(virtual_size)],
                                 )
                             }
                         } else if size == virtual_size {
                             if shared_size > 0 {
-                                gettext!(
+                                gettext_f(
                                     // Translators: "{}" are placeholders for storage space.
                                     "{} (Shared: {})",
-                                    formatted_size,
-                                    glib::format_size(shared_size),
+                                    [formatted_size, glib::format_size(shared_size)],
                                 )
                             } else {
                                 formatted_size.to_string()
                             }
                         } else {
-                            gettext!(
+                            gettext_f(
                                 // Translators: "{}" are placeholders for storage space.
                                 "{} (Shared: {}, Virtual: {})",
-                                formatted_size,
-                                glib::format_size(shared_size),
-                                glib::format_size(virtual_size),
+                                [
+                                    formatted_size,
+                                    glib::format_size(shared_size),
+                                    glib::format_size(virtual_size),
+                                ],
                             )
                         }
                     }
@@ -308,7 +309,10 @@ mod imp {
 
                         utils::show_toast(
                             &obj,
-                            gettext!("Image '{}' has been deleted", utils::format_id(&image.id())),
+                            gettext_f(
+                                "Image '{}' has been deleted",
+                                [utils::format_id(&image.id())],
+                            ),
                         );
 
                         let navigation_view = utils::navigation_view(&obj);

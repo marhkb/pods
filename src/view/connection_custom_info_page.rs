@@ -1,12 +1,12 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::clone;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 use sourceview5::prelude::*;
 
+use crate::gettext::gettext;
 use crate::utils;
 
 const ACTION_COPY_ROOT_SYSTEMD_UNIT_PATH: &str =

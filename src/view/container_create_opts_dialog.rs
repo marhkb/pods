@@ -2,7 +2,6 @@ use std::cell::OnceCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -11,6 +10,7 @@ use gtk::gio;
 use gtk::glib;
 
 use crate::engine;
+use crate::gettext::gettext;
 use crate::model;
 use crate::view;
 use crate::widget;

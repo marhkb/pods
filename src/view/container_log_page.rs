@@ -15,7 +15,6 @@ use ashpd::WindowIdentifier;
 use ashpd::desktop::file_chooser::Choice;
 use ashpd::desktop::file_chooser::SaveFileRequest;
 use bytes::Bytes;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
@@ -26,6 +25,7 @@ use gtk::glib;
 use sourceview5::prelude::*;
 
 use crate::engine;
+use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
 use crate::utils;

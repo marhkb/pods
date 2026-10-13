@@ -1,11 +1,12 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
-use gettextrs::gettext;
 use glib::Properties;
 use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -61,10 +62,12 @@ mod imp {
             let action_space_reclaimed_expr =
                 action_expr.chain_property::<model::ImagesPruneAction>("space-reclaimed");
             let action_space_reclaimed_formatted_expr = action_space_reclaimed_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, space_reclaimed: u64| gettext!(
-                    "Space Reclaimed: <b>{}</b>",
-                    glib::format_size(space_reclaimed)
-                )));
+                .chain_closure::<String>(closure!(
+                    |_: Self::Type, space_reclaimed: u64| gettext_f(
+                        "Space Reclaimed: <b>{}</b>",
+                        [glib::format_size(space_reclaimed)]
+                    )
+                ));
 
             action_space_reclaimed_formatted_expr.bind(
                 &*self.space_reclaimed_label,

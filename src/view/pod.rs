@@ -1,11 +1,12 @@
 use adw::prelude::*;
-use gettextrs::gettext;
 use glib::clone;
 use glib::clone::Downgrade;
 use gtk::gio;
 use gtk::glib;
 
 use crate::engine;
+use crate::gettext::gettext;
+use crate::gettext::gettext_f;
 use crate::model;
 use crate::view;
 
@@ -56,11 +57,8 @@ where
                 let dialog = adw::AlertDialog::builder()
                 .heading(gettext("Confirm Pod Deletion"))
                 .body_use_markup(true)
-                .body(gettext!(
-                    // Translators: The "{}" is a placeholder for the container name.
-                    "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.",
-                    container.name()
-                ))
+                .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
+                    "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.", [container.name()]))
                 .build();
 
                 dialog.add_responses(&[
