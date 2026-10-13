@@ -9,16 +9,17 @@
   ],
   "command": "pods",
   "finish-args": [
-    "--env=LD_LIBRARY_PATH=/app/lib:/app/lib64",
-    "--socket=fallback-x11",
-    "--socket=wayland",
-    "--share=network",
-    "--share=ipc",
     "--device=dri",
+    "--env=LD_LIBRARY_PATH=/app/lib:/app/lib64",
     "--env=RUST_BACKTRACE=1",
+    "--filesystem=/run/docker.sock",
     "--filesystem=/run/systemd/journal",
     "--filesystem=xdg-run/podman:ro",
-    "--filesystem=/run/docker.sock"
+    "--share=ipc",
+    "--share=network",
+    "--socket=fallback-x11",
+    "--socket=wayland",
+    "--talk-name=org.freedesktop.FileManager1"
   ],
   "build-options": {
     "append-path": "/usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm22/bin",
