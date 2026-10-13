@@ -8,9 +8,14 @@ template $PdsActionsButton: Widget {
       "image-button",
     ]
 
+    accessibility {
+      label: _("Actions");
+    }
+
     $PdsCountBadge {
       child: Image {
         icon-name: "bell-outline-symbolic";
+        accessible-role: presentation;
       };
 
       count: bind template.action-list as <$ActionList>.len;

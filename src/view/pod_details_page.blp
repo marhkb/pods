@@ -87,6 +87,7 @@ template $PdsPodDetailsPage: Widget {
 
           Image {
             icon-name: "media-playback-start-symbolic";
+            accessible-role: presentation;
           }
         }
 
@@ -103,6 +104,7 @@ template $PdsPodDetailsPage: Widget {
 
           Image {
             icon-name: "media-playback-stop-symbolic";
+            accessible-role: presentation;
           }
         }
 
@@ -115,6 +117,10 @@ template $PdsPodDetailsPage: Widget {
 
           sensitive: false;
           valign: center;
+
+          accessibility {
+            label: _("In Progress");
+          }
 
           Adw.Spinner {}
         }
@@ -261,6 +267,7 @@ template $PdsPodDetailsPage: Widget {
 
               Image {
                 icon-name: "go-next-symbolic";
+                accessible-role: presentation;
               }
             }
 
@@ -273,6 +280,7 @@ template $PdsPodDetailsPage: Widget {
 
               Image {
                 icon-name: "go-next-symbolic";
+                accessible-role: presentation;
               }
             }
 
@@ -285,6 +293,7 @@ template $PdsPodDetailsPage: Widget {
 
               Image {
                 icon-name: "go-next-symbolic";
+                accessible-role: presentation;
               }
             }
           }

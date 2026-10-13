@@ -3,7 +3,9 @@ using Adw 1;
 
 template $PdsContainerHealthCheckLogRow: Adw.ExpanderRow {
   [prefix]
-  Image exit_code_image {}
+  Image exit_code_image {
+    accessible-role: presentation;
+  }
 
   Adw.PreferencesRow {
     activatable: false;

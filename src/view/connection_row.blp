@@ -12,6 +12,7 @@ template $PdsConnectionRow: Widget {
     Image image {
       name: "background";
       valign: center;
+      accessible-role: presentation;
     }
 
     [overlay]
@@ -20,6 +21,10 @@ template $PdsConnectionRow: Widget {
       halign: end;
       valign: end;
       icon-name: "success-small-symbolic";
+
+      accessibility {
+        label: _("Active Connection");
+      }
     }
   }
 

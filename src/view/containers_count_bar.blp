@@ -20,6 +20,10 @@ template $PdsContainersCountBar: Widget {
     Image {
       icon-name: "package-x-generic-symbolic";
       pixel-size: 14;
+
+      accessibility {
+        label: _("Dead Containers");
+      }
     }
   }
 
@@ -38,6 +42,10 @@ template $PdsContainersCountBar: Widget {
     Image {
       icon-name: "package-x-generic-symbolic";
       pixel-size: 14;
+
+      accessibility {
+        label: _("Not Running Containers");
+      }
     }
   }
 
@@ -56,6 +64,10 @@ template $PdsContainersCountBar: Widget {
     Image {
       icon-name: "package-x-generic-symbolic";
       pixel-size: 14;
+
+      accessibility {
+        label: _("Running Containers");
+      }
     }
   }
 }

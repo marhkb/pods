@@ -49,6 +49,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
             klass.set_css_name("actionrow");
 
             klass.install_action(ACTION_CANCEL_OR_DELETE, None, |widget, _, _| {
@@ -134,16 +135,6 @@ mod imp {
                     }
                 }))
                 .bind(&*self.action_button, "icon-name", Some(obj));
-
-            action_state_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
-                    if state == model::ActionState::Ongoing {
-                        gettext("Abort")
-                    } else {
-                        gettext("Remove")
-                    }
-                }))
-                .bind(&*self.action_button, "tooltip-text", Some(obj));
         }
 
         fn dispose(&self) {
@@ -170,6 +161,18 @@ mod imp {
                 }
             })
             .spawn();
+        }
+    }
+
+    #[gtk::template_callbacks]
+    impl ActionRow {
+        #[template_callback]
+        fn action_button_tooltip(&self, state: model::ActionState) -> String {
+            if state == model::ActionState::Ongoing {
+                gettext("Abort")
+            } else {
+                gettext("Remove")
+            }
         }
     }
 

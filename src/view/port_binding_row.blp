@@ -39,6 +39,7 @@ template $PdsPortBindingRow: ListBoxRow {
     [center]
     Image {
       icon-name: "arrow1-right-symbolic";
+      accessible-role: presentation;
     }
 
     [end]
@@ -77,6 +78,7 @@ template $PdsPortBindingRow: ListBoxRow {
 
         action-name: "port-binding-row.open";
         icon-name: "external-link-symbolic";
+        tooltip-text: _("Open in Browser");
       }
     }
   }
