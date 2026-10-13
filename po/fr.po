@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 18:50+0000\n"
+"POT-Creation-Date: 2026-10-13 19:21+0000\n"
 "PO-Revision-Date: 2024-10-23 15:16+0000\n"
 "Last-Translator: Stan SZLAPKA <stansz@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/pods/main/fr/>\n"
@@ -747,15 +747,16 @@ msgstr "Connexion à Podman"
 msgid "Choose an existing connection or create a new one"
 msgstr "Choisissez une connexion existante ou créez-en une nouvelle."
 
-#: src/view/connection_chooser_page.rs:173
-#, fuzzy
-msgid "Error on establishing connection"
-msgstr "Erreur lors du changement de connexion"
-
+#: src/view/connection_chooser_page.blp:86
 #: src/view/connection_creation_page.blp:19
 #: src/view/connection_creation_page.blp:36
 msgid "New Connection"
 msgstr "Nouvelle connexion"
+
+#: src/view/connection_chooser_page.rs:173
+#, fuzzy
+msgid "Error on establishing connection"
+msgstr "Erreur lors du changement de connexion"
 
 #: src/view/connection_creation_page.blp:50
 msgid "_Connect"
@@ -1205,8 +1206,8 @@ msgstr "Changements"
 #: src/view/container_commit_opts_dialog.blp:95
 #, fuzzy
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
-"foo\")"
+"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"foo”)"
 msgstr ""
 "Instructions à appliquer lors de la validation du fichier Dockerfile (par "
 "exemple, \"CMD=/bin/foo\")."
@@ -1237,6 +1238,7 @@ msgid "_Copy"
 msgstr "_Copier"
 
 #: src/view/container_copy_from_opts_dialog.blp:47
+#: src/view/container_copy_to_opts_dialog.blp:72
 #, fuzzy
 msgid "Container Path (’/’ if empty)"
 msgstr "Chemin du conteneur ('/' si vide)"
@@ -1290,10 +1292,6 @@ msgstr "Sélectionnez un fichier ou un répertoire de l’hôte à téléverser.
 #: src/view/container_copy_to_opts_dialog.blp:63
 msgid "Select _File…"
 msgstr "Sélectionner un _fichier…"
-
-#: src/view/container_copy_to_opts_dialog.blp:72
-msgid "Container Path ('/' if empty)"
-msgstr "Chemin du conteneur ('/' si vide)"
 
 #: src/view/container_copy_to_opts_dialog.rs:152
 msgid "Select Host Directory"
@@ -1529,7 +1527,7 @@ msgstr "Générer un YAML Kubernetes basé sur ce conteneur."
 
 #: src/view/container_details_page.blp:300
 #, fuzzy
-msgid "Connect to the container's terminal"
+msgid "Connect to the container’s terminal"
 msgstr "Se connecter au terminal du conteneur."
 
 #: src/view/container_details_page.blp:312
@@ -3398,6 +3396,9 @@ msgstr "Réinitialiser le zoom"
 #, fuzzy
 msgid "Zoom In"
 msgstr "Agrandir"
+
+#~ msgid "Container Path ('/' if empty)"
+#~ msgstr "Chemin du conteneur ('/' si vide)"
 
 #, fuzzy
 #~ msgid "Pods 3.1.1 contains the following changes:"
