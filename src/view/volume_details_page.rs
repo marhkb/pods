@@ -13,10 +13,14 @@ use gtk::gdk;
 use gtk::glib;
 
 use crate::model;
+use crate::rt;
 use crate::utils;
 use crate::view;
 
 const ACTION_COPY_NAME_TO_CLIPBOARD: &str = "volume-details-page.copy-name-to-clipboard";
+const ACTION_OPEN_MOUNT_PATH: &str = "volume-details-page.open-mount-path";
+const ACTION_COPY_MOUNT_PATH_TO_CLIPBOARD: &str =
+    "volume-details-page.copy-mount-path-to-clipboard";
 const ACTION_INSPECT_VOLUME: &str = "volume-details-page.inspect-volume";
 const ACTION_DELETE_VOLUME: &str = "volume-details-page.delete-volume";
 
@@ -35,11 +39,13 @@ mod imp {
         #[template_child]
         pub(super) name_row: TemplateChild<adw::ActionRow>,
         #[template_child]
+        pub(super) mountpoint_row: TemplateChild<adw::ActionRow>,
+        #[template_child]
+        pub(super) open_mount_path_button: TemplateChild<gtk::Button>,
+        #[template_child]
         pub(super) created_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) driver_row: TemplateChild<adw::ActionRow>,
-        #[template_child]
-        pub(super) mountpoint_row: TemplateChild<adw::ActionRow>,
     }
 
     #[glib::object_subclass]
@@ -53,6 +59,13 @@ mod imp {
 
             klass.install_action(ACTION_COPY_NAME_TO_CLIPBOARD, None, |widget, _, _| {
                 widget.copy_name_to_clipboard();
+            });
+
+            klass.install_action_async(ACTION_OPEN_MOUNT_PATH, None, async |widget, _, _| {
+                widget.open_mount_path().await;
+            });
+            klass.install_action(ACTION_COPY_MOUNT_PATH_TO_CLIPBOARD, None, |widget, _, _| {
+                widget.copy_mount_path_to_clipboard();
             });
 
             klass.install_action_async(ACTION_INSPECT_VOLUME, None, async |widget, _, _| {
@@ -101,31 +114,38 @@ mod imp {
             let obj = &*self.obj();
 
             let volume_expr = Self::Type::this_expression("volume");
+            let to_be_deleted_expr = volume_expr.chain_property::<model::Volume>("to-be-deleted");
+            let name_expr = volume_expr.chain_property::<model::Volume>("name");
+            let mountpoint_expr = volume_expr.chain_property::<model::Volume>("mountpoint");
+            let driver_expr = volume_expr.chain_property::<model::Volume>("driver");
+            let volume_list_expr = volume_expr.chain_property::<model::Volume>("volume-list");
+            let client_expr = volume_list_expr.chain_property::<model::VolumeList>("client");
+            let connection_expr = client_expr.chain_property::<model::Client>("connection");
+            let is_local_expr = connection_expr.chain_property::<model::Connection>("is-local");
 
-            volume_expr
-                .chain_property::<model::Volume>("to-be-deleted")
-                .watch(
-                    Some(obj),
-                    clone!(
-                        #[weak]
-                        obj,
-                        move || {
-                            obj.action_set_enabled(
-                                ACTION_DELETE_VOLUME,
-                                obj.volume()
-                                    .map(|volume| !volume.to_be_deleted())
-                                    .unwrap_or(false),
-                            );
-                        }
-                    ),
-                );
+            to_be_deleted_expr.watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    #[strong]
+                    to_be_deleted_expr,
+                    move || obj.action_set_enabled(
+                        ACTION_DELETE_VOLUME,
+                        to_be_deleted_expr.evaluate_as(Some(&obj)).unwrap_or(false),
+                    )
+                ),
+            );
 
-            volume_expr
-                .chain_property::<model::Volume>("name")
+            name_expr
                 .chain_closure::<String>(closure!(|_: Self::Type, name: &str| {
                     utils::format_volume_name(name).to_owned()
                 }))
                 .bind(&*self.name_row, "subtitle", Some(obj));
+
+            mountpoint_expr.bind(&*self.mountpoint_row, "subtitle", Some(obj));
+
+            is_local_expr.bind(&*self.open_mount_path_button, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
@@ -140,15 +160,21 @@ mod imp {
             )
             .bind(&*self.created_row, "subtitle", Some(obj));
 
-            volume_expr.chain_property::<model::Volume>("driver").bind(
-                &*self.driver_row,
-                "subtitle",
-                Some(obj),
-            );
+            driver_expr.bind(&*self.driver_row, "subtitle", Some(obj));
 
-            volume_expr
-                .chain_property::<model::Volume>("mountpoint")
-                .bind(&*self.mountpoint_row, "subtitle", Some(obj));
+            is_local_expr.watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    #[strong]
+                    is_local_expr,
+                    move || obj.action_set_enabled(
+                        ACTION_OPEN_MOUNT_PATH,
+                        is_local_expr.evaluate_as(Some(&obj)).unwrap_or(false)
+                    )
+                ),
+            );
         }
 
         fn dispose(&self) {
@@ -212,13 +238,51 @@ impl From<&model::Volume> for VolumeDetailsPage {
 }
 
 impl VolumeDetailsPage {
-    pub(crate) fn copy_name_to_clipboard(&self) {
+    fn copy_to_clipboard<F: Fn(&model::Volume) -> String>(&self, op: F) {
         let Some(volume) = self.volume() else {
             return;
         };
-        self.display().clipboard().set_text(&volume.name());
+        self.display().clipboard().set_text(&op(&volume));
 
         utils::show_toast(self, gettext("Copied to clipboard"));
+    }
+
+    pub(crate) fn copy_name_to_clipboard(&self) {
+        self.copy_to_clipboard(model::Volume::name);
+    }
+
+    pub(crate) async fn open_mount_path(&self) {
+        let Some(volume) = self.volume() else {
+            return;
+        };
+
+        let uri = gtk::gio::File::for_path(volume.mountpoint())
+            .uri()
+            .to_string();
+
+        let open_result = rt::Promise::new(async move {
+            let connection = ashpd::zbus::Connection::session().await?;
+            connection
+                .call_method(
+                    Some("org.freedesktop.FileManager1"),
+                    "/org/freedesktop/FileManager1",
+                    Some("org.freedesktop.FileManager1"),
+                    "ShowFolders",
+                    &(vec![uri.as_str()], ""), // (as uris, s startup_id)
+                )
+                .await
+                .map(|_| ())
+        })
+        .exec()
+        .await;
+
+        if let Err(e) = open_result {
+            utils::show_error_toast(self, &gettext("Error opening link"), &e.to_string());
+        }
+    }
+
+    pub(crate) fn copy_mount_path_to_clipboard(&self) {
+        self.copy_to_clipboard(model::Volume::mountpoint);
     }
 
     pub(crate) async fn show_inspection(&self) {
