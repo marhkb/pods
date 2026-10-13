@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.10.1.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:119
@@ -321,7 +321,7 @@ msgstr "Unbekannt"
 
 #: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:312
 msgid "Docker"
-msgstr ""
+msgstr "Docker"
 
 #: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:313
 msgid "Podman"
@@ -427,7 +427,7 @@ msgstr "_Abbrechen"
 
 #: src/view/action_dialog.blp:118
 msgid "_Edit"
-msgstr ""
+msgstr "_Bearbeiten"
 
 #: src/view/action_dialog.blp:130
 msgid "_View"
@@ -440,7 +440,7 @@ msgstr "Abbrechen"
 
 #: src/view/action_dialog.rs:96
 msgid "Failed"
-msgstr ""
+msgstr "Fehlgeschlagen"
 
 #: src/view/action_dialog.rs:97
 msgid "Finished"
@@ -479,6 +479,7 @@ msgstr "Container wurde gelöscht"
 #: src/view/action_dialog.rs:387 src/view/action_dialog.rs:403
 msgid "Files cannot be copied anymore because the container has been removed."
 msgstr ""
+"Dateien können nicht mehr kopiert werden da der Container entfernt wurde."
 
 #: src/view/action_dialog.rs:425
 #, fuzzy
@@ -487,11 +488,11 @@ msgstr "Entfernen"
 
 #: src/view/action_dialog.rs:426
 msgid "Cannot push removed tag."
-msgstr ""
+msgstr "Kann kein entferntes Tag pushen."
 
 #: src/view/action_dialog.rs:449
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: src/view/action_row.rs:141
 msgid "Abort"
@@ -706,6 +707,8 @@ msgstr "Lokale Verbindung"
 #: src/view/connection_chooser_page.blp:47
 msgid "Type to filter connections. Press Enter to open the first result."
 msgstr ""
+"Tippe, um Verbindungen zu filtern. Drücke Enter, um das erste Ergebnis zu "
+"öffnen."
 
 #: src/view/connection_chooser_page.blp:61
 msgid "Connect to Podman"
