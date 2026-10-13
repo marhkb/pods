@@ -1,5 +1,5 @@
-#![allow(clippy::format_push_string)]
-#![allow(deprecated)]
+#![expect(clippy::format_push_string)]
+#![expect(deprecated)]
 
 mod application;
 #[rustfmt::skip]
