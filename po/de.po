@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 18:50+0000\n"
+"POT-Creation-Date: 2026-10-13 19:21+0000\n"
 "PO-Revision-Date: 2026-10-11 00:15+0000\n"
 "Last-Translator: Marcus Behrendt <marcus.behrendt.86@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
@@ -724,14 +724,15 @@ msgid "Choose an existing connection or create a new one"
 msgstr ""
 "Wählen Sie entweder eine bestehende Verbindung oder erstellen Sie eine neue"
 
-#: src/view/connection_chooser_page.rs:173
-msgid "Error on establishing connection"
-msgstr "Fehler beim Verbindungsaufbau"
-
+#: src/view/connection_chooser_page.blp:86
 #: src/view/connection_creation_page.blp:19
 #: src/view/connection_creation_page.blp:36
 msgid "New Connection"
 msgstr "Neue Verbindung"
+
+#: src/view/connection_chooser_page.rs:173
+msgid "Error on establishing connection"
+msgstr "Fehler beim Verbindungsaufbau"
 
 #: src/view/connection_creation_page.blp:50
 msgid "_Connect"
@@ -1172,9 +1173,10 @@ msgid "Changes"
 msgstr "Änderungen"
 
 #: src/view/container_commit_opts_dialog.blp:95
+#, fuzzy
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
-"foo\")"
+"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"foo”)"
 msgstr ""
 "Anweisungen, die während des Commits im Dockerfile-Format angewendet werden "
 "sollen (z. B. \"CMD=/bin/foo\")"
@@ -1205,6 +1207,7 @@ msgid "_Copy"
 msgstr "_Kopieren"
 
 #: src/view/container_copy_from_opts_dialog.blp:47
+#: src/view/container_copy_to_opts_dialog.blp:72
 #, fuzzy
 msgid "Container Path (’/’ if empty)"
 msgstr "Containerpfad ('/' falls leer)"
@@ -1257,10 +1260,6 @@ msgstr ""
 #: src/view/container_copy_to_opts_dialog.blp:63
 msgid "Select _File…"
 msgstr "_Datei Wählen…"
-
-#: src/view/container_copy_to_opts_dialog.blp:72
-msgid "Container Path ('/' if empty)"
-msgstr "Containerpfad ('/' falls leer)"
 
 #: src/view/container_copy_to_opts_dialog.rs:152
 msgid "Select Host Directory"
@@ -1485,7 +1484,8 @@ msgid "Generate Kubernetes YAML based on this container"
 msgstr "Generiere Kubernetes-YAML basierend auf diesem Container"
 
 #: src/view/container_details_page.blp:300
-msgid "Connect to the container's terminal"
+#, fuzzy
+msgid "Connect to the container’s terminal"
 msgstr "Verbinde mit dem Terminal des Containers"
 
 #: src/view/container_details_page.blp:312
@@ -3274,6 +3274,9 @@ msgstr "Vergrößerung zurücksetzen"
 #, fuzzy
 msgid "Zoom In"
 msgstr "Vergrößern"
+
+#~ msgid "Container Path ('/' if empty)"
+#~ msgstr "Containerpfad ('/' falls leer)"
 
 #~ msgid "Pods 3.1.1 contains the following changes:"
 #~ msgstr "Pods 3.1.1 enthält die folgenden Änderungen:"

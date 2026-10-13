@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 18:50+0000\n"
+"POT-Creation-Date: 2026-10-13 19:21+0000\n"
 "PO-Revision-Date: 2023-02-02 22:08+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/pods/"
@@ -754,16 +754,17 @@ msgstr "Mistet tilkoblingen til Podman"
 msgid "Choose an existing connection or create a new one"
 msgstr ""
 
-#: src/view/connection_chooser_page.rs:173
-#, fuzzy
-msgid "Error on establishing connection"
-msgstr "Kunne ikke starte beholder"
-
+#: src/view/connection_chooser_page.blp:86
 #: src/view/connection_creation_page.blp:19
 #: src/view/connection_creation_page.blp:36
 #, fuzzy
 msgid "New Connection"
 msgstr "Legg til ny tilkobling"
+
+#: src/view/connection_chooser_page.rs:173
+#, fuzzy
+msgid "Error on establishing connection"
+msgstr "Kunne ikke starte beholder"
 
 #: src/view/connection_creation_page.blp:50
 msgid "_Connect"
@@ -1214,8 +1215,8 @@ msgstr "Endringer"
 
 #: src/view/container_commit_opts_dialog.blp:95
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
-"foo\")"
+"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"foo”)"
 msgstr ""
 
 #: src/view/container_commit_opts_dialog.rs:101
@@ -1245,6 +1246,7 @@ msgid "_Copy"
 msgstr "_Kopier"
 
 #: src/view/container_copy_from_opts_dialog.blp:47
+#: src/view/container_copy_to_opts_dialog.blp:72
 #, fuzzy
 msgid "Container Path (’/’ if empty)"
 msgstr "Beholdere"
@@ -1300,11 +1302,6 @@ msgstr ""
 #, fuzzy
 msgid "Select _File…"
 msgstr "Velg fil"
-
-#: src/view/container_copy_to_opts_dialog.blp:72
-#, fuzzy
-msgid "Container Path ('/' if empty)"
-msgstr "Beholdere"
 
 #: src/view/container_copy_to_opts_dialog.rs:152
 msgid "Select Host Directory"
@@ -1541,7 +1538,7 @@ msgstr "Beholdere"
 
 #: src/view/container_details_page.blp:300
 #, fuzzy
-msgid "Connect to the container's terminal"
+msgid "Connect to the container’s terminal"
 msgstr "Koble til beholderens terminal."
 
 #: src/view/container_details_page.blp:312
@@ -3425,6 +3422,10 @@ msgstr ""
 #: src/widget/zoom_control.blp:44
 msgid "Zoom In"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Container Path ('/' if empty)"
+#~ msgstr "Beholdere"
 
 #, fuzzy
 #~ msgid "Enable searching for container and pod processes. (#747)"

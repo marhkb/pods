@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 18:50+0000\n"
+"POT-Creation-Date: 2026-10-13 19:21+0000\n"
 "PO-Revision-Date: 2026-02-18 07:09+0000\n"
 "Last-Translator: alevtina-karashokova <karashokovaaa@basealt.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/pods/main/ru/>\n"
@@ -736,14 +736,15 @@ msgstr "Подключиться к Podman"
 msgid "Choose an existing connection or create a new one"
 msgstr "Выберите существующее соединение или создайте новое"
 
-#: src/view/connection_chooser_page.rs:173
-msgid "Error on establishing connection"
-msgstr "Ошибка при установлении соединения"
-
+#: src/view/connection_chooser_page.blp:86
 #: src/view/connection_creation_page.blp:19
 #: src/view/connection_creation_page.blp:36
 msgid "New Connection"
 msgstr "Новое соединение"
+
+#: src/view/connection_chooser_page.rs:173
+msgid "Error on establishing connection"
+msgstr "Ошибка при установлении соединения"
 
 #: src/view/connection_creation_page.blp:50
 msgid "_Connect"
@@ -1180,9 +1181,10 @@ msgid "Changes"
 msgstr "Изменения"
 
 #: src/view/container_commit_opts_dialog.blp:95
+#, fuzzy
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
-"foo\")"
+"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"foo”)"
 msgstr ""
 "Инструкции для применения при фиксации в формате Dockerfile (например, «CMD=/"
 "bin/foo»)"
@@ -1213,6 +1215,7 @@ msgid "_Copy"
 msgstr "_Копировать"
 
 #: src/view/container_copy_from_opts_dialog.blp:47
+#: src/view/container_copy_to_opts_dialog.blp:72
 #, fuzzy
 msgid "Container Path (’/’ if empty)"
 msgstr "Путь к контейнеру («/» если пустой)"
@@ -1264,10 +1267,6 @@ msgstr "Выберите либо файл, либо каталог хоста �
 #: src/view/container_copy_to_opts_dialog.blp:63
 msgid "Select _File…"
 msgstr "Выбрать _файл…"
-
-#: src/view/container_copy_to_opts_dialog.blp:72
-msgid "Container Path ('/' if empty)"
-msgstr "Путь к контейнеру («/» если пустой)"
 
 #: src/view/container_copy_to_opts_dialog.rs:152
 msgid "Select Host Directory"
@@ -1491,7 +1490,8 @@ msgid "Generate Kubernetes YAML based on this container"
 msgstr "Создать YAML Kubernetes на основе этого контейнера"
 
 #: src/view/container_details_page.blp:300
-msgid "Connect to the container's terminal"
+#, fuzzy
+msgid "Connect to the container’s terminal"
 msgstr "Подключиться к терминалу контейнера"
 
 #: src/view/container_details_page.blp:312
@@ -3286,6 +3286,9 @@ msgstr "Сбросить масштаб"
 #, fuzzy
 msgid "Zoom In"
 msgstr "Увеличить"
+
+#~ msgid "Container Path ('/' if empty)"
+#~ msgstr "Путь к контейнеру («/» если пустой)"
 
 #, fuzzy
 #~ msgid "Pods 3.1.1 contains the following changes:"

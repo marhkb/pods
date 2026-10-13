@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 18:50+0000\n"
+"POT-Creation-Date: 2026-10-13 19:21+0000\n"
 "PO-Revision-Date: 2026-04-19 07:09+0000\n"
 "Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/pods/main/nl/>\n"
@@ -740,15 +740,16 @@ msgstr "Verbinding maken met Podman"
 msgid "Choose an existing connection or create a new one"
 msgstr "Kies een bestaande verbinding of maak een nieuwe aan"
 
-#: src/view/connection_chooser_page.rs:173
-#, fuzzy
-msgid "Error on establishing connection"
-msgstr "Fout bij wisselen van verbinding"
-
+#: src/view/connection_chooser_page.blp:86
 #: src/view/connection_creation_page.blp:19
 #: src/view/connection_creation_page.blp:36
 msgid "New Connection"
 msgstr "Nieuwe verbinding"
+
+#: src/view/connection_chooser_page.rs:173
+#, fuzzy
+msgid "Error on establishing connection"
+msgstr "Fout bij wisselen van verbinding"
 
 #: src/view/connection_creation_page.blp:50
 msgid "_Connect"
@@ -1194,8 +1195,8 @@ msgstr "Veranderingen"
 #: src/view/container_commit_opts_dialog.blp:95
 #, fuzzy
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
-"foo\")"
+"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"foo”)"
 msgstr ""
 "Instructies om toe te passen tijdens het committen in Dockerfile-formaat "
 "(bijv. ‘CMD=/bin/foo’)."
@@ -1226,6 +1227,7 @@ msgid "_Copy"
 msgstr "_Kopiëren"
 
 #: src/view/container_copy_from_opts_dialog.blp:47
+#: src/view/container_copy_to_opts_dialog.blp:72
 #, fuzzy
 msgid "Container Path (’/’ if empty)"
 msgstr "Containerpad (‘/’ indien leeg)"
@@ -1279,10 +1281,6 @@ msgstr "Selecteer een bestand of een map van de host om te uploaden."
 #: src/view/container_copy_to_opts_dialog.blp:63
 msgid "Select _File…"
 msgstr "_Bestand selecteren…"
-
-#: src/view/container_copy_to_opts_dialog.blp:72
-msgid "Container Path ('/' if empty)"
-msgstr "Containerpad (‘/’ indien leeg)"
 
 #: src/view/container_copy_to_opts_dialog.rs:152
 msgid "Select Host Directory"
@@ -1514,7 +1512,7 @@ msgstr "Genereert Kubernetes-YAML gebaseerd op deze container."
 
 #: src/view/container_details_page.blp:300
 #, fuzzy
-msgid "Connect to the container's terminal"
+msgid "Connect to the container’s terminal"
 msgstr "Verbindt met de terminal van de container."
 
 #: src/view/container_details_page.blp:312
@@ -3330,6 +3328,9 @@ msgstr "Zoomniveau resetten"
 #, fuzzy
 msgid "Zoom In"
 msgstr "Inzoomen"
+
+#~ msgid "Container Path ('/' if empty)"
+#~ msgstr "Containerpad (‘/’ indien leeg)"
 
 #, fuzzy
 #~ msgid "Enable searching for container and pod processes. (#747)"

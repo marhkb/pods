@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 18:50+0000\n"
+"POT-Creation-Date: 2026-10-13 19:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -695,13 +695,14 @@ msgstr ""
 msgid "Choose an existing connection or create a new one"
 msgstr ""
 
-#: src/view/connection_chooser_page.rs:173
-msgid "Error on establishing connection"
-msgstr ""
-
+#: src/view/connection_chooser_page.blp:86
 #: src/view/connection_creation_page.blp:19
 #: src/view/connection_creation_page.blp:36
 msgid "New Connection"
+msgstr ""
+
+#: src/view/connection_chooser_page.rs:173
+msgid "Error on establishing connection"
 msgstr ""
 
 #: src/view/connection_creation_page.blp:50
@@ -1115,8 +1116,8 @@ msgstr ""
 
 #: src/view/container_commit_opts_dialog.blp:95
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. \"CMD=/bin/"
-"foo\")"
+"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"foo”)"
 msgstr ""
 
 #: src/view/container_commit_opts_dialog.rs:101
@@ -1143,6 +1144,7 @@ msgid "_Copy"
 msgstr ""
 
 #: src/view/container_copy_from_opts_dialog.blp:47
+#: src/view/container_copy_to_opts_dialog.blp:72
 msgid "Container Path (’/’ if empty)"
 msgstr ""
 
@@ -1188,10 +1190,6 @@ msgstr ""
 
 #: src/view/container_copy_to_opts_dialog.blp:63
 msgid "Select _File…"
-msgstr ""
-
-#: src/view/container_copy_to_opts_dialog.blp:72
-msgid "Container Path ('/' if empty)"
 msgstr ""
 
 #: src/view/container_copy_to_opts_dialog.rs:152
@@ -1411,7 +1409,7 @@ msgid "Generate Kubernetes YAML based on this container"
 msgstr ""
 
 #: src/view/container_details_page.blp:300
-msgid "Connect to the container's terminal"
+msgid "Connect to the container’s terminal"
 msgstr ""
 
 #: src/view/container_details_page.blp:312
