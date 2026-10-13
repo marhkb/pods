@@ -324,17 +324,17 @@ fn action_image(action: &model::Action) -> &str {
         .downcast_ref::<model::ContainerCommitAction>()
         .is_some()
     {
-        "merge-symbolic"
+        "commit-symbolic"
     } else if action
         .downcast_ref::<model::ContainerCopyFromAction>()
         .is_some()
     {
-        "get-symbolic"
+        "download-symbolic"
     } else if action
         .downcast_ref::<model::ContainerCopyToAction>()
         .is_some()
     {
-        "put-symbolic"
+        "upload-symbolic"
     } else if action
         .downcast_ref::<model::ContainerCreateAction>()
         .is_some()

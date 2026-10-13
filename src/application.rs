@@ -95,6 +95,11 @@ mod imp {
             // Set icons for shell
             gtk::Window::set_default_icon_name(config::APP_ID);
 
+            // Use the bundled icon theme
+            if let Some(settings) = gtk::Settings::default() {
+                settings.set_gtk_icon_theme_name(Some(config::APP_ID));
+            }
+
             app.setup_gactions();
             app.setup_accels();
         }

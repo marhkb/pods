@@ -1,0 +1,23 @@
+<svg gpa:rendering="symbolic" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:gpa="https://www.gtk.org/grappa" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="16" height="16" gpa:version="1" gpa:state="0" gpa:state-names="outline empty">
+  <defs id="defs1" fill="url(&quot;#gpa:foreground&quot;) rgb(0,0,0)" stroke="none" class="foreground foreground-fill" gpa:states="none" gpa:animation-repeat="0" gpa:animation-segment="0" gpa:fill="foreground">
+    </defs>
+  <path id="notebook" fill="none" fill-opacity="0.698039" stroke="url(&quot;#gpa:foreground&quot;) rgb(0,0,0)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" d="M 3 10 L 1.13378716 12.8409538 C 0.982783675 13.0708275, 0.970064819 13.3650141, 1.10066521 13.6070633 C 1.23126554 13.8491116, 1.48412955 14, 1.75916433 14 L 14.3029051 14 C 14.5758343 14, 14.8265209 13.8494949, 14.9548273 13.6086044 C 15.0831337 13.3677149, 15.0681458 13.0757027, 14.9158516 12.8492146 L 13 10 M 3.96616125 1.99999988 L 12.0338392 1.99999988 C 12.5690918 1.99999988, 13 2.43090773, 13 2.96616125 L 13 10 L 3 10 L 3 2.96616125 C 3 2.43090773, 3.43090796 1.99999988, 3.96616125 1.99999988 Z" class="transparent-fill foreground-stroke" gpa:stroke="foreground" gpa:fill="none" gpa:states="outline" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="150%" >
+    </path>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <cc:license rdf:resource="https://creativecommons.org/publicdomain/zero/1.0/"></cc:license>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>computer laptop notebook netbook thinkpad macbook</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Jakub Steiner</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

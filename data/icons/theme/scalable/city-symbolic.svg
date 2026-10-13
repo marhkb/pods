@@ -1,0 +1,48 @@
+<svg gpa:rendering="symbolic"
+        xmlns='http://www.w3.org/2000/svg'
+        xmlns:svg='http://www.w3.org/2000/svg'
+        xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+        xmlns:cc='http://creativecommons.org/ns#'
+        xmlns:dc='http://purl.org/dc/elements/1.1/'
+        xmlns:gpa='https://www.gtk.org/grappa'
+        gpa:version='1'
+        gpa:state-names='outline empty'
+        gpa:state='0'
+        id='svg1'
+        width='16'
+        height='16'>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <cc:license
+                rdf:resource='https://creativecommons.org/publicdomain/zero/1.0/'/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Jakub Steiner</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>building city skyline gnome-maps</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+          id='city'
+          style=''
+          opacity='1'
+          fill='none'
+          fill-rule='nonzero'
+          stroke='url(#gpa:foreground) rgb(0,0,0)'
+          stroke-opacity='1'
+          stroke-width='2'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+          stroke-miterlimit='4'
+          d='M 3.5 12 L 3.5 12.5312 M 3.5 8 L 3.5 8.53125 M 12 12 L 12 12.5312 M 9 12 L 9 12.5312 M 12 8 L 12 8.53125 M 9 8 L 9 8.53125 M 12 4 L 12 4.625 M 9 4 L 9 4.625 M 1.9375 5 L 5.0625 5 C 5.58187 5, 5.99927 5.41813, 6 5.9375 L 6.01267 15 L 1.9375 15 C 1.41813 15, 1 14.5819, 1 14.0625 L 1 5.9375 C 1 5.41813, 1.41813 5, 1.9375 5 Z M 7 1 L 14 1 C 14.554 1, 15 1.446, 15 2 L 15 14 C 15 14.554, 14.554 15, 14 15 L 6.01267 15 L 6 2 C 5.99946 1.446, 6.446 1, 7 1 Z'
+          gpa:stroke-minwidth='25%'
+          gpa:stroke-maxwidth='150%'>
+  </path>
+</svg>

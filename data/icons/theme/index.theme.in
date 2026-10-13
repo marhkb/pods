@@ -1,0 +1,12 @@
+[Icon Theme]
+Name=@app-id@
+Comment=Icons of Pods
+Inherits=Adwaita,hicolor
+Hidden=true
+Directories=scalable
+
+[scalable]
+Size=16
+MinSize=8
+MaxSize=512
+Type=Scalable

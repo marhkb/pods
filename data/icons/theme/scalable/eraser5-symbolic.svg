@@ -1,0 +1,23 @@
+<svg gpa:rendering="symbolic" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:gpa="https://www.gtk.org/grappa" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" gpa:version="1" gpa:state-names="outline empty" gpa:state="0" width="16" height="16">
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <cc:license rdf:resource="https://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Jakub Steiner</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>clean cleaning brush sweep style-classes adw libadwaita</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path id="handle" class="transparent-fill foreground-stroke" fill="none" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M 6 3 L 6 5 L 3 5 C 1.89543 5, 1 5.89543, 1 7 L 1 8 L 15 8 L 15 7 C 15 5.89543, 14.1046 5, 13 5 L 10 5 L 10 3 C 10 1.89543, 9.10457 1, 8 1 C 6.89543 1, 6 1.89543, 6 3 Z" gpa:states="outline" gpa:stroke="foreground" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="150%" >
+  </path>
+  <path id="brush" class="transparent-fill foreground-stroke" fill="none" stroke="rgb(0,0,0)" stroke-opacity="1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M 3 8 L 1.5283 13.1509 C 1.40326 13.5886, 1.49089 14.0596, 1.765 14.423 C 2.0391 14.7863, 2.46788 15, 2.92305 15 L 6 15 L 7 13 L 8 15 L 10 15 L 11 12 L 12 15 L 13.077 15 C 13.5321 15, 13.9609 14.7863, 14.235 14.423 C 14.5091 14.0596, 14.5967 13.5886, 14.4717 13.1509 L 13 8 Z" gpa:states="outline" gpa:stroke="foreground" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="150%" >
+  </path>
+</svg>

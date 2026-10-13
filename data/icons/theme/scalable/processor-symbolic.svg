@@ -1,0 +1,27 @@
+<svg gpa:rendering="symbolic" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:gpa="https://www.gtk.org/grappa" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="16" height="16" gpa:version="1" gpa:state="0" gpa:state-names="outline state1 empty">
+<path d="M 5 3 L 11 3 C 12.1079998 3, 13 3.89199996, 13 5 L 13 11 C 13 12.1079998, 12.1079998 13, 11 13 L 5 13 C 3.89199996 13, 3 12.1079998, 3 11 L 3 5 C 3 3.89199996, 3.89199996 3, 5 3 Z" id="border" gpa:states="outline state1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0,0,0)" fill="none" class="foreground-stroke transparent-fill" gpa:stroke="foreground" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="150%" >
+    </path>
+  <path visibility="hidden" d="M 5.5 5.5 h 5 v 5 h -5 z" id="center" gpa:states="state1" stroke-width="1" stroke-linecap="round" stroke-linejoin="miter" stroke="rgb(0,0,0)" fill-rule="nonzero" fill="rgb(0,0,0)" class="foreground-stroke foreground-fill" gpa:stroke="foreground" gpa:fill="foreground" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="200%" >
+    </path>
+  <path d="M 13 9.5 L 16 9.5 M 13 7.5 L 16 7.5 M 13 5.5 L 16 5.5 M 5.5 0 L 5.5 3 M 7.5 0 L 7.5 3 M 9.5 0 L 9.5 3 M 10.5 13 L 10.5 16 M 8.5 13 L 8.5 16 M 6.5 13 L 6.5 16 M 0 10.5 L 3 10.5 M 0 8.5 L 3 8.5 M 0 6.5 L 3 6.5" id="pins" gpa:states="outline state1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="round" stroke="rgb(0,0,0)" fill="none" class="foreground-stroke transparent-fill" gpa:stroke="foreground" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="200%" >
+    </path>
+  <path d="M 5.5 5.5 h 5 v 5 h -5 z" id="middle" gpa:states="outline state1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0,0,0)" fill="none" class="foreground-stroke transparent-fill" gpa:stroke="foreground" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="200%" >
+    </path>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <cc:license rdf:resource="https://creativecommons.org/publicdomain/zero/1.0/"></cc:license>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>cpu chip computer component silicon processor</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Jakub Steiner</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

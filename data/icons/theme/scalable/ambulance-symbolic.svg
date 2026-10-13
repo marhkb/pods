@@ -1,0 +1,21 @@
+<svg gpa:rendering="symbolic" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:gpa="https://www.gtk.org/grappa" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="16" height="16" gpa:version="1" gpa:state="0" gpa:state-names="outline empty">
+  <path id="path3" fill="none" stroke="url(&quot;#gpa:foreground&quot;) rgb(0,0,0)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M 5 11 C 5 12.1045694, 4.10456944 13, 3 13 C 1.89543045 13, 1 12.1045694, 1 11 C 1 9.89543056, 1.89543045 9, 3 9 C 4.10456944 9, 5 9.89543056, 5 11 Z M 9 8 L 9 12 C 9 13.6568546, 7.65685415 15, 6 15 C 4.72586536 15, 3.59072423 14.195179, 3.1690526 12.9928427 M 5 1 L 3 1 L 3 2 C 3 5.31370831, 5.68629169 8, 9 8 C 12.3137083 8, 15 5.31370831, 15 2 L 15 1 L 13 1" class="transparent-fill foreground-stroke" gpa:stroke="foreground" gpa:fill="none" gpa:states="outline" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="150%" >
+    </path>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <cc:license rdf:resource="https://creativecommons.org/publicdomain/zero/1.0/"></cc:license>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>medical health healthcare non-emergency doctor stethoscope checkup</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Wartybix</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

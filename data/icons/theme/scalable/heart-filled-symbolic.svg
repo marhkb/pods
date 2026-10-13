@@ -1,0 +1,23 @@
+<svg gpa:rendering="symbolic" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:gpa="https://www.gtk.org/grappa" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="16" height="16" gpa:version="1" gpa:state="0" gpa:state-names="outline empty">
+  <defs id="defs1" fill="url(&quot;#gpa:foreground&quot;) rgb(0,0,0)" stroke="none" class="foreground foreground-fill" gpa:states="none" gpa:animation-repeat="0" gpa:animation-segment="0" gpa:fill="foreground">
+    </defs>
+  <path id="heart" fill="none" stroke="url(&quot;#gpa:foreground&quot;) rgb(0,0,0)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M 15.000001 6.75699997 C 14.9967012 4.67836046, 13.3086395 2.9961307, 11.2300014 3 C 9.86000061 3, 8.6600008 3.73000002, 8.00000095 4.82200003 C 7.31711674 3.69049978, 6.09159899 2.99920201, 4.77000046 3 C 2.69136143 2.99612999, 1.00331104 4.67835999, 1.00000048 6.75699997 C 0.999415338 7.79528189, 1.43047464 8.78708076, 2.19000053 9.49499989 L 2.18900061 9.49499989 L 6.07478714 13.1761618 C 7.15450621 14.1990232, 8.84556293 14.1990957, 9.92537022 13.1763277 L 13.8120012 9.49499989 L 13.8100014 9.49499989 C 14.5696278 8.78715229, 15.0007076 7.79530668, 15.000001 6.75699997" class="transparent-fill foreground-stroke" gpa:stroke="foreground" gpa:fill="none" gpa:states="outline" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="150%" >
+    </path>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <cc:license rdf:resource="https://creativecommons.org/publicdomain/zero/1.0/"></cc:license>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>heart emote-love</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Jakub Steiner</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

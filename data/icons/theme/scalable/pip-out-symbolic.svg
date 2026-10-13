@@ -1,0 +1,69 @@
+<svg gpa:rendering="symbolic"
+        xmlns='http://www.w3.org/2000/svg'
+        xmlns:svg='http://www.w3.org/2000/svg'
+        xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+        xmlns:cc='http://creativecommons.org/ns#'
+        xmlns:dc='http://purl.org/dc/elements/1.1/'
+        xmlns:gpa='https://www.gtk.org/grappa'
+        gpa:version='1'
+        gpa:state-names='outline empty'
+        gpa:state='0'
+        id='svg1'
+        width='16'
+        height='16'>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <cc:license
+                rdf:resource='https://creativecommons.org/publicdomain/zero/1.0/'/>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Jakub Steiner</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>open link in a new window</dc:description>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>arrow link window pop out new window</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+<path
+          id='path2'
+          class='transparent-fill foreground-stroke'
+          style='font-variation-settings:&apos;opsz&apos; 32, &apos;wght&apos; 900;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers'
+          fill='none'
+          stroke='rgb(0,0,0)'
+          stroke-opacity='1'
+          stroke-width='2'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+          stroke-miterlimit='4'
+          stroke-dasharray='none'
+          paint-order='stroke fill markers'
+          d='M 11 11 L 11 13 C 11 14.1046, 10.1046 15, 9 15 L 3 15 C 1.89543 15, 1 14.1046, 1 13 L 1 7 C 1 5.89543, 1.89543 5, 3 5 L 5 5 M 15 3 L 15 9 C 15 10.1046, 14.1046 11, 13 11 L 7 11 C 5.89543 11, 5 10.1046, 5 9 L 5 3 C 5 1.89543, 5.89543 1, 7 1 L 13 1 C 14.1046 1, 15 1.89543, 15 3 Z M 8 4 L 12 4 L 12 8 M 8 8 L 12 4'
+          gpa:stroke-minwidth='25%'
+          gpa:stroke-maxwidth='150%'
+          gpa:stroke='foreground'>
+  </path>
+  <path
+          id='strafe'
+          class='transparent-fill foreground-stroke'
+          style='font-variation-settings:&apos;opsz&apos; 32, &apos;wght&apos; 900;fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers'
+          fill='none'
+          stroke='rgb(0,0,0)'
+          stroke-opacity='1'
+          stroke-width='1'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+          stroke-miterlimit='4'
+          stroke-dasharray='none'
+          paint-order='stroke fill markers'
+          d='M 10.2483 11 L 5.24828 15 M 7 11 L 2.20451 14.8364 M 5 9.78125 L 1 12.7812 M 5 6.90625 L 1 9.90625'
+          gpa:stroke-minwidth='25%'
+          gpa:stroke-maxwidth='150%'
+          gpa:stroke='foreground'>
+  </path>
+</svg>

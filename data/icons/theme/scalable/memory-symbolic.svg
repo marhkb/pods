@@ -1,0 +1,25 @@
+<svg gpa:rendering="symbolic" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:gpa="https://www.gtk.org/grappa" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" width="16" height="16" gpa:version="1" gpa:state="0" gpa:state-names="outline state1 empty">
+<path d="M 3 1 C 1.89199996 1, 1 1.89199996, 1 3 L 1 9 C 1 9.7432127, 1.40133905 10.3895502, 2 10.734375 L 2 14 L 7 14 C 7 12.8954306, 7.89543056 12, 9 12 C 10.1045694 12, 11 12.8954306, 11 14 L 14 14 L 14 10.734375 C 14.5986614 10.3895502, 15 9.7432127, 15 9 L 15 3 C 15 1.89199996, 14.1079998 1, 13 1 L 3 1 Z" id="border" gpa:states="outline state1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0,0,0)" fill="none" class="foreground-stroke transparent-fill" gpa:stroke="foreground" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="150%" >
+    </path>
+  <path visibility="hidden" d="M 10.5 4.5 L 10.5 7.5 L 11.5 7.5 L 11.5 4.5 Z M 7.5 4.5 L 7.5 7.5 L 8.5 7.5 L 8.5 4.5 Z M 4.5 4.5 L 4.5 7.5 L 5.5 7.5 L 5.5 4.5 Z" id="pseudofill" gpa:states="state1" stroke-width="1" stroke-linecap="round" stroke-linejoin="miter" stroke="rgb(0,0,0)" fill="none" class="foreground-stroke transparent-fill" gpa:stroke="foreground" gpa:stroke-minwidth="25%" gpa:stroke-maxwidth="200%" >
+    </path>
+  <path d="M 10.5 4.5 L 10.5 7.5 L 11.5 7.5 L 11.5 4.5 Z M 7.5 4.5 L 7.5 7.5 L 8.5 7.5 L 8.5 4.5 Z M 4.5 4.5 L 4.5 7.5 L 5.5 7.5 L 5.5 4.5 Z" id="outline" gpa:states="outline" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="miter" stroke="rgb(0,0,0)" fill="none" class="foreground-stroke transparent-fill" gpa:stroke-minwidth='50%' gpa:stroke-maxwidth='200%' gpa:stroke="foreground">
+    </path>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <cc:license rdf:resource="https://creativecommons.org/publicdomain/zero/1.0/"></cc:license>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>ram chip computer component silicon memory isa slot</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Jakub Steiner</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
