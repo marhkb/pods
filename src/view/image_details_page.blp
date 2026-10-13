@@ -10,6 +10,10 @@ ListBoxRow create_tag_row {
     icon-name: "list-add-symbolic";
     margin-top: 15;
     margin-bottom: 15;
+
+    accessibility {
+      label: _("Create Repository Tag");
+    }
   }
 }
 
@@ -132,6 +136,7 @@ template $PdsImageDetailsPage: Widget {
 
               Image {
                 icon-name: "go-next-symbolic";
+                accessible-role: presentation;
               }
             }
 
@@ -144,6 +149,7 @@ template $PdsImageDetailsPage: Widget {
 
               Image {
                 icon-name: "go-next-symbolic";
+                accessible-role: presentation;
               }
             }
           }

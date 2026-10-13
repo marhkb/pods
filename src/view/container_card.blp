@@ -136,6 +136,10 @@ template $PdsContainerCard: Widget {
                 ]
 
                 icon-name: "processor-symbolic";
+
+                accessibility {
+                  label: _("CPU");
+                }
               }
 
               ProgressBar cpu_progress_bar {
@@ -154,6 +158,10 @@ template $PdsContainerCard: Widget {
                 ]
 
                 icon-name: "memory-symbolic";
+
+                accessibility {
+                  label: _("Memory");
+                }
               }
 
               ProgressBar memory_progress_bar {
@@ -170,6 +178,10 @@ template $PdsContainerCard: Widget {
                 ]
 
                 icon-name: "network-transmit-receive-symbolic";
+
+                accessibility {
+                  label: _("Network");
+                }
               }
 
               Box {
@@ -214,6 +226,10 @@ template $PdsContainerCard: Widget {
                 ]
 
                 icon-name: "drive-harddisk-symbolic";
+
+                accessibility {
+                  label: _("Disk");
+                }
               }
 
               Box {
@@ -310,6 +326,10 @@ template $PdsContainerCard: Widget {
 
             start-widget: Image {
               icon-name: "pods-symbolic";
+
+              accessibility {
+                label: _("Pod");
+              }
             };
 
             center-widget: Label pod_name_label {
@@ -375,6 +395,7 @@ template $PdsContainerCard: Widget {
 
             Image {
               icon-name: "media-playback-start-symbolic";
+              accessible-role: presentation;
             }
           }
 
@@ -389,6 +410,7 @@ template $PdsContainerCard: Widget {
 
             Image {
               icon-name: "media-playback-stop-symbolic";
+              accessible-role: presentation;
             }
           }
 
@@ -399,6 +421,10 @@ template $PdsContainerCard: Widget {
 
             sensitive: false;
             valign: center;
+
+            accessibility {
+              label: _("In Progress");
+            }
 
             Adw.Spinner {
               halign: center;

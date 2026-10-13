@@ -32,6 +32,10 @@ template $PdsActionStateIndicator: Widget {
 
         icon-name: "cross-symbolic";
         pixel-size: 24;
+
+        accessibility {
+          label: _("Cancelled");
+        }
       };
     }
 
@@ -45,6 +49,10 @@ template $PdsActionStateIndicator: Widget {
 
         icon-name: "error-small-symbolic";
         pixel-size: 24;
+
+        accessibility {
+          label: _("Failed");
+        }
       };
     }
 
@@ -58,6 +66,10 @@ template $PdsActionStateIndicator: Widget {
 
         icon-name: "success-small-symbolic";
         pixel-size: 24;
+
+        accessibility {
+          label: _("Finished");
+        }
       };
     }
   }

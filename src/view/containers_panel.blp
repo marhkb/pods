@@ -60,6 +60,10 @@ Button prune_button {
 
 Button view_button {
   action-name: "containers-panel.toggle-containers-view";
+
+  accessibility {
+    label: _("Toggle View");
+  }
 }
 
 Adw.SplitButton view_options_split_button {
@@ -294,6 +298,7 @@ template $PdsContainersPanel: Widget {
 
                     Image {
                       icon-name: "media-playback-start-symbolic";
+                      accessible-role: presentation;
                     }
                   }
 
@@ -313,6 +318,7 @@ template $PdsContainersPanel: Widget {
 
                     Image {
                       icon-name: "media-playback-stop-symbolic";
+                      accessible-role: presentation;
                     }
                   }
                 }
