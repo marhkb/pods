@@ -133,7 +133,9 @@ mod imp {
                     to_be_deleted_expr,
                     move || obj.action_set_enabled(
                         ACTION_DELETE_VOLUME,
-                        to_be_deleted_expr.evaluate_as(Some(&obj)).unwrap_or(false),
+                        !to_be_deleted_expr
+                            .evaluate_as::<bool, _>(Some(&obj))
+                            .unwrap_or(true),
                     )
                 ),
             );
