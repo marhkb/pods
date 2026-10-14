@@ -41,7 +41,7 @@ template $PdsContainerDetailsPage: Widget {
         [title]
         Adw.WindowTitle {
           title: _("Container");
-          subtitle: bind template.container as <$Container>.name;
+          subtitle: bind template.container as <$PdsContainer>.name;
         }
       }
     }
@@ -282,11 +282,11 @@ template $PdsContainerDetailsPage: Widget {
               action-name: "container-details-page.generate-kube";
               icon-name: "code-symbolic";
               visible: bind template
-                .container as <$Container>
-                .container_list as <$ContainerList>
-                .client as <$Client>
-                .engine as <$Engine>
-                .capabilities as <$EngineCapabilities>
+                .container as <$PdsContainer>
+                .container_list as <$PdsContainerList>
+                .client as <$PdsClient>
+                .engine as <$PdsEngine>
+                .capabilities as <$PdsEngineCapabilities>
                 .kube_generation;
 
               Image {

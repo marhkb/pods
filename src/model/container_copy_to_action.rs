@@ -16,7 +16,7 @@ use crate::model::prelude::*;
 use crate::rt;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, glib::Enum)]
-#[enum_type(name = "ContainerCopyToActionOngoingState")]
+#[enum_type(name = "PdsContainerCopyToActionOngoingState")]
 pub(crate) enum ContainerCopyToActionOngoingState {
     #[default]
     CreateTar = 0,
@@ -46,7 +46,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainerCopyToAction {
-        const NAME: &'static str = "ContainerCopyToAction";
+        const NAME: &'static str = "PdsContainerCopyToAction";
         type Type = super::ContainerCopyToAction;
         type ParentType = model::Action;
     }

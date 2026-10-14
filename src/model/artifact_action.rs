@@ -21,7 +21,7 @@ mod imp {
     #[glib::object_subclass]
     impl ObjectSubclass for ArtifactAction {
         const ABSTRACT: bool = true;
-        const NAME: &'static str = "ArtifactAction";
+        const NAME: &'static str = "PdsArtifactAction";
         type Type = super::ArtifactAction;
         type ParentType = model::Action;
     }

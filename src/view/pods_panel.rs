@@ -69,7 +69,7 @@ impl Deref for Settings {
 }
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "PodsPanelSortDirection")]
+#[enum_type(name = "PdsPodsPanelSortDirection")]
 pub(crate) enum SortDirection {
     #[default]
     #[enum_value(nick = "asc")]
@@ -79,7 +79,7 @@ pub(crate) enum SortDirection {
 }
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "PodsPanelSortAttribute")]
+#[enum_type(name = "PdsPodsPanelSortAttribute")]
 pub(crate) enum SortAttribute {
     #[default]
     #[enum_value(nick = "name")]

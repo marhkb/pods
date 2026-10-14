@@ -19,7 +19,7 @@ mod imp {
 
     #[glib::object_interface]
     impl ObjectInterface for Selectable {
-        const NAME: &'static str = "Selectable";
+        const NAME: &'static str = "PdsSelectable";
         type Interface = SelectableClass;
 
         fn properties() -> &'static [glib::ParamSpec] {

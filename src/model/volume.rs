@@ -44,7 +44,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Volume {
-        const NAME: &'static str = "Volume";
+        const NAME: &'static str = "PdsVolume";
         type Type = super::Volume;
         type Interfaces = (model::Selectable,);
     }

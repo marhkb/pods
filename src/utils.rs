@@ -38,7 +38,7 @@ macro_rules! monad_boxed_type {
     ($vis:vis $boxed:ident($type:ty) $(impls $($trait:tt),+)? $(is $($prop:tt),+)?) => {
         pastey::paste! {
             #[derive(Clone, glib::Boxed, $($($trait),+)?)]
-            #[boxed_type(name = "" $boxed "", $($($prop),+)?)]
+            #[boxed_type(name = "Pds" $boxed "", $($($prop),+)?)]
             $vis struct $boxed($type);
         }
 

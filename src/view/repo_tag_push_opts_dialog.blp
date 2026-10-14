@@ -54,13 +54,13 @@ template $PdsRepoTagPushOptsDialog: Adw.Dialog {
             title: _("TLS Verify");
             subtitle: _("Require TLS verification");
             visible: bind template
-              .repo-tag as <$RepoTag>
-              .repo-tag-list as <$RepoTagList>
-              .image as <$Image>
-              .image_list as <$ImageList>
-              .client as <$Client>
-              .engine as <$Engine>
-              .capabilities as <$EngineCapabilities>
+              .repo-tag as <$PdsRepoTag>
+              .repo-tag-list as <$PdsRepoTagList>
+              .image as <$PdsImage>
+              .image_list as <$PdsImageList>
+              .client as <$PdsClient>
+              .engine as <$PdsEngine>
+              .capabilities as <$PdsEngineCapabilities>
               .push_image_tls_verify;
           }
         }

@@ -20,7 +20,7 @@ mod imp {
 
     #[glib::object_interface]
     impl ObjectInterface for SuggestionItem {
-        const NAME: &'static str = "SuggestionItem";
+        const NAME: &'static str = "PdsSuggestionItem";
         type Interface = SuggestionItemClass;
 
         fn properties() -> &'static [glib::ParamSpec] {

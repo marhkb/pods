@@ -25,7 +25,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainerCommitAction {
-        const NAME: &'static str = "ContainerCommitAction";
+        const NAME: &'static str = "PdsContainerCommitAction";
         type Type = super::ContainerCommitAction;
         type ParentType = model::Action;
     }

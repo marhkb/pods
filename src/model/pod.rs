@@ -51,7 +51,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Pod {
-        const NAME: &'static str = "Pod";
+        const NAME: &'static str = "PdsPod";
         type Type = super::Pod;
         type Interfaces = (model::Selectable,);
     }

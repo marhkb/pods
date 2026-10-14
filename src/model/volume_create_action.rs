@@ -23,7 +23,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for VolumeCreateAction {
-        const NAME: &'static str = "VolumeCreateAction";
+        const NAME: &'static str = "PdsVolumeCreateAction";
         type Type = super::VolumeCreateAction;
         type ParentType = model::ArtifactAction;
     }

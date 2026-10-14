@@ -19,7 +19,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for PodDetails {
-        const NAME: &'static str = "PodDetails";
+        const NAME: &'static str = "PdsPodDetails";
         type Type = super::PodDetails;
     }
 

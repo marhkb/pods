@@ -6,7 +6,7 @@ use crate::engine;
 use crate::gettext::gettext;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "EngineType")]
+#[enum_type(name = "PdsEngineType")]
 pub(crate) enum EngineType {
     Docker,
     #[default]

@@ -41,7 +41,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Client {
-        const NAME: &'static str = "Client";
+        const NAME: &'static str = "PdsClient";
         type Type = super::Client;
     }
 

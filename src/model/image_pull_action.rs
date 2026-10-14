@@ -27,7 +27,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ImagePullAction {
-        const NAME: &'static str = "ImagePullAction";
+        const NAME: &'static str = "PdsImagePullAction";
         type Type = super::ImagePullAction;
         type ParentType = model::ArtifactAction;
     }

@@ -14,7 +14,7 @@ use crate::engine;
 use crate::model;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "MountType")]
+#[enum_type(name = "PdsMountType")]
 pub(crate) enum MountType {
     #[default]
     Bind,
@@ -22,7 +22,7 @@ pub(crate) enum MountType {
 }
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "MountSELinux")]
+#[enum_type(name = "PdsMountSELinux")]
 pub(crate) enum SELinux {
     #[default]
     NoLabel,
@@ -95,7 +95,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Mount {
-        const NAME: &'static str = "Mount";
+        const NAME: &'static str = "PdsMount";
         type Type = super::Mount;
     }
 

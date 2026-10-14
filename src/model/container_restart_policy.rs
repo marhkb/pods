@@ -3,7 +3,7 @@ use gtk::glib;
 use crate::engine;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "ContainerRestartPolicy")]
+#[enum_type(name = "PdsContainerRestartPolicy")]
 pub(crate) enum ContainerRestartPolicy {
     Always,
     #[default]

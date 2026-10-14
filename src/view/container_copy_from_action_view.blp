@@ -11,7 +11,7 @@ template $PdsContainerCopyFromActionView: Widget {
       ]
 
       title: _("Written");
-      subtitle: bind $format_size(template.action as <$ContainerCopyFromAction>.written-bytes);
+      subtitle: bind $format_size(template.action as <$PdsContainerCopyFromAction>.written-bytes);
 
       [prefix]
       $PdsActionStateIndicator action_indicator {}

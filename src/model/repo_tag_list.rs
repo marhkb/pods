@@ -28,7 +28,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for RepoTagList {
-        const NAME: &'static str = "RepoTagList";
+        const NAME: &'static str = "PdsRepoTagList";
         type Type = super::RepoTagList;
         type Interfaces = (gio::ListModel,);
     }

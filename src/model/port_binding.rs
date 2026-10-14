@@ -30,7 +30,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for PortBinding {
-        const NAME: &'static str = "PortBinding";
+        const NAME: &'static str = "PdsPortBinding";
         type Type = super::PortBinding;
     }
 

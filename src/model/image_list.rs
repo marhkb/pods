@@ -54,7 +54,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ImageList {
-        const NAME: &'static str = "ImageList";
+        const NAME: &'static str = "PdsImageList";
         type Type = super::ImageList;
         type Interfaces = (gio::ListModel, model::SelectableList);
     }

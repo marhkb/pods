@@ -47,7 +47,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Image {
-        const NAME: &'static str = "Image";
+        const NAME: &'static str = "PdsImage";
         type Type = super::Image;
         type Interfaces = (model::Selectable,);
     }

@@ -10,7 +10,7 @@ template $PdsContainerHealthCheckPage: Widget {
       [title]
       Adw.WindowTitle {
         title: _("Container Health Check");
-        subtitle: bind template.container as <$Container>.name;
+        subtitle: bind template.container as <$PdsContainer>.name;
       }
     }
 
@@ -48,7 +48,7 @@ template $PdsContainerHealthCheckPage: Widget {
 
         $PdsPropertyRow {
           key: _("Failing Streak");
-          value: bind template.container as <$Container>.details as <$ContainerDetails>.health-failing-streak;
+          value: bind template.container as <$PdsContainer>.details as <$PdsContainerDetails>.health-failing-streak;
         }
       }
 

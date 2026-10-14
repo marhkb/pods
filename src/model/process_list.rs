@@ -30,7 +30,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ProcessList {
-        const NAME: &'static str = "ProcessList";
+        const NAME: &'static str = "PdsProcessList";
         type Type = super::ProcessList;
         type Interfaces = (gio::ListModel,);
     }

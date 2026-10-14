@@ -53,9 +53,9 @@ template $PdsImagesPruneOptsDialog: Adw.Dialog {
           title: _("Prune External");
           subtitle: _("Remove images even when they are used by external containers (e.g, by build containers)");
           visible: bind template
-            .client as <$Client>
-            .engine as <$Engine>
-            .capabilities as <$EngineCapabilities>
+            .client as <$PdsClient>
+            .engine as <$PdsEngine>
+            .capabilities as <$PdsEngineCapabilities>
             .prune_external_images;
         }
 

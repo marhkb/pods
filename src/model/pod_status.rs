@@ -6,7 +6,7 @@ use crate::engine;
 use crate::gettext::gettext;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "PodStatus")]
+#[enum_type(name = "PdsPodStatus")]
 pub(crate) enum PodStatus {
     Created,
     Dead,

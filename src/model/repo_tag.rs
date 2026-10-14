@@ -31,7 +31,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for RepoTag {
-        const NAME: &'static str = "RepoTag";
+        const NAME: &'static str = "PdsRepoTag";
         type Type = super::RepoTag;
     }
 

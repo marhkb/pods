@@ -32,7 +32,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ImageSearchResponse {
-        const NAME: &'static str = "ImageSearchResponse";
+        const NAME: &'static str = "PdsImageSearchResponse";
         type Type = super::ImageSearchResponse;
         type Interfaces = (model::SuggestionItem,);
     }

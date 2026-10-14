@@ -100,7 +100,7 @@ impl ContainersView {
 }
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "ContainersPanelSortDirection")]
+#[enum_type(name = "PdsContainersPanelSortDirection")]
 pub(crate) enum SortDirection {
     #[default]
     #[enum_value(nick = "asc")]
@@ -110,7 +110,7 @@ pub(crate) enum SortDirection {
 }
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "ContainersPanelSortAttribute")]
+#[enum_type(name = "PdsContainersPanelSortAttribute")]
 pub(crate) enum SortAttribute {
     #[default]
     #[enum_value(nick = "name")]

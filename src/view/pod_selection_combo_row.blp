@@ -7,13 +7,13 @@ template $PdsPodSelectionComboRow: Adw.ActionRow {
 
   DropDown drop_down {
     enable-search: true;
-    expression: expr item as <$Pod>.name;
+    expression: expr item as <$PdsPod>.name;
     visible: bind switch.active;
 
     factory: BuilderListItemFactory {
       template ListItem {
         child: Label {
-          label: bind template.item as <$Pod>.name;
+          label: bind template.item as <$PdsPod>.name;
           xalign: 0;
         };
       }
