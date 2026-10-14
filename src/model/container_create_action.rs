@@ -82,8 +82,7 @@ impl ContainerCreateAction {
 
         let engine = client.engine();
 
-        if !self.opts().pull_latest && client.image_list().find_image(&self.opts().image).is_some()
-        {
+        if !self.opts().pull_latest && client.images().find_image(&self.opts().image).is_some() {
             return self.exec_create_container(&engine, run, err_op);
         }
 
@@ -176,18 +175,18 @@ impl ContainerCreateAction {
     where
         F: Fn(&model::Container) + 'static,
     {
-        let Some(container_list) = self
+        let Some(containers) = self
             .action_list()
             .and_then(|action_list| action_list.client())
-            .map(|client| client.container_list())
+            .map(|client| client.containers())
         else {
             return;
         };
 
-        match container_list.get_container(&container_id) {
+        match containers.get_container(&container_id) {
             Some(container) => op(&container),
             None => {
-                container_list.connect_container_added(move |_, container| {
+                containers.connect_container_added(move |_, container| {
                     if container.id() == container_id {
                         op(container);
                     }

@@ -244,17 +244,17 @@ impl RepoTagPushOptsDialog {
             return;
         };
 
-        let Some(action_list) = repo_tag
+        let Some(actions) = repo_tag
             .repo_tag_list()
             .and_then(|repo_tag_list| repo_tag_list.image())
             .and_then(|image| image.image_list())
             .and_then(|image_list| image_list.client())
-            .map(|client| client.action_list())
+            .map(|client| client.actions())
         else {
             return;
         };
 
-        view::ActionDialog::from(&action_list.push_image(&repo_tag, self.create_opts(&repo_tag)))
+        view::ActionDialog::from(&actions.push_image(&repo_tag, self.create_opts(&repo_tag)))
             .present(Some(self));
     }
 

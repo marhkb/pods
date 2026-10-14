@@ -419,10 +419,7 @@ mod imp {
             let obj = self.obj();
             let ordering = match obj.sort_attribute() {
                 SortAttribute::Name => pod1.name().to_lowercase().cmp(&pod2.name().to_lowercase()),
-                SortAttribute::Containers => pod1
-                    .container_list()
-                    .len()
-                    .cmp(&pod2.container_list().len()),
+                SortAttribute::Containers => pod1.containers().len().cmp(&pod2.containers().len()),
             };
 
             match obj.sort_direction() {
@@ -558,9 +555,9 @@ mod imp {
                     clone!(
                         #[weak]
                         obj,
-                        move |list, _| {
+                        move |pod_list, _| {
                             ACTIONS_SELECTION.iter().for_each(|action_name| {
-                                obj.action_set_enabled(action_name, list.num_selected() > 0);
+                                obj.action_set_enabled(action_name, pod_list.num_selected() > 0);
                             });
                         }
                     ),
@@ -645,15 +642,15 @@ impl PodsPanel {
     }
 
     pub(crate) fn enter_selection_mode(&self) {
-        if let Some(list) = self.pod_list().filter(|list| list.len() > 0) {
-            list.select_none();
-            list.set_selection_mode(true);
+        if let Some(pod_list) = self.pod_list().filter(|pod_list| pod_list.len() > 0) {
+            pod_list.select_none();
+            pod_list.set_selection_mode(true);
         }
     }
 
     pub(crate) fn exit_selection_mode(&self) {
-        if let Some(list) = self.pod_list() {
-            list.set_selection_mode(false);
+        if let Some(pod_list) = self.pod_list() {
+            pod_list.set_selection_mode(false);
         }
     }
 
@@ -672,14 +669,18 @@ impl PodsPanel {
     }
 
     pub(crate) fn select_none(&self) {
-        if let Some(list) = self.pod_list().filter(|list| list.is_selection_mode()) {
-            list.select_none();
+        if let Some(pod_list) = self
+            .pod_list()
+            .filter(|pod_list| pod_list.is_selection_mode())
+        {
+            pod_list.select_none();
         }
     }
 
     pub(crate) fn start_selection(&self) {
-        if let Some(list) = self.pod_list() {
-            list.selected_items()
+        if let Some(pod_list) = self.pod_list() {
+            pod_list
+                .selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
                 .for_each(|pod| match pod.status() {
@@ -715,13 +716,14 @@ impl PodsPanel {
                     }
                     _ => (),
                 });
-            list.set_selection_mode(false);
+            pod_list.set_selection_mode(false);
         }
     }
 
     pub(crate) fn stop_selection(&self, force: bool) {
-        if let Some(list) = self.pod_list() {
-            list.selected_items()
+        if let Some(pod_list) = self.pod_list() {
+            pod_list
+                .selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
                 .filter(|pod| matches!(pod.status(), model::PodStatus::Running))
@@ -747,13 +749,14 @@ impl PodsPanel {
                         ),
                     );
                 });
-            list.set_selection_mode(false);
+            pod_list.set_selection_mode(false);
         }
     }
 
     pub(crate) fn pause_selection(&self) {
-        if let Some(list) = self.pod_list() {
-            list.selected_items()
+        if let Some(pod_list) = self.pod_list() {
+            pod_list
+                .selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
                 .filter(|pod| matches!(pod.status(), model::PodStatus::Running))
@@ -772,13 +775,14 @@ impl PodsPanel {
                         }
                     ));
                 });
-            list.set_selection_mode(false);
+            pod_list.set_selection_mode(false);
         }
     }
 
     pub(crate) fn restart_selection(&self) {
-        if let Some(list) = self.pod_list() {
-            list.selected_items()
+        if let Some(pod_list) = self.pod_list() {
+            pod_list
+                .selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
                 .filter(|pod| matches!(pod.status(), model::PodStatus::Running))
@@ -800,12 +804,17 @@ impl PodsPanel {
                         ),
                     );
                 });
-            list.set_selection_mode(false);
+            pod_list.set_selection_mode(false);
         }
     }
 
     pub(crate) fn delete_selection(&self) {
-        if self.pod_list().map(|list| list.num_selected()).unwrap_or(0) == 0 {
+        if self
+            .pod_list()
+            .map(|pod_list| pod_list.num_selected())
+            .unwrap_or(0)
+            == 0
+        {
             return;
         }
 
@@ -828,9 +837,10 @@ impl PodsPanel {
                 #[weak(rename_to = obj)]
                 self,
                 move |_, response| if response == "delete"
-                    && let Some(list) = obj.pod_list()
+                    && let Some(pod_list) = obj.pod_list()
                 {
-                    list.selected_items()
+                    pod_list
+                        .selected_items()
                         .iter()
                         .map(|obj| obj.downcast_ref::<model::Pod>().unwrap())
                         .for_each(|pod| {
@@ -851,7 +861,7 @@ impl PodsPanel {
                                 ),
                             );
                         });
-                    list.set_selection_mode(false);
+                    pod_list.set_selection_mode(false);
                 }
             ),
         );

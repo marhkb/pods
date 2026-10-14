@@ -230,7 +230,7 @@ impl PodRow {
         if let Some(pod) = self.pod().as_ref() {
             if pod
                 .pod_list()
-                .map(|list| list.is_selection_mode())
+                .map(|pod_list| pod_list.is_selection_mode())
                 .unwrap_or(false)
             {
                 pod.select();

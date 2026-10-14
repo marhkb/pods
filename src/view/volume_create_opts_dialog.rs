@@ -103,7 +103,7 @@ impl VolumeCreateOptsDialog {
     pub(crate) fn close_and_create(&self) {
         self.close();
 
-        let Some(action_list) = self.client().map(|client| client.action_list()) else {
+        let Some(actions) = self.client().map(|client| client.actions()) else {
             return;
         };
 
@@ -112,6 +112,6 @@ impl VolumeCreateOptsDialog {
                 .filter(|name: &String| !name.is_empty()),
         };
 
-        view::ActionDialog::from(&action_list.create_volume(opts)).present(Some(self));
+        view::ActionDialog::from(&actions.create_volume(opts)).present(Some(self));
     }
 }

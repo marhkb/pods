@@ -324,11 +324,11 @@ impl PodCreateOptsDialog {
     pub(crate) fn close_and_create(&self) {
         self.close();
 
-        let Some(action_list) = self.client().map(|client| client.action_list()) else {
+        let Some(actions) = self.client().map(|client| client.actions()) else {
             return;
         };
 
-        view::ActionDialog::from(&action_list.create_pod(self.create_opts())).present(Some(self));
+        view::ActionDialog::from(&actions.create_pod(self.create_opts())).present(Some(self));
     }
 
     fn create_opts(&self) -> engine::opts::PodCreateOpts {

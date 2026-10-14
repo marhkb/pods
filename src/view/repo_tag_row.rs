@@ -166,17 +166,17 @@ impl RepoTagRow {
             return;
         };
 
-        let Some(action_list) = repo_tag
+        let Some(actions) = repo_tag
             .repo_tag_list()
             .and_then(|repo_tag_list| repo_tag_list.image())
             .and_then(|image| image.image_list())
             .and_then(|image_list| image_list.client())
-            .map(|client| client.action_list())
+            .map(|client| client.actions())
         else {
             return;
         };
 
-        action_list.pull_image(engine::opts::ImagePullOpts {
+        actions.pull_image(engine::opts::ImagePullOpts {
             reference: repo_tag.full(),
         });
     }

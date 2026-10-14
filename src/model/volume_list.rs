@@ -49,7 +49,7 @@ mod imp {
             .list
             .borrow()
             .values()
-            .filter(|volume| volume.container_list().n_items() > 0)
+            .filter(|volume| volume.containers().n_items() > 0)
             .count() as u32
         )]
         _used: PhantomData<u32>,
@@ -274,7 +274,7 @@ impl VolumeList {
 
     fn volume_added(&self, volume: &model::Volume) {
         self.emit_by_name::<()>("volume-added", &[volume]);
-        volume.container_list().connect_notify_local(
+        volume.containers().connect_notify_local(
             Some("len"),
             clone!(
                 #[weak(rename_to=obj)]

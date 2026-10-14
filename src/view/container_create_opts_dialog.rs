@@ -320,11 +320,11 @@ impl ContainerCreateOptsDialog {
     pub(crate) fn close_and_create(&self, run: bool) {
         self.close();
 
-        let Some(action_list) = self.client().map(|client| client.action_list()) else {
+        let Some(actions) = self.client().map(|client| client.actions()) else {
             return;
         };
 
-        view::ActionDialog::from(&action_list.create_container(self.create_opts(), run))
+        view::ActionDialog::from(&actions.create_container(self.create_opts(), run))
             .present(Some(self));
     }
 

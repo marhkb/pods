@@ -219,7 +219,7 @@ impl ImageBuildOptsDialog {
     fn close_and_build(&self) {
         self.close();
 
-        let Some(action_list) = self.client().map(|client| client.action_list()) else {
+        let Some(actions) = self.client().map(|client| client.actions()) else {
             return;
         };
 
@@ -241,6 +241,6 @@ impl ImageBuildOptsDialog {
             tag: imp.image_name_entry_row.text().into(),
         };
 
-        view::ActionDialog::from(&action_list.build_image(opts)).present(Some(self));
+        view::ActionDialog::from(&actions.build_image(opts)).present(Some(self));
     }
 }

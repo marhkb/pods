@@ -19,7 +19,7 @@ where
         return;
     };
 
-    match image.container_list().get(0) {
+    match image.containers().get(0) {
         Some(container) => {
             let dialog = adw::AlertDialog::builder()
                     .heading(gettext("Confirm Image Deletion"))

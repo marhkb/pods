@@ -81,8 +81,8 @@ template $PdsClientView: Widget {
                 $PdsActionsButton {
                   action-name: "client-view.show-actions";
                   tooltip-text: _("Actions");
-                  action-list: bind template.client as <$Client>.action-list;
-                  visible: bind template.client as <$Client>.action-list as <$ActionList>.len;
+                  action-list: bind template.client as <$Client>.actions;
+                  visible: bind template.client as <$Client>.actions as <$ActionList>.len;
                 }
               }
 
@@ -108,8 +108,8 @@ template $PdsClientView: Widget {
                             "container-status-running",
                           ]
 
-                          label: bind template.client as <$Client>.container-list as <$ContainerList>.running;
-                          visible: bind template.client as <$Client>.container-list as <$ContainerList>.running;
+                          label: bind template.client as <$Client>.containers as <$ContainerList>.running;
+                          visible: bind template.client as <$Client>.containers as <$ContainerList>.running;
                         }
 
                         Label {
@@ -118,8 +118,8 @@ template $PdsClientView: Widget {
                             "container-status-not-running",
                           ]
 
-                          label: bind template.client as <$Client>.container-list as <$ContainerList>.not-running;
-                          visible: bind template.client as <$Client>.container-list as <$ContainerList>.not-running;
+                          label: bind template.client as <$Client>.containers as <$ContainerList>.not-running;
+                          visible: bind template.client as <$Client>.containers as <$ContainerList>.not-running;
                         }
 
                         Label {
@@ -128,8 +128,8 @@ template $PdsClientView: Widget {
                             "container-status-dead",
                           ]
 
-                          label: bind template.client as <$Client>.container-list as <$ContainerList>.dead;
-                          visible: bind template.client as <$Client>.container-list as <$ContainerList>.dead;
+                          label: bind template.client as <$Client>.containers as <$ContainerList>.dead;
+                          visible: bind template.client as <$Client>.containers as <$ContainerList>.dead;
                         }
                       };
                     }
@@ -153,8 +153,8 @@ template $PdsClientView: Widget {
                             "pod-status-running",
                           ]
 
-                          label: bind template.client as <$Client>.pod-list as <$PodList>.running;
-                          visible: bind template.client as <$Client>.pod-list as <$PodList>.running;
+                          label: bind template.client as <$Client>.pods as <$PodList>.running;
+                          visible: bind template.client as <$Client>.pods as <$PodList>.running;
                         }
 
                         Label {
@@ -163,8 +163,8 @@ template $PdsClientView: Widget {
                             "pod-status-not-running",
                           ]
 
-                          label: bind template.client as <$Client>.pod-list as <$PodList>.not-running;
-                          visible: bind template.client as <$Client>.pod-list as <$PodList>.not-running;
+                          label: bind template.client as <$Client>.pods as <$PodList>.not-running;
+                          visible: bind template.client as <$Client>.pods as <$PodList>.not-running;
                         }
 
                         Label {
@@ -173,8 +173,8 @@ template $PdsClientView: Widget {
                             "pod-status-degraded",
                           ]
 
-                          label: bind template.client as <$Client>.pod-list as <$PodList>.degraded;
-                          visible: bind template.client as <$Client>.pod-list as <$PodList>.degraded;
+                          label: bind template.client as <$Client>.pods as <$PodList>.degraded;
+                          visible: bind template.client as <$Client>.pods as <$PodList>.degraded;
                         }
                       };
                     }
@@ -193,8 +193,8 @@ template $PdsClientView: Widget {
                             "image-used",
                           ]
 
-                          label: bind template.client as <$Client>.image-list as <$ImageList>.used;
-                          visible: bind template.client as <$Client>.image-list as <$ImageList>.used;
+                          label: bind template.client as <$Client>.images as <$ImageList>.used;
+                          visible: bind template.client as <$Client>.images as <$ImageList>.used;
                         }
 
                         Label {
@@ -203,8 +203,8 @@ template $PdsClientView: Widget {
                             "image-unused",
                           ]
 
-                          label: bind template.client as <$Client>.image-list as <$ImageList>.intermediates;
-                          visible: bind template.client as <$Client>.image-list as <$ImageList>.intermediates;
+                          label: bind template.client as <$Client>.images as <$ImageList>.intermediates;
+                          visible: bind template.client as <$Client>.images as <$ImageList>.intermediates;
                         }
                       };
                     }
@@ -223,8 +223,8 @@ template $PdsClientView: Widget {
                             "volume-used",
                           ]
 
-                          label: bind template.client as <$Client>.volume-list as <$VolumeList>.used;
-                          visible: bind template.client as <$Client>.volume-list as <$VolumeList>.used;
+                          label: bind template.client as <$Client>.volumes as <$VolumeList>.used;
+                          visible: bind template.client as <$Client>.volumes as <$VolumeList>.used;
                         }
 
                         Label {
@@ -233,8 +233,8 @@ template $PdsClientView: Widget {
                             "volume-unused",
                           ]
 
-                          label: bind template.client as <$Client>.volume-list as <$VolumeList>.unused;
-                          visible: bind template.client as <$Client>.volume-list as <$VolumeList>.unused;
+                          label: bind template.client as <$Client>.volumes as <$VolumeList>.unused;
+                          visible: bind template.client as <$Client>.volumes as <$VolumeList>.unused;
                         }
                       };
                     }
@@ -293,7 +293,7 @@ template $PdsClientView: Widget {
 
             $PdsActionsSidebar {
               cleared => $on_actions_cleared() swapped;
-              action-list: bind template.client as <$Client>.action-list;
+              action-list: bind template.client as <$Client>.actions;
             }
           }
         };
@@ -319,7 +319,7 @@ template $PdsClientView: Widget {
 
                     child: $PdsContainersPanel containers_panel {
                       collapsed: bind navigation_split_view.collapsed;
-                      container-list: bind template.client as <$Client>.container-list;
+                      container-list: bind template.client as <$Client>.containers;
                     };
                   }
 
@@ -328,7 +328,7 @@ template $PdsClientView: Widget {
 
                     child: $PdsPodsPanel pods_panel {
                       collapsed: bind navigation_split_view.collapsed;
-                      pod-list: bind template.client as <$Client>.pod-list;
+                      pod-list: bind template.client as <$Client>.pods;
                       visible: bind template
                         .client as <$Client>
                         .engine as <$Engine>
@@ -342,7 +342,7 @@ template $PdsClientView: Widget {
 
                     child: $PdsImagesPanel images_panel {
                       collapsed: bind navigation_split_view.collapsed;
-                      image-list: bind template.client as <$Client>.image-list;
+                      image-list: bind template.client as <$Client>.images;
                     };
                   }
 
@@ -351,7 +351,7 @@ template $PdsClientView: Widget {
 
                     child: $PdsVolumesPanel volumes_panel {
                       collapsed: bind navigation_split_view.collapsed;
-                      volume-list: bind template.client as <$Client>.volume-list;
+                      volume-list: bind template.client as <$Client>.volumes;
                     };
                   }
 

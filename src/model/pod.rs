@@ -26,8 +26,8 @@ mod imp {
     pub(crate) struct Pod {
         #[property(get, set, construct_only, nullable)]
         pub(super) pod_list: glib::WeakRef<model::PodList>,
-        #[property(get = Self::container_list)]
-        pub(super) container_list: OnceCell<model::SimpleContainerList>,
+        #[property(get = Self::containers)]
+        pub(super) containers: OnceCell<model::SimpleContainerList>,
         #[property(get)]
         pub(super) infra_container: glib::WeakRef<model::Container>,
 
@@ -80,7 +80,7 @@ mod imp {
             let obj = &*self.obj();
 
             let handler_id_ref = Rc::new(RefCell::new(None));
-            let handler_id = obj.container_list().connect_container_added(clone!(
+            let handler_id = obj.containers().connect_container_added(clone!(
                 #[weak]
                 obj,
                 #[strong]
@@ -97,8 +97,8 @@ mod imp {
     }
 
     impl Pod {
-        pub(super) fn container_list(&self) -> model::SimpleContainerList {
-            self.container_list.get_or_init(Default::default).to_owned()
+        pub(super) fn containers(&self) -> model::SimpleContainerList {
+            self.containers.get_or_init(Default::default).to_owned()
         }
 
         pub(super) fn details(&self) -> Option<model::PodDetails> {

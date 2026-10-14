@@ -73,10 +73,10 @@ impl PodsPruneOptsDialog {
     fn close_and_prune(&self) {
         self.close();
 
-        let Some(action_list) = self.client().map(|client| client.action_list()) else {
+        let Some(actions) = self.client().map(|client| client.actions()) else {
             return;
         };
 
-        view::ActionDialog::from(&action_list.prune_pods()).present(Some(self));
+        view::ActionDialog::from(&actions.prune_pods()).present(Some(self));
     }
 }

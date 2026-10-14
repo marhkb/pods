@@ -74,7 +74,7 @@ mod imp {
                 }));
             let volume_to_be_deleted_expr =
                 volume_expr.chain_property::<model::Volume>("to-be-deleted");
-            let container_list_expr = volume_expr.chain_property::<model::Volume>("container-list");
+            let containers_expr = volume_expr.chain_property::<model::Volume>("containers");
 
             gtk::ClosureExpression::new::<String>(
                 [
@@ -120,7 +120,7 @@ mod imp {
                 }))
                 .bind(&*self.name_label, "css-classes", Some(obj));
 
-            container_list_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
+            containers_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
 
             let style_manager = adw::StyleManager::default();
             style_manager.connect_dark_notify(clone!(

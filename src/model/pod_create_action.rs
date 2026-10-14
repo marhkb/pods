@@ -82,7 +82,7 @@ impl PodCreateAction {
             return self.exec_create_pod(&engine);
         };
 
-        if !pull_latest && client.image_list().find_image(image).is_some() {
+        if !pull_latest && client.images().find_image(image).is_some() {
             return self.exec_create_pod(&engine);
         }
 
@@ -168,18 +168,18 @@ impl PodCreateAction {
     where
         F: Fn(&model::Pod) + 'static,
     {
-        let Some(pod_list) = self
+        let Some(pods) = self
             .action_list()
             .and_then(|action_list| action_list.client())
-            .and_then(|client| client.pod_list())
+            .and_then(|client| client.pods())
         else {
             return;
         };
 
-        match pod_list.get_pod(&pod_id) {
+        match pods.get_pod(&pod_id) {
             Some(pod) => op(&pod),
             None => {
-                pod_list.connect_pod_added(move |_, pod| {
+                pods.connect_pod_added(move |_, pod| {
                     if pod.id() == pod_id {
                         op(pod);
                     }

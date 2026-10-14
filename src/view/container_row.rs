@@ -325,7 +325,7 @@ impl ContainerRow {
         if let Some(container) = self.container().as_ref() {
             if container
                 .container_list()
-                .map(|list| list.is_selection_mode())
+                .map(|container_list| container_list.is_selection_mode())
                 .unwrap_or(false)
             {
                 container.select();

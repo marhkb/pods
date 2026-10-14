@@ -151,7 +151,7 @@ impl PortBindingRow {
 
         let Some(connection) = port_binding
             .port_binding_list()
-            .and_then(|container_port_binding_list| container_port_binding_list.container())
+            .and_then(|port_binding_list| port_binding_list.container())
             .and_then(|container| container.container_list())
             .and_then(|container_list| container_list.client())
             .map(|client| client.connection())

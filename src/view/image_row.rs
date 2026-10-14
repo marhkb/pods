@@ -201,7 +201,7 @@ impl ImageRow {
         if let Some(image) = self.image().as_ref() {
             if image
                 .image_list()
-                .map(|list| list.is_selection_mode())
+                .map(|image_list| image_list.is_selection_mode())
                 .unwrap_or(false)
             {
                 image.select();

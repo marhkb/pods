@@ -34,8 +34,8 @@ mod imp {
 
         #[property(get, set)]
         pub(super) action_ongoing: Cell<bool>,
-        #[property(get = Self::container_list)]
-        pub(super) container_list: OnceCell<model::SimpleContainerList>,
+        #[property(get = Self::containers)]
+        pub(super) containers: OnceCell<model::SimpleContainerList>,
         #[property(get)]
         pub(super) to_be_deleted: Cell<bool>,
         #[property(get, set)]
@@ -70,7 +70,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             let obj = &*self.obj();
-            obj.container_list().connect_items_changed(clone!(
+            obj.containers().connect_items_changed(clone!(
                 #[weak]
                 obj,
                 move |_, _, _, _| if let Some(volume_list) = obj.volume_list() {
@@ -81,8 +81,8 @@ mod imp {
     }
 
     impl Volume {
-        pub(super) fn container_list(&self) -> model::SimpleContainerList {
-            self.container_list.get_or_init(Default::default).to_owned()
+        pub(super) fn containers(&self) -> model::SimpleContainerList {
+            self.containers.get_or_init(Default::default).to_owned()
         }
 
         pub(super) fn set_to_be_deleted(&self, value: bool) {

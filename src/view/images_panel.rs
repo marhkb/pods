@@ -264,7 +264,7 @@ mod imp {
                 ],
                 closure!(|obj: Self::Type, len: u32, intermediates: u32| {
                     match obj.image_list() {
-                        Some(list) => {
+                        Some(image_list) => {
                             if len == 0 {
                                 String::new()
                             } else if len == 1 {
@@ -280,9 +280,9 @@ mod imp {
                                     len,
                                     [
                                         len.to_string(),
-                                        glib::format_size(list.total_size()).to_string(),
+                                        glib::format_size(image_list.total_size()).to_string(),
                                         intermediates.to_string(),
-                                        glib::format_size(list.unused_size()).to_string(),
+                                        glib::format_size(image_list.unused_size()).to_string(),
                                     ],
                                 )
                             }
@@ -370,10 +370,9 @@ mod imp {
                             .get(0)
                             .map(|repo_tag| repo_tag.full())
                             .cmp(&image2.repo_tags().get(0).map(|repo_tag| repo_tag.full())),
-                        SortAttribute::Containers => image1
-                            .container_list()
-                            .len()
-                            .cmp(&image2.container_list().len()),
+                        SortAttribute::Containers => {
+                            image1.containers().len().cmp(&image2.containers().len())
+                        }
                     };
 
                     match obj.sort_direction() {
@@ -534,8 +533,11 @@ mod imp {
                 clone!(
                     #[weak]
                     obj,
-                    move |list, _| {
-                        obj.action_set_enabled(ACTION_DELETE_SELECTION, list.num_selected() > 0);
+                    move |image_list, _| {
+                        obj.action_set_enabled(
+                            ACTION_DELETE_SELECTION,
+                            image_list.num_selected() > 0,
+                        );
                     }
                 ),
             );
@@ -618,21 +620,21 @@ impl ImagesPanel {
     }
 
     pub(crate) fn show_prune_dialog(&self) {
-        if let Some(client) = self.image_list().and_then(|list| list.client()) {
+        if let Some(client) = self.image_list().and_then(|image_list| image_list.client()) {
             view::ImagesPruneOptsDialog::new(&client, None).present(Some(self));
         }
     }
 
     pub(crate) fn enter_selection_mode(&self) {
-        if let Some(list) = self.image_list().filter(|list| list.len() > 0) {
-            list.select_none();
-            list.set_selection_mode(true);
+        if let Some(image_list) = self.image_list().filter(|image_list| image_list.len() > 0) {
+            image_list.select_none();
+            image_list.set_selection_mode(true);
         }
     }
 
     pub(crate) fn exit_selection_mode(&self) {
-        if let Some(list) = self.image_list() {
-            list.set_selection_mode(false);
+        if let Some(image_list) = self.image_list() {
+            image_list.set_selection_mode(false);
         }
     }
 
@@ -651,15 +653,18 @@ impl ImagesPanel {
     }
 
     pub(crate) fn select_none(&self) {
-        if let Some(list) = self.image_list().filter(|list| list.is_selection_mode()) {
-            list.select_none();
+        if let Some(image_list) = self
+            .image_list()
+            .filter(|image_list| image_list.is_selection_mode())
+        {
+            image_list.select_none();
         }
     }
 
     pub(crate) fn remove_selection(&self) {
         if self
             .image_list()
-            .map(|list| list.num_selected())
+            .map(|image_list| image_list.num_selected())
             .unwrap_or(0)
             == 0
         {
@@ -686,9 +691,10 @@ impl ImagesPanel {
                 #[weak(rename_to = obj)]
                 self,
                 move |_, response| if response == "delete"
-                    && let Some(list) = obj.image_list()
+                    && let Some(image_list) = obj.image_list()
                 {
-                    list.selected_items()
+                    image_list
+                        .selected_items()
                         .iter()
                         .map(|obj| obj.downcast_ref::<model::Image>().unwrap())
                         .for_each(|image| {
@@ -713,7 +719,7 @@ impl ImagesPanel {
                                 ),
                             );
                         });
-                    list.set_selection_mode(false);
+                    image_list.set_selection_mode(false);
                 }
             ),
         );

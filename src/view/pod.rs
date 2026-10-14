@@ -52,7 +52,7 @@ where
     W: IsA<gtk::Widget> + Downgrade<Weak = glib::WeakRef<W>>,
 {
     if let Some(pod) = pod {
-        match pod.container_list().first_non_infra() {
+        match pod.containers().first_non_infra() {
             Some(container) => {
                 let dialog = adw::AlertDialog::builder()
                 .heading(gettext("Confirm Pod Deletion"))
