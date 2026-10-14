@@ -37,8 +37,6 @@ mod imp {
         #[template_child]
         pub(super) age_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) spinner: TemplateChild<adw::Spinner>,
-        #[template_child]
         pub(super) containers_count_bar: TemplateChild<view::ContainersCountBar>,
         #[template_child]
         pub(super) end_box_revealer: TemplateChild<gtk::Revealer>,
@@ -171,10 +169,6 @@ mod imp {
                 }),
             )
             .bind(&*self.age_label, "label", Some(obj));
-
-            volume_expr
-                .chain_property::<model::Volume>("searching-containers")
-                .bind(&self.spinner.get(), "visible", Some(obj));
 
             container_list_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
 

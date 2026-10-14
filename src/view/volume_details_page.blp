@@ -134,12 +134,6 @@ template $PdsVolumeDetailsPage: Widget {
       $PdsContainersGroup {
         container-list: bind template.volume as <$Volume>.container-list;
         title: _("Containers");
-
-        header-suffix: Adw.Spinner {
-          height-request: 21;
-          width-request: 21;
-          visible: bind template.volume as <$Volume>.searching-containers;
-        };
       }
     }
   }

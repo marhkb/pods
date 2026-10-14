@@ -130,9 +130,16 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
+    }
 
-        fn constructed(&self) {
-            self.parent_constructed();
+    impl WidgetImpl for ContainerCreateOptsDialog {
+        fn map(&self) {
+            self.parent_map();
+            self.name_entry_row.grab_focus();
+        }
+
+        fn realize(&self) {
+            self.parent_realize();
 
             let obj = &*self.obj();
 
@@ -258,13 +265,6 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerCreateOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.name_entry_row.grab_focus();
-        }
-    }
-
     impl AdwDialogImpl for ContainerCreateOptsDialog {}
 
     #[gtk::template_callbacks]
@@ -385,7 +385,7 @@ impl ContainerCreateOptsDialog {
                 .active()
                 .then(|| imp.pod_selection_combo_row.selected_pod())
                 .flatten()
-                .map(|pod| pod.name()),
+                .map(|pod| pod.id()),
             ports: imp
                 .port_mappings()
                 .iter::<model::PortBindingCreation>()

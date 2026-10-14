@@ -30,7 +30,7 @@ mod imp {
 
         #[property(get, set, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
-        #[property(get, set = Self::set_pod, explicit_notify, nullable)]
+        #[property(get, set, explicit_notify, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get = Self::volume_list)]
         pub(super) volume_list: OnceCell<model::ContainerVolumeList>,
@@ -99,18 +99,6 @@ mod imp {
     impl Container {
         pub(super) fn details(&self) -> Option<model::ContainerDetails> {
             self.details.get().cloned().flatten()
-        }
-
-        pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
-            let obj = &*self.obj();
-            if obj.pod().as_ref() == value {
-                return;
-            }
-            if let Some(pod) = value {
-                pod.inspect_and_update(|e| log::error!("inspect pod: {e}"));
-            }
-            self.pod.set(value);
-            obj.notify_pod();
         }
 
         pub(super) fn pod_id(&self) -> Option<String> {

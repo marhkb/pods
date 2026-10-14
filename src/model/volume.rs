@@ -33,8 +33,6 @@ mod imp {
         pub(super) mountpoint: OnceCell<String>,
 
         #[property(get, set)]
-        pub(super) searching_containers: Cell<bool>,
-        #[property(get, set)]
         pub(super) action_ongoing: Cell<bool>,
         #[property(get = Self::container_list)]
         pub(super) container_list: OnceCell<model::SimpleContainerList>,
