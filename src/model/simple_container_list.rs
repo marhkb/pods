@@ -7,6 +7,7 @@ use gio::subclass::prelude::*;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
+use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 
 use crate::model;
@@ -136,25 +137,40 @@ impl SimpleContainerList {
     }
 
     pub(crate) fn add_container(&self, container: &model::Container) {
-        let (index, _) = self.imp().list.borrow_mut().insert_full(container.id(), {
-            let weak_ref = glib::WeakRef::new();
-            weak_ref.set(Some(container));
-            weak_ref
-        });
+        let position = {
+            let mut list = self.imp().list.borrow_mut();
+            let Entry::Vacant(e) = list.entry(container.id()) else {
+                return;
+            };
 
-        self.items_changed(index as u32, 0, 1);
+            let position = e.index() as u32;
+
+            e.insert({
+                let weak_ref = glib::WeakRef::new();
+                weak_ref.set(Some(container));
+                weak_ref
+            });
+
+            position
+        };
+
+        self.items_changed(position, 0, 1);
         self.container_added(container);
     }
 
     pub(crate) fn remove_container<Q: Borrow<str> + ?Sized>(&self, id: &Q) {
-        let mut list = self.imp().list.borrow_mut();
-        if let Some((idx, _, container)) = list.shift_remove_full(id.borrow()) {
-            drop(list);
+        let (position, container) = {
+            let mut list = self.imp().list.borrow_mut();
+            let Some((idx, _, container)) = list.shift_remove_full(id.borrow()) else {
+                return;
+            };
 
-            self.items_changed(idx as u32, 1, 0);
-            if let Some(container) = container.upgrade() {
-                self.container_removed(&container);
-            }
+            (idx as u32, container)
+        };
+
+        self.items_changed(position, 1, 0);
+        if let Some(container) = container.upgrade() {
+            self.container_removed(&container);
         }
     }
 }
