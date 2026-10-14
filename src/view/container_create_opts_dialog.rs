@@ -385,7 +385,7 @@ impl ContainerCreateOptsDialog {
                 .active()
                 .then(|| imp.pod_selection_combo_row.selected_pod())
                 .flatten()
-                .map(|pod| pod.name()),
+                .map(|pod| pod.id()),
             ports: imp
                 .port_mappings()
                 .iter::<model::PortBindingCreation>()
