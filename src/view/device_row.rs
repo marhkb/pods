@@ -9,6 +9,7 @@ use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::BoolExpression;
 use crate::model;
 
 mod imp {
@@ -85,14 +86,8 @@ mod imp {
                 device_expr.chain_property::<model::Device>("writable"),
                 device_expr.chain_property::<model::Device>("mknod"),
             ];
-            let option_active_expr = gtk::ClosureExpression::new::<bool>(
-                options_expr_arr,
-                closure!(
-                    |_: Self::Type, readable: bool, writable: bool, mknod: bool| {
-                        readable | writable | mknod
-                    }
-                ),
-            );
+            let [readable_expr, writable_expr, mknod_expr] = options_expr_arr;
+            let option_active_expr = readable_expr.or(writable_expr).or(mknod_expr);
 
             device_expr
                 .chain_property::<model::Device>("host-path")

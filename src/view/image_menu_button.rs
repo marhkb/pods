@@ -2,10 +2,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::BoolExpression;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -76,9 +76,7 @@ mod imp {
                 .chain_property::<model::Image>("to-be-deleted");
 
             to_be_deleted_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, to_be_deleted: bool| {
-                    !to_be_deleted
-                }))
+                .not()
                 .bind(&*self.menu_button, "sensitive", Some(obj));
 
             to_be_deleted_expr.watch(

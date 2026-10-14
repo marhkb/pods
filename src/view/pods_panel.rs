@@ -15,6 +15,7 @@ use gtk::glib;
 use smart_default::SmartDefault;
 
 use crate::config;
+use crate::expression::BoolExpression;
 use crate::gettext::gettext;
 use crate::gettext::ngettext;
 use crate::gettext::ngettext_f;
@@ -259,9 +260,7 @@ mod imp {
             let pod_list_len_expr = pod_list_expr.chain_property::<model::PodList>("len");
             let selection_mode_expr =
                 pod_list_expr.chain_property::<model::PodList>("selection-mode");
-            let not_selection_mode_expr = selection_mode_expr.chain_closure::<bool>(closure!(
-                |_: Self::Type, selection_mode: bool| { !selection_mode }
-            ));
+            let not_selection_mode_expr = selection_mode_expr.not();
             let collapsed_expr = Self::Type::this_expression("collapsed");
 
             gtk::ClosureExpression::new::<Option<String>>(
@@ -344,27 +343,17 @@ mod imp {
 
             not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));
 
-            gtk::ClosureExpression::new::<bool>(
-                [
-                    collapsed_expr.upcast_ref(),
-                    not_selection_mode_expr.upcast_ref(),
-                ],
-                closure!(|_: Self::Type, collapsed: bool, not_selection_mode: bool| {
-                    collapsed && not_selection_mode
-                }),
-            )
-            .bind(&self.overhang_action_bar.get(), "revealed", Some(obj));
+            collapsed_expr.and(&not_selection_mode_expr).bind(
+                &self.overhang_action_bar.get(),
+                "revealed",
+                Some(obj),
+            );
 
-            gtk::ClosureExpression::new::<bool>(
-                [
-                    collapsed_expr.upcast_ref(),
-                    selection_mode_expr.upcast_ref(),
-                ],
-                closure!(|_: Self::Type, collapsed: bool, selection_mode: bool| {
-                    collapsed || selection_mode
-                }),
-            )
-            .bind(&self.toolbar_view.get(), "reveal-bottom-bars", Some(obj));
+            collapsed_expr.or(&selection_mode_expr).bind(
+                &self.toolbar_view.get(),
+                "reveal-bottom-bars",
+                Some(obj),
+            );
 
             let filter = gtk::CustomFilter::new(clone!(
                 #[weak]

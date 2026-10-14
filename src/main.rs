@@ -5,6 +5,7 @@ mod application;
 #[rustfmt::skip]
 mod config;
 mod engine;
+mod expression;
 mod gettext;
 mod model;
 mod rt;
