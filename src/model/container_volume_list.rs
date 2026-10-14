@@ -6,6 +6,7 @@ use gio::subclass::prelude::*;
 use glib::Properties;
 use gtk::gio;
 use gtk::glib;
+use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 
 use crate::model;
@@ -80,16 +81,17 @@ impl Default for ContainerVolumeList {
 
 impl ContainerVolumeList {
     pub(crate) fn add_volume(&self, container_volume: model::ContainerVolume) {
-        let Some(ref volume) = container_volume.volume() else {
-            return;
+        let position = {
+            let mut list = self.imp().list.borrow_mut();
+            let Entry::Vacant(e) = list.entry(container_volume.destination()) else {
+                return;
+            };
+
+            let position = e.index() as u32;
+            e.insert(container_volume);
+            position
         };
 
-        let (index, _) = self
-            .imp()
-            .list
-            .borrow_mut()
-            .insert_full(volume.name(), container_volume);
-
-        self.items_changed(index as u32, 0, 1);
+        self.items_changed(position, 0, 1);
     }
 }
