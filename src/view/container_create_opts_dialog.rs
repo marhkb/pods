@@ -130,9 +130,16 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
+    }
 
-        fn constructed(&self) {
-            self.parent_constructed();
+    impl WidgetImpl for ContainerCreateOptsDialog {
+        fn map(&self) {
+            self.parent_map();
+            self.name_entry_row.grab_focus();
+        }
+
+        fn realize(&self) {
+            self.parent_realize();
 
             let obj = &*self.obj();
 
@@ -255,13 +262,6 @@ mod imp {
                 .set_value(health_config.start_period.unwrap_or_default() as f64);
             self.health_check_retries_value
                 .set_value(health_config.retries.unwrap_or_default() as f64);
-        }
-    }
-
-    impl WidgetImpl for ContainerCreateOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.name_entry_row.grab_focus();
         }
     }
 
