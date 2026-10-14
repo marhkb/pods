@@ -21,7 +21,7 @@ template $PdsContainersPruneActionView: Widget {
 
     ListView {
       model: NoSelection {
-        model: bind template.action as <$ContainersPruneAction>.deleted-containers;
+        model: bind template.action as <$PdsContainersPruneAction>.deleted-containers;
       };
 
       factory: BuilderListItemFactory {

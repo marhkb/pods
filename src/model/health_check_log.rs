@@ -27,7 +27,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for HealthCheckLog {
-        const NAME: &'static str = "HealthCheckLog";
+        const NAME: &'static str = "PdsHealthCheckLog";
         type Type = super::HealthCheckLog;
     }
 

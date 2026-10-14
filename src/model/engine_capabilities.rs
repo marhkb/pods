@@ -40,7 +40,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for EngineCapabilities {
-        const NAME: &'static str = "EngineCapabilities";
+        const NAME: &'static str = "PdsEngineCapabilities";
         type Type = super::EngineCapabilities;
     }
 

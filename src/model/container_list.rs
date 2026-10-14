@@ -68,7 +68,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainerList {
-        const NAME: &'static str = "ContainerList";
+        const NAME: &'static str = "PdsContainerList";
         type Type = super::ContainerList;
         type Interfaces = (
             gio::ListModel,

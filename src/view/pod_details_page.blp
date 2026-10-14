@@ -20,7 +20,7 @@ template $PdsPodDetailsPage: Widget {
       [title]
       Adw.WindowTitle {
         title: _("Pod");
-        subtitle: bind template.pod as <$Pod>.name;
+        subtitle: bind template.pod as <$PdsPod>.name;
       }
     }
 
@@ -183,7 +183,7 @@ template $PdsPodDetailsPage: Widget {
               ]
 
               title: _("Name");
-              subtitle: bind template.pod as <$Pod>.name;
+              subtitle: bind template.pod as <$PdsPod>.name;
 
               Button {
                 styles [
@@ -299,7 +299,7 @@ template $PdsPodDetailsPage: Widget {
           }
 
           $PdsContainersGroup {
-            container-list: bind template.pod as <$Pod>.containers;
+            container-list: bind template.pod as <$PdsPod>.containers;
             title: _("Containers");
           }
         };

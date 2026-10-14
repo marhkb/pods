@@ -55,7 +55,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for PodList {
-        const NAME: &'static str = "PodList";
+        const NAME: &'static str = "PdsPodList";
         type Type = super::PodList;
         type Interfaces = (gio::ListModel, model::SelectableList);
     }

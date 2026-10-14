@@ -51,7 +51,7 @@ template $PdsActionDialog: Adw.Dialog {
             margin-top: 6;
             max-content-height: 120;
             overflow: hidden;
-            visible: bind template.action as <$Action>.has_error;
+            visible: bind template.action as <$PdsAction>.has_error;
 
             Label {
               styles [
@@ -59,7 +59,7 @@ template $PdsActionDialog: Adw.Dialog {
                 "text-view",
               ]
 
-              label: bind template.action as <$Action>.error;
+              label: bind template.action as <$PdsAction>.error;
               margin-bottom: 6;
               margin-end: 9;
               margin-start: 9;

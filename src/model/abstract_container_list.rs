@@ -24,7 +24,7 @@ mod imp {
 
     #[glib::object_interface]
     impl ObjectInterface for AbstractContainerList {
-        const NAME: &'static str = "AbstractContainerList";
+        const NAME: &'static str = "PdsAbstractContainerList";
         type Prerequisites = (gio::ListModel,);
         type Interface = AbstractContainerListClass;
 

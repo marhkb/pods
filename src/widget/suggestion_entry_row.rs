@@ -17,7 +17,7 @@ use crate::utils;
 use crate::widget;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "SuggestionEntryVisibleStackPage")]
+#[enum_type(name = "PdsSuggestionEntryVisibleStackPage")]
 pub(crate) enum SuggestionEntryVisibleStackPage {
     #[default]
     Searching,

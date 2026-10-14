@@ -24,7 +24,7 @@ mod imp {
 
     #[glib::object_interface]
     impl ObjectInterface for SelectableList {
-        const NAME: &'static str = "SelectableList";
+        const NAME: &'static str = "PdsSelectableList";
         type Prerequisites = (gio::ListModel,);
         type Interface = SelectableListClass;
 

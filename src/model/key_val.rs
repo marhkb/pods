@@ -23,7 +23,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for KeyVal {
-        const NAME: &'static str = "KeyVal";
+        const NAME: &'static str = "PdsKeyVal";
         type Type = super::KeyVal;
     }
 

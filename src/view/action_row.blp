@@ -44,7 +44,7 @@ template $PdsActionRow: Widget {
 
     name: "action";
     action-name: "action-row.cancel-or-delete";
-    tooltip-text: bind $action_button_tooltip(template.action as <$Action>.state) as <string>;
+    tooltip-text: bind $action_button_tooltip(template.action as <$PdsAction>.state) as <string>;
     valign: center;
   }
 }

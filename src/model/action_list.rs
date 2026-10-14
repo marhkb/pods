@@ -38,7 +38,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ActionList {
-        const NAME: &'static str = "ActionList";
+        const NAME: &'static str = "PdsActionList";
         type Type = super::ActionList;
         type Interfaces = (gio::ListModel,);
     }

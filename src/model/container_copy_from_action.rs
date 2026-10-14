@@ -41,7 +41,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainerCopyFromAction {
-        const NAME: &'static str = "ContainerCopyFromAction";
+        const NAME: &'static str = "PdsContainerCopyFromAction";
         type Type = super::ContainerCopyFromAction;
         type ParentType = model::Action;
     }

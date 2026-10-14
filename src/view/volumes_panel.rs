@@ -56,7 +56,7 @@ impl Deref for Settings {
 }
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "VolumesPanelSortDirection")]
+#[enum_type(name = "PdsVolumesPanelSortDirection")]
 pub(crate) enum SortDirection {
     #[default]
     #[enum_value(nick = "asc")]
@@ -66,7 +66,7 @@ pub(crate) enum SortDirection {
 }
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "VolumesPanelSortAttribute")]
+#[enum_type(name = "PdsVolumesPanelSortAttribute")]
 pub(crate) enum SortAttribute {
     #[default]
     #[enum_value(nick = "name")]

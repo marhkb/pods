@@ -43,7 +43,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ConnectionManager {
-        const NAME: &'static str = "ConnectionManager";
+        const NAME: &'static str = "PdsConnectionManager";
         type Type = super::ConnectionManager;
         type Interfaces = (gio::ListModel,);
     }

@@ -19,7 +19,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Value {
-        const NAME: &'static str = "Value";
+        const NAME: &'static str = "PdsValue";
         type Type = super::Value;
     }
 

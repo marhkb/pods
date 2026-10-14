@@ -29,7 +29,7 @@ template $PdsWindow: Adw.ApplicationWindow {
         name: "client";
 
         child: $PdsClientView client_view {
-          client: bind template.connection-manager as <$ConnectionManager>.client;
+          client: bind template.connection-manager as <$PdsConnectionManager>.client;
         };
       }
     }

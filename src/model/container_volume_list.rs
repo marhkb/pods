@@ -25,7 +25,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainerVolumeList {
-        const NAME: &'static str = "ContainerVolumeList";
+        const NAME: &'static str = "PdsContainerVolumeList";
         type Type = super::ContainerVolumeList;
         type Interfaces = (gio::ListModel,);
     }

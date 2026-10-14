@@ -29,7 +29,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainersPruneAction {
-        const NAME: &'static str = "ContainersPruneAction";
+        const NAME: &'static str = "PdsContainersPruneAction";
         type Type = super::ContainersPruneAction;
         type ParentType = model::Action;
     }

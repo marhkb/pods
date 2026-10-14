@@ -5,7 +5,7 @@ use gtk::glib;
 use crate::engine;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, glib::Enum)]
-#[enum_type(name = "PortMappingProtocol")]
+#[enum_type(name = "PdsPortMappingProtocol")]
 pub(crate) enum PortMappingProtocol {
     #[default]
     Tcp,

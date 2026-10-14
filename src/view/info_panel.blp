@@ -9,7 +9,7 @@ template $PdsInfoPanel: Widget {
     Adw.HeaderBar {
       [title]
       Adw.WindowTitle {
-        title: bind template.client as <$Client>.engine as <$Engine>.typ;
+        title: bind template.client as <$PdsClient>.engine as <$PdsEngine>.typ;
       }
     }
 
@@ -38,7 +38,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Version");
-              subtitle: bind template.client as <$Client>.info as <$Info>.version;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.version;
             }
           }
 
@@ -51,7 +51,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Operating System");
-              subtitle: bind template.client as <$Client>.info as <$Info>.os;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.os;
             }
 
             Adw.ActionRow {
@@ -60,7 +60,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Kernel");
-              subtitle: bind template.client as <$Client>.info as <$Info>.kernel;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.kernel;
             }
 
             Adw.ActionRow {
@@ -69,7 +69,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Architecture");
-              subtitle: bind template.client as <$Client>.info as <$Info>.arch;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.arch;
             }
 
             Adw.ActionRow {
@@ -78,7 +78,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Hostname");
-              subtitle: bind template.client as <$Client>.info as <$Info>.hostname;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.hostname;
             }
 
             Adw.ActionRow {
@@ -87,7 +87,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Cpus");
-              subtitle: bind template.client as <$Client>.info as <$Info>.cpus;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.cpus;
             }
 
             Adw.ActionRow memory_row {
@@ -96,7 +96,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Memory");
-              subtitle: bind template.client as <$Client>.info as <$Info>.memory;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.memory;
             }
           }
 
@@ -109,7 +109,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Driver");
-              subtitle: bind template.client as <$Client>.info as <$Info>.storage_driver;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.storage_driver;
             }
 
             Adw.ActionRow {
@@ -118,7 +118,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Root");
-              subtitle: bind template.client as <$Client>.info as <$Info>.storage_root_dir;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.storage_root_dir;
             }
           }
 
@@ -131,7 +131,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Driver");
-              subtitle: bind template.client as <$Client>.info as <$Info>.cgroup_driver;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.cgroup_driver;
             }
 
             Adw.ActionRow {
@@ -140,7 +140,7 @@ template $PdsInfoPanel: Widget {
               ]
 
               title: _("Version");
-              subtitle: bind template.client as <$Client>.info as <$Info>.cgroup_version;
+              subtitle: bind template.client as <$PdsClient>.info as <$PdsInfo>.cgroup_version;
             }
           }
 

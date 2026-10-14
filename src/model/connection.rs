@@ -49,7 +49,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Connection {
-        const NAME: &'static str = "Connection";
+        const NAME: &'static str = "PdsConnection";
         type Type = super::Connection;
     }
 

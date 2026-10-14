@@ -29,7 +29,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for ContainerVolume {
-        const NAME: &'static str = "ContainerVolume";
+        const NAME: &'static str = "PdsContainerVolume";
         type Type = super::ContainerVolume;
     }
 

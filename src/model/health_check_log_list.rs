@@ -21,7 +21,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for HealthCheckLogList {
-        const NAME: &'static str = "HealthCheckLogList";
+        const NAME: &'static str = "PdsHealthCheckLogList";
         type Type = super::HealthCheckLogList;
         type Interfaces = (gio::ListModel,);
     }

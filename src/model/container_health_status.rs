@@ -6,7 +6,7 @@ use crate::engine;
 use crate::gettext::gettext;
 
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, glib::Enum)]
-#[enum_type(name = "ContainerHealthStatus")]
+#[enum_type(name = "PdsContainerHealthStatus")]
 pub(crate) enum ContainerHealthStatus {
     Healthy,
     Starting,

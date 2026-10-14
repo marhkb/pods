@@ -72,7 +72,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Container {
-        const NAME: &'static str = "Container";
+        const NAME: &'static str = "PdsContainer";
         type Type = super::Container;
         type Interfaces = (model::Selectable,);
     }

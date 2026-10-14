@@ -92,7 +92,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Process {
-        const NAME: &'static str = "Process";
+        const NAME: &'static str = "PdsProcess";
         type Type = super::Process;
     }
 

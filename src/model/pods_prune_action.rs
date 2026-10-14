@@ -22,7 +22,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for PodsPruneAction {
-        const NAME: &'static str = "PodsPruneAction";
+        const NAME: &'static str = "PdsPodsPruneAction";
         type Type = super::PodsPruneAction;
         type ParentType = model::Action;
     }

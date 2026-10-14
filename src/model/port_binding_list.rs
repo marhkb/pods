@@ -27,7 +27,7 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for PortBindingList {
-        const NAME: &'static str = "ContainerPortBindingList";
+        const NAME: &'static str = "PdsPortBindingList";
         type Type = super::PortBindingList;
         type Interfaces = (gio::ListModel,);
     }

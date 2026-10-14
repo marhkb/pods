@@ -109,12 +109,12 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
                 }
 
                 $PdsPodSelectionComboRow pod_selection_combo_row {
-                  pod_list: bind template.client as <$Client>.pods;
+                  pod_list: bind template.client as <$PdsClient>.pods;
                   title: _("Pod");
                   visible: bind template
-                    .client as <$Client>
-                    .engine as <$Engine>
-                    .capabilities as <$EngineCapabilities>
+                    .client as <$PdsClient>
+                    .engine as <$PdsEngine>
+                    .capabilities as <$PdsEngineCapabilities>
                     .pods;
                 }
 

@@ -37,7 +37,7 @@ mod imp {
     #[glib::object_subclass]
     impl ObjectSubclass for Action {
         const ABSTRACT: bool = true;
-        const NAME: &'static str = "Action";
+        const NAME: &'static str = "PdsAction";
         type Type = super::Action;
     }
 
