@@ -10,6 +10,7 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::expression::BoolExpression;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -131,7 +132,7 @@ mod imp {
                 }))
                 .bind(&*self.stack, "visible-child-name", Some(obj));
             connecting_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, connecting: bool| !connecting))
+                .not()
                 .bind(&*self.preferences_page, "sensitive", Some(obj));
 
             obj.update_actions();

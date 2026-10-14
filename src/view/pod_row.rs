@@ -10,6 +10,7 @@ use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::BoolExpression;
 use crate::gettext::gettext;
 use crate::model;
 use crate::model::SelectableExt;
@@ -92,9 +93,7 @@ mod imp {
 
             selection_mode_expr.bind(&*self.check_button_revealer, "reveal-child", Some(obj));
             selection_mode_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
-                    !is_selection_mode
-                }))
+                .not()
                 .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
             let status_expr = pod_expr.chain_property::<model::Pod>("status");

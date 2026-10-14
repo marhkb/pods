@@ -8,6 +8,7 @@ use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::BoolExpression;
 use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::prelude::*;
@@ -94,9 +95,7 @@ mod imp {
 
             selection_mode_expr.bind(&*self.check_button_revealer, "reveal-child", Some(obj));
             selection_mode_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
-                    !is_selection_mode
-                }))
+                .not()
                 .bind(&*self.end_box_revealer, "reveal-child", Some(obj));
 
             let image_name_expr = container_expr.chain_property::<model::Container>("image-name");

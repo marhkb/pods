@@ -11,6 +11,7 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::expression::BoolExpression;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -219,8 +220,7 @@ mod imp {
             let volumes_expr = container_expr.chain_property::<model::Container>("volumes");
             let volumes_len_expr = volumes_expr.chain_property::<model::ContainerVolumeList>("len");
             let is_infra_expr = container_expr.chain_property::<model::Container>("is-infra");
-            let not_is_infra_expr = is_infra_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, is_infra: bool| !is_infra));
+            let not_is_infra_expr = is_infra_expr.not();
             let details_expr = container_expr.chain_property::<model::Container>("details");
             let up_since_expr = details_expr.chain_property::<model::ContainerDetails>("up-since");
 

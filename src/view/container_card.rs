@@ -11,6 +11,7 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::expression::BoolExpression;
 use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::prelude::*;
@@ -194,9 +195,7 @@ mod imp {
                     Some(obj),
                 );
             selection_mode_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, is_selection_mode: bool| {
-                    !is_selection_mode
-                }))
+                .not()
                 .bind(&self.action_center_box.get(), "sensitive", Some(obj));
 
             let health_status_expr =
