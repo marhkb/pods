@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-12 17:02+0000\n"
-"PO-Revision-Date: 2026-10-13 17:57+0000\n"
+"PO-Revision-Date: 2026-10-14 14:00+0000\n"
 "Last-Translator: Marcus Behrendt <marhkb@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/pods/main/de/>\n"
 "Language: de\n"
@@ -803,6 +803,8 @@ msgid ""
 "You may have to restart Pods for it to be able to connect to a newly created "
 "socket."
 msgstr ""
+"Pods müsste eventuell neugestartet werden, um sich mit dem neu erstellten "
+"Socket zu verbinden."
 
 #: src/view/connection_creation_page.blp:210
 msgid ""
@@ -1305,17 +1307,17 @@ msgstr "Neustart"
 
 #: src/view/container_create_opts_dialog.blp:139
 msgid "Never"
-msgstr ""
+msgstr "Niemals"
 
 #: src/view/container_create_opts_dialog.blp:140
 #: src/view/container_properties_group.rs:118
 msgid "Always"
-msgstr ""
+msgstr "Immer"
 
 #: src/view/container_create_opts_dialog.blp:141
 #: src/view/container_properties_group.rs:120
 msgid "On failure"
-msgstr ""
+msgstr "Bei Fehler"
 
 #: src/view/container_create_opts_dialog.blp:142
 #: src/view/container_properties_group.rs:121
@@ -1574,6 +1576,7 @@ msgstr "Fehler beim Umbenennen des Containers"
 #: src/view/container_log_page.blp:99
 msgid "Container logs are unavailable until the container is running"
 msgstr ""
+"Container-Protokolle sind nicht verfügbar, solange der Container nicht läuft"
 
 #: src/view/container_log_page.blp:111
 #, fuzzy
