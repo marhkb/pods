@@ -1,11 +1,9 @@
 use std::cell::Cell;
-use std::cell::RefCell;
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::CompositeTemplate;
-use gtk::gio;
 use gtk::glib;
 
 use crate::model;
@@ -17,8 +15,6 @@ mod imp {
     #[properties(wrapper_type = super::PodSelectionComboRow)]
     #[template(resource = "/com/github/marhkb/Pods/ui/view/pod_selection_combo_row.ui")]
     pub(crate) struct PodSelectionComboRow {
-        pub(super) baking_model: RefCell<Option<gio::ListModel>>,
-
         #[property(get, set)]
         pub(super) active: Cell<bool>,
         #[property(get, set, nullable)]
@@ -27,6 +23,8 @@ mod imp {
         pub(super) selected_pod: glib::WeakRef<model::Pod>,
 
         #[template_child]
+        pub(super) drop_down: TemplateChild<gtk::DropDown>,
+        #[template_child]
         pub(super) switch: TemplateChild<gtk::Switch>,
     }
 
@@ -34,7 +32,7 @@ mod imp {
     impl ObjectSubclass for PodSelectionComboRow {
         const NAME: &'static str = "PdsPodSelectionComboRow";
         type Type = super::PodSelectionComboRow;
-        type ParentType = adw::ComboRow;
+        type ParentType = adw::ActionRow;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -58,67 +56,53 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-            self.on_switch_notify_active();
-        }
     }
 
     impl WidgetImpl for PodSelectionComboRow {}
     impl ListBoxRowImpl for PodSelectionComboRow {}
     impl PreferencesRowImpl for PodSelectionComboRow {}
     impl ActionRowImpl for PodSelectionComboRow {}
-    impl ComboRowImpl for PodSelectionComboRow {}
 
     #[gtk::template_callbacks]
     impl PodSelectionComboRow {
         #[template_callback]
         fn on_notify_pod_list(&self) {
-            self.baking_model
-                .replace(self.obj().pod_list().map(|pod_list| {
-                    gtk::SortListModel::new(
-                        Some(pod_list),
-                        Some(
-                            gtk::StringSorter::builder()
-                                .expression(model::Pod::this_expression("name"))
-                                .build(),
-                        ),
-                    )
-                    .upcast()
-                }));
-        }
-
-        #[template_callback]
-        fn on_switch_notify_active(&self) {
-            let obj = &*self.obj();
-            if self.switch.is_active() {
-                obj.set_model(self.baking_model.borrow().as_ref());
-                obj.remove_css_class("pod-disabled");
-            } else {
-                obj.set_model(gio::ListModel::NONE);
-                obj.add_css_class("pod-disabled");
-            }
+            self.drop_down.set_model(
+                self.obj()
+                    .pod_list()
+                    .map(|pod_list| {
+                        gtk::SortListModel::new(
+                            Some(pod_list),
+                            Some(
+                                gtk::StringSorter::builder()
+                                    .expression(model::Pod::this_expression("name"))
+                                    .build(),
+                            ),
+                        )
+                    })
+                    .as_ref(),
+            );
         }
     }
 }
 
 glib::wrapper! {
     pub(crate) struct PodSelectionComboRow(ObjectSubclass<imp::PodSelectionComboRow>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow, adw::ComboRow,
+        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Actionable;
 }
 
 impl PodSelectionComboRow {
     pub(crate) fn select_pod(&self, pod_id: Option<&str>) {
-        let baking_model = self.imp().baking_model.borrow();
-        let Some(baking_model) = &*baking_model else {
+        let imp = self.imp();
+
+        let Some(model) = imp.drop_down.model() else {
             return;
         };
 
         let position = pod_id
             .and_then(|id| {
-                baking_model
+                model
                     .iter::<glib::Object>()
                     .map(Result::unwrap)
                     .map(|item| item.downcast::<model::Pod>().unwrap())
@@ -128,6 +112,6 @@ impl PodSelectionComboRow {
             .unwrap_or(gtk::INVALID_LIST_POSITION);
 
         self.set_active(position != gtk::INVALID_LIST_POSITION);
-        self.set_selected(position);
+        imp.drop_down.set_selected(position);
     }
 }

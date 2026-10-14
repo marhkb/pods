@@ -18,9 +18,11 @@
 
 /* Lists, rows and containers */
 
-row.combo.pod-disabled image,
-row.combo.pod-disabled label {
-  opacity: var(--dim-opacity);
+row dropdown > button {
+  background-color: transparent;
+  box-shadow: none;
+  font-weight: normal;
+  margin: 0 -3px 0 0;
 }
 
 flowbox.not-activatable flowboxchild:hover,

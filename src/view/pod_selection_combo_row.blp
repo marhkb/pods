@@ -1,27 +1,27 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $PdsPodSelectionComboRow: Adw.ComboRow {
+template $PdsPodSelectionComboRow: Adw.ActionRow {
   notify::pod-list => $on_notify_pod_list() swapped;
-  enable-search: true;
-  expression: expr item as <$Pod>.name;
+  selected-pod: bind drop_down.selected-item;
 
-  factory: BuilderListItemFactory {
-    template ListItem {
-      child: Label {
-        label: bind template.item as <$Pod>.name;
-        xalign: 0;
-      };
-    }
-  };
+  DropDown drop_down {
+    enable-search: true;
+    expression: expr item as <$Pod>.name;
+    visible: bind switch.active;
 
-  search-match-mode: substring;
-  selected-pod: bind template.selected-item;
+    factory: BuilderListItemFactory {
+      template ListItem {
+        child: Label {
+          label: bind template.item as <$Pod>.name;
+          xalign: 0;
+        };
+      }
+    };
+  }
 
   Switch switch {
     active: bind template.active bidirectional;
-    sensitive: bind template.pod-list as <$PodList>.len;
     valign: center;
-    notify::active => $on_switch_notify_active() swapped;
   }
 }
