@@ -1,7 +1,4 @@
 use std::cell::OnceCell;
-use std::rc::Rc;
-use std::sync::atomic::AtomicUsize;
-use std::sync::atomic::Ordering;
 
 use gio::prelude::*;
 use glib::Properties;
@@ -75,8 +72,7 @@ mod imp {
                         .map(Result::unwrap)
                         .filter(|container| container.image_id() == image.id())
                         .for_each(|container| {
-                            container.set_image(Some(image));
-                            image.container_list().add_container(&container);
+                            link_container_image(&container, image);
                         });
                 }
             ));
@@ -87,15 +83,16 @@ mod imp {
                 move |_, container| {
                     let image = obj.image_list().get_image(container.image_id().as_str());
                     if let Some(ref image) = image {
-                        container.set_image(Some(image));
-                        image.container_list().add_container(container);
+                        link_container_image(container, image);
                     }
 
                     if let Some(pod_list) = obj.pod_list()
                         && let Some(pod) = container.pod_id().and_then(|id| pod_list.get_pod(&id))
                     {
-                        container.set_pod(Some(&pod));
-                        pod.container_list().add_container(container);
+                        link_container_pod(container, &pod);
+                        if obj.container_list().initialized() {
+                            pod.inspect_and_update(|e| log::error!("inspect pod: {e}"));
+                        }
                     }
 
                     container
@@ -107,23 +104,14 @@ mod imp {
                                 .map(|volume| (volume, mount))
                         })
                         .for_each(|(volume, mount)| {
-                            volume.container_list().add_container(container);
-
-                            let container_volume_list = container.volume_list();
-                            container_volume_list.add_volume(model::ContainerVolume::new(
-                                &container_volume_list,
-                                &volume,
-                                mount,
-                            ));
+                            link_container_volume(container, &volume, mount);
                         });
                 }
             ));
 
-            obj.container_list().connect_container_removed(clone!(
-                #[weak]
-                obj,
-                move |_, container| {
-                    if let Some(image) = obj.image_list().get_image(container.image_id().as_str()) {
+            obj.container_list()
+                .connect_container_removed(move |_, container| {
+                    if let Some(image) = container.image() {
                         image
                             .container_list()
                             .remove_container(container.id().as_str());
@@ -137,72 +125,44 @@ mod imp {
                     container
                         .volume_list()
                         .iter::<model::ContainerVolume>()
-                        .map(|result| result.unwrap())
+                        .map(Result::unwrap)
                         .filter_map(|container_volume| container_volume.volume())
                         .for_each(|volume| {
                             volume
                                 .container_list()
                                 .remove_container(container.id().as_str())
                         });
-                }
-            ));
+                });
 
             if let Some(pod_list) = obj.pod_list() {
                 pod_list.connect_pod_added(clone!(
                     #[weak]
                     obj,
-                    move |_, pod| {
-                        obj.container_list()
-                            .iter::<model::Container>()
-                            .map(Result::unwrap)
-                            .filter(|container| container.pod_id().as_deref() == Some(&pod.id()))
-                            .for_each(|container| {
-                                container.set_pod(Some(pod));
-                                pod.container_list().add_container(&container);
-                            });
-                    }
+                    move |_, pod| obj
+                        .container_list()
+                        .iter::<model::Container>()
+                        .map(Result::unwrap)
+                        .filter(|container| container.pod_id().as_deref() == Some(&pod.id()))
+                        .for_each(|container| link_container_pod(&container, pod))
                 ));
             }
 
             obj.volume_list().connect_volume_added(clone!(
                 #[weak]
                 obj,
-                move |_, volume| {
-                    let container_list: Vec<_> = obj
-                        .container_list()
-                        .iter::<model::Container>()
-                        .map(Result::unwrap)
-                        .filter(|container| !container.mounts().is_empty())
-                        .collect();
-
-                    if container_list.is_empty() {
-                        return;
-                    }
-
-                    volume.set_searching_containers(true);
-                    let containers_left = Rc::new(AtomicUsize::new(container_list.len()));
-
-                    container_list.iter().for_each(|container| {
+                move |_, volume| obj
+                    .container_list()
+                    .iter::<model::Container>()
+                    .map(Result::unwrap)
+                    .for_each(|container| {
                         if let Some(mount) = container
                             .mounts()
                             .iter()
                             .find(|mount| mount.name == volume.name())
                         {
-                            volume.container_list().add_container(container);
-
-                            let container_volume_list = container.volume_list();
-                            container_volume_list.add_volume(model::ContainerVolume::new(
-                                &container_volume_list,
-                                volume,
-                                mount,
-                            ));
+                            link_container_volume(&container, volume, mount);
                         }
-
-                        if containers_left.fetch_sub(1, Ordering::Relaxed) == 1 {
-                            volume.set_searching_containers(false);
-                        }
-                    });
-                }
+                    })
             ));
         }
     }
@@ -248,6 +208,31 @@ mod imp {
                 .get_or_init(|| model::ActionList::from(&*self.obj()))
                 .to_owned()
         }
+    }
+
+    fn link_container_image(container: &model::Container, image: &model::Image) {
+        container.set_image(Some(image));
+        image.container_list().add_container(container);
+    }
+
+    fn link_container_pod(container: &model::Container, pod: &model::Pod) {
+        container.set_pod(Some(pod));
+        pod.container_list().add_container(container);
+    }
+
+    fn link_container_volume(
+        container: &model::Container,
+        volume: &model::Volume,
+        mount: &engine::dto::Mount,
+    ) {
+        volume.container_list().add_container(container);
+
+        let container_volume_list = container.volume_list();
+        container_volume_list.add_volume(model::ContainerVolume::new(
+            &container_volume_list,
+            volume,
+            mount,
+        ));
     }
 }
 
