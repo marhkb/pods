@@ -98,7 +98,7 @@ mod imp {
             ));
             let volume_to_be_deleted_expr =
                 volume_expr.chain_property::<model::Volume>("to-be-deleted");
-            let container_list_expr = volume_expr.chain_property::<model::Volume>("container-list");
+            let containers_expr = volume_expr.chain_property::<model::Volume>("containers");
 
             let selection_mode_expr = volume_expr
                 .chain_property::<model::Volume>("volume-list")
@@ -129,7 +129,7 @@ mod imp {
             let css_classes = utils::css_classes(&*self.name_label);
             gtk::ClosureExpression::new::<Vec<String>>(
                 [
-                    container_list_expr
+                    containers_expr
                         .chain_property::<model::SimpleContainerList>("len")
                         .upcast_ref(),
                     volume_name_is_id_expr.upcast_ref(),
@@ -170,7 +170,7 @@ mod imp {
             )
             .bind(&*self.age_label, "label", Some(obj));
 
-            container_list_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
+            containers_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
 
             volume_to_be_deleted_expr.watch(
                 Some(obj),
@@ -253,7 +253,7 @@ impl VolumeRow {
         if let Some(volume) = self.volume().as_ref() {
             if volume
                 .volume_list()
-                .map(|list| list.is_selection_mode())
+                .map(|volume_list| volume_list.is_selection_mode())
                 .unwrap_or(false)
             {
                 volume.select();

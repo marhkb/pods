@@ -112,7 +112,7 @@ impl ImagePullOptsDialog {
     fn close_and_pull(&self) {
         self.close();
 
-        let Some(action_list) = self.client().map(|client| client.action_list()) else {
+        let Some(actions) = self.client().map(|client| client.actions()) else {
             return;
         };
 
@@ -122,6 +122,6 @@ impl ImagePullOptsDialog {
             reference: imp.image_suggestion_entry_row.text().into(),
         };
 
-        view::ActionDialog::from(&action_list.pull_image(opts)).present(Some(self));
+        view::ActionDialog::from(&actions.pull_image(opts)).present(Some(self));
     }
 }

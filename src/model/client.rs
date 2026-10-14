@@ -25,18 +25,18 @@ mod imp {
         pub(super) connection: OnceCell<model::Connection>,
         #[property(get, set, construct_only)]
         pub(super) engine: OnceCell<model::Engine>,
-        #[property(get = Self::image_list)]
-        pub(super) image_list: OnceCell<model::ImageList>,
-        #[property(get = Self::container_list)]
-        pub(super) container_list: OnceCell<model::ContainerList>,
-        #[property(get = Self::pod_list, nullable)]
-        pub(super) pod_list: OnceCell<Option<model::PodList>>,
-        #[property(get = Self::volume_list)]
-        pub(super) volume_list: OnceCell<model::VolumeList>,
+        #[property(get = Self::images)]
+        pub(super) images: OnceCell<model::ImageList>,
+        #[property(get = Self::containers)]
+        pub(super) containers: OnceCell<model::ContainerList>,
+        #[property(get = Self::pods, nullable)]
+        pub(super) pods: OnceCell<Option<model::PodList>>,
+        #[property(get = Self::volumes)]
+        pub(super) volumes: OnceCell<model::VolumeList>,
         #[property(get = Self::info, set, nullable)]
         pub(super) info: OnceCell<Option<model::Info>>,
-        #[property(get = Self::action_list)]
-        pub(super) action_list: OnceCell<model::ActionList>,
+        #[property(get = Self::actions)]
+        pub(super) actions: OnceCell<model::ActionList>,
     }
 
     #[glib::object_subclass]
@@ -63,11 +63,11 @@ mod imp {
 
             let obj = &*self.obj();
 
-            obj.image_list().connect_image_added(clone!(
+            obj.images().connect_image_added(clone!(
                 #[weak]
                 obj,
                 move |_, image| {
-                    obj.container_list()
+                    obj.containers()
                         .iter::<model::Container>()
                         .map(Result::unwrap)
                         .filter(|container| container.image_id() == image.id())
@@ -77,20 +77,20 @@ mod imp {
                 }
             ));
 
-            obj.container_list().connect_container_added(clone!(
+            obj.containers().connect_container_added(clone!(
                 #[weak]
                 obj,
                 move |_, container| {
-                    let image = obj.image_list().get_image(container.image_id().as_str());
+                    let image = obj.images().get_image(container.image_id().as_str());
                     if let Some(ref image) = image {
                         link_container_image(container, image);
                     }
 
-                    if let Some(pod_list) = obj.pod_list()
-                        && let Some(pod) = container.pod_id().and_then(|id| pod_list.get_pod(&id))
+                    if let Some(pods) = obj.pods()
+                        && let Some(pod) = container.pod_id().and_then(|id| pods.get_pod(&id))
                     {
                         link_container_pod(container, &pod);
-                        if obj.container_list().initialized() {
+                        if obj.containers().initialized() {
                             pod.inspect_and_update(|e| log::error!("inspect pod: {e}"));
                         }
                     }
@@ -99,7 +99,7 @@ mod imp {
                         .mounts()
                         .iter()
                         .filter_map(|mount| {
-                            obj.volume_list()
+                            obj.volumes()
                                 .get_volume(&mount.name)
                                 .map(|volume| (volume, mount))
                         })
@@ -109,37 +109,34 @@ mod imp {
                 }
             ));
 
-            obj.container_list()
+            obj.containers()
                 .connect_container_removed(move |_, container| {
                     if let Some(image) = container.image() {
-                        image
-                            .container_list()
-                            .remove_container(container.id().as_str());
+                        image.containers().remove_container(container.id().as_str());
                     }
 
                     if let Some(pod) = container.pod() {
-                        pod.container_list()
-                            .remove_container(container.id().as_str());
+                        pod.containers().remove_container(container.id().as_str());
                     }
 
                     container
-                        .volume_list()
+                        .volumes()
                         .iter::<model::ContainerVolume>()
                         .map(Result::unwrap)
                         .filter_map(|container_volume| container_volume.volume())
                         .for_each(|volume| {
                             volume
-                                .container_list()
+                                .containers()
                                 .remove_container(container.id().as_str())
                         });
                 });
 
-            if let Some(pod_list) = obj.pod_list() {
-                pod_list.connect_pod_added(clone!(
+            if let Some(pods) = obj.pods() {
+                pods.connect_pod_added(clone!(
                     #[weak]
                     obj,
                     move |_, pod| obj
-                        .container_list()
+                        .containers()
                         .iter::<model::Container>()
                         .map(Result::unwrap)
                         .filter(|container| container.pod_id().as_deref() == Some(&pod.id()))
@@ -147,11 +144,11 @@ mod imp {
                 ));
             }
 
-            obj.volume_list().connect_volume_added(clone!(
+            obj.volumes().connect_volume_added(clone!(
                 #[weak]
                 obj,
                 move |_, volume| obj
-                    .container_list()
+                    .containers()
                     .iter::<model::Container>()
                     .map(Result::unwrap)
                     .for_each(|container| {
@@ -168,20 +165,20 @@ mod imp {
     }
 
     impl Client {
-        fn image_list(&self) -> model::ImageList {
-            self.image_list
+        fn images(&self) -> model::ImageList {
+            self.images
                 .get_or_init(|| model::ImageList::from(&*self.obj()))
                 .to_owned()
         }
 
-        fn container_list(&self) -> model::ContainerList {
-            self.container_list
+        fn containers(&self) -> model::ContainerList {
+            self.containers
                 .get_or_init(|| model::ContainerList::from(&*self.obj()))
                 .to_owned()
         }
 
-        fn pod_list(&self) -> Option<model::PodList> {
-            self.pod_list
+        fn pods(&self) -> Option<model::PodList> {
+            self.pods
                 .get_or_init(|| {
                     let obj = &*self.obj();
                     if obj.engine().capabilities().pods() {
@@ -193,8 +190,8 @@ mod imp {
                 .to_owned()
         }
 
-        fn volume_list(&self) -> model::VolumeList {
-            self.volume_list
+        fn volumes(&self) -> model::VolumeList {
+            self.volumes
                 .get_or_init(|| model::VolumeList::from(&*self.obj()))
                 .to_owned()
         }
@@ -203,8 +200,8 @@ mod imp {
             self.info.get().cloned().flatten()
         }
 
-        fn action_list(&self) -> model::ActionList {
-            self.action_list
+        fn actions(&self) -> model::ActionList {
+            self.actions
                 .get_or_init(|| model::ActionList::from(&*self.obj()))
                 .to_owned()
         }
@@ -212,12 +209,12 @@ mod imp {
 
     fn link_container_image(container: &model::Container, image: &model::Image) {
         container.set_image(Some(image));
-        image.container_list().add_container(container);
+        image.containers().add_container(container);
     }
 
     fn link_container_pod(container: &model::Container, pod: &model::Pod) {
         container.set_pod(Some(pod));
-        pod.container_list().add_container(container);
+        pod.containers().add_container(container);
     }
 
     fn link_container_volume(
@@ -225,9 +222,9 @@ mod imp {
         volume: &model::Volume,
         mount: &engine::dto::Mount,
     ) {
-        volume.container_list().add_container(container);
+        volume.containers().add_container(container);
 
-        let container_volume_list = container.volume_list();
+        let container_volume_list = container.volumes();
         container_volume_list.add_volume(model::ContainerVolume::new(
             &container_volume_list,
             volume,
@@ -275,12 +272,12 @@ impl Client {
             self,
             move |result| match result {
                 Ok(_) => {
-                    obj.image_list().refresh(err_op.clone());
-                    obj.container_list().refresh(err_op.clone());
-                    if let Some(pod_list) = obj.pod_list() {
-                        pod_list.refresh(err_op.clone());
+                    obj.images().refresh(err_op.clone());
+                    obj.containers().refresh(err_op.clone());
+                    if let Some(pods) = obj.pods() {
+                        pods.refresh(err_op.clone());
                     }
-                    obj.volume_list().refresh(err_op.clone());
+                    obj.volumes().refresh(err_op.clone());
 
                     op();
                     obj.start_event_listener(err_op, finish_op);
@@ -309,19 +306,19 @@ impl Client {
                     log::debug!("Event: {event:?}");
                     match event.type_() {
                         engine::dto::EventType::Container => {
-                            obj.container_list().handle_event(event, err_op.clone())
+                            obj.containers().handle_event(event, err_op.clone())
                         }
                         engine::dto::EventType::Image => {
-                            obj.image_list().handle_event(event, err_op.clone())
+                            obj.images().handle_event(event, err_op.clone())
                         }
                         engine::dto::EventType::Pod => {
-                            if let Some(pod_list) = obj.pod_list() {
-                                pod_list.handle_event(event, err_op.clone());
+                            if let Some(pods) = obj.pods() {
+                                pods.handle_event(event, err_op.clone());
                             }
                         }
 
                         engine::dto::EventType::Volume => {
-                            obj.volume_list().handle_event(event, err_op.clone())
+                            obj.volumes().handle_event(event, err_op.clone())
                         }
                         engine::dto::EventType::Other => {}
                     }
@@ -349,12 +346,12 @@ impl Client {
                 move || {
                     log::debug!("Syncing images, containers, pods and volumes");
 
-                    obj.image_list().refresh(|_| {});
-                    obj.container_list().refresh(|_| {});
-                    if let Some(pod_list) = obj.pod_list() {
-                        pod_list.refresh(|_| {});
+                    obj.images().refresh(|_| {});
+                    obj.containers().refresh(|_| {});
+                    if let Some(pods) = obj.pods() {
+                        pods.refresh(|_| {});
                     }
-                    obj.volume_list().refresh(|_| {});
+                    obj.volumes().refresh(|_| {});
 
                     log::debug!("Sleeping for {SYNC_INTERVAL} seconds until next sync");
 

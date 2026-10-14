@@ -359,10 +359,9 @@ mod imp {
                             .to_lowercase()
                             .cmp(&volume2.name().to_lowercase()),
                         SortAttribute::Age => volume2.created_at().cmp(&volume1.created_at()),
-                        SortAttribute::Containers => volume1
-                            .container_list()
-                            .len()
-                            .cmp(&volume2.container_list().len()),
+                        SortAttribute::Containers => {
+                            volume1.containers().len().cmp(&volume2.containers().len())
+                        }
                     };
 
                     match obj.sort_direction() {
@@ -473,8 +472,11 @@ mod imp {
                 clone!(
                     #[weak]
                     obj,
-                    move |list, _| {
-                        obj.action_set_enabled(ACTION_DELETE_SELECTION, list.num_selected() > 0);
+                    move |volume_list, _| {
+                        obj.action_set_enabled(
+                            ACTION_DELETE_SELECTION,
+                            volume_list.num_selected() > 0,
+                        );
                     }
                 ),
             );
@@ -602,21 +604,27 @@ impl VolumesPanel {
     }
 
     pub(crate) fn show_prune_dialog(&self) {
-        if let Some(client) = self.volume_list().and_then(|list| list.client()) {
+        if let Some(client) = self
+            .volume_list()
+            .and_then(|volume_list| volume_list.client())
+        {
             view::VolumesPruneOptsDialog::new(&client, None).present(Some(self));
         }
     }
 
     pub(crate) fn enter_selection_mode(&self) {
-        if let Some(list) = self.volume_list().filter(|list| list.len() > 0) {
-            list.select_none();
-            list.set_selection_mode(true);
+        if let Some(volume_list) = self
+            .volume_list()
+            .filter(|volume_list| volume_list.len() > 0)
+        {
+            volume_list.select_none();
+            volume_list.set_selection_mode(true);
         }
     }
 
     pub(crate) fn exit_selection_mode(&self) {
-        if let Some(list) = self.volume_list() {
-            list.set_selection_mode(false);
+        if let Some(volume_list) = self.volume_list() {
+            volume_list.set_selection_mode(false);
         }
     }
 
@@ -635,8 +643,11 @@ impl VolumesPanel {
     }
 
     pub(crate) fn select_none(&self) {
-        if let Some(list) = self.volume_list().filter(|list| list.is_selection_mode()) {
-            list.select_none();
+        if let Some(volume_list) = self
+            .volume_list()
+            .filter(|volume_list| volume_list.is_selection_mode())
+        {
+            volume_list.select_none();
         }
     }
 

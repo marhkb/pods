@@ -186,10 +186,10 @@ impl ContainerCopyToOptsDialog {
             return;
         };
 
-        let Some(action_list) = container
+        let Some(actions) = container
             .container_list()
             .and_then(|container_list| container_list.client())
-            .map(|client| client.action_list())
+            .map(|client| client.actions())
         else {
             return;
         };
@@ -208,7 +208,7 @@ impl ContainerCopyToOptsDialog {
             container_path
         };
 
-        view::ActionDialog::from(&action_list.copy_to_container(
+        view::ActionDialog::from(&actions.copy_to_container(
             &container,
             self.directory(),
             host_path.as_str(),

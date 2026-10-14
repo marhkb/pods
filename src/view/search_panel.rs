@@ -188,15 +188,15 @@ mod imp {
 
             if let Some(client) = value {
                 obj.setup_model(
-                    client.container_list().upcast(),
+                    client.containers().upcast(),
                     self.containers_list_box.get(),
                     |item| view::ContainerRow::from(item.downcast_ref().unwrap()).upcast(),
                     &self.containers_model,
                 );
 
-                if let Some(pod_list) = client.pod_list() {
+                if let Some(pods) = client.pods() {
                     obj.setup_model(
-                        pod_list.upcast(),
+                        pods.upcast(),
                         self.pods_list_box.get(),
                         |item| view::PodRow::from(item.downcast_ref().unwrap()).upcast(),
                         &self.pods_model,
@@ -204,38 +204,36 @@ mod imp {
                 }
 
                 obj.setup_model(
-                    client.image_list().upcast(),
+                    client.images().upcast(),
                     self.images_list_box.get(),
                     |item| view::ImageRow::from(item.downcast_ref().unwrap()).upcast(),
                     &self.images_model,
                 );
 
                 obj.setup_model(
-                    client.volume_list().upcast(),
+                    client.volumes().upcast(),
                     self.volumes_list_box.get(),
                     |item| view::VolumeRow::from(item.downcast_ref().unwrap()).upcast(),
                     &self.volumes_model,
                 );
 
-                client
-                    .container_list()
-                    .connect_container_name_changed(clone!(
-                        #[weak]
-                        obj,
-                        move |_, _| {
-                            glib::timeout_add_seconds_local_once(
-                                1,
-                                clone!(
-                                    #[weak]
-                                    obj,
-                                    move || {
-                                        obj.update_filter();
-                                        obj.update_sorter();
-                                    }
-                                ),
-                            );
-                        }
-                    ));
+                client.containers().connect_container_name_changed(clone!(
+                    #[weak]
+                    obj,
+                    move |_, _| {
+                        glib::timeout_add_seconds_local_once(
+                            1,
+                            clone!(
+                                #[weak]
+                                obj,
+                                move || {
+                                    obj.update_filter();
+                                    obj.update_sorter();
+                                }
+                            ),
+                        );
+                    }
+                ));
             }
 
             self.client.set(value);

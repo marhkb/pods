@@ -216,7 +216,7 @@ mod imp {
                 }));
             let ports_expr = container_expr.chain_property::<model::Container>("ports");
             let ports_len_expr = ports_expr.chain_property::<model::PortBindingList>("len");
-            let volumes_expr = container_expr.chain_property::<model::Container>("volume-list");
+            let volumes_expr = container_expr.chain_property::<model::Container>("volumes");
             let volumes_len_expr = volumes_expr.chain_property::<model::ContainerVolumeList>("len");
             let is_infra_expr = container_expr.chain_property::<model::Container>("is-infra");
             let not_is_infra_expr = is_infra_expr
@@ -396,7 +396,7 @@ mod imp {
                         .chain_property::<model::Volume>("name"),
                 ));
                 let volumes_model =
-                    gtk::SortListModel::new(Some(container.volume_list()), Some(volumes_sorter));
+                    gtk::SortListModel::new(Some(container.volumes()), Some(volumes_sorter));
                 self.volumes_list_box
                     .bind_model(Some(&volumes_model), |item| {
                         view::ContainerVolumeRow::from(item.downcast_ref().unwrap()).upcast()

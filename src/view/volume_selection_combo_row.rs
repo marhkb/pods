@@ -109,7 +109,7 @@ mod imp {
                     .and_then(|mount| mount.client())
                     .map(|client| {
                         gtk::SortListModel::new(
-                            Some(client.volume_list()),
+                            Some(client.volumes()),
                             Some(
                                 gtk::StringSorter::builder()
                                     .expression(model::Volume::this_expression("name"))

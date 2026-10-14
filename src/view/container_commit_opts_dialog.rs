@@ -131,12 +131,13 @@ mod imp {
                 .and_then(|container_list| container_list.client())
                 .and_then(|client| client.engine().capabilities().image_formats())
             {
-                Some(format_list) => {
+                Some(image_formats) => {
                     self.format_combo_row.set_visible(true);
-                    self.format_combo_row.set_model(Some(&format_list));
+                    self.format_combo_row.set_model(Some(&image_formats));
 
                     if let Some(ref format) = opts.format {
-                        self.format_combo_row.set_selected(format_list.find(format));
+                        self.format_combo_row
+                            .set_selected(image_formats.find(format));
                     }
                 }
                 None => {
@@ -231,15 +232,15 @@ impl ContainerCommitOptsDialog {
             return;
         };
 
-        let Some(action_list) = container
+        let Some(actions) = container
             .container_list()
             .and_then(|container_list| container_list.client())
-            .map(|client| client.action_list())
+            .map(|client| client.actions())
         else {
             return;
         };
 
-        view::ActionDialog::from(&action_list.commit_container(&container, self.create_opts()))
+        view::ActionDialog::from(&actions.commit_container(&container, self.create_opts()))
             .present(Some(self));
     }
 

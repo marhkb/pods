@@ -109,21 +109,21 @@ impl ImagePullAction {
     }
 
     fn finish(&self, image_id: String) {
-        let Some(image_list) = self
+        let Some(images) = self
             .action_list()
             .and_then(|action_list| action_list.client())
-            .map(|client| client.image_list())
+            .map(|client| client.images())
         else {
             return;
         };
 
-        match image_list.get_image(&image_id) {
+        match images.get_image(&image_id) {
             Some(image) => {
                 self.set_artifact(Some(image.upcast_ref()));
                 self.set_state(model::ActionState::Finished);
             }
             None => {
-                image_list.connect_image_added(clone!(
+                images.connect_image_added(clone!(
                     #[weak(rename_to = obj)]
                     self,
                     move |_, image| {

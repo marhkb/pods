@@ -17,7 +17,7 @@ where
         return;
     };
 
-    match volume.container_list().get(0) {
+    match volume.containers().get(0) {
         Some(container) => {
             let dialog = adw::AlertDialog::builder()
                 .heading(gettext("Confirm Volume Deletion"))

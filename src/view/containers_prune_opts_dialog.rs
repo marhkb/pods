@@ -105,7 +105,7 @@ impl ContainersPruneOptsDialog {
     fn close_and_prune(&self) {
         self.close();
 
-        let Some(action_list) = self.client().map(|client| client.action_list()) else {
+        let Some(actions) = self.client().map(|client| client.actions()) else {
             return;
         };
 
@@ -118,6 +118,6 @@ impl ContainersPruneOptsDialog {
                 .then(|| imp.prune_until_row.timestamp()),
         };
 
-        view::ActionDialog::from(&action_list.prune_containers(opts)).present(Some(self));
+        view::ActionDialog::from(&actions.prune_containers(opts)).present(Some(self));
     }
 }

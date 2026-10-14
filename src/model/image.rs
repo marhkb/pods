@@ -22,8 +22,8 @@ mod imp {
         #[property(get, set, construct_only, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
 
-        #[property(get = Self::container_list)]
-        pub(super) container_list: OnceCell<model::SimpleContainerList>,
+        #[property(get = Self::containers)]
+        pub(super) containers: OnceCell<model::SimpleContainerList>,
 
         #[property(get, set, construct_only)]
         pub(super) created: OnceCell<i64>,
@@ -72,8 +72,8 @@ mod imp {
     }
 
     impl Image {
-        pub(super) fn container_list(&self) -> model::SimpleContainerList {
-            self.container_list.get_or_init(Default::default).to_owned()
+        pub(super) fn containers(&self) -> model::SimpleContainerList {
+            self.containers.get_or_init(Default::default).to_owned()
         }
 
         pub(super) fn details(&self) -> Option<model::ImageDetails> {

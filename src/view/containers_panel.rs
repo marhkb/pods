@@ -616,9 +616,9 @@ mod imp {
                 clone!(
                     #[weak]
                     obj,
-                    move |list, _| {
+                    move |container_list, _| {
                         ACTIONS_SELECTION.iter().for_each(|action_name| {
-                            obj.action_set_enabled(action_name, list.num_selected() > 0);
+                            obj.action_set_enabled(action_name, container_list.num_selected() > 0);
                         });
                     }
                 ),
@@ -789,15 +789,18 @@ impl ContainersPanel {
     }
 
     pub(crate) fn enter_selection_mode(&self) {
-        if let Some(list) = self.container_list().filter(|list| list.len() > 0) {
-            list.select_none();
-            list.set_selection_mode(true);
+        if let Some(container_list) = self
+            .container_list()
+            .filter(|container_list| container_list.len() > 0)
+        {
+            container_list.select_none();
+            container_list.set_selection_mode(true);
         }
     }
 
     pub(crate) fn exit_selection_mode(&self) {
-        if let Some(list) = self.container_list() {
-            list.set_selection_mode(false);
+        if let Some(container_list) = self.container_list() {
+            container_list.set_selection_mode(false);
         }
     }
 
@@ -808,17 +811,18 @@ impl ContainersPanel {
     }
 
     pub(crate) fn select_none(&self) {
-        if let Some(list) = self
+        if let Some(container_list) = self
             .container_list()
-            .filter(|list| list.is_selection_mode())
+            .filter(|container_list| container_list.is_selection_mode())
         {
-            list.select_none();
+            container_list.select_none();
         }
     }
 
     pub(crate) fn stop_selection(&self, force: bool) {
-        if let Some(list) = self.container_list() {
-            list.selected_items()
+        if let Some(container_list) = self.container_list() {
+            container_list
+                .selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
                 .filter(|container| matches!(container.status(), model::ContainerStatus::Running))
@@ -844,13 +848,14 @@ impl ContainersPanel {
                         ),
                     );
                 });
-            list.set_selection_mode(false);
+            container_list.set_selection_mode(false);
         }
     }
 
     pub(crate) fn restart_selection(&self) {
-        if let Some(list) = self.container_list() {
-            list.selected_items()
+        if let Some(container_list) = self.container_list() {
+            container_list
+                .selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
                 .filter(|container| matches!(container.status(), model::ContainerStatus::Running))
@@ -872,13 +877,14 @@ impl ContainersPanel {
                         ),
                     );
                 });
-            list.set_selection_mode(false);
+            container_list.set_selection_mode(false);
         }
     }
 
     pub(crate) fn start_or_resume_selection(&self) {
-        if let Some(list) = self.container_list() {
-            list.selected_items()
+        if let Some(container_list) = self.container_list() {
+            container_list
+                .selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
                 .for_each(|container| match container.status() {
@@ -914,13 +920,14 @@ impl ContainersPanel {
                     }
                     _ => (),
                 });
-            list.set_selection_mode(false);
+            container_list.set_selection_mode(false);
         }
     }
 
     pub(crate) fn pause_selection(&self) {
-        if let Some(list) = self.container_list() {
-            list.selected_items()
+        if let Some(container_list) = self.container_list() {
+            container_list
+                .selected_items()
                 .iter()
                 .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
                 .filter(|container| matches!(container.status(), model::ContainerStatus::Running))
@@ -939,14 +946,14 @@ impl ContainersPanel {
                         }
                     ));
                 });
-            list.set_selection_mode(false);
+            container_list.set_selection_mode(false);
         }
     }
 
     pub(crate) fn delete_selection(&self) {
         if self
             .container_list()
-            .map(|list| list.num_selected())
+            .map(|container_list| container_list.num_selected())
             .unwrap_or(0)
             == 0
         {
@@ -974,10 +981,11 @@ impl ContainersPanel {
                 #[weak(rename_to = obj)]
                 self,
                 move |_, response| if response == "delete"
-                    && let Some(list) = obj.container_list()
+                    && let Some(container_list) = obj.container_list()
                 {
                     // TODO: Message
-                    list.selected_items()
+                    container_list
+                        .selected_items()
                         .iter()
                         .map(|obj| obj.downcast_ref::<model::Container>().unwrap())
                         .for_each(|container| {
@@ -995,7 +1003,7 @@ impl ContainersPanel {
                                 }
                             ));
                         });
-                    list.set_selection_mode(false);
+                    container_list.set_selection_mode(false);
                 }
             ),
         );

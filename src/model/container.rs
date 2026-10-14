@@ -32,10 +32,10 @@ mod imp {
         pub(super) image: glib::WeakRef<model::Image>,
         #[property(get, set, explicit_notify, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
-        #[property(get = Self::volume_list)]
-        pub(super) volume_list: OnceCell<model::ContainerVolumeList>,
         #[property(get = Self::ports)]
         pub(super) ports: OnceCell<model::PortBindingList>,
+        #[property(get = Self::volumes)]
+        pub(super) volumes: OnceCell<model::ContainerVolumeList>,
 
         #[property(get, set, construct_only)]
         pub(super) created: OnceCell<i64>,
@@ -119,8 +119,8 @@ mod imp {
             obj.notify_status();
         }
 
-        pub(super) fn volume_list(&self) -> model::ContainerVolumeList {
-            self.volume_list.get_or_init(Default::default).to_owned()
+        pub(super) fn volumes(&self) -> model::ContainerVolumeList {
+            self.volumes.get_or_init(Default::default).to_owned()
         }
 
         pub(super) fn ports(&self) -> model::PortBindingList {

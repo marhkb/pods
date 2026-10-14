@@ -103,18 +103,18 @@ impl VolumeCreateAction {
     where
         F: Fn(&model::Volume) + 'static,
     {
-        let Some(volume_list) = self
+        let Some(volumes) = self
             .action_list()
             .and_then(|action_list| action_list.client())
-            .map(|client| client.volume_list())
+            .map(|client| client.volumes())
         else {
             return;
         };
 
-        match volume_list.get_volume(&name) {
+        match volumes.get_volume(&name) {
             Some(volume) => op(&volume),
             None => {
-                volume_list.connect_volume_added(move |_, volume| {
+                volumes.connect_volume_added(move |_, volume| {
                     if volume.name() == name {
                         op(volume);
                     }

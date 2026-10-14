@@ -94,7 +94,7 @@ mod imp {
             obj.connect_items_changed(|self_, _, _, _| self_.notify("len"));
 
             obj.connect_pod_added(|list, pod| {
-                pod.container_list().connect_items_changed(clone!(
+                pod.containers().connect_items_changed(clone!(
                     #[weak]
                     list,
                     #[weak]

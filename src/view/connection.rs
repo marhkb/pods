@@ -12,7 +12,7 @@ pub(crate) fn show_ongoing_actions_warning_dialog<W: IsA<gtk::Widget>>(
 ) -> bool {
     if connection_manager
         .client()
-        .map(|client| client.action_list().ongoing() > 0)
+        .map(|client| client.actions().ongoing() > 0)
         .unwrap_or(false)
     {
         let dialog = adw::MessageDialog::builder()

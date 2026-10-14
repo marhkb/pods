@@ -132,7 +132,7 @@ mod imp {
             obj.set_selinux(SELinux::from(opts.selinux));
             obj.set_volume(
                 obj.client()
-                    .and_then(|client| client.volume_list().get_volume(&opts.volume)),
+                    .and_then(|client| client.volumes().get_volume(&opts.volume)),
             );
         }
     }
