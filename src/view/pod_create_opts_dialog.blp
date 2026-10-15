@@ -146,6 +146,10 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
                 title: _("Hosts");
 
                 header-suffix: Switch enable_hosts_switch {
+                  accessibility {
+                    label: _("Hosts");
+                  }
+
                   notify::active => $on_enable_hosts_switch_active_changed() swapped;
                   valign: center;
                   active: true;

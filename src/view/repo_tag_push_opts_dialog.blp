@@ -71,6 +71,10 @@ template $PdsRepoTagPushOptsDialog: Adw.Dialog {
           sensitive: false;
 
           header-suffix: Switch login_switch {
+            accessibility {
+              label: _("Login");
+            }
+
             active: false;
             valign: center;
           };
