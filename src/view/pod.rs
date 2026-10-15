@@ -56,9 +56,8 @@ where
             Some(container) => {
                 let dialog = adw::AlertDialog::builder()
                 .heading(gettext("Delete Pod?"))
-                .body_use_markup(true)
                 .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
-                    "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.", [container.name()]))
+                    "Pod contains container “{}”. Deleting the pod will also delete all its containers.", [container.name()]))
                 .build();
 
                 dialog.add_responses(&[

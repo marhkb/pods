@@ -84,7 +84,7 @@ where
             .property_expression_weak("name")
             .chain_closure::<String>(closure!(|_: model::Container, name: String| {
                 format!(
-                    "{}\n<span weight=\"bold\">«{}»</span>",
+                    "{}\n<span weight=\"bold\">“{}”</span>",
                     gettext("Rename Container"),
                     name
                 )

@@ -334,7 +334,7 @@ impl From<Entity> for ScalableTextViewPage {
                 log::warn!("Could not set language to '{language}'");
                 utils::show_toast(
                     &obj,
-                    gettext_f("Could not set language to '{}'", [language]),
+                    gettext_f("Could not set language to “{}”", [language]),
                 );
             }
         }

@@ -698,7 +698,7 @@ impl ImagesPanel {
                                                 &obj,
                                                 // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
                                                 &gettext_f(
-                                                    "Error on deleting image '{}'",
+                                                    "Error on deleting image “{}”",
                                                     [image.id()],
                                                 ),
                                                 &e.to_string(),

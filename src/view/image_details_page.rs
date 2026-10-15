@@ -310,7 +310,7 @@ mod imp {
                         utils::show_toast(
                             &obj,
                             gettext_f(
-                                "Image '{}' has been deleted",
+                                "Image “{}” has been deleted",
                                 [utils::format_id(&image.id())],
                             ),
                         );

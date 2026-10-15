@@ -23,9 +23,8 @@ where
         Some(container) => {
             let dialog = adw::AlertDialog::builder()
                     .heading(gettext("Delete Image?"))
-                    .body_use_markup(true)
                     .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
-                        "Image is used by container <b>{}</b>. Deleting the image will also delete all its associated containers.", [container.name()]))
+                        "Image is used by container “{}”. Deleting the image will also delete all its associated containers.", [container.name()]))
                     .build();
 
             dialog.add_responses(&[
@@ -69,7 +68,7 @@ where
                     utils::show_error_toast(
                         &widget,
                         // Translators: The "{}" is a placeholder for the image id.
-                        &gettext_f("Error on removing image '{}'", [image.id()]),
+                        &gettext_f("Error on removing image “{}”", [image.id()]),
                         &e.to_string(),
                     );
                 }

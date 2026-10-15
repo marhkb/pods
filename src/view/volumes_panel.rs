@@ -677,7 +677,7 @@ impl VolumesPanel {
             if let Err(e) = volume.delete(true).await {
                 utils::show_error_toast(
                     self,
-                    &gettext_f("Error on deleting volume '{}'", [volume.name()]),
+                    &gettext_f("Error on deleting volume “{}”", [volume.name()]),
                     &e.to_string(),
                 );
             }

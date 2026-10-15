@@ -294,7 +294,7 @@ mod imp {
 
                         utils::show_toast(
                             &obj,
-                            gettext_f("Pod '{}' has been deleted", [pod.name()]),
+                            gettext_f("Pod “{}” has been deleted", [pod.name()]),
                         );
 
                         let navigation_view = utils::navigation_view(&obj);

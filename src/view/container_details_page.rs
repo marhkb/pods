@@ -374,7 +374,7 @@ mod imp {
 
                         utils::show_toast(
                             &obj,
-                            gettext_f("Container '{}' has been deleted", [container.name()]),
+                            gettext_f("Container “{}” has been deleted", [container.name()]),
                         );
 
                         let navigation_view = utils::navigation_view(&obj);

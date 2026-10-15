@@ -211,7 +211,7 @@ mod imp {
 
                         utils::show_toast(
                             &obj,
-                            gettext_f("Volume '{}' has been deleted", [volume.name()]),
+                            gettext_f("Volume “{}” has been deleted", [volume.name()]),
                         );
 
                         let navigation_view = utils::navigation_view(&obj);

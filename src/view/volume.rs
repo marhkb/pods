@@ -21,9 +21,8 @@ where
         Some(container) => {
             let dialog = adw::AlertDialog::builder()
                 .heading(gettext("Delete Volume?"))
-                .body_use_markup(true)
                 .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
-                    "Volume is used by container <b>{}</b>. Deleting the volume will also delete these containers.", [container.name()]))
+                    "Volume is used by container “{}”. Deleting the volume will also delete these containers.", [container.name()]))
                 .build();
 
             dialog.add_responses(&[
@@ -49,7 +48,7 @@ where
         utils::show_error_toast(
             widget,
             // Translators: The "{}" is a placeholder for the volume name.
-            &gettext_f("Error on deleting volume '{}'", [&volume.name()]),
+            &gettext_f("Error on deleting volume “{}”", [&volume.name()]),
             &e.to_string(),
         );
     }
