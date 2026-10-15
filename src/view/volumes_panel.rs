@@ -265,7 +265,7 @@ mod imp {
                     if len == 0 {
                         String::new()
                     } else if len == 1 {
-                        if unused == 1 {
+                        if unused == 0 {
                             gettext("1 volume, used")
                         } else {
                             gettext("1 volume, unused")
