@@ -53,6 +53,7 @@ template $PdsImageBuildOptsDialog: Adw.Dialog {
       Adw.PreferencesGroup {
         Adw.ToggleGroup {
           active-name: bind stack.visible-child-name bidirectional;
+          can-shrink: true;
           homogeneous: true;
           margin-top: 12;
 
@@ -62,13 +63,11 @@ template $PdsImageBuildOptsDialog: Adw.Dialog {
 
           Adw.Toggle {
             name: "details";
-            icon-name: "build-configure-symbolic";
             label: _("Details");
           }
 
           Adw.Toggle {
             name: "integration";
-            icon-name: "puzzle-piece-symbolic";
             label: _("Integration");
           }
         }

@@ -53,6 +53,7 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
       Adw.PreferencesGroup {
         Adw.ToggleGroup {
           active-name: bind stack.visible-child-name bidirectional;
+          can-shrink: true;
           homogeneous: true;
           margin-top: 12;
 
@@ -62,20 +63,17 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
 
           Adw.Toggle {
             name: "details";
-            icon-name: "build-configure-symbolic";
-            tooltip: _("Details");
+            label: _("Details");
           }
 
           Adw.Toggle {
             name: "integration";
-            icon-name: "puzzle-piece-symbolic";
-            tooltip: _("Integration");
+            label: _("Integration");
           }
 
           Adw.Toggle {
             name: "infra";
-            icon-name: "city-symbolic";
-            tooltip: _("Infra");
+            label: _("Infra");
           }
         }
       }
@@ -87,7 +85,6 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
           Adw.ViewStackPage {
             name: "details";
             title: _("Details");
-            icon-name: "build-configure-symbolic";
 
             child: Box {
               orientation: vertical;
@@ -117,7 +114,6 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
           Adw.ViewStackPage {
             name: "integration";
             title: _("Integration");
-            icon-name: "puzzle-piece-symbolic";
 
             child: Box {
               orientation: vertical;
@@ -178,7 +174,6 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
           Adw.ViewStackPage {
             name: "infra";
             title: _("Infra");
-            icon-name: "city-symbolic";
 
             child: Box {
               orientation: vertical;
