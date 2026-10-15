@@ -212,6 +212,7 @@ template $PdsContainersPanel: Widget {
             child: Adw.StatusPage {
               icon-name: "package-x-generic-symbolic";
               title: _("No Matching Containers");
+              description: _("All containers are hidden by the current filter");
 
               Button {
                 styles [
@@ -395,6 +396,7 @@ template $PdsContainersPanel: Widget {
         Adw.StatusPage {
           icon-name: "package-x-generic-symbolic";
           title: _("No Containers Available");
+          description: _("Create a container to get started");
 
           Button {
             styles [

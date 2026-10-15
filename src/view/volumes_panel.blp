@@ -212,6 +212,7 @@ template $PdsVolumesPanel: Widget {
             child: Adw.StatusPage {
               icon-name: "drive-harddisk-symbolic";
               title: _("No Matching Volumes");
+              description: _("All volumes are hidden by the current filter");
 
               Button {
                 styles [
@@ -279,6 +280,7 @@ template $PdsVolumesPanel: Widget {
         Adw.StatusPage {
           icon-name: "drive-harddisk-symbolic";
           title: _("No Volumes Available");
+          description: _("Create a volume to get started");
 
           Button {
             styles [

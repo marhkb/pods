@@ -235,6 +235,7 @@ template $PdsImagesPanel: Widget {
             child: Adw.StatusPage {
               icon-name: "image-x-generic-symbolic";
               title: _("No Matching Images");
+              description: _("All images are hidden by the current filter");
 
               Button {
                 styles [
@@ -302,6 +303,7 @@ template $PdsImagesPanel: Widget {
         Adw.StatusPage {
           icon-name: "image-x-generic-symbolic";
           title: _("No Images Available");
+          description: _("Pull or build an image to get started");
 
           Adw.BreakpointBin {
             height-request: 1;

@@ -213,6 +213,7 @@ template $PdsPodsPanel: Widget {
             child: Adw.StatusPage {
               icon-name: "pods-symbolic";
               title: _("No Matching Pods");
+              description: _("All pods are hidden by the current filter");
 
               Button {
                 styles [
@@ -393,6 +394,7 @@ template $PdsPodsPanel: Widget {
         Adw.StatusPage {
           icon-name: "pods-symbolic";
           title: _("No Pods Available");
+          description: _("Create a pod to get started");
 
           Button {
             styles [
