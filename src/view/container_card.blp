@@ -390,8 +390,12 @@ template $PdsContainerCard: Widget {
             ]
 
             action-name: "container-card.start";
-            tooltip-text: _("Start/Resume");
+            tooltip-text: _("Start or Resume");
             valign: center;
+
+            accessibility {
+              label: _("Start or Resume");
+            }
 
             Image {
               icon-name: "media-playback-start-symbolic";
@@ -407,6 +411,10 @@ template $PdsContainerCard: Widget {
             action-name: "container-card.stop";
             tooltip-text: _("Stop");
             valign: center;
+
+            accessibility {
+              label: _("Stop");
+            }
 
             Image {
               icon-name: "media-playback-stop-symbolic";

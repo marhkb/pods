@@ -198,7 +198,7 @@ impl PortBindingRow {
         .await;
 
         if let Err(e) = open_result {
-            utils::show_error_toast(self, &gettext("Error opening link"), &e.to_string());
+            utils::show_error_toast(self, &gettext("Could not open link"), &e.to_string());
         }
     }
 }

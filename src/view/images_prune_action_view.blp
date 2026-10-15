@@ -20,10 +20,6 @@ template $PdsImagesPruneActionView: Widget {
     vexpand: true;
 
     ListView {
-      styles [
-        "card",
-      ]
-
       model: NoSelection {
         model: bind template.action as <$PdsImagesPruneAction>.deleted-images;
       };

@@ -1,11 +1,11 @@
 [Desktop Entry]
 Name=Pods
-Comment=Manage your Podman containers
+Comment=Manage your containers
 Type=Application
 Exec=pods
 Terminal=false
-Categories=GNOME;GTK;Development;System;Office;Network;Monitor;RemoteAccess;
-Keywords=Gnome;GTK;libadwaita;Podman;Containerization;
+Categories=GNOME;GTK;Development;System;Network;Monitor;RemoteAccess;
+Keywords=Podman;Docker;Container;Image;Pod;Volume;
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=@icon@
 StartupNotify=true

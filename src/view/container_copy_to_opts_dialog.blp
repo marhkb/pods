@@ -21,7 +21,8 @@ menu menu {
 
 template $PdsContainerCopyToOptsDialog: Adw.Dialog {
   default-widget: copy_button;
-  title: _("Copy To Container");
+  focus-widget: container_path_row;
+  title: _("Copy to Container");
   width-request: 360;
 
   Adw.ToolbarView {
@@ -69,7 +70,7 @@ template $PdsContainerCopyToOptsDialog: Adw.Dialog {
 
         Adw.EntryRow container_path_row {
           activates-default: true;
-          title: _("Container Path (’/’ if empty)");
+          title: _("Container Path (“/” if empty)");
         }
       }
     }

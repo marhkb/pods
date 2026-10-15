@@ -70,12 +70,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for VolumeCreateOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.name_entry_row.grab_focus();
-        }
-    }
+    impl WidgetImpl for VolumeCreateOptsDialog {}
 
     impl AdwDialogImpl for VolumeCreateOptsDialog {}
 }

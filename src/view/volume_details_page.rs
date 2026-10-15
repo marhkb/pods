@@ -211,7 +211,7 @@ mod imp {
 
                         utils::show_toast(
                             &obj,
-                            gettext_f("Volume '{}' has been deleted", [volume.name()]),
+                            gettext_f("Volume “{}” has been deleted", [volume.name()]),
                         );
 
                         let navigation_view = utils::navigation_view(&obj);
@@ -280,7 +280,7 @@ impl VolumeDetailsPage {
         .await;
 
         if let Err(e) = open_result {
-            utils::show_error_toast(self, &gettext("Error opening link"), &e.to_string());
+            utils::show_error_toast(self, &gettext("Could not open link"), &e.to_string());
         }
     }
 

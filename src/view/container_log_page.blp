@@ -10,7 +10,7 @@ menu menu {
 
   section {
     item {
-      label: _("_Save as File");
+      label: _("_Save as File…");
       action: "container-log-page.save-to-file";
     }
   }
@@ -69,10 +69,10 @@ template $PdsContainerLogPage: Widget {
       MenuButton menu_button {
         icon-name: "view-more-symbolic";
         menu-model: menu;
-        tooltip-text: _("Menu");
+        tooltip-text: _("Log Options");
 
         accessibility {
-          label: _("Menu");
+          label: _("Log Options");
         }
       }
     }
@@ -91,7 +91,7 @@ template $PdsContainerLogPage: Widget {
 
       Adw.Banner banner {
         action-name: "container-log-page.start-container";
-        button-label: _("Start/Resume Container");
+        button-label: _("Start or Resume Container");
         title: _("Streaming is disconnected because container is not running");
 
         accessibility {

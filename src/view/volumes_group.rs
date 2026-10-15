@@ -21,7 +21,7 @@ mod imp {
         #[property(get, set = Self::set_volume_list, explicit_notify, nullable)]
         pub(super) volume_list: glib::WeakRef<model::VolumeList>,
         #[template_child]
-        pub(super) create_volume_row: TemplateChild<gtk::ListBoxRow>,
+        pub(super) create_volume_row: TemplateChild<adw::ButtonRow>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }

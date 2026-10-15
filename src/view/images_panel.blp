@@ -13,12 +13,12 @@ SizeGroup {
 menu create-menu {
   section {
     item {
-      label: _("_Pull");
+      label: _("_Pull…");
       action: "images-panel.pull-image";
     }
 
     item {
-      label: _("_Build");
+      label: _("_Build…");
       action: "images-panel.build-image";
     }
   }
@@ -26,7 +26,7 @@ menu create-menu {
 
 menu view-options-menu {
   section {
-    label: "Sort";
+    label: _("Sort");
 
     item {
       label: _("Name");
@@ -55,7 +55,7 @@ menu selection-menu {
   }
 
   item {
-    label: _("Select None");
+    label: _("Select _None");
     action: "images-panel.select-none";
   }
 }
@@ -82,6 +82,8 @@ Button prune_button {
 }
 
 Adw.SplitButton view_options_split_button {
+  tooltip-text: _("Toggle Sort Direction");
+  dropdown-tooltip: _("View Options");
   action-name: "images-panel.toggle-sort-direction";
   menu-model: view-options-menu;
 }
@@ -233,6 +235,7 @@ template $PdsImagesPanel: Widget {
             child: Adw.StatusPage {
               icon-name: "image-x-generic-symbolic";
               title: _("No Matching Images");
+              description: _("All images are hidden by the current filter");
 
               Button {
                 styles [
@@ -263,7 +266,6 @@ template $PdsImagesPanel: Widget {
             action-name: "images-panel.delete-selection";
             label: _("Delete");
             width-request: 200;
-            tooltip-text: _("Delete");
             valign: center;
 
             accessibility {
@@ -300,6 +302,7 @@ template $PdsImagesPanel: Widget {
         Adw.StatusPage {
           icon-name: "image-x-generic-symbolic";
           title: _("No Images Available");
+          description: _("Pull or build an image to get started");
 
           Adw.BreakpointBin {
             height-request: 1;
@@ -327,7 +330,7 @@ template $PdsImagesPanel: Widget {
                 action-name: "images-panel.pull-image";
                 can-shrink: true;
                 valign: center;
-                label: _("_Download Image");
+                label: _("_Pull Image…");
                 use-underline: true;
               }
 
@@ -339,7 +342,7 @@ template $PdsImagesPanel: Widget {
                 action-name: "images-panel.build-image";
                 can-shrink: true;
                 valign: center;
-                label: _("_Build Image");
+                label: _("_Build Image…");
                 use-underline: true;
               }
             }

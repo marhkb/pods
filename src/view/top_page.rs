@@ -124,7 +124,7 @@ mod imp {
                 (
                     "user",
                     PropertyType::String,
-                    gettext("USER"),
+                    gettext("User"),
                     false,
                     gtk::Align::Start,
                 ),
@@ -152,7 +152,7 @@ mod imp {
                 (
                     "elapsed",
                     PropertyType::Elapsed,
-                    gettext("ELAPSED"),
+                    gettext("Elapsed"),
                     false,
                     gtk::Align::End,
                 ),
@@ -166,14 +166,14 @@ mod imp {
                 (
                     "time",
                     PropertyType::CpuTime,
-                    gettext("TIME"),
+                    gettext("Time"),
                     false,
                     gtk::Align::End,
                 ),
                 (
                     "command",
                     PropertyType::String,
-                    gettext("COMMAND"),
+                    gettext("Command"),
                     true,
                     gtk::Align::Start,
                 ),

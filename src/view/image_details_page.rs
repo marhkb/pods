@@ -37,7 +37,7 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) create_tag_row: TemplateChild<gtk::ListBoxRow>,
+        pub(super) create_tag_row: TemplateChild<adw::ButtonRow>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]
@@ -291,7 +291,7 @@ mod imp {
                         move |e| {
                             utils::show_error_toast(
                                 &obj,
-                                &gettext("Error on loading image details"),
+                                &gettext("Could not load image details"),
                                 &e.to_string(),
                             );
                         }
@@ -310,7 +310,7 @@ mod imp {
                         utils::show_toast(
                             &obj,
                             gettext_f(
-                                "Image '{}' has been deleted",
+                                "Image “{}” has been deleted",
                                 [utils::format_id(&image.id())],
                             ),
                         );

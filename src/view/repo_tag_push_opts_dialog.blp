@@ -12,6 +12,7 @@ SizeGroup {
 
 template $PdsRepoTagPushOptsDialog: Adw.Dialog {
   default-widget: push_button;
+  focus-widget: username_entry_row;
   width-request: 360;
 
   Adw.ToastOverlay toast_overlay {
@@ -71,6 +72,10 @@ template $PdsRepoTagPushOptsDialog: Adw.Dialog {
           sensitive: false;
 
           header-suffix: Switch login_switch {
+            accessibility {
+              label: _("Login");
+            }
+
             active: false;
             valign: center;
           };

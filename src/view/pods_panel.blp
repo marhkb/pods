@@ -3,7 +3,7 @@ using Adw 1;
 
 menu view-options-menu {
   section {
-    label: "Sort";
+    label: _("Sort");
 
     item {
       label: _("Name");
@@ -33,7 +33,7 @@ menu selection-menu {
   }
 
   item {
-    label: _("Select None");
+    label: _("Select _None");
     action: "pods-panel.select-none";
   }
 }
@@ -59,6 +59,8 @@ Button prune_button {
 }
 
 Adw.SplitButton view_options_split_button {
+  tooltip-text: _("Toggle Sort Direction");
+  dropdown-tooltip: _("View Options");
   action-name: "pods-panel.toggle-sort-direction";
   menu-model: view-options-menu;
 }
@@ -211,6 +213,7 @@ template $PdsPodsPanel: Widget {
             child: Adw.StatusPage {
               icon-name: "pods-symbolic";
               title: _("No Matching Pods");
+              description: _("All pods are hidden by the current filter");
 
               Button {
                 styles [
@@ -290,7 +293,7 @@ template $PdsPodsPanel: Widget {
                     ]
 
                     action-name: "pods-panel.start-or-resume-selection";
-                    tooltip-text: _("Start/Resume");
+                    tooltip-text: _("Start or Resume");
                     valign: center;
 
                     accessibility {
@@ -391,6 +394,7 @@ template $PdsPodsPanel: Widget {
         Adw.StatusPage {
           icon-name: "pods-symbolic";
           title: _("No Pods Available");
+          description: _("Create a pod to get started");
 
           Button {
             styles [

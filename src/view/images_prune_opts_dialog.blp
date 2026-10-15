@@ -11,7 +11,6 @@ SizeGroup {
 }
 
 template $PdsImagesPruneOptsDialog: Adw.Dialog {
-  default-widget: prune_button;
   title: _("Prune Images");
   width-request: 360;
 
@@ -51,7 +50,7 @@ template $PdsImagesPruneOptsDialog: Adw.Dialog {
 
         Adw.SwitchRow prune_external_switch_row {
           title: _("Prune External");
-          subtitle: _("Remove images even when they are used by external containers (e.g, by build containers)");
+          subtitle: _("Remove images even when they are used by external containers (e.g. by build containers)");
           visible: bind template
             .client as <$PdsClient>
             .engine as <$PdsEngine>

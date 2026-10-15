@@ -15,13 +15,23 @@ template $PdsSourceViewSearchWidget: Widget {
     Button {
       action-name: "source-view-search-widget.search-backward";
       icon-name: "go-up-symbolic";
-      tooltip-text: _("Previous (Ctrl+Shift+G)");
+      tooltip-text: _("Previous Match (Ctrl+Shift+G)");
+
+      accessibility {
+        label: _("Previous Match");
+        key-shortcuts: "Control+Shift+G";
+      }
     }
 
     Button {
       action-name: "source-view-search-widget.search-forward";
-      tooltip-text: _("Next (Ctrl+G)");
+      tooltip-text: _("Next Match (Ctrl+G)");
       icon-name: "go-down-symbolic";
+
+      accessibility {
+        label: _("Next Match");
+        key-shortcuts: "Control+G";
+      }
     }
   }
 }

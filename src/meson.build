@@ -7,7 +7,7 @@ blueprints = custom_target(
     'view/actions_sidebar.blp',
     'view/client_view.blp',
     'view/connection_chooser_page.blp',
-    'view/connection_creation_page.blp',
+    'view/connection_creation_dialog.blp',
     'view/connection_custom_info_page.blp',
     'view/connection_row.blp',
     'view/connections_sidebar.blp',

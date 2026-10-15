@@ -21,6 +21,7 @@ menu menu {
 
 template $PdsContainerCreateOptsDialog: Adw.Dialog {
   default-widget: create_button;
+  focus-widget: name_entry_row;
   title: _("Create Container");
   width-request: 360;
 
@@ -62,6 +63,7 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
       Adw.PreferencesGroup {
         Adw.ToggleGroup {
           active-name: bind stack.visible-child-name bidirectional;
+          can-shrink: true;
           homogeneous: true;
           margin-top: 12;
 
@@ -71,20 +73,17 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
 
           Adw.Toggle {
             name: "details";
-            icon-name: "build-configure-symbolic";
-            tooltip: _("Details");
+            label: _("Details");
           }
 
           Adw.Toggle {
             name: "integration";
-            icon-name: "puzzle-piece-symbolic";
-            tooltip: _("Integration");
+            label: _("Integration");
           }
 
           Adw.Toggle {
-            name: "health-check";
-            icon-name: "ambulance-symbolic";
-            tooltip: _("Health Check");
+            name: "health";
+            label: _("Health");
           }
         }
       }
@@ -96,7 +95,6 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
           Adw.ViewStackPage {
             name: "details";
             title: _("Details");
-            icon-name: "build-configure-symbolic";
 
             child: Box {
               orientation: vertical;
@@ -138,8 +136,8 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
                     strings [
                       _("Never"),
                       _("Always"),
-                      _("On failure"),
-                      _("Unless stopped"),
+                      _("On Failure"),
+                      _("Unless Stopped"),
                     ]
                   };
                 }
@@ -204,7 +202,6 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
           Adw.ViewStackPage {
             name: "integration";
             title: _("Integration");
-            icon-name: "puzzle-piece-symbolic";
 
             child: Box {
               orientation: vertical;
@@ -253,9 +250,8 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
           }
 
           Adw.ViewStackPage {
-            name: "health-check";
-            title: _("Health Check");
-            icon-name: "ambulance-symbolic";
+            name: "health";
+            title: _("Health");
 
             child: Adw.PreferencesGroup {
               Adw.EntryRow health_check_command_entry_row {
@@ -304,7 +300,7 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
 
               Adw.SpinRow {
                 title: _("Retries");
-                subtitle: _("Number of retries allowed before a healthcheck fails");
+                subtitle: _("Number of retries allowed before a health check fails");
                 numeric: true;
 
                 adjustment: Adjustment health_check_retries_value {

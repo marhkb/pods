@@ -202,7 +202,7 @@ connectionchooserpage connectionrow {
 .version,
 .container-health-status-not-running,
 .container-status-not-running,
-.image-unused,
+.image-untagged,
 .pod-status-not-running,
 .volume-unused,
 .rich-expander-row-header #badge {
@@ -292,7 +292,7 @@ progressbar.error progress {
   .version,
   .container-health-status-not-running,
   .container-status-not-running,
-  .image-unused,
+  .image-untagged,
   .pod-status-not-running,
   .volume-unused,
   .rich-expander-row-header #badge {

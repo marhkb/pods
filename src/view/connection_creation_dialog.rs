@@ -18,23 +18,25 @@ use crate::utils;
 use crate::view;
 
 const ACTION_COPY_PODMAN_SOCKET_ACTIVATION_COMMAND: &str =
-    "connection-creator-page.copy-podman-socket-activation-command";
+    "connection-creation-dialog.copy-podman-socket-activation-command";
 const ACTION_COPY_DOCKER_SOCKET_ACTIVATION_COMMAND: &str =
-    "connection-creator-page.copy-docker-socket-activation-command";
-const ACTION_SHOW_CUSTOM_INFO_DIALOG: &str = "connection-creation-page.show-custom-info-dialog";
-const ACTION_TRY_CONNECT: &str = "connection-creation-page.try-connect";
+    "connection-creation-dialog.copy-docker-socket-activation-command";
+const ACTION_SHOW_CUSTOM_INFO_DIALOG: &str = "connection-creation-dialog.show-custom-info-dialog";
+const ACTION_TRY_CONNECT: &str = "connection-creation-dialog.try-connect";
 
-const ACTION_ABORT: &str = "connection-creation-page.abort";
+const ACTION_ABORT: &str = "connection-creation-dialog.abort";
 
 mod imp {
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
-    #[properties(wrapper_type = super::ConnectionCreationPage)]
-    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_creation_page.ui")]
-    pub(crate) struct ConnectionCreationPage {
+    #[properties(wrapper_type = super::ConnectionCreationDialog)]
+    #[template(resource = "/com/github/marhkb/Pods/ui/view/connection_creation_dialog.ui")]
+    pub(crate) struct ConnectionCreationDialog {
         #[property(get, set, construct_only)]
         pub(super) connection_manager: OnceCell<model::ConnectionManager>,
+        #[template_child]
+        pub(super) toast_overlay: TemplateChild<adw::ToastOverlay>,
         #[template_child]
         pub(super) navigation_view: TemplateChild<adw::NavigationView>,
         #[template_child]
@@ -66,10 +68,10 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for ConnectionCreationPage {
-        const NAME: &'static str = "PdsConnectionCreationPage";
-        type Type = super::ConnectionCreationPage;
-        type ParentType = gtk::Widget;
+    impl ObjectSubclass for ConnectionCreationDialog {
+        const NAME: &'static str = "PdsConnectionCreationDialog";
+        type Type = super::ConnectionCreationDialog;
+        type ParentType = adw::Dialog;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -105,7 +107,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ConnectionCreationPage {
+    impl ObjectImpl for ConnectionCreationDialog {
         fn properties() -> &'static [glib::ParamSpec] {
             Self::derived_properties()
         }
@@ -162,40 +164,15 @@ mod imp {
         }
 
         fn dispose(&self) {
-            let obj = &*self.obj();
-
-            obj.abort();
-            utils::unparent_children(obj);
+            self.obj().abort();
         }
     }
 
-    impl WidgetImpl for ConnectionCreationPage {
-        fn root(&self) {
-            self.parent_root();
-
-            let widget = &*self.obj();
-
-            glib::idle_add_local(clone!(
-                #[weak]
-                widget,
-                #[upgrade_or]
-                glib::ControlFlow::Break,
-                move || {
-                    widget.imp().name_entry_row.grab_focus();
-                    glib::ControlFlow::Break
-                }
-            ));
-            utils::root(widget).set_default_widget(Some(&*self.connect_button));
-        }
-
-        fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
-            self.parent_unroot()
-        }
-    }
+    impl WidgetImpl for ConnectionCreationDialog {}
+    impl AdwDialogImpl for ConnectionCreationDialog {}
 
     #[gtk::template_callbacks]
-    impl ConnectionCreationPage {
+    impl ConnectionCreationDialog {
         #[template_callback]
         fn on_name_entry_row_changed(&self) {
             self.obj().update_actions();
@@ -230,12 +207,12 @@ mod imp {
 }
 
 glib::wrapper! {
-    pub(crate) struct ConnectionCreationPage(ObjectSubclass<imp::ConnectionCreationPage>)
-        @extends gtk::Widget,
-        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+    pub(crate) struct ConnectionCreationDialog(ObjectSubclass<imp::ConnectionCreationDialog>)
+        @extends gtk::Widget, adw::Dialog,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::ShortcutManager;
 }
 
-impl From<&model::ConnectionManager> for ConnectionCreationPage {
+impl From<&model::ConnectionManager> for ConnectionCreationDialog {
     fn from(connection_manager: &model::ConnectionManager) -> Self {
         glib::Object::builder()
             .property("connection-manager", connection_manager)
@@ -243,7 +220,7 @@ impl From<&model::ConnectionManager> for ConnectionCreationPage {
     }
 }
 
-impl ConnectionCreationPage {
+impl ConnectionCreationDialog {
     pub(crate) fn copy_podman_socket_activation_command(&self) {
         let label = &*self.imp().podman_socket_activation_command_label;
         label.select_region(0, -1);
@@ -266,7 +243,8 @@ impl ConnectionCreationPage {
         if !view::show_ongoing_actions_warning_dialog(
             self,
             &self.connection_manager(),
-            &gettext("Confirm Connecting to New Instance"),
+            &gettext("Connect to New Instance?"),
+            &gettext("_Connect"),
         ) {
             return;
         }
@@ -298,7 +276,9 @@ impl ConnectionCreationPage {
         };
 
         match result {
-            Ok(_) => self.activate_action("win.close", None).unwrap(),
+            Ok(_) => {
+                self.close();
+            }
             Err(e) => self.on_error(&e.to_string()),
         }
     }
@@ -318,6 +298,6 @@ impl ConnectionCreationPage {
     }
 
     fn on_error(&self, msg: &str) {
-        utils::show_error_toast(self, &gettext("Error"), msg);
+        utils::show_error_toast(&*self.imp().toast_overlay, &gettext("Error"), msg);
     }
 }

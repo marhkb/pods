@@ -826,9 +826,9 @@ impl ContainersPanel {
                                     utils::show_error_toast(
                                         &obj,
                                         &if force {
-                                            gettext("Error on killing container")
+                                            gettext("Could not kill container")
                                         } else {
-                                            gettext("Error on stopping container")
+                                            gettext("Could not stop container")
                                         },
                                         &e.to_string(),
                                     );
@@ -858,7 +858,7 @@ impl ContainersPanel {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
                                         &obj,
-                                        &gettext("Error on restarting container"),
+                                        &gettext("Could not restart container"),
                                         &e.to_string(),
                                     );
                                 }
@@ -885,7 +885,7 @@ impl ContainersPanel {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
                                         &obj,
-                                        &gettext("Error on resuming container"),
+                                        &gettext("Could not resume container"),
                                         &e.to_string(),
                                     );
                                 }
@@ -900,7 +900,7 @@ impl ContainersPanel {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
                                         &obj,
-                                        &gettext("Error on starting container"),
+                                        &gettext("Could not start container"),
                                         &e.to_string(),
                                     );
                                 }
@@ -928,7 +928,7 @@ impl ContainersPanel {
                             if let Err(e) = result {
                                 utils::show_error_toast(
                                     &obj,
-                                    &gettext("Error on pausing container"),
+                                    &gettext("Could not pause container"),
                                     &e.to_string(),
                                 );
                             }
@@ -950,10 +950,10 @@ impl ContainersPanel {
         }
 
         let dialog = adw::AlertDialog::builder()
-            .heading(gettext("Confirm Forced Deletion of Multiple Containers"))
+            .heading(gettext("Delete Selected Containers?"))
             .body_use_markup(true)
             .body(gettext(
-                "All the data created inside the containers will be lost and running containers will be stopped!",
+                "All the data created inside the containers will be lost and running containers will be stopped",
             ))
             .build();
 
@@ -985,7 +985,7 @@ impl ContainersPanel {
                                     if let Err(e) = result {
                                         utils::show_error_toast(
                                             &obj,
-                                            &gettext("Error on deleting container"),
+                                            &gettext("Could not delete container"),
                                             &e.to_string(),
                                         );
                                     }

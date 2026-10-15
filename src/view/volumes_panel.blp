@@ -3,7 +3,7 @@ using Adw 1;
 
 menu view-options-menu {
   section {
-    label: "Sort";
+    label: _("Sort");
 
     item {
       label: _("Name");
@@ -32,7 +32,7 @@ menu selection-menu {
   }
 
   item {
-    label: _("Select None");
+    label: _("Select _None");
     action: "volumes-panel.select-none";
   }
 }
@@ -58,6 +58,8 @@ Button prune_button {
 }
 
 Adw.SplitButton view_options_split_button {
+  tooltip-text: _("Toggle Sort Direction");
+  dropdown-tooltip: _("View Options");
   action-name: "volumes-panel.toggle-sort-direction";
   menu-model: view-options-menu;
 }
@@ -210,6 +212,7 @@ template $PdsVolumesPanel: Widget {
             child: Adw.StatusPage {
               icon-name: "drive-harddisk-symbolic";
               title: _("No Matching Volumes");
+              description: _("All volumes are hidden by the current filter");
 
               Button {
                 styles [
@@ -240,7 +243,6 @@ template $PdsVolumesPanel: Widget {
             action-name: "volumes-panel.delete-selection";
             label: _("Delete");
             width-request: 200;
-            tooltip-text: _("Delete");
             valign: center;
 
             accessibility {
@@ -277,6 +279,7 @@ template $PdsVolumesPanel: Widget {
         Adw.StatusPage {
           icon-name: "drive-harddisk-symbolic";
           title: _("No Volumes Available");
+          description: _("Create a volume to get started");
 
           Button {
             styles [

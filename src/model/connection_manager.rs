@@ -198,7 +198,7 @@ impl ConnectionManager {
 
         if imp.connections.borrow().values().any(|c| c.name() == name) {
             return Some(Err(anyhow::anyhow!(gettext_f(
-                "Connection '{}' already exists",
+                "Connection “{}” already exists",
                 [name]
             ))));
         }

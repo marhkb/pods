@@ -1,20 +1,11 @@
 using Gtk 4.0;
 using Adw 1;
 
-ListBoxRow create_container_row {
+Adw.ButtonRow create_container_row {
   action-name: "containers-group.create-container";
   selectable: false;
-
-  Image {
-    icon-name: "list-add-symbolic";
-    margin-top: 15;
-    margin-bottom: 15;
-    tooltip-text: _("Create Container");
-
-    accessibility {
-      label: _("Create Container");
-    }
-  }
+  start-icon-name: "list-add-symbolic";
+  title: _("Add Container");
 }
 
 template $PdsContainersGroup: Adw.PreferencesGroup {

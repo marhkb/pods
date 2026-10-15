@@ -371,17 +371,17 @@ fn action_description(action: &model::Action) -> String {
         action
             .container()
             .map(|container| gettext_f("Commit “{}”", [container.name()]))
-            .unwrap_or_else(|| gettext("Commit container"))
+            .unwrap_or_else(|| gettext("Commit Container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCopyFromAction>() {
         action
             .container()
             .map(|container| gettext_f("Copy from “{}”", [container.name()]))
-            .unwrap_or_else(|| gettext("Copy from container"))
+            .unwrap_or_else(|| gettext("Copy from Container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCopyToAction>() {
         action
             .container()
             .map(|container| gettext_f("Copy to “{}”", [container.name()]))
-            .unwrap_or_else(|| gettext("Copy to container"))
+            .unwrap_or_else(|| gettext("Copy to Container"))
     } else if let Some(action) = action.downcast_ref::<model::ContainerCreateAction>() {
         gettext_f("Create “{}”", [&action.opts().name])
     } else if action
@@ -405,7 +405,7 @@ fn action_description(action: &model::Action) -> String {
     } else if let Some(action) = action.downcast_ref::<model::VolumeCreateAction>() {
         match action.opts().name.as_deref() {
             Some(name) => gettext_f("Create “{}”", [name]),
-            None => gettext("Create anonymous"),
+            None => gettext("Create Anonymous Volume"),
         }
     } else if action.downcast_ref::<model::VolumesPruneAction>().is_some() {
         gettext("Prune Volumes")

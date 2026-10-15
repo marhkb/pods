@@ -12,6 +12,7 @@ SizeGroup {
 
 template $PdsContainerCommitOptsDialog: Adw.Dialog {
   default-widget: commit_button;
+  focus-widget: author_entry_row;
   title: _("Commit Container");
   width-request: 360;
 
@@ -72,7 +73,7 @@ template $PdsContainerCommitOptsDialog: Adw.Dialog {
 
         Adw.EntryRow repo_entry_row {
           activates-default: true;
-          title: _("Repo");
+          title: _("Repository");
         }
 
         Adw.EntryRow tag_entry_row {
@@ -92,7 +93,7 @@ template $PdsContainerCommitOptsDialog: Adw.Dialog {
 
       Adw.PreferencesGroup {
         title: _("Changes");
-        description: _("Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/foo”)");
+        description: _("Instructions to apply while committing in Dockerfile format (e.g. “CMD=/bin/foo”)");
 
         ListBox changes_list_box {
           styles [

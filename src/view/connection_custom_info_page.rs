@@ -152,7 +152,7 @@ impl ConnectionCustomInfoDialog {
         label.select_region(0, -1);
         label.emit_copy_clipboard();
 
-        utils::show_toast(self, gettext("socket activation command copied"));
+        utils::show_toast(self, gettext("Socket activation command copied"));
     }
 
     fn copy_root_url(&self) {

@@ -12,6 +12,7 @@ SizeGroup {
 
 template $PdsContainerCopyFromOptsDialog: Adw.Dialog {
   default-widget: copy_button;
+  focus-widget: container_path_row;
   title: _("Copy From Container");
   width-request: 360;
 
@@ -44,7 +45,7 @@ template $PdsContainerCopyFromOptsDialog: Adw.Dialog {
       Adw.PreferencesGroup {
         Adw.EntryRow container_path_row {
           activates-default: true;
-          title: _("Container Path (’/’ if empty)");
+          title: _("Container Path (“/” if empty)");
         }
 
         Adw.ActionRow host_path_row {

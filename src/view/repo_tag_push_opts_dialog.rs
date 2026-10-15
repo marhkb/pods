@@ -169,7 +169,7 @@ mod imp {
                                             log::error!("Error on accessing keyring: {e}");
                                             utils::show_error_toast(
                                                 &*imp.toast_overlay,
-                                                &gettext("Error on accessing keyring"),
+                                                &gettext("Could not access keyring"),
                                                 &e.to_string(),
                                             );
                                         }
@@ -213,12 +213,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for RepoTagPushOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.username_entry_row.grab_focus();
-        }
-    }
+    impl WidgetImpl for RepoTagPushOptsDialog {}
 
     impl AdwDialogImpl for RepoTagPushOptsDialog {}
 }
@@ -298,7 +293,7 @@ impl RepoTagPushOptsDialog {
                         );
                         utils::show_error_toast(
                             &*imp.toast_overlay,
-                            &gettext("Error saving credentials"),
+                            &gettext("Could not save credentials"),
                             &gettext("Secret Service is not available"),
                         );
                     }

@@ -23,7 +23,7 @@ mod imp {
         #[property(get, set = Self::set_container_list, nullable)]
         pub(super) container_list: glib::WeakRef<model::AbstractContainerList>,
         #[template_child]
-        pub(super) create_container_row: TemplateChild<gtk::ListBoxRow>,
+        pub(super) create_container_row: TemplateChild<adw::ButtonRow>,
         #[template_child]
         pub(super) list_box: TemplateChild<gtk::ListBox>,
     }

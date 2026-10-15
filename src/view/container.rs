@@ -74,7 +74,7 @@ where
                 dialog.force_close();
                 utils::show_error_toast(
                     &widget,
-                    &gettext("Error renaming container"),
+                    &gettext("Could not rename container"),
                     &gettext("Container has been deleted"),
                 );
             }
@@ -84,7 +84,7 @@ where
             .property_expression_weak("name")
             .chain_closure::<String>(closure!(|_: model::Container, name: String| {
                 format!(
-                    "{}\n<span weight=\"bold\">«{}»</span>",
+                    "{}\n<span weight=\"bold\">“{}”</span>",
                     gettext("Rename Container"),
                     name
                 )
@@ -96,7 +96,8 @@ where
             ("rename", &gettext("_Rename")),
         ]);
         dialog.set_default_response(Some("rename"));
-        dialog.set_response_appearance("rename", adw::ResponseAppearance::Destructive);
+        dialog.set_close_response("cancel");
+        dialog.set_response_appearance("rename", adw::ResponseAppearance::Suggested);
 
         dialog.connect_response(
             Some("rename"),
@@ -116,7 +117,7 @@ where
                             move |result| if let Err(e) = result {
                                 utils::show_error_toast(
                                     &widget,
-                                    &gettext("Error renaming container"),
+                                    &gettext("Could not rename container"),
                                     &e.to_string(),
                                 );
                             }
@@ -144,12 +145,13 @@ where
 
     dialog.add_responses(&[
         ("cancel", &gettext("_Cancel")),
-        ("confirm", &gettext("_Confirm")),
+        ("delete", &gettext("_Delete")),
     ]);
     dialog.set_default_response(Some("cancel"));
-    dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
+    dialog.set_close_response("cancel");
+    dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-    if glib::MainContext::default().block_on(dialog.choose_future(Some(widget))) == "confirm" {
+    if glib::MainContext::default().block_on(dialog.choose_future(Some(widget))) == "delete" {
         remove(widget, container)
     }
 }
@@ -176,10 +178,10 @@ macro_rules! container_action {
     };
 }
 
-container_action!(fn start => start() => { gettextrs::gettext("Error on starting container") });
-container_action!(fn stop => stop(false) => { gettextrs::gettext("Error on stopping container") });
-container_action!(fn kill => stop(true) => { gettextrs::gettext("Error on killing container") });
-container_action!(fn restart => restart(false) => { gettextrs::gettext("Error on restarting container") });
-container_action!(fn pause => pause() => { gettextrs::gettext("Error on pausing container") });
-container_action!(fn resume => resume() => { gettextrs::gettext("Error on resuming container") });
-container_action!(fn remove => remove() => { gettextrs::gettext("Error on deleting container") });
+container_action!(fn start => start() => { gettextrs::gettext("Could not start container") });
+container_action!(fn stop => stop(false) => { gettextrs::gettext("Could not stop container") });
+container_action!(fn kill => stop(true) => { gettextrs::gettext("Could not kill container") });
+container_action!(fn restart => restart(false) => { gettextrs::gettext("Could not restart container") });
+container_action!(fn pause => pause() => { gettextrs::gettext("Could not pause container") });
+container_action!(fn resume => resume() => { gettextrs::gettext("Could not resume container") });
+container_action!(fn remove => remove() => { gettextrs::gettext("Could not delete container") });

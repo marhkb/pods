@@ -650,9 +650,9 @@ impl VolumesPanel {
         }
 
         let dialog = adw::AlertDialog::builder()
-            .heading(gettext("Confirm Forced Deletion of Multiple Volumes"))
+            .heading(gettext("Delete Selected Volumes?"))
             .body(gettext(
-                "There may be containers associated with some of the volumes, which will also be removed!",
+                "There may be containers associated with some of the volumes, which will also be removed",
             ))
             .build();
 
@@ -677,7 +677,7 @@ impl VolumesPanel {
             if let Err(e) = volume.delete(true).await {
                 utils::show_error_toast(
                     self,
-                    &gettext_f("Error on deleting volume '{}'", [volume.name()]),
+                    &gettext_f("Could not delete volume “{}”", [volume.name()]),
                     &e.to_string(),
                 );
             }

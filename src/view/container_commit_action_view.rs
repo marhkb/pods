@@ -71,7 +71,7 @@ impl From<&model::ContainerCommitAction> for view::ActionDialog {
                 &value
                     .container()
                     .map(|container| container.name())
-                    .unwrap_or_else(|| gettext("<Deleted>")),
+                    .unwrap_or_else(|| gettext("<deleted>")),
             ),
             &glib::Object::builder::<ContainerCommitActionView>()
                 .property("action", value)

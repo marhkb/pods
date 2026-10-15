@@ -99,16 +99,11 @@ mod imp {
                     view::KeyValRow::from(item.downcast_ref::<model::KeyVal>().unwrap()).upcast()
                 });
             self.labels_list_box.append(
-                &gtk::ListBoxRow::builder()
+                &adw::ButtonRow::builder()
                     .action_name(ACTION_ADD_LABEL)
                     .selectable(false)
-                    .child(
-                        &gtk::Label::builder()
-                            .label(gettext("Add Label"))
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
+                    .start_icon_name("list-add-symbolic")
+                    .title(gettext("Add Label"))
                     .build(),
             );
 
@@ -126,12 +121,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImageBuildOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.image_name_entry_row.grab_focus();
-        }
-    }
+    impl WidgetImpl for ImageBuildOptsDialog {}
 
     impl AdwDialogImpl for ImageBuildOptsDialog {}
 

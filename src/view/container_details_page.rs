@@ -356,7 +356,7 @@ mod imp {
                         move |e| {
                             utils::show_error_toast(
                                 &obj,
-                                &gettext("Error on loading container details"),
+                                &gettext("Could not load container details"),
                                 &e.to_string(),
                             );
                         }
@@ -374,7 +374,7 @@ mod imp {
 
                         utils::show_toast(
                             &obj,
-                            gettext_f("Container '{}' has been deleted", [container.name()]),
+                            gettext_f("Container “{}” has been deleted", [container.name()]),
                         );
 
                         let navigation_view = utils::navigation_view(&obj);

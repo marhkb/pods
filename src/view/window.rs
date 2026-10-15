@@ -169,7 +169,7 @@ mod imp {
                             move |e| {
                                 utils::show_error_toast(
                                     &*obj.imp().toast_overlay,
-                                    "Connection lost",
+                                    &gettext("Connection lost"),
                                     &e.to_string(),
                                 );
                                 manager.unset_client();
@@ -211,7 +211,8 @@ mod imp {
             if view::show_ongoing_actions_warning_dialog(
                 window,
                 &self.connection_manager,
-                &gettext("Confirm Exiting The Application"),
+                &gettext("Quit Pods?"),
+                &gettext("_Quit"),
             ) {
                 self.parent_close_request()
             } else {
@@ -271,11 +272,7 @@ impl Window {
     }
 
     pub(crate) fn add_connection(&self) {
-        utils::Dialog::new(
-            self,
-            &view::ConnectionCreationPage::from(&self.connection_manager()),
-        )
-        .present();
+        view::ConnectionCreationDialog::from(&self.connection_manager()).present(Some(self));
     }
 
     pub(crate) async fn remove_connection(&self, uuid: &str) {
@@ -304,6 +301,10 @@ impl Window {
                 "welcome"
             });
 
-        utils::show_error_toast(&*imp.toast_overlay, "Connection lost", &e.to_string());
+        utils::show_error_toast(
+            &*imp.toast_overlay,
+            &gettext("Connection lost"),
+            &e.to_string(),
+        );
     }
 }

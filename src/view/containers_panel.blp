@@ -3,7 +3,7 @@ using Adw 1;
 
 menu view-options-menu {
   section {
-    label: "Sort";
+    label: _("Sort");
 
     item {
       label: _("Name");
@@ -33,7 +33,7 @@ menu selection-menu {
   }
 
   item {
-    label: _("Select None");
+    label: _("Select _None");
     action: "containers-panel.select-none";
   }
 }
@@ -67,6 +67,8 @@ Button view_button {
 }
 
 Adw.SplitButton view_options_split_button {
+  tooltip-text: _("Toggle Sort Direction");
+  dropdown-tooltip: _("View Options");
   action-name: "containers-panel.toggle-sort-direction";
   menu-model: view-options-menu;
 }
@@ -210,6 +212,7 @@ template $PdsContainersPanel: Widget {
             child: Adw.StatusPage {
               icon-name: "package-x-generic-symbolic";
               title: _("No Matching Containers");
+              description: _("All containers are hidden by the current filter");
 
               Button {
                 styles [
@@ -289,7 +292,7 @@ template $PdsContainersPanel: Widget {
                     ]
 
                     action-name: "containers-panel.start-or-resume-selection";
-                    tooltip-text: _("Start/Resume");
+                    tooltip-text: _("Start or Resume");
                     valign: center;
 
                     accessibility {
@@ -393,6 +396,7 @@ template $PdsContainersPanel: Widget {
         Adw.StatusPage {
           icon-name: "package-x-generic-symbolic";
           title: _("No Containers Available");
+          description: _("Create a container to get started");
 
           Button {
             styles [

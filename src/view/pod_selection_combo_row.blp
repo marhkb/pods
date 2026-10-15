@@ -3,6 +3,7 @@ using Adw 1;
 
 template $PdsPodSelectionComboRow: Adw.ActionRow {
   notify::pod-list => $on_notify_pod_list() swapped;
+  activatable-widget: switch;
   selected-pod: bind drop_down.selected-item;
 
   DropDown drop_down {

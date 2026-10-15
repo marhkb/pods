@@ -12,6 +12,7 @@ SizeGroup {
 
 template $PdsPodCreateOptsDialog: Adw.Dialog {
   default-widget: create_button;
+  focus-widget: name_entry_row;
   title: _("Create Pod");
   width-request: 360;
 
@@ -52,6 +53,7 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
       Adw.PreferencesGroup {
         Adw.ToggleGroup {
           active-name: bind stack.visible-child-name bidirectional;
+          can-shrink: true;
           homogeneous: true;
           margin-top: 12;
 
@@ -61,20 +63,17 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
 
           Adw.Toggle {
             name: "details";
-            icon-name: "build-configure-symbolic";
-            tooltip: _("Details");
+            label: _("Details");
           }
 
           Adw.Toggle {
             name: "integration";
-            icon-name: "puzzle-piece-symbolic";
-            tooltip: _("Integration");
+            label: _("Integration");
           }
 
           Adw.Toggle {
             name: "infra";
-            icon-name: "city-symbolic";
-            tooltip: _("Infra");
+            label: _("Infra");
           }
         }
       }
@@ -86,7 +85,6 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
           Adw.ViewStackPage {
             name: "details";
             title: _("Details");
-            icon-name: "build-configure-symbolic";
 
             child: Box {
               orientation: vertical;
@@ -99,7 +97,7 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
                 }
 
                 Adw.SwitchRow disable_resolv_switch_row {
-                  title: _("Disable /etc/resolv.conf management");
+                  title: _("Disable /etc/resolv.conf Management");
                   notify::active => $on_disable_resolv_switch_row_active_changed() swapped;
                 }
               }
@@ -116,7 +114,6 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
           Adw.ViewStackPage {
             name: "integration";
             title: _("Integration");
-            icon-name: "puzzle-piece-symbolic";
 
             child: Box {
               orientation: vertical;
@@ -146,6 +143,10 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
                 title: _("Hosts");
 
                 header-suffix: Switch enable_hosts_switch {
+                  accessibility {
+                    label: _("Hosts");
+                  }
+
                   notify::active => $on_enable_hosts_switch_active_changed() swapped;
                   valign: center;
                   active: true;
@@ -173,7 +174,6 @@ template $PdsPodCreateOptsDialog: Adw.Dialog {
           Adw.ViewStackPage {
             name: "infra";
             title: _("Infra");
-            icon-name: "city-symbolic";
 
             child: Box {
               orientation: vertical;

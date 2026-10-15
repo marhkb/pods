@@ -36,8 +36,6 @@ mod imp {
         pub(super) opts: OnceCell<model::BoxedContainerCommitOpts>,
 
         #[template_child]
-        pub(super) commit_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) author_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) comment_entry_row: TemplateChild<adw::EntryRow>,
@@ -101,16 +99,11 @@ mod imp {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Change")).upcast()
                 });
             self.changes_list_box.append(
-                &gtk::ListBoxRow::builder()
+                &adw::ButtonRow::builder()
                     .action_name(ACTION_ADD_CHANGE)
                     .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
+                    .start_icon_name("list-add-symbolic")
+                    .title(gettext("Add Change"))
                     .build(),
             );
 
@@ -154,30 +147,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerCommitOptsDialog {
-        fn root(&self) {
-            self.parent_root();
-
-            let widget = &*self.obj();
-
-            glib::idle_add_local(clone!(
-                #[weak]
-                widget,
-                #[upgrade_or]
-                glib::ControlFlow::Break,
-                move || {
-                    widget.imp().author_entry_row.grab_focus();
-                    glib::ControlFlow::Break
-                }
-            ));
-            utils::root(widget).set_default_widget(Some(&*self.commit_button));
-        }
-
-        fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
-            self.parent_unroot()
-        }
-    }
+    impl WidgetImpl for ContainerCommitOptsDialog {}
 
     impl AdwDialogImpl for ContainerCommitOptsDialog {}
 
@@ -287,7 +257,7 @@ impl ContainerCommitOptsDialog {
                 if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
                     utils::show_error_toast(
                         self,
-                        &gettext("Error on fetching user name"),
+                        &gettext("Could not fetch user name"),
                         &e.to_string(),
                     );
                 }

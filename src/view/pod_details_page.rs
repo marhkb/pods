@@ -256,7 +256,7 @@ mod imp {
                         move |e| {
                             utils::show_error_toast(
                                 &obj,
-                                &gettext("Error on loading pod details"),
+                                &gettext("Could not load pod details"),
                                 &e.to_string(),
                             );
                         }
@@ -294,7 +294,7 @@ mod imp {
 
                         utils::show_toast(
                             &obj,
-                            gettext_f("Pod '{}' has been deleted", [pod.name()]),
+                            gettext_f("Pod “{}” has been deleted", [pod.name()]),
                         );
 
                         let navigation_view = utils::navigation_view(&obj);

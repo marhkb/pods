@@ -108,6 +108,7 @@ template $PdsClientView: Widget {
                             "container-status-running",
                           ]
 
+                          tooltip-text: _("Running Containers");
                           label: bind template.client as <$PdsClient>.containers as <$PdsContainerList>.running;
                           visible: bind template.client as <$PdsClient>.containers as <$PdsContainerList>.running;
                         }
@@ -118,6 +119,7 @@ template $PdsClientView: Widget {
                             "container-status-not-running",
                           ]
 
+                          tooltip-text: _("Not Running Containers");
                           label: bind template.client as <$PdsClient>.containers as <$PdsContainerList>.not-running;
                           visible: bind template.client as <$PdsClient>.containers as <$PdsContainerList>.not-running;
                         }
@@ -128,6 +130,7 @@ template $PdsClientView: Widget {
                             "container-status-dead",
                           ]
 
+                          tooltip-text: _("Dead Containers");
                           label: bind template.client as <$PdsClient>.containers as <$PdsContainerList>.dead;
                           visible: bind template.client as <$PdsClient>.containers as <$PdsContainerList>.dead;
                         }
@@ -153,6 +156,7 @@ template $PdsClientView: Widget {
                             "pod-status-running",
                           ]
 
+                          tooltip-text: _("Running Pods");
                           label: bind template.client as <$PdsClient>.pods as <$PdsPodList>.running;
                           visible: bind template.client as <$PdsClient>.pods as <$PdsPodList>.running;
                         }
@@ -163,6 +167,7 @@ template $PdsClientView: Widget {
                             "pod-status-not-running",
                           ]
 
+                          tooltip-text: _("Not Running Pods");
                           label: bind template.client as <$PdsClient>.pods as <$PdsPodList>.not-running;
                           visible: bind template.client as <$PdsClient>.pods as <$PdsPodList>.not-running;
                         }
@@ -173,6 +178,7 @@ template $PdsClientView: Widget {
                             "pod-status-degraded",
                           ]
 
+                          tooltip-text: _("Degraded Pods");
                           label: bind template.client as <$PdsClient>.pods as <$PdsPodList>.degraded;
                           visible: bind template.client as <$PdsClient>.pods as <$PdsPodList>.degraded;
                         }
@@ -193,6 +199,7 @@ template $PdsClientView: Widget {
                             "image-used",
                           ]
 
+                          tooltip-text: _("Used Images");
                           label: bind template.client as <$PdsClient>.images as <$PdsImageList>.used;
                           visible: bind template.client as <$PdsClient>.images as <$PdsImageList>.used;
                         }
@@ -200,9 +207,10 @@ template $PdsClientView: Widget {
                         Label {
                           styles [
                             "status-badge-small",
-                            "image-unused",
+                            "image-untagged",
                           ]
 
+                          tooltip-text: _("Untagged Images");
                           label: bind template.client as <$PdsClient>.images as <$PdsImageList>.intermediates;
                           visible: bind template.client as <$PdsClient>.images as <$PdsImageList>.intermediates;
                         }
@@ -223,6 +231,7 @@ template $PdsClientView: Widget {
                             "volume-used",
                           ]
 
+                          tooltip-text: _("Used Volumes");
                           label: bind template.client as <$PdsClient>.volumes as <$PdsVolumeList>.used;
                           visible: bind template.client as <$PdsClient>.volumes as <$PdsVolumeList>.used;
                         }
@@ -233,6 +242,7 @@ template $PdsClientView: Widget {
                             "volume-unused",
                           ]
 
+                          tooltip-text: _("Unused Volumes");
                           label: bind template.client as <$PdsClient>.volumes as <$PdsVolumeList>.unused;
                           visible: bind template.client as <$PdsClient>.volumes as <$PdsVolumeList>.unused;
                         }

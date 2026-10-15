@@ -265,11 +265,7 @@ impl ContainerHealthCheckPage {
             .exec()
             .await
         {
-            utils::show_error_toast(
-                self,
-                &gettext("Error on running health check"),
-                &e.to_string(),
-            );
+            utils::show_error_toast(self, &gettext("Could not run health check"), &e.to_string());
         }
     }
 }

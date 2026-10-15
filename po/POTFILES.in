@@ -126,8 +126,8 @@ src/view/client_view.rs
 src/view/connection.rs
 src/view/connection_chooser_page.blp
 src/view/connection_chooser_page.rs
-src/view/connection_creation_page.blp
-src/view/connection_creation_page.rs
+src/view/connection_creation_dialog.blp
+src/view/connection_creation_dialog.rs
 src/view/connection_custom_info_page.blp
 src/view/connection_custom_info_page.rs
 src/view/connection_row.blp

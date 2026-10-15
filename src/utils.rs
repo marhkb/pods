@@ -217,55 +217,6 @@ pub(crate) fn root<W: IsA<gtk::Widget>>(widget: &W) -> gtk::Window {
     widget.root().unwrap().downcast::<gtk::Window>().unwrap()
 }
 
-pub(crate) struct Dialog<'a, P, C> {
-    parent: &'a P,
-    content: &'a C,
-    height: Option<i32>,
-    width: Option<i32>,
-    follows_content_size: Option<bool>,
-}
-
-impl<'a, C, P> Dialog<'a, C, P> {
-    #[must_use]
-    pub(crate) fn new(widget: &'a C, content: &'a P) -> Self {
-        Self {
-            parent: widget,
-            content,
-            height: None,
-            width: None,
-            follows_content_size: None,
-        }
-    }
-
-    #[must_use]
-    #[allow(unused)]
-    pub(crate) fn height(mut self, height: i32) -> Self {
-        self.height = Some(height);
-        self
-    }
-}
-
-impl<C, P> Dialog<'_, C, P>
-where
-    C: IsA<gtk::Widget>,
-    P: IsA<gtk::Widget>,
-{
-    pub(crate) fn present(self) {
-        let toast_overlay = adw::ToastOverlay::new();
-        toast_overlay.set_child(Some(self.content));
-
-        let dialog = adw::Dialog::builder()
-            .child(&toast_overlay)
-            .width_request(360)
-            .content_height(self.height.unwrap_or(-1))
-            .content_width(self.width.unwrap_or(-1))
-            .follows_content_size(self.follows_content_size.unwrap_or(false))
-            .build();
-
-        dialog.present(Some(self.parent));
-    }
-}
-
 pub(crate) fn show_toast<W: IsA<gtk::Widget>>(widget: &W, title: impl Into<glib::GString>) {
     widget
         .ancestor(adw::ToastOverlay::static_type())
@@ -418,7 +369,7 @@ where
                 log::warn!("File chooser portal request failed: {e}");
                 show_error_toast(
                     widget,
-                    &gettext("Error on open file dialog"),
+                    &gettext("Could not open file dialog"),
                     &e.to_string(),
                 );
             }

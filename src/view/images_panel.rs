@@ -661,9 +661,9 @@ impl ImagesPanel {
         }
 
         let dialog = adw::AlertDialog::builder()
-            .heading(gettext("Confirm Forced Deletion of Multiple Images"))
+            .heading(gettext("Delete Selected Images?"))
             .body(gettext(
-                "There may be containers associated with those images, which will also be removed!",
+                "There may be containers associated with those images, which will also be removed",
             ))
             .build();
 
@@ -698,7 +698,7 @@ impl ImagesPanel {
                                                 &obj,
                                                 // Translators: The first "{}" is a placeholder for the image id, the second is for an error message.
                                                 &gettext_f(
-                                                    "Error on deleting image '{}'",
+                                                    "Could not delete image “{}”",
                                                     [image.id()],
                                                 ),
                                                 &e.to_string(),
