@@ -38,6 +38,14 @@
   <url type="vcs-browser">https://github.com/marhkb/pods</url>
   <url type="bugtracker">https://github.com/marhkb/pods/issues</url>
   <content_rating type="oars-1.1"/>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </supports>
   <releases>
     <release version="3.3.0" date="2026-10-11">
       <description translate="no">
