@@ -1,20 +1,11 @@
 using Gtk 4.0;
 using Adw 1;
 
-ListBoxRow create_tag_row {
+Adw.ButtonRow create_tag_row {
   action-name: "image-details-page.tag";
   selectable: false;
-  tooltip-text: _("Create Repository Tag");
-
-  Image {
-    icon-name: "list-add-symbolic";
-    margin-top: 15;
-    margin-bottom: 15;
-
-    accessibility {
-      label: _("Create Repository Tag");
-    }
-  }
+  start-icon-name: "list-add-symbolic";
+  title: _("Add Repository Tag");
 }
 
 template $PdsImageDetailsPage: Widget {

@@ -432,16 +432,11 @@ fn bind_model<F>(
 {
     list_box.bind_model(Some(model), widget_func);
     list_box.append(
-        &gtk::ListBoxRow::builder()
+        &adw::ButtonRow::builder()
             .action_name(action_name)
             .selectable(false)
-            .child(
-                &gtk::Label::builder()
-                    .label(label)
-                    .margin_top(12)
-                    .margin_bottom(12)
-                    .build(),
-            )
+            .start_icon_name("list-add-symbolic")
+            .title(label)
             .build(),
     );
 }

@@ -37,7 +37,7 @@ mod imp {
         #[template_child]
         pub(super) stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) create_tag_row: TemplateChild<gtk::ListBoxRow>,
+        pub(super) create_tag_row: TemplateChild<adw::ButtonRow>,
         #[template_child]
         pub(super) window_title: TemplateChild<adw::WindowTitle>,
         #[template_child]

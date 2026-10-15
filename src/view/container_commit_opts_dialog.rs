@@ -99,16 +99,11 @@ mod imp {
                     view::ValueRow::new(item.downcast_ref().unwrap(), &gettext("Change")).upcast()
                 });
             self.changes_list_box.append(
-                &gtk::ListBoxRow::builder()
+                &adw::ButtonRow::builder()
                     .action_name(ACTION_ADD_CHANGE)
                     .selectable(false)
-                    .child(
-                        &gtk::Image::builder()
-                            .icon_name("list-add-symbolic")
-                            .margin_top(12)
-                            .margin_bottom(12)
-                            .build(),
-                    )
+                    .start_icon_name("list-add-symbolic")
+                    .title(gettext("Add Change"))
                     .build(),
             );
 
