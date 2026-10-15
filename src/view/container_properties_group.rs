@@ -115,9 +115,9 @@ mod imp {
                         match restart_policy {
                             model::ContainerRestartPolicy::Always => gettext("Always"),
                             model::ContainerRestartPolicy::No => gettext("None"),
-                            model::ContainerRestartPolicy::OnFailure => gettext("On failure"),
+                            model::ContainerRestartPolicy::OnFailure => gettext("On Failure"),
                             model::ContainerRestartPolicy::UnlessStopped => {
-                                gettext("Unless stopped")
+                                gettext("Unless Stopped")
                             }
                         }
                     }

@@ -98,7 +98,7 @@ impl From<&model::Image> for ImageHistoryPage {
                                         .id
                                         .as_deref()
                                         .map(|id| utils::format_id(id).to_owned())
-                                        .unwrap_or_else(|| gettext("<None>")),
+                                        .unwrap_or_else(|| gettext("<none>")),
                                 )
                                 .subtitle(
                                     entry

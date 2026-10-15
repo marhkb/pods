@@ -64,7 +64,7 @@ mod imp {
             let action_space_reclaimed_formatted_expr = action_space_reclaimed_expr
                 .chain_closure::<String>(closure!(
                     |_: Self::Type, space_reclaimed: u64| gettext_f(
-                        "Space Reclaimed: <b>{}</b>",
+                        "Space reclaimed: <b>{}</b>",
                         [glib::format_size(space_reclaimed)]
                     )
                 ));

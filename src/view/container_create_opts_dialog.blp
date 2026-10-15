@@ -138,8 +138,8 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
                     strings [
                       _("Never"),
                       _("Always"),
-                      _("On failure"),
-                      _("Unless stopped"),
+                      _("On Failure"),
+                      _("Unless Stopped"),
                     ]
                   };
                 }
@@ -304,7 +304,7 @@ template $PdsContainerCreateOptsDialog: Adw.Dialog {
 
               Adw.SpinRow {
                 title: _("Retries");
-                subtitle: _("Number of retries allowed before a healthcheck fails");
+                subtitle: _("Number of retries allowed before a health check fails");
                 numeric: true;
 
                 adjustment: Adjustment health_check_retries_value {
