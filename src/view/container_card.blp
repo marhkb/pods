@@ -393,6 +393,10 @@ template $PdsContainerCard: Widget {
             tooltip-text: _("Start or Resume");
             valign: center;
 
+            accessibility {
+              label: _("Start or Resume");
+            }
+
             Image {
               icon-name: "media-playback-start-symbolic";
               accessible-role: presentation;
@@ -407,6 +411,10 @@ template $PdsContainerCard: Widget {
             action-name: "container-card.stop";
             tooltip-text: _("Stop");
             valign: center;
+
+            accessibility {
+              label: _("Stop");
+            }
 
             Image {
               icon-name: "media-playback-stop-symbolic";
