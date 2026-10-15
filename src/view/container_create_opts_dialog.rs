@@ -133,11 +133,6 @@ mod imp {
     }
 
     impl WidgetImpl for ContainerCreateOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.name_entry_row.grab_focus();
-        }
-
         fn realize(&self) {
             self.parent_realize();
 

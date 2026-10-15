@@ -88,12 +88,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerCopyFromOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.container_path_row.grab_focus();
-        }
-    }
+    impl WidgetImpl for ContainerCopyFromOptsDialog {}
 
     impl AdwDialogImpl for ContainerCopyFromOptsDialog {}
 

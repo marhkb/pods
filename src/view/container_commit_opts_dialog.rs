@@ -36,8 +36,6 @@ mod imp {
         pub(super) opts: OnceCell<model::BoxedContainerCommitOpts>,
 
         #[template_child]
-        pub(super) commit_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) author_entry_row: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub(super) comment_entry_row: TemplateChild<adw::EntryRow>,
@@ -154,30 +152,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ContainerCommitOptsDialog {
-        fn root(&self) {
-            self.parent_root();
-
-            let widget = &*self.obj();
-
-            glib::idle_add_local(clone!(
-                #[weak]
-                widget,
-                #[upgrade_or]
-                glib::ControlFlow::Break,
-                move || {
-                    widget.imp().author_entry_row.grab_focus();
-                    glib::ControlFlow::Break
-                }
-            ));
-            utils::root(widget).set_default_widget(Some(&*self.commit_button));
-        }
-
-        fn unroot(&self) {
-            utils::root(&*self.obj()).set_default_widget(gtk::Widget::NONE);
-            self.parent_unroot()
-        }
-    }
+    impl WidgetImpl for ContainerCommitOptsDialog {}
 
     impl AdwDialogImpl for ContainerCommitOptsDialog {}
 

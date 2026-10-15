@@ -240,12 +240,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for PodCreateOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.name_entry_row.grab_focus();
-        }
-    }
+    impl WidgetImpl for PodCreateOptsDialog {}
 
     impl AdwDialogImpl for PodCreateOptsDialog {}
 

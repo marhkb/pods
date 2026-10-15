@@ -126,12 +126,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImageBuildOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.image_name_entry_row.grab_focus();
-        }
-    }
+    impl WidgetImpl for ImageBuildOptsDialog {}
 
     impl AdwDialogImpl for ImageBuildOptsDialog {}
 

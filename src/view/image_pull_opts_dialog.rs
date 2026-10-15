@@ -69,12 +69,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for ImagePullOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.image_suggestion_entry_row.grab_focus();
-        }
-    }
+    impl WidgetImpl for ImagePullOptsDialog {}
 
     impl AdwDialogImpl for ImagePullOptsDialog {}
 

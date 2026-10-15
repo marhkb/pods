@@ -213,12 +213,7 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for RepoTagPushOptsDialog {
-        fn map(&self) {
-            self.parent_map();
-            self.username_entry_row.grab_focus();
-        }
-    }
+    impl WidgetImpl for RepoTagPushOptsDialog {}
 
     impl AdwDialogImpl for RepoTagPushOptsDialog {}
 }
