@@ -5,7 +5,7 @@ mod actions_sidebar;
 mod client_view;
 mod connection;
 mod connection_chooser_page;
-mod connection_creation_page;
+mod connection_creation_dialog;
 mod connection_custom_info_page;
 mod connection_row;
 mod connections_sidebar;
@@ -107,7 +107,7 @@ export_gobjects![
     pub(crate) use self::actions_sidebar::ActionsSidebar;
     pub(crate) use self::client_view::ClientView;
     pub(crate) use self::connection_chooser_page::ConnectionChooserPage;
-    pub(crate) use self::connection_creation_page::ConnectionCreationPage;
+    pub(crate) use self::connection_creation_dialog::ConnectionCreationDialog;
     pub(crate) use self::connection_custom_info_page::ConnectionCustomInfoDialog;
     pub(crate) use self::connection_row::ConnectionRow;
     pub(crate) use self::connections_sidebar::ConnectionsSidebar;

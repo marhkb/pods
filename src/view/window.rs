@@ -272,11 +272,7 @@ impl Window {
     }
 
     pub(crate) fn add_connection(&self) {
-        utils::Dialog::new(
-            self,
-            &view::ConnectionCreationPage::from(&self.connection_manager()),
-        )
-        .present();
+        view::ConnectionCreationDialog::from(&self.connection_manager()).present(Some(self));
     }
 
     pub(crate) async fn remove_connection(&self, uuid: &str) {
