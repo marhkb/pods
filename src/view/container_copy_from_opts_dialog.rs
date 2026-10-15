@@ -142,7 +142,7 @@ impl ContainerCopyFromOptsDialog {
             .identifier(WindowIdentifier::from_native(&self.native().unwrap()).await)
             .title(gettext("Host Path").as_str())
             .current_name(suggested_archive_name.as_str())
-            .filter(FileFilter::new("Tar Archive").mimetype("application/x-tar"))
+            .filter(FileFilter::new(&gettext("Tar Archive")).mimetype("application/x-tar"))
             .modal(true);
 
         utils::show_save_file_dialog(

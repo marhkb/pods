@@ -169,7 +169,7 @@ mod imp {
                             move |e| {
                                 utils::show_error_toast(
                                     &*obj.imp().toast_overlay,
-                                    "Connection lost",
+                                    &gettext("Connection lost"),
                                     &e.to_string(),
                                 );
                                 manager.unset_client();
@@ -305,6 +305,10 @@ impl Window {
                 "welcome"
             });
 
-        utils::show_error_toast(&*imp.toast_overlay, "Connection lost", &e.to_string());
+        utils::show_error_toast(
+            &*imp.toast_overlay,
+            &gettext("Connection lost"),
+            &e.to_string(),
+        );
     }
 }
