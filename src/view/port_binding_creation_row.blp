@@ -103,7 +103,7 @@ template $PdsPortBindingCreationRow: Adw.ExpanderRow {
 
     adjustment: Adjustment host_port_adjustment {
       lower: 0;
-      upper: 65536;
+      upper: 65535;
       page-increment: 16;
       step-increment: 1;
     };
@@ -115,7 +115,7 @@ template $PdsPortBindingCreationRow: Adw.ExpanderRow {
 
     adjustment: Adjustment target_port_adjustment {
       lower: 1;
-      upper: 65536;
+      upper: 65535;
       page-increment: 16;
       step-increment: 1;
     };
