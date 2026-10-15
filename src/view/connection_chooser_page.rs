@@ -170,7 +170,7 @@ mod imp {
                     obj,
                     move |e| utils::show_error_toast(
                         &obj,
-                        &gettext("Error on establishing connection"),
+                        &gettext("Could not establish connection"),
                         &e.to_string(),
                     )
                 ),

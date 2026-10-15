@@ -39,13 +39,13 @@ macro_rules! pod_action {
     };
 }
 
-pod_action!(fn start => start() => { gettextrs::gettext("Error on starting pod") });
-pod_action!(fn stop => stop(false) => { gettextrs::gettext("Error on stopping pod") });
-pod_action!(fn kill => stop(true) => { gettextrs::gettext("Error on killing pod") });
-pod_action!(fn restart => restart(false) => { gettextrs::gettext("Error on restarting pod") });
-pod_action!(fn pause => pause() => { gettextrs::gettext("Error on pausing pod") });
-pod_action!(fn resume => resume() => { gettextrs::gettext("Error on resuming pod") });
-pod_action!(fn delete => delete(false) => { gettextrs::gettext("Error on deleting pod") });
+pod_action!(fn start => start() => { gettextrs::gettext("Could not start pod") });
+pod_action!(fn stop => stop(false) => { gettextrs::gettext("Could not stop pod") });
+pod_action!(fn kill => stop(true) => { gettextrs::gettext("Could not kill pod") });
+pod_action!(fn restart => restart(false) => { gettextrs::gettext("Could not restart pod") });
+pod_action!(fn pause => pause() => { gettextrs::gettext("Could not pause pod") });
+pod_action!(fn resume => resume() => { gettextrs::gettext("Could not resume pod") });
+pod_action!(fn delete => delete(false) => { gettextrs::gettext("Could not delete pod") });
 
 pub(crate) fn show_delete_confirmation_dialog<W>(widget: &W, pod: Option<model::Pod>)
 where

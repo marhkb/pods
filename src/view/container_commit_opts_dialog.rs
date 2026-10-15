@@ -287,7 +287,7 @@ impl ContainerCommitOptsDialog {
                 if let ashpd::Error::Portal(ashpd::PortalError::Cancelled(_)) = e {
                     utils::show_error_toast(
                         self,
-                        &gettext("Error on fetching user name"),
+                        &gettext("Could not fetch user name"),
                         &e.to_string(),
                     );
                 }

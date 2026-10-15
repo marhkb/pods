@@ -356,7 +356,7 @@ mod imp {
                         move |e| {
                             utils::show_error_toast(
                                 &obj,
-                                &gettext("Error on loading container details"),
+                                &gettext("Could not load container details"),
                                 &e.to_string(),
                             );
                         }

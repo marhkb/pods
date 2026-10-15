@@ -169,7 +169,7 @@ mod imp {
                                             log::error!("Error on accessing keyring: {e}");
                                             utils::show_error_toast(
                                                 &*imp.toast_overlay,
-                                                &gettext("Error on accessing keyring"),
+                                                &gettext("Could not access keyring"),
                                                 &e.to_string(),
                                             );
                                         }
@@ -298,7 +298,7 @@ impl RepoTagPushOptsDialog {
                         );
                         utils::show_error_toast(
                             &*imp.toast_overlay,
-                            &gettext("Error saving credentials"),
+                            &gettext("Could not save credentials"),
                             &gettext("Secret Service is not available"),
                         );
                     }

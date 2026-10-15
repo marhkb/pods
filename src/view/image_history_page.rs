@@ -187,7 +187,7 @@ impl From<&model::Image> for ImageHistoryPage {
                         imp.spinner.set_visible(false);
                         utils::show_error_toast(
                             &obj,
-                            &gettext("Error on retrieving history"),
+                            &gettext("Could not retrieve history"),
                             &e.to_string(),
                         );
                     }

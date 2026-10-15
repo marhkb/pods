@@ -68,7 +68,7 @@ where
                     utils::show_error_toast(
                         &widget,
                         // Translators: The "{}" is a placeholder for the image id.
-                        &gettext_f("Error on removing image “{}”", [image.id()]),
+                        &gettext_f("Could not remove image “{}”", [image.id()]),
                         &e.to_string(),
                     );
                 }

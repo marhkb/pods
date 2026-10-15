@@ -360,7 +360,7 @@ mod imp {
                     log::warn!("Stopping container log stream due to error: {e}");
                     utils::show_error_toast(
                         &*self.obj(),
-                        &gettext("Error while following log"),
+                        &gettext("Could not follow log"),
                         &e.to_string(),
                     );
                     glib::ControlFlow::Break
@@ -620,7 +620,7 @@ impl ContainerLogPage {
                                                 log::warn!("Error on saving logs: {e}");
                                                 utils::show_error_toast(
                                                     &obj,
-                                                    &gettext("Error on saving logs"),
+                                                    &gettext("Could not save logs"),
                                                     &e.to_string(),
                                                 );
                                                 glib::ControlFlow::Break
@@ -634,7 +634,7 @@ impl ContainerLogPage {
                                     log::warn!("Error on retrieving logs: {e}");
                                     utils::show_error_toast(
                                         &obj,
-                                        &gettext("Error on retrieving logs"),
+                                        &gettext("Could not retrieve logs"),
                                         &e.to_string(),
                                     );
                                     glib::ControlFlow::Break
@@ -677,7 +677,7 @@ impl ContainerLogPage {
                     if let Err(e) = result {
                         utils::show_error_toast(
                             &obj,
-                            &gettext("Error starting container"),
+                            &gettext("Could not start container"),
                             &e.to_string(),
                         );
                     }
@@ -691,7 +691,7 @@ impl ContainerLogPage {
                     if let Err(e) = result {
                         utils::show_error_toast(
                             &obj,
-                            &gettext("Error resuming container"),
+                            &gettext("Could not resume container"),
                             &e.to_string(),
                         );
                     }

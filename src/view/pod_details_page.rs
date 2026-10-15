@@ -256,7 +256,7 @@ mod imp {
                         move |e| {
                             utils::show_error_toast(
                                 &obj,
-                                &gettext("Error on loading pod details"),
+                                &gettext("Could not load pod details"),
                                 &e.to_string(),
                             );
                         }

@@ -210,7 +210,7 @@ impl RepoTagRow {
             repo_tag.set_to_be_deleted(false);
 
             log::warn!("Error on untagging image: {e}");
-            utils::show_error_toast(self, &gettext("Error on untagging image"), &e.to_string());
+            utils::show_error_toast(self, &gettext("Could not untag image"), &e.to_string());
         }
     }
 }

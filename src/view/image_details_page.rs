@@ -291,7 +291,7 @@ mod imp {
                         move |e| {
                             utils::show_error_toast(
                                 &obj,
-                                &gettext("Error on loading image details"),
+                                &gettext("Could not load image details"),
                                 &e.to_string(),
                             );
                         }

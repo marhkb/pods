@@ -48,7 +48,7 @@ where
         utils::show_error_toast(
             widget,
             // Translators: The "{}" is a placeholder for the volume name.
-            &gettext_f("Error on deleting volume “{}”", [&volume.name()]),
+            &gettext_f("Could not delete volume “{}”", [&volume.name()]),
             &e.to_string(),
         );
     }

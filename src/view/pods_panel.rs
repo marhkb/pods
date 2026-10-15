@@ -681,7 +681,7 @@ impl PodsPanel {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
                                         &obj,
-                                        &gettext("Error on resuming pod"),
+                                        &gettext("Could not resume pod"),
                                         &e.to_string(),
                                     );
                                 }
@@ -696,7 +696,7 @@ impl PodsPanel {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
                                         &obj,
-                                        &gettext("Error on starting pod"),
+                                        &gettext("Could not start pod"),
                                         &e.to_string(),
                                     );
                                 }
@@ -727,9 +727,9 @@ impl PodsPanel {
                                     utils::show_error_toast(
                                         &obj,
                                         &if force {
-                                            gettext("Error on killing pod")
+                                            gettext("Could not kill pod")
                                         } else {
-                                            gettext("Error on stopping pod")
+                                            gettext("Could not stop pod")
                                         },
                                         &e.to_string(),
                                     );
@@ -757,7 +757,7 @@ impl PodsPanel {
                             if let Err(e) = result {
                                 utils::show_error_toast(
                                     &obj,
-                                    &gettext("Error on stopping pod"),
+                                    &gettext("Could not stop pod"),
                                     &e.to_string(),
                                 );
                             }
@@ -785,7 +785,7 @@ impl PodsPanel {
                                 if let Err(e) = result {
                                     utils::show_error_toast(
                                         &obj,
-                                        &gettext("Error on restarting pod"),
+                                        &gettext("Could not restart pod"),
                                         &e.to_string(),
                                     );
                                 }
@@ -842,7 +842,7 @@ impl PodsPanel {
                                         if let Err(e) = result {
                                             utils::show_error_toast(
                                                 &obj,
-                                                &gettext("Error on deleting pod"),
+                                                &gettext("Could not delete pod"),
                                                 &e.to_string(),
                                             );
                                         }

@@ -111,7 +111,7 @@ mod imp {
                     obj,
                     move |e| utils::show_error_toast(
                         &obj,
-                        &gettext("Error on switching connection"),
+                        &gettext("Could not switch connection"),
                         &e.to_string(),
                     )
                 ),

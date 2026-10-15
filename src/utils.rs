@@ -418,7 +418,7 @@ where
                 log::warn!("File chooser portal request failed: {e}");
                 show_error_toast(
                     widget,
-                    &gettext("Error on open file dialog"),
+                    &gettext("Could not open file dialog"),
                     &e.to_string(),
                 );
             }
