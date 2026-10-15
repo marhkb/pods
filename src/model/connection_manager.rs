@@ -3,8 +3,10 @@ use std::cell::RefCell;
 use std::io::Read;
 use std::marker::PhantomData;
 use std::path::PathBuf;
+use std::time::Duration;
 
 use futures::future;
+use gettextrs::gettext;
 use gio::prelude::*;
 use gio::subclass::prelude::*;
 use glib::Properties;
@@ -385,8 +387,15 @@ fn create_engine(
     url: String,
 ) -> rt::Promise<impl Future<Output = Option<anyhow::Result<engine::Engine>>>> {
     rt::Promise::new(async move {
-        future::Abortable::new(engine::Engine::new(url), abort_registration)
-            .await
-            .ok()
+        future::Abortable::new(
+            async move {
+                tokio::time::timeout(Duration::from_secs(5), engine::Engine::new(url))
+                    .await
+                    .map_err(|_| anyhow::anyhow!(gettext("Timed out")))?
+            },
+            abort_registration,
+        )
+        .await
+        .ok()
     })
 }

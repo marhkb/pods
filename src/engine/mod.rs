@@ -40,20 +40,18 @@ impl Engine {
     pub(crate) async fn new<U: AsRef<str>>(uri: U) -> anyhow::Result<Self> {
         let docker = bollard::Docker::connect_with_host(uri.as_ref())?;
 
-        let components = docker.version().await?.components.unwrap_or_default();
-
-        if components
+        match docker
+            .version()
+            .await?
+            .components
+            .unwrap_or_default()
             .iter()
-            .any(|component| &component.name == "Engine")
+            .map(|c| c.name.as_str())
+            .find(|n| matches!(*n, "Podman Engine" | "Engine"))
         {
-            Ok(Self::Docker(docker))
-        } else if components
-            .iter()
-            .any(|component| &component.name == "Podman Engine")
-        {
-            Ok(Self::Podman(podman_api::Podman::new(uri)?))
-        } else {
-            Err(anyhow::anyhow!("no suitable engine detected"))
+            Some("Podman Engine") => Ok(Self::Podman(podman_api::Podman::new(uri)?)),
+            Some(_) => Ok(Self::Docker(docker)),
+            None => Err(anyhow::anyhow!("no suitable engine detected")),
         }
     }
 
