@@ -13,12 +13,12 @@ SizeGroup {
 menu create-menu {
   section {
     item {
-      label: _("_Pull");
+      label: _("_Pull…");
       action: "images-panel.pull-image";
     }
 
     item {
-      label: _("_Build");
+      label: _("_Build…");
       action: "images-panel.build-image";
     }
   }
@@ -327,7 +327,7 @@ template $PdsImagesPanel: Widget {
                 action-name: "images-panel.pull-image";
                 can-shrink: true;
                 valign: center;
-                label: _("_Download Image");
+                label: _("_Pull Image…");
                 use-underline: true;
               }
 
@@ -339,7 +339,7 @@ template $PdsImagesPanel: Widget {
                 action-name: "images-panel.build-image";
                 can-shrink: true;
                 valign: center;
-                label: _("_Build Image");
+                label: _("_Build Image…");
                 use-underline: true;
               }
             }
