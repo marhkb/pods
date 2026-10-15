@@ -124,7 +124,7 @@ template $PdsRepoTagPushOptsDialog: Adw.Dialog {
 
           Adw.SwitchRow save_credentials_switch_row {
             title: _("Save Credentials");
-            sensitive: bind save_credentials_switch_row.active;
+            sensitive: bind login_switch.active;
           }
         }
       }
