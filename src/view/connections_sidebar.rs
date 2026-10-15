@@ -98,7 +98,8 @@ mod imp {
             if !view::show_ongoing_actions_warning_dialog(
                 obj,
                 &connection_manager,
-                &gettext("Confirm Switching Connection"),
+                &gettext("Switch Connection?"),
+                &gettext("_Switch"),
             ) {
                 return;
             }

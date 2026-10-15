@@ -55,7 +55,7 @@ where
         match pod.containers().first_non_infra() {
             Some(container) => {
                 let dialog = adw::AlertDialog::builder()
-                .heading(gettext("Confirm Pod Deletion"))
+                .heading(gettext("Delete Pod?"))
                 .body_use_markup(true)
                 .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
                     "Pod contains container <b>{}</b>. Deleting the pod will also delete all its containers.", [container.name()]))

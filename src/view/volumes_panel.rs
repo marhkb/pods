@@ -650,9 +650,9 @@ impl VolumesPanel {
         }
 
         let dialog = adw::AlertDialog::builder()
-            .heading(gettext("Confirm Forced Deletion of Multiple Volumes"))
+            .heading(gettext("Delete Selected Volumes?"))
             .body(gettext(
-                "There may be containers associated with some of the volumes, which will also be removed!",
+                "There may be containers associated with some of the volumes, which will also be removed",
             ))
             .build();
 

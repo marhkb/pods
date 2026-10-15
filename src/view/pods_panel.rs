@@ -808,9 +808,9 @@ impl PodsPanel {
         }
 
         let dialog = adw::AlertDialog::builder()
-            .heading(gettext("Confirm Forced Deletion of Multiple Pods"))
+            .heading(gettext("Delete Selected Pods?"))
             .body_use_markup(true)
-            .body(gettext("All associated containers will also be removed!"))
+            .body(gettext("All associated containers will also be removed"))
             .build();
 
         dialog.add_responses(&[

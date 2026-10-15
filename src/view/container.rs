@@ -96,7 +96,8 @@ where
             ("rename", &gettext("_Rename")),
         ]);
         dialog.set_default_response(Some("rename"));
-        dialog.set_response_appearance("rename", adw::ResponseAppearance::Destructive);
+        dialog.set_close_response("cancel");
+        dialog.set_response_appearance("rename", adw::ResponseAppearance::Suggested);
 
         dialog.connect_response(
             Some("rename"),
@@ -144,12 +145,13 @@ where
 
     dialog.add_responses(&[
         ("cancel", &gettext("_Cancel")),
-        ("confirm", &gettext("_Confirm")),
+        ("delete", &gettext("_Delete")),
     ]);
     dialog.set_default_response(Some("cancel"));
-    dialog.set_response_appearance("confirm", adw::ResponseAppearance::Destructive);
+    dialog.set_close_response("cancel");
+    dialog.set_response_appearance("delete", adw::ResponseAppearance::Destructive);
 
-    if glib::MainContext::default().block_on(dialog.choose_future(Some(widget))) == "confirm" {
+    if glib::MainContext::default().block_on(dialog.choose_future(Some(widget))) == "delete" {
         remove(widget, container)
     }
 }

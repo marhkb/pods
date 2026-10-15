@@ -22,7 +22,7 @@ where
     match image.containers().get(0) {
         Some(container) => {
             let dialog = adw::AlertDialog::builder()
-                    .heading(gettext("Confirm Image Deletion"))
+                    .heading(gettext("Delete Image?"))
                     .body_use_markup(true)
                     .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
                         "Image is used by container <b>{}</b>. Deleting the image will also delete all its associated containers.", [container.name()]))

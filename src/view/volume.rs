@@ -20,7 +20,7 @@ where
     match volume.containers().get(0) {
         Some(container) => {
             let dialog = adw::AlertDialog::builder()
-                .heading(gettext("Confirm Volume Deletion"))
+                .heading(gettext("Delete Volume?"))
                 .body_use_markup(true)
                 .body(gettext_f(// Translators: The "{}" is a placeholder for the container name.
                     "Volume is used by container <b>{}</b>. Deleting the volume will also delete these containers.", [container.name()]))

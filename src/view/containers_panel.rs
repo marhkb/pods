@@ -950,10 +950,10 @@ impl ContainersPanel {
         }
 
         let dialog = adw::AlertDialog::builder()
-            .heading(gettext("Confirm Forced Deletion of Multiple Containers"))
+            .heading(gettext("Delete Selected Containers?"))
             .body_use_markup(true)
             .body(gettext(
-                "All the data created inside the containers will be lost and running containers will be stopped!",
+                "All the data created inside the containers will be lost and running containers will be stopped",
             ))
             .build();
 

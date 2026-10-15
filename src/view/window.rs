@@ -211,7 +211,8 @@ mod imp {
             if view::show_ongoing_actions_warning_dialog(
                 window,
                 &self.connection_manager,
-                &gettext("Confirm Exiting The Application"),
+                &gettext("Quit Pods?"),
+                &gettext("_Quit"),
             ) {
                 self.parent_close_request()
             } else {

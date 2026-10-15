@@ -266,7 +266,8 @@ impl ConnectionCreationPage {
         if !view::show_ongoing_actions_warning_dialog(
             self,
             &self.connection_manager(),
-            &gettext("Confirm Connecting to New Instance"),
+            &gettext("Connect to New Instance?"),
+            &gettext("_Connect"),
         ) {
             return;
         }
