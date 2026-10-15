@@ -370,7 +370,7 @@ impl ActionDialog {
 
                 None => alert_dialog(
                     &gettext("Container Removed"),
-                    &gettext("Container cannot be committed because it has been removed."),
+                    &gettext("Container cannot be committed because it has been removed"),
                 ),
             }
         } else if let Some(action) = action.downcast_ref::<model::ContainerCopyFromAction>() {
@@ -384,7 +384,7 @@ impl ActionDialog {
                 None => alert_dialog(
                     &gettext("Container Removed"),
                     &gettext(
-                        "Files cannot be copied anymore because the container has been removed.",
+                        "Files cannot be copied anymore because the container has been removed",
                     ),
                 ),
             }
@@ -400,7 +400,7 @@ impl ActionDialog {
                 None => alert_dialog(
                     &gettext("Container Removed"),
                     &gettext(
-                        "Files cannot be copied anymore because the container has been removed.",
+                        "Files cannot be copied anymore because the container has been removed",
                     ),
                 ),
             }
@@ -421,10 +421,7 @@ impl ActionDialog {
                 Some(repo_tag) => {
                     view::RepoTagPushOptsDialog::new(&repo_tag, Some(action.opts())).upcast()
                 }
-                None => alert_dialog(
-                    &gettext("Tag Removed"),
-                    &gettext("Cannot push removed tag."),
-                ),
+                None => alert_dialog(&gettext("Tag Removed"), &gettext("Cannot push removed tag")),
             }
         } else if let Some(action) = action.downcast_ref::<model::ImagesPruneAction>() {
             view::ImagesPruneOptsDialog::new(&client, Some(action.opts())).upcast()
