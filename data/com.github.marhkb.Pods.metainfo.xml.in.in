@@ -7,7 +7,7 @@
   <name>Pods</name>
   <summary>Manage your containers</summary>
   <description>
-    <p>Pods is a frontend for Podman/Docker. It uses libadwaita for its user interface and strives to meet the design principles of GNOME.</p>
+    <p>Pods lets you manage your Podman and Docker containers, pods, images and volumes, whether they run locally or on a remote machine.</p>
     <p>With Pods you can, among other things:</p>
     <ul>
       <li>Connect to local and remote Podman/Docker instances.</li>
