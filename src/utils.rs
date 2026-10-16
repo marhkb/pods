@@ -252,10 +252,6 @@ pub(crate) fn navigation_view(widget: &impl IsA<gtk::Widget>) -> adw::Navigation
     ancestor(widget)
 }
 
-pub(crate) fn navigation_page(widget: &impl IsA<gtk::Widget>) -> adw::NavigationPage {
-    ancestor(widget)
-}
-
 pub(crate) fn escape(text: &str) -> String {
     text.replace('&', "&amp;")
         .replace('<', "&lt;")

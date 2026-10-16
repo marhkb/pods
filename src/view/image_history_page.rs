@@ -33,7 +33,7 @@ mod imp {
     impl ObjectSubclass for ImageHistoryPage {
         const NAME: &'static str = "PdsImageHistoryPage";
         type Type = super::ImageHistoryPage;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -44,18 +44,16 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ImageHistoryPage {
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
-    }
+    impl ObjectImpl for ImageHistoryPage {}
 
     impl WidgetImpl for ImageHistoryPage {}
+
+    impl NavigationPageImpl for ImageHistoryPage {}
 }
 
 glib::wrapper! {
     pub(crate) struct ImageHistoryPage(ObjectSubclass<imp::ImageHistoryPage>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, adw::NavigationPage,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

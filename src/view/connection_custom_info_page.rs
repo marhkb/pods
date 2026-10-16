@@ -37,7 +37,7 @@ mod imp {
     impl ObjectSubclass for ConnectionCustomInfoDialog {
         const NAME: &'static str = "PdsConnectionCustomInfoPage";
         type Type = super::ConnectionCustomInfoDialog;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -95,13 +95,11 @@ mod imp {
             ));
             self.on_notify_dark(&style_manager);
         }
-
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
     }
 
     impl WidgetImpl for ConnectionCustomInfoDialog {}
+
+    impl NavigationPageImpl for ConnectionCustomInfoDialog {}
 
     impl ConnectionCustomInfoDialog {
         fn on_notify_dark(&self, style_manager: &adw::StyleManager) {
@@ -120,7 +118,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ConnectionCustomInfoDialog(ObjectSubclass<imp::ConnectionCustomInfoDialog>)
-    @extends gtk::Widget,
+    @extends gtk::Widget, adw::NavigationPage,
     @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

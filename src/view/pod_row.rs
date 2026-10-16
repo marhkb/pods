@@ -11,7 +11,6 @@ use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::expression::BoolExpression;
-use crate::gettext::gettext;
 use crate::model;
 use crate::model::SelectableExt;
 use crate::model::SelectableListExt;
@@ -234,12 +233,7 @@ impl PodRow {
             {
                 pod.select();
             } else {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .title(gettext("Pod Details"))
-                        .child(&view::PodDetailsPage::from(pod))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::PodDetailsPage::from(pod));
             }
         }
     }

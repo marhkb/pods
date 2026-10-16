@@ -108,7 +108,7 @@ mod imp {
     impl ObjectSubclass for ScalableTextViewPage {
         const NAME: &'static str = "PdsScalableTextViewPage";
         type Type = super::ScalableTextViewPage;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -208,13 +208,11 @@ mod imp {
                 }
             ));
         }
-
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
     }
 
     impl WidgetImpl for ScalableTextViewPage {}
+
+    impl NavigationPageImpl for ScalableTextViewPage {}
 
     #[gtk::template_callbacks]
     impl ScalableTextViewPage {
@@ -262,7 +260,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ScalableTextViewPage(ObjectSubclass<imp::ScalableTextViewPage>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, adw::NavigationPage,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

@@ -55,7 +55,7 @@ mod imp {
     impl ObjectSubclass for TopPage {
         const NAME: &'static str = "PdsTopPage";
         type Type = super::TopPage;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -393,13 +393,11 @@ mod imp {
 
             self.selection.set(selection_model).unwrap();
         }
-
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
     }
 
     impl WidgetImpl for TopPage {}
+
+    impl NavigationPageImpl for TopPage {}
 
     #[gtk::template_callbacks]
     impl TopPage {
@@ -441,7 +439,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct TopPage(ObjectSubclass<imp::TopPage>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, adw::NavigationPage,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

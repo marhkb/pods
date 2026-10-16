@@ -23,8 +23,8 @@ $PdsZoomControl zoom_control {
   zoom-factor: bind source_view.font-scale;
 }
 
-template $PdsScalableTextViewPage: Widget {
-  layout-manager: BinLayout {};
+template $PdsScalableTextViewPage: Adw.NavigationPage {
+  title: bind window_title.title;
 
   EventControllerScroll {
     scroll => $on_scroll() swapped;
