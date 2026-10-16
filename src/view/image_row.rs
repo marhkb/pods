@@ -76,6 +76,11 @@ mod imp {
             let obj = &*self.obj();
 
             let image_expr = Self::Type::this_expression("image");
+            let repo_tags_expr = image_expr.chain_property::<model::Image>("repo-tags");
+            let repo_tags_len_expr = repo_tags_expr.chain_property::<model::RepoTagList>("len");
+            let repo_tags_not_empty_expr = repo_tags_len_expr.map(|len: u32| len > 0);
+
+            repo_tags_not_empty_expr.bind(&*self.repo_tags_list_box, "visible", Some(obj));
 
             let selection_mode_expr = image_expr
                 .chain_property::<model::Image>("image-list")
