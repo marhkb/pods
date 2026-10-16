@@ -3,6 +3,7 @@ using Gtk 4.0;
 template $PdsContainerRow: ListBoxRow {
   notify::container => $on_notify_container();
   action-name: "container-row.activate";
+  height-request: 55;
 
   Box {
     margin-top: 7;
@@ -62,6 +63,7 @@ template $PdsContainerRow: ListBoxRow {
         }
 
         $PdsWrapBox ports_wrap_box {
+          margin-top: 3;
           child-spacing: 6;
           line-spacing: 6;
         }
