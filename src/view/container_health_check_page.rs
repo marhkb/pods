@@ -45,7 +45,7 @@ mod imp {
     impl ObjectSubclass for ContainerHealthCheckPage {
         const NAME: &'static str = "PdsContainerHealthCheckPage";
         type Type = super::ContainerHealthCheckPage;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -140,13 +140,11 @@ mod imp {
                 ))
                 .bind(&*self.status_label, "css-classes", Some(obj));
         }
-
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
     }
 
     impl WidgetImpl for ContainerHealthCheckPage {}
+
+    impl NavigationPageImpl for ContainerHealthCheckPage {}
 
     impl ContainerHealthCheckPage {
         pub(crate) fn set_container(&self, value: Option<&model::Container>) {
@@ -224,7 +222,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ContainerHealthCheckPage(ObjectSubclass<imp::ContainerHealthCheckPage>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, adw::NavigationPage,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

@@ -43,7 +43,7 @@ mod imp {
     impl ObjectSubclass for ContainerTerminalPage {
         const NAME: &'static str = "PdsContainerTerminalPage";
         type Type = super::ContainerTerminalPage;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -125,10 +125,6 @@ mod imp {
                 .unwrap()
                 .add_child(&*self.zoom_control, "zoom-control");
         }
-
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
     }
 
     impl WidgetImpl for ContainerTerminalPage {
@@ -151,6 +147,8 @@ mod imp {
         }
     }
 
+    impl NavigationPageImpl for ContainerTerminalPage {}
+
     #[gtk::template_callbacks]
     impl ContainerTerminalPage {
         #[template_callback]
@@ -170,7 +168,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ContainerTerminalPage(ObjectSubclass<imp::ContainerTerminalPage>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, adw::NavigationPage,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

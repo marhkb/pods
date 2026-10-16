@@ -325,25 +325,20 @@ impl ActionDialog {
             return;
         };
 
-        let page: gtk::Widget = if let Some(container) = artifact.downcast_ref::<model::Container>()
-        {
-            view::ContainerDetailsPage::from(container).upcast()
-        } else if let Some(image) = artifact.downcast_ref::<model::Image>() {
-            view::ImageDetailsPage::from(image).upcast()
-        } else if let Some(volume) = artifact.downcast_ref::<model::Volume>() {
-            view::VolumeDetailsPage::from(volume).upcast()
-        } else {
-            return;
-        };
+        let page: adw::NavigationPage =
+            if let Some(container) = artifact.downcast_ref::<model::Container>() {
+                view::ContainerDetailsPage::from(container).upcast()
+            } else if let Some(image) = artifact.downcast_ref::<model::Image>() {
+                view::ImageDetailsPage::from(image).upcast()
+            } else if let Some(volume) = artifact.downcast_ref::<model::Volume>() {
+                view::VolumeDetailsPage::from(volume).upcast()
+            } else {
+                return;
+            };
 
         self.close();
 
-        utils::main_window().navigation_view().push(
-            &adw::NavigationPage::builder()
-                .title(gettext("Action"))
-                .child(&page)
-                .build(),
-        );
+        utils::main_window().navigation_view().push(&page);
     }
 
     fn edit(&self) {

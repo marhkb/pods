@@ -97,7 +97,7 @@ mod imp {
     impl ObjectSubclass for ContainerLogPage {
         const NAME: &'static str = "PdsContainerLogPage";
         type Type = super::ContainerLogPage;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -262,13 +262,11 @@ mod imp {
 
             self.init_log();
         }
-
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
     }
 
     impl WidgetImpl for ContainerLogPage {}
+
+    impl NavigationPageImpl for ContainerLogPage {}
 
     #[gtk::template_callbacks]
     impl ContainerLogPage {
@@ -543,7 +541,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ContainerLogPage(ObjectSubclass<imp::ContainerLogPage>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, adw::NavigationPage,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

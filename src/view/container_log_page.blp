@@ -36,8 +36,8 @@ $GtkSourceGutterRendererText timestamps_renderer {
   margin-end: "6";
 }
 
-template $PdsContainerLogPage: Widget {
-  layout-manager: BinLayout {};
+template $PdsContainerLogPage: Adw.NavigationPage {
+  title: _("Container Logs");
 
   EventControllerScroll {
     scroll => $on_scroll() swapped;

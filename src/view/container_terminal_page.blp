@@ -14,8 +14,8 @@ $PdsZoomControl zoom_control {
   zoom-factor: bind terminal.font-scale;
 }
 
-template $PdsContainerTerminalPage: Widget {
-  layout-manager: BinLayout {};
+template $PdsContainerTerminalPage: Adw.NavigationPage {
+  title: _("Container Terminal");
 
   Adw.ToolbarView {
     [top]

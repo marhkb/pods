@@ -1,8 +1,8 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $PdsTopPage: Widget {
-  layout-manager: BinLayout {};
+template $PdsTopPage: Adw.NavigationPage {
+  title: bind window_title.title;
 
   Adw.ToolbarView toolbar_view {
     [top]

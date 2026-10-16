@@ -102,12 +102,8 @@ impl InfoPanel {
         let weak_ref = glib::WeakRef::new();
         weak_ref.set(Some(&info));
 
-        utils::navigation_view(self).push(
-            &adw::NavigationPage::builder()
-                .child(&view::ScalableTextViewPage::from(view::Entity::Info(
-                    weak_ref,
-                )))
-                .build(),
-        );
+        utils::navigation_view(self).push(&view::ScalableTextViewPage::from(view::Entity::Info(
+            weak_ref,
+        )));
     }
 }

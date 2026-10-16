@@ -213,11 +213,7 @@ impl ContainerVolumeRow {
             .as_ref()
             .and_then(model::ContainerVolume::volume)
         {
-            utils::navigation_view(self).push(
-                &adw::NavigationPage::builder()
-                    .child(&view::VolumeDetailsPage::from(volume))
-                    .build(),
-            );
+            utils::navigation_view(self).push(&view::VolumeDetailsPage::from(volume));
         }
     }
 }

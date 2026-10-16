@@ -68,7 +68,7 @@ mod imp {
     impl ObjectSubclass for PodDetailsPage {
         const NAME: &'static str = "PdsPodDetailsPage";
         type Type = super::PodDetailsPage;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -233,13 +233,11 @@ mod imp {
                 ),
             );
         }
-
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
     }
 
     impl WidgetImpl for PodDetailsPage {}
+
+    impl NavigationPageImpl for PodDetailsPage {}
 
     impl PodDetailsPage {
         pub(super) fn set_pod(&self, value: Option<&model::Pod>) {
@@ -298,7 +296,7 @@ mod imp {
                         );
 
                         let navigation_view = utils::navigation_view(&obj);
-                        navigation_view.pop_to_page(&utils::navigation_page(&obj));
+                        navigation_view.pop_to_page(&obj);
                         navigation_view.pop();
                     }
                 ));
@@ -321,7 +319,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct PodDetailsPage(ObjectSubclass<imp::PodDetailsPage>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, adw::NavigationPage,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
@@ -389,14 +387,12 @@ impl PodDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&pod));
 
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::ScalableTextViewPage::from(view::Entity::Pod {
-                            pod: weak_ref,
-                            mode,
-                        }))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::ScalableTextViewPage::from(
+                    view::Entity::Pod {
+                        pod: weak_ref,
+                        mode,
+                    },
+                ));
             }
         });
     }
@@ -404,11 +400,7 @@ impl PodDetailsPage {
     fn show_processes(&self) {
         self.exec_action(|| {
             if let Some(pod) = self.pod() {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::TopPage::from(&pod))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::TopPage::from(&pod));
             }
         });
     }

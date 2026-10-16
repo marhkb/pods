@@ -257,15 +257,7 @@ impl VolumeRow {
             {
                 volume.select();
             } else {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .title(gettext_f(
-                            "Volume {}",
-                            [utils::format_volume_name(&volume.name())],
-                        ))
-                        .child(&view::VolumeDetailsPage::from(volume))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::VolumeDetailsPage::from(volume));
             }
         }
     }

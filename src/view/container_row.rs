@@ -9,7 +9,6 @@ use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::expression::BoolExpression;
-use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::prelude::*;
 use crate::utils;
@@ -329,19 +328,7 @@ impl ContainerRow {
             {
                 container.select();
             } else {
-                let nav_page = adw::NavigationPage::builder()
-                    .child(&view::ContainerDetailsPage::from(container))
-                    .build();
-
-                Self::this_expression("container")
-                    .chain_property::<model::Container>("name")
-                    .chain_closure::<String>(closure!(|_: Self, name: &str| gettext_f(
-                        "Container {}",
-                        [name]
-                    )))
-                    .bind(&nav_page, "title", Some(self));
-
-                utils::navigation_view(self).push(&nav_page);
+                utils::navigation_view(self).push(&view::ContainerDetailsPage::from(container));
             }
         }
     }

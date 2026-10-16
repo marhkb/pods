@@ -9,7 +9,6 @@ use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::expression::BoolExpression;
-use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::SelectableExt;
 use crate::model::SelectableListExt;
@@ -205,12 +204,7 @@ impl ImageRow {
             {
                 image.select();
             } else {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .title(gettext_f("Image {}", [utils::format_id(&image.id())]))
-                        .child(&view::ImageDetailsPage::from(image))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::ImageDetailsPage::from(image));
             }
         }
     }

@@ -89,7 +89,7 @@ mod imp {
     impl ObjectSubclass for ContainerDetailsPage {
         const NAME: &'static str = "PdsContainerDetailsPage";
         type Type = super::ContainerDetailsPage;
-        type ParentType = gtk::Widget;
+        type ParentType = adw::NavigationPage;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -333,13 +333,11 @@ mod imp {
                     ),
                 );
         }
-
-        fn dispose(&self) {
-            utils::unparent_children(&*self.obj());
-        }
     }
 
     impl WidgetImpl for ContainerDetailsPage {}
+
+    impl NavigationPageImpl for ContainerDetailsPage {}
 
     impl ContainerDetailsPage {
         pub(crate) fn set_container(&self, value: Option<&model::Container>) {
@@ -378,7 +376,7 @@ mod imp {
                         );
 
                         let navigation_view = utils::navigation_view(&obj);
-                        navigation_view.pop_to_page(&utils::navigation_page(&obj));
+                        navigation_view.pop_to_page(&obj);
                         navigation_view.pop();
                     }
                 ));
@@ -410,7 +408,7 @@ mod imp {
 
 glib::wrapper! {
     pub(crate) struct ContainerDetailsPage(ObjectSubclass<imp::ContainerDetailsPage>)
-        @extends gtk::Widget,
+        @extends gtk::Widget, adw::NavigationPage,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
@@ -506,22 +504,14 @@ impl ContainerDetailsPage {
                 return;
             };
 
-            utils::navigation_view(self).push(
-                &adw::NavigationPage::builder()
-                    .child(&view::ContainerHealthCheckPage::from(container))
-                    .build(),
-            );
+            utils::navigation_view(self).push(&view::ContainerHealthCheckPage::from(container));
         });
     }
 
     pub(crate) fn show_image_details(&self) {
         self.exec_action(|| {
             if let Some(image) = self.container().as_ref().and_then(model::Container::image) {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::ImageDetailsPage::from(&image))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::ImageDetailsPage::from(&image));
             }
         });
     }
@@ -529,11 +519,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_pod_details(&self) {
         self.exec_action(|| {
             if let Some(pod) = self.container().as_ref().and_then(model::Container::pod) {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::PodDetailsPage::from(&pod))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::PodDetailsPage::from(&pod));
             }
         });
     }
@@ -552,14 +538,12 @@ impl ContainerDetailsPage {
                 let weak_ref = glib::WeakRef::new();
                 weak_ref.set(Some(&container));
 
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::ScalableTextViewPage::from(view::Entity::Container {
-                            container: weak_ref,
-                            mode,
-                        }))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::ScalableTextViewPage::from(
+                    view::Entity::Container {
+                        container: weak_ref,
+                        mode,
+                    },
+                ));
             }
         });
     }
@@ -567,11 +551,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_log(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::ContainerLogPage::from(&container))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::ContainerLogPage::from(&container));
             }
         });
     }
@@ -579,11 +559,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_processes(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::TopPage::from(&container))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::TopPage::from(&container));
             }
         });
     }
@@ -591,11 +567,7 @@ impl ContainerDetailsPage {
     pub(crate) fn show_tty(&self) {
         self.exec_action(|| {
             if let Some(container) = self.container() {
-                utils::navigation_view(self).push(
-                    &adw::NavigationPage::builder()
-                        .child(&view::ContainerTerminalPage::from(&container))
-                        .build(),
-                );
+                utils::navigation_view(self).push(&view::ContainerTerminalPage::from(&container));
             }
         });
     }
