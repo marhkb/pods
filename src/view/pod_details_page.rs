@@ -407,8 +407,7 @@ impl PodDetailsPage {
     fn exec_action<F: Fn()>(&self, op: F) {
         if utils::navigation_view(self)
             .visible_page()
-            .filter(|page| page.child().as_ref() == Some(self.upcast_ref()))
-            .is_some()
+            .is_some_and(|page| &page == self)
         {
             op();
         }
