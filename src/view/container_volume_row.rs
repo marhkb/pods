@@ -6,6 +6,7 @@ use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -69,9 +70,7 @@ mod imp {
                 container_volume_expr.chain_property::<model::ContainerVolume>("volume");
             let volume_name_expr = volume_expr.chain_property::<model::Volume>("name");
             let volume_name_is_id_expr =
-                volume_name_expr.chain_closure::<bool>(closure!(|_: Self::Type, name: &str| {
-                    utils::as_id(name).is_some()
-                }));
+                volume_name_expr.map(|name: String| utils::as_id(&name).is_some());
             let volume_to_be_deleted_expr =
                 volume_expr.chain_property::<model::Volume>("to-be-deleted");
             let containers_expr = volume_expr.chain_property::<model::Volume>("containers");
@@ -107,7 +106,7 @@ mod imp {
 
             let css_classes = utils::css_classes(&*self.name_label);
             volume_name_is_id_expr
-                .chain_closure::<Vec<String>>(closure!(|_: Self::Type, name_is_id: bool| {
+                .map(move |name_is_id: bool| {
                     css_classes
                         .iter()
                         .cloned()
@@ -117,7 +116,7 @@ mod imp {
                             None
                         })
                         .collect::<Vec<_>>()
-                }))
+                })
                 .bind(&*self.name_label, "css-classes", Some(obj));
 
             containers_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));

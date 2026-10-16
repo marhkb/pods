@@ -7,6 +7,7 @@ use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::ngettext;
 use crate::model;
@@ -120,24 +121,20 @@ mod imp {
             );
 
             health_status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
-                ))
+                .map(|status: model::ContainerHealthStatus| status.to_string())
                 .bind(&*self.status_label, "label", Some(obj));
 
             let css_classes = utils::css_classes(&*self.status_label);
             health_status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(
-                                view::container::container_health_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |status: model::ContainerHealthStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(
+                            view::container::container_health_status_css_class(status),
+                        )))
+                        .collect::<Vec<_>>()
+                })
                 .bind(&*self.status_label, "css-classes", Some(obj));
         }
     }

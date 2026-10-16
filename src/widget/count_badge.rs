@@ -4,11 +4,11 @@ use std::cell::RefCell;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::gsk;
 
+use crate::expression::ExpressionExt;
 use crate::utils;
 
 mod imp {
@@ -68,13 +68,13 @@ mod imp {
             let obj = &*self.obj();
 
             Self::Type::this_expression("count")
-                .chain_closure::<String>(closure!(|_: Self::Type, count: u32| {
+                .map(|count: u32| {
                     if count <= 9 {
                         count.to_string()
                     } else {
                         "+".to_owned()
                     }
-                }))
+                })
                 .bind(&*self.count_label, "label", Some(obj));
         }
 

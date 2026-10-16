@@ -5,10 +5,11 @@ use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::closure_local;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
+use crate::expression::NullableExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::gettext::ngettext;
@@ -86,26 +87,24 @@ mod imp {
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
 
             cpus_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, cpus: i64| {
+                .map(|cpus: i64| {
                     if cpus > 0 {
                         ngettext("Processor ({} CPU)", "Processor ({} CPUs)", cpus as u32)
                     } else {
                         gettext("Processor (? CPUs)")
                     }
-                }))
+                })
                 .bind(&*self.cpu_name_label, "label", Some(obj));
 
             stats_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                        gettext_f(
-                            "{} %",
-                            [stats
-                                .and_then(|stats| stats.cpu.map(|perc| format!("{perc:.1}")))
-                                .unwrap_or_else(|| gettext("?"))],
-                        )
-                    }
-                ))
+                .map(|stats: Option<model::BoxedContainerStats>| {
+                    gettext_f(
+                        "{} %",
+                        [stats
+                            .and_then(|stats| stats.cpu.map(|perc| format!("{perc:.1}")))
+                            .unwrap_or_else(|| gettext("?"))],
+                    )
+                })
                 .bind(&*self.cpu_percent_label, "label", Some(obj));
 
             #[rustfmt::skip]
@@ -127,86 +126,73 @@ mod imp {
             );
 
             stats_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                        stats
-                            .map(|stats| {
-                                gettext_f(
-                                    "{} / {} ({} %)",
-                                    [
-                                        stats
-                                            .mem_usage
-                                            .map(glib::format_size)
-                                            .map(String::from)
-                                            .unwrap_or_else(|| gettext("?")),
-                                        stats
-                                            .mem_limit
-                                            .map(glib::format_size)
-                                            .map(String::from)
-                                            .unwrap_or_else(|| gettext("?")),
-                                        stats
-                                            .mem_perc
-                                            .map(|perc| format!("{perc:.1}"))
-                                            .unwrap_or_else(|| gettext("?")),
-                                    ],
-                                )
-                            })
-                            .unwrap_or_else(|| gettext("?"))
-                    }
-                ))
+                .map_or_else(
+                    || gettext("?"),
+                    |stats: model::BoxedContainerStats| {
+                        gettext_f(
+                            "{} / {} ({} %)",
+                            [
+                                stats
+                                    .mem_usage
+                                    .map(glib::format_size)
+                                    .map(String::from)
+                                    .unwrap_or_else(|| gettext("?")),
+                                stats
+                                    .mem_limit
+                                    .map(glib::format_size)
+                                    .map(String::from)
+                                    .unwrap_or_else(|| gettext("?")),
+                                stats
+                                    .mem_perc
+                                    .map(|perc| format!("{perc:.1}"))
+                                    .unwrap_or_else(|| gettext("?")),
+                            ],
+                        )
+                    },
+                )
                 .bind(&*self.memory_label, "label", Some(obj));
 
             obj.bind_stats_fraction(
                 stats_expr
-                    .chain_closure::<f64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| stats
-                            .and_then(|stats| stats.mem_perc)
-                            .unwrap_or(0.0)
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.mem_perc.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.memory_progress_bar,
             );
 
             obj.bind_stats_throughput(
                 stats_expr
-                    .chain_closure::<u64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                            stats.and_then(|stats| stats.net_input).unwrap_or(0)
-                        }
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.net_input.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.network_down_label,
             );
 
             obj.bind_stats_throughput(
                 stats_expr
-                    .chain_closure::<u64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                            stats.and_then(|stats| stats.net_output).unwrap_or(0)
-                        }
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.net_output.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.network_up_label,
             );
 
             obj.bind_stats_throughput(
                 stats_expr
-                    .chain_closure::<u64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                            stats.and_then(|stats| stats.block_input).unwrap_or(0)
-                        }
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.block_input.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.block_down_label,
             );
 
             obj.bind_stats_throughput(
                 stats_expr
-                    .chain_closure::<u64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                            stats.and_then(|stats| stats.block_output).unwrap_or(0)
-                        }
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.block_output.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.block_up_label,
             );
@@ -225,8 +211,7 @@ glib::wrapper! {
 
 impl ContainerResources {
     fn bind_stats_fraction(&self, stats_expr: &gtk::Expression, progress_bar: &gtk::ProgressBar) {
-        let percent_expr =
-            stats_expr.chain_closure::<f64>(closure!(|_: Self, value: f64| value * 0.01));
+        let percent_expr = stats_expr.map(|value: f64| value * 0.01);
 
         let target = adw::PropertyAnimationTarget::new(progress_bar, "fraction");
         let animation = adw::TimedAnimation::builder()
@@ -253,31 +238,26 @@ impl ContainerResources {
         );
 
         let classes = utils::css_classes(progress_bar);
-
-        #[rustfmt::skip]
-        percent_expr.chain_closure::<Vec<String>>(closure!(|_: Self, value: f64| {
-            classes
-                .iter()
-                .cloned()
-                .chain(if value >= 0.8 {
-                    Some(String::from(if value < 0.95 {
-                        "warning"
+        percent_expr
+            .map(move |value: f64| {
+                classes
+                    .iter()
+                    .cloned()
+                    .chain(if value >= 0.8 {
+                        Some(String::from(if value < 0.95 { "warning" } else { "error" }))
                     } else {
-                        "error"
-                    }))
-                } else {
-                    None
-                })
-                .collect::<Vec<_>>()
-        }))
-        .bind(progress_bar, "css-classes", Some(self));
+                        None
+                    })
+                    .collect::<Vec<_>>()
+            })
+            .bind(progress_bar, "css-classes", Some(self));
     }
 
     fn bind_stats_throughput(&self, stats_expr: &gtk::Expression, label: &gtk::Label) {
         let prev_value = Cell::new(u64::MAX);
 
         stats_expr
-            .chain_closure::<String>(closure_local!(move |_: Self, value: u64| {
+            .map(move |value: u64| {
                 let s = gettext_f(
                     // Translators: For example 5 MB / s.
                     "{} / s",
@@ -291,7 +271,7 @@ impl ContainerResources {
                 prev_value.set(value);
 
                 s
-            }))
+            })
             .bind(label, "label", Some(self));
     }
 }

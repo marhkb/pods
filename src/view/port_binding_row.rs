@@ -10,10 +10,10 @@ use ashpd::WindowIdentifier;
 use ashpd::desktop::open_uri::OpenURIProxy;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
@@ -76,31 +76,24 @@ mod imp {
             let port_binding_expr = Self::Type::this_expression("port-binding");
             let is_tcp_expr = port_binding_expr
                 .chain_property::<model::PortBinding>("protocol")
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, protocol: model::PortMappingProtocol| protocol
-                        == model::PortMappingProtocol::Tcp
-                ));
+                .map(|protocol: model::PortMappingProtocol| {
+                    protocol == model::PortMappingProtocol::Tcp
+                });
 
             port_binding_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, port_binding: model::PortBinding| {
-                        SocketAddr::new(
-                            to_std_ip_addr(&port_binding.ip_address()),
-                            port_binding.host_port() as u16,
-                        )
-                        .to_string()
-                    }
-                ))
+                .map(|port_binding: model::PortBinding| {
+                    SocketAddr::new(
+                        to_std_ip_addr(&port_binding.ip_address()),
+                        port_binding.host_port() as u16,
+                    )
+                    .to_string()
+                })
                 .bind(&*self.host_label, "label", Some(obj));
 
             port_binding_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, port_binding: model::PortBinding| format!(
-                        "{}/{}",
-                        port_binding.target_port(),
-                        port_binding.protocol()
-                    )
-                ))
+                .map(|port_binding: model::PortBinding| {
+                    format!("{}/{}", port_binding.target_port(), port_binding.protocol())
+                })
                 .bind(&*self.container_port_label, "label", Some(obj));
 
             is_tcp_expr.watch(

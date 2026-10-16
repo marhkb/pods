@@ -2,10 +2,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -102,9 +102,7 @@ mod imp {
             let pod_status_expr = pod_expr.chain_property::<model::Pod>("status");
 
             pod_status_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::PodStatus| {
-                    !status.is_transition()
-                }))
+                .map(|status: model::PodStatus| !status.is_transition())
                 .bind(&*self.menu_button, "sensitive", Some(obj));
 
             pod_status_expr.watch(

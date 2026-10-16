@@ -2,10 +2,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::NullableExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
@@ -59,11 +59,9 @@ mod imp {
 
             Self::Type::this_expression("connection-manager")
                 .chain_property::<model::ConnectionManager>("client")
-                .chain_closure::<u32>(closure!(|_: Self::Type, client: Option<model::Client>| {
-                    client
-                        .map(|client| client.connection().position())
-                        .unwrap_or(gtk::INVALID_LIST_POSITION)
-                }))
+                .map_or(gtk::INVALID_LIST_POSITION, |client: model::Client| {
+                    client.connection().position()
+                })
                 .bind(&self.selection.get(), "selected", Some(&*self.obj()));
         }
 

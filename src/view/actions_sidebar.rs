@@ -10,6 +10,7 @@ use glib::subclass::Signal;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -83,9 +84,7 @@ mod imp {
             let action_list_expr = Self::Type::this_expression("action-list");
             action_list_expr
                 .chain_property::<model::ActionList>("len")
-                .chain_closure::<String>(closure!(|_: Self::Type, len: u32| {
-                    if len > 0 { "actions" } else { "empty" }
-                }))
+                .map(|len: u32| if len > 0 { "actions" } else { "empty" }.to_string())
                 .bind(&*self.stack, "visible-child-name", Some(obj));
 
             let action_list_can_clear_expr = gtk::ClosureExpression::new::<bool>(

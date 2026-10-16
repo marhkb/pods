@@ -8,7 +8,8 @@ use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
 use crate::model;
 use crate::model::SelectableExt;
 use crate::model::SelectableListExt;
@@ -89,9 +90,7 @@ mod imp {
                 [
                     image_expr
                         .chain_property::<model::Image>("id")
-                        .chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
-                            utils::format_id(id).to_owned()
-                        }))
+                        .map(|id: String| utils::format_id(&id).to_owned())
                         .upcast_ref(),
                     image_expr
                         .chain_property::<model::Image>("to-be-deleted")
@@ -111,7 +110,7 @@ mod imp {
             image_expr
                 .chain_property::<model::Image>("repo-tags")
                 .chain_property::<model::RepoTagList>("len")
-                .chain_closure::<Vec<String>>(closure!(|_: Self::Type, len: u32| {
+                .map(move |len: u32| {
                     css_classes
                         .iter()
                         .cloned()
@@ -121,7 +120,7 @@ mod imp {
                             None
                         })
                         .collect::<Vec<_>>()
-                }))
+                })
                 .bind(&*self.id_label, "css-classes", Some(obj));
 
             if let Some(image) = obj.image() {

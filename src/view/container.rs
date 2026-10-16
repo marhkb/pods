@@ -1,9 +1,9 @@
 use adw::prelude::*;
 use glib::clone;
-use glib::closure;
 use gtk::glib;
 use gtk::glib::clone::Downgrade;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
@@ -82,13 +82,13 @@ where
 
         container
             .property_expression_weak("name")
-            .chain_closure::<String>(closure!(|_: model::Container, name: String| {
+            .map(|name: String| {
                 format!(
                     "{}\n<span weight=\"bold\">“{}”</span>",
                     gettext("Rename Container"),
                     name
                 )
-            }))
+            })
             .bind(&dialog, "heading", Some(container));
 
         dialog.add_responses(&[

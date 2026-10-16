@@ -10,7 +10,8 @@ use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
 use crate::model;
 use crate::model::SelectableExt;
 use crate::model::SelectableListExt;
@@ -98,33 +99,30 @@ mod imp {
             let status_expr = pod_expr.chain_property::<model::Pod>("status");
 
             status_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::PodStatus| {
-                    status.is_transition()
-                }))
+                .map(|status: model::PodStatus| status.is_transition())
                 .bind(&*self.spinner, "spinning", Some(obj));
 
             status_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, status: model::PodStatus| {
+                .map(|status: model::PodStatus| {
                     match status {
                         model::PodStatus::Running => "media-playback-start-symbolic",
                         model::PodStatus::Paused => "media-playback-pause-symbolic",
                         model::PodStatus::Degraded => "heart-broken-symbolic",
                         _ => "media-playback-stop-symbolic",
                     }
-                }))
+                    .to_string()
+                })
                 .bind(&*self.spinner, "icon-name", Some(obj));
 
             let css_classes = utils::css_classes(&*self.spinner);
             status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::PodStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(view::pod_status_css_class(status))))
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |status: model::PodStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(view::pod_status_css_class(status))))
+                        .collect::<Vec<_>>()
+                })
                 .bind(&*self.spinner, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -145,14 +143,14 @@ mod imp {
 
             pod_expr
                 .chain_property::<model::Pod>("id")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, id: &str| utils::format_id(id).to_owned()
-                ))
+                .map(|id: String| utils::format_id(&id).to_owned())
                 .bind(&*self.id_label, "label", Some(obj));
 
-            ports_len_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
-                .bind(&*self.ports_wrap_box, "visible", Some(obj));
+            ports_len_expr.map(|len: u32| len > 0).bind(
+                &*self.ports_wrap_box,
+                "visible",
+                Some(obj),
+            );
         }
     }
 

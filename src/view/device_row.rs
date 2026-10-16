@@ -9,7 +9,8 @@ use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
 use crate::model;
 
 mod imp {
@@ -91,18 +92,18 @@ mod imp {
 
             device_expr
                 .chain_property::<model::Device>("host-path")
-                .chain_closure::<String>(closure!(|_: Self::Type, path: &str| {
+                .map(|path: String| {
                     let path = path.trim();
                     if path.is_empty() { "?" } else { path }.to_string()
-                }))
+                })
                 .bind(&self.host_path_label.get(), "label", Some(obj));
 
             device_expr
                 .chain_property::<model::Device>("container-path")
-                .chain_closure::<String>(closure!(|_: Self::Type, path: &str| {
+                .map(|path: String| {
                     let path = path.trim();
                     if path.is_empty() { "?" } else { path }.to_string()
-                }))
+                })
                 .bind(&self.container_path_label.get(), "label", Some(obj));
 
             option_active_expr.bind(&self.last_colon_label.get(), "visible", Some(obj));

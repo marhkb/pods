@@ -3,8 +3,9 @@ use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
-use gtk::glib::closure;
 
+use crate::expression::ExpressionExt;
+use crate::expression::NullableExpressionExt;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -67,14 +68,13 @@ mod imp {
             let client_info_expr = client_expr.chain_property::<model::Client>("info");
             let client_info_memory_expr = client_info_expr.chain_property::<model::Info>("memory");
             let client_info_memory_formatted_expr = client_info_memory_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, storage_size: i64| {
-                    glib::format_size(storage_size as u64)
-                }));
+                .map(|storage_size: i64| glib::format_size(storage_size as u64).to_string());
 
             client_info_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, info: Option<&model::Info>| info
-                    .map(|_| "loaded")
-                    .unwrap_or("loading")))
+                .map_or_else(
+                    || "loading".to_string(),
+                    |_: model::Info| "loaded".to_string(),
+                )
                 .bind(&*self.stack, "visible-child-name", Some(obj));
             client_info_memory_formatted_expr.bind(&*self.memory_row, "subtitle", Some(obj));
         }

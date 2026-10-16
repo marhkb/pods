@@ -1,10 +1,10 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
@@ -64,14 +64,15 @@ mod imp {
                 action_expr.chain_property::<model::ContainerCopyFromAction>("state");
 
             action_ongoing_state_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
+                .map(|state: model::ActionState| {
                     match state {
                         model::ActionState::Ongoing => "ongoing",
                         model::ActionState::Cancelled => "cancelled",
                         model::ActionState::Failed => "failed",
                         model::ActionState::Finished => "finished",
                     }
-                }))
+                    .to_string()
+                })
                 .bind(&*self.action_indicator, "action-state-name", Some(obj));
         }
 

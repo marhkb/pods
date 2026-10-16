@@ -11,6 +11,8 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
+use crate::expression::NullableExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -126,9 +128,7 @@ mod imp {
             let image_expr = Self::Type::this_expression("image");
             let image_id_expr = image_expr.chain_property::<model::Image>("id");
             let image_formatted_id_expr =
-                image_id_expr.chain_closure::<String>(closure!(|_: Self::Type, id: &str| {
-                    utils::format_id(id).to_owned()
-                }));
+                image_id_expr.map(|id: String| utils::format_id(&id).to_owned());
             let image_details_expr = image_expr.chain_property::<model::Image>("details");
             let cmd_expr = image_details_expr.chain_property::<model::ImageDetails>("cmd");
             let entrypoint_expr =
@@ -139,11 +139,10 @@ mod imp {
             image_formatted_id_expr.bind(&*self.window_title, "subtitle", Some(obj));
 
             image_details_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, details: Option<model::ImageDetails>| details
-                        .map(|_| "loaded")
-                        .unwrap_or("loading")
-                ))
+                .map_or_else(
+                    || "loading".to_string(),
+                    |_: model::ImageDetails| "loaded".to_string(),
+                )
                 .bind(&*self.stack, "visible-child-name", Some(obj));
 
             image_expr
@@ -230,40 +229,32 @@ mod imp {
 
             cmd_expr.bind(&*self.command_row, "subtitle", Some(obj));
             cmd_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, cmd: Option<&str>| {
-                    cmd.is_some()
-                }))
+                .is_some::<String>()
                 .bind(&*self.command_row, "visible", Some(obj));
 
             entrypoint_expr.bind(&*self.entrypoint_row, "subtitle", Some(obj));
             entrypoint_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, entrypoint: Option<&str>| {
-                    entrypoint.is_some()
-                }))
+                .is_some::<String>()
                 .bind(&*self.entrypoint_row, "visible", Some(obj));
 
             exposed_ports_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, exposed_ports: gtk::StringList| {
-                        let exposed_ports = exposed_ports
-                            .iter::<glib::Object>()
-                            .map(|obj| {
-                                obj.unwrap()
-                                    .downcast::<gtk::StringObject>()
-                                    .unwrap()
-                                    .string()
-                            })
-                            .collect::<Vec<_>>();
+                .map(|exposed_ports: gtk::StringList| {
+                    let exposed_ports = exposed_ports
+                        .iter::<glib::Object>()
+                        .map(|obj| {
+                            obj.unwrap()
+                                .downcast::<gtk::StringObject>()
+                                .unwrap()
+                                .string()
+                        })
+                        .collect::<Vec<_>>();
 
-                        utils::format_iter(exposed_ports.iter().map(glib::GString::as_str), ", ")
-                    }
-                ))
+                    utils::format_iter(exposed_ports.iter().map(glib::GString::as_str), ", ")
+                })
                 .bind(&*self.ports_row, "subtitle", Some(obj));
 
             exposed_ports_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, exposed_ports: gtk::StringList| {
-                    exposed_ports.n_items() > 0
-                }))
+                .map(|exposed_ports: gtk::StringList| exposed_ports.n_items() > 0)
                 .bind(&*self.ports_row, "visible", Some(obj));
         }
     }

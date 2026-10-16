@@ -1,10 +1,10 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -61,13 +61,13 @@ mod imp {
             let action_expr = Self::Type::this_expression("action");
             let action_space_reclaimed_expr =
                 action_expr.chain_property::<model::VolumesPruneAction>("space-reclaimed");
-            let action_space_reclaimed_formatted_expr = action_space_reclaimed_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, space_reclaimed: u64| gettext_f(
+            let action_space_reclaimed_formatted_expr =
+                action_space_reclaimed_expr.map(|space_reclaimed: u64| {
+                    gettext_f(
                         "Space reclaimed: <b>{}</b>",
-                        [glib::format_size(space_reclaimed)]
+                        [glib::format_size(space_reclaimed)],
                     )
-                ));
+                });
 
             action_space_reclaimed_formatted_expr.bind(
                 &*self.space_reclaimed_label,

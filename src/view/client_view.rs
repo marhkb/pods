@@ -1,11 +1,11 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::expression::NullableExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
@@ -117,17 +117,14 @@ mod imp {
                 client_info_expr.chain_property::<model::Info>("version");
 
             client_info_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, info: Option<&model::Info>| {
-                    info.map(|_| "version").unwrap_or("loading")
-                }))
+                .map_or_else(
+                    || "loading".to_string(),
+                    |_: model::Info| "version".to_string(),
+                )
                 .bind(&*self.version_stack, "visible-child-name", Some(obj));
 
             client_info_version_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, version: Option<&str>| {
-                    version
-                        .map(|version| format!("v{version}"))
-                        .unwrap_or_default()
-                }))
+                .map_or_default(|version: String| format!("v{version}"))
                 .bind(&*self.version_label, "label", Some(obj));
 
             self.settings

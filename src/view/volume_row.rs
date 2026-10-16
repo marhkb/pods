@@ -9,7 +9,8 @@ use glib::property::PropertySet;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::SelectableExt;
@@ -91,12 +92,9 @@ mod imp {
             let volume_expr = Self::Type::this_expression("volume");
             let volume_name_expr = volume_expr.chain_property::<model::Volume>("name");
             let volume_name_is_id_expr =
-                volume_name_expr.chain_closure::<bool>(closure!(|_: Self::Type, name: &str| {
-                    utils::as_id(name).is_some()
-                }));
-            let volume_formatted_name_expr = volume_name_expr.chain_closure::<String>(closure!(
-                |_: Self::Type, name: String| { utils::format_if_id(&name).to_owned() }
-            ));
+                volume_name_expr.map(|name: String| utils::as_id(&name).is_some());
+            let volume_formatted_name_expr =
+                volume_name_expr.map(|name: String| utils::format_if_id(&name).to_owned());
             let volume_to_be_deleted_expr =
                 volume_expr.chain_property::<model::Volume>("to-be-deleted");
             let containers_expr = volume_expr.chain_property::<model::Volume>("containers");

@@ -6,6 +6,7 @@ use glib::subclass::InitializingObject;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
@@ -75,13 +76,14 @@ mod imp {
             let is_active_expr = connection_expr.chain_property::<model::Connection>("active");
 
             is_remote_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, is_remote: bool| {
+                .map(|is_remote: bool| {
                     if is_remote {
                         "network-server-symbolic"
                     } else {
                         "local-connection-symbolic"
                     }
-                }))
+                    .to_string()
+                })
                 .bind(&*self.image, "icon-name", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -101,7 +103,7 @@ mod imp {
 
             let classes = utils::css_classes(&*self.image);
             is_active_expr
-                .chain_closure::<Vec<String>>(closure!(|_: Self::Type, is_active: bool| {
+                .map(move |is_active: bool| {
                     classes
                         .iter()
                         .cloned()
@@ -111,27 +113,21 @@ mod imp {
                             "unselected-connection"
                         })))
                         .collect::<Vec<_>>()
-                }))
+                })
                 .bind(&*self.image, "css-classes", Some(obj));
 
             is_active_expr.bind(&*self.checkmark, "visible", Some(obj));
 
             connection_expr
                 .chain_property::<model::Connection>("connecting")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, connecting: bool| if connecting {
-                        "connecting"
-                    } else {
-                        "delete"
-                    }
-                ))
+                .map(|connecting: bool| {
+                    if connecting { "connecting" } else { "delete" }.to_string()
+                })
                 .bind(&*self.end_stack, "visible-child-name", Some(obj));
 
             connection_expr
                 .chain_property::<model::Connection>("uuid")
-                .chain_closure::<Option<glib::Variant>>(closure!(|_: Self::Type, uuid: &str| {
-                    Some(uuid.to_variant())
-                }))
+                .map(|uuid: String| Some(uuid.to_variant()))
                 .bind(&*self.delete_button, "action-target", Some(obj));
 
             self.color_bin

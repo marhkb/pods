@@ -4,10 +4,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::utils;
 
@@ -137,7 +137,7 @@ mod imp {
                 .build();
 
             Self::Type::this_expression("timestamp")
-                .chain_closure::<String>(closure!(|_: Self::Type, unix: i64| {
+                .map(|unix: i64| {
                     utils::date_time_from_unix_local(unix)
                         .and_then(|date_time| {
                             date_time
@@ -149,7 +149,7 @@ mod imp {
                         })
                         .map(|formatted| formatted.to_string())
                         .unwrap_or_else(|| gettext("Invalid date format"))
-                }))
+                })
                 .bind(&*self.date_time_label, "label", Some(obj));
 
             obj.set_timestamp(glib::DateTime::now_local().unwrap().to_unix());

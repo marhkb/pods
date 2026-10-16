@@ -2,11 +2,11 @@ use std::cell::RefCell;
 
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 use gtk::prelude::*;
 
+use crate::expression::ExpressionExt;
 use crate::model;
 use crate::utils;
 
@@ -65,26 +65,22 @@ mod imp {
             let container_status_expr = container_expr.chain_property::<model::Container>("status");
 
             port_binding_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, port_binding: model::PortBinding| {
-                        format!("{}/{}", port_binding.host_port(), port_binding.protocol())
-                    }
-                ))
+                .map(|port_binding: model::PortBinding| {
+                    format!("{}/{}", port_binding.host_port(), port_binding.protocol())
+                })
                 .bind(&*self.label, "label", Some(obj));
 
             let css_classes = utils::css_classes(&*self.label);
             container_status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(
-                                super::super::container_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |status: model::ContainerStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(
+                            super::super::container_status_css_class(status),
+                        )))
+                        .collect::<Vec<_>>()
+                })
                 .bind(&*self.label, "css-classes", Some(obj));
         }
 

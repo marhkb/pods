@@ -6,12 +6,13 @@ use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
 use glib::closure;
-use glib::closure_local;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
+use crate::expression::NullableExpressionExt;
 use crate::gettext::gettext_f;
 use crate::model;
 use crate::model::prelude::*;
@@ -169,26 +170,20 @@ mod imp {
             let to_be_deleted_expr =
                 container_expr.chain_property::<model::Container>("to-be-deleted");
             let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
-            #[rustfmt::skip]
-            let repo_expr = image_name_expr.chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| {
-                name
-                    .map(utils::format_if_id)
-                    .map(ToOwned::to_owned)
-                    .unwrap_or_default()
-            }));
+            let repo_expr = image_name_expr
+                .map_or_default(|name: String| utils::format_if_id(&name).to_owned());
             let status_expr = container_expr.chain_property::<model::Container>("status");
-            let status_is_transition_expr = status_expr.chain_closure::<bool>(closure!(
-                |_: Self::Type, status: model::ContainerStatus| { status.is_transition() }
-            ));
+            let status_is_transition_expr =
+                status_expr.map(|status: model::ContainerStatus| status.is_transition());
             let container_list_expr =
                 container_expr.chain_property::<model::Container>("container-list");
             let selection_mode_expr =
                 container_list_expr.chain_property::<model::ContainerList>("selection-mode");
 
             selection_mode_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, is_selection_mode: bool| {
-                    if is_selection_mode { "select" } else { "edit" }
-                }))
+                .map(|is_selection_mode: bool| {
+                    if is_selection_mode { "select" } else { "edit" }.to_string()
+                })
                 .bind(
                     &self.edit_select_stack.get(),
                     "visible-child-name",
@@ -216,19 +211,17 @@ mod imp {
 
             let css_classes = utils::css_classes(obj);
             status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(if status == model::ContainerStatus::Running {
-                                None
-                            } else {
-                                Some("not-running".to_string())
-                            })
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |status: model::ContainerStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(if status == model::ContainerStatus::Running {
+                            None
+                        } else {
+                            Some("not-running".to_string())
+                        })
+                        .collect::<Vec<_>>()
+                })
                 .bind(obj, "css-classes", Some(obj));
 
             status_is_transition_expr.bind(&*self.spinner, "spinning", Some(obj));
@@ -287,14 +280,13 @@ mod imp {
             repo_expr.bind(&*self.repo_label, "label", Some(obj));
 
             status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        match status {
-                            model::ContainerStatus::Running => "running",
-                            _ => "not-running",
-                        }
+                .map(|status: model::ContainerStatus| {
+                    match status {
+                        model::ContainerStatus::Running => "running",
+                        _ => "not-running",
                     }
-                ))
+                    .to_string()
+                })
                 .bind(
                     &*self.resources_status_stack,
                     "visible-child-name",
@@ -328,22 +320,18 @@ mod imp {
 
             obj.bind_stats_fraction(
                 stats_expr
-                    .chain_closure::<f64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| stats
-                            .and_then(|stats| stats.mem_perc)
-                            .unwrap_or(0.0)
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.mem_perc.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.memory_progress_bar,
             );
 
             obj.bind_stats_throughput(
                 stats_expr
-                    .chain_closure::<u64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                            stats.and_then(|stats| stats.net_input).unwrap_or(0)
-                        }
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.net_input.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.network_down_box,
                 &self.network_down_label,
@@ -351,11 +339,9 @@ mod imp {
 
             obj.bind_stats_throughput(
                 stats_expr
-                    .chain_closure::<u64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                            stats.and_then(|stats| stats.net_output).unwrap_or(0)
-                        }
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.net_output.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.network_up_box,
                 &self.network_up_label,
@@ -363,11 +349,9 @@ mod imp {
 
             obj.bind_stats_throughput(
                 stats_expr
-                    .chain_closure::<u64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                            stats.and_then(|stats| stats.block_input).unwrap_or(0)
-                        }
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.block_input.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.disk_read_box,
                 &self.disk_read_label,
@@ -375,35 +359,29 @@ mod imp {
 
             obj.bind_stats_throughput(
                 stats_expr
-                    .chain_closure::<u64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| {
-                            stats.and_then(|stats| stats.block_output).unwrap_or(0)
-                        }
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.block_output.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.disk_write_box,
                 &self.disk_write_label,
             );
 
             status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| status.to_string()
-                ))
+                .map(|status: model::ContainerStatus| status.to_string())
                 .bind(&self.status_label.get(), "label", Some(obj));
 
             pod_name_expr.bind(&*self.pod_name_label, "label", Some(obj));
 
             let css_classes = utils::css_classes(&*self.pod_center_box);
             pod_status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::PodStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(view::pod::pod_status_css_class(status))))
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |status: model::PodStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(view::pod::pod_status_css_class(status))))
+                        .collect::<Vec<_>>()
+                })
                 .bind(&self.pod_center_box.get(), "css-classes", Some(obj));
         }
 
@@ -466,13 +444,7 @@ mod imp {
 
                     model::Container::this_expression("ports")
                         .chain_property::<model::PortBindingList>("len")
-                        .chain_closure::<String>(closure!(
-                            |_: model::Container, len: u32| if len > 0 {
-                                "ports"
-                            } else {
-                                "no-ports"
-                            }
-                        ))
+                        .map(|len: u32| if len > 0 { "ports" } else { "no-ports" }.to_string())
                         .bind(
                             &*self.ports_pod_stack,
                             "visible-child-name",
@@ -527,8 +499,7 @@ impl ContainerCard {
     }
 
     fn bind_stats_fraction(&self, stats_expr: &gtk::Expression, progress_bar: &gtk::ProgressBar) {
-        let percent_expr =
-            stats_expr.chain_closure::<f64>(closure!(|_: Self, value: f64| value * 0.01));
+        let percent_expr = stats_expr.map(|value: f64| value * 0.01);
 
         let target = adw::PropertyAnimationTarget::new(progress_bar, "fraction");
         let animation = adw::TimedAnimation::builder()
@@ -555,24 +526,19 @@ impl ContainerCard {
         );
 
         let classes = utils::css_classes(progress_bar);
-
-        #[rustfmt::skip]
-        percent_expr.chain_closure::<Vec<String>>(closure!(|_: Self, value: f64| {
-            classes
-                .iter()
-                .cloned()
-                .chain(if value >= 0.8 {
-                    Some(String::from(if value < 0.95 {
-                        "warning"
+        percent_expr
+            .map(move |value: f64| {
+                classes
+                    .iter()
+                    .cloned()
+                    .chain(if value >= 0.8 {
+                        Some(String::from(if value < 0.95 { "warning" } else { "error" }))
                     } else {
-                        "error"
-                    }))
-                } else {
-                    None
-                })
-                .collect::<Vec<_>>()
-        }))
-        .bind(progress_bar, "css-classes", Some(self));
+                        None
+                    })
+                    .collect::<Vec<_>>()
+            })
+            .bind(progress_bar, "css-classes", Some(self));
     }
 
     fn bind_stats_throughput(
@@ -582,18 +548,18 @@ impl ContainerCard {
         label: &gtk::Label,
     ) {
         self.curr_value_expr(stats_expr)
-            .chain_closure::<String>(closure!(|_: Self, value: u64| {
+            .map(|value: u64| {
                 gettext_f(
                     // Translators: For example 5 MB / s.
                     "{} / s",
                     [glib::format_size(value)],
                 )
-            }))
+            })
             .bind(label, "label", Some(self));
 
         let css_classes = utils::css_classes(box_);
         self.curr_value_expr(stats_expr)
-            .chain_closure::<Vec<String>>(closure!(|_: Self, value: u64| {
+            .map(move |value: u64| {
                 css_classes
                     .iter()
                     .cloned()
@@ -603,7 +569,7 @@ impl ContainerCard {
                         Some("dim-label".to_string())
                     })
                     .collect::<Vec<_>>()
-            }))
+            })
             .bind(box_, "css-classes", Some(self));
     }
 
@@ -611,7 +577,7 @@ impl ContainerCard {
         let prev_value = Cell::new(u64::MAX);
 
         stats_expr
-            .chain_closure::<u64>(closure_local!(move |_: Self, value: u64| {
+            .map(move |value: u64| {
                 let next_value = if prev_value.get() >= value {
                     0
                 } else {
@@ -620,7 +586,7 @@ impl ContainerCard {
 
                 prev_value.set(value);
                 next_value
-            }))
+            })
             .upcast()
     }
 

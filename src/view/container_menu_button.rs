@@ -2,10 +2,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -102,9 +102,7 @@ mod imp {
             let container_status_expr = container_expr.chain_property::<model::Container>("status");
 
             container_status_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
-                    !status.is_transition()
-                }))
+                .map(|status: model::ContainerStatus| !status.is_transition())
                 .bind(&*self.menu_button, "sensitive", Some(obj));
 
             container_status_expr.watch(

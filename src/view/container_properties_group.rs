@@ -5,6 +5,7 @@ use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
@@ -79,16 +80,13 @@ mod imp {
             let health_status_expr =
                 container_expr.chain_property::<model::Container>("health_status");
             let is_health_check_configured_expr =
-                health_status_expr.chain_closure::<bool>(closure!(
-                    |_: Self::Type, health_status: model::ContainerHealthStatus| health_status
-                        != model::ContainerHealthStatus::Unconfigured
-                ));
+                health_status_expr.map(|health_status: model::ContainerHealthStatus| {
+                    health_status != model::ContainerHealthStatus::Unconfigured
+                });
 
             container_expr
                 .chain_property::<model::Container>("id")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, id: &str| utils::format_id(id).to_owned()
-                ))
+                .map(|id: String| utils::format_id(&id).to_owned())
                 .bind(&*self.id_row, "subtitle", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -104,47 +102,37 @@ mod imp {
 
             container_details_expr
                 .chain_property::<model::ContainerDetails>("size")
-                .chain_closure::<String>(closure!(|_: Self::Type, size: i64| glib::format_size(
-                    size as u64
-                )))
+                .map(|size: i64| glib::format_size(size as u64).to_string())
                 .bind(&*self.size_row, "subtitle", Some(obj));
 
             restart_policy_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, restart_policy: model::ContainerRestartPolicy| {
-                        match restart_policy {
-                            model::ContainerRestartPolicy::Always => gettext("Always"),
-                            model::ContainerRestartPolicy::No => gettext("None"),
-                            model::ContainerRestartPolicy::OnFailure => gettext("On Failure"),
-                            model::ContainerRestartPolicy::UnlessStopped => {
-                                gettext("Unless Stopped")
-                            }
-                        }
-                    }
-                ))
+                .map(
+                    |restart_policy: model::ContainerRestartPolicy| match restart_policy {
+                        model::ContainerRestartPolicy::Always => gettext("Always"),
+                        model::ContainerRestartPolicy::No => gettext("None"),
+                        model::ContainerRestartPolicy::OnFailure => gettext("On Failure"),
+                        model::ContainerRestartPolicy::UnlessStopped => gettext("Unless Stopped"),
+                    },
+                )
                 .bind(&*self.restart_policy_row, "subtitle", Some(obj));
 
             is_health_check_configured_expr.bind(&*self.health_row, "activatable", Some(obj));
 
             health_status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| status.to_string()
-                ))
+                .map(|status: model::ContainerHealthStatus| status.to_string())
                 .bind(&*self.health_status_label, "label", Some(obj));
 
             let css_classes = utils::css_classes(&*self.health_status_label);
             health_status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerHealthStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(
-                                view::container::container_health_status_css_class(status),
-                            )))
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |status: model::ContainerHealthStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(
+                            view::container::container_health_status_css_class(status),
+                        )))
+                        .collect::<Vec<_>>()
+                })
                 .bind(&*self.health_status_label, "css-classes", Some(obj));
 
             is_health_check_configured_expr.bind(

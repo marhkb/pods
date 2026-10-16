@@ -5,7 +5,7 @@ use glib::clone;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
 use crate::model;
 use crate::utils;
 use crate::view;
