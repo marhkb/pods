@@ -42,6 +42,8 @@ mod imp {
         #[template_child]
         pub(super) mountpoint_row: TemplateChild<adw::ActionRow>,
         #[template_child]
+        pub(super) open_mount_path_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) open_mount_path_button: TemplateChild<gtk::Button>,
         #[template_child]
         pub(super) created_row: TemplateChild<adw::ActionRow>,
@@ -259,6 +261,10 @@ impl VolumeDetailsPage {
             return;
         };
 
+        let imp = self.imp();
+
+        imp.open_mount_path_stack.set_visible_child_name("spinner");
+
         let uri = gtk::gio::File::for_path(volume.mountpoint())
             .uri()
             .to_string();
@@ -278,6 +284,8 @@ impl VolumeDetailsPage {
         })
         .exec()
         .await;
+
+        imp.open_mount_path_stack.set_visible_child_name("button");
 
         if let Err(e) = open_result {
             utils::show_error_toast(self, &gettext("Could not open link"), &e.to_string());

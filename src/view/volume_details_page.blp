@@ -64,20 +64,37 @@ template $PdsVolumeDetailsPage: Widget {
 
           title: _("Mount Path");
 
-          Button open_mount_path_button {
-            styles [
-              "flat",
-            ]
+          Stack open_mount_path_stack {
+            StackPage {
+              name: "button";
 
-            action-name: "volume-details-page.open-mount-path";
-            icon-name: "external-link-symbolic";
-            tooltip-text: _("Open in File Manager");
+              child: Button open_mount_path_button {
+                styles [
+                  "flat",
+                ]
 
-            accessibility {
-              label: _("Open mount path in file manager");
+                action-name: "volume-details-page.open-mount-path";
+                icon-name: "external-link-symbolic";
+                tooltip-text: _("Open in File Manager");
+
+                accessibility {
+                  label: _("Open mount path in file manager");
+                }
+
+                valign: center;
+              };
             }
 
-            valign: center;
+            StackPage {
+              name: "spinner";
+
+              child: Adw.Spinner {
+                halign: center;
+                height-request: 20;
+                valign: center;
+                width-request: 20;
+              };
+            }
           }
 
           Button {
