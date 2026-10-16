@@ -11,12 +11,16 @@ blueprint_files = run_command(
 blueprints = custom_target(
   'blueprints',
   input: files(blueprint_files),
-  output: '.',
+  # use as output for rebuilding
+  output: 'blueprints.stamp',
   command: [
+    'sh',
+    '-c',
+    'compiler="$0" out="$1" src="$2" stamp="$3"; shift 3; "$compiler" batch-compile "$out" "$src" "$@" && touch "$stamp"',
     find_program('blueprint-compiler'),
-    'batch-compile',
-    '@OUTPUT@',
+    meson.current_build_dir(),
     '@CURRENT_SOURCE_DIR@',
+    '@OUTPUT@',
     '@INPUT@',
   ],
 )
@@ -57,9 +61,12 @@ global_conf.set_quoted('VERSION', version + version_suffix)
 global_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
 global_conf.set_quoted('LOCALEDIR', localedir)
 configure_file(input: 'config.rs.in', output: 'config.rs', configuration: global_conf)
-# Copy the config.rs output to the source directory.
+# Copy the config.rs output to the source directory. Only copy it if it changed, so that a
+# reconfigure doesn't touch the file and trigger a rebuild of the crate.
 run_command(
-  'cp',
+  'sh',
+  '-c',
+  'cmp -s "$0" "$1" || cp "$0" "$1"',
   meson.project_build_root() / 'src' / 'config.rs',
   meson.project_source_root() / 'src' / 'config.rs',
   check: true,
