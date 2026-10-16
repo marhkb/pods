@@ -10,7 +10,6 @@ use futures::StreamExt;
 use futures::future;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use glib::subclass::Signal;
 use gtk::CompositeTemplate;
 use gtk::gdk;
@@ -20,6 +19,7 @@ use vte4::TerminalExt;
 use vte4::TerminalExtManual;
 
 use crate::engine;
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
@@ -159,14 +159,13 @@ mod imp {
                 .chain_property::<model::Container>("status");
 
             status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        match status {
-                            model::ContainerStatus::Running => "running",
-                            _ => "not-running",
-                        }
+                .map(|status: model::ContainerStatus| {
+                    match status {
+                        model::ContainerStatus::Running => "running",
+                        _ => "not-running",
                     }
-                ))
+                    .to_string()
+                })
                 .bind(&*self.stack, "visible-child-name", Some(obj));
 
             status_expr.watch(

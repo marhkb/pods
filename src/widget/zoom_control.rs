@@ -6,8 +6,8 @@ use adw::subclass::prelude::*;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use gtk::glib;
-use gtk::glib::closure;
 
+use crate::expression::ExpressionExt;
 use crate::utils;
 
 mod imp {
@@ -62,9 +62,7 @@ mod imp {
             self.parent_constructed();
 
             Self::Type::this_expression("zoom-factor")
-                .chain_closure::<String>(closure!(|_: Self::Type, factor: f64| {
-                    format!("{:.0}%", 100.0 * factor)
-                }))
+                .map(|factor: f64| format!("{:.0}%", 100.0 * factor))
                 .bind(&*self.zoom_normal_button, "label", Some(&*self.obj()));
         }
 

@@ -5,10 +5,10 @@ use adw::subclass::prelude::ExpanderRowImpl;
 use adw::subclass::prelude::PreferencesRowImpl;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::model;
 
 mod imp {
@@ -84,14 +84,12 @@ mod imp {
 
             port_binding_expr
                 .chain_property::<model::PortBindingCreation>("protocol")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, protocol: model::PortMappingProtocol| protocol.to_string()
-                ))
+                .map(|protocol: model::PortMappingProtocol| protocol.to_string())
                 .bind(&self.protocol_label.get(), "label", Some(obj));
 
             port_binding_expr
                 .chain_property::<model::PortBindingCreation>("ip-address")
-                .chain_closure::<String>(closure!(|_: Self::Type, ip_address: &str| {
+                .map(|ip_address: String| {
                     let ip_address = ip_address.trim();
                     if ip_address.is_empty() {
                         "0.0.0.0"
@@ -99,7 +97,7 @@ mod imp {
                         ip_address
                     }
                     .to_string()
-                }))
+                })
                 .bind(&self.ip_address_label.get(), "label", Some(obj));
 
             port_binding_expr

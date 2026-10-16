@@ -11,7 +11,9 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
+use crate::expression::NullableExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -206,15 +208,8 @@ mod imp {
             let status_expr = container_expr.chain_property::<model::Container>("status");
             let image_name_expr = container_expr.chain_property::<model::Container>("image-name");
             let pod_expr = container_expr.chain_property::<model::Container>("pod");
-            let has_pod_expr =
-                pod_expr.chain_closure::<bool>(closure!(
-                    |_: Self::Type, pod: Option<model::Pod>| { pod.is_some() }
-                ));
-            #[rustfmt::skip]
-            let pod_name_expr = pod_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, pod: Option<model::Pod>| {
-                    pod.as_ref().map(model::Pod::name).unwrap_or_default()
-                }));
+            let has_pod_expr = pod_expr.is_some::<model::Pod>();
+            let pod_name_expr = pod_expr.map_or_default(|pod: model::Pod| pod.name());
             let ports_expr = container_expr.chain_property::<model::Container>("ports");
             let ports_len_expr = ports_expr.chain_property::<model::PortBindingList>("len");
             let volumes_expr = container_expr.chain_property::<model::Container>("volumes");
@@ -225,22 +220,18 @@ mod imp {
             let up_since_expr = details_expr.chain_property::<model::ContainerDetails>("up-since");
 
             status_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| status.to_string()
-                ))
+                .map(|status: model::ContainerStatus| status.to_string())
                 .bind(&*self.status_label, "label", Some(obj));
 
             let css_classes = utils::css_classes(&*self.status_label);
             status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(view::container_status_css_class(status))))
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |status: model::ContainerStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(view::container_status_css_class(status))))
+                        .collect::<Vec<_>>()
+                })
                 .bind(&*self.status_label, "css-classes", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -266,43 +257,37 @@ mod imp {
             .bind(&*self.status_since_label, "label", Some(obj));
 
             status_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
-                    status == model::ContainerStatus::Running
-                }))
+                .map(|status: model::ContainerStatus| status == model::ContainerStatus::Running)
                 .bind(&*self.status_since_label, "visible", Some(obj));
 
             details_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, details: Option<model::ContainerDetails>| details
-                        .map(|_| "loaded")
-                        .unwrap_or("loading")
-                ))
+                .map_or_else(
+                    || "loading".to_string(),
+                    |_: model::ContainerDetails| "loaded".to_string(),
+                )
                 .bind(&*self.stack, "visible-child-name", Some(obj));
 
             not_is_infra_expr.bind(&*self.image_preferences_group, "visible", Some(obj));
 
             image_name_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<&str>| name
-                    .map(utils::format_if_id)
-                    .map(ToOwned::to_owned)
-                    .unwrap_or_default()))
+                .map_or_default(|name: String| utils::format_if_id(&name).to_owned())
                 .bind(&*self.image_action_row, "subtitle", Some(obj));
 
             has_pod_expr.bind(&*self.pod_preferences_group, "visible", Some(obj));
             pod_name_expr.bind(&*self.pod_action_row, "subtitle", Some(obj));
 
             ports_len_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .map(|len: u32| len > 0)
                 .bind(&*self.ports_group, "visible", Some(obj));
 
-            volumes_len_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
-                .bind(&*self.volumes_group, "visible", Some(obj));
+            volumes_len_expr.map(|len: u32| len > 0).bind(
+                &*self.volumes_group,
+                "visible",
+                Some(obj),
+            );
 
             status_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
-                    status == model::ContainerStatus::Running
-                }))
+                .map(|status: model::ContainerStatus| status == model::ContainerStatus::Running)
                 .bind(&*self.resources, "visible", Some(obj));
 
             status_expr.watch(

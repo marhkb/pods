@@ -17,7 +17,8 @@ use gtk::glib;
 use smart_default::SmartDefault;
 
 use crate::config;
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::gettext::ngettext;
@@ -251,9 +252,9 @@ mod imp {
             .bind(&self.main_stack.get(), "visible-child-name", Some(obj));
 
             selection_mode_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, selection_mode: bool| {
-                    if !selection_mode { "main" } else { "selection" }
-                }))
+                .map(|selection_mode: bool| {
+                    if !selection_mode { "main" } else { "selection" }.to_string()
+                })
                 .bind(&self.header_stack.get(), "visible-child-name", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -283,12 +284,13 @@ mod imp {
             .bind(&self.window_title.get(), "subtitle", Some(obj));
 
             Self::Type::this_expression("sort-direction")
-                .chain_closure::<String>(closure!(|_: Self::Type, direction: SortDirection| {
+                .map(|direction: SortDirection| {
                     match direction {
                         SortDirection::Asc => "view-sort-ascending-rtl-symbolic",
                         SortDirection::Desc => "view-sort-descending-rtl-symbolic",
                     }
-                }))
+                    .to_string()
+                })
                 .bind(
                     &self.view_options_split_button.get(),
                     "icon-name",
@@ -297,11 +299,9 @@ mod imp {
 
             volume_list_expr
                 .chain_property::<model::VolumeList>("num-selected")
-                .chain_closure::<String>(closure!(|_: Self::Type, selected: u32| ngettext(
-                    "{} Selected Volume",
-                    "{} Selected Volumes",
-                    selected
-                )))
+                .map(|selected: u32| {
+                    ngettext("{} Selected Volume", "{} Selected Volumes", selected)
+                })
                 .bind(&self.selected_volumes_button.get(), "label", Some(obj));
 
             not_selection_mode_expr.bind(&self.search_bar.get(), "visible", Some(obj));

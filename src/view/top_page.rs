@@ -9,12 +9,12 @@ use bytes::Bytes;
 use futures::StreamExt;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
 use crate::engine;
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
@@ -184,7 +184,7 @@ mod imp {
                 let display_expr: gtk::Expression = match property_type {
                     PropertyType::String | PropertyType::Integer => property_expr.clone().upcast(),
                     PropertyType::Float => property_expr
-                        .chain_closure::<String>(closure!(|_: glib::Object, float: f64| {
+                        .map(|float: f64| {
                             format!(
                                 "{:.1$}",
                                 float,
@@ -196,18 +196,10 @@ mod imp {
                                     2
                                 }
                             )
-                        }))
+                        })
                         .upcast(),
-                    PropertyType::Elapsed => property_expr
-                        .chain_closure::<String>(closure!(|_: glib::Object, elapsed: i64| {
-                            format_elapsed(elapsed)
-                        }))
-                        .upcast(),
-                    PropertyType::CpuTime => property_expr
-                        .chain_closure::<String>(closure!(|_: glib::Object, cpu_time: i64| {
-                            format_cpu_time(cpu_time)
-                        }))
-                        .upcast(),
+                    PropertyType::Elapsed => property_expr.map(format_elapsed).upcast(),
+                    PropertyType::CpuTime => property_expr.map(format_cpu_time).upcast(),
                 };
 
                 let expr_watches = Rc::new(RefCell::new(HashMap::new()));

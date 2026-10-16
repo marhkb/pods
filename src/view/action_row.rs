@@ -6,10 +6,11 @@ use adw::subclass::prelude::*;
 use ashpd::desktop as ashpd;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
+use crate::expression::NullableExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -85,23 +86,10 @@ mod imp {
                 .unwrap();
 
             let action_expr = Self::Type::this_expression("action");
-            #[rustfmt::skip]
-            let action_description_expr = action_expr.chain_closure::<String>(
-                closure!(|_: Self::Type, action: Option<&model::Action>| {
-                    action
-                        .map(action_description)
-                        .unwrap_or_default()
-                })
-            );
-            #[rustfmt::skip]
-            let action_icon_name_expr = action_expr.chain_closure::<String>(
-                closure!(|_: Self::Type, action: Option<&model::Action>| {
-                    action
-                        .map(action_image)
-                        .map(ToOwned::to_owned)
-                        .unwrap_or_default()
-                })
-            );
+            let action_description_expr =
+                action_expr.map_or_default(|action: model::Action| action_description(&action));
+            let action_icon_name_expr = action_expr
+                .map_or_default(|action: model::Action| action_image(&action).to_owned());
             let action_state_expr = action_expr.chain_property::<model::Action>("state");
 
             action_icon_name_expr.bind(&*self.type_image, "icon-name", Some(obj));
@@ -110,30 +98,29 @@ mod imp {
 
             let classes = utils::css_classes(&*self.state_label);
             action_state_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, state: model::ActionState| {
-                        classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(match state {
-                                model::ActionState::Cancelled => "warning",
-                                model::ActionState::Failed => "error",
-                                model::ActionState::Finished => "dim-label",
-                                model::ActionState::Ongoing => "accent",
-                            })))
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |state: model::ActionState| {
+                    classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(match state {
+                            model::ActionState::Cancelled => "warning",
+                            model::ActionState::Failed => "error",
+                            model::ActionState::Finished => "dim-label",
+                            model::ActionState::Ongoing => "accent",
+                        })))
+                        .collect::<Vec<_>>()
+                })
                 .bind(&*self.state_label, "css-classes", Some(obj));
 
             action_state_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
+                .map(|state: model::ActionState| {
                     if state == model::ActionState::Ongoing {
                         "media-playback-stop-symbolic"
                     } else {
                         "window-close-symbolic"
                     }
-                }))
+                    .to_string()
+                })
                 .bind(&*self.action_button, "icon-name", Some(obj));
         }
 

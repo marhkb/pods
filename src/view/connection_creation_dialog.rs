@@ -5,12 +5,12 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -129,9 +129,7 @@ mod imp {
                 .chain_property::<model::ConnectionManager>("connecting");
 
             connecting_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, connecting: bool| {
-                    if connecting { "abort" } else { "connect" }
-                }))
+                .map(|connecting: bool| if connecting { "abort" } else { "connect" }.to_string())
                 .bind(&*self.stack, "visible-child-name", Some(obj));
             connecting_expr
                 .not()

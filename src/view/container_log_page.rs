@@ -17,7 +17,6 @@ use ashpd::desktop::file_chooser::SaveFileRequest;
 use bytes::Bytes;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::gio;
@@ -25,6 +24,7 @@ use gtk::glib;
 use sourceview5::prelude::*;
 
 use crate::engine;
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
@@ -240,9 +240,7 @@ mod imp {
 
             Self::Type::this_expression("container")
                 .chain_property::<model::Container>("status")
-                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
-                    status != model::ContainerStatus::Running
-                }))
+                .map(|status: model::ContainerStatus| status != model::ContainerStatus::Running)
                 .bind(&*self.banner, "revealed", Some(obj));
 
             if let Some(container) = obj.container() {

@@ -8,7 +8,9 @@ use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
-use crate::expression::BoolExpression;
+use crate::expression::BoolExpressionExt;
+use crate::expression::ExpressionExt;
+use crate::expression::NullableExpressionExt;
 use crate::model;
 use crate::model::prelude::*;
 use crate::utils;
@@ -105,9 +107,7 @@ mod imp {
             let stats_expr = container_expr.chain_property::<model::Container>("stats");
 
             status_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, status: model::ContainerStatus| {
-                    status.is_transition()
-                }))
+                .map(|status: model::ContainerStatus| status.is_transition())
                 .bind(&*self.spinner, "spinning", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -178,24 +178,17 @@ mod imp {
             .bind(&*self.ports_wrap_box, "visible", Some(obj));
 
             image_name_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, name: Option<String>| {
-                    utils::format_if_id(&name.unwrap_or_default()).to_owned()
-                }))
+                .map_or_default(|name: String| utils::format_if_id(&name).to_owned())
                 .bind(&*self.repo_label, "label", Some(obj));
 
             image_name_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, name: Option<String>| {
-                    name.is_some()
-                }))
+                .is_some::<String>()
                 .bind(&*self.repo_label, "visible", Some(obj));
 
             status_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, status: model::ContainerStatus| matches!(
-                        status,
-                        model::ContainerStatus::Running
-                    )
-                ))
+                .map(|status: model::ContainerStatus| {
+                    matches!(status, model::ContainerStatus::Running)
+                })
                 .bind(&*self.stats_box, "visible", Some(obj));
 
             obj.bind_stats_percentage(
@@ -225,11 +218,9 @@ mod imp {
             );
             obj.bind_stats_percentage(
                 stats_expr
-                    .chain_closure::<f64>(closure!(
-                        |_: Self::Type, stats: Option<model::BoxedContainerStats>| stats
-                            .and_then(|stats| stats.mem_perc)
-                            .unwrap_or(0.0)
-                    ))
+                    .map_or_default(|stats: model::BoxedContainerStats| {
+                        stats.mem_perc.unwrap_or_default()
+                    })
                     .upcast_ref(),
                 &self.mem_bar,
             );
@@ -291,8 +282,7 @@ impl ContainerRow {
         stats_expr: &gtk::Expression,
         progress_bar: &widget::CircularProgressBar,
     ) {
-        let perc_expr =
-            stats_expr.chain_closure::<f64>(closure!(|_: Self, value: f64| value * 0.01));
+        let perc_expr = stats_expr.map(|value: f64| value * 0.01);
 
         let target = adw::PropertyAnimationTarget::new(progress_bar, "percentage");
         let animation = adw::TimedAnimation::builder()

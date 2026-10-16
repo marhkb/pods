@@ -11,6 +11,7 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -143,9 +144,7 @@ mod imp {
             );
 
             name_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, name: &str| {
-                    utils::format_volume_name(name).to_owned()
-                }))
+                .map(|name: String| utils::format_volume_name(&name).to_owned())
                 .bind(&*self.name_row, "subtitle", Some(obj));
 
             mountpoint_expr.bind(&*self.mountpoint_row, "subtitle", Some(obj));

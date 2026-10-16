@@ -11,6 +11,8 @@ use gtk::CompositeTemplate;
 use gtk::gdk;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
+use crate::expression::NullableExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -167,37 +169,30 @@ mod imp {
             let hostname_expr = details_expr.chain_property::<model::PodDetails>("hostname");
 
             status_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, status: model::PodStatus| {
-                    status.to_string()
-                }))
+                .map(|status: model::PodStatus| status.to_string())
                 .bind(&*self.status_label, "label", Some(obj));
 
             let css_classes = utils::css_classes(&*self.status_label);
             status_expr
-                .chain_closure::<Vec<String>>(closure!(
-                    |_: Self::Type, status: model::PodStatus| {
-                        css_classes
-                            .iter()
-                            .cloned()
-                            .chain(Some(String::from(view::pod_status_css_class(status))))
-                            .collect::<Vec<_>>()
-                    }
-                ))
+                .map(move |status: model::PodStatus| {
+                    css_classes
+                        .iter()
+                        .cloned()
+                        .chain(Some(String::from(view::pod_status_css_class(status))))
+                        .collect::<Vec<_>>()
+                })
                 .bind(&*self.status_label, "css-classes", Some(obj));
 
             details_expr
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, details: Option<model::PodDetails>| details
-                        .map(|_| "loaded")
-                        .unwrap_or("loading")
-                ))
+                .map_or_else(
+                    || "loading".to_string(),
+                    |_: model::PodDetails| "loaded".to_string(),
+                )
                 .bind(&*self.stack, "visible-child-name", Some(obj));
 
             pod_expr
                 .chain_property::<model::Pod>("id")
-                .chain_closure::<String>(closure!(
-                    |_: Self::Type, id: &str| utils::format_id(id).to_owned()
-                ))
+                .map(|id: String| utils::format_id(&id).to_owned())
                 .bind(&*self.id_row, "subtitle", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -215,13 +210,11 @@ mod imp {
 
             hostname_expr.bind(&*self.hostname_row, "subtitle", Some(obj));
             hostname_expr
-                .chain_closure::<bool>(closure!(
-                    |_: Self::Type, hostname: String| !hostname.is_empty()
-                ))
+                .map(|hostname: String| !hostname.is_empty())
                 .bind(&*self.hostname_row, "visible", Some(obj));
 
             ports_len_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, len: u32| len > 0))
+                .map(|len: u32| len > 0)
                 .bind(&*self.ports_group, "visible", Some(obj));
 
             status_expr.watch(

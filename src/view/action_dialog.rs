@@ -5,10 +5,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
 use glib::clone;
-use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
@@ -90,23 +90,22 @@ mod imp {
             let action_state_expr = action_expr.chain_property::<model::Action>("state");
 
             action_state_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
-                    match state {
-                        model::ActionState::Cancelled => gettext("Cancelled"),
-                        model::ActionState::Failed => gettext("Failed"),
-                        model::ActionState::Finished => gettext("Finished"),
-                        model::ActionState::Ongoing => gettext("Ongoing"),
-                    }
-                }))
+                .map(|state: model::ActionState| match state {
+                    model::ActionState::Cancelled => gettext("Cancelled"),
+                    model::ActionState::Failed => gettext("Failed"),
+                    model::ActionState::Finished => gettext("Finished"),
+                    model::ActionState::Ongoing => gettext("Ongoing"),
+                })
                 .bind(&*self.state_label, "label", Some(obj));
 
             action_state_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, state: model::ActionState| {
+                .map(|state: model::ActionState| {
                     match state {
                         model::ActionState::Ongoing => "ongoing",
                         _ => "finished",
                     }
-                }))
+                    .to_string()
+                })
                 .bind(&*self.stack, "visible-child-name", Some(obj));
         }
     }

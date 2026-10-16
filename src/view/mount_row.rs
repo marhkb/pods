@@ -9,6 +9,7 @@ use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
+use crate::expression::ExpressionExt;
 use crate::model;
 use crate::utils;
 use crate::view;
@@ -92,12 +93,13 @@ mod imp {
             let mount_type_expr = mount_expr.chain_property::<model::Mount>("mount-type");
 
             mount_type_expr
-                .chain_closure::<String>(closure!(|_: Self::Type, mount_type: model::MountType| {
+                .map(|mount_type: model::MountType| {
                     match mount_type {
                         model::MountType::Bind => "Bind",
                         model::MountType::Volume => "Volume",
                     }
-                }))
+                    .to_string()
+                })
                 .bind(&self.type_label.get(), "label", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -125,10 +127,10 @@ mod imp {
 
             mount_expr
                 .chain_property::<model::Mount>("container-path")
-                .chain_closure::<String>(closure!(|_: Self::Type, path: &str| {
+                .map(|path: String| {
                     let path = path.trim();
                     if path.is_empty() { "?" } else { path }.to_string()
-                }))
+                })
                 .bind(&self.container_path_label.get(), "label", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
@@ -151,15 +153,11 @@ mod imp {
             .bind(&self.options_label.get(), "label", Some(obj));
 
             mount_type_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, mount_type: model::MountType| {
-                    matches!(mount_type, model::MountType::Bind)
-                }))
+                .map(|mount_type: model::MountType| matches!(mount_type, model::MountType::Bind))
                 .bind(&self.host_path_entry_row.get(), "visible", Some(obj));
 
             mount_type_expr
-                .chain_closure::<bool>(closure!(|_: Self::Type, mount_type: model::MountType| {
-                    matches!(mount_type, model::MountType::Volume)
-                }))
+                .map(|mount_type: model::MountType| matches!(mount_type, model::MountType::Volume))
                 .bind(&self.volume_selection_combo_row.get(), "visible", Some(obj));
         }
     }
