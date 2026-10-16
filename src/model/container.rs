@@ -30,7 +30,7 @@ mod imp {
 
         #[property(get, set, nullable)]
         pub(super) image: glib::WeakRef<model::Image>,
-        #[property(get, set, explicit_notify, nullable)]
+        #[property(get, set, nullable)]
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get = Self::ports)]
         pub(super) ports: OnceCell<model::PortBindingList>,
