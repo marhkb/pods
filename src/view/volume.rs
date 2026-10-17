@@ -6,8 +6,35 @@ use crate::engine;
 use crate::gettext::gettext;
 use crate::gettext::gettext_f;
 use crate::model;
+use crate::rt;
 use crate::utils;
 use crate::view;
+
+pub(crate) async fn open_mount_path<W: IsA<gtk::Widget>>(widget: &W, volume: &model::Volume) {
+    let uri = gtk::gio::File::for_path(volume.mountpoint())
+        .uri()
+        .to_string();
+
+    let open_result = rt::Promise::new(async move {
+        let connection = ashpd::zbus::Connection::session().await?;
+        connection
+            .call_method(
+                Some("org.freedesktop.FileManager1"),
+                "/org/freedesktop/FileManager1",
+                Some("org.freedesktop.FileManager1"),
+                "ShowFolders",
+                &(vec![uri.as_str()], ""), // (as uris, s startup_id)
+            )
+            .await
+            .map(|_| ())
+    })
+    .exec()
+    .await;
+
+    if let Err(e) = open_result {
+        utils::show_error_toast(widget, &gettext("Could not open link"), &e.to_string());
+    }
+}
 
 pub(crate) async fn delete_volume_show_confirmation<W>(widget: &W, volume: Option<&model::Volume>)
 where

@@ -1,5 +1,27 @@
 using Gtk 4.0;
 
+menu menu {
+  section {
+    item {
+      label: _("_Open Host Path in File Manager");
+      action: "container-volume-row.open-host-path";
+      hidden-when: "action-disabled";
+    }
+  }
+
+  section {
+    item {
+      label: _("Copy _Host Path");
+      action: "container-volume-row.copy-host-path";
+    }
+
+    item {
+      label: _("Copy _Container Path");
+      action: "container-volume-row.copy-container-path";
+    }
+  }
+}
+
 template $PdsContainerVolumeRow: ListBoxRow {
   action-name: "container-volume-row.show-details";
   height-request: 55;
@@ -45,6 +67,21 @@ template $PdsContainerVolumeRow: ListBoxRow {
       }
 
       $PdsContainersCountBar containers_count_bar {}
+
+      MenuButton {
+        styles [
+          "flat",
+        ]
+
+        icon-name: "view-more-symbolic";
+        menu-model: menu;
+        tooltip-text: _("Volume Actions");
+        valign: center;
+
+        accessibility {
+          label: _("Volume Actions");
+        }
+      }
     }
 
     Image {

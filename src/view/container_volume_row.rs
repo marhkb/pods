@@ -1,14 +1,21 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
+use glib::clone;
 use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
 use crate::expression::ExpressionExt;
+use crate::gettext::gettext;
 use crate::model;
 use crate::utils;
 use crate::view;
+
+const ACTION_SHOW_DETAILS: &str = "container-volume-row.show-details";
+const ACTION_OPEN_HOST_PATH: &str = "container-volume-row.open-host-path";
+const ACTION_COPY_HOST_PATH: &str = "container-volume-row.copy-host-path";
+const ACTION_COPY_CONTAINER_PATH: &str = "container-volume-row.copy-container-path";
 
 mod imp {
     use super::*;
@@ -35,8 +42,18 @@ mod imp {
             klass.bind_template();
             klass.bind_template_callbacks();
 
-            klass.install_action("container-volume-row.show-details", None, |widget, _, _| {
+            klass.install_action(ACTION_SHOW_DETAILS, None, |widget, _, _| {
                 widget.show_details();
+            });
+
+            klass.install_action_async(ACTION_OPEN_HOST_PATH, None, async |widget, _, _| {
+                widget.open_host_path().await;
+            });
+            klass.install_action(ACTION_COPY_HOST_PATH, None, |widget, _, _| {
+                widget.copy_host_path();
+            });
+            klass.install_action(ACTION_COPY_CONTAINER_PATH, None, |widget, _, _| {
+                widget.copy_container_path();
             });
         }
 
@@ -72,6 +89,10 @@ mod imp {
             let volume_to_be_deleted_expr =
                 volume_expr.chain_property::<model::Volume>("to-be-deleted");
             let containers_expr = volume_expr.chain_property::<model::Volume>("containers");
+            let volume_list_expr = volume_expr.chain_property::<model::Volume>("volume-list");
+            let client_expr = volume_list_expr.chain_property::<model::VolumeList>("client");
+            let connection_expr = client_expr.chain_property::<model::Client>("connection");
+            let is_local_expr = connection_expr.chain_property::<model::Connection>("is-local");
 
             gtk::ClosureExpression::new::<String>(
                 [
@@ -118,6 +139,20 @@ mod imp {
                 .bind(&*self.name_label, "css-classes", Some(obj));
 
             containers_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
+
+            is_local_expr.watch(
+                Some(obj),
+                clone!(
+                    #[weak]
+                    obj,
+                    #[strong]
+                    is_local_expr,
+                    move || obj.action_set_enabled(
+                        ACTION_OPEN_HOST_PATH,
+                        is_local_expr.evaluate_as(Some(&obj)).unwrap_or(false)
+                    )
+                ),
+            );
         }
     }
 
@@ -154,13 +189,38 @@ impl From<&model::ContainerVolume> for ContainerVolumeRow {
 }
 
 impl ContainerVolumeRow {
-    pub(crate) fn show_details(&self) {
-        if let Some(ref volume) = self
-            .container_volume()
+    fn volume(&self) -> Option<model::Volume> {
+        self.container_volume()
             .as_ref()
             .and_then(model::ContainerVolume::volume)
-        {
+    }
+
+    pub(crate) fn show_details(&self) {
+        if let Some(ref volume) = self.volume() {
             utils::navigation_view(self).push(&view::VolumeDetailsPage::from(volume));
         }
+    }
+
+    pub(crate) async fn open_host_path(&self) {
+        if let Some(ref volume) = self.volume() {
+            view::volume::open_mount_path(self, volume).await;
+        }
+    }
+
+    pub(crate) fn copy_host_path(&self) {
+        if let Some(volume) = self.volume() {
+            self.copy_to_clipboard(&volume.mountpoint());
+        }
+    }
+
+    pub(crate) fn copy_container_path(&self) {
+        if let Some(container_volume) = self.container_volume() {
+            self.copy_to_clipboard(&container_volume.destination());
+        }
+    }
+
+    fn copy_to_clipboard(&self, text: &str) {
+        self.display().clipboard().set_text(text);
+        utils::show_toast(self, gettext("Copied to clipboard"));
     }
 }
