@@ -1,7 +1,6 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::clone;
 use glib::closure;
 use gtk::CompositeTemplate;
 use gtk::glib;
@@ -23,8 +22,6 @@ mod imp {
         #[template_child]
         pub(super) name_label: TemplateChild<gtk::Label>,
         #[template_child]
-        pub(super) path_label: TemplateChild<gtk::Label>,
-        #[template_child]
         pub(super) containers_count_bar: TemplateChild<view::ContainersCountBar>,
     }
 
@@ -36,6 +33,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action("container-volume-row.show-details", None, |widget, _, _| {
                 widget.show_details();
@@ -120,74 +118,24 @@ mod imp {
                 .bind(&*self.name_label, "css-classes", Some(obj));
 
             containers_expr.bind(&*self.containers_count_bar, "container-list", Some(obj));
+        }
+    }
 
-            let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.imp().set_path_label(style_manager);
-                }
-            ));
-            style_manager.connect_accent_color_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.imp().set_path_label(style_manager);
-                }
-            ));
-            style_manager.connect_high_contrast_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.imp().set_path_label(style_manager);
-                }
-            ));
-            self.set_path_label(&style_manager);
+    #[gtk::template_callbacks]
+    impl ContainerVolumeRow {
+        #[template_callback]
+        fn format_path(&self, destination: String, rw: bool, mode: String) -> String {
+            let mut path = format!("{destination}:{}", if rw { "rw" } else { "ro" });
+            if !mode.is_empty() {
+                path.push(',');
+                path.push_str(&mode);
+            }
+            path
         }
     }
 
     impl WidgetImpl for ContainerVolumeRow {}
     impl ListBoxRowImpl for ContainerVolumeRow {}
-
-    impl ContainerVolumeRow {
-        fn set_path_label(&self, style_manager: &adw::StyleManager) {
-            if let Some(container_volume) = self.obj().container_volume() {
-                let destination = container_volume.destination();
-                let mut label = if style_manager.is_high_contrast() {
-                    destination
-                } else {
-                    format!("<span alpha=\"55%\">{destination}</span>")
-                };
-                label.push(' ');
-
-                let accent_color = style_manager
-                    .accent_color()
-                    .to_standalone_rgba(style_manager.is_dark());
-                label.push_str(&format!(
-                    "<span foreground=\"#{:02x}{:02x}{:02x}\"{}>",
-                    (accent_color.red() * 255.0) as i32,
-                    (accent_color.green() * 255.0) as i32,
-                    (accent_color.blue() * 255.0) as i32,
-                    if style_manager.is_high_contrast() {
-                        " weight=\"bold\""
-                    } else {
-                        ""
-                    },
-                ));
-                label.push_str(if container_volume.rw() { "rw" } else { "ro" });
-
-                let mode = container_volume.mode();
-                if !mode.is_empty() {
-                    label.push(',');
-                    label.push_str(&mode);
-                }
-                label.push_str("</span>");
-
-                self.path_label.set_markup(&label);
-            }
-        }
-    }
 }
 
 glib::wrapper! {

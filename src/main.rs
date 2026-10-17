@@ -1,4 +1,3 @@
-#![expect(clippy::format_push_string)]
 #![expect(deprecated)]
 
 mod application;
