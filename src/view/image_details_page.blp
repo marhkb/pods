@@ -5,7 +5,7 @@ Adw.ButtonRow create_tag_row {
   action-name: "image-details-page.tag";
   selectable: false;
   start-icon-name: "list-add-symbolic";
-  title: _("Add Repository Tag");
+  title: _("Add Tag");
 }
 
 template $PdsImageDetailsPage: Adw.NavigationPage {
@@ -149,7 +149,7 @@ template $PdsImageDetailsPage: Adw.NavigationPage {
           }
 
           Adw.PreferencesGroup {
-            title: _("Repository Tags");
+            title: _("Tags");
 
             ListBox repo_tags_list_box {
               styles [
