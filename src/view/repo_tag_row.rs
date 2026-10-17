@@ -11,6 +11,7 @@ use crate::rt;
 use crate::utils;
 use crate::view;
 
+const ACTION_COPY_TO_CLIPBOARD: &str = "repo-tag-row.copy-to-clipboard";
 const ACTION_UPDATE: &str = "repo-tag-row.update";
 const ACTION_PUSH: &str = "repo-tag-row.push";
 const ACTION_UNTAG: &str = "repo-tag-row.untag";
@@ -35,6 +36,10 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
             klass.bind_template_callbacks();
+
+            klass.install_action(ACTION_COPY_TO_CLIPBOARD, None, |widget, _, _| {
+                widget.copy_to_clipboard();
+            });
 
             klass.install_action(ACTION_UPDATE, None, |widget, _, _| {
                 widget.update();
@@ -98,6 +103,15 @@ impl From<&model::RepoTag> for RepoTagRow {
 }
 
 impl RepoTagRow {
+    fn copy_to_clipboard(&self) {
+        let Some(repo_tag) = self.repo_tag() else {
+            return;
+        };
+        self.display().clipboard().set_text(&repo_tag.full());
+
+        utils::show_toast(self, gettext("Copied to clipboard"));
+    }
+
     fn update(&self) {
         let Some(repo_tag) = self.repo_tag() else {
             return;
