@@ -1,33 +1,31 @@
 using Gtk 4.0;
-using Adw 1;
 
 template $PdsRepoTagSimpleRow: ListBoxRow {
   activatable: false;
   focusable: false;
   selectable: false;
 
-  Adw.WrapBox {
-    child-spacing: 3;
+  Box {
+    spacing: 3;
 
-    Label {
+    Image {
       styles [
-        "subtitle",
+        "dimmed",
       ]
 
-      label: bind template.repo_tag as <$PdsRepoTag>.repo;
-      xalign: 0;
-      wrap: true;
-      wrap-mode: word_char;
+      accessible-role: presentation;
+      icon-name: "tag-symbolic";
+      margin-top: 2;
+      pixel-size: 10;
+      valign: start;
     }
 
     Label {
       styles [
         "subtitle",
-        "undimmed",
-        "accent",
       ]
 
-      label: bind template.repo_tag as <$PdsRepoTag>.tag;
+      label: bind template.repo_tag as <$PdsRepoTag>.full;
       xalign: 0;
       wrap: true;
       wrap-mode: word_char;
