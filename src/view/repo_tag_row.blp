@@ -11,7 +11,11 @@ template $PdsRepoTagRow: ListBoxRow {
     margin-bottom: 8;
     margin-start: 12;
 
-    Label label {
+    Label {
+      label: bind $repo_tag_markup(
+        template.repo_tag as <$PdsRepoTag>.full,
+        template.repo_tag as <$PdsRepoTag>.to-be-deleted
+        ) as <string>;
       use-markup: true;
       selectable: true;
       hexpand: true;
