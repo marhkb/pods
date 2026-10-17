@@ -65,6 +65,8 @@ template $PdsVolumeDetailsPage: Adw.NavigationPage {
           title: _("Mount Path");
 
           Stack open_mount_path_stack {
+            transition-type: crossfade;
+
             StackPage {
               name: "button";
 
