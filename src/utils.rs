@@ -252,14 +252,6 @@ pub(crate) fn navigation_view(widget: &impl IsA<gtk::Widget>) -> adw::Navigation
     ancestor(widget)
 }
 
-pub(crate) fn escape(text: &str) -> String {
-    text.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-        .replace('\'', "&apos;")
-        .replace('"', "&quot;")
-}
-
 pub(crate) fn format_option<'a, T>(option: Option<T>) -> String
 where
     T: AsRef<str> + 'a,

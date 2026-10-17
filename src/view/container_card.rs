@@ -267,11 +267,11 @@ mod imp {
             gtk::ClosureExpression::new::<String>(
                 &[name_expr.upcast_ref(), to_be_deleted_expr.upcast_ref()],
                 closure!(|_: Self::Type, name: &str, to_be_deleted: bool| {
-                    let name = utils::escape(name);
+                    let name = glib::markup_escape_text(name);
                     if to_be_deleted {
                         format!("<s>{name}</s>")
                     } else {
-                        name
+                        name.into()
                     }
                 }),
             )

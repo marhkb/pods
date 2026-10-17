@@ -154,11 +154,11 @@ mod imp {
                     container_expr.chain_property::<model::Container>("to-be-deleted"),
                 ],
                 closure!(|_: Self::Type, name: &str, to_be_deleted: bool| {
-                    let name = utils::escape(name);
+                    let name = glib::markup_escape_text(name);
                     if to_be_deleted {
                         format!("<s>{name}</s>")
                     } else {
-                        name
+                        name.into()
                     }
                 }),
             )

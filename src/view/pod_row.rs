@@ -131,11 +131,11 @@ mod imp {
                     pod_expr.chain_property::<model::Pod>("to-be-deleted"),
                 ],
                 closure!(|_: Self::Type, name: &str, to_be_deleted: bool| {
-                    let title = utils::escape(name);
+                    let title = glib::markup_escape_text(name);
                     if to_be_deleted {
                         format!("<s>{title}</s>")
                     } else {
-                        title
+                        title.into()
                     }
                 }),
             )
