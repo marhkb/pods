@@ -26,9 +26,10 @@ template $PdsRepoTagSimpleRow: ListBoxRow {
       ]
 
       label: bind template.repo_tag as <$PdsRepoTag>.full;
-      xalign: 0;
+      hexpand: true;
       wrap: true;
       wrap-mode: word_char;
+      xalign: 0;
     }
   }
 }
