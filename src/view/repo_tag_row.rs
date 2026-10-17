@@ -1,7 +1,6 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use glib::Properties;
-use glib::clone;
 use gtk::CompositeTemplate;
 use gtk::glib;
 
@@ -25,8 +24,6 @@ mod imp {
     pub(crate) struct RepoTagRow {
         #[property(get, set, construct_only, nullable)]
         pub(super) repo_tag: glib::WeakRef<model::RepoTag>,
-        #[template_child]
-        pub(super) label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]
@@ -37,6 +34,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
 
             klass.install_action(ACTION_UPDATE, None, |widget, _, _| {
                 widget.update();
@@ -66,51 +64,18 @@ mod imp {
         fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
             self.derived_property(id, pspec)
         }
+    }
 
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            let obj = &*self.obj();
-
-            let style_manager = adw::StyleManager::default();
-            style_manager.connect_dark_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.set_label(style_manager);
-                }
-            ));
-            style_manager.connect_high_contrast_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.set_label(style_manager);
-                }
-            ));
-            style_manager.connect_accent_color_notify(clone!(
-                #[weak]
-                obj,
-                move |style_manager| {
-                    obj.set_label(style_manager);
-                }
-            ));
-
-            if let Some(repo_tag) = obj.repo_tag() {
-                repo_tag.connect_notify_local(
-                    Some("to-be-deleted"),
-                    clone!(
-                        #[weak]
-                        obj,
-                        #[weak]
-                        style_manager,
-                        move |_, _| {
-                            obj.set_label(&style_manager);
-                        }
-                    ),
-                );
+    #[gtk::template_callbacks]
+    impl RepoTagRow {
+        #[template_callback]
+        fn repo_tag_markup(&self, full: String, to_be_deleted: bool) -> String {
+            let full = glib::markup_escape_text(&full);
+            if to_be_deleted {
+                format!("<s>{full}</s>")
+            } else {
+                full.into()
             }
-
-            obj.set_label(&style_manager);
         }
     }
 
@@ -133,34 +98,6 @@ impl From<&model::RepoTag> for RepoTagRow {
 }
 
 impl RepoTagRow {
-    fn set_label(&self, style_manager: &adw::StyleManager) {
-        if let Some(repo_tag) = self.repo_tag() {
-            let repo = repo_tag.repo();
-
-            let accent_color = style_manager
-                .accent_color()
-                .to_standalone_rgba(style_manager.is_dark());
-            let tag = format!(
-                "<span foreground=\"#{:02x}{:02x}{:02x}\"{}>{}</span>",
-                (accent_color.red() * 255.0) as i32,
-                (accent_color.green() * 255.0) as i32,
-                (accent_color.blue() * 255.0) as i32,
-                if style_manager.is_high_contrast() {
-                    " weight=\"bold\""
-                } else {
-                    ""
-                },
-                repo_tag.tag(),
-            );
-
-            self.imp().label.set_markup(&if repo_tag.to_be_deleted() {
-                format!("<s>{repo} {tag}</s>")
-            } else {
-                format!("{repo} {tag}")
-            });
-        }
-    }
-
     fn update(&self) {
         let Some(repo_tag) = self.repo_tag() else {
             return;
