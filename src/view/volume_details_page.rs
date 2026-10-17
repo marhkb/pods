@@ -45,8 +45,6 @@ mod imp {
         #[template_child]
         pub(super) open_mount_path_stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        pub(super) open_mount_path_button: TemplateChild<gtk::Button>,
-        #[template_child]
         pub(super) created_row: TemplateChild<adw::ActionRow>,
         #[template_child]
         pub(super) driver_row: TemplateChild<adw::ActionRow>,
@@ -149,7 +147,7 @@ mod imp {
 
             mountpoint_expr.bind(&*self.mountpoint_row, "subtitle", Some(obj));
 
-            is_local_expr.bind(&*self.open_mount_path_button, "visible", Some(obj));
+            is_local_expr.bind(&*self.open_mount_path_stack, "visible", Some(obj));
 
             gtk::ClosureExpression::new::<String>(
                 &[
