@@ -28,11 +28,16 @@ template $PdsContainerVolumeRow: ListBoxRow {
           yalign: 0;
         }
 
-        Label path_label {
+        Label {
           styles [
-            "caption",
+            "subtitle",
           ]
 
+          label: bind $format_path(
+            template.container-volume as <$PdsContainerVolume>.destination,
+            template.container-volume as <$PdsContainerVolume>.rw,
+            template.container-volume as <$PdsContainerVolume>.mode
+            ) as <string>;
           wrap: true;
           wrap-mode: word_char;
           xalign: 0;
