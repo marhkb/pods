@@ -1,5 +1,31 @@
 using Gtk 4.0;
 
+menu menu {
+  section {
+    item {
+      label: _("_Copy to Clipboard");
+      action: "repo-tag-row.copy-to-clipboard";
+    }
+
+    item {
+      label: _("_Pull Latest");
+      action: "repo-tag-row.update";
+    }
+
+    item {
+      label: _("P_ush to Registry…");
+      action: "repo-tag-row.push";
+    }
+  }
+
+  section {
+    item {
+      label: _("_Untag");
+      action: "repo-tag-row.untag";
+    }
+  }
+}
+
 template $PdsRepoTagRow: ListBoxRow {
   selectable: false;
   activatable: false;
@@ -10,6 +36,7 @@ template $PdsRepoTagRow: ListBoxRow {
     margin-end: 12;
     margin-bottom: 8;
     margin-start: 12;
+    spacing: 6;
 
     Label {
       label: bind $repo_tag_markup(
@@ -17,52 +44,24 @@ template $PdsRepoTagRow: ListBoxRow {
         template.repo_tag as <$PdsRepoTag>.to-be-deleted
         ) as <string>;
       use-markup: true;
-      selectable: true;
       hexpand: true;
       xalign: 0;
       wrap: true;
       wrap-mode: word_char;
     }
 
-    Button {
+    MenuButton {
       styles [
         "flat",
       ]
 
-      action-name: "repo-tag-row.update";
-      icon-name: "download-symbolic";
-      tooltip-text: _("Pull Latest");
+      icon-name: "view-more-symbolic";
+      menu-model: menu;
+      tooltip-text: _("Tag Actions");
+      valign: center;
 
       accessibility {
-        label: _("Pull Latest");
-      }
-    }
-
-    Button {
-      styles [
-        "flat",
-      ]
-
-      action-name: "repo-tag-row.push";
-      icon-name: "upload-symbolic";
-      tooltip-text: _("Push to Registry");
-
-      accessibility {
-        label: _("Push to Registry");
-      }
-    }
-
-    Button {
-      styles [
-        "flat",
-      ]
-
-      action-name: "repo-tag-row.untag";
-      icon-name: "edit-delete-symbolic";
-      tooltip-text: _("Untag");
-
-      accessibility {
-        label: _("Untag");
+        label: _("Tag Actions");
       }
     }
   }
