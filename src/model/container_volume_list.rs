@@ -1,3 +1,4 @@
+use std::cell::OnceCell;
 use std::cell::RefCell;
 use std::marker::PhantomData;
 
@@ -9,7 +10,11 @@ use gtk::glib;
 use indexmap::map::Entry;
 use indexmap::map::IndexMap;
 
+use crate::engine;
 use crate::model;
+use crate::monad_boxed_type;
+
+monad_boxed_type!(pub(crate) BoxedVolumeMounts(Vec<engine::dto::VolumeMount>) impls Debug, PartialEq is nullable);
 
 mod imp {
     use super::*;
@@ -18,6 +23,9 @@ mod imp {
     #[properties(wrapper_type = super::ContainerVolumeList)]
     pub(crate) struct ContainerVolumeList {
         pub(super) list: RefCell<IndexMap<String, model::ContainerVolume>>,
+
+        #[property(get, set, construct_only)]
+        pub(super) mounts: OnceCell<BoxedVolumeMounts>,
 
         #[property(get = Self::n_items)]
         _len: PhantomData<u32>,
@@ -73,9 +81,11 @@ glib::wrapper! {
         @implements gio::ListModel;
 }
 
-impl Default for ContainerVolumeList {
-    fn default() -> Self {
-        glib::Object::new()
+impl From<Vec<engine::dto::VolumeMount>> for ContainerVolumeList {
+    fn from(value: Vec<engine::dto::VolumeMount>) -> Self {
+        glib::Object::builder()
+            .property("mounts", BoxedVolumeMounts::from(value))
+            .build()
     }
 }
 

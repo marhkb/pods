@@ -15,6 +15,8 @@ mod prune_report;
 mod top;
 mod volume;
 
+#[expect(unused)]
+pub(crate) use container::BindMount;
 pub(crate) use container::Container;
 pub(crate) use container::ContainerDetails;
 pub(crate) use container::ContainerInspection;
@@ -23,8 +25,10 @@ pub(crate) use container::ContainerSummary;
 pub(crate) use container::HealthCheckLog;
 pub(crate) use container::HealthConfig;
 pub(crate) use container::HealthStatus;
-pub(crate) use container::Mount;
+pub(crate) use container::MountParams;
+pub(crate) use container::Mounts;
 pub(crate) use container::RestartPolicy;
+pub(crate) use container::VolumeMount;
 pub(crate) use container_stats::AllContainerStats;
 pub(crate) use container_stats::ContainerStats;
 pub(crate) use container_stats::DockerContainerStats;

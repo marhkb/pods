@@ -28,7 +28,7 @@ pub(crate) struct ContainerSummary {
     pub(crate) image_id: String,
     pub(crate) image_name: Option<String>,
     pub(crate) is_infra: bool,
-    pub(crate) mounts: Vec<engine::dto::Mount>,
+    pub(crate) mounts: engine::dto::Mounts,
     pub(crate) name: String,
     pub(crate) pod_id: Option<String>,
     pub(crate) ports: Vec<engine::dto::PortBinding>,
@@ -44,10 +44,7 @@ impl From<bollard::plugin::ContainerSummary> for ContainerSummary {
             image_id: value.image_id.unwrap_or_default(),
             image_name: value.image.filter(|name| !name.is_empty()),
             is_infra: false,
-            mounts: value
-                .mounts
-                .map(|mounts| mounts.into_iter().map(Into::into).collect())
-                .unwrap_or_default(),
+            mounts: value.mounts.map(|mounts| mounts.into()).unwrap_or_default(),
             name: value
                 .names
                 .and_then(|mut names| {
@@ -87,7 +84,7 @@ impl From<podman_api::models::ListContainer> for ContainerSummary {
             image_name: value.image.filter(|name| !name.is_empty()),
             is_infra: value.is_infra.unwrap_or(false),
             // mounts are missing in a podman summary
-            mounts: Vec::new(),
+            mounts: Default::default(),
             name: value
                 .names
                 .and_then(|mut names| {
@@ -172,7 +169,7 @@ impl ContainerInspection {
                 is_infra: false,
                 mounts: inspection
                     .mounts
-                    .map(|mounts| mounts.into_iter().map(Into::into).collect())
+                    .map(|mounts| mounts.into())
                     .unwrap_or_default(),
                 name: inspection
                     .name
@@ -249,10 +246,7 @@ impl From<podman_api::models::ContainerInspectResponseLibpod> for ContainerInspe
                 image_id: value.image.unwrap_or_default(),
                 image_name: value.image_name.filter(|name| !name.is_empty()),
                 is_infra: value.is_infra.unwrap_or(false),
-                mounts: value
-                    .mounts
-                    .map(|mounts| mounts.into_iter().map(Into::into).collect())
-                    .unwrap_or_default(),
+                mounts: value.mounts.map(|mounts| mounts.into()).unwrap_or_default(),
                 name: value.name.unwrap_or_default(),
                 pod_id: value.pod,
                 ports: value
@@ -500,31 +494,100 @@ impl From<Option<&str>> for HealthStatus {
     }
 }
 
+#[derive(Debug, Default)]
+pub(crate) struct Mounts {
+    pub(crate) binds: Vec<BindMount>,
+    pub(crate) volumes: Vec<VolumeMount>,
+}
+
+impl From<Vec<bollard::plugin::MountPoint>> for Mounts {
+    fn from(value: Vec<bollard::plugin::MountPoint>) -> Self {
+        value
+            .into_iter()
+            .map(|mut mount_point| RawMount {
+                type_: mount_point.typ.take(),
+                name: mount_point.name.take(),
+                params: mount_point.into(),
+            })
+            .collect()
+    }
+}
+
+impl From<Vec<podman_api::models::InspectMount>> for Mounts {
+    fn from(value: Vec<podman_api::models::InspectMount>) -> Self {
+        value
+            .into_iter()
+            .map(|mut inspect_mount| RawMount {
+                type_: inspect_mount.type_.take(),
+                name: inspect_mount.name.take(),
+                params: inspect_mount.into(),
+            })
+            .collect()
+    }
+}
+
+struct RawMount {
+    type_: Option<String>,
+    name: Option<String>,
+    params: MountParams,
+}
+
+impl FromIterator<RawMount> for Mounts {
+    fn from_iter<T: IntoIterator<Item = RawMount>>(iter: T) -> Self {
+        let mut mounts = Mounts::default();
+
+        iter.into_iter()
+            .for_each(|raw_mount| match raw_mount.type_.as_deref() {
+                Some("bind") => mounts.binds.push(BindMount(raw_mount.params)),
+                Some("volume") => {
+                    if let Some(name) = raw_mount.name {
+                        mounts.volumes.push(VolumeMount {
+                            name,
+                            params: raw_mount.params,
+                        });
+                    }
+                }
+                _ => {}
+            });
+
+        mounts
+    }
+}
+
 #[derive(Clone, Debug, PartialEq)]
-pub(crate) struct Mount {
+pub(crate) struct BindMount(MountParams);
+
+#[derive(Clone, Debug, PartialEq)]
+pub(crate) struct VolumeMount {
+    pub(crate) name: String,
+    pub(crate) params: MountParams,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub(crate) struct MountParams {
+    pub(crate) source: String,
     pub(crate) destination: String,
     pub(crate) mode: String,
-    pub(crate) name: String,
     pub(crate) rw: bool,
 }
 
-impl From<bollard::plugin::MountPoint> for Mount {
+impl From<bollard::plugin::MountPoint> for MountParams {
     fn from(value: bollard::plugin::MountPoint) -> Self {
         Self {
-            destination: value.destination.unwrap(),
+            source: value.source.unwrap_or_default(),
+            destination: value.destination.unwrap_or_default(),
             mode: value.mode.unwrap_or_default(),
-            name: value.name.unwrap_or_default(),
             rw: value.rw.unwrap_or_default(),
         }
     }
 }
 
-impl From<podman_api::models::InspectMount> for Mount {
+impl From<podman_api::models::InspectMount> for MountParams {
     fn from(value: podman_api::models::InspectMount) -> Self {
         Self {
+            source: value.source.unwrap_or_default(),
             destination: value.destination.unwrap_or_default(),
             mode: value.mode.unwrap_or_default(),
-            name: value.name.unwrap_or_default(),
             rw: value.rw.unwrap_or_default(),
         }
     }

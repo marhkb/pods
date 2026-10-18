@@ -16,7 +16,6 @@ use crate::model;
 use crate::monad_boxed_type;
 use crate::rt;
 
-monad_boxed_type!(pub(crate) BoxedMounts(Vec<engine::dto::Mount>) impls Debug, PartialEq is nullable);
 monad_boxed_type!(pub(crate) BoxedContainerStats(engine::dto::ContainerStats) impls Debug, PartialEq is nullable);
 
 mod imp {
@@ -34,7 +33,7 @@ mod imp {
         pub(super) pod: glib::WeakRef<model::Pod>,
         #[property(get = Self::ports)]
         pub(super) ports: OnceCell<model::PortBindingList>,
-        #[property(get = Self::volumes)]
+        #[property(get, set, construct_only)]
         pub(super) volumes: OnceCell<model::ContainerVolumeList>,
 
         #[property(get, set, construct_only)]
@@ -49,8 +48,7 @@ mod imp {
         pub(super) image_name: RefCell<Option<String>>,
         #[property(get, set, construct_only)]
         pub(super) is_infra: OnceCell<bool>,
-        #[property(get, set, construct_only)]
-        pub(super) mounts: OnceCell<BoxedMounts>,
+
         #[property(get, set, construct)]
         pub(super) name: RefCell<String>,
         #[property(get = Self::pod_id, set, construct_only, nullable)]
@@ -119,10 +117,6 @@ mod imp {
             obj.notify_status();
         }
 
-        pub(super) fn volumes(&self) -> model::ContainerVolumeList {
-            self.volumes.get_or_init(Default::default).to_owned()
-        }
-
         pub(super) fn ports(&self) -> model::PortBindingList {
             self.ports
                 .get_or_init(|| model::PortBindingList::from(&*self.obj()))
@@ -180,10 +174,13 @@ impl Container {
             .property("image-id", dto.image_id)
             .property("image-name", dto.image_name)
             .property("is-infra", dto.is_infra)
-            .property("mounts", BoxedMounts::from(dto.mounts))
             .property("name", dto.name)
             .property("pod-id", dto.pod_id)
-            .property("status", model::ContainerStatus::from(dto.status)))
+            .property("status", model::ContainerStatus::from(dto.status))
+            .property(
+                "volumes",
+                model::ContainerVolumeList::from(dto.mounts.volumes),
+            ))
         .build();
 
         obj.ports().update(dto.ports);
