@@ -56,14 +56,14 @@ impl ContainerVolume {
     pub(crate) fn new(
         container_volume_list: &model::ContainerVolumeList,
         volume: &model::Volume,
-        dto: &engine::dto::Mount,
+        params: &engine::dto::MountParams,
     ) -> Self {
         glib::Object::builder()
             .property("container-volume-list", container_volume_list)
             .property("volume", volume)
-            .property("destination", &dto.destination)
-            .property("mode", &dto.mode)
-            .property("rw", dto.rw)
+            .property("destination", &params.destination)
+            .property("mode", &params.mode)
+            .property("rw", params.rw)
             .build()
     }
 }

@@ -96,15 +96,16 @@ mod imp {
                     }
 
                     container
+                        .volumes()
                         .mounts()
                         .iter()
-                        .filter_map(|mount| {
+                        .filter_map(|volume_mount| {
                             obj.volumes()
-                                .get_volume(&mount.name)
-                                .map(|volume| (volume, mount))
+                                .get_volume(&volume_mount.name)
+                                .map(|volume| (volume, volume_mount))
                         })
-                        .for_each(|(volume, mount)| {
-                            link_container_volume(container, &volume, mount);
+                        .for_each(|(volume, volume_mount)| {
+                            link_container_volume(container, &volume, &volume_mount.params);
                         });
                 }
             ));
@@ -152,12 +153,13 @@ mod imp {
                     .iter::<model::Container>()
                     .map(Result::unwrap)
                     .for_each(|container| {
-                        if let Some(mount) = container
+                        if let Some(volume_mount) = container
+                            .volumes()
                             .mounts()
                             .iter()
-                            .find(|mount| mount.name == volume.name())
+                            .find(|volume_mount| volume_mount.name == volume.name())
                         {
-                            link_container_volume(&container, volume, mount);
+                            link_container_volume(&container, volume, &volume_mount.params);
                         }
                     })
             ));
@@ -220,7 +222,7 @@ mod imp {
     fn link_container_volume(
         container: &model::Container,
         volume: &model::Volume,
-        mount: &engine::dto::Mount,
+        params: &engine::dto::MountParams,
     ) {
         volume.containers().add_container(container);
 
@@ -228,7 +230,7 @@ mod imp {
         container_volume_list.add_volume(model::ContainerVolume::new(
             &container_volume_list,
             volume,
-            mount,
+            params,
         ));
     }
 }
