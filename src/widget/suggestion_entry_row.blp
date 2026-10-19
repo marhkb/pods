@@ -55,6 +55,20 @@ Popover popover {
         }
       };
     }
+
+    StackPage {
+      name: "no-results";
+
+      child: Adw.StatusPage {
+        styles [
+          "compact",
+        ]
+
+        icon-name: "edit-find-symbolic";
+        title: _("No Results Found");
+        description: _("Try a different term");
+      };
+    }
   };
 }
 
