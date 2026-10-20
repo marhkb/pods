@@ -22,6 +22,7 @@ pub(crate) enum SuggestionEntryVisibleStackPage {
     #[default]
     Searching,
     Results,
+    NoResults,
 }
 
 mod imp {
@@ -194,6 +195,7 @@ mod imp {
             match self.stack.visible_child_name().unwrap_or_default().as_str() {
                 "searching" => widget::SuggestionEntryVisibleStackPage::Searching,
                 "results" => widget::SuggestionEntryVisibleStackPage::Results,
+                "no-results" => widget::SuggestionEntryVisibleStackPage::NoResults,
                 _ => unreachable!(),
             }
         }
@@ -202,6 +204,7 @@ mod imp {
             self.stack.set_visible_child_name(match value {
                 widget::SuggestionEntryVisibleStackPage::Searching => "searching",
                 widget::SuggestionEntryVisibleStackPage::Results => "results",
+                widget::SuggestionEntryVisibleStackPage::NoResults => "no-results",
             });
         }
 

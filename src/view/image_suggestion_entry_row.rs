@@ -9,10 +9,8 @@ use gtk::CompositeTemplate;
 use gtk::gio;
 use gtk::glib;
 
-use crate::gettext::gettext;
 use crate::model;
 use crate::rt;
-use crate::utils;
 use crate::widget;
 
 mod imp {
@@ -130,7 +128,9 @@ mod imp {
             match responses {
                 Ok(responses) => {
                     if responses.is_empty() {
-                        obj.popdown();
+                        obj.set_visible_stack_page(
+                            widget::SuggestionEntryVisibleStackPage::NoResults,
+                        );
                     } else {
                         responses.into_iter().for_each(|response| {
                             self.search_results()
@@ -144,11 +144,7 @@ mod imp {
                 }
                 Err(e) => {
                     log::error!("Failed to search for images: {}", e);
-                    utils::show_error_toast(
-                        obj,
-                        &gettext("Failed to search for images"),
-                        &e.to_string(),
-                    );
+                    obj.set_visible_stack_page(widget::SuggestionEntryVisibleStackPage::NoResults);
                 }
             }
         }
