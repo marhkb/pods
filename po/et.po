@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the pods package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/view/connection_chooser_page.blp:36
 msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 19:21+0000\n"
+"POT-Creation-Date: 2026-10-20 14:59+0000\n"
 "PO-Revision-Date: 2026-05-16 09:11+0000\n"
 "Last-Translator: Karl <karl.jaago@ra.ee>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/pods/main/et/>\n"
@@ -21,19 +20,21 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:119
-#: src/view/client_view.blp:139 src/view/client_view.rs:246
-#: src/view/pods_panel.blp:81 src/view/pods_panel.blp:127
-#: src/view/pods_panel.blp:387 src/view/search_panel.blp:56
+#: src/view/client_view.blp:142 src/view/client_view.rs:243
+#: src/view/pods_panel.blp:83 src/view/pods_panel.blp:129
+#: src/view/pods_panel.blp:390 src/view/search_panel.blp:56
 msgid "Pods"
 msgstr "Pods"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
-msgid "Manage your Podman containers"
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
+#, fuzzy
+msgid "Manage your containers"
 msgstr "Sinu Podmani konteinerite haldus"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:8
-msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr "Gnome;GTK;libadwaita;Podman;Containerization;konteinerid;konteineriseerimine;kubernetes;pod;"
+msgid "Podman;Docker;Container;Image;Pod;Volume;"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -62,12 +63,11 @@ msgid "The last used container file path"
 msgstr "Viimasena kasutatud konteineri rada"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
-#: src/view/images_prune_opts_dialog.blp:49
+#: src/view/images_prune_opts_dialog.blp:48
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr "Eemalda kõik mittekasutuses tõmmised, lisaks orbudele"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
-#: src/view/images_prune_opts_dialog.blp:54
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
@@ -148,19 +148,11 @@ msgstr ""
 msgid "Sort attribute for volumes"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
-msgid "Manage your containers"
-msgstr "Sinu Podmani konteinerite haldus"
-
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
-#, fuzzy
 msgid ""
-"Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
-"interface and strives to meet the design principles of GNOME."
+"Pods lets you manage your Podman and Docker containers, pods, images and "
+"volumes, whether they run locally or on a remote machine."
 msgstr ""
-"Pods on kasutajaliides podmani jaoks. Liidese teegina on kasutusel "
-"libawdaita ja järgitud on GNOME'i põhimõtteid."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
@@ -223,7 +215,7 @@ msgstr "Nimeta ümber konteinereid."
 msgid "Pods main window"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:522
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:530
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -248,7 +240,7 @@ msgstr "Määratle minimaalne logimistase"
 msgid "Container has been removed"
 msgstr "Konteiner on kustutatud"
 
-#: src/model/container_create_action.rs:154
+#: src/model/container_create_action.rs:153
 msgid "Container Created"
 msgstr ""
 
@@ -273,9 +265,9 @@ msgid "Configured"
 msgstr "Seadistatud"
 
 #: src/model/container_status.rs:126 src/model/pod_status.rs:114
-#: src/view/container_properties_group.blp:95
-#: src/view/image_details_page.blp:91 src/view/pod_details_page.blp:234
-#: src/view/volume_details_page.blp:113
+#: src/view/container_properties_group.blp:97
+#: src/view/image_details_page.blp:82 src/view/pod_details_page.blp:234
+#: src/view/volume_details_page.blp:132
 msgid "Created"
 msgstr "Loodud"
 
@@ -324,11 +316,11 @@ msgstr "Lõpetan"
 msgid "Unknown"
 msgstr "Pole teada"
 
-#: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:312
+#: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:310
 msgid "Docker"
 msgstr ""
 
-#: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:313
+#: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:311
 #, fuzzy
 msgid "Podman"
 msgstr "Podman"
@@ -341,9 +333,9 @@ msgstr "Pod on loodud"
 msgid "Degraded"
 msgstr ""
 
-#: src/model/pod_status.rs:117 src/view/connection_creation_page.rs:320
-#: src/view/image_details_page.rs:383 src/view/scalable_text_view_page.rs:467
-#: src/view/top_page.rs:544 src/view/top_page.rs:549
+#: src/model/pod_status.rs:117 src/view/connection_creation_dialog.rs:299
+#: src/view/image_details_page.rs:372 src/view/scalable_text_view_page.rs:465
+#: src/view/top_page.rs:534 src/view/top_page.rs:539
 msgid "Error"
 msgstr ""
 
@@ -405,222 +397,220 @@ msgid "{} ago"
 msgstr "{} tagasi"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:322
+#: src/utils.rs:261 src/view/image_history_page.rs:99
 msgid "<none>"
 msgstr "<tühi>"
 
-#: src/utils.rs:421
-msgid "Error on open file dialog"
+#: src/utils.rs:360
+#, fuzzy
+msgid "Could not open file dialog"
 msgstr "Viga failivaate avamisel"
 
-#: src/view/action_dialog.blp:99 src/view/connection.rs:28
-#: src/view/connection_creation_page.blp:30 src/view/container.rs:95
-#: src/view/container.rs:146 src/view/container_commit_opts_dialog.blp:27
-#: src/view/container_copy_from_opts_dialog.blp:27
-#: src/view/container_copy_to_opts_dialog.blp:36
-#: src/view/container_create_opts_dialog.blp:36
-#: src/view/containers_panel.rs:965
-#: src/view/containers_prune_opts_dialog.blp:27 src/view/image.rs:32
-#: src/view/image_build_opts_dialog.blp:27
-#: src/view/image_pull_opts_dialog.blp:27 src/view/images_panel.rs:677
-#: src/view/images_prune_opts_dialog.blp:27 src/view/pod.rs:65
-#: src/view/pod_create_opts_dialog.blp:27 src/view/pods_panel.rs:819
-#: src/view/pods_prune_opts_dialog.blp:27 src/view/repo_tag_add_dialog.blp:11
-#: src/view/repo_tag_push_opts_dialog.blp:27 src/view/volume.rs:30
-#: src/view/volume_create_opts_dialog.blp:27 src/view/volumes_panel.rs:660
-#: src/view/volumes_prune_opts_dialog.blp:27
+#: src/view/action_dialog.blp:98 src/view/connection.rs:26
+#: src/view/connection_creation_dialog.blp:33 src/view/container.rs:95
+#: src/view/container.rs:147 src/view/container_commit_opts_dialog.blp:28
+#: src/view/container_copy_from_opts_dialog.blp:28
+#: src/view/container_copy_to_opts_dialog.blp:37
+#: src/view/container_create_opts_dialog.blp:37
+#: src/view/containers_panel.rs:961
+#: src/view/containers_prune_opts_dialog.blp:26 src/view/image.rs:31
+#: src/view/image_build_opts_dialog.blp:28
+#: src/view/image_pull_opts_dialog.blp:28 src/view/images_panel.rs:669
+#: src/view/images_prune_opts_dialog.blp:26 src/view/pod.rs:64
+#: src/view/pod_create_opts_dialog.blp:28 src/view/pods_panel.rs:815
+#: src/view/pods_prune_opts_dialog.blp:26 src/view/repo_tag_add_dialog.blp:11
+#: src/view/repo_tag_push_opts_dialog.blp:28 src/view/volume.rs:56
+#: src/view/volume_create_opts_dialog.blp:28 src/view/volumes_panel.rs:660
+#: src/view/volumes_prune_opts_dialog.blp:26
 msgid "_Cancel"
 msgstr "_Katkesta"
 
-#: src/view/action_dialog.blp:118
+#: src/view/action_dialog.blp:117
 msgid "_Edit"
 msgstr ""
 
-#: src/view/action_dialog.blp:130
+#: src/view/action_dialog.blp:129
 msgid "_View"
 msgstr ""
 
-#: src/view/action_dialog.rs:95 src/widget/action_state_indicator.blp:37
+#: src/view/action_dialog.rs:94 src/widget/action_state_indicator.blp:41
 #, fuzzy
 msgid "Cancelled"
 msgstr "_Katkesta"
 
-#: src/view/action_dialog.rs:96 src/widget/action_state_indicator.blp:54
+#: src/view/action_dialog.rs:95 src/widget/action_state_indicator.blp:58
 msgid "Failed"
 msgstr ""
 
-#: src/view/action_dialog.rs:97 src/widget/action_state_indicator.blp:71
+#: src/view/action_dialog.rs:96 src/widget/action_state_indicator.blp:75
 msgid "Finished"
 msgstr "Valmis"
 
-#: src/view/action_dialog.rs:98
+#: src/view/action_dialog.rs:97
 msgid "Ongoing"
 msgstr ""
 
-#: src/view/action_dialog.rs:289 src/view/container_details_page.rs:256
+#: src/view/action_dialog.rs:288 src/view/container_details_page.rs:247
 #, rust-format
 msgid "since {}"
 msgstr "alates {}"
 
-#: src/view/action_dialog.rs:299
+#: src/view/action_dialog.rs:298
 #, rust-format
 msgid "after {}"
 msgstr ""
 
-#: src/view/action_dialog.rs:343
-msgid "Action"
-msgstr ""
-
-#: src/view/action_dialog.rs:372 src/view/action_dialog.rs:385
-#: src/view/action_dialog.rs:401
+#: src/view/action_dialog.rs:366 src/view/action_dialog.rs:379
+#: src/view/action_dialog.rs:395
 #, fuzzy
 msgid "Container Removed"
 msgstr "Konteineri logid"
 
-#: src/view/action_dialog.rs:373
+#: src/view/action_dialog.rs:367
 #, fuzzy
-msgid "Container cannot be committed because it has been removed."
+msgid "Container cannot be committed because it has been removed"
 msgstr "Konteiner on kustutatud"
 
-#: src/view/action_dialog.rs:387 src/view/action_dialog.rs:403
-msgid "Files cannot be copied anymore because the container has been removed."
-msgstr ""
+#: src/view/action_dialog.rs:381 src/view/action_dialog.rs:397
+#, fuzzy
+msgid "Files cannot be copied anymore because the container has been removed"
+msgstr "Konteiner on kustutatud"
 
-#: src/view/action_dialog.rs:425
+#: src/view/action_dialog.rs:418
 #, fuzzy
 msgid "Tag Removed"
 msgstr "Eemalda"
 
-#: src/view/action_dialog.rs:426
-msgid "Cannot push removed tag."
+#: src/view/action_dialog.rs:418
+msgid "Cannot push removed tag"
 msgstr ""
 
-#: src/view/action_dialog.rs:449
+#: src/view/action_dialog.rs:440
 msgid "Close"
 msgstr ""
 
-#: src/view/action_row.rs:172 src/view/connection_creation_page.blp:66
+#: src/view/action_row.rs:159 src/view/connection_creation_dialog.blp:69
 msgid "Abort"
 msgstr "Katkesta"
 
-#: src/view/action_row.rs:174 src/view/key_val_row.blp:44
+#: src/view/action_row.rs:161 src/view/key_val_row.blp:44
 #: src/view/key_val_row.blp:47
 msgid "Remove"
 msgstr "Eemalda"
 
-#: src/view/action_row.rs:212
+#: src/view/action_row.rs:199
 msgid "Failed Pods Action"
 msgstr "Toiming podidega ei õnnestunud"
 
-#: src/view/action_row.rs:218
+#: src/view/action_row.rs:205
 msgid "Finished Pods Action"
 msgstr "Toiming podidega lõppes"
 
-#: src/view/action_row.rs:288
+#: src/view/action_row.rs:275
 #, rust-format
 msgid "Ongoing ({})"
 msgstr ""
 
-#: src/view/action_row.rs:302
+#: src/view/action_row.rs:289
 #, rust-format
 msgid "Cancelled after {}"
 msgstr ""
 
-#: src/view/action_row.rs:303
+#: src/view/action_row.rs:290
 #, rust-format
 msgid "Failed after {}"
 msgstr ""
 
-#: src/view/action_row.rs:304
+#: src/view/action_row.rs:291
 #, rust-format
 msgid "Finished after {}"
 msgstr ""
 
-#: src/view/action_row.rs:373
+#: src/view/action_row.rs:360
+#, rust-format
+msgid "Commit “{}”"
+msgstr ""
+
+#: src/view/action_row.rs:361 src/view/container_commit_action_view.rs:69
+#: src/view/container_commit_opts_dialog.blp:16
+msgid "Commit Container"
+msgstr ""
+
+#: src/view/action_row.rs:365
 #, fuzzy, rust-format
-msgid "Commit <b>{}</b>"
+msgid "Copy from “{}”"
 msgstr "Loo pod <b>{}</b>"
 
-#: src/view/action_row.rs:374
+#: src/view/action_row.rs:366
 #, fuzzy
-msgid "Commit container"
-msgstr "Konteiner"
-
-#: src/view/action_row.rs:378
-#, fuzzy, rust-format
-msgid "Copy from <b>{}</b>"
-msgstr "Loo pod <b>{}</b>"
-
-#: src/view/action_row.rs:379
-#, fuzzy
-msgid "Copy from container"
+msgid "Copy from Container"
 msgstr "Kopeerin faile konteinerisse…"
 
-#: src/view/action_row.rs:383
+#: src/view/action_row.rs:370
 #, fuzzy, rust-format
-msgid "Copy to <b>{}</b>"
+msgid "Copy to “{}”"
 msgstr "Loo pod <b>{}</b>"
 
-#: src/view/action_row.rs:384
+#: src/view/action_row.rs:371 src/view/container_copy_to_opts_dialog.blp:25
 #, fuzzy
-msgid "Copy to container"
+msgid "Copy to Container"
 msgstr "Kopeerin faile konteinerisse…"
 
-#: src/view/action_row.rs:386 src/view/action_row.rs:393
-#: src/view/action_row.rs:407
-#, fuzzy, rust-format
-msgid "Create <b>{}</b>"
-msgstr "Loo pod <b>{}</b>"
+#: src/view/action_row.rs:373 src/view/action_row.rs:380
+#: src/view/action_row.rs:394
+#, rust-format
+msgid "Create “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:391 src/view/containers_prune_action_view.rs:97
-#: src/view/containers_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:378 src/view/containers_prune_action_view.rs:97
+#: src/view/containers_prune_opts_dialog.blp:14
 #, fuzzy
 msgid "Prune Containers"
 msgstr "Kärbin konteinereid"
 
-#: src/view/action_row.rs:395 src/view/pods_prune_action_view.rs:69
-#: src/view/pods_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:382 src/view/pods_prune_action_view.rs:69
+#: src/view/pods_prune_opts_dialog.blp:14
 #, fuzzy
 msgid "Prune Pods"
 msgstr "Eemaldan pode"
 
-#: src/view/action_row.rs:397
-#, fuzzy, rust-format
-msgid "Build <b>{}</b>"
-msgstr "Loo pod <b>{}</b>"
-
-#: src/view/action_row.rs:399
+#: src/view/action_row.rs:384
 #, rust-format
-msgid "Pull <b>{}</b>"
+msgid "Build “{}”"
 msgstr ""
 
-#: src/view/action_row.rs:402
+#: src/view/action_row.rs:386
 #, rust-format
-msgid "Push <b>{}</b>"
+msgid "Pull “{}”"
 msgstr ""
 
-#: src/view/action_row.rs:404 src/view/images_prune_action_view.rs:97
-#: src/view/images_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:389
+#, rust-format
+msgid "Push “{}”"
+msgstr ""
+
+#: src/view/action_row.rs:391 src/view/images_prune_action_view.rs:97
+#: src/view/images_prune_opts_dialog.blp:14
 msgid "Prune Images"
 msgstr ""
 
-#: src/view/action_row.rs:408
+#: src/view/action_row.rs:395
 #, fuzzy
-msgid "Create anonymous"
+msgid "Create Anonymous Volume"
 msgstr "Loo pod"
 
-#: src/view/action_row.rs:411 src/view/volumes_prune_action_view.rs:97
-#: src/view/volumes_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:398 src/view/volumes_prune_action_view.rs:97
+#: src/view/volumes_prune_opts_dialog.blp:14
 msgid "Prune Volumes"
 msgstr ""
 
-#: src/view/action_row.rs:413
+#: src/view/action_row.rs:400
 #, fuzzy
 msgid "Unknown Action"
 msgstr "Pole teada"
 
 #: src/view/actions_button.blp:12 src/view/actions_sidebar.blp:14
-#: src/view/client_view.blp:83 src/view/client_view.blp:292
+#: src/view/client_view.blp:83 src/view/client_view.blp:302
 msgid "Actions"
 msgstr ""
 
@@ -632,25 +622,29 @@ msgstr ""
 msgid "No Actions"
 msgstr ""
 
+#: src/view/actions_sidebar.blp:42
+msgid "Operations like pulling images will appear here"
+msgstr ""
+
 #: src/view/client_view.blp:35 src/view/client_view.blp:40
-#: src/view/client_view.blp:376
+#: src/view/client_view.blp:386
 msgid "Home"
 msgstr ""
 
 #: src/view/client_view.blp:54 src/view/client_view.blp:57
-#: src/view/client_view.blp:283 src/view/connections_sidebar.blp:14
+#: src/view/client_view.blp:293 src/view/connections_sidebar.blp:14
 msgid "Connections"
 msgstr ""
 
 #: src/view/client_view.blp:65 src/view/client_view.blp:68
 #: src/view/container_log_page.blp:55 src/view/container_log_page.blp:58
-#: src/view/containers_panel.blp:120 src/view/containers_panel.blp:123
-#: src/view/images_panel.blp:134 src/view/images_panel.blp:137
-#: src/view/pods_panel.blp:112 src/view/pods_panel.blp:115
+#: src/view/containers_panel.blp:122 src/view/containers_panel.blp:125
+#: src/view/images_panel.blp:136 src/view/images_panel.blp:139
+#: src/view/pods_panel.blp:114 src/view/pods_panel.blp:117
 #: src/view/scalable_text_view_page.blp:42
 #: src/view/scalable_text_view_page.blp:45 src/view/search_panel.blp:22
 #: src/view/top_page.blp:14 src/view/top_page.blp:17
-#: src/view/volumes_panel.blp:111 src/view/volumes_panel.blp:114
+#: src/view/volumes_panel.blp:113 src/view/volumes_panel.blp:116
 msgid "Search"
 msgstr ""
 
@@ -659,48 +653,97 @@ msgctxt "app name"
 msgid "Pods"
 msgstr "Podid"
 
-#: src/view/client_view.blp:99 src/view/client_view.rs:245
-#: src/view/containers_panel.blp:89 src/view/containers_panel.blp:135
-#: src/view/containers_panel.blp:389 src/view/image_details_page.blp:169
+#: src/view/client_view.blp:99 src/view/client_view.rs:242
+#: src/view/containers_panel.blp:91 src/view/containers_panel.blp:137
+#: src/view/containers_panel.blp:392 src/view/image_details_page.blp:163
 #: src/view/images_panel.blp:44 src/view/pod_details_page.blp:303
 #: src/view/pods_panel.blp:15 src/view/search_panel.blp:44
-#: src/view/volume_details_page.blp:136 src/view/volumes_panel.blp:21
+#: src/view/volume_details_page.blp:155 src/view/volumes_panel.blp:21
 msgid "Containers"
 msgstr ""
 
-#: src/view/client_view.blp:184 src/view/client_view.rs:247
-#: src/view/images_panel.blp:103 src/view/images_panel.blp:149
-#: src/view/images_panel.blp:296 src/view/search_panel.blp:68
+#: src/view/client_view.blp:111 src/view/containers_count_bar.blp:62
+#: src/view/containers_count_bar.blp:72
+#, fuzzy
+msgid "Running Containers"
+msgstr "Kärbin konteinereid"
+
+#: src/view/client_view.blp:122 src/view/containers_count_bar.blp:39
+#: src/view/containers_count_bar.blp:49
+#, fuzzy
+msgid "Not Running Containers"
+msgstr "Loon konteinerit"
+
+#: src/view/client_view.blp:133 src/view/containers_count_bar.blp:16
+#: src/view/containers_count_bar.blp:26
+#, fuzzy
+msgid "Dead Containers"
+msgstr "Kärbin konteinereid"
+
+#: src/view/client_view.blp:159
+#, fuzzy
+msgid "Running Pods"
+msgstr "Töös"
+
+#: src/view/client_view.blp:170
+#, fuzzy
+msgid "Not Running Pods"
+msgstr "Loon konteinerit"
+
+#: src/view/client_view.blp:181
+#, fuzzy
+msgid "Degraded Pods"
+msgstr "Eemaldan pode"
+
+#: src/view/client_view.blp:190 src/view/client_view.rs:244
+#: src/view/images_panel.blp:105 src/view/images_panel.blp:151
+#: src/view/images_panel.blp:298 src/view/search_panel.blp:68
 msgid "Images"
 msgstr ""
 
-#: src/view/client_view.blp:214 src/view/client_view.rs:248
-#: src/view/container_create_opts_dialog.blp:224
+#: src/view/client_view.blp:202
+#, fuzzy
+msgid "Used Images"
+msgstr "{} tõmmis"
+
+#: src/view/client_view.blp:213
+#, fuzzy
+msgid "Untagged Images"
+msgstr "Kärbin tõmmiseid"
+
+#: src/view/client_view.blp:222 src/view/client_view.rs:245
+#: src/view/container_create_opts_dialog.blp:221
 #: src/view/container_details_page.blp:251 src/view/search_panel.blp:80
-#: src/view/volumes_panel.blp:80 src/view/volumes_panel.blp:126
-#: src/view/volumes_panel.blp:273
+#: src/view/volumes_panel.blp:82 src/view/volumes_panel.blp:128
+#: src/view/volumes_panel.blp:275
 msgid "Volumes"
 msgstr ""
 
-#: src/view/client_view.blp:263
+#: src/view/client_view.blp:234
+#, fuzzy
+msgid "Used Volumes"
+msgstr "Eemalda töö lõpetanud podid"
+
+#: src/view/client_view.blp:245
+#, fuzzy
+msgid "Unused Volumes"
+msgstr "Eemalda töö lõpetanud podid"
+
+#: src/view/client_view.blp:273
 #, fuzzy
 msgid "Loading"
 msgstr "Viga logide salvestamisel"
 
-#: src/view/client_view.blp:303
+#: src/view/client_view.blp:313
 msgid "Content"
 msgstr ""
 
-#: src/view/client_view.rs:249
+#: src/view/client_view.rs:246
 msgid "Info"
 msgstr ""
 
 #: src/view/connection.rs:22
 msgid "There are ongoing actions whose progress will be irretrievably lost"
-msgstr ""
-
-#: src/view/connection.rs:29 src/view/container.rs:147
-msgid "_Confirm"
 msgstr ""
 
 #: src/view/connection_chooser_page.blp:19
@@ -726,61 +769,63 @@ msgid "Choose an existing connection or create a new one"
 msgstr ""
 
 #: src/view/connection_chooser_page.blp:86
-#: src/view/connection_creation_page.blp:19
-#: src/view/connection_creation_page.blp:36
+#: src/view/connection_creation_dialog.blp:22
+#: src/view/connection_creation_dialog.blp:39
+#: src/view/connections_sidebar.blp:24
 msgid "New Connection"
 msgstr "Uus ühendus"
 
 #: src/view/connection_chooser_page.rs:173
-msgid "Error on establishing connection"
+msgid "Could not establish connection"
 msgstr ""
 
-#: src/view/connection_creation_page.blp:50
+#: src/view/connection_creation_dialog.blp:53
+#: src/view/connection_creation_dialog.rs:245
 msgid "_Connect"
 msgstr "_Ühenda"
 
-#: src/view/connection_creation_page.blp:75
+#: src/view/connection_creation_dialog.blp:78
 msgid "_Abort"
 msgstr ""
 
-#: src/view/connection_creation_page.blp:89
-#: src/view/container_create_opts_dialog.blp:58
+#: src/view/connection_creation_dialog.blp:92
+#: src/view/container_create_opts_dialog.blp:59
 #: src/view/container_properties_group.blp:14 src/view/container_renamer.blp:10
 #: src/view/containers_panel.blp:9 src/view/images_panel.blp:32
-#: src/view/pod_create_opts_dialog.blp:48
+#: src/view/pod_create_opts_dialog.blp:49
 #: src/view/pod_create_opts_dialog.blp:196 src/view/pod_details_page.blp:185
-#: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:47
+#: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:48
 #: src/view/volume_details_page.blp:41 src/view/volumes_panel.blp:9
 msgid "Name"
 msgstr "Nimi"
 
-#: src/view/connection_creation_page.blp:94
+#: src/view/connection_creation_dialog.blp:97
 msgid "URL"
 msgstr "Võrguaadress"
 
-#: src/view/connection_creation_page.blp:95
+#: src/view/connection_creation_dialog.blp:98
 #, fuzzy
 msgid "Choose how to connect"
 msgstr "Vali Podmaniga ühendamise viis"
 
-#: src/view/connection_creation_page.blp:98
+#: src/view/connection_creation_dialog.blp:101
 #, fuzzy
 msgid "Podman Unix Socket"
 msgstr "Unixi sokkel"
 
-#: src/view/connection_creation_page.blp:115
-#: src/view/connection_creation_page.blp:118
-#: src/view/connection_creation_page.blp:245
-#: src/view/connection_creation_page.blp:248
+#: src/view/connection_creation_dialog.blp:118
+#: src/view/connection_creation_dialog.blp:121
+#: src/view/connection_creation_dialog.blp:250
+#: src/view/connection_creation_dialog.blp:253
 #, fuzzy
 msgid "Socket Activation Info"
 msgstr "Podmani sokli aktiveerimine"
 
-#: src/view/connection_creation_page.blp:137
+#: src/view/connection_creation_dialog.blp:140
 msgid "Podman Socket Activation"
 msgstr "Podmani sokli aktiveerimine"
 
-#: src/view/connection_creation_page.blp:143
+#: src/view/connection_creation_dialog.blp:146
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
@@ -788,45 +833,50 @@ msgstr ""
 "Kohaliku Podmani serveriga ühendamiseks peaks systemd sokkel olema "
 "sisselülitatud. Saad seda teha järgneva käsuga:"
 
-#: src/view/connection_creation_page.blp:190
-#: src/view/connection_creation_page.blp:193
-#: src/view/connection_creation_page.blp:320
-#: src/view/connection_creation_page.blp:323
-#: src/view/connection_custom_info_page.blp:122
-#: src/view/connection_custom_info_page.blp:125
-#: src/view/connection_custom_info_page.blp:166
-#: src/view/connection_custom_info_page.blp:169
-#: src/view/connection_custom_info_page.blp:261
-#: src/view/connection_custom_info_page.blp:264
-#: src/view/connection_custom_info_page.blp:309
-#: src/view/connection_custom_info_page.blp:312
+#: src/view/connection_creation_dialog.blp:193
+#: src/view/connection_creation_dialog.blp:196
+#: src/view/connection_creation_dialog.blp:325
+#: src/view/connection_creation_dialog.blp:328
+#: src/view/connection_custom_info_page.blp:120
+#: src/view/connection_custom_info_page.blp:123
+#: src/view/connection_custom_info_page.blp:164
+#: src/view/connection_custom_info_page.blp:167
+#: src/view/connection_custom_info_page.blp:259
+#: src/view/connection_custom_info_page.blp:262
+#: src/view/connection_custom_info_page.blp:307
+#: src/view/connection_custom_info_page.blp:310
+#: src/view/container_properties_group.blp:23
+#: src/view/container_properties_group.blp:65
+#: src/view/image_details_page.blp:67 src/view/pod_details_page.blp:195
+#: src/view/pod_details_page.blp:219 src/view/volume_details_page.blp:50
+#: src/view/volume_details_page.blp:109
 msgid "Copy to Clipboard"
 msgstr "Kopeeri lõikelauale"
 
-#: src/view/connection_creation_page.blp:199
-#: src/view/connection_creation_page.blp:329
+#: src/view/connection_creation_dialog.blp:203
+#: src/view/connection_creation_dialog.blp:335
 msgid ""
 "You may have to restart Pods for it to be able to connect to a newly created "
 "socket."
 msgstr ""
 
-#: src/view/connection_creation_page.blp:214
+#: src/view/connection_creation_dialog.blp:219
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
 msgstr ""
 
-#: src/view/connection_creation_page.blp:228
+#: src/view/connection_creation_dialog.blp:233
 #, fuzzy
 msgid "Docker Unix Socket"
 msgstr "Unixi sokkel"
 
-#: src/view/connection_creation_page.blp:267
+#: src/view/connection_creation_dialog.blp:272
 #, fuzzy
 msgid "Docker Socket Activation"
 msgstr "Podmani sokli aktiveerimine"
 
-#: src/view/connection_creation_page.blp:273
+#: src/view/connection_creation_dialog.blp:278
 #, fuzzy
 msgid ""
 "To connect to the local Docker instance, the systemd socket must be enabled. "
@@ -835,98 +885,101 @@ msgstr ""
 "Kohaliku Podmani serveriga ühendamiseks peaks systemd sokkel olema "
 "sisselülitatud. Saad seda teha järgneva käsuga:"
 
-#: src/view/connection_creation_page.blp:344
+#: src/view/connection_creation_dialog.blp:351
 msgid "Custom URL"
 msgstr ""
 
-#: src/view/connection_creation_page.blp:359
-#: src/view/connection_creation_page.blp:362
-#: src/view/connection_creation_page.blp:404
+#: src/view/connection_creation_dialog.blp:366
+#: src/view/connection_creation_dialog.blp:369
+#: src/view/connection_creation_dialog.blp:411
 msgid "Custom Connection Info"
 msgstr ""
 
-#: src/view/connection_creation_page.blp:378
+#: src/view/connection_creation_dialog.blp:385
 msgid "Color"
 msgstr ""
 
-#: src/view/connection_creation_page.blp:379
+#: src/view/connection_creation_dialog.blp:386
 msgid "Set the color of this connection"
 msgstr ""
 
-#: src/view/connection_creation_page.rs:153
+#: src/view/connection_creation_dialog.rs:154
 msgid "official documentation"
 msgstr ""
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
-#: src/view/connection_creation_page.rs:151
+#: src/view/connection_creation_dialog.rs:152
 #, rust-format
 msgid "Visit the {} for more information."
 msgstr ""
 
-#: src/view/connection_creation_page.rs:268
-msgid "Confirm Connecting to New Instance"
+#: src/view/connection_creation_dialog.rs:244
+#, fuzzy
+msgid "Connect to New Instance?"
 msgstr "Kinnita ühendamine uue serveriga"
 
-#: src/view/connection_custom_info_page.blp:12
+#: src/view/connection_custom_info_page.blp:10
 msgid "Custom Connection"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:27
+#: src/view/connection_custom_info_page.blp:25
 msgid ""
 "You can connect to a Podman instance using <span weight=\"bold\">HTTP</"
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
 "span> protocols. For example, the connection string might look like this:"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:48
+#: src/view/connection_custom_info_page.blp:46
 msgid "http://somewhere:8081"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:66
+#: src/view/connection_custom_info_page.blp:64
 msgid "Podman Root Connection"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:75
+#: src/view/connection_custom_info_page.blp:73
 msgid ""
-"Unfortunately, it is currently not possible to connect to the Podman root "
-"instance directly, as <span weight=\"bold\">/run/podman/podman.sock</span> "
-"is not readable for normal users. However, there is a workaround using a "
-"systemd unit. Save the following snippet:"
+"You can’t connect to the Podman root instance directly, because it is "
+"currently not possible to connect to the Podman root instance directly, as "
+"<span weight=\"bold\">/run/podman/podman.sock</span> is not readable for "
+"normal users. However, there is a workaround using a systemd unit. Save the "
+"following snippet:"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:193
+#: src/view/connection_custom_info_page.blp:191
 msgid "Warning"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:199
+#: src/view/connection_custom_info_page.blp:197
 msgid ""
 "Exposing a Podman socket over TCP has security implications. <a "
 "href=\"https://docs.podman.io/en/stable/markdown/podman-system-"
 "service.1.html#security\">Check the docs for more info.</a>"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:213
+#: src/view/connection_custom_info_page.blp:211
 msgid "Enable the service by issuing the command:"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:270
+#: src/view/connection_custom_info_page.blp:268
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
 msgstr ""
 
-#: src/view/connection_custom_info_page.rs:139
+#: src/view/connection_custom_info_page.rs:137
 msgid "systemd unit path copied"
 msgstr ""
 
-#: src/view/connection_custom_info_page.rs:147
+#: src/view/connection_custom_info_page.rs:145
 msgid "systemd unit content copied"
 msgstr ""
 
-#: src/view/connection_custom_info_page.rs:155
-msgid "socket activation command copied"
-msgstr ""
+#: src/view/connection_custom_info_page.rs:153
+#, fuzzy
+msgid "Socket activation command copied"
+msgstr "Podmani sokli aktiveerimine"
 
-#: src/view/connection_custom_info_page.rs:163
+#: src/view/connection_custom_info_page.rs:161
 msgid "URL copied"
 msgstr ""
 
@@ -936,36 +989,46 @@ msgid "Active Connection"
 msgstr "Uus ühendus"
 
 #: src/view/connection_row.blp:79 src/view/connection_row.blp:82
-#: src/view/container_card.blp:462 src/view/container_card.blp:465
+#: src/view/container_card.blp:470 src/view/container_card.blp:473
 #: src/view/container_details_page.blp:178
-#: src/view/container_details_page.blp:181 src/view/containers_panel.blp:353
-#: src/view/containers_panel.blp:356 src/view/image_menu_button.blp:11
-#: src/view/images_panel.blp:264 src/view/images_panel.blp:266
+#: src/view/container_details_page.blp:181 src/view/containers_panel.blp:356
+#: src/view/containers_panel.blp:359 src/view/images_panel.blp:267
 #: src/view/pod_details_page.blp:156 src/view/pod_details_page.blp:159
-#: src/view/pods_panel.blp:354 src/view/pods_panel.blp:357
-#: src/view/volumes_panel.blp:241 src/view/volumes_panel.blp:243
+#: src/view/pods_panel.blp:357 src/view/pods_panel.blp:360
+#: src/view/volumes_panel.blp:244
 msgid "Delete"
 msgstr ""
 
-#: src/view/connection_row.rs:96
+#: src/view/connection_row.blp:101
+#, fuzzy
+msgid "Connecting"
+msgstr "_Ühenda"
+
+#: src/view/connection_row.rs:98
 msgid "Local connection"
 msgstr ""
 
-#: src/view/connections_sidebar.blp:21 src/view/connections_sidebar.blp:24
+#: src/view/connections_sidebar.blp:21
 msgid "New Connection (Ctrl+Shift+N)"
 msgstr ""
 
-#: src/view/connections_sidebar.rs:101
-msgid "Confirm Switching Connection"
+#: src/view/connections_sidebar.rs:99
+#, fuzzy
+msgid "Switch Connection?"
+msgstr "Uus ühendus"
+
+#: src/view/connections_sidebar.rs:100
+msgid "_Switch"
 msgstr ""
 
-#: src/view/connections_sidebar.rs:113
-msgid "Error on switching connection"
+#: src/view/connections_sidebar.rs:112
+msgid "Could not switch connection"
 msgstr ""
 
-#: src/view/container.rs:77 src/view/container.rs:119
-msgid "Error renaming container"
-msgstr "Viga konteineri nime muutmisel"
+#: src/view/container.rs:77 src/view/container.rs:120
+#, fuzzy
+msgid "Could not rename container"
+msgstr "Nimeta ümber konteinereid."
 
 #: src/view/container.rs:78
 msgid "Container has been deleted"
@@ -979,45 +1042,64 @@ msgstr "Muuda konteineri nime"
 msgid "_Rename"
 msgstr "_Muuda nime"
 
-#: src/view/container.rs:138
+#: src/view/container.rs:139
 msgid "Delete Container?"
 msgstr ""
 
-#: src/view/container.rs:141
+#: src/view/container.rs:142
 msgid ""
 "All settings and all changes made within the container will be irreversibly "
 "lost"
 msgstr ""
 
-#: src/view/container.rs:179 src/view/containers_panel.rs:908
-msgid "Error on starting container"
+#: src/view/container.rs:148 src/view/container_menu_button.blp:46
+#: src/view/containers_panel.rs:962 src/view/image.rs:32
+#: src/view/image_menu_button.blp:11 src/view/images_panel.rs:670
+#: src/view/pod.rs:65 src/view/pod_menu_button.blp:45
+#: src/view/pods_panel.rs:816 src/view/volume.rs:57
+#: src/view/volumes_panel.rs:661
+msgid "_Delete"
+msgstr "_Kustuta"
+
+#: src/view/container.rs:181 src/view/container_log_page.rs:676
+#: src/view/containers_panel.rs:903
+#, fuzzy
+msgid "Could not start container"
 msgstr "Viga konteineri käivitamisel"
 
-#: src/view/container.rs:180 src/view/containers_panel.rs:838
-msgid "Error on stopping container"
-msgstr "Viga konteineri töö lõpetamisel"
+#: src/view/container.rs:182 src/view/containers_panel.rs:831
+#, fuzzy
+msgid "Could not stop container"
+msgstr "Kopeerin faile konteinerisse…"
 
-#: src/view/container.rs:181 src/view/containers_panel.rs:836
-msgid "Error on killing container"
+#: src/view/container.rs:183 src/view/containers_panel.rs:829
+#, fuzzy
+msgid "Could not kill container"
 msgstr "Viga konteineri töö hävitamisel"
 
-#: src/view/container.rs:182 src/view/containers_panel.rs:867
-msgid "Error on restarting container"
+#: src/view/container.rs:184 src/view/containers_panel.rs:861
+#, fuzzy
+msgid "Could not restart container"
 msgstr "Viga konteineri töö uuesti käivitamisel"
 
-#: src/view/container.rs:183 src/view/containers_panel.rs:935
-msgid "Error on pausing container"
+#: src/view/container.rs:185 src/view/containers_panel.rs:931
+#, fuzzy
+msgid "Could not pause container"
 msgstr "Viga konteineri töö peatamisel"
 
-#: src/view/container.rs:184 src/view/containers_panel.rs:893
-msgid "Error on resuming container"
+#: src/view/container.rs:186 src/view/container_log_page.rs:690
+#: src/view/containers_panel.rs:888
+#, fuzzy
+msgid "Could not resume container"
 msgstr "Viga konteineri töö jätkamisel"
 
-#: src/view/container.rs:185 src/view/containers_panel.rs:991
-msgid "Error on deleting container"
+#: src/view/container.rs:187 src/view/containers_panel.rs:988
+#, fuzzy
+msgid "Could not delete container"
 msgstr "Viga konteineri kustutamisel"
 
 #: src/view/container_card.blp:93 src/view/container_card.blp:96
+#: src/view/container_properties_group.blp:42
 msgid "Rename"
 msgstr ""
 
@@ -1026,7 +1108,7 @@ msgid "CPU"
 msgstr ""
 
 #: src/view/container_card.blp:163 src/view/container_resources.blp:84
-#: src/view/info_panel.blp:98
+#: src/view/info_panel.blp:102
 msgid "Memory"
 msgstr "Mälu"
 
@@ -1043,168 +1125,171 @@ msgid "No Ports"
 msgstr ""
 
 #: src/view/container_card.blp:331
-#: src/view/container_create_opts_dialog.blp:113
-#: src/view/container_details_page.blp:223 src/view/pod_details_page.blp:22
+#: src/view/container_create_opts_dialog.blp:111
+#: src/view/container_details_page.blp:223 src/view/pod_details_page.blp:5
+#: src/view/pod_details_page.blp:22
 msgid "Pod"
 msgstr "Pod"
 
 #: src/view/container_card.blp:357 src/view/container_card.blp:360
 #: src/view/container_details_page.blp:67
-#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:249
-#: src/view/containers_panel.blp:252 src/view/pod_details_page.blp:45
-#: src/view/pod_details_page.blp:48 src/view/pods_panel.blp:250
-#: src/view/pods_panel.blp:253 src/view/top_page_action_bar.blp:17
+#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:252
+#: src/view/containers_panel.blp:255 src/view/pod_details_page.blp:45
+#: src/view/pod_details_page.blp:48 src/view/pods_panel.blp:253
+#: src/view/pods_panel.blp:256 src/view/top_page_action_bar.blp:17
 msgid "Kill"
 msgstr ""
 
 #: src/view/container_card.blp:378 src/view/container_card.blp:381
 #: src/view/container_details_page.blp:90
-#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:271
-#: src/view/containers_panel.blp:274 src/view/pod_details_page.blp:68
-#: src/view/pod_details_page.blp:71 src/view/pods_panel.blp:272
-#: src/view/pods_panel.blp:275
+#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:274
+#: src/view/containers_panel.blp:277 src/view/pod_details_page.blp:68
+#: src/view/pod_details_page.blp:71 src/view/pods_panel.blp:275
+#: src/view/pods_panel.blp:278
 msgid "Restart"
 msgstr "Käivita uuesti"
 
-#: src/view/container_card.blp:393 src/view/container_details_page.blp:107
-#: src/view/containers_panel.blp:292 src/view/pod_details_page.blp:85
-#: src/view/pods_panel.blp:293
-msgid "Start/Resume"
+#: src/view/container_card.blp:393 src/view/container_card.blp:397
+#: src/view/container_details_page.blp:107 src/view/containers_panel.blp:295
+#: src/view/pod_details_page.blp:85 src/view/pods_panel.blp:296
+#, fuzzy
+msgid "Start or Resume"
 msgstr "Käivita/jätka"
 
-#: src/view/container_card.blp:408 src/view/container_details_page.blp:124
-#: src/view/containers_panel.blp:312 src/view/pod_details_page.blp:102
-#: src/view/pods_panel.blp:313
+#: src/view/container_card.blp:412 src/view/container_card.blp:416
+#: src/view/container_details_page.blp:124 src/view/containers_panel.blp:315
+#: src/view/pod_details_page.blp:102 src/view/pods_panel.blp:316
 msgid "Stop"
 msgstr "Lõpeta"
 
-#: src/view/container_card.blp:426 src/view/container_details_page.blp:144
+#: src/view/container_card.blp:434 src/view/container_details_page.blp:144
 #: src/view/pod_details_page.blp:122
 msgid "In Progress"
 msgstr ""
 
-#: src/view/container_card.blp:444 src/view/container_card.blp:447
-#: src/view/container_commit_opts_dialog.blp:88
+#: src/view/container_card.blp:452 src/view/container_card.blp:455
+#: src/view/container_commit_opts_dialog.blp:89
 #: src/view/container_details_page.blp:158
-#: src/view/container_details_page.blp:161 src/view/containers_panel.blp:334
-#: src/view/containers_panel.blp:337 src/view/pod_details_page.blp:136
-#: src/view/pod_details_page.blp:139 src/view/pods_panel.blp:335
-#: src/view/pods_panel.blp:338
+#: src/view/container_details_page.blp:161 src/view/containers_panel.blp:337
+#: src/view/containers_panel.blp:340 src/view/pod_details_page.blp:136
+#: src/view/pod_details_page.blp:139 src/view/pods_panel.blp:338
+#: src/view/pods_panel.blp:341
 msgid "Pause"
 msgstr "Peata"
 
-#: src/view/container_card.rs:528 src/view/container_row.rs:340
-#, rust-format
-msgid "Container {}"
-msgstr ""
-
 #. Translators: For example 5 MB / s.
-#: src/view/container_card.rs:601 src/view/container_resources.rs:283
+#: src/view/container_card.rs:554 src/view/container_resources.rs:263
 #, rust-format
 msgid "{} / s"
 msgstr ""
 
-#: src/view/container_commit_action_view.rs:69
-#: src/view/container_commit_opts_dialog.blp:15
-msgid "Commit Container"
-msgstr ""
-
 #: src/view/container_commit_action_view.rs:74
 #, fuzzy
-msgid "<Deleted>"
+msgid "<deleted>"
 msgstr "_Kustuta"
 
-#: src/view/container_commit_opts_dialog.blp:38
+#: src/view/container_commit_opts_dialog.blp:39
 msgid "_Commit"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:45
+#: src/view/container_commit_opts_dialog.blp:46
 msgid "General Commit Options"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:49
+#: src/view/container_commit_opts_dialog.blp:50
 msgid "Author"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:58
-#: src/view/container_commit_opts_dialog.blp:61
+#: src/view/container_commit_opts_dialog.blp:59
+#: src/view/container_commit_opts_dialog.blp:62
 msgid "Fetch Username"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:70
-#: src/view/image_history_page.rs:170
+#: src/view/container_commit_opts_dialog.blp:71
+#: src/view/image_history_page.rs:168
 msgid "Comment"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:75
-msgid "Repo"
+#: src/view/container_commit_opts_dialog.blp:76
+msgid "Repository"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:80 src/view/images_panel.blp:38
+#: src/view/container_commit_opts_dialog.blp:81 src/view/images_panel.blp:38
 msgid "Tag"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:84
+#: src/view/container_commit_opts_dialog.blp:85
 msgid "Format"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:89
+#: src/view/container_commit_opts_dialog.blp:90
 msgid "Pause the container before committing it"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:94
+#: src/view/container_commit_opts_dialog.blp:95
 msgid "Changes"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.blp:95
+#: src/view/container_commit_opts_dialog.blp:96
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"Instructions to apply while committing in Dockerfile format (e.g. “CMD=/bin/"
 "foo”)"
 msgstr ""
 
-#: src/view/container_commit_opts_dialog.rs:101
+#: src/view/container_commit_opts_dialog.rs:99
 msgid "Change"
 msgstr "Muuda"
 
-#: src/view/container_commit_opts_dialog.rs:289
-msgid "Error on fetching user name"
+#: src/view/container_commit_opts_dialog.rs:106
+#, fuzzy
+msgid "Add Change"
+msgstr "Muuda"
+
+#: src/view/container_commit_opts_dialog.rs:260
+#, fuzzy
+msgid "Could not fetch user name"
 msgstr "Viga kasutajanime laadimisel/tuvastamisel"
 
 #: src/view/container_copy_from_action_view.blp:13
 msgid "Written"
 msgstr ""
 
-#: src/view/container_copy_from_action_view.rs:104
-#: src/view/container_copy_from_opts_dialog.blp:15
+#: src/view/container_copy_from_action_view.rs:105
+#: src/view/container_copy_from_opts_dialog.blp:16
 #, fuzzy
 msgid "Copy From Container"
 msgstr "_Loo konteiner"
 
-#: src/view/container_copy_from_opts_dialog.blp:38
-#: src/view/container_copy_to_opts_dialog.blp:47
+#: src/view/container_copy_from_opts_dialog.blp:39
+#: src/view/container_copy_to_opts_dialog.blp:48
 #: src/view/container_terminal.blp:43
 msgid "_Copy"
 msgstr "_Kopeeri"
 
-#: src/view/container_copy_from_opts_dialog.blp:47
-#: src/view/container_copy_to_opts_dialog.blp:72
-msgid "Container Path (’/’ if empty)"
+#: src/view/container_copy_from_opts_dialog.blp:48
+#: src/view/container_copy_to_opts_dialog.blp:73
+msgid "Container Path (“/” if empty)"
 msgstr ""
 
-#: src/view/container_copy_from_opts_dialog.blp:53
-#: src/view/container_copy_from_opts_dialog.rs:143
-#: src/view/container_copy_to_opts_dialog.blp:57 src/view/device_row.blp:69
+#: src/view/container_copy_from_opts_dialog.blp:54
+#: src/view/container_copy_from_opts_dialog.rs:138
+#: src/view/container_copy_to_opts_dialog.blp:58 src/view/device_row.blp:69
 #: src/view/mount_row.blp:103
 msgid "Host Path"
 msgstr ""
 
-#: src/view/container_copy_from_opts_dialog.blp:54
+#: src/view/container_copy_from_opts_dialog.blp:55
 msgid "Select a destination tar archive on the host"
 msgstr ""
 
-#: src/view/container_copy_from_opts_dialog.blp:59
+#: src/view/container_copy_from_opts_dialog.blp:60
 msgid "Select _Path…"
 msgstr ""
+
+#: src/view/container_copy_from_opts_dialog.rs:140
+#, fuzzy
+msgid "Tar Archive"
+msgstr "Tar-arhiiv on loodud"
 
 #: src/view/container_copy_to_action_view.blp:9
 #, fuzzy
@@ -1222,7 +1307,6 @@ msgid "Copying bytes"
 msgstr "Kopeerin faile"
 
 #: src/view/container_copy_to_action_view.rs:159
-#: src/view/container_copy_to_opts_dialog.blp:24
 #, fuzzy
 msgid "Copy To Container"
 msgstr "Konteiner"
@@ -1231,25 +1315,24 @@ msgstr "Konteiner"
 msgid "Select _Directory…"
 msgstr "Vali _kaust…"
 
-#: src/view/container_copy_to_opts_dialog.blp:58
+#: src/view/container_copy_to_opts_dialog.blp:59
 msgid "Select a file or a directory from the host to upload"
 msgstr ""
 
-#: src/view/container_copy_to_opts_dialog.blp:63
+#: src/view/container_copy_to_opts_dialog.blp:64
 msgid "Select _File…"
 msgstr "Vali _fail…"
 
-#: src/view/container_copy_to_opts_dialog.rs:152
+#: src/view/container_copy_to_opts_dialog.rs:147
 msgid "Select Host Directory"
 msgstr ""
 
-#: src/view/container_copy_to_opts_dialog.rs:154
+#: src/view/container_copy_to_opts_dialog.rs:149
 msgid "Select Host File"
 msgstr ""
 
 #: src/view/container_create_action_view.rs:69
-#: src/view/container_create_opts_dialog.blp:24
-#: src/view/containers_group.blp:12 src/view/containers_group.blp:15
+#: src/view/container_create_opts_dialog.blp:25
 #: src/view/containers_panel.blp:44 src/view/containers_panel.blp:47
 msgid "Create Container"
 msgstr ""
@@ -1258,192 +1341,196 @@ msgstr ""
 msgid "_Create Only"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:47
+#: src/view/container_create_opts_dialog.blp:48
 msgid "_Run"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:75
-#: src/view/container_create_opts_dialog.blp:98
-#: src/view/image_build_opts_dialog.blp:65
+#: src/view/container_create_opts_dialog.blp:76
+#: src/view/container_create_opts_dialog.blp:97
+#: src/view/image_build_opts_dialog.blp:66
 #: src/view/image_build_opts_dialog.blp:82
-#: src/view/pod_create_opts_dialog.blp:65
-#: src/view/pod_create_opts_dialog.blp:88
+#: src/view/pod_create_opts_dialog.blp:66
+#: src/view/pod_create_opts_dialog.blp:87
 msgid "Details"
 msgstr ""
 
 #: src/view/container_create_opts_dialog.blp:81
-#: src/view/container_create_opts_dialog.blp:206
+#: src/view/container_create_opts_dialog.blp:204
 #: src/view/image_build_opts_dialog.blp:71
 #: src/view/image_build_opts_dialog.blp:107
 #: src/view/pod_create_opts_dialog.blp:71
-#: src/view/pod_create_opts_dialog.blp:118
+#: src/view/pod_create_opts_dialog.blp:116
 msgid "Integration"
 msgstr "Lõimimine"
 
-#: src/view/container_create_opts_dialog.blp:87
-#: src/view/container_create_opts_dialog.blp:257
-#: src/view/container_properties_group.blp:147
-msgid "Health Check"
+#: src/view/container_create_opts_dialog.blp:86
+#: src/view/container_create_opts_dialog.blp:254
+#, fuzzy
+msgid "Health"
 msgstr "Seisundikontroll"
 
-#: src/view/container_create_opts_dialog.blp:108
+#: src/view/container_create_opts_dialog.blp:106
 #: src/view/container_details_page.blp:208 src/view/containers_panel.blp:15
-#: src/view/image_details_page.blp:28 src/view/image_pull_opts_dialog.blp:51
+#: src/view/image_details_page.blp:12 src/view/image_details_page.blp:19
+#: src/view/image_pull_opts_dialog.blp:52
 #: src/view/pod_create_opts_dialog.blp:200
 msgid "Image"
 msgstr "Tõmmis"
 
-#: src/view/container_create_opts_dialog.blp:122
+#: src/view/container_create_opts_dialog.blp:120
 #: src/view/pod_create_opts_dialog.blp:204
 msgid "Pull Latest Image"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:126
+#: src/view/container_create_opts_dialog.blp:124
 #: src/view/container_details_page.blp:299
 msgid "Terminal"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:130
+#: src/view/container_create_opts_dialog.blp:128
 msgid "Privileged"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:131
+#: src/view/container_create_opts_dialog.blp:129
 msgid "Give extended privileges to container"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:135
-#: src/view/container_properties_group.blp:143
+#: src/view/container_create_opts_dialog.blp:133
+#: src/view/container_properties_group.blp:147
 #, fuzzy
 msgid "Restart Policy"
 msgstr "Käivitan uuesti"
 
-#: src/view/container_create_opts_dialog.blp:139
+#: src/view/container_create_opts_dialog.blp:137
 msgid "Never"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:140
-#: src/view/container_properties_group.rs:116
+#: src/view/container_create_opts_dialog.blp:138
+#: src/view/container_properties_group.rs:111
 msgid "Always"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:141
-#: src/view/container_properties_group.rs:118
-msgid "On failure"
+#: src/view/container_create_opts_dialog.blp:139
+#: src/view/container_properties_group.rs:113
+msgid "On Failure"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:142
-#: src/view/container_properties_group.rs:120
+#: src/view/container_create_opts_dialog.blp:140
+#: src/view/container_properties_group.rs:114
 #, fuzzy
-msgid "Unless stopped"
+msgid "Unless Stopped"
 msgstr "Eemalda töö lõpetanud podid"
 
-#: src/view/container_create_opts_dialog.blp:149
+#: src/view/container_create_opts_dialog.blp:147
 msgid "Memory Limit"
 msgstr "Mälupiirang"
 
-#: src/view/container_create_opts_dialog.blp:181
+#: src/view/container_create_opts_dialog.blp:179
 msgid "KB"
 msgstr "KB"
 
-#: src/view/container_create_opts_dialog.blp:182
+#: src/view/container_create_opts_dialog.blp:180
 msgid "MB"
 msgstr "MB"
 
-#: src/view/container_create_opts_dialog.blp:183
+#: src/view/container_create_opts_dialog.blp:181
 msgid "GB"
 msgstr "GB"
 
-#: src/view/container_create_opts_dialog.blp:198
-#: src/view/container_create_opts_dialog.blp:263
+#: src/view/container_create_opts_dialog.blp:196
+#: src/view/container_create_opts_dialog.blp:259
 #: src/view/container_health_check_page.blp:34
-#: src/view/image_details_page.blp:107 src/view/pod_create_opts_dialog.blp:216
+#: src/view/image_details_page.blp:98 src/view/pod_create_opts_dialog.blp:216
+#: src/view/top_page.rs:176
 msgid "Command"
 msgstr "Käsk"
 
-#: src/view/container_create_opts_dialog.blp:214
-#: src/view/container_details_page.blp:239 src/view/image_details_page.blp:123
-#: src/view/pod_create_opts_dialog.blp:126 src/view/pod_details_page.blp:247
+#: src/view/container_create_opts_dialog.blp:211
+#: src/view/container_details_page.blp:239 src/view/image_details_page.blp:116
+#: src/view/pod_create_opts_dialog.blp:123 src/view/pod_details_page.blp:247
 msgid "Ports"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:234
+#: src/view/container_create_opts_dialog.blp:231
 msgid "Environment Variables"
 msgstr "Keskkonnamuutujad"
 
-#: src/view/container_create_opts_dialog.blp:244
+#: src/view/container_create_opts_dialog.blp:241
 #: src/view/image_build_opts_dialog.blp:110
-#: src/view/pod_create_opts_dialog.blp:162
+#: src/view/pod_create_opts_dialog.blp:163
 msgid "Labels"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:267
+#: src/view/container_create_opts_dialog.blp:263
 #: src/view/container_health_check_page.blp:38
 msgid "Interval"
 msgstr "Välp"
 
-#: src/view/container_create_opts_dialog.blp:268
+#: src/view/container_create_opts_dialog.blp:264
 msgid "Health check interval in seconds"
 msgstr "Seisundikontrolli välp sekundites"
 
-#: src/view/container_create_opts_dialog.blp:280
+#: src/view/container_create_opts_dialog.blp:276
 #: src/view/container_health_check_page.blp:46
 msgid "Timeout"
 msgstr "Aegumine"
 
-#: src/view/container_create_opts_dialog.blp:281
+#: src/view/container_create_opts_dialog.blp:277
 msgid "Seconds allowed to complete the command before it fails"
 msgstr "Lubatud aeg sekundites enne käsu märkimist ebaõnnestunuks"
 
-#: src/view/container_create_opts_dialog.blp:293
+#: src/view/container_create_opts_dialog.blp:289
 msgid "Start Period"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:294
+#: src/view/container_create_opts_dialog.blp:290
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:306
+#: src/view/container_create_opts_dialog.blp:302
 #: src/view/container_health_check_page.blp:42
 msgid "Retries"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:307
-msgid "Number of retries allowed before a healthcheck fails"
+#: src/view/container_create_opts_dialog.blp:303
+#, fuzzy
+msgid "Number of retries allowed before a health check fails"
 msgstr ""
 "Lubatud korduskatseid enne, kui seisundikontroll loetakse ebaõnnestunuks"
 
-#: src/view/container_create_opts_dialog.rs:166
+#: src/view/container_create_opts_dialog.rs:168
 #: src/view/pod_create_opts_dialog.rs:159
 #, fuzzy
 msgid "Add Port"
 msgstr "Lisa portide vastendus"
 
-#: src/view/container_create_opts_dialog.rs:174
+#: src/view/container_create_opts_dialog.rs:176 src/view/volumes_group.blp:8
 msgid "Add Volume"
 msgstr "Lisa köide"
 
-#: src/view/container_create_opts_dialog.rs:184
+#: src/view/container_create_opts_dialog.rs:186
 msgid "Add Environment Variable"
 msgstr "Lisa keskkonnamuutuja"
 
-#: src/view/container_create_opts_dialog.rs:194
-#: src/view/image_build_opts_dialog.rs:107
+#: src/view/container_create_opts_dialog.rs:196
+#: src/view/image_build_opts_dialog.rs:106
 #: src/view/pod_create_opts_dialog.rs:131
 msgid "Add Label"
 msgstr ""
 
-#: src/view/container_details_page.blp:43 src/view/port_binding_row.blp:59
+#: src/view/container_details_page.blp:5 src/view/container_details_page.blp:43
+#: src/view/port_binding_row.blp:60
 msgid "Container"
 msgstr "Konteiner"
 
-#: src/view/container_details_page.blp:263 src/view/image_details_page.blp:128
-#: src/view/pod_details_page.blp:259 src/view/volume_details_page.blp:118
+#: src/view/container_details_page.blp:263 src/view/image_details_page.blp:122
+#: src/view/pod_details_page.blp:259 src/view/volume_details_page.blp:137
 msgid "Utilities"
 msgstr "Tarvikud"
 
-#: src/view/container_details_page.blp:266 src/view/image_details_page.blp:131
-#: src/view/pod_details_page.blp:262 src/view/volume_details_page.blp:121
+#: src/view/container_details_page.blp:266 src/view/image_details_page.blp:125
+#: src/view/pod_details_page.blp:262 src/view/volume_details_page.blp:140
 msgid "Inspection"
 msgstr ""
 
@@ -1480,17 +1567,19 @@ msgstr "Protsessid"
 msgid "View and manage processes of the container"
 msgstr "Vaata ja halda konteinerite protsesse"
 
-#: src/view/container_details_page.rs:359
-msgid "Error on loading container details"
+#: src/view/container_details_page.rs:342
+#, fuzzy
+msgid "Could not load container details"
 msgstr "Viga konteineri üksikasjade laadimisel"
 
-#: src/view/container_details_page.rs:377
-#, rust-format
-msgid "Container '{}' has been deleted"
+#: src/view/container_details_page.rs:360
+#, fuzzy, rust-format
+msgid "Container “{}” has been deleted"
 msgstr "„{}“ konteiner on kustutatud"
 
-#: src/view/container_details_page.rs:458 src/view/image_details_page.rs:362
-#: src/view/pod_details_page.rs:367 src/view/volume_details_page.rs:248
+#: src/view/container_details_page.rs:441 src/view/container_volume_row.rs:224
+#: src/view/image_details_page.rs:351 src/view/pod_details_page.rs:358
+#: src/view/repo_tag_row.rs:112 src/view/volume_details_page.rs:246
 #, fuzzy
 msgid "Copied to clipboard"
 msgstr "Kopeeri lõikelauale"
@@ -1506,10 +1595,11 @@ msgstr ""
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/container_health_check_log_row.rs:92
-#: src/view/image_history_page.rs:111 src/widget/date_time_row.rs:146
+#: src/view/image_history_page.rs:109 src/widget/date_time_row.rs:146
 msgid "%x %X"
 msgstr "%x %X"
 
+#: src/view/container_health_check_page.blp:5
 #: src/view/container_health_check_page.blp:12
 msgid "Container Health Check"
 msgstr "Konteineri seisundikontroll"
@@ -1538,38 +1628,40 @@ msgstr "Read kirjeldavad vähemalt viit seisundikontrolli ja nende tulemust"
 msgid "_Run Health Check"
 msgstr "_Käivta seisundikontroll"
 
-#: src/view/container_health_check_page.rs:197
-#: src/view/container_health_check_page.rs:213
+#: src/view/container_health_check_page.rs:192
+#: src/view/container_health_check_page.rs:208
 #, rust-format
 msgid "{} second"
 msgid_plural "{} seconds"
 msgstr[0] "{} sekund"
 msgstr[1] "{} sekundit"
 
-#: src/view/container_health_check_page.rs:270
-msgid "Error on running health check"
+#: src/view/container_health_check_page.rs:263
+#, fuzzy
+msgid "Could not run health check"
 msgstr "Viga seisundikontrolli tegemisel"
 
 #: src/view/container_log_page.blp:13 src/view/scalable_text_view_page.blp:13
-msgid "_Save as File"
+#, fuzzy
+msgid "_Save as File…"
 msgstr "_Salvesta failina"
 
 #: src/view/container_log_page.blp:20
 msgid "Show _Timestamps"
 msgstr "Näita aja_templeid"
 
-#: src/view/container_log_page.blp:64
+#: src/view/container_log_page.blp:40 src/view/container_log_page.blp:64
 msgid "Container Logs"
 msgstr "Konteineri logid"
 
 #: src/view/container_log_page.blp:72 src/view/container_log_page.blp:75
-#: src/view/scalable_text_view_page.blp:56
-#: src/view/scalable_text_view_page.blp:59
-msgid "Menu"
-msgstr ""
+#, fuzzy
+msgid "Log Options"
+msgstr "{} valik"
 
 #: src/view/container_log_page.blp:94
-msgid "Start/Resume Container"
+#, fuzzy
+msgid "Start or Resume Container"
 msgstr "Käivita konteiner või jätka selle tööd"
 
 #: src/view/container_log_page.blp:95
@@ -1610,33 +1702,27 @@ msgid ""
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/container_log_page.rs:363
-msgid "Error while following log"
+#: src/view/container_log_page.rs:359
+msgid "Could not follow log"
 msgstr ""
 
-#: src/view/container_log_page.rs:569
+#: src/view/container_log_page.rs:565
 msgid "Include timestamps"
 msgstr "Kaasa ajatemplid"
 
-#: src/view/container_log_page.rs:623
-msgid "Error on saving logs"
+#: src/view/container_log_page.rs:619
+#, fuzzy
+msgid "Could not save logs"
 msgstr "Viga logide salvestamisel"
 
-#: src/view/container_log_page.rs:637
-msgid "Error on retrieving logs"
+#: src/view/container_log_page.rs:633
+#, fuzzy
+msgid "Could not retrieve logs"
 msgstr "Viga logide laadimisel"
 
-#: src/view/container_log_page.rs:650
+#: src/view/container_log_page.rs:646
 msgid "Log has been saved"
 msgstr "Logi on salvestatud"
-
-#: src/view/container_log_page.rs:680
-msgid "Error starting container"
-msgstr "Viga konteineri käivitamisel"
-
-#: src/view/container_log_page.rs:694
-msgid "Error resuming container"
-msgstr "Viga konteineri töö jätkamisel"
 
 #: src/view/container_menu_button.blp:6 src/view/pod_menu_button.blp:13
 msgid "_Start"
@@ -1662,31 +1748,15 @@ msgstr "_Peata"
 msgid "Re_name…"
 msgstr "Muuda _nime…"
 
-#: src/view/container_menu_button.blp:46 src/view/containers_panel.rs:966
-#: src/view/image.rs:33 src/view/images_panel.rs:678 src/view/pod.rs:66
-#: src/view/pod_menu_button.blp:45 src/view/pods_panel.rs:820
-#: src/view/volume.rs:31 src/view/volumes_panel.rs:661
-msgid "_Delete"
-msgstr "_Kustuta"
-
 #: src/view/container_menu_button.blp:59 src/view/container_menu_button.blp:62
 #, fuzzy
 msgid "Container Actions"
 msgstr "Konteineri logid"
 
-#: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:44
+#: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:35
 #: src/view/pod_details_page.blp:178 src/view/volume_details_page.blp:18
 msgid "Properties"
 msgstr "Omadused"
-
-#: src/view/container_properties_group.blp:23
-#: src/view/container_properties_group.blp:64
-#: src/view/image_details_page.blp:76 src/view/pod_details_page.blp:195
-#: src/view/pod_details_page.blp:219 src/view/volume_details_page.blp:50
-#: src/view/volume_details_page.blp:90
-#, fuzzy
-msgid "Copy to clipboard"
-msgstr "Kopeeri lõikelauale"
 
 #: src/view/container_properties_group.blp:26 src/view/pod_details_page.blp:198
 #: src/view/volume_details_page.blp:53
@@ -1695,41 +1765,54 @@ msgid "Copy name to clipboard"
 msgstr "Kopeeri lõikelauale"
 
 #: src/view/container_properties_group.blp:39
-#: src/view/container_properties_group.blp:42
 msgid "Rename (F2)"
 msgstr "Muuda nime (F2)"
 
-#: src/view/container_properties_group.blp:54
-#: src/view/image_details_page.blp:67 src/view/pod_details_page.blp:210
+#: src/view/container_properties_group.blp:55
+#: src/view/image_details_page.blp:58 src/view/pod_details_page.blp:210
 msgid "ID"
 msgstr ""
 
-#: src/view/container_properties_group.blp:67
-#: src/view/image_details_page.blp:79 src/view/pod_details_page.blp:222
+#: src/view/container_properties_group.blp:68
+#: src/view/image_details_page.blp:70 src/view/pod_details_page.blp:222
 #, fuzzy
 msgid "Copy ID to clipboard"
 msgstr "Kopeeri lõikelauale"
 
-#: src/view/container_properties_group.blp:80
-#: src/view/container_properties_group.blp:83
+#: src/view/container_properties_group.blp:81
 msgid "Commit (Ctrl+K)"
 msgstr ""
 
-#: src/view/container_properties_group.blp:103
+#: src/view/container_properties_group.blp:84
+#, fuzzy
+msgid "Commit"
+msgstr "Käsk"
+
+#: src/view/container_properties_group.blp:105
 msgid "Size"
 msgstr ""
 
-#: src/view/container_properties_group.blp:112
-#: src/view/container_properties_group.blp:115
+#: src/view/container_properties_group.blp:114
 msgid "Download Files (Ctrl+D)"
 msgstr ""
 
-#: src/view/container_properties_group.blp:128
+#: src/view/container_properties_group.blp:117
+msgid "Download Files"
+msgstr "Laadi failid alla"
+
 #: src/view/container_properties_group.blp:131
 msgid "Upload Files (Ctrl+U)"
 msgstr ""
 
-#: src/view/container_properties_group.rs:117
+#: src/view/container_properties_group.blp:134
+msgid "Upload Files"
+msgstr "Laadi falid üles"
+
+#: src/view/container_properties_group.blp:151
+msgid "Health Check"
+msgstr "Seisundikontroll"
+
+#: src/view/container_properties_group.rs:112
 msgid "None"
 msgstr ""
 
@@ -1737,20 +1820,20 @@ msgstr ""
 msgid "Resources Quick Reference"
 msgstr "Ressursside kiirjuhend"
 
-#: src/view/container_resources.rs:91
+#: src/view/container_resources.rs:92
 #, rust-format
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
 msgstr[0] "Protsessor ({} CPU)"
 msgstr[1] "Protsessor ({} CPU-d)"
 
-#: src/view/container_resources.rs:93
+#: src/view/container_resources.rs:94
 msgid "Processor (? CPUs)"
 msgstr "Protsessor (? CPU-d)"
 
-#: src/view/container_resources.rs:105 src/view/container_resources.rs:141
-#: src/view/container_resources.rs:146 src/view/container_resources.rs:150
-#: src/view/container_resources.rs:154
+#: src/view/container_resources.rs:105 src/view/container_resources.rs:130
+#: src/view/container_resources.rs:139 src/view/container_resources.rs:144
+#: src/view/container_resources.rs:148
 msgid "?"
 msgstr "?"
 
@@ -1759,12 +1842,12 @@ msgstr "?"
 msgid "{} %"
 msgstr "{} %"
 
-#: src/view/container_resources.rs:135
+#: src/view/container_resources.rs:133
 #, rust-format
 msgid "{} / {} ({} %)"
 msgstr "{} / {} ({} %)"
 
-#: src/view/container_row.blp:26
+#: src/view/container_row.blp:27
 #, fuzzy
 msgid "Select container"
 msgstr "{} valitud konteiner"
@@ -1800,33 +1883,53 @@ msgid ""
 "Control+Minus, or Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/container_terminal.rs:460
+#: src/view/container_terminal.rs:459
 msgid "Terminal error"
 msgstr "Terminali viga"
+
+#: src/view/container_terminal_page.blp:18
+#: src/view/container_terminal_page.blp:38
+msgid "Container Terminal"
+msgstr "Konteineri terminal"
 
 #: src/view/container_terminal_page.blp:27
 #: src/view/container_terminal_page.blp:30
 msgid "Detach Terminal"
 msgstr "Eralda terminal"
 
-#: src/view/container_terminal_page.blp:38
-msgid "Container Terminal"
-msgstr "Konteineri terminal"
-
-#: src/view/containers_count_bar.blp:25
+#: src/view/container_terminal_page.blp:46
+#: src/view/container_terminal_page.blp:49
 #, fuzzy
-msgid "Dead Containers"
-msgstr "Kärbin konteinereid"
+msgid "Terminal Options"
+msgstr "Terminali viga"
 
-#: src/view/containers_count_bar.blp:47
-#, fuzzy
-msgid "Not Running Containers"
-msgstr "Loon konteinerit"
+#: src/view/container_volume_row.blp:6
+msgid "_Open Host Path in File Manager"
+msgstr ""
 
-#: src/view/containers_count_bar.blp:69
+#: src/view/container_volume_row.blp:14
+msgid "Copy _Host Path"
+msgstr ""
+
+#: src/view/container_volume_row.blp:19
 #, fuzzy
-msgid "Running Containers"
-msgstr "Kärbin konteinereid"
+msgid "Copy _Container Path"
+msgstr "Konteiner"
+
+#: src/view/container_volume_row.blp:78 src/view/container_volume_row.blp:82
+#, fuzzy
+msgid "Volume Actions"
+msgstr "Toiming podidega ei õnnestunud"
+
+#: src/view/containers_group.blp:8
+#, fuzzy
+msgid "Add Container"
+msgstr "Konteiner"
+
+#: src/view/containers_panel.blp:6 src/view/images_panel.blp:29
+#: src/view/pods_panel.blp:6 src/view/volumes_panel.blp:6
+msgid "Sort"
+msgstr ""
 
 #: src/view/containers_panel.blp:23 src/view/pods_panel.blp:23
 #, fuzzy
@@ -1840,8 +1943,9 @@ msgstr ""
 
 #: src/view/containers_panel.blp:36 src/view/images_panel.blp:58
 #: src/view/pods_panel.blp:36 src/view/volumes_panel.blp:35
-msgid "Select None"
-msgstr ""
+#, fuzzy
+msgid "Select _None"
+msgstr "Vali pod"
 
 #: src/view/containers_panel.blp:54 src/view/containers_panel.blp:57
 msgid "Prune Stopped Containers"
@@ -1851,54 +1955,75 @@ msgstr ""
 msgid "Toggle View"
 msgstr ""
 
-#: src/view/containers_panel.blp:100
+#: src/view/containers_panel.blp:70 src/view/images_panel.blp:85
+#: src/view/pods_panel.blp:62 src/view/volumes_panel.blp:61
+msgid "Toggle Sort Direction"
+msgstr ""
+
+#: src/view/containers_panel.blp:71 src/view/images_panel.blp:86
+#: src/view/pods_panel.blp:63 src/view/scalable_text_view_page.blp:56
+#: src/view/scalable_text_view_page.blp:59 src/view/volumes_panel.blp:62
+#, fuzzy
+msgid "View Options"
+msgstr "{} valik"
+
+#: src/view/containers_panel.blp:102
 #, fuzzy
 msgid "Loading containers"
 msgstr "Kärbin konteinereid"
 
-#: src/view/containers_panel.blp:142 src/view/containers_panel.blp:145
-#: src/view/images_panel.blp:156 src/view/images_panel.blp:159
-#: src/view/pods_panel.blp:134 src/view/pods_panel.blp:137
-#: src/view/volumes_panel.blp:133 src/view/volumes_panel.blp:136
+#: src/view/containers_panel.blp:144 src/view/containers_panel.blp:147
+#: src/view/images_panel.blp:158 src/view/images_panel.blp:161
+#: src/view/pods_panel.blp:136 src/view/pods_panel.blp:139
+#: src/view/volumes_panel.blp:135 src/view/volumes_panel.blp:138
 msgid "Start Multi-Selection"
 msgstr ""
 
-#: src/view/containers_panel.blp:171
+#: src/view/containers_panel.blp:173
 #, fuzzy
 msgid "Selected containers"
 msgstr "{} valitud konteiner"
 
-#: src/view/containers_panel.blp:180 src/view/containers_panel.blp:183
-#: src/view/images_panel.blp:191 src/view/images_panel.blp:194
-#: src/view/pods_panel.blp:169 src/view/pods_panel.blp:172
-#: src/view/volumes_panel.blp:168 src/view/volumes_panel.blp:171
+#: src/view/containers_panel.blp:182 src/view/containers_panel.blp:185
+#: src/view/images_panel.blp:193 src/view/images_panel.blp:196
+#: src/view/pods_panel.blp:171 src/view/pods_panel.blp:174
+#: src/view/volumes_panel.blp:170 src/view/volumes_panel.blp:173
 msgid "Exit Multi-Selection"
 msgstr ""
 
-#: src/view/containers_panel.blp:212
+#: src/view/containers_panel.blp:214
 #, fuzzy
 msgid "No Matching Containers"
 msgstr "Loon konteinerit"
 
-#: src/view/containers_panel.blp:222
+#: src/view/containers_panel.blp:215
+msgid "All containers are hidden by the current filter"
+msgstr ""
+
+#: src/view/containers_panel.blp:225
 msgid "_Show All Containers"
 msgstr ""
 
-#: src/view/containers_panel.blp:296
+#: src/view/containers_panel.blp:299
 #, fuzzy
 msgid "Start or resume selected containers"
 msgstr "Käivita konteiner või jätka selle tööd"
 
-#: src/view/containers_panel.blp:316
+#: src/view/containers_panel.blp:319
 #, fuzzy
 msgid "Stop selected containers"
 msgstr "{} valitud konteiner"
 
-#: src/view/containers_panel.blp:395
+#: src/view/containers_panel.blp:398
 msgid "No Containers Available"
 msgstr ""
 
-#: src/view/containers_panel.blp:405
+#: src/view/containers_panel.blp:399
+#, fuzzy
+msgid "Create a container to get started"
+msgstr "Alustamiseks loo uus ühendus Podmaniga"
+
+#: src/view/containers_panel.blp:409
 msgid "_Create Container"
 msgstr "_Loo konteiner"
 
@@ -1917,52 +2042,53 @@ msgid_plural "{} containers total, {} running"
 msgstr[0] "kokku {} konteiner, neist {} on töös"
 msgstr[1] "kokku {} konteinerit, neist {} on töös"
 
-#: src/view/containers_panel.rs:395
+#: src/view/containers_panel.rs:396
 #, rust-format
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "{} valitud konteiner"
 msgstr[1] "{} valitud konteinerit"
 
-#: src/view/containers_panel.rs:520
+#: src/view/containers_panel.rs:509
 msgid "List View"
 msgstr ""
 
-#: src/view/containers_panel.rs:527
+#: src/view/containers_panel.rs:516
 msgid "Grid View"
 msgstr ""
 
-#: src/view/containers_panel.rs:957
-msgid "Confirm Forced Deletion of Multiple Containers"
-msgstr ""
+#: src/view/containers_panel.rs:953
+#, fuzzy
+msgid "Delete Selected Containers?"
+msgstr "{} valitud konteiner"
 
-#: src/view/containers_panel.rs:960
+#: src/view/containers_panel.rs:956
 msgid ""
 "All the data created inside the containers will be lost and running "
-"containers will be stopped!"
+"containers will be stopped"
 msgstr ""
 
 #: src/view/containers_prune_action_view.rs:67
 #: src/view/images_prune_action_view.rs:67
 #: src/view/volumes_prune_action_view.rs:67
 #, fuzzy, rust-format
-msgid "Space Reclaimed: <b>{}</b>"
+msgid "Space reclaimed: <b>{}</b>"
 msgstr "Käivita uus konteiner <b>{}</b>"
 
-#: src/view/containers_prune_opts_dialog.blp:38
-#: src/view/images_prune_opts_dialog.blp:38
-#: src/view/pods_prune_opts_dialog.blp:38
-#: src/view/volumes_prune_opts_dialog.blp:38
+#: src/view/containers_prune_opts_dialog.blp:37
+#: src/view/images_prune_opts_dialog.blp:37
+#: src/view/pods_prune_opts_dialog.blp:37
+#: src/view/volumes_prune_opts_dialog.blp:37
 msgid "_Prune"
 msgstr ""
 
-#: src/view/containers_prune_opts_dialog.blp:45
-#: src/view/images_prune_opts_dialog.blp:45
-#: src/view/volumes_prune_opts_dialog.blp:47
+#: src/view/containers_prune_opts_dialog.blp:44
+#: src/view/images_prune_opts_dialog.blp:44
+#: src/view/volumes_prune_opts_dialog.blp:46
 msgid "Prune Options"
 msgstr ""
 
-#: src/view/containers_prune_opts_dialog.blp:48
+#: src/view/containers_prune_opts_dialog.blp:47
 msgid "Prune containers created before this timestamp"
 msgstr ""
 
@@ -1988,33 +2114,34 @@ msgid "mknod"
 msgstr ""
 
 #: src/view/image.rs:25
-msgid "Confirm Image Deletion"
-msgstr ""
+#, fuzzy
+msgid "Delete Image?"
+msgstr "{} valitud tõmmis"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image.rs:28
+#: src/view/image.rs:27
 #, rust-format
 msgid ""
-"Image is used by container <b>{}</b>. Deleting the image will also delete "
-"all its associated containers."
+"Image is used by container “{}”. Deleting the image will also delete all its "
+"associated containers."
 msgstr ""
 
 #. Translators: The "{}" is a placeholder for the image id.
-#: src/view/image.rs:72
+#: src/view/image.rs:71
 #, fuzzy, rust-format
-msgid "Error on removing image '{}'"
+msgid "Could not remove image “{}”"
 msgstr "Viga konteineri töö jätkamisel"
 
 #: src/view/image_build_action_view.rs:69
-#: src/view/image_build_opts_dialog.blp:15
+#: src/view/image_build_opts_dialog.blp:16
 msgid "Build Image"
 msgstr ""
 
-#: src/view/image_build_opts_dialog.blp:38 src/view/images_panel.blp:21
+#: src/view/image_build_opts_dialog.blp:39
 msgid "_Build"
 msgstr ""
 
-#: src/view/image_build_opts_dialog.blp:48
+#: src/view/image_build_opts_dialog.blp:49
 msgid "Image Name"
 msgstr ""
 
@@ -2030,111 +2157,109 @@ msgstr ""
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr ""
 
-#: src/view/image_build_opts_dialog.rs:195
+#: src/view/image_build_opts_dialog.rs:185
 msgid "Select Build Context Directory"
 msgstr ""
 
-#: src/view/image_details_page.blp:7 src/view/image_details_page.blp:15
-msgid "Create Repository Tag"
+#: src/view/image_details_page.blp:8 src/view/repo_tag_add_dialog.blp:7
+msgid "Add Tag"
 msgstr ""
 
-#: src/view/image_details_page.blp:55 src/view/image_details_page.blp:58
+#: src/view/image_details_page.blp:46 src/view/image_details_page.blp:49
 msgid "Delete Image"
 msgstr ""
 
-#: src/view/image_details_page.blp:99
+#: src/view/image_details_page.blp:90
 msgid "Disk Space"
 msgstr ""
 
-#: src/view/image_details_page.blp:115
+#: src/view/image_details_page.blp:107
 msgid "Entry Point"
 msgstr ""
 
-#: src/view/image_details_page.blp:132
+#: src/view/image_details_page.blp:126
 msgid "View all image properties in a structured text form"
 msgstr ""
 
-#: src/view/image_details_page.blp:144
+#: src/view/image_details_page.blp:138
 msgid "History"
 msgstr ""
 
-#: src/view/image_details_page.blp:145
+#: src/view/image_details_page.blp:139
 msgid "View parent layers of this image"
 msgstr ""
 
-#: src/view/image_details_page.blp:158
-msgid "Repository Tags"
+#: src/view/image_details_page.blp:152 src/view/image_history_page.rs:172
+msgid "Tags"
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:201
+#: src/view/image_details_page.rs:200
 #, rust-format
 msgid "{} (Virtual: {})"
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:209
+#: src/view/image_details_page.rs:208
 #, rust-format
 msgid "{} (Shared: {})"
 msgstr ""
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:218
+#: src/view/image_details_page.rs:217
 #, rust-format
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr ""
 
-#: src/view/image_details_page.rs:294
-msgid "Error on loading image details"
-msgstr ""
+#: src/view/image_details_page.rs:283
+#, fuzzy
+msgid "Could not load image details"
+msgstr "Viga podi andmete laadimisel"
 
-#: src/view/image_details_page.rs:313
-#, rust-format
-msgid "Image '{}' has been deleted"
-msgstr ""
+#: src/view/image_details_page.rs:302
+#, fuzzy, rust-format
+msgid "Image “{}” has been deleted"
+msgstr "„{}“ pod on kustutatud"
 
-#: src/view/image_history_page.blp:12
+#: src/view/image_history_page.blp:5 src/view/image_history_page.blp:12
 msgid "Image History"
 msgstr ""
 
-#: src/view/image_history_page.blp:29
+#: src/view/image_history_page.blp:24
+#, fuzzy
+msgid "Loading history"
+msgstr "Laadin tõmmiseid alla"
+
+#: src/view/image_history_page.blp:33
 msgid "History List"
 msgstr ""
 
-#: src/view/image_history_page.rs:85
+#: src/view/image_history_page.rs:83
 #, rust-format
 msgid "{} entry"
 msgid_plural "{} entries"
 msgstr[0] "{} kirje"
 msgstr[1] "{} kirjet"
 
-#: src/view/image_history_page.rs:87
+#: src/view/image_history_page.rs:85
 #, rust-format
 msgid "{} in total"
 msgstr ""
 
-#: src/view/image_history_page.rs:101
-msgid "<None>"
-msgstr ""
-
-#: src/view/image_history_page.rs:116
+#: src/view/image_history_page.rs:114
 msgid "Unknown Date"
 msgstr ""
 
-#: src/view/image_history_page.rs:127
+#: src/view/image_history_page.rs:125
 msgid "Unknown size"
 msgstr ""
 
-#: src/view/image_history_page.rs:144
+#: src/view/image_history_page.rs:142
 msgid "Created by"
 msgstr ""
 
-#: src/view/image_history_page.rs:174
-msgid "Tags"
-msgstr ""
-
-#: src/view/image_history_page.rs:190
-msgid "Error on retrieving history"
+#: src/view/image_history_page.rs:188
+msgid "Could not retrieve history"
 msgstr ""
 
 #: src/view/image_menu_button.blp:5 src/view/pod_menu_button.blp:6
@@ -2145,24 +2270,19 @@ msgstr ""
 msgid "Image Actions"
 msgstr ""
 
-#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:15
+#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:16
 #, fuzzy
 msgid "Pull Image"
 msgstr "Tõukan tõmmist"
 
-#: src/view/image_pull_opts_dialog.blp:38 src/view/images_panel.blp:16
+#: src/view/image_pull_opts_dialog.blp:39
 msgid "_Pull"
 msgstr ""
 
-#: src/view/image_row.blp:24
+#: src/view/image_row.blp:25
 #, fuzzy
 msgid "Select image"
 msgstr "{} valitud tõmmis"
-
-#: src/view/image_row.rs:211
-#, rust-format
-msgid "Image {}"
-msgstr ""
 
 #: src/view/image_search_response_row.blp:29
 #: src/view/image_search_response_row.blp:32
@@ -2174,8 +2294,12 @@ msgstr ""
 msgid "Stars"
 msgstr "Käivita"
 
-#: src/view/image_suggestion_entry_row.rs:149
-msgid "Failed to search for images"
+#: src/view/images_panel.blp:16
+msgid "_Pull…"
+msgstr ""
+
+#: src/view/images_panel.blp:21
+msgid "_Build…"
 msgstr ""
 
 #: src/view/images_panel.blp:65 src/view/images_panel.blp:68
@@ -2186,41 +2310,51 @@ msgstr ""
 msgid "Prune Unused Images"
 msgstr ""
 
-#: src/view/images_panel.blp:114
+#: src/view/images_panel.blp:116
 #, fuzzy
 msgid "Loading images"
 msgstr "Laadin tõmmiseid alla"
 
-#: src/view/images_panel.blp:182
+#: src/view/images_panel.blp:184
 #, fuzzy
 msgid "Selected images"
 msgstr "{} valitud tõmmis"
 
-#: src/view/images_panel.blp:235
+#: src/view/images_panel.blp:237
 #, fuzzy
 msgid "No Matching Images"
 msgstr "Teen tõmmisekohast sissekannet"
 
-#: src/view/images_panel.blp:245
+#: src/view/images_panel.blp:238
+msgid "All images are hidden by the current filter"
+msgstr ""
+
+#: src/view/images_panel.blp:248
 msgid "_Show All Images"
 msgstr ""
 
-#: src/view/images_panel.blp:270
+#: src/view/images_panel.blp:272
 #, fuzzy
 msgid "Delete selected images"
 msgstr "{} valitud tõmmis"
 
-#: src/view/images_panel.blp:302
+#: src/view/images_panel.blp:304
 msgid "No Images Available"
 msgstr ""
 
-#: src/view/images_panel.blp:330
-msgid "_Download Image"
+#: src/view/images_panel.blp:305
+msgid "Pull or build an image to get started"
 msgstr ""
 
-#: src/view/images_panel.blp:342
-msgid "_Build Image"
-msgstr ""
+#: src/view/images_panel.blp:333
+#, fuzzy
+msgid "_Pull Image…"
+msgstr "Tõukan tõmmist"
+
+#: src/view/images_panel.blp:345
+#, fuzzy
+msgid "_Build Image…"
+msgstr "Kompileerin tõmmist"
 
 #: src/view/images_panel.rs:272
 msgid "1 image, used"
@@ -2244,81 +2378,95 @@ msgid_plural "{} Selected Images"
 msgstr[0] "{} valitud tõmmis"
 msgstr[1] "{} valitud tõmmist"
 
-#: src/view/images_panel.rs:670
-msgid "Confirm Forced Deletion of Multiple Images"
-msgstr ""
+#: src/view/images_panel.rs:662
+#, fuzzy
+msgid "Delete Selected Images?"
+msgstr "{} valitud tõmmis"
 
-#: src/view/images_panel.rs:672
+#: src/view/images_panel.rs:664
 msgid ""
 "There may be containers associated with those images, which will also be "
-"removed!"
+"removed"
 msgstr ""
 
-#: src/view/images_panel.rs:706
+#: src/view/images_panel.rs:699
 #, rust-format
-msgid "Error on deleting image '{}'"
+msgid "Could not delete image “{}”"
 msgstr ""
 
-#: src/view/images_prune_opts_dialog.blp:48
-#: src/view/volumes_prune_opts_dialog.blp:50
+#: src/view/images_prune_opts_dialog.blp:47
+#: src/view/volumes_prune_opts_dialog.blp:49
 msgid "Prune All"
 msgstr ""
 
-#: src/view/images_prune_opts_dialog.blp:53
+#: src/view/images_prune_opts_dialog.blp:52
 msgid "Prune External"
 msgstr ""
 
-#: src/view/images_prune_opts_dialog.blp:63
+#: src/view/images_prune_opts_dialog.blp:53
+#, fuzzy
+msgid ""
+"Remove images even when they are used by external containers (e.g. by build "
+"containers)"
+msgstr ""
+"Eemalda tõmmised, isegi väliselt kasutuses olevad (nt ehituskonteinerid)"
+
+#: src/view/images_prune_opts_dialog.blp:62
 msgid "Prune images created before this timestamp"
 msgstr ""
 
-#: src/view/info_panel.blp:40 src/view/info_panel.blp:142
+#: src/view/info_panel.blp:29
+#, fuzzy
+msgid "Loading information"
+msgstr "Laadin tõmmiseid alla"
+
+#: src/view/info_panel.blp:44 src/view/info_panel.blp:146
 msgid "Version"
 msgstr ""
 
-#: src/view/info_panel.blp:46
+#: src/view/info_panel.blp:50
 msgid "System"
 msgstr ""
 
-#: src/view/info_panel.blp:53
+#: src/view/info_panel.blp:57
 msgid "Operating System"
 msgstr ""
 
-#: src/view/info_panel.blp:62
+#: src/view/info_panel.blp:66
 msgid "Kernel"
 msgstr ""
 
-#: src/view/info_panel.blp:71
+#: src/view/info_panel.blp:75
 msgid "Architecture"
 msgstr ""
 
-#: src/view/info_panel.blp:80 src/view/pod_create_opts_dialog.blp:98
+#: src/view/info_panel.blp:84 src/view/pod_create_opts_dialog.blp:96
 #: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:242
 msgid "Hostname"
 msgstr ""
 
-#: src/view/info_panel.blp:89
-msgid "Cpus"
+#: src/view/info_panel.blp:93
+msgid "CPUs"
 msgstr ""
 
-#: src/view/info_panel.blp:104
+#: src/view/info_panel.blp:108
 msgid "Storage"
 msgstr ""
 
-#: src/view/info_panel.blp:111 src/view/info_panel.blp:133
-#: src/view/volume_details_page.blp:105
+#: src/view/info_panel.blp:115 src/view/info_panel.blp:137
+#: src/view/volume_details_page.blp:124
 msgid "Driver"
 msgstr ""
 
-#: src/view/info_panel.blp:120
+#: src/view/info_panel.blp:124
 msgid "Root"
 msgstr ""
 
-#: src/view/info_panel.blp:126
+#: src/view/info_panel.blp:130
 msgid "Cgroup"
 msgstr ""
 
-#: src/view/info_panel.blp:151
+#: src/view/info_panel.blp:155
 #, fuzzy
 msgid "Show Details"
 msgstr "Podi üksikasjad"
@@ -2356,7 +2504,7 @@ msgid "Bind"
 msgstr ""
 
 #: src/view/mount_row.blp:97 src/view/mount_row.blp:107
-#: src/view/volume_details_page.blp:12
+#: src/view/volume_details_page.blp:5 src/view/volume_details_page.blp:12
 msgid "Volume"
 msgstr ""
 
@@ -2365,7 +2513,7 @@ msgid "SELinux"
 msgstr ""
 
 #: src/view/mount_row.blp:124
-msgid "No label"
+msgid "No Label"
 msgstr ""
 
 #: src/view/mount_row.blp:125
@@ -2376,74 +2524,83 @@ msgstr ""
 msgid "Private"
 msgstr ""
 
-#: src/view/pod.rs:42 src/view/pods_panel.rs:709
-msgid "Error on starting pod"
+#: src/view/pod.rs:42 src/view/pods_panel.rs:697
+#, fuzzy
+msgid "Could not start pod"
 msgstr "Viga podi käivitamisel"
 
-#: src/view/pod.rs:43 src/view/pods_panel.rs:741 src/view/pods_panel.rs:768
-msgid "Error on stopping pod"
+#: src/view/pod.rs:43 src/view/pods_panel.rs:730 src/view/pods_panel.rs:758
+#, fuzzy
+msgid "Could not stop pod"
 msgstr "Viga podi töö lõpetamisel"
 
-#: src/view/pod.rs:44 src/view/pods_panel.rs:739
-msgid "Error on killing pod"
+#: src/view/pod.rs:44 src/view/pods_panel.rs:728
+#, fuzzy
+msgid "Could not kill pod"
 msgstr "Viga podi hävitamisel"
 
-#: src/view/pod.rs:45 src/view/pods_panel.rs:795
-msgid "Error on restarting pod"
+#: src/view/pod.rs:45 src/view/pods_panel.rs:786
+#, fuzzy
+msgid "Could not restart pod"
 msgstr "Viga podi uuesti käivitamisel"
 
 #: src/view/pod.rs:46
-msgid "Error on pausing pod"
+#, fuzzy
+msgid "Could not pause pod"
 msgstr "Viga podi töö peatamisel"
 
-#: src/view/pod.rs:47 src/view/pods_panel.rs:694
-msgid "Error on resuming pod"
+#: src/view/pod.rs:47 src/view/pods_panel.rs:682
+#, fuzzy
+msgid "Could not resume pod"
 msgstr "Viga podi töö jätkamisel"
 
-#: src/view/pod.rs:48 src/view/pods_panel.rs:846
-msgid "Error on deleting pod"
+#: src/view/pod.rs:48 src/view/pods_panel.rs:843
+#, fuzzy
+msgid "Could not delete pod"
 msgstr "Viga podi kustutamisel"
 
 #: src/view/pod.rs:58
-msgid "Confirm Pod Deletion"
-msgstr "Kinnita podi kustutamine"
+#, fuzzy
+msgid "Delete Pod?"
+msgstr "Vali pod"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/pod.rs:61
+#: src/view/pod.rs:60
 #, rust-format
 msgid ""
-"Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
+"Pod contains container “{}”. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
 
-#: src/view/pod_create_action_view.rs:69 src/view/pod_create_opts_dialog.blp:15
+#: src/view/pod_create_action_view.rs:69 src/view/pod_create_opts_dialog.blp:16
 #: src/view/pods_panel.blp:44 src/view/pods_panel.blp:47
 msgid "Create Pod"
 msgstr "Loo pod"
 
-#: src/view/pod_create_opts_dialog.blp:38
-#: src/view/volume_create_opts_dialog.blp:38
+#: src/view/pod_create_opts_dialog.blp:39
+#: src/view/volume_create_opts_dialog.blp:39
 msgid "_Create"
 msgstr ""
 
-#: src/view/pod_create_opts_dialog.blp:77
-#: src/view/pod_create_opts_dialog.blp:175
+#: src/view/pod_create_opts_dialog.blp:76
+#: src/view/pod_create_opts_dialog.blp:176
 msgid "Infra"
 msgstr ""
 
-#: src/view/pod_create_opts_dialog.blp:102
-msgid "Disable /etc/resolv.conf management"
+#: src/view/pod_create_opts_dialog.blp:100
+msgid "Disable /etc/resolv.conf Management"
 msgstr ""
 
-#: src/view/pod_create_opts_dialog.blp:110
+#: src/view/pod_create_opts_dialog.blp:108
 msgid "Pod Create Command"
 msgstr "Podi loomise käsk"
 
-#: src/view/pod_create_opts_dialog.blp:136
+#: src/view/pod_create_opts_dialog.blp:133
 msgid "Devices"
 msgstr ""
 
-#: src/view/pod_create_opts_dialog.blp:146
+#: src/view/pod_create_opts_dialog.blp:143
+#: src/view/pod_create_opts_dialog.blp:147
 msgid "Hosts"
 msgstr ""
 
@@ -2479,14 +2636,14 @@ msgstr "Loo selle podi põhjal Kubernetese YAML-fail"
 msgid "View processes of the pod"
 msgstr "Vaata podi protsesse"
 
-#: src/view/pod_details_page.rs:259
+#: src/view/pod_details_page.rs:250
 #, fuzzy
-msgid "Error on loading pod details"
+msgid "Could not load pod details"
 msgstr "Viga podi andmete laadimisel"
 
-#: src/view/pod_details_page.rs:297
-#, rust-format
-msgid "Pod '{}' has been deleted"
+#: src/view/pod_details_page.rs:288
+#, fuzzy, rust-format
+msgid "Pod “{}” has been deleted"
 msgstr "„{}“ pod on kustutatud"
 
 #: src/view/pod_menu_button.blp:58 src/view/pod_menu_button.blp:61
@@ -2494,52 +2651,57 @@ msgstr "„{}“ pod on kustutatud"
 msgid "Pod Actions"
 msgstr "Toiming podidega ei õnnestunud"
 
-#: src/view/pod_row.blp:26
+#: src/view/pod_row.blp:27
 #, fuzzy
 msgid "Select pod"
 msgstr "Vali pod"
-
-#: src/view/pod_row.rs:240
-msgid "Pod Details"
-msgstr "Podi üksikasjad"
 
 #: src/view/pods_panel.blp:54 src/view/pods_panel.blp:57
 msgid "Prune Stopped Pods"
 msgstr ""
 
-#: src/view/pods_panel.blp:92
+#: src/view/pods_panel.blp:94
 #, fuzzy
 msgid "Loading pods"
 msgstr "Viga podide laadimisel"
 
-#: src/view/pods_panel.blp:160
+#: src/view/pods_panel.blp:162
 #, fuzzy
 msgid "Selected pods"
 msgstr "{} valitud pod"
 
-#: src/view/pods_panel.blp:213
+#: src/view/pods_panel.blp:215
 #, fuzzy
 msgid "No Matching Pods"
 msgstr "Ühtegi töötavat podi ei leidu"
 
-#: src/view/pods_panel.blp:223
+#: src/view/pods_panel.blp:216
+msgid "All pods are hidden by the current filter"
+msgstr ""
+
+#: src/view/pods_panel.blp:226
 msgid "_Show All Pods"
 msgstr "_Näita kõik pode"
 
-#: src/view/pods_panel.blp:297
+#: src/view/pods_panel.blp:300
 msgid "Start or resume selected pods"
 msgstr ""
 
-#: src/view/pods_panel.blp:317
+#: src/view/pods_panel.blp:320
 #, fuzzy
 msgid "Stop selected pods"
 msgstr "{} valitud pod"
 
-#: src/view/pods_panel.blp:393
+#: src/view/pods_panel.blp:396
 msgid "No Pods Available"
 msgstr "Ühtegi podi pole saadaval"
 
-#: src/view/pods_panel.blp:403
+#: src/view/pods_panel.blp:397
+#, fuzzy
+msgid "Create a pod to get started"
+msgstr "Alustamiseks loo uus ühendus Podmaniga"
+
+#: src/view/pods_panel.blp:407
 msgid "_Create Pod"
 msgstr "_Loo pod"
 
@@ -2565,12 +2727,18 @@ msgid_plural "{} Selected Pods"
 msgstr[0] "{} valitud pod"
 msgstr[1] "{} valitud podi"
 
-#: src/view/pods_panel.rs:813
-msgid "Confirm Forced Deletion of Multiple Pods"
-msgstr ""
+#: src/view/pods_panel.rs:809
+#, fuzzy
+msgid "Delete Selected Pods?"
+msgstr "{} valitud köide"
 
-#: src/view/pods_panel.rs:815
-msgid "All associated containers will also be removed!"
+#: src/view/pods_panel.rs:811
+#, fuzzy
+msgid "All associated containers will also be removed"
+msgstr "Konteiner on kustutatud"
+
+#: src/view/pods_prune_opts_dialog.blp:48
+msgid "All stopped pods will be removed"
 msgstr ""
 
 #: src/view/port_binding_creation_row.blp:74
@@ -2611,25 +2779,20 @@ msgstr ""
 msgid "Target Port"
 msgstr ""
 
-#: src/view/port_binding_row.blp:24
+#: src/view/port_binding_row.blp:25
 msgid "Host"
 msgstr ""
 
-#: src/view/port_binding_row.blp:81
+#: src/view/port_binding_row.blp:82 src/view/port_binding_row.blp:85
 msgid "Open in Browser"
 msgstr ""
 
-#: src/view/port_binding_row.rs:184
+#: src/view/port_binding_row.rs:177
 msgid "Invalid URL"
 msgstr ""
 
-#: src/view/port_binding_row.rs:201 src/view/volume_details_page.rs:281
-#, fuzzy
-msgid "Error opening link"
-msgstr "Viga logide salvestamisel"
-
-#: src/view/repo_tag_add_dialog.blp:7
-msgid "Add Repository Tag"
+#: src/view/port_binding_row.rs:194 src/view/volume.rs:35
+msgid "Could not open link"
 msgstr ""
 
 #: src/view/repo_tag_add_dialog.blp:12
@@ -2645,85 +2808,97 @@ msgid "Repo tag must contain a colon “:”"
 msgstr ""
 
 #: src/view/repo_tag_push_action_view.rs:71
-#: src/view/repo_tag_push_opts_dialog.blp:33
+#: src/view/repo_tag_push_opts_dialog.blp:34
 msgid "Push Image"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:43
+#: src/view/repo_tag_push_opts_dialog.blp:44
 msgid "_Push"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:50
+#: src/view/repo_tag_push_opts_dialog.blp:51
 msgid "Options"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:54
+#: src/view/repo_tag_push_opts_dialog.blp:55
 msgid "TLS Verify"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:55
+#: src/view/repo_tag_push_opts_dialog.blp:56
 msgid "Require TLS verification"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:69
+#: src/view/repo_tag_push_opts_dialog.blp:70
+#: src/view/repo_tag_push_opts_dialog.blp:76
 msgid "Login"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:70
+#: src/view/repo_tag_push_opts_dialog.blp:71
 msgid "Some registries require authentication"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:80
+#: src/view/repo_tag_push_opts_dialog.blp:85
 msgid "Authentication"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:90
+#: src/view/repo_tag_push_opts_dialog.blp:95
 msgid "Basic"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:95
-#: src/view/repo_tag_push_opts_dialog.blp:115
+#: src/view/repo_tag_push_opts_dialog.blp:100
+#: src/view/repo_tag_push_opts_dialog.blp:120
 msgid "Token"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:103
+#: src/view/repo_tag_push_opts_dialog.blp:108
 msgid "Username"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:109
+#: src/view/repo_tag_push_opts_dialog.blp:114
 msgid "Password"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:121
+#: src/view/repo_tag_push_opts_dialog.blp:126
 msgid "Save Credentials"
 msgstr ""
 
 #: src/view/repo_tag_push_opts_dialog.rs:172
-msgid "Error on accessing keyring"
+msgid "Could not access keyring"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.rs:301
-msgid "Error saving credentials"
+#: src/view/repo_tag_push_opts_dialog.rs:296
+msgid "Could not save credentials"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.rs:302
+#: src/view/repo_tag_push_opts_dialog.rs:297
 msgid "Secret Service is not available"
 msgstr ""
 
-#: src/view/repo_tag_row.blp:29 src/view/repo_tag_row.blp:32
-msgid "Pull Latest"
+#: src/view/repo_tag_row.blp:6
+#, fuzzy
+msgid "_Copy to Clipboard"
+msgstr "Kopeeri lõikelauale"
+
+#: src/view/repo_tag_row.blp:11
+#, fuzzy
+msgid "_Pull Latest"
+msgstr "Tõukan tõmmist"
+
+#: src/view/repo_tag_row.blp:16
+msgid "P_ush to Registry…"
 msgstr ""
 
-#: src/view/repo_tag_row.blp:43 src/view/repo_tag_row.blp:46
-msgid "Push to Registry"
+#: src/view/repo_tag_row.blp:23
+msgid "_Untag"
 msgstr ""
 
-#: src/view/repo_tag_row.blp:57 src/view/repo_tag_row.blp:60
-msgid "Untag"
-msgstr ""
+#: src/view/repo_tag_row.blp:60 src/view/repo_tag_row.blp:64
+#, fuzzy
+msgid "Tag Actions"
+msgstr "Toiming podidega ei õnnestunud"
 
-#: src/view/repo_tag_row.rs:213
-msgid "Error on untagging image"
+#: src/view/repo_tag_row.rs:164
+msgid "Could not untag image"
 msgstr ""
 
 #: src/view/scalable_text_view_page.blp:81
@@ -2740,44 +2915,44 @@ msgid ""
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:276
+#: src/view/scalable_text_view_page.rs:274
 msgid "Image Inspection"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:283
+#: src/view/scalable_text_view_page.rs:281
 msgid "Container Inspection"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:284
+#: src/view/scalable_text_view_page.rs:282
 msgid "Container Kube Generation"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:294
+#: src/view/scalable_text_view_page.rs:292
 msgid "Pod Inspection"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:295
+#: src/view/scalable_text_view_page.rs:293
 msgid "Pod Kube Generation"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:302
+#: src/view/scalable_text_view_page.rs:300
 msgid "Volume Inspection"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:309
+#: src/view/scalable_text_view_page.rs:307
 msgid "Detailed Information"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:337
+#: src/view/scalable_text_view_page.rs:335
 #, rust-format
-msgid "Could not set language to '{}'"
+msgid "Could not set language to “{}”"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:421
+#: src/view/scalable_text_view_page.rs:419
 msgid "Inspection error"
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:422
+#: src/view/scalable_text_view_page.rs:420
 msgid "Kube generation error"
 msgstr ""
 
@@ -2785,12 +2960,12 @@ msgstr ""
 msgid "Start typing to look for results"
 msgstr ""
 
-#: src/view/search_panel.blp:32
+#: src/view/search_panel.blp:32 src/widget/suggestion_entry_row.blp:68
 msgid "No Results Found"
 msgstr ""
 
 #: src/view/search_panel.blp:33
-msgid "Please retry another term"
+msgid "Try a different search term"
 msgstr ""
 
 #: src/view/shortcuts.blp:6
@@ -2800,7 +2975,7 @@ msgstr ""
 
 #: src/view/shortcuts.blp:9
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr ""
 
 #: src/view/shortcuts.blp:14
@@ -2870,7 +3045,7 @@ msgstr ""
 
 #: src/view/shortcuts.blp:78
 msgctxt "shortcut window"
-msgid "Text view"
+msgid "Text View"
 msgstr ""
 
 #: src/view/shortcuts.blp:81 src/view/shortcuts.blp:100
@@ -2894,11 +3069,10 @@ msgid "Terminal"
 msgstr ""
 
 #: src/view/shortcuts.blp:115
+#, fuzzy
 msgctxt "shortcut window"
-msgid ""
-"Copy selection to\n"
-"              clipboard"
-msgstr ""
+msgid "Copy selection to clipboard"
+msgstr "Kopeeri lõikelauale"
 
 #: src/view/shortcuts.blp:120
 msgctxt "shortcut window"
@@ -2929,7 +3103,7 @@ msgid "Pod Processes"
 msgstr "Podide protsessid"
 
 #: src/view/top_page.rs:127
-msgid "USER"
+msgid "User"
 msgstr ""
 
 #: src/view/top_page.rs:134
@@ -2945,7 +3119,7 @@ msgid "%CPU"
 msgstr ""
 
 #: src/view/top_page.rs:155
-msgid "ELAPSED"
+msgid "Elapsed"
 msgstr ""
 
 #: src/view/top_page.rs:162
@@ -2953,14 +3127,11 @@ msgid "TTY"
 msgstr ""
 
 #: src/view/top_page.rs:169
-msgid "TIME"
-msgstr ""
+#, fuzzy
+msgid "Time"
+msgstr "Aegumine"
 
-#: src/view/top_page.rs:176
-msgid "COMMAND"
-msgstr ""
-
-#: src/view/top_page.rs:550
+#: src/view/top_page.rs:540
 msgid "Killing pod processes is not supported"
 msgstr ""
 
@@ -2973,33 +3144,33 @@ msgstr "Argument"
 msgid "Remove Argument"
 msgstr "Argument"
 
-#: src/view/volume.rs:23
-msgid "Confirm Volume Deletion"
-msgstr ""
+#: src/view/volume.rs:50
+#, fuzzy
+msgid "Delete Volume?"
+msgstr "{} valitud köide"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/volume.rs:26
+#: src/view/volume.rs:52
 #, rust-format
 msgid ""
-"Volume is used by container <b>{}</b>. Deleting the volume will also delete "
-"these containers."
+"Volume is used by container “{}”. Deleting the volume will also delete these "
+"containers."
 msgstr ""
 
 #. Translators: The "{}" is a placeholder for the volume name.
-#: src/view/volume.rs:52 src/view/volumes_panel.rs:680
+#: src/view/volume.rs:78 src/view/volumes_panel.rs:680
 #, rust-format
-msgid "Error on deleting volume '{}'"
+msgid "Could not delete volume “{}”"
 msgstr ""
 
 #: src/view/volume_create_action_view.rs:69
-#: src/view/volume_create_opts_dialog.blp:15 src/view/volumes_group.blp:12
-#: src/view/volumes_group.blp:15 src/view/volumes_panel.blp:43
+#: src/view/volume_create_opts_dialog.blp:16 src/view/volumes_panel.blp:43
 #: src/view/volumes_panel.blp:46
 msgid "Create Volume"
 msgstr ""
 
 #: src/view/volume_details_page.blp:29 src/view/volume_details_page.blp:32
-#: src/view/volume_row.blp:77 src/view/volume_row.blp:80
+#: src/view/volume_row.blp:75 src/view/volume_row.blp:78
 msgid "Delete Volume"
 msgstr ""
 
@@ -3007,41 +3178,36 @@ msgstr ""
 msgid "Mount Path"
 msgstr ""
 
-#: src/view/volume_details_page.blp:74
-msgid "Open in file manager"
+#: src/view/volume_details_page.blp:80
+msgid "Open in File Manager"
 msgstr ""
 
-#: src/view/volume_details_page.blp:77
+#: src/view/volume_details_page.blp:83
 msgid "Open mount path in file manager"
 msgstr ""
 
-#: src/view/volume_details_page.blp:93
+#: src/view/volume_details_page.blp:112
 #, fuzzy
 msgid "Copy mount path to clipboard"
 msgstr "Kopeeri lõikelauale"
 
-#: src/view/volume_details_page.blp:122
+#: src/view/volume_details_page.blp:141
 msgid "View all volume properties in a structured text form"
 msgstr ""
 
-#: src/view/volume_details_page.rs:212
-#, rust-format
-msgid "Volume '{}' has been deleted"
-msgstr ""
+#: src/view/volume_details_page.rs:210
+#, fuzzy, rust-format
+msgid "Volume “{}” has been deleted"
+msgstr "„{}“ pod on kustutatud"
 
 #: src/view/volume_row.blp:25
 #, fuzzy
 msgid "Select volume"
 msgstr "{} valitud köide"
 
-#: src/view/volume_row.rs:166
+#: src/view/volume_row.rs:161
 #, rust-format
 msgid "{} old"
-msgstr ""
-
-#: src/view/volume_row.rs:270
-#, rust-format
-msgid "Volume {}"
 msgstr ""
 
 #: src/view/volumes_panel.blp:15
@@ -3053,34 +3219,43 @@ msgstr ""
 msgid "Prune Unused Volumes"
 msgstr "Eemalda töö lõpetanud podid"
 
-#: src/view/volumes_panel.blp:91
+#: src/view/volumes_panel.blp:93
 #, fuzzy
 msgid "Loading volumes"
 msgstr "Laadin eelmisi ridu"
 
-#: src/view/volumes_panel.blp:159
+#: src/view/volumes_panel.blp:161
 #, fuzzy
 msgid "Selected volumes"
 msgstr "{} valitud köide"
 
-#: src/view/volumes_panel.blp:212
+#: src/view/volumes_panel.blp:214
 msgid "No Matching Volumes"
 msgstr ""
 
-#: src/view/volumes_panel.blp:222
+#: src/view/volumes_panel.blp:215
+msgid "All volumes are hidden by the current filter"
+msgstr ""
+
+#: src/view/volumes_panel.blp:225
 msgid "_Show All Volumes"
 msgstr ""
 
-#: src/view/volumes_panel.blp:247
+#: src/view/volumes_panel.blp:249
 #, fuzzy
 msgid "Delete selected volumes"
 msgstr "{} valitud köide"
 
-#: src/view/volumes_panel.blp:279
+#: src/view/volumes_panel.blp:281
 msgid "No Volumes Available"
 msgstr ""
 
-#: src/view/volumes_panel.blp:289
+#: src/view/volumes_panel.blp:282
+#, fuzzy
+msgid "Create a volume to get started"
+msgstr "Alustamiseks loo uus ühendus Podmaniga"
+
+#: src/view/volumes_panel.blp:292
 msgid "_Create Volume"
 msgstr ""
 
@@ -3099,7 +3274,7 @@ msgid_plural "{} volumes total, {} unused"
 msgstr[0] "kokku {} köide, neist {} kasutamata"
 msgstr[1] "kokku {} köidet, neist {} kasutamata"
 
-#: src/view/volumes_panel.rs:302
+#: src/view/volumes_panel.rs:303
 #, rust-format
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
@@ -3107,20 +3282,21 @@ msgstr[0] "{} valitud köide"
 msgstr[1] "{} valitud köidet"
 
 #: src/view/volumes_panel.rs:653
-msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr ""
+#, fuzzy
+msgid "Delete Selected Volumes?"
+msgstr "{} valitud köide"
 
 #: src/view/volumes_panel.rs:655
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
-"be removed!"
+"be removed"
 msgstr ""
 
-#: src/view/volumes_prune_opts_dialog.blp:51
+#: src/view/volumes_prune_opts_dialog.blp:50
 msgid "Consider all (local) volumes for pruning and not just anonymous volumes"
 msgstr ""
 
-#: src/view/volumes_prune_opts_dialog.blp:60
+#: src/view/volumes_prune_opts_dialog.blp:59
 msgid "Prune volumes created before this timestamp"
 msgstr ""
 
@@ -3136,8 +3312,22 @@ msgstr "Alustamiseks loo uus ühendus Podmaniga"
 msgid "_New Connection"
 msgstr ""
 
+#: src/view/window.rs:172 src/view/window.rs:306
+#, fuzzy
+msgid "Connection lost"
+msgstr "Uus ühendus"
+
 #: src/view/window.rs:214
-msgid "Confirm Exiting The Application"
+#, fuzzy
+msgid "Quit Pods?"
+msgstr "R_akenduse teave: Pods"
+
+#: src/view/window.rs:215
+msgid "_Quit"
+msgstr ""
+
+#: src/widget/action_state_indicator.blp:24
+msgid "In progress"
 msgstr ""
 
 #: src/widget/auto_scrolled_window.blp:20
@@ -3170,20 +3360,29 @@ msgstr ""
 msgid "_About Pods"
 msgstr "R_akenduse teave: Pods"
 
-#: src/widget/main_menu_button.blp:24
+#: src/widget/main_menu_button.blp:24 src/widget/main_menu_button.blp:27
 msgid "Main Menu"
 msgstr ""
 
 #: src/widget/random_name_entry_row.blp:13
+#: src/widget/random_name_entry_row.blp:17
 msgid "Generate Random Name"
 msgstr ""
 
 #: src/widget/source_view_search_widget.blp:18
-msgid "Previous (Ctrl+Shift+G)"
+msgid "Previous Match (Ctrl+Shift+G)"
 msgstr ""
 
-#: src/widget/source_view_search_widget.blp:23
-msgid "Next (Ctrl+G)"
+#: src/widget/source_view_search_widget.blp:21
+msgid "Previous Match"
+msgstr ""
+
+#: src/widget/source_view_search_widget.blp:28
+msgid "Next Match (Ctrl+G)"
+msgstr ""
+
+#: src/widget/source_view_search_widget.blp:32
+msgid "Next Match"
 msgstr ""
 
 #: src/widget/source_view_search_widget.rs:160
@@ -3196,15 +3395,19 @@ msgstr ""
 msgid "{} of {}"
 msgstr ""
 
-#: src/widget/text_search_entry.blp:32
+#: src/widget/suggestion_entry_row.blp:69
+msgid "Try a different term"
+msgstr ""
+
+#: src/widget/text_search_entry.blp:32 src/widget/text_search_entry.blp:36
 msgid "Regular Expression"
 msgstr ""
 
-#: src/widget/text_search_entry.blp:39
+#: src/widget/text_search_entry.blp:43 src/widget/text_search_entry.blp:47
 msgid "Case Sensitive"
 msgstr ""
 
-#: src/widget/text_search_entry.blp:46
+#: src/widget/text_search_entry.blp:54 src/widget/text_search_entry.blp:58
 msgid "Whole Word"
 msgstr ""
 
@@ -3219,6 +3422,62 @@ msgstr ""
 #: src/widget/zoom_control.blp:44
 msgid "Zoom In"
 msgstr ""
+
+#~ msgid "Manage your Podman containers"
+#~ msgstr "Sinu Podmani konteinerite haldus"
+
+#~ msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
+#~ msgstr "Gnome;GTK;libadwaita;Podman;Containerization;konteinerid;konteineriseerimine;kubernetes;pod;"
+
+#, fuzzy
+#~ msgid ""
+#~ "Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
+#~ "interface and strives to meet the design principles of GNOME."
+#~ msgstr ""
+#~ "Pods on kasutajaliides podmani jaoks. Liidese teegina on kasutusel "
+#~ "libawdaita ja järgitud on GNOME'i põhimõtteid."
+
+#, fuzzy, rust-format
+#~ msgid "Commit <b>{}</b>"
+#~ msgstr "Loo pod <b>{}</b>"
+
+#, fuzzy
+#~ msgid "Commit container"
+#~ msgstr "Konteiner"
+
+#, fuzzy, rust-format
+#~ msgid "Create <b>{}</b>"
+#~ msgstr "Loo pod <b>{}</b>"
+
+#, fuzzy, rust-format
+#~ msgid "Build <b>{}</b>"
+#~ msgstr "Loo pod <b>{}</b>"
+
+#~ msgid "Error renaming container"
+#~ msgstr "Viga konteineri nime muutmisel"
+
+#~ msgid "Error on stopping container"
+#~ msgstr "Viga konteineri töö lõpetamisel"
+
+#~ msgid "Error starting container"
+#~ msgstr "Viga konteineri käivitamisel"
+
+#~ msgid "Error resuming container"
+#~ msgstr "Viga konteineri töö jätkamisel"
+
+#, fuzzy
+#~ msgid "Copy to clipboard"
+#~ msgstr "Kopeeri lõikelauale"
+
+#~ msgid "Confirm Pod Deletion"
+#~ msgstr "Kinnita podi kustutamine"
+
+#~ msgid "Pod Details"
+#~ msgstr "Podi üksikasjad"
+
+#, fuzzy
+#~ msgid "Error opening link"
+#~ msgstr "Viga logide salvestamisel"
 
 #, fuzzy
 #~ msgid "Pods 3.1.1 contains the following changes:"
@@ -3279,9 +3538,6 @@ msgstr ""
 #~ msgid "Upload <b>{}</b> to <b>{}:{}</b>"
 #~ msgstr "Laadi <b>{}</b> üles asukohta <b>{}:{}</b>"
 
-#~ msgid "Tar archive created"
-#~ msgstr "Tar-arhiiv on loodud"
-
 #, rust-format
 #~ msgid "Download <b>{}:{}</b> to <b>{}</b>"
 #~ msgstr "Laadi <b>{}:{}</b> alla asukohta <b>{}</b>"
@@ -3290,14 +3546,8 @@ msgstr ""
 #~ msgid "Writing to file…"
 #~ msgstr "Loo tar-arhiiv…"
 
-#~ msgid "Pruning Images"
-#~ msgstr "Kärbin tõmmiseid"
-
 #~ msgid "Downloading Image"
 #~ msgstr "Laadin tõmmiseid alla"
-
-#~ msgid "Building Image"
-#~ msgstr "Kompileerin tõmmist"
 
 #~ msgid "Pushing Image"
 #~ msgstr "Tõukan tõmmist"
@@ -3316,10 +3566,6 @@ msgstr ""
 
 #~ msgid "Pods Pruned"
 #~ msgstr "Podid on eemaldatud"
-
-#, fuzzy
-#~ msgid "View Image"
-#~ msgstr "{} tõmmis"
 
 #, fuzzy
 #~ msgid "View Container"
@@ -3354,14 +3600,8 @@ msgstr ""
 #~ msgid "Add Argument"
 #~ msgstr "Lisa argument"
 
-#~ msgid "Download Files"
-#~ msgstr "Laadi failid alla"
-
 #~ msgid "_Download"
 #~ msgstr "_Laadi alla"
-
-#~ msgid "Upload Files"
-#~ msgstr "Laadi falid üles"
 
 #~ msgid "_Upload"
 #~ msgstr "Laadi _üles"
@@ -3373,18 +3613,10 @@ msgstr ""
 #~ msgid "No Pod Available"
 #~ msgstr "Ühtegi podi pole saadaval"
 
-#~ msgid "Select Pod"
-#~ msgstr "Vali pod"
-
 #~ msgid "{} Container"
 #~ msgid_plural "{} Containers"
 #~ msgstr[0] "{} konteiner"
 #~ msgstr[1] "{} konteinerit"
-
-#~ msgid "{} Option"
-#~ msgid_plural "{} Options"
-#~ msgstr[0] "{} valik"
-#~ msgstr[1] "{} valikut"
 
 #~ msgid "{} State"
 #~ msgid_plural "{} States"
