@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the pods package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/view/connection_chooser_page.blp:36
 msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 19:21+0000\n"
+"POT-Creation-Date: 2026-10-20 14:59+0000\n"
 "PO-Revision-Date: 2023-12-05 18:13+0000\n"
 "Last-Translator: SoftExpert <softexpert@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/pods/main/ro/>\n"
@@ -22,20 +21,21 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:119
-#: src/view/client_view.blp:139 src/view/client_view.rs:246
-#: src/view/pods_panel.blp:81 src/view/pods_panel.blp:127
-#: src/view/pods_panel.blp:387 src/view/search_panel.blp:56
+#: src/view/client_view.blp:142 src/view/client_view.rs:243
+#: src/view/pods_panel.blp:83 src/view/pods_panel.blp:129
+#: src/view/pods_panel.blp:390 src/view/search_panel.blp:56
 msgid "Pods"
 msgstr "Poduri"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
 #, fuzzy
-msgid "Manage your Podman containers"
+msgid "Manage your containers"
 msgstr "Se ține evidența containerelor podman"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:8
-msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr "Gnome;GTK;libadwaita;Podman;Containerizare;"
+msgid "Podman;Docker;Container;Image;Pod;Volume;"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -64,13 +64,12 @@ msgid "The last used container file path"
 msgstr "Ultima cale a fișierului container utilizat"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
-#: src/view/images_prune_opts_dialog.blp:49
+#: src/view/images_prune_opts_dialog.blp:48
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr ""
 "Îndepărtați toate imaginile nefolosite de containere, nu doar cele rămase"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
-#: src/view/images_prune_opts_dialog.blp:54
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
@@ -153,20 +152,11 @@ msgstr "Eroare la încărcarea volumelor"
 msgid "Sort attribute for volumes"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
-msgid "Manage your containers"
-msgstr "Se ține evidența containerelor podman"
-
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
-#, fuzzy
 msgid ""
-"Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
-"interface and strives to meet the design principles of GNOME."
+"Pods lets you manage your Podman and Docker containers, pods, images and "
+"volumes, whether they run locally or on a remote machine."
 msgstr ""
-"Pods este un frontend pentru podman. Folosește libadwaita pentru interfața "
-"sa de utilizator și se străduiește să respecte principiile de design ale "
-"GNOME."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
@@ -231,7 +221,7 @@ msgstr "Redenumiți containerele."
 msgid "Pods main window"
 msgstr "Închide fereastra"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:522
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:530
 msgid "Marcus Behrendt"
 msgstr "Marcus Behrendt"
 
@@ -256,7 +246,7 @@ msgstr "Specificați nivelul minim al jurnalului"
 msgid "Container has been removed"
 msgstr "Containerul '{}' a fost șters"
 
-#: src/model/container_create_action.rs:154
+#: src/model/container_create_action.rs:153
 #, fuzzy
 msgid "Container Created"
 msgstr "Containerul a fost creat"
@@ -282,9 +272,9 @@ msgid "Configured"
 msgstr "Configurat"
 
 #: src/model/container_status.rs:126 src/model/pod_status.rs:114
-#: src/view/container_properties_group.blp:95
-#: src/view/image_details_page.blp:91 src/view/pod_details_page.blp:234
-#: src/view/volume_details_page.blp:113
+#: src/view/container_properties_group.blp:97
+#: src/view/image_details_page.blp:82 src/view/pod_details_page.blp:234
+#: src/view/volume_details_page.blp:132
 msgid "Created"
 msgstr "Creat"
 
@@ -333,11 +323,11 @@ msgstr "Oprire"
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:312
+#: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:310
 msgid "Docker"
 msgstr ""
 
-#: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:313
+#: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:311
 #, fuzzy
 msgid "Podman"
 msgstr "Podman"
@@ -351,9 +341,9 @@ msgstr "Creat"
 msgid "Degraded"
 msgstr "Degradat"
 
-#: src/model/pod_status.rs:117 src/view/connection_creation_page.rs:320
-#: src/view/image_details_page.rs:383 src/view/scalable_text_view_page.rs:467
-#: src/view/top_page.rs:544 src/view/top_page.rs:549
+#: src/model/pod_status.rs:117 src/view/connection_creation_dialog.rs:299
+#: src/view/image_details_page.rs:372 src/view/scalable_text_view_page.rs:465
+#: src/view/top_page.rs:534 src/view/top_page.rs:539
 msgid "Error"
 msgstr "Eroare"
 
@@ -417,223 +407,221 @@ msgid "{} ago"
 msgstr "{} în trecut"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:322
+#: src/utils.rs:261 src/view/image_history_page.rs:99
 msgid "<none>"
 msgstr "<nimic>"
 
-#: src/utils.rs:421
-msgid "Error on open file dialog"
+#: src/utils.rs:360
+#, fuzzy
+msgid "Could not open file dialog"
 msgstr "Eroare în dialogul de deschidere a fișierului"
 
-#: src/view/action_dialog.blp:99 src/view/connection.rs:28
-#: src/view/connection_creation_page.blp:30 src/view/container.rs:95
-#: src/view/container.rs:146 src/view/container_commit_opts_dialog.blp:27
-#: src/view/container_copy_from_opts_dialog.blp:27
-#: src/view/container_copy_to_opts_dialog.blp:36
-#: src/view/container_create_opts_dialog.blp:36
-#: src/view/containers_panel.rs:965
-#: src/view/containers_prune_opts_dialog.blp:27 src/view/image.rs:32
-#: src/view/image_build_opts_dialog.blp:27
-#: src/view/image_pull_opts_dialog.blp:27 src/view/images_panel.rs:677
-#: src/view/images_prune_opts_dialog.blp:27 src/view/pod.rs:65
-#: src/view/pod_create_opts_dialog.blp:27 src/view/pods_panel.rs:819
-#: src/view/pods_prune_opts_dialog.blp:27 src/view/repo_tag_add_dialog.blp:11
-#: src/view/repo_tag_push_opts_dialog.blp:27 src/view/volume.rs:30
-#: src/view/volume_create_opts_dialog.blp:27 src/view/volumes_panel.rs:660
-#: src/view/volumes_prune_opts_dialog.blp:27
+#: src/view/action_dialog.blp:98 src/view/connection.rs:26
+#: src/view/connection_creation_dialog.blp:33 src/view/container.rs:95
+#: src/view/container.rs:147 src/view/container_commit_opts_dialog.blp:28
+#: src/view/container_copy_from_opts_dialog.blp:28
+#: src/view/container_copy_to_opts_dialog.blp:37
+#: src/view/container_create_opts_dialog.blp:37
+#: src/view/containers_panel.rs:961
+#: src/view/containers_prune_opts_dialog.blp:26 src/view/image.rs:31
+#: src/view/image_build_opts_dialog.blp:28
+#: src/view/image_pull_opts_dialog.blp:28 src/view/images_panel.rs:669
+#: src/view/images_prune_opts_dialog.blp:26 src/view/pod.rs:64
+#: src/view/pod_create_opts_dialog.blp:28 src/view/pods_panel.rs:815
+#: src/view/pods_prune_opts_dialog.blp:26 src/view/repo_tag_add_dialog.blp:11
+#: src/view/repo_tag_push_opts_dialog.blp:28 src/view/volume.rs:56
+#: src/view/volume_create_opts_dialog.blp:28 src/view/volumes_panel.rs:660
+#: src/view/volumes_prune_opts_dialog.blp:26
 msgid "_Cancel"
 msgstr "Anulare"
 
-#: src/view/action_dialog.blp:118
+#: src/view/action_dialog.blp:117
 msgid "_Edit"
 msgstr ""
 
-#: src/view/action_dialog.blp:130
+#: src/view/action_dialog.blp:129
 msgid "_View"
 msgstr "_Vedere"
 
-#: src/view/action_dialog.rs:95 src/widget/action_state_indicator.blp:37
+#: src/view/action_dialog.rs:94 src/widget/action_state_indicator.blp:41
 #, fuzzy
 msgid "Cancelled"
 msgstr "Anulează"
 
-#: src/view/action_dialog.rs:96 src/widget/action_state_indicator.blp:54
+#: src/view/action_dialog.rs:95 src/widget/action_state_indicator.blp:58
 msgid "Failed"
 msgstr ""
 
-#: src/view/action_dialog.rs:97 src/widget/action_state_indicator.blp:71
+#: src/view/action_dialog.rs:96 src/widget/action_state_indicator.blp:75
 msgid "Finished"
 msgstr "Finalizat"
 
-#: src/view/action_dialog.rs:98
+#: src/view/action_dialog.rs:97
 #, fuzzy
 msgid "Ongoing"
 msgstr "În curs de desfășurare ({})"
 
-#: src/view/action_dialog.rs:289 src/view/container_details_page.rs:256
+#: src/view/action_dialog.rs:288 src/view/container_details_page.rs:247
 #, rust-format
 msgid "since {}"
 msgstr "de la {}"
 
-#: src/view/action_dialog.rs:299
+#: src/view/action_dialog.rs:298
 #, fuzzy, rust-format
 msgid "after {}"
 msgstr "După {}"
 
-#: src/view/action_dialog.rs:343
-msgid "Action"
-msgstr "Acțiune"
-
-#: src/view/action_dialog.rs:372 src/view/action_dialog.rs:385
-#: src/view/action_dialog.rs:401
+#: src/view/action_dialog.rs:366 src/view/action_dialog.rs:379
+#: src/view/action_dialog.rs:395
 #, fuzzy
 msgid "Container Removed"
 msgstr "Containerul a fost creat"
 
-#: src/view/action_dialog.rs:373
+#: src/view/action_dialog.rs:367
 #, fuzzy
-msgid "Container cannot be committed because it has been removed."
+msgid "Container cannot be committed because it has been removed"
 msgstr "Containerul '{}' a fost șters"
 
-#: src/view/action_dialog.rs:387 src/view/action_dialog.rs:403
-msgid "Files cannot be copied anymore because the container has been removed."
-msgstr ""
+#: src/view/action_dialog.rs:381 src/view/action_dialog.rs:397
+#, fuzzy
+msgid "Files cannot be copied anymore because the container has been removed"
+msgstr "Containerul '{}' a fost șters"
 
-#: src/view/action_dialog.rs:425
+#: src/view/action_dialog.rs:418
 #, fuzzy
 msgid "Tag Removed"
 msgstr "Eliminare"
 
-#: src/view/action_dialog.rs:426
-msgid "Cannot push removed tag."
+#: src/view/action_dialog.rs:418
+msgid "Cannot push removed tag"
 msgstr ""
 
-#: src/view/action_dialog.rs:449
+#: src/view/action_dialog.rs:440
 msgid "Close"
 msgstr ""
 
-#: src/view/action_row.rs:172 src/view/connection_creation_page.blp:66
+#: src/view/action_row.rs:159 src/view/connection_creation_dialog.blp:69
 msgid "Abort"
 msgstr "Abandonează"
 
-#: src/view/action_row.rs:174 src/view/key_val_row.blp:44
+#: src/view/action_row.rs:161 src/view/key_val_row.blp:44
 #: src/view/key_val_row.blp:47
 msgid "Remove"
 msgstr "Eliminare"
 
-#: src/view/action_row.rs:212
+#: src/view/action_row.rs:199
 msgid "Failed Pods Action"
 msgstr "Acțiune asupra podurilor eșuate"
 
-#: src/view/action_row.rs:218
+#: src/view/action_row.rs:205
 msgid "Finished Pods Action"
 msgstr "Acțiune asupra Podurilor terminate"
 
-#: src/view/action_row.rs:288
+#: src/view/action_row.rs:275
 #, rust-format
 msgid "Ongoing ({})"
 msgstr "În curs de desfășurare ({})"
 
-#: src/view/action_row.rs:302
+#: src/view/action_row.rs:289
 #, rust-format
 msgid "Cancelled after {}"
 msgstr "Anulat după {}"
 
-#: src/view/action_row.rs:303
+#: src/view/action_row.rs:290
 #, rust-format
 msgid "Failed after {}"
 msgstr "A eșuat după {}"
 
-#: src/view/action_row.rs:304
+#: src/view/action_row.rs:291
 #, rust-format
 msgid "Finished after {}"
 msgstr "Terminat după {}"
 
-#: src/view/action_row.rs:373
-#, fuzzy, rust-format
-msgid "Commit <b>{}</b>"
-msgstr "Salvare imagine: <b>{}</b> ({})"
+#: src/view/action_row.rs:360
+#, rust-format
+msgid "Commit “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:374
-#, fuzzy
-msgid "Commit container"
+#: src/view/action_row.rs:361 src/view/container_commit_action_view.rs:69
+#: src/view/container_commit_opts_dialog.blp:16
+msgid "Commit Container"
 msgstr "Salvează containerul"
 
-#: src/view/action_row.rs:378
+#: src/view/action_row.rs:365
 #, fuzzy, rust-format
-msgid "Copy from <b>{}</b>"
+msgid "Copy from “{}”"
 msgstr "Creează o capsulă <b>{}</b>"
 
-#: src/view/action_row.rs:379
+#: src/view/action_row.rs:366
 #, fuzzy
-msgid "Copy from container"
+msgid "Copy from Container"
 msgstr "Salvează containerul"
 
-#: src/view/action_row.rs:383
+#: src/view/action_row.rs:370
 #, fuzzy, rust-format
-msgid "Copy to <b>{}</b>"
+msgid "Copy to “{}”"
 msgstr "Creează o capsulă <b>{}</b>"
 
-#: src/view/action_row.rs:384
+#: src/view/action_row.rs:371 src/view/container_copy_to_opts_dialog.blp:25
 #, fuzzy
-msgid "Copy to container"
+msgid "Copy to Container"
 msgstr "Salvează containerul"
 
-#: src/view/action_row.rs:386 src/view/action_row.rs:393
-#: src/view/action_row.rs:407
-#, fuzzy, rust-format
-msgid "Create <b>{}</b>"
-msgstr "Creează o capsulă <b>{}</b>"
+#: src/view/action_row.rs:373 src/view/action_row.rs:380
+#: src/view/action_row.rs:394
+#, rust-format
+msgid "Create “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:391 src/view/containers_prune_action_view.rs:97
-#: src/view/containers_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:378 src/view/containers_prune_action_view.rs:97
+#: src/view/containers_prune_opts_dialog.blp:14
 #, fuzzy
 msgid "Prune Containers"
 msgstr "Nici un container în curs de execuție"
 
-#: src/view/action_row.rs:395 src/view/pods_prune_action_view.rs:69
-#: src/view/pods_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:382 src/view/pods_prune_action_view.rs:69
+#: src/view/pods_prune_opts_dialog.blp:14
 #, fuzzy
 msgid "Prune Pods"
 msgstr "Nu exista capsule în curs de execuție"
 
-#: src/view/action_row.rs:397
+#: src/view/action_row.rs:384
 #, fuzzy, rust-format
-msgid "Build <b>{}</b>"
-msgstr "Construire imagine: <b>{}</b>"
+msgid "Build “{}”"
+msgstr "_Construire…"
 
-#: src/view/action_row.rs:399
-#, fuzzy, rust-format
-msgid "Pull <b>{}</b>"
-msgstr "Descărcare imagine: <b>{}</b>"
+#: src/view/action_row.rs:386
+#, rust-format
+msgid "Pull “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:402
-#, fuzzy, rust-format
-msgid "Push <b>{}</b>"
-msgstr "Încărcare imagine: <b>{}</b>"
+#: src/view/action_row.rs:389
+#, rust-format
+msgid "Push “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:404 src/view/images_prune_action_view.rs:97
-#: src/view/images_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:391 src/view/images_prune_action_view.rs:97
+#: src/view/images_prune_opts_dialog.blp:14
 msgid "Prune Images"
 msgstr "Suprimați imaginile"
 
-#: src/view/action_row.rs:408
+#: src/view/action_row.rs:395
 #, fuzzy
-msgid "Create anonymous"
+msgid "Create Anonymous Volume"
 msgstr "_Creați numai"
 
-#: src/view/action_row.rs:411 src/view/volumes_prune_action_view.rs:97
-#: src/view/volumes_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:398 src/view/volumes_prune_action_view.rs:97
+#: src/view/volumes_prune_opts_dialog.blp:14
 msgid "Prune Volumes"
 msgstr "Suprimați volumele"
 
-#: src/view/action_row.rs:413
+#: src/view/action_row.rs:400
 #, fuzzy
 msgid "Unknown Action"
 msgstr "Data necunoscută"
 
 #: src/view/actions_button.blp:12 src/view/actions_sidebar.blp:14
-#: src/view/client_view.blp:83 src/view/client_view.blp:292
+#: src/view/client_view.blp:83 src/view/client_view.blp:302
 msgid "Actions"
 msgstr "Acțiuni"
 
@@ -645,25 +633,29 @@ msgstr "Curăță acțiunile terminate"
 msgid "No Actions"
 msgstr "Nu există acțiuni"
 
+#: src/view/actions_sidebar.blp:42
+msgid "Operations like pulling images will appear here"
+msgstr ""
+
 #: src/view/client_view.blp:35 src/view/client_view.blp:40
-#: src/view/client_view.blp:376
+#: src/view/client_view.blp:386
 msgid "Home"
 msgstr "Acasă"
 
 #: src/view/client_view.blp:54 src/view/client_view.blp:57
-#: src/view/client_view.blp:283 src/view/connections_sidebar.blp:14
+#: src/view/client_view.blp:293 src/view/connections_sidebar.blp:14
 msgid "Connections"
 msgstr "Conexiuni"
 
 #: src/view/client_view.blp:65 src/view/client_view.blp:68
 #: src/view/container_log_page.blp:55 src/view/container_log_page.blp:58
-#: src/view/containers_panel.blp:120 src/view/containers_panel.blp:123
-#: src/view/images_panel.blp:134 src/view/images_panel.blp:137
-#: src/view/pods_panel.blp:112 src/view/pods_panel.blp:115
+#: src/view/containers_panel.blp:122 src/view/containers_panel.blp:125
+#: src/view/images_panel.blp:136 src/view/images_panel.blp:139
+#: src/view/pods_panel.blp:114 src/view/pods_panel.blp:117
 #: src/view/scalable_text_view_page.blp:42
 #: src/view/scalable_text_view_page.blp:45 src/view/search_panel.blp:22
 #: src/view/top_page.blp:14 src/view/top_page.blp:17
-#: src/view/volumes_panel.blp:111 src/view/volumes_panel.blp:114
+#: src/view/volumes_panel.blp:113 src/view/volumes_panel.blp:116
 msgid "Search"
 msgstr "Căutare"
 
@@ -672,39 +664,92 @@ msgctxt "app name"
 msgid "Pods"
 msgstr "Poduri"
 
-#: src/view/client_view.blp:99 src/view/client_view.rs:245
-#: src/view/containers_panel.blp:89 src/view/containers_panel.blp:135
-#: src/view/containers_panel.blp:389 src/view/image_details_page.blp:169
+#: src/view/client_view.blp:99 src/view/client_view.rs:242
+#: src/view/containers_panel.blp:91 src/view/containers_panel.blp:137
+#: src/view/containers_panel.blp:392 src/view/image_details_page.blp:163
 #: src/view/images_panel.blp:44 src/view/pod_details_page.blp:303
 #: src/view/pods_panel.blp:15 src/view/search_panel.blp:44
-#: src/view/volume_details_page.blp:136 src/view/volumes_panel.blp:21
+#: src/view/volume_details_page.blp:155 src/view/volumes_panel.blp:21
 msgid "Containers"
 msgstr "Containere"
 
-#: src/view/client_view.blp:184 src/view/client_view.rs:247
-#: src/view/images_panel.blp:103 src/view/images_panel.blp:149
-#: src/view/images_panel.blp:296 src/view/search_panel.blp:68
+#: src/view/client_view.blp:111 src/view/containers_count_bar.blp:62
+#: src/view/containers_count_bar.blp:72
+#, fuzzy
+msgid "Running Containers"
+msgstr "Afișarea doar a containerelor în curs de execuție"
+
+#: src/view/client_view.blp:122 src/view/containers_count_bar.blp:39
+#: src/view/containers_count_bar.blp:49
+#, fuzzy
+msgid "Not Running Containers"
+msgstr "Afișarea doar a containerelor în curs de execuție"
+
+#: src/view/client_view.blp:133 src/view/containers_count_bar.blp:16
+#: src/view/containers_count_bar.blp:26
+#, fuzzy
+msgid "Dead Containers"
+msgstr "Containere"
+
+#: src/view/client_view.blp:159
+#, fuzzy
+msgid "Running Pods"
+msgstr "Rulează"
+
+#: src/view/client_view.blp:170
+#, fuzzy
+msgid "Not Running Pods"
+msgstr "Afișarea doar a containerelor în curs de execuție"
+
+#: src/view/client_view.blp:181
+#, fuzzy
+msgid "Degraded Pods"
+msgstr "Degradat"
+
+#: src/view/client_view.blp:190 src/view/client_view.rs:244
+#: src/view/images_panel.blp:105 src/view/images_panel.blp:151
+#: src/view/images_panel.blp:298 src/view/search_panel.blp:68
 msgid "Images"
 msgstr "Imagini"
 
-#: src/view/client_view.blp:214 src/view/client_view.rs:248
-#: src/view/container_create_opts_dialog.blp:224
+#: src/view/client_view.blp:202
+#, fuzzy
+msgid "Used Images"
+msgstr "Suprimarea imaginilor nefolosite"
+
+#: src/view/client_view.blp:213
+#, fuzzy
+msgid "Untagged Images"
+msgstr "Afișarea numai a imaginilor etichetate"
+
+#: src/view/client_view.blp:222 src/view/client_view.rs:245
+#: src/view/container_create_opts_dialog.blp:221
 #: src/view/container_details_page.blp:251 src/view/search_panel.blp:80
-#: src/view/volumes_panel.blp:80 src/view/volumes_panel.blp:126
-#: src/view/volumes_panel.blp:273
+#: src/view/volumes_panel.blp:82 src/view/volumes_panel.blp:128
+#: src/view/volumes_panel.blp:275
 msgid "Volumes"
 msgstr "Volume"
 
-#: src/view/client_view.blp:263
+#: src/view/client_view.blp:234
+#, fuzzy
+msgid "Used Volumes"
+msgstr "Suprimă volumele nefolosite"
+
+#: src/view/client_view.blp:245
+#, fuzzy
+msgid "Unused Volumes"
+msgstr "Suprimă volumele nefolosite"
+
+#: src/view/client_view.blp:273
 #, fuzzy
 msgid "Loading"
 msgstr "Salvare jurnal"
 
-#: src/view/client_view.blp:303
+#: src/view/client_view.blp:313
 msgid "Content"
 msgstr "Conținut"
 
-#: src/view/client_view.rs:249
+#: src/view/client_view.rs:246
 msgid "Info"
 msgstr "Info"
 
@@ -714,10 +759,6 @@ msgid "There are ongoing actions whose progress will be irretrievably lost"
 msgstr ""
 "Există acțiuni în curs de desfășurare ale căror progrese vor fi iremediabil "
 "pierdute."
-
-#: src/view/connection.rs:29 src/view/container.rs:147
-msgid "_Confirm"
-msgstr "_Confirmă"
 
 #: src/view/connection_chooser_page.blp:19
 #: src/view/connection_chooser_page.blp:22
@@ -742,62 +783,64 @@ msgid "Choose an existing connection or create a new one"
 msgstr "Alegeți o conexiune existentă sau creați una nouă"
 
 #: src/view/connection_chooser_page.blp:86
-#: src/view/connection_creation_page.blp:19
-#: src/view/connection_creation_page.blp:36
+#: src/view/connection_creation_dialog.blp:22
+#: src/view/connection_creation_dialog.blp:39
+#: src/view/connections_sidebar.blp:24
 msgid "New Connection"
 msgstr "Conexiune nouă"
 
 #: src/view/connection_chooser_page.rs:173
 #, fuzzy
-msgid "Error on establishing connection"
+msgid "Could not establish connection"
 msgstr "Eroare la comutarea conexiunii"
 
-#: src/view/connection_creation_page.blp:50
+#: src/view/connection_creation_dialog.blp:53
+#: src/view/connection_creation_dialog.rs:245
 msgid "_Connect"
 msgstr "_Conectați-vă"
 
-#: src/view/connection_creation_page.blp:75
+#: src/view/connection_creation_dialog.blp:78
 msgid "_Abort"
 msgstr "_Abandonează"
 
-#: src/view/connection_creation_page.blp:89
-#: src/view/container_create_opts_dialog.blp:58
+#: src/view/connection_creation_dialog.blp:92
+#: src/view/container_create_opts_dialog.blp:59
 #: src/view/container_properties_group.blp:14 src/view/container_renamer.blp:10
 #: src/view/containers_panel.blp:9 src/view/images_panel.blp:32
-#: src/view/pod_create_opts_dialog.blp:48
+#: src/view/pod_create_opts_dialog.blp:49
 #: src/view/pod_create_opts_dialog.blp:196 src/view/pod_details_page.blp:185
-#: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:47
+#: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:48
 #: src/view/volume_details_page.blp:41 src/view/volumes_panel.blp:9
 msgid "Name"
 msgstr "Nume"
 
-#: src/view/connection_creation_page.blp:94
+#: src/view/connection_creation_dialog.blp:97
 msgid "URL"
 msgstr "URL"
 
-#: src/view/connection_creation_page.blp:95
+#: src/view/connection_creation_dialog.blp:98
 #, fuzzy
 msgid "Choose how to connect"
 msgstr "Alegeți modul în care doriți să vă conectați la Podman."
 
-#: src/view/connection_creation_page.blp:98
+#: src/view/connection_creation_dialog.blp:101
 #, fuzzy
 msgid "Podman Unix Socket"
 msgstr "Socket Unix"
 
-#: src/view/connection_creation_page.blp:115
-#: src/view/connection_creation_page.blp:118
-#: src/view/connection_creation_page.blp:245
-#: src/view/connection_creation_page.blp:248
+#: src/view/connection_creation_dialog.blp:118
+#: src/view/connection_creation_dialog.blp:121
+#: src/view/connection_creation_dialog.blp:250
+#: src/view/connection_creation_dialog.blp:253
 #, fuzzy
 msgid "Socket Activation Info"
 msgstr "Activarea Socket-ului Podman"
 
-#: src/view/connection_creation_page.blp:137
+#: src/view/connection_creation_dialog.blp:140
 msgid "Podman Socket Activation"
 msgstr "Activarea Socket-ului Podman"
 
-#: src/view/connection_creation_page.blp:143
+#: src/view/connection_creation_dialog.blp:146
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
@@ -805,29 +848,34 @@ msgstr ""
 "Pentru a vă conecta la instanța locală Podman, socket-ul systemd trebuie să "
 "fie activat. Îl puteți activa permanent lansând următoarea comandă:"
 
-#: src/view/connection_creation_page.blp:190
-#: src/view/connection_creation_page.blp:193
-#: src/view/connection_creation_page.blp:320
-#: src/view/connection_creation_page.blp:323
-#: src/view/connection_custom_info_page.blp:122
-#: src/view/connection_custom_info_page.blp:125
-#: src/view/connection_custom_info_page.blp:166
-#: src/view/connection_custom_info_page.blp:169
-#: src/view/connection_custom_info_page.blp:261
-#: src/view/connection_custom_info_page.blp:264
-#: src/view/connection_custom_info_page.blp:309
-#: src/view/connection_custom_info_page.blp:312
+#: src/view/connection_creation_dialog.blp:193
+#: src/view/connection_creation_dialog.blp:196
+#: src/view/connection_creation_dialog.blp:325
+#: src/view/connection_creation_dialog.blp:328
+#: src/view/connection_custom_info_page.blp:120
+#: src/view/connection_custom_info_page.blp:123
+#: src/view/connection_custom_info_page.blp:164
+#: src/view/connection_custom_info_page.blp:167
+#: src/view/connection_custom_info_page.blp:259
+#: src/view/connection_custom_info_page.blp:262
+#: src/view/connection_custom_info_page.blp:307
+#: src/view/connection_custom_info_page.blp:310
+#: src/view/container_properties_group.blp:23
+#: src/view/container_properties_group.blp:65
+#: src/view/image_details_page.blp:67 src/view/pod_details_page.blp:195
+#: src/view/pod_details_page.blp:219 src/view/volume_details_page.blp:50
+#: src/view/volume_details_page.blp:109
 msgid "Copy to Clipboard"
 msgstr "Copiere în clipboard"
 
-#: src/view/connection_creation_page.blp:199
-#: src/view/connection_creation_page.blp:329
+#: src/view/connection_creation_dialog.blp:203
+#: src/view/connection_creation_dialog.blp:335
 msgid ""
 "You may have to restart Pods for it to be able to connect to a newly created "
 "socket."
 msgstr ""
 
-#: src/view/connection_creation_page.blp:214
+#: src/view/connection_creation_dialog.blp:219
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
@@ -835,17 +883,17 @@ msgstr ""
 "Pentru a vă conecta la instanța rădăcină locală Podman, creați o conexiune "
 "personalizată (citiți indicațiile de acolo)."
 
-#: src/view/connection_creation_page.blp:228
+#: src/view/connection_creation_dialog.blp:233
 #, fuzzy
 msgid "Docker Unix Socket"
 msgstr "Socket Unix"
 
-#: src/view/connection_creation_page.blp:267
+#: src/view/connection_creation_dialog.blp:272
 #, fuzzy
 msgid "Docker Socket Activation"
 msgstr "Activarea Socket-ului Podman"
 
-#: src/view/connection_creation_page.blp:273
+#: src/view/connection_creation_dialog.blp:278
 #, fuzzy
 msgid ""
 "To connect to the local Docker instance, the systemd socket must be enabled. "
@@ -854,46 +902,47 @@ msgstr ""
 "Pentru a vă conecta la instanța locală Podman, socket-ul systemd trebuie să "
 "fie activat. Îl puteți activa permanent lansând următoarea comandă:"
 
-#: src/view/connection_creation_page.blp:344
+#: src/view/connection_creation_dialog.blp:351
 #, fuzzy
 msgid "Custom URL"
 msgstr "Personalizat"
 
-#: src/view/connection_creation_page.blp:359
-#: src/view/connection_creation_page.blp:362
-#: src/view/connection_creation_page.blp:404
+#: src/view/connection_creation_dialog.blp:366
+#: src/view/connection_creation_dialog.blp:369
+#: src/view/connection_creation_dialog.blp:411
 #, fuzzy
 msgid "Custom Connection Info"
 msgstr "Conexiune personalizată"
 
-#: src/view/connection_creation_page.blp:378
+#: src/view/connection_creation_dialog.blp:385
 msgid "Color"
 msgstr "Culoare"
 
-#: src/view/connection_creation_page.blp:379
+#: src/view/connection_creation_dialog.blp:386
 #, fuzzy
 msgid "Set the color of this connection"
 msgstr "Atribuie o culoare acestei conexiuni."
 
-#: src/view/connection_creation_page.rs:153
+#: src/view/connection_creation_dialog.rs:154
 msgid "official documentation"
 msgstr "documentație oficială"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
-#: src/view/connection_creation_page.rs:151
+#: src/view/connection_creation_dialog.rs:152
 #, rust-format
 msgid "Visit the {} for more information."
 msgstr "Vizitați {} pentru mai multe informații."
 
-#: src/view/connection_creation_page.rs:268
-msgid "Confirm Connecting to New Instance"
+#: src/view/connection_creation_dialog.rs:244
+#, fuzzy
+msgid "Connect to New Instance?"
 msgstr "Confirmați conectarea la noua instanță"
 
-#: src/view/connection_custom_info_page.blp:12
+#: src/view/connection_custom_info_page.blp:10
 msgid "Custom Connection"
 msgstr "Conexiune personalizată"
 
-#: src/view/connection_custom_info_page.blp:27
+#: src/view/connection_custom_info_page.blp:25
 msgid ""
 "You can connect to a Podman instance using <span weight=\"bold\">HTTP</"
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
@@ -904,59 +953,62 @@ msgstr ""
 "weight=\"bold\">UNIX</span>. De exemplu, șirul de conexiune ar putea arăta "
 "astfel:"
 
-#: src/view/connection_custom_info_page.blp:48
+#: src/view/connection_custom_info_page.blp:46
 msgid "http://somewhere:8081"
 msgstr "http://somewhere:8081"
 
-#: src/view/connection_custom_info_page.blp:66
+#: src/view/connection_custom_info_page.blp:64
 msgid "Podman Root Connection"
 msgstr "Conexiune Rădăcină la Podman"
 
-#: src/view/connection_custom_info_page.blp:75
+#: src/view/connection_custom_info_page.blp:73
+#, fuzzy
 msgid ""
-"Unfortunately, it is currently not possible to connect to the Podman root "
-"instance directly, as <span weight=\"bold\">/run/podman/podman.sock</span> "
-"is not readable for normal users. However, there is a workaround using a "
-"systemd unit. Save the following snippet:"
+"You can’t connect to the Podman root instance directly, because it is "
+"currently not possible to connect to the Podman root instance directly, as "
+"<span weight=\"bold\">/run/podman/podman.sock</span> is not readable for "
+"normal users. However, there is a workaround using a systemd unit. Save the "
+"following snippet:"
 msgstr ""
 "Din nefericire, în prezent nu este posibilă conectarea directă la instanța "
 "rădăcină Podman, deoarece <span weight=\"bold\">/run/podman/podman.sock</"
 "span> nu este lizibil pentru utilizatorii normali. Cu toate acestea, există "
 "o soluție ce folosește o unitate systemd. Salvați următorul fragment:"
 
-#: src/view/connection_custom_info_page.blp:193
+#: src/view/connection_custom_info_page.blp:191
 msgid "Warning"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:199
+#: src/view/connection_custom_info_page.blp:197
 msgid ""
 "Exposing a Podman socket over TCP has security implications. <a "
 "href=\"https://docs.podman.io/en/stable/markdown/podman-system-"
 "service.1.html#security\">Check the docs for more info.</a>"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:213
+#: src/view/connection_custom_info_page.blp:211
 msgid "Enable the service by issuing the command:"
 msgstr "Activați serviciul lansând comanda:"
 
-#: src/view/connection_custom_info_page.blp:270
+#: src/view/connection_custom_info_page.blp:268
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
 msgstr "Introduceți următorul URL în câmpul de text și creați conexiunea:"
 
-#: src/view/connection_custom_info_page.rs:139
+#: src/view/connection_custom_info_page.rs:137
 msgid "systemd unit path copied"
 msgstr "calea unității systemd a fost copiată"
 
-#: src/view/connection_custom_info_page.rs:147
+#: src/view/connection_custom_info_page.rs:145
 msgid "systemd unit content copied"
 msgstr "conținutul unității systemd a fost copiat"
 
-#: src/view/connection_custom_info_page.rs:155
-msgid "socket activation command copied"
+#: src/view/connection_custom_info_page.rs:153
+#, fuzzy
+msgid "Socket activation command copied"
 msgstr "comanda de activare a socketului a fost copiată"
 
-#: src/view/connection_custom_info_page.rs:163
+#: src/view/connection_custom_info_page.rs:161
 msgid "URL copied"
 msgstr "Adresa URL a fost copiată"
 
@@ -966,37 +1018,47 @@ msgid "Active Connection"
 msgstr "Conexiune nouă"
 
 #: src/view/connection_row.blp:79 src/view/connection_row.blp:82
-#: src/view/container_card.blp:462 src/view/container_card.blp:465
+#: src/view/container_card.blp:470 src/view/container_card.blp:473
 #: src/view/container_details_page.blp:178
-#: src/view/container_details_page.blp:181 src/view/containers_panel.blp:353
-#: src/view/containers_panel.blp:356 src/view/image_menu_button.blp:11
-#: src/view/images_panel.blp:264 src/view/images_panel.blp:266
+#: src/view/container_details_page.blp:181 src/view/containers_panel.blp:356
+#: src/view/containers_panel.blp:359 src/view/images_panel.blp:267
 #: src/view/pod_details_page.blp:156 src/view/pod_details_page.blp:159
-#: src/view/pods_panel.blp:354 src/view/pods_panel.blp:357
-#: src/view/volumes_panel.blp:241 src/view/volumes_panel.blp:243
+#: src/view/pods_panel.blp:357 src/view/pods_panel.blp:360
+#: src/view/volumes_panel.blp:244
 msgid "Delete"
 msgstr "Ștergeți"
 
-#: src/view/connection_row.rs:96
+#: src/view/connection_row.blp:101
+#, fuzzy
+msgid "Connecting"
+msgstr "Conexiuni"
+
+#: src/view/connection_row.rs:98
 msgid "Local connection"
 msgstr "Conexiune locală"
 
-#: src/view/connections_sidebar.blp:21 src/view/connections_sidebar.blp:24
+#: src/view/connections_sidebar.blp:21
 msgid "New Connection (Ctrl+Shift+N)"
 msgstr "Conexiune nouă (Ctrl+Shift+N)"
 
-#: src/view/connections_sidebar.rs:101
-msgid "Confirm Switching Connection"
-msgstr "Confirmați comutarea conexiunii"
+#: src/view/connections_sidebar.rs:99
+#, fuzzy
+msgid "Switch Connection?"
+msgstr "Conexiune nouă"
 
-#: src/view/connections_sidebar.rs:113
-msgid "Error on switching connection"
+#: src/view/connections_sidebar.rs:100
+msgid "_Switch"
+msgstr ""
+
+#: src/view/connections_sidebar.rs:112
+#, fuzzy
+msgid "Could not switch connection"
 msgstr "Eroare la comutarea conexiunii"
 
-#: src/view/container.rs:77 src/view/container.rs:119
+#: src/view/container.rs:77 src/view/container.rs:120
 #, fuzzy
-msgid "Error renaming container"
-msgstr "Eroare la reluarea containerului"
+msgid "Could not rename container"
+msgstr "Crearea containerului nu a reușit"
 
 #: src/view/container.rs:78
 #, fuzzy
@@ -1011,46 +1073,65 @@ msgstr "Redenumiți containerul"
 msgid "_Rename"
 msgstr "_Redenumire"
 
-#: src/view/container.rs:138
+#: src/view/container.rs:139
 #, fuzzy
 msgid "Delete Container?"
 msgstr "{} Container selectat"
 
-#: src/view/container.rs:141
+#: src/view/container.rs:142
 msgid ""
 "All settings and all changes made within the container will be irreversibly "
 "lost"
 msgstr ""
 
-#: src/view/container.rs:179 src/view/containers_panel.rs:908
-msgid "Error on starting container"
+#: src/view/container.rs:148 src/view/container_menu_button.blp:46
+#: src/view/containers_panel.rs:962 src/view/image.rs:32
+#: src/view/image_menu_button.blp:11 src/view/images_panel.rs:670
+#: src/view/pod.rs:65 src/view/pod_menu_button.blp:45
+#: src/view/pods_panel.rs:816 src/view/volume.rs:57
+#: src/view/volumes_panel.rs:661
+msgid "_Delete"
+msgstr "_Ștergeți"
+
+#: src/view/container.rs:181 src/view/container_log_page.rs:676
+#: src/view/containers_panel.rs:903
+#, fuzzy
+msgid "Could not start container"
 msgstr "Eroare la pornirea containerului"
 
-#: src/view/container.rs:180 src/view/containers_panel.rs:838
-msgid "Error on stopping container"
-msgstr "Eroare la oprirea containerului"
+#: src/view/container.rs:182 src/view/containers_panel.rs:831
+#, fuzzy
+msgid "Could not stop container"
+msgstr "Salvează containerul"
 
-#: src/view/container.rs:181 src/view/containers_panel.rs:836
-msgid "Error on killing container"
+#: src/view/container.rs:183 src/view/containers_panel.rs:829
+#, fuzzy
+msgid "Could not kill container"
 msgstr "Eroare la terminarea containerului"
 
-#: src/view/container.rs:182 src/view/containers_panel.rs:867
-msgid "Error on restarting container"
+#: src/view/container.rs:184 src/view/containers_panel.rs:861
+#, fuzzy
+msgid "Could not restart container"
 msgstr "Eroare la repornirea containerului"
 
-#: src/view/container.rs:183 src/view/containers_panel.rs:935
-msgid "Error on pausing container"
+#: src/view/container.rs:185 src/view/containers_panel.rs:931
+#, fuzzy
+msgid "Could not pause container"
 msgstr "Eroare la întreruperea containerului"
 
-#: src/view/container.rs:184 src/view/containers_panel.rs:893
-msgid "Error on resuming container"
+#: src/view/container.rs:186 src/view/container_log_page.rs:690
+#: src/view/containers_panel.rs:888
+#, fuzzy
+msgid "Could not resume container"
 msgstr "Eroare la reluarea containerului"
 
-#: src/view/container.rs:185 src/view/containers_panel.rs:991
-msgid "Error on deleting container"
+#: src/view/container.rs:187 src/view/containers_panel.rs:988
+#, fuzzy
+msgid "Could not delete container"
 msgstr "Eroare la ștergerea containerului"
 
 #: src/view/container_card.blp:93 src/view/container_card.blp:96
+#: src/view/container_properties_group.blp:42
 #, fuzzy
 msgid "Rename"
 msgstr "Redenumire"
@@ -1060,7 +1141,7 @@ msgid "CPU"
 msgstr "CPU"
 
 #: src/view/container_card.blp:163 src/view/container_resources.blp:84
-#: src/view/info_panel.blp:98
+#: src/view/info_panel.blp:102
 msgid "Memory"
 msgstr "Memorie"
 
@@ -1078,135 +1159,134 @@ msgid "No Ports"
 msgstr "Porturi"
 
 #: src/view/container_card.blp:331
-#: src/view/container_create_opts_dialog.blp:113
-#: src/view/container_details_page.blp:223 src/view/pod_details_page.blp:22
+#: src/view/container_create_opts_dialog.blp:111
+#: src/view/container_details_page.blp:223 src/view/pod_details_page.blp:5
+#: src/view/pod_details_page.blp:22
 msgid "Pod"
 msgstr "Capsulă"
 
 #: src/view/container_card.blp:357 src/view/container_card.blp:360
 #: src/view/container_details_page.blp:67
-#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:249
-#: src/view/containers_panel.blp:252 src/view/pod_details_page.blp:45
-#: src/view/pod_details_page.blp:48 src/view/pods_panel.blp:250
-#: src/view/pods_panel.blp:253 src/view/top_page_action_bar.blp:17
+#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:252
+#: src/view/containers_panel.blp:255 src/view/pod_details_page.blp:45
+#: src/view/pod_details_page.blp:48 src/view/pods_panel.blp:253
+#: src/view/pods_panel.blp:256 src/view/top_page_action_bar.blp:17
 msgid "Kill"
 msgstr "Termină"
 
 #: src/view/container_card.blp:378 src/view/container_card.blp:381
 #: src/view/container_details_page.blp:90
-#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:271
-#: src/view/containers_panel.blp:274 src/view/pod_details_page.blp:68
-#: src/view/pod_details_page.blp:71 src/view/pods_panel.blp:272
-#: src/view/pods_panel.blp:275
+#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:274
+#: src/view/containers_panel.blp:277 src/view/pod_details_page.blp:68
+#: src/view/pod_details_page.blp:71 src/view/pods_panel.blp:275
+#: src/view/pods_panel.blp:278
 msgid "Restart"
 msgstr "Reîncepe"
 
-#: src/view/container_card.blp:393 src/view/container_details_page.blp:107
-#: src/view/containers_panel.blp:292 src/view/pod_details_page.blp:85
-#: src/view/pods_panel.blp:293
-msgid "Start/Resume"
+#: src/view/container_card.blp:393 src/view/container_card.blp:397
+#: src/view/container_details_page.blp:107 src/view/containers_panel.blp:295
+#: src/view/pod_details_page.blp:85 src/view/pods_panel.blp:296
+#, fuzzy
+msgid "Start or Resume"
 msgstr "Start/Reluare"
 
-#: src/view/container_card.blp:408 src/view/container_details_page.blp:124
-#: src/view/containers_panel.blp:312 src/view/pod_details_page.blp:102
-#: src/view/pods_panel.blp:313
+#: src/view/container_card.blp:412 src/view/container_card.blp:416
+#: src/view/container_details_page.blp:124 src/view/containers_panel.blp:315
+#: src/view/pod_details_page.blp:102 src/view/pods_panel.blp:316
 msgid "Stop"
 msgstr "Stop"
 
-#: src/view/container_card.blp:426 src/view/container_details_page.blp:144
+#: src/view/container_card.blp:434 src/view/container_details_page.blp:144
 #: src/view/pod_details_page.blp:122
 msgid "In Progress"
 msgstr ""
 
-#: src/view/container_card.blp:444 src/view/container_card.blp:447
-#: src/view/container_commit_opts_dialog.blp:88
+#: src/view/container_card.blp:452 src/view/container_card.blp:455
+#: src/view/container_commit_opts_dialog.blp:89
 #: src/view/container_details_page.blp:158
-#: src/view/container_details_page.blp:161 src/view/containers_panel.blp:334
-#: src/view/containers_panel.blp:337 src/view/pod_details_page.blp:136
-#: src/view/pod_details_page.blp:139 src/view/pods_panel.blp:335
-#: src/view/pods_panel.blp:338
+#: src/view/container_details_page.blp:161 src/view/containers_panel.blp:337
+#: src/view/containers_panel.blp:340 src/view/pod_details_page.blp:136
+#: src/view/pod_details_page.blp:139 src/view/pods_panel.blp:338
+#: src/view/pods_panel.blp:341
 msgid "Pause"
 msgstr "Pauză"
 
-#: src/view/container_card.rs:528 src/view/container_row.rs:340
-#, rust-format
-msgid "Container {}"
-msgstr "Container {}"
-
 #. Translators: For example 5 MB / s.
-#: src/view/container_card.rs:601 src/view/container_resources.rs:283
+#: src/view/container_card.rs:554 src/view/container_resources.rs:263
 #, rust-format
 msgid "{} / s"
 msgstr "{} / s"
 
-#: src/view/container_commit_action_view.rs:69
-#: src/view/container_commit_opts_dialog.blp:15
-msgid "Commit Container"
-msgstr "Salvează containerul"
-
 #: src/view/container_commit_action_view.rs:74
 #, fuzzy
-msgid "<Deleted>"
+msgid "<deleted>"
 msgstr "Ștergeți"
 
-#: src/view/container_commit_opts_dialog.blp:38
+#: src/view/container_commit_opts_dialog.blp:39
 msgid "_Commit"
 msgstr "_Comite"
 
-#: src/view/container_commit_opts_dialog.blp:45
+#: src/view/container_commit_opts_dialog.blp:46
 msgid "General Commit Options"
 msgstr "Opțiuni generale de comitere"
 
-#: src/view/container_commit_opts_dialog.blp:49
+#: src/view/container_commit_opts_dialog.blp:50
 msgid "Author"
 msgstr "Autor"
 
-#: src/view/container_commit_opts_dialog.blp:58
-#: src/view/container_commit_opts_dialog.blp:61
+#: src/view/container_commit_opts_dialog.blp:59
+#: src/view/container_commit_opts_dialog.blp:62
 msgid "Fetch Username"
 msgstr "Recuperare nume de utilizator"
 
-#: src/view/container_commit_opts_dialog.blp:70
-#: src/view/image_history_page.rs:170
+#: src/view/container_commit_opts_dialog.blp:71
+#: src/view/image_history_page.rs:168
 msgid "Comment"
 msgstr "Comentariu"
 
-#: src/view/container_commit_opts_dialog.blp:75
-msgid "Repo"
-msgstr "Depozit"
+#: src/view/container_commit_opts_dialog.blp:76
+#, fuzzy
+msgid "Repository"
+msgstr "Etichetă de depozit"
 
-#: src/view/container_commit_opts_dialog.blp:80 src/view/images_panel.blp:38
+#: src/view/container_commit_opts_dialog.blp:81 src/view/images_panel.blp:38
 msgid "Tag"
 msgstr "Etichetă"
 
-#: src/view/container_commit_opts_dialog.blp:84
+#: src/view/container_commit_opts_dialog.blp:85
 msgid "Format"
 msgstr "Format"
 
-#: src/view/container_commit_opts_dialog.blp:89
+#: src/view/container_commit_opts_dialog.blp:90
 #, fuzzy
 msgid "Pause the container before committing it"
 msgstr "Puneți în pauză containerul înainte de a-l comite."
 
-#: src/view/container_commit_opts_dialog.blp:94
+#: src/view/container_commit_opts_dialog.blp:95
 msgid "Changes"
 msgstr "Modificări"
 
-#: src/view/container_commit_opts_dialog.blp:95
+#: src/view/container_commit_opts_dialog.blp:96
 #, fuzzy
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"Instructions to apply while committing in Dockerfile format (e.g. “CMD=/bin/"
 "foo”)"
 msgstr ""
 "Instrucțiuni care trebuie aplicate în timpul comiterii în format Dockerfile "
 "(de exemplu \"CMD=/bin/foo\")."
 
-#: src/view/container_commit_opts_dialog.rs:101
+#: src/view/container_commit_opts_dialog.rs:99
 msgid "Change"
 msgstr "Modificare"
 
-#: src/view/container_commit_opts_dialog.rs:289
-msgid "Error on fetching user name"
+#: src/view/container_commit_opts_dialog.rs:106
+#, fuzzy
+msgid "Add Change"
+msgstr "Modificare"
+
+#: src/view/container_commit_opts_dialog.rs:260
+#, fuzzy
+msgid "Could not fetch user name"
 msgstr "Eroare la preluarea numelui de utilizator"
 
 #: src/view/container_copy_from_action_view.blp:13
@@ -1214,39 +1294,44 @@ msgstr "Eroare la preluarea numelui de utilizator"
 msgid "Written"
 msgstr "Dimensiune: {}"
 
-#: src/view/container_copy_from_action_view.rs:104
-#: src/view/container_copy_from_opts_dialog.blp:15
+#: src/view/container_copy_from_action_view.rs:105
+#: src/view/container_copy_from_opts_dialog.blp:16
 #, fuzzy
 msgid "Copy From Container"
 msgstr "Salvează containerul"
 
-#: src/view/container_copy_from_opts_dialog.blp:38
-#: src/view/container_copy_to_opts_dialog.blp:47
+#: src/view/container_copy_from_opts_dialog.blp:39
+#: src/view/container_copy_to_opts_dialog.blp:48
 #: src/view/container_terminal.blp:43
 msgid "_Copy"
 msgstr "_Copie"
 
-#: src/view/container_copy_from_opts_dialog.blp:47
-#: src/view/container_copy_to_opts_dialog.blp:72
+#: src/view/container_copy_from_opts_dialog.blp:48
+#: src/view/container_copy_to_opts_dialog.blp:73
 #, fuzzy
-msgid "Container Path (’/’ if empty)"
+msgid "Container Path (“/” if empty)"
 msgstr "Cale în container ('/' în loc de vid)"
 
-#: src/view/container_copy_from_opts_dialog.blp:53
-#: src/view/container_copy_from_opts_dialog.rs:143
-#: src/view/container_copy_to_opts_dialog.blp:57 src/view/device_row.blp:69
+#: src/view/container_copy_from_opts_dialog.blp:54
+#: src/view/container_copy_from_opts_dialog.rs:138
+#: src/view/container_copy_to_opts_dialog.blp:58 src/view/device_row.blp:69
 #: src/view/mount_row.blp:103
 msgid "Host Path"
 msgstr "Calea în sistemul gazdă"
 
-#: src/view/container_copy_from_opts_dialog.blp:54
+#: src/view/container_copy_from_opts_dialog.blp:55
 #, fuzzy
 msgid "Select a destination tar archive on the host"
 msgstr "Selectați o arhivă tar de destinație pe gazdă."
 
-#: src/view/container_copy_from_opts_dialog.blp:59
+#: src/view/container_copy_from_opts_dialog.blp:60
 msgid "Select _Path…"
 msgstr "Selectați _Cale…"
+
+#: src/view/container_copy_from_opts_dialog.rs:140
+#, fuzzy
+msgid "Tar Archive"
+msgstr "Arhiva tar a fost creată"
 
 #: src/view/container_copy_to_action_view.blp:9
 #, fuzzy
@@ -1264,7 +1349,6 @@ msgid "Copying bytes"
 msgstr "Fișier de configurare"
 
 #: src/view/container_copy_to_action_view.rs:159
-#: src/view/container_copy_to_opts_dialog.blp:24
 #, fuzzy
 msgid "Copy To Container"
 msgstr "Salvează containerul"
@@ -1273,26 +1357,25 @@ msgstr "Salvează containerul"
 msgid "Select _Directory…"
 msgstr "Selectați un _Director…"
 
-#: src/view/container_copy_to_opts_dialog.blp:58
+#: src/view/container_copy_to_opts_dialog.blp:59
 #, fuzzy
 msgid "Select a file or a directory from the host to upload"
 msgstr "Selectați un fișier sau un director din gazdă pentru a încărca."
 
-#: src/view/container_copy_to_opts_dialog.blp:63
+#: src/view/container_copy_to_opts_dialog.blp:64
 msgid "Select _File…"
 msgstr "Selectați _Fișier…"
 
-#: src/view/container_copy_to_opts_dialog.rs:152
+#: src/view/container_copy_to_opts_dialog.rs:147
 msgid "Select Host Directory"
 msgstr "Selectați directorul gazdă"
 
-#: src/view/container_copy_to_opts_dialog.rs:154
+#: src/view/container_copy_to_opts_dialog.rs:149
 msgid "Select Host File"
 msgstr "Selectați fișier gazdă"
 
 #: src/view/container_create_action_view.rs:69
-#: src/view/container_create_opts_dialog.blp:24
-#: src/view/containers_group.blp:12 src/view/containers_group.blp:15
+#: src/view/container_create_opts_dialog.blp:25
 #: src/view/containers_panel.blp:44 src/view/containers_panel.blp:47
 msgid "Create Container"
 msgstr "Creați un container"
@@ -1301,149 +1384,151 @@ msgstr "Creați un container"
 msgid "_Create Only"
 msgstr "_Creați numai"
 
-#: src/view/container_create_opts_dialog.blp:47
+#: src/view/container_create_opts_dialog.blp:48
 msgid "_Run"
 msgstr "Lansa_Re"
 
-#: src/view/container_create_opts_dialog.blp:75
-#: src/view/container_create_opts_dialog.blp:98
-#: src/view/image_build_opts_dialog.blp:65
+#: src/view/container_create_opts_dialog.blp:76
+#: src/view/container_create_opts_dialog.blp:97
+#: src/view/image_build_opts_dialog.blp:66
 #: src/view/image_build_opts_dialog.blp:82
-#: src/view/pod_create_opts_dialog.blp:65
-#: src/view/pod_create_opts_dialog.blp:88
+#: src/view/pod_create_opts_dialog.blp:66
+#: src/view/pod_create_opts_dialog.blp:87
 msgid "Details"
 msgstr "Detalii"
 
 #: src/view/container_create_opts_dialog.blp:81
-#: src/view/container_create_opts_dialog.blp:206
+#: src/view/container_create_opts_dialog.blp:204
 #: src/view/image_build_opts_dialog.blp:71
 #: src/view/image_build_opts_dialog.blp:107
 #: src/view/pod_create_opts_dialog.blp:71
-#: src/view/pod_create_opts_dialog.blp:118
+#: src/view/pod_create_opts_dialog.blp:116
 msgid "Integration"
 msgstr "Integrare"
 
-#: src/view/container_create_opts_dialog.blp:87
-#: src/view/container_create_opts_dialog.blp:257
-#: src/view/container_properties_group.blp:147
-msgid "Health Check"
-msgstr "Verificarea stării de sănătate"
+#: src/view/container_create_opts_dialog.blp:86
+#: src/view/container_create_opts_dialog.blp:254
+#, fuzzy
+msgid "Health"
+msgstr "Sănătos"
 
-#: src/view/container_create_opts_dialog.blp:108
+#: src/view/container_create_opts_dialog.blp:106
 #: src/view/container_details_page.blp:208 src/view/containers_panel.blp:15
-#: src/view/image_details_page.blp:28 src/view/image_pull_opts_dialog.blp:51
+#: src/view/image_details_page.blp:12 src/view/image_details_page.blp:19
+#: src/view/image_pull_opts_dialog.blp:52
 #: src/view/pod_create_opts_dialog.blp:200
 msgid "Image"
 msgstr "Imagine"
 
-#: src/view/container_create_opts_dialog.blp:122
+#: src/view/container_create_opts_dialog.blp:120
 #: src/view/pod_create_opts_dialog.blp:204
 #, fuzzy
 msgid "Pull Latest Image"
 msgstr "Recuperați cea mai recentă imagine"
 
-#: src/view/container_create_opts_dialog.blp:126
+#: src/view/container_create_opts_dialog.blp:124
 #: src/view/container_details_page.blp:299
 msgid "Terminal"
 msgstr "Terminal"
 
-#: src/view/container_create_opts_dialog.blp:130
+#: src/view/container_create_opts_dialog.blp:128
 msgid "Privileged"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:131
+#: src/view/container_create_opts_dialog.blp:129
 msgid "Give extended privileges to container"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:135
-#: src/view/container_properties_group.blp:143
+#: src/view/container_create_opts_dialog.blp:133
+#: src/view/container_properties_group.blp:147
 #, fuzzy
 msgid "Restart Policy"
 msgstr "Repornire"
 
-#: src/view/container_create_opts_dialog.blp:139
+#: src/view/container_create_opts_dialog.blp:137
 msgid "Never"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:140
-#: src/view/container_properties_group.rs:116
+#: src/view/container_create_opts_dialog.blp:138
+#: src/view/container_properties_group.rs:111
 msgid "Always"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:141
-#: src/view/container_properties_group.rs:118
-msgid "On failure"
+#: src/view/container_create_opts_dialog.blp:139
+#: src/view/container_properties_group.rs:113
+msgid "On Failure"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:142
-#: src/view/container_properties_group.rs:120
+#: src/view/container_create_opts_dialog.blp:140
+#: src/view/container_properties_group.rs:114
 #, fuzzy
-msgid "Unless stopped"
+msgid "Unless Stopped"
 msgstr "Șterge capsulele oprite"
 
-#: src/view/container_create_opts_dialog.blp:149
+#: src/view/container_create_opts_dialog.blp:147
 #, fuzzy
 msgid "Memory Limit"
 msgstr "Limită de memorie"
 
-#: src/view/container_create_opts_dialog.blp:181
+#: src/view/container_create_opts_dialog.blp:179
 msgid "KB"
 msgstr "KB"
 
-#: src/view/container_create_opts_dialog.blp:182
+#: src/view/container_create_opts_dialog.blp:180
 msgid "MB"
 msgstr "MB"
 
-#: src/view/container_create_opts_dialog.blp:183
+#: src/view/container_create_opts_dialog.blp:181
 msgid "GB"
 msgstr "GB"
 
-#: src/view/container_create_opts_dialog.blp:198
-#: src/view/container_create_opts_dialog.blp:263
+#: src/view/container_create_opts_dialog.blp:196
+#: src/view/container_create_opts_dialog.blp:259
 #: src/view/container_health_check_page.blp:34
-#: src/view/image_details_page.blp:107 src/view/pod_create_opts_dialog.blp:216
+#: src/view/image_details_page.blp:98 src/view/pod_create_opts_dialog.blp:216
+#: src/view/top_page.rs:176
 msgid "Command"
 msgstr "Comandă"
 
-#: src/view/container_create_opts_dialog.blp:214
-#: src/view/container_details_page.blp:239 src/view/image_details_page.blp:123
-#: src/view/pod_create_opts_dialog.blp:126 src/view/pod_details_page.blp:247
+#: src/view/container_create_opts_dialog.blp:211
+#: src/view/container_details_page.blp:239 src/view/image_details_page.blp:116
+#: src/view/pod_create_opts_dialog.blp:123 src/view/pod_details_page.blp:247
 msgid "Ports"
 msgstr "Porturi"
 
-#: src/view/container_create_opts_dialog.blp:234
+#: src/view/container_create_opts_dialog.blp:231
 msgid "Environment Variables"
 msgstr "Variabile de mediu"
 
-#: src/view/container_create_opts_dialog.blp:244
+#: src/view/container_create_opts_dialog.blp:241
 #: src/view/image_build_opts_dialog.blp:110
-#: src/view/pod_create_opts_dialog.blp:162
+#: src/view/pod_create_opts_dialog.blp:163
 msgid "Labels"
 msgstr "Etichete"
 
-#: src/view/container_create_opts_dialog.blp:267
+#: src/view/container_create_opts_dialog.blp:263
 #: src/view/container_health_check_page.blp:38
 msgid "Interval"
 msgstr "Interval"
 
-#: src/view/container_create_opts_dialog.blp:268
+#: src/view/container_create_opts_dialog.blp:264
 msgid "Health check interval in seconds"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:280
+#: src/view/container_create_opts_dialog.blp:276
 #: src/view/container_health_check_page.blp:46
 msgid "Timeout"
 msgstr "Timeout"
 
-#: src/view/container_create_opts_dialog.blp:281
+#: src/view/container_create_opts_dialog.blp:277
 msgid "Seconds allowed to complete the command before it fails"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:293
+#: src/view/container_create_opts_dialog.blp:289
 msgid "Start Period"
 msgstr "Perioadă de început"
 
-#: src/view/container_create_opts_dialog.blp:294
+#: src/view/container_create_opts_dialog.blp:290
 #, fuzzy
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
@@ -1451,49 +1536,50 @@ msgstr ""
 "Timpul de inițializare, în secunde, necesar pentru ca un container să se "
 "inițializeze."
 
-#: src/view/container_create_opts_dialog.blp:306
+#: src/view/container_create_opts_dialog.blp:302
 #: src/view/container_health_check_page.blp:42
 msgid "Retries"
 msgstr "Încercări"
 
-#: src/view/container_create_opts_dialog.blp:307
+#: src/view/container_create_opts_dialog.blp:303
 #, fuzzy
-msgid "Number of retries allowed before a healthcheck fails"
+msgid "Number of retries allowed before a health check fails"
 msgstr ""
 "Numărul de încercări permise înainte ca o verificare a stării de sănătate să "
 "fie considerată eșuată."
 
-#: src/view/container_create_opts_dialog.rs:166
+#: src/view/container_create_opts_dialog.rs:168
 #: src/view/pod_create_opts_dialog.rs:159
 #, fuzzy
 msgid "Add Port"
 msgstr "Adaugă o Gazdă"
 
-#: src/view/container_create_opts_dialog.rs:174
+#: src/view/container_create_opts_dialog.rs:176 src/view/volumes_group.blp:8
 msgid "Add Volume"
 msgstr "Adăugare de Volum"
 
-#: src/view/container_create_opts_dialog.rs:184
+#: src/view/container_create_opts_dialog.rs:186
 msgid "Add Environment Variable"
 msgstr "Adăugare de variabile de mediu"
 
-#: src/view/container_create_opts_dialog.rs:194
-#: src/view/image_build_opts_dialog.rs:107
+#: src/view/container_create_opts_dialog.rs:196
+#: src/view/image_build_opts_dialog.rs:106
 #: src/view/pod_create_opts_dialog.rs:131
 msgid "Add Label"
 msgstr "Adăugare de Etichete"
 
-#: src/view/container_details_page.blp:43 src/view/port_binding_row.blp:59
+#: src/view/container_details_page.blp:5 src/view/container_details_page.blp:43
+#: src/view/port_binding_row.blp:60
 msgid "Container"
 msgstr "Container"
 
-#: src/view/container_details_page.blp:263 src/view/image_details_page.blp:128
-#: src/view/pod_details_page.blp:259 src/view/volume_details_page.blp:118
+#: src/view/container_details_page.blp:263 src/view/image_details_page.blp:122
+#: src/view/pod_details_page.blp:259 src/view/volume_details_page.blp:137
 msgid "Utilities"
 msgstr "Utilități"
 
-#: src/view/container_details_page.blp:266 src/view/image_details_page.blp:131
-#: src/view/pod_details_page.blp:262 src/view/volume_details_page.blp:121
+#: src/view/container_details_page.blp:266 src/view/image_details_page.blp:125
+#: src/view/pod_details_page.blp:262 src/view/volume_details_page.blp:140
 msgid "Inspection"
 msgstr "Inspecție"
 
@@ -1536,17 +1622,19 @@ msgstr "Procese"
 msgid "View and manage processes of the container"
 msgstr "Vizualizați și căutați în jurnalele containerelor."
 
-#: src/view/container_details_page.rs:359
-msgid "Error on loading container details"
+#: src/view/container_details_page.rs:342
+#, fuzzy
+msgid "Could not load container details"
 msgstr "Eroare la încărcarea detaliilor containerului"
 
-#: src/view/container_details_page.rs:377
-#, rust-format
-msgid "Container '{}' has been deleted"
+#: src/view/container_details_page.rs:360
+#, fuzzy, rust-format
+msgid "Container “{}” has been deleted"
 msgstr "Containerul '{}' a fost șters"
 
-#: src/view/container_details_page.rs:458 src/view/image_details_page.rs:362
-#: src/view/pod_details_page.rs:367 src/view/volume_details_page.rs:248
+#: src/view/container_details_page.rs:441 src/view/container_volume_row.rs:224
+#: src/view/image_details_page.rs:351 src/view/pod_details_page.rs:358
+#: src/view/repo_tag_row.rs:112 src/view/volume_details_page.rs:246
 #, fuzzy
 msgid "Copied to clipboard"
 msgstr "Copiere în clipboard"
@@ -1562,10 +1650,11 @@ msgstr "Eșec de execuție a funcției de sănătate: {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/container_health_check_log_row.rs:92
-#: src/view/image_history_page.rs:111 src/widget/date_time_row.rs:146
+#: src/view/image_history_page.rs:109 src/widget/date_time_row.rs:146
 msgid "%x %X"
 msgstr "%x %X"
 
+#: src/view/container_health_check_page.blp:5
 #: src/view/container_health_check_page.blp:12
 msgid "Container Health Check"
 msgstr "Verificarea sănătății containerului"
@@ -1597,8 +1686,8 @@ msgstr ""
 msgid "_Run Health Check"
 msgstr "_Executați verificarea stării de sănătate"
 
-#: src/view/container_health_check_page.rs:197
-#: src/view/container_health_check_page.rs:213
+#: src/view/container_health_check_page.rs:192
+#: src/view/container_health_check_page.rs:208
 #, rust-format
 msgid "{} second"
 msgid_plural "{} seconds"
@@ -1606,32 +1695,32 @@ msgstr[0] "{} secundă"
 msgstr[1] "{} secunde"
 msgstr[2] "{} secunde"
 
-#: src/view/container_health_check_page.rs:270
-msgid "Error on running health check"
+#: src/view/container_health_check_page.rs:263
+#, fuzzy
+msgid "Could not run health check"
 msgstr "Eroare la execuția verificării stării de sănătate"
 
 #: src/view/container_log_page.blp:13 src/view/scalable_text_view_page.blp:13
-msgid "_Save as File"
+#, fuzzy
+msgid "_Save as File…"
 msgstr "_Salvare ca fișier"
 
 #: src/view/container_log_page.blp:20
 msgid "Show _Timestamps"
 msgstr "Afișare marcaje _temporale"
 
-#: src/view/container_log_page.blp:64
+#: src/view/container_log_page.blp:40 src/view/container_log_page.blp:64
 msgid "Container Logs"
 msgstr "Jurnalele de la containere"
 
 #: src/view/container_log_page.blp:72 src/view/container_log_page.blp:75
-#: src/view/scalable_text_view_page.blp:56
-#: src/view/scalable_text_view_page.blp:59
 #, fuzzy
-msgid "Menu"
-msgstr "Meniul principal"
+msgid "Log Options"
+msgstr "Opțiuni"
 
 #: src/view/container_log_page.blp:94
 #, fuzzy
-msgid "Start/Resume Container"
+msgid "Start or Resume Container"
 msgstr "Porniți/Reluați containerul."
 
 #: src/view/container_log_page.blp:95
@@ -1673,34 +1762,28 @@ msgid ""
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/container_log_page.rs:363
-msgid "Error while following log"
-msgstr "Eroare în timpul urmăririi jurnalului"
+#: src/view/container_log_page.rs:359
+msgid "Could not follow log"
+msgstr ""
 
-#: src/view/container_log_page.rs:569
+#: src/view/container_log_page.rs:565
 msgid "Include timestamps"
 msgstr "Include marcajele temporale"
 
-#: src/view/container_log_page.rs:623
-msgid "Error on saving logs"
+#: src/view/container_log_page.rs:619
+#, fuzzy
+msgid "Could not save logs"
 msgstr "Eroare la salvarea jurnalelor"
 
-#: src/view/container_log_page.rs:637
-msgid "Error on retrieving logs"
+#: src/view/container_log_page.rs:633
+#, fuzzy
+msgid "Could not retrieve logs"
 msgstr "Eroare la recuperarea jurnalelor"
 
-#: src/view/container_log_page.rs:650
+#: src/view/container_log_page.rs:646
 #, fuzzy
 msgid "Log has been saved"
 msgstr "Jurnalul a fost salvat."
-
-#: src/view/container_log_page.rs:680
-msgid "Error starting container"
-msgstr "Eroare la pornirea containerului"
-
-#: src/view/container_log_page.rs:694
-msgid "Error resuming container"
-msgstr "Eroare la reluarea containerului"
 
 #: src/view/container_menu_button.blp:6 src/view/pod_menu_button.blp:13
 msgid "_Start"
@@ -1726,31 +1809,15 @@ msgstr "_Pauză"
 msgid "Re_name…"
 msgstr "Re_denumire…"
 
-#: src/view/container_menu_button.blp:46 src/view/containers_panel.rs:966
-#: src/view/image.rs:33 src/view/images_panel.rs:678 src/view/pod.rs:66
-#: src/view/pod_menu_button.blp:45 src/view/pods_panel.rs:820
-#: src/view/volume.rs:31 src/view/volumes_panel.rs:661
-msgid "_Delete"
-msgstr "_Ștergeți"
-
 #: src/view/container_menu_button.blp:59 src/view/container_menu_button.blp:62
 #, fuzzy
 msgid "Container Actions"
 msgstr "Inspecția containerelor"
 
-#: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:44
+#: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:35
 #: src/view/pod_details_page.blp:178 src/view/volume_details_page.blp:18
 msgid "Properties"
 msgstr "Proprietăți"
-
-#: src/view/container_properties_group.blp:23
-#: src/view/container_properties_group.blp:64
-#: src/view/image_details_page.blp:76 src/view/pod_details_page.blp:195
-#: src/view/pod_details_page.blp:219 src/view/volume_details_page.blp:50
-#: src/view/volume_details_page.blp:90
-#, fuzzy
-msgid "Copy to clipboard"
-msgstr "Copiere în clipboard"
 
 #: src/view/container_properties_group.blp:26 src/view/pod_details_page.blp:198
 #: src/view/volume_details_page.blp:53
@@ -1759,42 +1826,55 @@ msgid "Copy name to clipboard"
 msgstr "Copiere în clipboard"
 
 #: src/view/container_properties_group.blp:39
-#: src/view/container_properties_group.blp:42
 msgid "Rename (F2)"
 msgstr "Redenumire (F2)"
 
-#: src/view/container_properties_group.blp:54
-#: src/view/image_details_page.blp:67 src/view/pod_details_page.blp:210
+#: src/view/container_properties_group.blp:55
+#: src/view/image_details_page.blp:58 src/view/pod_details_page.blp:210
 #, fuzzy
 msgid "ID"
 msgstr "PID"
 
-#: src/view/container_properties_group.blp:67
-#: src/view/image_details_page.blp:79 src/view/pod_details_page.blp:222
+#: src/view/container_properties_group.blp:68
+#: src/view/image_details_page.blp:70 src/view/pod_details_page.blp:222
 #, fuzzy
 msgid "Copy ID to clipboard"
 msgstr "Copiere în clipboard"
 
-#: src/view/container_properties_group.blp:80
-#: src/view/container_properties_group.blp:83
+#: src/view/container_properties_group.blp:81
 msgid "Commit (Ctrl+K)"
 msgstr "Comitere (Ctrl+K)"
 
-#: src/view/container_properties_group.blp:103
+#: src/view/container_properties_group.blp:84
+#, fuzzy
+msgid "Commit"
+msgstr "Comitere"
+
+#: src/view/container_properties_group.blp:105
 msgid "Size"
 msgstr "Dimensiune"
 
-#: src/view/container_properties_group.blp:112
-#: src/view/container_properties_group.blp:115
+#: src/view/container_properties_group.blp:114
 msgid "Download Files (Ctrl+D)"
 msgstr "Descărcare fișiere (Ctrl+D)"
 
-#: src/view/container_properties_group.blp:128
+#: src/view/container_properties_group.blp:117
+msgid "Download Files"
+msgstr "Descărcați fișiere"
+
 #: src/view/container_properties_group.blp:131
 msgid "Upload Files (Ctrl+U)"
 msgstr "Încărcarea fișierelor (Ctrl+U)"
 
-#: src/view/container_properties_group.rs:117
+#: src/view/container_properties_group.blp:134
+msgid "Upload Files"
+msgstr "Încărcați fișiere"
+
+#: src/view/container_properties_group.blp:151
+msgid "Health Check"
+msgstr "Verificarea stării de sănătate"
+
+#: src/view/container_properties_group.rs:112
 #, fuzzy
 msgid "None"
 msgstr "<Nimic>"
@@ -1803,7 +1883,7 @@ msgstr "<Nimic>"
 msgid "Resources Quick Reference"
 msgstr "Referință rapidă de Resurse"
 
-#: src/view/container_resources.rs:91
+#: src/view/container_resources.rs:92
 #, rust-format
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
@@ -1811,13 +1891,13 @@ msgstr[0] "Procesor ({} CPU)"
 msgstr[1] "Procesoare ({} CPUs)"
 msgstr[2] "Procesoare ({} CPUs)"
 
-#: src/view/container_resources.rs:93
+#: src/view/container_resources.rs:94
 msgid "Processor (? CPUs)"
 msgstr "Procesor (? CPUs)"
 
-#: src/view/container_resources.rs:105 src/view/container_resources.rs:141
-#: src/view/container_resources.rs:146 src/view/container_resources.rs:150
-#: src/view/container_resources.rs:154
+#: src/view/container_resources.rs:105 src/view/container_resources.rs:130
+#: src/view/container_resources.rs:139 src/view/container_resources.rs:144
+#: src/view/container_resources.rs:148
 msgid "?"
 msgstr "?"
 
@@ -1826,12 +1906,12 @@ msgstr "?"
 msgid "{} %"
 msgstr "{} %"
 
-#: src/view/container_resources.rs:135
+#: src/view/container_resources.rs:133
 #, rust-format
 msgid "{} / {} ({} %)"
 msgstr "{} / {} ({} %)"
 
-#: src/view/container_row.blp:26
+#: src/view/container_row.blp:27
 #, fuzzy
 msgid "Select container"
 msgstr "{} Container selectat"
@@ -1869,33 +1949,54 @@ msgid ""
 "Control+Minus, or Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/container_terminal.rs:460
+#: src/view/container_terminal.rs:459
 msgid "Terminal error"
 msgstr "Eroare de terminal"
+
+#: src/view/container_terminal_page.blp:18
+#: src/view/container_terminal_page.blp:38
+msgid "Container Terminal"
+msgstr "TTY în Container"
 
 #: src/view/container_terminal_page.blp:27
 #: src/view/container_terminal_page.blp:30
 msgid "Detach Terminal"
 msgstr "Detașează Terminalul"
 
-#: src/view/container_terminal_page.blp:38
-msgid "Container Terminal"
-msgstr "TTY în Container"
-
-#: src/view/containers_count_bar.blp:25
+#: src/view/container_terminal_page.blp:46
+#: src/view/container_terminal_page.blp:49
 #, fuzzy
-msgid "Dead Containers"
-msgstr "Containere"
+msgid "Terminal Options"
+msgstr "Opțiuni de suprimare"
 
-#: src/view/containers_count_bar.blp:47
-#, fuzzy
-msgid "Not Running Containers"
-msgstr "Afișarea doar a containerelor în curs de execuție"
+#: src/view/container_volume_row.blp:6
+msgid "_Open Host Path in File Manager"
+msgstr ""
 
-#: src/view/containers_count_bar.blp:69
+#: src/view/container_volume_row.blp:14
 #, fuzzy
-msgid "Running Containers"
-msgstr "Afișarea doar a containerelor în curs de execuție"
+msgid "Copy _Host Path"
+msgstr "Calea în sistemul gazdă"
+
+#: src/view/container_volume_row.blp:19
+#, fuzzy
+msgid "Copy _Container Path"
+msgstr "Calea în container"
+
+#: src/view/container_volume_row.blp:78 src/view/container_volume_row.blp:82
+#, fuzzy
+msgid "Volume Actions"
+msgstr "Inspecția volumelor"
+
+#: src/view/containers_group.blp:8
+#, fuzzy
+msgid "Add Container"
+msgstr "Container"
+
+#: src/view/containers_panel.blp:6 src/view/images_panel.blp:29
+#: src/view/pods_panel.blp:6 src/view/volumes_panel.blp:6
+msgid "Sort"
+msgstr ""
 
 #: src/view/containers_panel.blp:23 src/view/pods_panel.blp:23
 #, fuzzy
@@ -1909,7 +2010,8 @@ msgstr "_Selectare vizibilitate"
 
 #: src/view/containers_panel.blp:36 src/view/images_panel.blp:58
 #: src/view/pods_panel.blp:36 src/view/volumes_panel.blp:35
-msgid "Select None"
+#, fuzzy
+msgid "Select _None"
 msgstr "Selectați niciunul"
 
 #: src/view/containers_panel.blp:54 src/view/containers_panel.blp:57
@@ -1920,57 +2022,79 @@ msgstr "Curățare de containere oprite"
 msgid "Toggle View"
 msgstr ""
 
-#: src/view/containers_panel.blp:100
+#: src/view/containers_panel.blp:70 src/view/images_panel.blp:85
+#: src/view/pods_panel.blp:62 src/view/volumes_panel.blp:61
+#, fuzzy
+msgid "Toggle Sort Direction"
+msgstr "Selectați directorul gazdă"
+
+#: src/view/containers_panel.blp:71 src/view/images_panel.blp:86
+#: src/view/pods_panel.blp:63 src/view/scalable_text_view_page.blp:56
+#: src/view/scalable_text_view_page.blp:59 src/view/volumes_panel.blp:62
+#, fuzzy
+msgid "View Options"
+msgstr "Opțiuni"
+
+#: src/view/containers_panel.blp:102
 #, fuzzy
 msgid "Loading containers"
 msgstr "Eroare la încărcarea containerului"
 
-#: src/view/containers_panel.blp:142 src/view/containers_panel.blp:145
-#: src/view/images_panel.blp:156 src/view/images_panel.blp:159
-#: src/view/pods_panel.blp:134 src/view/pods_panel.blp:137
-#: src/view/volumes_panel.blp:133 src/view/volumes_panel.blp:136
+#: src/view/containers_panel.blp:144 src/view/containers_panel.blp:147
+#: src/view/images_panel.blp:158 src/view/images_panel.blp:161
+#: src/view/pods_panel.blp:136 src/view/pods_panel.blp:139
+#: src/view/volumes_panel.blp:135 src/view/volumes_panel.blp:138
 #, fuzzy
 msgid "Start Multi-Selection"
 msgstr "Selecție multiplă"
 
-#: src/view/containers_panel.blp:171
+#: src/view/containers_panel.blp:173
 #, fuzzy
 msgid "Selected containers"
 msgstr "{} Container selectat"
 
-#: src/view/containers_panel.blp:180 src/view/containers_panel.blp:183
-#: src/view/images_panel.blp:191 src/view/images_panel.blp:194
-#: src/view/pods_panel.blp:169 src/view/pods_panel.blp:172
-#: src/view/volumes_panel.blp:168 src/view/volumes_panel.blp:171
+#: src/view/containers_panel.blp:182 src/view/containers_panel.blp:185
+#: src/view/images_panel.blp:193 src/view/images_panel.blp:196
+#: src/view/pods_panel.blp:171 src/view/pods_panel.blp:174
+#: src/view/volumes_panel.blp:170 src/view/volumes_panel.blp:173
 #, fuzzy
 msgid "Exit Multi-Selection"
 msgstr "Selecție multiplă"
 
-#: src/view/containers_panel.blp:212
+#: src/view/containers_panel.blp:214
 #, fuzzy
 msgid "No Matching Containers"
 msgstr "Nici un container în curs de execuție"
 
-#: src/view/containers_panel.blp:222
+#: src/view/containers_panel.blp:215
+msgid "All containers are hidden by the current filter"
+msgstr ""
+
+#: src/view/containers_panel.blp:225
 msgid "_Show All Containers"
 msgstr "Afișează toate containerele"
 
-#: src/view/containers_panel.blp:296
+#: src/view/containers_panel.blp:299
 #, fuzzy
 msgid "Start or resume selected containers"
 msgstr "Porniți/Reluați containerul."
 
-#: src/view/containers_panel.blp:316
+#: src/view/containers_panel.blp:319
 #, fuzzy
 msgid "Stop selected containers"
 msgstr "{} Container selectat"
 
-#: src/view/containers_panel.blp:395
+#: src/view/containers_panel.blp:398
 #, fuzzy
 msgid "No Containers Available"
 msgstr "Nu s-au găsit containere"
 
-#: src/view/containers_panel.blp:405
+#: src/view/containers_panel.blp:399
+#, fuzzy
+msgid "Create a container to get started"
+msgstr "Crearea unei noi conexiuni cu Podman pentru început."
+
+#: src/view/containers_panel.blp:409
 msgid "_Create Container"
 msgstr "_Creare de container"
 
@@ -1990,7 +2114,7 @@ msgstr[0] "{} container în total, {} în curs de executare"
 msgstr[1] "{} containere în total, {} în curs de executare"
 msgstr[2] "{} containere în total, {} în curs de executare"
 
-#: src/view/containers_panel.rs:395
+#: src/view/containers_panel.rs:396
 #, rust-format
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
@@ -1998,22 +2122,24 @@ msgstr[0] "{} Container selectat"
 msgstr[1] "{} Containere selectate"
 msgstr[2] "{} Containere selectate"
 
-#: src/view/containers_panel.rs:520
+#: src/view/containers_panel.rs:509
 msgid "List View"
 msgstr ""
 
-#: src/view/containers_panel.rs:527
+#: src/view/containers_panel.rs:516
 msgid "Grid View"
 msgstr ""
 
-#: src/view/containers_panel.rs:957
-msgid "Confirm Forced Deletion of Multiple Containers"
-msgstr "Confirmați ștergerea forțată a mai multor containere"
+#: src/view/containers_panel.rs:953
+#, fuzzy
+msgid "Delete Selected Containers?"
+msgstr "{} Container selectat"
 
-#: src/view/containers_panel.rs:960
+#: src/view/containers_panel.rs:956
+#, fuzzy
 msgid ""
 "All the data created inside the containers will be lost and running "
-"containers will be stopped!"
+"containers will be stopped"
 msgstr ""
 "Toate datele create în interiorul containerelor se vor pierde și "
 "containerele care rulează vor fi oprite!"
@@ -2022,23 +2148,23 @@ msgstr ""
 #: src/view/images_prune_action_view.rs:67
 #: src/view/volumes_prune_action_view.rs:67
 #, fuzzy, rust-format
-msgid "Space Reclaimed: <b>{}</b>"
+msgid "Space reclaimed: <b>{}</b>"
 msgstr "Pornește un nou container: <b>{}</b>"
 
-#: src/view/containers_prune_opts_dialog.blp:38
-#: src/view/images_prune_opts_dialog.blp:38
-#: src/view/pods_prune_opts_dialog.blp:38
-#: src/view/volumes_prune_opts_dialog.blp:38
+#: src/view/containers_prune_opts_dialog.blp:37
+#: src/view/images_prune_opts_dialog.blp:37
+#: src/view/pods_prune_opts_dialog.blp:37
+#: src/view/volumes_prune_opts_dialog.blp:37
 msgid "_Prune"
 msgstr "_Suprimare"
 
-#: src/view/containers_prune_opts_dialog.blp:45
-#: src/view/images_prune_opts_dialog.blp:45
-#: src/view/volumes_prune_opts_dialog.blp:47
+#: src/view/containers_prune_opts_dialog.blp:44
+#: src/view/images_prune_opts_dialog.blp:44
+#: src/view/volumes_prune_opts_dialog.blp:46
 msgid "Prune Options"
 msgstr "Opțiuni de suprimare"
 
-#: src/view/containers_prune_opts_dialog.blp:48
+#: src/view/containers_prune_opts_dialog.blp:47
 #, fuzzy
 msgid "Prune containers created before this timestamp"
 msgstr "Elimină containerele create înainte de acest moment."
@@ -2066,35 +2192,35 @@ msgstr "mknod"
 
 #: src/view/image.rs:25
 #, fuzzy
-msgid "Confirm Image Deletion"
-msgstr "Confirmați ștergerea forțată a imaginii"
+msgid "Delete Image?"
+msgstr "Suprimarea imaginii"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image.rs:28
-#, rust-format
+#: src/view/image.rs:27
+#, fuzzy, rust-format
 msgid ""
-"Image is used by container <b>{}</b>. Deleting the image will also delete "
-"all its associated containers."
+"Image is used by container “{}”. Deleting the image will also delete all its "
+"associated containers."
 msgstr ""
-"Imaginea este utilizată de containerul <b>{}</b>. Ștergerea imaginii va "
-"șterge, de asemenea, toate containerele asociate acesteia."
+"Imaginea este utilizată de un container. Ștergerea imaginii va șterge, de "
+"asemenea, toate containerele asociate acesteia."
 
 #. Translators: The "{}" is a placeholder for the image id.
-#: src/view/image.rs:72
+#: src/view/image.rs:71
 #, fuzzy, rust-format
-msgid "Error on removing image '{}'"
+msgid "Could not remove image “{}”"
 msgstr "Eroare la ștergerea imaginii '{}'"
 
 #: src/view/image_build_action_view.rs:69
-#: src/view/image_build_opts_dialog.blp:15
+#: src/view/image_build_opts_dialog.blp:16
 msgid "Build Image"
 msgstr "Construiți imaginea"
 
-#: src/view/image_build_opts_dialog.blp:38 src/view/images_panel.blp:21
+#: src/view/image_build_opts_dialog.blp:39
 msgid "_Build"
 msgstr "_Construire"
 
-#: src/view/image_build_opts_dialog.blp:48
+#: src/view/image_build_opts_dialog.blp:49
 msgid "Image Name"
 msgstr "Numele imaginii"
 
@@ -2112,82 +2238,89 @@ msgstr ""
 "Calea fișierului containerului în raport cu directorul de construcție din "
 "context"
 
-#: src/view/image_build_opts_dialog.rs:195
+#: src/view/image_build_opts_dialog.rs:185
 msgid "Select Build Context Directory"
 msgstr "Selectați directorul contextual de construcție"
 
-#: src/view/image_details_page.blp:7 src/view/image_details_page.blp:15
-msgid "Create Repository Tag"
-msgstr "Creare de etichetă de depozit"
+#: src/view/image_details_page.blp:8 src/view/repo_tag_add_dialog.blp:7
+#, fuzzy
+msgid "Add Tag"
+msgstr "Adăugare de Etichete"
 
-#: src/view/image_details_page.blp:55 src/view/image_details_page.blp:58
+#: src/view/image_details_page.blp:46 src/view/image_details_page.blp:49
 msgid "Delete Image"
 msgstr "Suprimarea imaginii"
 
-#: src/view/image_details_page.blp:99
+#: src/view/image_details_page.blp:90
 #, fuzzy
 msgid "Disk Space"
 msgstr "Spațiu pe disc"
 
-#: src/view/image_details_page.blp:115
+#: src/view/image_details_page.blp:107
 msgid "Entry Point"
 msgstr "Punct de intrare"
 
-#: src/view/image_details_page.blp:132
+#: src/view/image_details_page.blp:126
 #, fuzzy
 msgid "View all image properties in a structured text form"
 msgstr ""
 "Vizualizați toate proprietățile imaginii într-o formă de text structurată."
 
-#: src/view/image_details_page.blp:144
+#: src/view/image_details_page.blp:138
 msgid "History"
 msgstr "Istorie"
 
-#: src/view/image_details_page.blp:145
+#: src/view/image_details_page.blp:139
 #, fuzzy
 msgid "View parent layers of this image"
 msgstr "Vizualizați straturile părinte ale acestei imagini."
 
-#: src/view/image_details_page.blp:158
-msgid "Repository Tags"
-msgstr "Etichete de depozit"
+#: src/view/image_details_page.blp:152 src/view/image_history_page.rs:172
+msgid "Tags"
+msgstr "Etichete"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:201
+#: src/view/image_details_page.rs:200
 #, rust-format
 msgid "{} (Virtual: {})"
 msgstr "{} (Virtual: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:209
+#: src/view/image_details_page.rs:208
 #, rust-format
 msgid "{} (Shared: {})"
 msgstr "{} (Partajat: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:218
+#: src/view/image_details_page.rs:217
 #, rust-format
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (Partajat: {}, Virtual: {})"
 
-#: src/view/image_details_page.rs:294
-msgid "Error on loading image details"
+#: src/view/image_details_page.rs:283
+#, fuzzy
+msgid "Could not load image details"
 msgstr "Eroare la încărcarea detaliilor imaginii"
 
-#: src/view/image_details_page.rs:313
-#, rust-format
-msgid "Image '{}' has been deleted"
+#: src/view/image_details_page.rs:302
+#, fuzzy, rust-format
+msgid "Image “{}” has been deleted"
 msgstr "Imaginea '{}' a fost ștearsă"
 
-#: src/view/image_history_page.blp:12
+#: src/view/image_history_page.blp:5 src/view/image_history_page.blp:12
 msgid "Image History"
 msgstr "Istoricul imaginilor"
 
-#: src/view/image_history_page.blp:29
+#: src/view/image_history_page.blp:24
+#, fuzzy
+msgid "Loading history"
+msgstr "Descărcați imaginea"
+
+#: src/view/image_history_page.blp:33
 msgid "History List"
 msgstr "Listă de istorice"
 
-#: src/view/image_history_page.rs:85
+#: src/view/image_history_page.rs:83
 #, rust-format
 msgid "{} entry"
 msgid_plural "{} entries"
@@ -2195,33 +2328,26 @@ msgstr[0] "{} intrare"
 msgstr[1] "{} intrări"
 msgstr[2] "{} intrări"
 
-#: src/view/image_history_page.rs:87
+#: src/view/image_history_page.rs:85
 #, rust-format
 msgid "{} in total"
 msgstr "{} în total"
 
-#: src/view/image_history_page.rs:101
-msgid "<None>"
-msgstr "<Nimic>"
-
-#: src/view/image_history_page.rs:116
+#: src/view/image_history_page.rs:114
 msgid "Unknown Date"
 msgstr "Data necunoscută"
 
-#: src/view/image_history_page.rs:127
+#: src/view/image_history_page.rs:125
 msgid "Unknown size"
 msgstr "Dimensiune necunoscută"
 
-#: src/view/image_history_page.rs:144
+#: src/view/image_history_page.rs:142
 msgid "Created by"
 msgstr "Creat de"
 
-#: src/view/image_history_page.rs:174
-msgid "Tags"
-msgstr "Etichete"
-
-#: src/view/image_history_page.rs:190
-msgid "Error on retrieving history"
+#: src/view/image_history_page.rs:188
+#, fuzzy
+msgid "Could not retrieve history"
 msgstr "Eroare la regăsirea istoricului"
 
 #: src/view/image_menu_button.blp:5 src/view/pod_menu_button.blp:6
@@ -2233,24 +2359,19 @@ msgstr "_Creează container…"
 msgid "Image Actions"
 msgstr "Inspecția imaginii"
 
-#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:15
+#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:16
 #, fuzzy
 msgid "Pull Image"
 msgstr "Trimitere de imagine"
 
-#: src/view/image_pull_opts_dialog.blp:38 src/view/images_panel.blp:16
+#: src/view/image_pull_opts_dialog.blp:39
 msgid "_Pull"
 msgstr ""
 
-#: src/view/image_row.blp:24
+#: src/view/image_row.blp:25
 #, fuzzy
 msgid "Select image"
 msgstr "Selecționarea imaginii"
-
-#: src/view/image_row.rs:211
-#, rust-format
-msgid "Image {}"
-msgstr "Imagine {}"
 
 #: src/view/image_search_response_row.blp:29
 #: src/view/image_search_response_row.blp:32
@@ -2262,9 +2383,13 @@ msgstr ""
 msgid "Stars"
 msgstr "Start"
 
-#: src/view/image_suggestion_entry_row.rs:149
-msgid "Failed to search for images"
-msgstr "Eșec la căutarea de imagini"
+#: src/view/images_panel.blp:16
+msgid "_Pull…"
+msgstr ""
+
+#: src/view/images_panel.blp:21
+msgid "_Build…"
+msgstr "_Construire…"
 
 #: src/view/images_panel.blp:65 src/view/images_panel.blp:68
 msgid "Create Image"
@@ -2274,40 +2399,50 @@ msgstr "Creare de Imagine"
 msgid "Prune Unused Images"
 msgstr "Suprimarea imaginilor nefolosite"
 
-#: src/view/images_panel.blp:114
+#: src/view/images_panel.blp:116
 #, fuzzy
 msgid "Loading images"
 msgstr "Descărcați imaginea"
 
-#: src/view/images_panel.blp:182
+#: src/view/images_panel.blp:184
 #, fuzzy
 msgid "Selected images"
 msgstr "Selecționarea imaginii"
 
-#: src/view/images_panel.blp:235
+#: src/view/images_panel.blp:237
 #, fuzzy
 msgid "No Matching Images"
 msgstr "Nu există imagini etichetate"
 
-#: src/view/images_panel.blp:245
+#: src/view/images_panel.blp:238
+msgid "All images are hidden by the current filter"
+msgstr ""
+
+#: src/view/images_panel.blp:248
 msgid "_Show All Images"
 msgstr "Afișarea tuturor imaginilor"
 
-#: src/view/images_panel.blp:270
+#: src/view/images_panel.blp:272
 #, fuzzy
 msgid "Delete selected images"
 msgstr "{} Imagine selectată"
 
-#: src/view/images_panel.blp:302
+#: src/view/images_panel.blp:304
 msgid "No Images Available"
 msgstr ""
 
-#: src/view/images_panel.blp:330
-msgid "_Download Image"
-msgstr "_Descărcare de imagine"
+#: src/view/images_panel.blp:305
+msgid "Pull or build an image to get started"
+msgstr ""
 
-#: src/view/images_panel.blp:342
-msgid "_Build Image"
+#: src/view/images_panel.blp:333
+#, fuzzy
+msgid "_Pull Image…"
+msgstr "Trimitere de imagine"
+
+#: src/view/images_panel.blp:345
+#, fuzzy
+msgid "_Build Image…"
 msgstr "Construcție de imagine"
 
 #: src/view/images_panel.rs:272
@@ -2334,85 +2469,101 @@ msgstr[0] "{} Imagine selectată"
 msgstr[1] "{} Imagini selectate"
 msgstr[2] "{} Imagini selectate"
 
-#: src/view/images_panel.rs:670
-msgid "Confirm Forced Deletion of Multiple Images"
-msgstr "Confirmați ștergerea forțată a mai multor imagini"
+#: src/view/images_panel.rs:662
+#, fuzzy
+msgid "Delete Selected Images?"
+msgstr "{} Imagine selectată"
 
-#: src/view/images_panel.rs:672
+#: src/view/images_panel.rs:664
+#, fuzzy
 msgid ""
 "There may be containers associated with those images, which will also be "
-"removed!"
+"removed"
 msgstr ""
 "Pot exista containere asociate cu aceste imagini, care vor fi, de asemenea, "
 "eliminate!"
 
-#: src/view/images_panel.rs:706
-#, rust-format
-msgid "Error on deleting image '{}'"
-msgstr "Eroare la ștergerea imaginii '{}'"
+#: src/view/images_panel.rs:699
+#, fuzzy, rust-format
+msgid "Could not delete image “{}”"
+msgstr "Nu s-a putut seta limba la '{}'"
 
-#: src/view/images_prune_opts_dialog.blp:48
-#: src/view/volumes_prune_opts_dialog.blp:50
+#: src/view/images_prune_opts_dialog.blp:47
+#: src/view/volumes_prune_opts_dialog.blp:49
 msgid "Prune All"
 msgstr "Suprimă tot"
 
-#: src/view/images_prune_opts_dialog.blp:53
+#: src/view/images_prune_opts_dialog.blp:52
 msgid "Prune External"
 msgstr "Suprimare externă"
 
-#: src/view/images_prune_opts_dialog.blp:63
+#: src/view/images_prune_opts_dialog.blp:53
+#, fuzzy
+msgid ""
+"Remove images even when they are used by external containers (e.g. by build "
+"containers)"
+msgstr ""
+"Elimină imaginile, inclusiv cele utilizate de containere externe (ex. "
+"containere de construcție)"
+
+#: src/view/images_prune_opts_dialog.blp:62
 #, fuzzy
 msgid "Prune images created before this timestamp"
 msgstr "Elimină imaginile create înainte de acest moment."
 
-#: src/view/info_panel.blp:40 src/view/info_panel.blp:142
+#: src/view/info_panel.blp:29
+#, fuzzy
+msgid "Loading information"
+msgstr "Configurare"
+
+#: src/view/info_panel.blp:44 src/view/info_panel.blp:146
 msgid "Version"
 msgstr "Versiune"
 
-#: src/view/info_panel.blp:46
+#: src/view/info_panel.blp:50
 msgid "System"
 msgstr ""
 
-#: src/view/info_panel.blp:53
+#: src/view/info_panel.blp:57
 msgid "Operating System"
 msgstr ""
 
-#: src/view/info_panel.blp:62
+#: src/view/info_panel.blp:66
 msgid "Kernel"
 msgstr ""
 
-#: src/view/info_panel.blp:71
+#: src/view/info_panel.blp:75
 msgid "Architecture"
 msgstr ""
 
-#: src/view/info_panel.blp:80 src/view/pod_create_opts_dialog.blp:98
+#: src/view/info_panel.blp:84 src/view/pod_create_opts_dialog.blp:96
 #: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:242
 msgid "Hostname"
 msgstr "Nume gazdă"
 
-#: src/view/info_panel.blp:89
-msgid "Cpus"
+#: src/view/info_panel.blp:93
+msgid "CPUs"
 msgstr ""
 
-#: src/view/info_panel.blp:104
+#: src/view/info_panel.blp:108
 msgid "Storage"
 msgstr "Stocaj"
 
-#: src/view/info_panel.blp:111 src/view/info_panel.blp:133
-#: src/view/volume_details_page.blp:105
+#: src/view/info_panel.blp:115 src/view/info_panel.blp:137
+#: src/view/volume_details_page.blp:124
 msgid "Driver"
 msgstr "Driver"
 
-#: src/view/info_panel.blp:120
+#: src/view/info_panel.blp:124
 #, fuzzy
 msgid "Root"
 msgstr "Rulați Root"
 
-#: src/view/info_panel.blp:126
+#: src/view/info_panel.blp:130
 msgid "Cgroup"
 msgstr ""
 
-#: src/view/info_panel.blp:151
+#: src/view/info_panel.blp:155
 #, fuzzy
 msgid "Show Details"
 msgstr "Detaliile capsulei"
@@ -2450,7 +2601,7 @@ msgid "Bind"
 msgstr "Corespondență"
 
 #: src/view/mount_row.blp:97 src/view/mount_row.blp:107
-#: src/view/volume_details_page.blp:12
+#: src/view/volume_details_page.blp:5 src/view/volume_details_page.blp:12
 msgid "Volume"
 msgstr "Volum"
 
@@ -2459,7 +2610,8 @@ msgid "SELinux"
 msgstr "SELinux"
 
 #: src/view/mount_row.blp:124
-msgid "No label"
+#, fuzzy
+msgid "No Label"
 msgstr "Fără etichetă"
 
 #: src/view/mount_row.blp:125
@@ -2470,77 +2622,86 @@ msgstr "Partajat"
 msgid "Private"
 msgstr "Privat"
 
-#: src/view/pod.rs:42 src/view/pods_panel.rs:709
-msgid "Error on starting pod"
+#: src/view/pod.rs:42 src/view/pods_panel.rs:697
+#, fuzzy
+msgid "Could not start pod"
 msgstr "Eroare la pornirea podului"
 
-#: src/view/pod.rs:43 src/view/pods_panel.rs:741 src/view/pods_panel.rs:768
-msgid "Error on stopping pod"
+#: src/view/pod.rs:43 src/view/pods_panel.rs:730 src/view/pods_panel.rs:758
+#, fuzzy
+msgid "Could not stop pod"
 msgstr "Eroare la oprirea podului"
 
-#: src/view/pod.rs:44 src/view/pods_panel.rs:739
-msgid "Error on killing pod"
+#: src/view/pod.rs:44 src/view/pods_panel.rs:728
+#, fuzzy
+msgid "Could not kill pod"
 msgstr "Eroare la oprirea forțată a podului"
 
-#: src/view/pod.rs:45 src/view/pods_panel.rs:795
-msgid "Error on restarting pod"
+#: src/view/pod.rs:45 src/view/pods_panel.rs:786
+#, fuzzy
+msgid "Could not restart pod"
 msgstr "Eroare la repornirea podului"
 
 #: src/view/pod.rs:46
-msgid "Error on pausing pod"
+#, fuzzy
+msgid "Could not pause pod"
 msgstr "Eroare la punerea în pauză a podului"
 
-#: src/view/pod.rs:47 src/view/pods_panel.rs:694
-msgid "Error on resuming pod"
+#: src/view/pod.rs:47 src/view/pods_panel.rs:682
+#, fuzzy
+msgid "Could not resume pod"
 msgstr "Eroare la reluarea podului"
 
-#: src/view/pod.rs:48 src/view/pods_panel.rs:846
-msgid "Error on deleting pod"
+#: src/view/pod.rs:48 src/view/pods_panel.rs:843
+#, fuzzy
+msgid "Could not delete pod"
 msgstr "Eroare la suprimarea podului"
 
 #: src/view/pod.rs:58
 #, fuzzy
-msgid "Confirm Pod Deletion"
-msgstr "Confirmați suprimarea forțată a podului"
+msgid "Delete Pod?"
+msgstr "Selectare de capsulă"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/pod.rs:61
-#, rust-format
+#: src/view/pod.rs:60
+#, fuzzy, rust-format
 msgid ""
-"Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
+"Pod contains container “{}”. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
-"Podul conține containerul <b>{}</b>. Suprimarea podului va șterge, de "
-"asemenea, toate containerele sale."
+"Podul conține un container. Suprimarea podului va șterge, de asemenea, toate "
+"containerele sale."
 
-#: src/view/pod_create_action_view.rs:69 src/view/pod_create_opts_dialog.blp:15
+#: src/view/pod_create_action_view.rs:69 src/view/pod_create_opts_dialog.blp:16
 #: src/view/pods_panel.blp:44 src/view/pods_panel.blp:47
 msgid "Create Pod"
 msgstr "Creați Pod"
 
-#: src/view/pod_create_opts_dialog.blp:38
-#: src/view/volume_create_opts_dialog.blp:38
+#: src/view/pod_create_opts_dialog.blp:39
+#: src/view/volume_create_opts_dialog.blp:39
 msgid "_Create"
 msgstr "_Creare"
 
-#: src/view/pod_create_opts_dialog.blp:77
-#: src/view/pod_create_opts_dialog.blp:175
+#: src/view/pod_create_opts_dialog.blp:76
+#: src/view/pod_create_opts_dialog.blp:176
 msgid "Infra"
 msgstr "Infra"
 
-#: src/view/pod_create_opts_dialog.blp:102
-msgid "Disable /etc/resolv.conf management"
+#: src/view/pod_create_opts_dialog.blp:100
+#, fuzzy
+msgid "Disable /etc/resolv.conf Management"
 msgstr "Dezactivați gestionarea /etc/resolv.conf"
 
-#: src/view/pod_create_opts_dialog.blp:110
+#: src/view/pod_create_opts_dialog.blp:108
 msgid "Pod Create Command"
 msgstr "Comandă Creare pod"
 
-#: src/view/pod_create_opts_dialog.blp:136
+#: src/view/pod_create_opts_dialog.blp:133
 msgid "Devices"
 msgstr "Dispozitive"
 
-#: src/view/pod_create_opts_dialog.blp:146
+#: src/view/pod_create_opts_dialog.blp:143
+#: src/view/pod_create_opts_dialog.blp:147
 msgid "Hosts"
 msgstr "Gazde"
 
@@ -2580,14 +2741,14 @@ msgstr "Generați un YAML Kubernetes pe baza acestei capsule."
 msgid "View processes of the pod"
 msgstr "Monitorizarea proceselor de containere și poduri."
 
-#: src/view/pod_details_page.rs:259
+#: src/view/pod_details_page.rs:250
 #, fuzzy
-msgid "Error on loading pod details"
+msgid "Could not load pod details"
 msgstr "Eroare la încărcarea datelor podului"
 
-#: src/view/pod_details_page.rs:297
-#, rust-format
-msgid "Pod '{}' has been deleted"
+#: src/view/pod_details_page.rs:288
+#, fuzzy, rust-format
+msgid "Pod “{}” has been deleted"
 msgstr "Podul '{}' a fost suprimat"
 
 #: src/view/pod_menu_button.blp:58 src/view/pod_menu_button.blp:61
@@ -2595,52 +2756,57 @@ msgstr "Podul '{}' a fost suprimat"
 msgid "Pod Actions"
 msgstr "Nu există acțiuni"
 
-#: src/view/pod_row.blp:26
+#: src/view/pod_row.blp:27
 #, fuzzy
 msgid "Select pod"
 msgstr "Selectare de capsulă"
-
-#: src/view/pod_row.rs:240
-msgid "Pod Details"
-msgstr "Detaliile capsulei"
 
 #: src/view/pods_panel.blp:54 src/view/pods_panel.blp:57
 msgid "Prune Stopped Pods"
 msgstr "Șterge capsulele oprite"
 
-#: src/view/pods_panel.blp:92
+#: src/view/pods_panel.blp:94
 #, fuzzy
 msgid "Loading pods"
 msgstr "Eroare la încărcarea datelor capsulei"
 
-#: src/view/pods_panel.blp:160
+#: src/view/pods_panel.blp:162
 #, fuzzy
 msgid "Selected pods"
 msgstr "{} Pod selectat"
 
-#: src/view/pods_panel.blp:213
+#: src/view/pods_panel.blp:215
 #, fuzzy
 msgid "No Matching Pods"
 msgstr "Nu exista capsule în curs de execuție"
 
-#: src/view/pods_panel.blp:223
+#: src/view/pods_panel.blp:216
+msgid "All pods are hidden by the current filter"
+msgstr ""
+
+#: src/view/pods_panel.blp:226
 msgid "_Show All Pods"
 msgstr "Să se afișeze toate capsulele"
 
-#: src/view/pods_panel.blp:297
+#: src/view/pods_panel.blp:300
 msgid "Start or resume selected pods"
 msgstr ""
 
-#: src/view/pods_panel.blp:317
+#: src/view/pods_panel.blp:320
 #, fuzzy
 msgid "Stop selected pods"
 msgstr "{} Pod selectat"
 
-#: src/view/pods_panel.blp:393
+#: src/view/pods_panel.blp:396
 msgid "No Pods Available"
 msgstr ""
 
-#: src/view/pods_panel.blp:403
+#: src/view/pods_panel.blp:397
+#, fuzzy
+msgid "Create a pod to get started"
+msgstr "Crearea unei noi conexiuni cu Podman pentru început."
+
+#: src/view/pods_panel.blp:407
 msgid "_Create Pod"
 msgstr "_Creare de capsulă"
 
@@ -2668,12 +2834,19 @@ msgstr[0] "{} Pod selectat"
 msgstr[1] "{} Poduri selectate"
 msgstr[2] "{} Poduri selectate"
 
-#: src/view/pods_panel.rs:813
-msgid "Confirm Forced Deletion of Multiple Pods"
-msgstr "Confirmați ștergerea forțată a mai multor poduri"
+#: src/view/pods_panel.rs:809
+#, fuzzy
+msgid "Delete Selected Pods?"
+msgstr "{} volum selecționat"
 
-#: src/view/pods_panel.rs:815
-msgid "All associated containers will also be removed!"
+#: src/view/pods_panel.rs:811
+#, fuzzy
+msgid "All associated containers will also be removed"
+msgstr "Toate containerele asociate vor fi, de asemenea, eliminate!"
+
+#: src/view/pods_prune_opts_dialog.blp:48
+#, fuzzy
+msgid "All stopped pods will be removed"
 msgstr "Toate containerele asociate vor fi, de asemenea, eliminate!"
 
 #: src/view/port_binding_creation_row.blp:74
@@ -2718,27 +2891,22 @@ msgstr ""
 msgid "Target Port"
 msgstr "Portul în sistemul gazdă"
 
-#: src/view/port_binding_row.blp:24
+#: src/view/port_binding_row.blp:25
 #, fuzzy
 msgid "Host"
 msgstr "Gazde"
 
-#: src/view/port_binding_row.blp:81
+#: src/view/port_binding_row.blp:82 src/view/port_binding_row.blp:85
 msgid "Open in Browser"
 msgstr ""
 
-#: src/view/port_binding_row.rs:184
+#: src/view/port_binding_row.rs:177
 msgid "Invalid URL"
 msgstr ""
 
-#: src/view/port_binding_row.rs:201 src/view/volume_details_page.rs:281
-#, fuzzy
-msgid "Error opening link"
-msgstr "Eroare la deschiderea artefactului"
-
-#: src/view/repo_tag_add_dialog.blp:7
-msgid "Add Repository Tag"
-msgstr "Adăugați etichetă de depozit"
+#: src/view/port_binding_row.rs:194 src/view/volume.rs:35
+msgid "Could not open link"
+msgstr ""
 
 #: src/view/repo_tag_add_dialog.blp:12
 msgid "_Add"
@@ -2753,86 +2921,103 @@ msgid "Repo tag must contain a colon “:”"
 msgstr "Eticheta Repo trebuie să conțină două puncte \":\""
 
 #: src/view/repo_tag_push_action_view.rs:71
-#: src/view/repo_tag_push_opts_dialog.blp:33
+#: src/view/repo_tag_push_opts_dialog.blp:34
 msgid "Push Image"
 msgstr "Trimitere de imagine"
 
-#: src/view/repo_tag_push_opts_dialog.blp:43
+#: src/view/repo_tag_push_opts_dialog.blp:44
 msgid "_Push"
 msgstr "A_pasă"
 
-#: src/view/repo_tag_push_opts_dialog.blp:50
+#: src/view/repo_tag_push_opts_dialog.blp:51
 msgid "Options"
 msgstr "Opțiuni"
 
-#: src/view/repo_tag_push_opts_dialog.blp:54
+#: src/view/repo_tag_push_opts_dialog.blp:55
 msgid "TLS Verify"
 msgstr "Verifică TLS"
 
-#: src/view/repo_tag_push_opts_dialog.blp:55
+#: src/view/repo_tag_push_opts_dialog.blp:56
 msgid "Require TLS verification"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:69
+#: src/view/repo_tag_push_opts_dialog.blp:70
+#: src/view/repo_tag_push_opts_dialog.blp:76
 msgid "Login"
 msgstr "Login"
 
-#: src/view/repo_tag_push_opts_dialog.blp:70
+#: src/view/repo_tag_push_opts_dialog.blp:71
 #, fuzzy
 msgid "Some registries require authentication"
 msgstr "Unele registre necesită autentificare."
 
-#: src/view/repo_tag_push_opts_dialog.blp:80
+#: src/view/repo_tag_push_opts_dialog.blp:85
 msgid "Authentication"
 msgstr "Autentificare"
 
-#: src/view/repo_tag_push_opts_dialog.blp:90
+#: src/view/repo_tag_push_opts_dialog.blp:95
 msgid "Basic"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:95
-#: src/view/repo_tag_push_opts_dialog.blp:115
+#: src/view/repo_tag_push_opts_dialog.blp:100
+#: src/view/repo_tag_push_opts_dialog.blp:120
 msgid "Token"
 msgstr "Jeton"
 
-#: src/view/repo_tag_push_opts_dialog.blp:103
+#: src/view/repo_tag_push_opts_dialog.blp:108
 msgid "Username"
 msgstr "Nume de utilizator"
 
-#: src/view/repo_tag_push_opts_dialog.blp:109
+#: src/view/repo_tag_push_opts_dialog.blp:114
 msgid "Password"
 msgstr "Parolă"
 
-#: src/view/repo_tag_push_opts_dialog.blp:121
+#: src/view/repo_tag_push_opts_dialog.blp:126
 msgid "Save Credentials"
 msgstr "Salvați informațiile de conectare"
 
 #: src/view/repo_tag_push_opts_dialog.rs:172
-msgid "Error on accessing keyring"
+#, fuzzy
+msgid "Could not access keyring"
 msgstr "Eroare la accesarea sistemului de chei"
 
-#: src/view/repo_tag_push_opts_dialog.rs:301
-msgid "Error saving credentials"
+#: src/view/repo_tag_push_opts_dialog.rs:296
+#, fuzzy
+msgid "Could not save credentials"
 msgstr "Eroare la salvarea informațiilor de conectare"
 
-#: src/view/repo_tag_push_opts_dialog.rs:302
+#: src/view/repo_tag_push_opts_dialog.rs:297
 msgid "Secret Service is not available"
 msgstr "Secret Service nu este disponibil"
 
-#: src/view/repo_tag_row.blp:29 src/view/repo_tag_row.blp:32
-msgid "Pull Latest"
+#: src/view/repo_tag_row.blp:6
+#, fuzzy
+msgid "_Copy to Clipboard"
+msgstr "Copiere în clipboard"
+
+#: src/view/repo_tag_row.blp:11
+#, fuzzy
+msgid "_Pull Latest"
 msgstr "Recuperează pe cel mai recent"
 
-#: src/view/repo_tag_row.blp:43 src/view/repo_tag_row.blp:46
-msgid "Push to Registry"
+#: src/view/repo_tag_row.blp:16
+#, fuzzy
+msgid "P_ush to Registry…"
 msgstr "Trimitere în Registru"
 
-#: src/view/repo_tag_row.blp:57 src/view/repo_tag_row.blp:60
-msgid "Untag"
+#: src/view/repo_tag_row.blp:23
+#, fuzzy
+msgid "_Untag"
 msgstr "Deetichetează"
 
-#: src/view/repo_tag_row.rs:213
-msgid "Error on untagging image"
+#: src/view/repo_tag_row.blp:60 src/view/repo_tag_row.blp:64
+#, fuzzy
+msgid "Tag Actions"
+msgstr "Inspecția imaginii"
+
+#: src/view/repo_tag_row.rs:164
+#, fuzzy
+msgid "Could not untag image"
 msgstr "Eroare la de-etichetarea imaginii"
 
 #: src/view/scalable_text_view_page.blp:81
@@ -2850,45 +3035,45 @@ msgid ""
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:276
+#: src/view/scalable_text_view_page.rs:274
 msgid "Image Inspection"
 msgstr "Inspecția imaginii"
 
-#: src/view/scalable_text_view_page.rs:283
+#: src/view/scalable_text_view_page.rs:281
 msgid "Container Inspection"
 msgstr "Inspecția containerelor"
 
-#: src/view/scalable_text_view_page.rs:284
+#: src/view/scalable_text_view_page.rs:282
 msgid "Container Kube Generation"
 msgstr "Generare de containere Kube"
 
-#: src/view/scalable_text_view_page.rs:294
+#: src/view/scalable_text_view_page.rs:292
 msgid "Pod Inspection"
 msgstr "Inspecție Pod"
 
-#: src/view/scalable_text_view_page.rs:295
+#: src/view/scalable_text_view_page.rs:293
 msgid "Pod Kube Generation"
 msgstr "Generare de Pod Kube"
 
-#: src/view/scalable_text_view_page.rs:302
+#: src/view/scalable_text_view_page.rs:300
 msgid "Volume Inspection"
 msgstr "Inspecția volumelor"
 
-#: src/view/scalable_text_view_page.rs:309
+#: src/view/scalable_text_view_page.rs:307
 #, fuzzy
 msgid "Detailed Information"
 msgstr "Configurare"
 
-#: src/view/scalable_text_view_page.rs:337
-#, rust-format
-msgid "Could not set language to '{}'"
+#: src/view/scalable_text_view_page.rs:335
+#, fuzzy, rust-format
+msgid "Could not set language to “{}”"
 msgstr "Nu s-a putut seta limba la '{}'"
 
-#: src/view/scalable_text_view_page.rs:421
+#: src/view/scalable_text_view_page.rs:419
 msgid "Inspection error"
 msgstr "Eroare de inspecție"
 
-#: src/view/scalable_text_view_page.rs:422
+#: src/view/scalable_text_view_page.rs:420
 msgid "Kube generation error"
 msgstr "Eroare de generare Kube"
 
@@ -2897,14 +3082,14 @@ msgstr "Eroare de generare Kube"
 msgid "Start typing to look for results"
 msgstr "Vă rugăm să începeți să tastați pentru a căuta rezultate."
 
-#: src/view/search_panel.blp:32
+#: src/view/search_panel.blp:32 src/widget/suggestion_entry_row.blp:68
 msgid "No Results Found"
 msgstr "Nu s-au găsit rezultate"
 
 #: src/view/search_panel.blp:33
 #, fuzzy
-msgid "Please retry another term"
-msgstr "Vă rugăm să încercați un alt termen."
+msgid "Try a different search term"
+msgstr "nicio imagine selectată"
 
 #: src/view/shortcuts.blp:6
 msgctxt "shortcut window"
@@ -2912,8 +3097,9 @@ msgid "General"
 msgstr "General"
 
 #: src/view/shortcuts.blp:9
+#, fuzzy
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr "Afișare comenzi rapide"
 
 #: src/view/shortcuts.blp:14
@@ -2982,8 +3168,9 @@ msgid "Upload files"
 msgstr "Încărcați fișiere"
 
 #: src/view/shortcuts.blp:78
+#, fuzzy
 msgctxt "shortcut window"
-msgid "Text view"
+msgid "Text View"
 msgstr "Vizualizare text"
 
 #: src/view/shortcuts.blp:81 src/view/shortcuts.blp:100
@@ -3009,9 +3196,7 @@ msgstr "Terminal"
 #: src/view/shortcuts.blp:115
 #, fuzzy
 msgctxt "shortcut window"
-msgid ""
-"Copy selection to\n"
-"              clipboard"
+msgid "Copy selection to clipboard"
 msgstr "Copiați selecția în clipboard"
 
 #: src/view/shortcuts.blp:120
@@ -3043,8 +3228,9 @@ msgid "Pod Processes"
 msgstr "Procese pod"
 
 #: src/view/top_page.rs:127
-msgid "USER"
-msgstr "UTILIZATOR"
+#, fuzzy
+msgid "User"
+msgstr "Nume de utilizator"
 
 #: src/view/top_page.rs:134
 msgid "PID"
@@ -3059,22 +3245,19 @@ msgid "%CPU"
 msgstr "%CPU"
 
 #: src/view/top_page.rs:155
-msgid "ELAPSED"
-msgstr "PETRECUT"
+msgid "Elapsed"
+msgstr ""
 
 #: src/view/top_page.rs:162
 msgid "TTY"
 msgstr "TTY"
 
 #: src/view/top_page.rs:169
-msgid "TIME"
-msgstr "TIMP"
+#, fuzzy
+msgid "Time"
+msgstr "Timeout"
 
-#: src/view/top_page.rs:176
-msgid "COMMAND"
-msgstr "COMANDĂ"
-
-#: src/view/top_page.rs:550
+#: src/view/top_page.rs:540
 msgid "Killing pod processes is not supported"
 msgstr "Terminarea forțată a proceselor capsulelor nu este suportată"
 
@@ -3087,36 +3270,35 @@ msgstr "Argument"
 msgid "Remove Argument"
 msgstr "Argument"
 
-#: src/view/volume.rs:23
+#: src/view/volume.rs:50
 #, fuzzy
-msgid "Confirm Volume Deletion"
-msgstr "Confirmați ștergerea forțată a volumelor"
+msgid "Delete Volume?"
+msgstr "Suprimarea volumului"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/volume.rs:26
-#, rust-format
+#: src/view/volume.rs:52
+#, fuzzy, rust-format
 msgid ""
-"Volume is used by container <b>{}</b>. Deleting the volume will also delete "
-"these containers."
+"Volume is used by container “{}”. Deleting the volume will also delete these "
+"containers."
 msgstr ""
 "Volumul este utilizat de containerul <b>{}</b>. Suprimarea volumului va "
 "determina, de asemenea, ștergerea tuturor containerele asociate."
 
 #. Translators: The "{}" is a placeholder for the volume name.
-#: src/view/volume.rs:52 src/view/volumes_panel.rs:680
-#, rust-format
-msgid "Error on deleting volume '{}'"
+#: src/view/volume.rs:78 src/view/volumes_panel.rs:680
+#, fuzzy, rust-format
+msgid "Could not delete volume “{}”"
 msgstr "Eroare la ștergerea volumului '{}'"
 
 #: src/view/volume_create_action_view.rs:69
-#: src/view/volume_create_opts_dialog.blp:15 src/view/volumes_group.blp:12
-#: src/view/volumes_group.blp:15 src/view/volumes_panel.blp:43
+#: src/view/volume_create_opts_dialog.blp:16 src/view/volumes_panel.blp:43
 #: src/view/volumes_panel.blp:46
 msgid "Create Volume"
 msgstr "Creare de volum"
 
 #: src/view/volume_details_page.blp:29 src/view/volume_details_page.blp:32
-#: src/view/volume_row.blp:77 src/view/volume_row.blp:80
+#: src/view/volume_row.blp:75 src/view/volume_row.blp:78
 msgid "Delete Volume"
 msgstr "Suprimarea volumului"
 
@@ -3124,28 +3306,28 @@ msgstr "Suprimarea volumului"
 msgid "Mount Path"
 msgstr "Montare de cale"
 
-#: src/view/volume_details_page.blp:74
-msgid "Open in file manager"
+#: src/view/volume_details_page.blp:80
+msgid "Open in File Manager"
 msgstr ""
 
-#: src/view/volume_details_page.blp:77
+#: src/view/volume_details_page.blp:83
 msgid "Open mount path in file manager"
 msgstr ""
 
-#: src/view/volume_details_page.blp:93
+#: src/view/volume_details_page.blp:112
 #, fuzzy
 msgid "Copy mount path to clipboard"
 msgstr "Copiere în clipboard"
 
-#: src/view/volume_details_page.blp:122
+#: src/view/volume_details_page.blp:141
 #, fuzzy
 msgid "View all volume properties in a structured text form"
 msgstr ""
 "Vizualizați toate proprietățile volumului într-o formă de text structurată."
 
-#: src/view/volume_details_page.rs:212
-#, rust-format
-msgid "Volume '{}' has been deleted"
+#: src/view/volume_details_page.rs:210
+#, fuzzy, rust-format
+msgid "Volume “{}” has been deleted"
 msgstr "Volumul '{}' a fost șters"
 
 #: src/view/volume_row.blp:25
@@ -3153,15 +3335,10 @@ msgstr "Volumul '{}' a fost șters"
 msgid "Select volume"
 msgstr "Selectare volum"
 
-#: src/view/volume_row.rs:166
+#: src/view/volume_row.rs:161
 #, rust-format
 msgid "{} old"
 msgstr "{} vechi"
-
-#: src/view/volume_row.rs:270
-#, rust-format
-msgid "Volume {}"
-msgstr "Volum {}"
 
 #: src/view/volumes_panel.blp:15
 msgid "Age"
@@ -3172,36 +3349,45 @@ msgstr ""
 msgid "Prune Unused Volumes"
 msgstr "Suprimă volumele nefolosite"
 
-#: src/view/volumes_panel.blp:91
+#: src/view/volumes_panel.blp:93
 #, fuzzy
 msgid "Loading volumes"
 msgstr "Eroare la încărcarea volumelor"
 
-#: src/view/volumes_panel.blp:159
+#: src/view/volumes_panel.blp:161
 #, fuzzy
 msgid "Selected volumes"
 msgstr "Selectare volum"
 
-#: src/view/volumes_panel.blp:212
+#: src/view/volumes_panel.blp:214
 #, fuzzy
 msgid "No Matching Volumes"
 msgstr "Creare de volum"
 
-#: src/view/volumes_panel.blp:222
+#: src/view/volumes_panel.blp:215
+msgid "All volumes are hidden by the current filter"
+msgstr ""
+
+#: src/view/volumes_panel.blp:225
 msgid "_Show All Volumes"
 msgstr "Afișează toate volumele"
 
-#: src/view/volumes_panel.blp:247
+#: src/view/volumes_panel.blp:249
 #, fuzzy
 msgid "Delete selected volumes"
 msgstr "{} volum selecționat"
 
-#: src/view/volumes_panel.blp:279
+#: src/view/volumes_panel.blp:281
 #, fuzzy
 msgid "No Volumes Available"
 msgstr "Nu au fost găsite volume în curs de utilizare"
 
-#: src/view/volumes_panel.blp:289
+#: src/view/volumes_panel.blp:282
+#, fuzzy
+msgid "Create a volume to get started"
+msgstr "Crearea unei noi conexiuni cu Podman pentru început."
+
+#: src/view/volumes_panel.blp:292
 msgid "_Create Volume"
 msgstr "_Creați Volum"
 
@@ -3221,7 +3407,7 @@ msgstr[0] "{} volum în total, {} neutilizat"
 msgstr[1] "{} volume în total, {} neutilizate"
 msgstr[2] "{} volume în total, {} neutilizate"
 
-#: src/view/volumes_panel.rs:302
+#: src/view/volumes_panel.rs:303
 #, rust-format
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
@@ -3230,22 +3416,24 @@ msgstr[1] "{} volume selectate"
 msgstr[2] "{} volume selectate"
 
 #: src/view/volumes_panel.rs:653
-msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr "Confirmați ștergerea forțată a mai multor volume"
+#, fuzzy
+msgid "Delete Selected Volumes?"
+msgstr "{} volum selecționat"
 
 #: src/view/volumes_panel.rs:655
+#, fuzzy
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
-"be removed!"
+"be removed"
 msgstr ""
 "Pot exista containere asociate cu aceste volume, care vor fi, de asemenea, "
 "eliminate!"
 
-#: src/view/volumes_prune_opts_dialog.blp:51
+#: src/view/volumes_prune_opts_dialog.blp:50
 msgid "Consider all (local) volumes for pruning and not just anonymous volumes"
 msgstr ""
 
-#: src/view/volumes_prune_opts_dialog.blp:60
+#: src/view/volumes_prune_opts_dialog.blp:59
 #, fuzzy
 msgid "Prune volumes created before this timestamp"
 msgstr "Elimină volumele create înainte de acest moment."
@@ -3263,9 +3451,24 @@ msgstr "Crearea unei noi conexiuni cu Podman pentru început."
 msgid "_New Connection"
 msgstr "Conexiune _nouă"
 
+#: src/view/window.rs:172 src/view/window.rs:306
+#, fuzzy
+msgid "Connection lost"
+msgstr "Conexiuni"
+
 #: src/view/window.rs:214
-msgid "Confirm Exiting The Application"
-msgstr "Confirmați ieșirea din aplicație"
+#, fuzzy
+msgid "Quit Pods?"
+msgstr "_Despre Pods"
+
+#: src/view/window.rs:215
+#, fuzzy
+msgid "_Quit"
+msgstr "Închidere"
+
+#: src/widget/action_state_indicator.blp:24
+msgid "In progress"
+msgstr ""
 
 #: src/widget/auto_scrolled_window.blp:20
 #: src/widget/auto_scrolled_window.blp:24
@@ -3297,21 +3500,32 @@ msgstr "_Comenzi rapide de la tastatură"
 msgid "_About Pods"
 msgstr "_Despre Pods"
 
-#: src/widget/main_menu_button.blp:24
+#: src/widget/main_menu_button.blp:24 src/widget/main_menu_button.blp:27
 msgid "Main Menu"
 msgstr "Meniul principal"
 
 #: src/widget/random_name_entry_row.blp:13
+#: src/widget/random_name_entry_row.blp:17
 msgid "Generate Random Name"
 msgstr ""
 
 #: src/widget/source_view_search_widget.blp:18
-msgid "Previous (Ctrl+Shift+G)"
+#, fuzzy
+msgid "Previous Match (Ctrl+Shift+G)"
 msgstr "Anterior (Ctrl+Shift+G)"
 
-#: src/widget/source_view_search_widget.blp:23
-msgid "Next (Ctrl+G)"
+#: src/widget/source_view_search_widget.blp:21
+msgid "Previous Match"
+msgstr ""
+
+#: src/widget/source_view_search_widget.blp:28
+#, fuzzy
+msgid "Next Match (Ctrl+G)"
 msgstr "Următorul (Ctrl+G)"
+
+#: src/widget/source_view_search_widget.blp:32
+msgid "Next Match"
+msgstr ""
 
 #: src/widget/source_view_search_widget.rs:160
 #, rust-format
@@ -3323,15 +3537,19 @@ msgstr "0 din {}"
 msgid "{} of {}"
 msgstr "{} din {}"
 
-#: src/widget/text_search_entry.blp:32
+#: src/widget/suggestion_entry_row.blp:69
+msgid "Try a different term"
+msgstr ""
+
+#: src/widget/text_search_entry.blp:32 src/widget/text_search_entry.blp:36
 msgid "Regular Expression"
 msgstr "Expresie regulată"
 
-#: src/widget/text_search_entry.blp:39
+#: src/widget/text_search_entry.blp:43 src/widget/text_search_entry.blp:47
 msgid "Case Sensitive"
 msgstr "Sensibil la litere mari și mici"
 
-#: src/widget/text_search_entry.blp:46
+#: src/widget/text_search_entry.blp:54 src/widget/text_search_entry.blp:58
 msgid "Whole Word"
 msgstr "Cuvânt întreg"
 
@@ -3349,6 +3567,182 @@ msgstr "Resetare zoom"
 #, fuzzy
 msgid "Zoom In"
 msgstr "Mărire"
+
+#, fuzzy
+#~ msgid "Manage your Podman containers"
+#~ msgstr "Se ține evidența containerelor podman"
+
+#~ msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
+#~ msgstr "Gnome;GTK;libadwaita;Podman;Containerizare;"
+
+#, fuzzy
+#~ msgid ""
+#~ "Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
+#~ "interface and strives to meet the design principles of GNOME."
+#~ msgstr ""
+#~ "Pods este un frontend pentru podman. Folosește libadwaita pentru "
+#~ "interfața sa de utilizator și se străduiește să respecte principiile de "
+#~ "design ale GNOME."
+
+#~ msgid "Action"
+#~ msgstr "Acțiune"
+
+#, fuzzy, rust-format
+#~ msgid "Commit <b>{}</b>"
+#~ msgstr "Salvare imagine: <b>{}</b> ({})"
+
+#, fuzzy
+#~ msgid "Commit container"
+#~ msgstr "Salvează containerul"
+
+#, fuzzy, rust-format
+#~ msgid "Create <b>{}</b>"
+#~ msgstr "Creează o capsulă <b>{}</b>"
+
+#, fuzzy, rust-format
+#~ msgid "Build <b>{}</b>"
+#~ msgstr "Construire imagine: <b>{}</b>"
+
+#, fuzzy, rust-format
+#~ msgid "Pull <b>{}</b>"
+#~ msgstr "Descărcare imagine: <b>{}</b>"
+
+#, fuzzy, rust-format
+#~ msgid "Push <b>{}</b>"
+#~ msgstr "Încărcare imagine: <b>{}</b>"
+
+#~ msgid "_Confirm"
+#~ msgstr "_Confirmă"
+
+#~ msgid "Confirm Switching Connection"
+#~ msgstr "Confirmați comutarea conexiunii"
+
+#, fuzzy
+#~ msgid "Error renaming container"
+#~ msgstr "Eroare la reluarea containerului"
+
+#~ msgid "Error on stopping container"
+#~ msgstr "Eroare la oprirea containerului"
+
+#, rust-format
+#~ msgid "Container {}"
+#~ msgstr "Container {}"
+
+#~ msgid "Repo"
+#~ msgstr "Depozit"
+
+#, fuzzy
+#~ msgid "Menu"
+#~ msgstr "Meniul principal"
+
+#~ msgid "Error while following log"
+#~ msgstr "Eroare în timpul urmăririi jurnalului"
+
+#~ msgid "Error starting container"
+#~ msgstr "Eroare la pornirea containerului"
+
+#~ msgid "Error resuming container"
+#~ msgstr "Eroare la reluarea containerului"
+
+#, fuzzy
+#~ msgid "Copy to clipboard"
+#~ msgstr "Copiere în clipboard"
+
+#~ msgid "Confirm Forced Deletion of Multiple Containers"
+#~ msgstr "Confirmați ștergerea forțată a mai multor containere"
+
+#, fuzzy
+#~ msgid "Confirm Image Deletion"
+#~ msgstr "Confirmați ștergerea forțată a imaginii"
+
+#, rust-format
+#~ msgid ""
+#~ "Image is used by container <b>{}</b>. Deleting the image will also delete "
+#~ "all its associated containers."
+#~ msgstr ""
+#~ "Imaginea este utilizată de containerul <b>{}</b>. Ștergerea imaginii va "
+#~ "șterge, de asemenea, toate containerele asociate acesteia."
+
+#~ msgid "Create Repository Tag"
+#~ msgstr "Creare de etichetă de depozit"
+
+#~ msgid "Repository Tags"
+#~ msgstr "Etichete de depozit"
+
+#~ msgid "<None>"
+#~ msgstr "<Nimic>"
+
+#, rust-format
+#~ msgid "Image {}"
+#~ msgstr "Imagine {}"
+
+#~ msgid "Failed to search for images"
+#~ msgstr "Eșec la căutarea de imagini"
+
+#~ msgid "_Download Image"
+#~ msgstr "_Descărcare de imagine"
+
+#~ msgid "Confirm Forced Deletion of Multiple Images"
+#~ msgstr "Confirmați ștergerea forțată a mai multor imagini"
+
+#, rust-format
+#~ msgid "Error on deleting image '{}'"
+#~ msgstr "Eroare la ștergerea imaginii '{}'"
+
+#, fuzzy
+#~ msgid "Confirm Pod Deletion"
+#~ msgstr "Confirmați suprimarea forțată a podului"
+
+#, rust-format
+#~ msgid ""
+#~ "Pod contains container <b>{}</b>. Deleting the pod will also delete all "
+#~ "its containers."
+#~ msgstr ""
+#~ "Podul conține containerul <b>{}</b>. Suprimarea podului va șterge, de "
+#~ "asemenea, toate containerele sale."
+
+#~ msgid "Pod Details"
+#~ msgstr "Detaliile capsulei"
+
+#~ msgid "Confirm Forced Deletion of Multiple Pods"
+#~ msgstr "Confirmați ștergerea forțată a mai multor poduri"
+
+#, fuzzy
+#~ msgid "Error opening link"
+#~ msgstr "Eroare la deschiderea artefactului"
+
+#~ msgid "Add Repository Tag"
+#~ msgstr "Adăugați etichetă de depozit"
+
+#, fuzzy
+#~ msgid "Please retry another term"
+#~ msgstr "Vă rugăm să încercați un alt termen."
+
+#~ msgid "USER"
+#~ msgstr "UTILIZATOR"
+
+#~ msgid "ELAPSED"
+#~ msgstr "PETRECUT"
+
+#~ msgid "TIME"
+#~ msgstr "TIMP"
+
+#~ msgid "COMMAND"
+#~ msgstr "COMANDĂ"
+
+#, fuzzy
+#~ msgid "Confirm Volume Deletion"
+#~ msgstr "Confirmați ștergerea forțată a volumelor"
+
+#, rust-format
+#~ msgid "Volume {}"
+#~ msgstr "Volum {}"
+
+#~ msgid "Confirm Forced Deletion of Multiple Volumes"
+#~ msgstr "Confirmați ștergerea forțată a mai multor volume"
+
+#~ msgid "Confirm Exiting The Application"
+#~ msgstr "Confirmați ieșirea din aplicație"
 
 #~ msgid "Container Path ('/' if empty)"
 #~ msgstr "Cale în container ('/' în loc de vid)"
@@ -4426,9 +4820,6 @@ msgstr "Mărire"
 #~ msgid "Upload <b>{}</b> to <b>{}:{}</b>"
 #~ msgstr "Descărcare: <b>{}</b> spre <b>{}:{}</b>"
 
-#~ msgid "Tar archive created"
-#~ msgstr "Arhiva tar a fost creată"
-
 #~ msgid "Tar archive unwrapped"
 #~ msgstr "Arhiva tar a fost despachetată"
 
@@ -4681,23 +5072,14 @@ msgstr "Mărire"
 #~ msgid "Add Argument"
 #~ msgstr "Adăugare argument"
 
-#~ msgid "Failed to create container"
-#~ msgstr "Crearea containerului nu a reușit"
-
 #~ msgid "no image selected"
 #~ msgstr "nicio imagine selectată"
-
-#~ msgid "Download Files"
-#~ msgstr "Descărcați fișiere"
 
 #~ msgid "_Download"
 #~ msgstr "_Descărcare"
 
 #~ msgid "Select Host Destination Path"
 #~ msgstr "Selectați calea de destinație pe gazdă"
-
-#~ msgid "Upload Files"
-#~ msgstr "Încărcați fișiere"
 
 #~ msgid "_Upload"
 #~ msgstr "_Încărcați"
@@ -4713,9 +5095,6 @@ msgstr "Mărire"
 #, fuzzy
 #~ msgid "No volume selected (will create a new one)"
 #~ msgstr "Nu este selectat niciun volum (se va crea unul nou)."
-
-#~ msgid "Select Pod"
-#~ msgstr "Selectare de capsulă"
 
 #, fuzzy
 #~ msgid "Filter pods"
@@ -4780,10 +5159,6 @@ msgstr "Mărire"
 #~ msgstr "Selecționarea imaginii"
 
 #, fuzzy
-#~ msgid "Enter image search term"
-#~ msgstr "nicio imagine selectată"
-
-#, fuzzy
 #~ msgid "Find Remote Images"
 #~ msgstr "Imagine la distanță"
 
@@ -4797,9 +5172,6 @@ msgstr "Mărire"
 
 #~ msgid "_Prune Unused Images"
 #~ msgstr "Su_primați imaginile nefolosite"
-
-#~ msgid "Show Only Tagged Images"
-#~ msgstr "Afișarea numai a imaginilor etichetate"
 
 #~ msgid "{} Container"
 #~ msgid_plural "{} Containers"
@@ -4894,22 +5266,8 @@ msgstr "Mărire"
 #~ msgid "Error on loading images"
 #~ msgstr "Eroare la încărcarea imaginii"
 
-#~ msgid ""
-#~ "Image is used by a container. Deleting the image will also delete all its "
-#~ "associated containers."
-#~ msgstr ""
-#~ "Imaginea este utilizată de un container. Ștergerea imaginii va șterge, de "
-#~ "asemenea, toate containerele asociate acesteia."
-
 #~ msgid "_Force Delete"
 #~ msgstr "_Forțați ștergerea"
-
-#~ msgid ""
-#~ "Pod contains a container. Deleting the pod will also delete all its "
-#~ "containers."
-#~ msgstr ""
-#~ "Podul conține un container. Suprimarea podului va șterge, de asemenea, "
-#~ "toate containerele sale."
 
 #~ msgid ""
 #~ "Volume is used by a container. Deleting the volume will also delete all "
@@ -5149,9 +5507,6 @@ msgstr "Mărire"
 
 #~ msgid "_Download…"
 #~ msgstr "_Descărcare…"
-
-#~ msgid "_Build…"
-#~ msgstr "_Construire…"
 
 #~ msgid "Intermediates"
 #~ msgstr "Intermediari"

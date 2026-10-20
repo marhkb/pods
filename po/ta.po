@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the pods package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/view/connection_chooser_page.blp:36
 msgid ""
 msgstr ""
 "Project-Id-Version: pods\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 19:21+0000\n"
+"POT-Creation-Date: 2026-10-20 14:59+0000\n"
 "PO-Revision-Date: 2025-06-16 11:01+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/pods/main/ta/>\n"
@@ -21,19 +20,21 @@ msgstr ""
 
 #: data/com.github.marhkb.Pods.desktop.in.in:2
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:7 src/main.rs:119
-#: src/view/client_view.blp:139 src/view/client_view.rs:246
-#: src/view/pods_panel.blp:81 src/view/pods_panel.blp:127
-#: src/view/pods_panel.blp:387 src/view/search_panel.blp:56
+#: src/view/client_view.blp:142 src/view/client_view.rs:243
+#: src/view/pods_panel.blp:83 src/view/pods_panel.blp:129
+#: src/view/pods_panel.blp:390 src/view/search_panel.blp:56
 msgid "Pods"
 msgstr "காய்கள்"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:3
-msgid "Manage your Podman containers"
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
+#, fuzzy
+msgid "Manage your containers"
 msgstr "உங்கள் போட்மேன் கொள்கலன்களை நிர்வகிக்கவும்"
 
 #: data/com.github.marhkb.Pods.desktop.in.in:8
-msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
-msgstr "Gnome; gtk; லிபாட்வைதா; போட்மேன்; கொள்கலன்;"
+msgid "Podman;Docker;Container;Image;Pod;Volume;"
+msgstr ""
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:6
 #: data/com.github.marhkb.Pods.gschema.xml.in:7
@@ -62,12 +63,11 @@ msgid "The last used container file path"
 msgstr "கடைசியாக பயன்படுத்தப்பட்ட கொள்கலன் கோப்பு பாதை"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:36
-#: src/view/images_prune_opts_dialog.blp:49
+#: src/view/images_prune_opts_dialog.blp:48
 msgid "Remove all images not in use by containers, not just dangling ones"
 msgstr "கொள்கலன்களால் பயன்பாட்டில் இல்லாத அனைத்து படங்களையும் அகற்றவும், தொங்கவிடாமல்"
 
 #: data/com.github.marhkb.Pods.gschema.xml.in:41
-#: src/view/images_prune_opts_dialog.blp:54
 msgid ""
 "Remove images even when they are used by external containers (e.g, by build "
 "containers)"
@@ -150,19 +150,11 @@ msgstr "தொகுதிகளை ஏற்றுவதில் பிழை"
 msgid "Sort attribute for volumes"
 msgstr ""
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:8
-#, fuzzy
-msgid "Manage your containers"
-msgstr "உங்கள் போட்மேன் கொள்கலன்களை நிர்வகிக்கவும்"
-
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:10
-#, fuzzy
 msgid ""
-"Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
-"interface and strives to meet the design principles of GNOME."
+"Pods lets you manage your Podman and Docker containers, pods, images and "
+"volumes, whether they run locally or on a remote machine."
 msgstr ""
-"போட்மேன் போட்மேனுக்கு ஒரு முன்புறம். இது அதன் பயனர் இடைமுகத்திற்கு லிபாட்வைட்டாவைப் "
-"பயன்படுத்துகிறது மற்றும் க்னோமின் வடிவமைப்புக் கொள்கைகளை நிறைவு செய்ய முயற்சிக்கிறது."
 
 #: data/com.github.marhkb.Pods.metainfo.xml.in.in:11
 msgid "With Pods you can, among other things:"
@@ -226,7 +218,7 @@ msgstr "கொள்கலன்களை மறுபெயரிடுங்�
 msgid "Pods main window"
 msgstr "சாளரத்தை மூடு"
 
-#: data/com.github.marhkb.Pods.metainfo.xml.in.in:522
+#: data/com.github.marhkb.Pods.metainfo.xml.in.in:530
 msgid "Marcus Behrendt"
 msgstr "மார்கச் பெஅ்ரெண்ட்"
 
@@ -251,7 +243,7 @@ msgstr "குறைந்தபட்ச பதிவு அளவைக் க
 msgid "Container has been removed"
 msgstr "கொள்கலன் நீக்கப்பட்டது"
 
-#: src/model/container_create_action.rs:154
+#: src/model/container_create_action.rs:153
 msgid "Container Created"
 msgstr "கொள்கலன் உருவாக்கப்பட்டது"
 
@@ -276,9 +268,9 @@ msgid "Configured"
 msgstr "கட்டமைக்கப்பட்ட"
 
 #: src/model/container_status.rs:126 src/model/pod_status.rs:114
-#: src/view/container_properties_group.blp:95
-#: src/view/image_details_page.blp:91 src/view/pod_details_page.blp:234
-#: src/view/volume_details_page.blp:113
+#: src/view/container_properties_group.blp:97
+#: src/view/image_details_page.blp:82 src/view/pod_details_page.blp:234
+#: src/view/volume_details_page.blp:132
 msgid "Created"
 msgstr "உருவாக்கப்பட்டது"
 
@@ -327,11 +319,11 @@ msgstr "நிறுத்துதல்"
 msgid "Unknown"
 msgstr "தெரியவில்லை"
 
-#: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:312
+#: src/model/engine_type.rs:31 src/view/scalable_text_view_page.rs:310
 msgid "Docker"
 msgstr ""
 
-#: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:313
+#: src/model/engine_type.rs:32 src/view/scalable_text_view_page.rs:311
 #, fuzzy
 msgid "Podman"
 msgstr "சப்மேன்"
@@ -344,9 +336,9 @@ msgstr "நெற்று உருவாக்கப்பட்டது"
 msgid "Degraded"
 msgstr "சீரழிந்தது"
 
-#: src/model/pod_status.rs:117 src/view/connection_creation_page.rs:320
-#: src/view/image_details_page.rs:383 src/view/scalable_text_view_page.rs:467
-#: src/view/top_page.rs:544 src/view/top_page.rs:549
+#: src/model/pod_status.rs:117 src/view/connection_creation_dialog.rs:299
+#: src/view/image_details_page.rs:372 src/view/scalable_text_view_page.rs:465
+#: src/view/top_page.rs:534 src/view/top_page.rs:539
 msgid "Error"
 msgstr "பிழை"
 
@@ -407,223 +399,221 @@ msgid "{} ago"
 msgstr "{} முன்பு"
 
 #. Translators: This string will be shown when a property of an entity like an image is null.
-#: src/utils.rs:322
+#: src/utils.rs:261 src/view/image_history_page.rs:99
 msgid "<none>"
 msgstr "<இல்லை>"
 
-#: src/utils.rs:421
-msgid "Error on open file dialog"
+#: src/utils.rs:360
+#, fuzzy
+msgid "Could not open file dialog"
 msgstr "திறந்த கோப்பு உரையாடலில் பிழை"
 
-#: src/view/action_dialog.blp:99 src/view/connection.rs:28
-#: src/view/connection_creation_page.blp:30 src/view/container.rs:95
-#: src/view/container.rs:146 src/view/container_commit_opts_dialog.blp:27
-#: src/view/container_copy_from_opts_dialog.blp:27
-#: src/view/container_copy_to_opts_dialog.blp:36
-#: src/view/container_create_opts_dialog.blp:36
-#: src/view/containers_panel.rs:965
-#: src/view/containers_prune_opts_dialog.blp:27 src/view/image.rs:32
-#: src/view/image_build_opts_dialog.blp:27
-#: src/view/image_pull_opts_dialog.blp:27 src/view/images_panel.rs:677
-#: src/view/images_prune_opts_dialog.blp:27 src/view/pod.rs:65
-#: src/view/pod_create_opts_dialog.blp:27 src/view/pods_panel.rs:819
-#: src/view/pods_prune_opts_dialog.blp:27 src/view/repo_tag_add_dialog.blp:11
-#: src/view/repo_tag_push_opts_dialog.blp:27 src/view/volume.rs:30
-#: src/view/volume_create_opts_dialog.blp:27 src/view/volumes_panel.rs:660
-#: src/view/volumes_prune_opts_dialog.blp:27
+#: src/view/action_dialog.blp:98 src/view/connection.rs:26
+#: src/view/connection_creation_dialog.blp:33 src/view/container.rs:95
+#: src/view/container.rs:147 src/view/container_commit_opts_dialog.blp:28
+#: src/view/container_copy_from_opts_dialog.blp:28
+#: src/view/container_copy_to_opts_dialog.blp:37
+#: src/view/container_create_opts_dialog.blp:37
+#: src/view/containers_panel.rs:961
+#: src/view/containers_prune_opts_dialog.blp:26 src/view/image.rs:31
+#: src/view/image_build_opts_dialog.blp:28
+#: src/view/image_pull_opts_dialog.blp:28 src/view/images_panel.rs:669
+#: src/view/images_prune_opts_dialog.blp:26 src/view/pod.rs:64
+#: src/view/pod_create_opts_dialog.blp:28 src/view/pods_panel.rs:815
+#: src/view/pods_prune_opts_dialog.blp:26 src/view/repo_tag_add_dialog.blp:11
+#: src/view/repo_tag_push_opts_dialog.blp:28 src/view/volume.rs:56
+#: src/view/volume_create_opts_dialog.blp:28 src/view/volumes_panel.rs:660
+#: src/view/volumes_prune_opts_dialog.blp:26
 msgid "_Cancel"
 msgstr "_CANCEL"
 
-#: src/view/action_dialog.blp:118
+#: src/view/action_dialog.blp:117
 msgid "_Edit"
 msgstr ""
 
-#: src/view/action_dialog.blp:130
+#: src/view/action_dialog.blp:129
 msgid "_View"
 msgstr "காட்சி (_V)"
 
-#: src/view/action_dialog.rs:95 src/widget/action_state_indicator.blp:37
+#: src/view/action_dialog.rs:94 src/widget/action_state_indicator.blp:41
 #, fuzzy
 msgid "Cancelled"
 msgstr "ரத்துசெய்"
 
-#: src/view/action_dialog.rs:96 src/widget/action_state_indicator.blp:54
+#: src/view/action_dialog.rs:95 src/widget/action_state_indicator.blp:58
 msgid "Failed"
 msgstr ""
 
-#: src/view/action_dialog.rs:97 src/widget/action_state_indicator.blp:71
+#: src/view/action_dialog.rs:96 src/widget/action_state_indicator.blp:75
 msgid "Finished"
 msgstr "முடிந்தது"
 
-#: src/view/action_dialog.rs:98
+#: src/view/action_dialog.rs:97
 #, fuzzy
 msgid "Ongoing"
 msgstr "நடந்துகொண்டிருக்கும் ({})"
 
-#: src/view/action_dialog.rs:289 src/view/container_details_page.rs:256
+#: src/view/action_dialog.rs:288 src/view/container_details_page.rs:247
 #, rust-format
 msgid "since {}"
 msgstr "{} முதல்"
 
-#: src/view/action_dialog.rs:299
+#: src/view/action_dialog.rs:298
 #, fuzzy, rust-format
 msgid "after {}"
 msgstr "{} க்குப் பிறகு"
 
-#: src/view/action_dialog.rs:343
-msgid "Action"
-msgstr "செயல்"
-
-#: src/view/action_dialog.rs:372 src/view/action_dialog.rs:385
-#: src/view/action_dialog.rs:401
+#: src/view/action_dialog.rs:366 src/view/action_dialog.rs:379
+#: src/view/action_dialog.rs:395
 #, fuzzy
 msgid "Container Removed"
 msgstr "கொள்கலன் உருவாக்கப்பட்டது"
 
-#: src/view/action_dialog.rs:373
+#: src/view/action_dialog.rs:367
 #, fuzzy
-msgid "Container cannot be committed because it has been removed."
+msgid "Container cannot be committed because it has been removed"
 msgstr "கொள்கலன் நீக்கப்பட்டது"
 
-#: src/view/action_dialog.rs:387 src/view/action_dialog.rs:403
-msgid "Files cannot be copied anymore because the container has been removed."
-msgstr ""
+#: src/view/action_dialog.rs:381 src/view/action_dialog.rs:397
+#, fuzzy
+msgid "Files cannot be copied anymore because the container has been removed"
+msgstr "கொள்கலன் நீக்கப்பட்டது"
 
-#: src/view/action_dialog.rs:425
+#: src/view/action_dialog.rs:418
 #, fuzzy
 msgid "Tag Removed"
 msgstr "அகற்று"
 
-#: src/view/action_dialog.rs:426
-msgid "Cannot push removed tag."
+#: src/view/action_dialog.rs:418
+msgid "Cannot push removed tag"
 msgstr ""
 
-#: src/view/action_dialog.rs:449
+#: src/view/action_dialog.rs:440
 msgid "Close"
 msgstr ""
 
-#: src/view/action_row.rs:172 src/view/connection_creation_page.blp:66
+#: src/view/action_row.rs:159 src/view/connection_creation_dialog.blp:69
 msgid "Abort"
 msgstr "கருக்கலைப்பு"
 
-#: src/view/action_row.rs:174 src/view/key_val_row.blp:44
+#: src/view/action_row.rs:161 src/view/key_val_row.blp:44
 #: src/view/key_val_row.blp:47
 msgid "Remove"
 msgstr "அகற்று"
 
-#: src/view/action_row.rs:212
+#: src/view/action_row.rs:199
 msgid "Failed Pods Action"
 msgstr "தோல்வியுற்ற காய்கள் நடவடிக்கை"
 
-#: src/view/action_row.rs:218
+#: src/view/action_row.rs:205
 msgid "Finished Pods Action"
 msgstr "முடிக்கப்பட்ட PODS நடவடிக்கை"
 
-#: src/view/action_row.rs:288
+#: src/view/action_row.rs:275
 #, rust-format
 msgid "Ongoing ({})"
 msgstr "நடந்துகொண்டிருக்கும் ({})"
 
-#: src/view/action_row.rs:302
+#: src/view/action_row.rs:289
 #, fuzzy, rust-format
 msgid "Cancelled after {}"
 msgstr "{} க்குப் பிறகு தோல்வியுற்றது"
 
-#: src/view/action_row.rs:303
+#: src/view/action_row.rs:290
 #, rust-format
 msgid "Failed after {}"
 msgstr "{} க்குப் பிறகு தோல்வியுற்றது"
 
-#: src/view/action_row.rs:304
+#: src/view/action_row.rs:291
 #, rust-format
 msgid "Finished after {}"
 msgstr "{} க்குப் பிறகு முடிந்தது"
 
-#: src/view/action_row.rs:373
-#, fuzzy, rust-format
-msgid "Commit <b>{}</b>"
-msgstr "படம் <b> {} </b> ({})"
+#: src/view/action_row.rs:360
+#, rust-format
+msgid "Commit “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:374
-#, fuzzy
-msgid "Commit container"
+#: src/view/action_row.rs:361 src/view/container_commit_action_view.rs:69
+#: src/view/container_commit_opts_dialog.blp:16
+msgid "Commit Container"
 msgstr "கொள்கலன் செய்யுங்கள்"
 
-#: src/view/action_row.rs:378
+#: src/view/action_row.rs:365
 #, fuzzy, rust-format
-msgid "Copy from <b>{}</b>"
+msgid "Copy from “{}”"
 msgstr "பாட் <b> {} </b> ஐ உருவாக்கவும்"
 
-#: src/view/action_row.rs:379
+#: src/view/action_row.rs:366
 #, fuzzy
-msgid "Copy from container"
+msgid "Copy from Container"
 msgstr "கொள்கலன் செய்யுங்கள்"
 
-#: src/view/action_row.rs:383
+#: src/view/action_row.rs:370
 #, fuzzy, rust-format
-msgid "Copy to <b>{}</b>"
+msgid "Copy to “{}”"
 msgstr "பாட் <b> {} </b> ஐ உருவாக்கவும்"
 
-#: src/view/action_row.rs:384
+#: src/view/action_row.rs:371 src/view/container_copy_to_opts_dialog.blp:25
 #, fuzzy
-msgid "Copy to container"
+msgid "Copy to Container"
 msgstr "கொள்கலன் செய்யுங்கள்"
 
-#: src/view/action_row.rs:386 src/view/action_row.rs:393
-#: src/view/action_row.rs:407
-#, fuzzy, rust-format
-msgid "Create <b>{}</b>"
-msgstr "பாட் <b> {} </b> ஐ உருவாக்கவும்"
+#: src/view/action_row.rs:373 src/view/action_row.rs:380
+#: src/view/action_row.rs:394
+#, rust-format
+msgid "Create “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:391 src/view/containers_prune_action_view.rs:97
-#: src/view/containers_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:378 src/view/containers_prune_action_view.rs:97
+#: src/view/containers_prune_opts_dialog.blp:14
 #, fuzzy
 msgid "Prune Containers"
 msgstr "கத்தரிக்காய் கொள்கலன்கள்"
 
-#: src/view/action_row.rs:395 src/view/pods_prune_action_view.rs:69
-#: src/view/pods_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:382 src/view/pods_prune_action_view.rs:69
+#: src/view/pods_prune_opts_dialog.blp:14
 #, fuzzy
 msgid "Prune Pods"
 msgstr "கத்தரிக்காய் காய்கள்"
 
-#: src/view/action_row.rs:397
-#, fuzzy, rust-format
-msgid "Build <b>{}</b>"
-msgstr "படத்தை உருவாக்கு <b> {} </b>"
+#: src/view/action_row.rs:384
+#, rust-format
+msgid "Build “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:399
-#, fuzzy, rust-format
-msgid "Pull <b>{}</b>"
-msgstr "படத்தை இழுக்க <b> {} </b>"
+#: src/view/action_row.rs:386
+#, rust-format
+msgid "Pull “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:402
-#, fuzzy, rust-format
-msgid "Push <b>{}</b>"
-msgstr "படத்தை தள்ளுங்கள் <b> {} </b>"
+#: src/view/action_row.rs:389
+#, rust-format
+msgid "Push “{}”"
+msgstr ""
 
-#: src/view/action_row.rs:404 src/view/images_prune_action_view.rs:97
-#: src/view/images_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:391 src/view/images_prune_action_view.rs:97
+#: src/view/images_prune_opts_dialog.blp:14
 msgid "Prune Images"
 msgstr "படங்களை கத்தரிக்காய்"
 
-#: src/view/action_row.rs:408
+#: src/view/action_row.rs:395
 #, fuzzy
-msgid "Create anonymous"
+msgid "Create Anonymous Volume"
 msgstr "_ கிரேட் மட்டும்"
 
-#: src/view/action_row.rs:411 src/view/volumes_prune_action_view.rs:97
-#: src/view/volumes_prune_opts_dialog.blp:15
+#: src/view/action_row.rs:398 src/view/volumes_prune_action_view.rs:97
+#: src/view/volumes_prune_opts_dialog.blp:14
 msgid "Prune Volumes"
 msgstr "கத்தரிக்காய் தொகுதிகள்"
 
-#: src/view/action_row.rs:413
+#: src/view/action_row.rs:400
 #, fuzzy
 msgid "Unknown Action"
 msgstr "தெரியாத தேதி"
 
 #: src/view/actions_button.blp:12 src/view/actions_sidebar.blp:14
-#: src/view/client_view.blp:83 src/view/client_view.blp:292
+#: src/view/client_view.blp:83 src/view/client_view.blp:302
 msgid "Actions"
 msgstr "செயல்கள்"
 
@@ -635,25 +625,29 @@ msgstr "முடிக்கப்பட்ட செயல்களை அழ�
 msgid "No Actions"
 msgstr "செயல்கள் இல்லை"
 
+#: src/view/actions_sidebar.blp:42
+msgid "Operations like pulling images will appear here"
+msgstr ""
+
 #: src/view/client_view.blp:35 src/view/client_view.blp:40
-#: src/view/client_view.blp:376
+#: src/view/client_view.blp:386
 msgid "Home"
 msgstr "வீடு"
 
 #: src/view/client_view.blp:54 src/view/client_view.blp:57
-#: src/view/client_view.blp:283 src/view/connections_sidebar.blp:14
+#: src/view/client_view.blp:293 src/view/connections_sidebar.blp:14
 msgid "Connections"
 msgstr "இணைப்புகள்"
 
 #: src/view/client_view.blp:65 src/view/client_view.blp:68
 #: src/view/container_log_page.blp:55 src/view/container_log_page.blp:58
-#: src/view/containers_panel.blp:120 src/view/containers_panel.blp:123
-#: src/view/images_panel.blp:134 src/view/images_panel.blp:137
-#: src/view/pods_panel.blp:112 src/view/pods_panel.blp:115
+#: src/view/containers_panel.blp:122 src/view/containers_panel.blp:125
+#: src/view/images_panel.blp:136 src/view/images_panel.blp:139
+#: src/view/pods_panel.blp:114 src/view/pods_panel.blp:117
 #: src/view/scalable_text_view_page.blp:42
 #: src/view/scalable_text_view_page.blp:45 src/view/search_panel.blp:22
 #: src/view/top_page.blp:14 src/view/top_page.blp:17
-#: src/view/volumes_panel.blp:111 src/view/volumes_panel.blp:114
+#: src/view/volumes_panel.blp:113 src/view/volumes_panel.blp:116
 msgid "Search"
 msgstr "தேடல்"
 
@@ -662,49 +656,98 @@ msgctxt "app name"
 msgid "Pods"
 msgstr "காய்கள்"
 
-#: src/view/client_view.blp:99 src/view/client_view.rs:245
-#: src/view/containers_panel.blp:89 src/view/containers_panel.blp:135
-#: src/view/containers_panel.blp:389 src/view/image_details_page.blp:169
+#: src/view/client_view.blp:99 src/view/client_view.rs:242
+#: src/view/containers_panel.blp:91 src/view/containers_panel.blp:137
+#: src/view/containers_panel.blp:392 src/view/image_details_page.blp:163
 #: src/view/images_panel.blp:44 src/view/pod_details_page.blp:303
 #: src/view/pods_panel.blp:15 src/view/search_panel.blp:44
-#: src/view/volume_details_page.blp:136 src/view/volumes_panel.blp:21
+#: src/view/volume_details_page.blp:155 src/view/volumes_panel.blp:21
 msgid "Containers"
 msgstr "கொள்கலன்கள்"
 
-#: src/view/client_view.blp:184 src/view/client_view.rs:247
-#: src/view/images_panel.blp:103 src/view/images_panel.blp:149
-#: src/view/images_panel.blp:296 src/view/search_panel.blp:68
+#: src/view/client_view.blp:111 src/view/containers_count_bar.blp:62
+#: src/view/containers_count_bar.blp:72
+#, fuzzy
+msgid "Running Containers"
+msgstr "இயங்கும் கொள்கலன்களை மட்டும் காட்டு"
+
+#: src/view/client_view.blp:122 src/view/containers_count_bar.blp:39
+#: src/view/containers_count_bar.blp:49
+#, fuzzy
+msgid "Not Running Containers"
+msgstr "இயங்கும் கொள்கலன்களை மட்டும் காட்டு"
+
+#: src/view/client_view.blp:133 src/view/containers_count_bar.blp:16
+#: src/view/containers_count_bar.blp:26
+#, fuzzy
+msgid "Dead Containers"
+msgstr "கொள்கலன்கள்"
+
+#: src/view/client_view.blp:159
+#, fuzzy
+msgid "Running Pods"
+msgstr "இயங்கும்"
+
+#: src/view/client_view.blp:170
+#, fuzzy
+msgid "Not Running Pods"
+msgstr "இயங்கும் கொள்கலன்களை மட்டும் காட்டு"
+
+#: src/view/client_view.blp:181
+#, fuzzy
+msgid "Degraded Pods"
+msgstr "சீரழிந்தது"
+
+#: src/view/client_view.blp:190 src/view/client_view.rs:244
+#: src/view/images_panel.blp:105 src/view/images_panel.blp:151
+#: src/view/images_panel.blp:298 src/view/search_panel.blp:68
 msgid "Images"
 msgstr "படங்கள்"
 
-#: src/view/client_view.blp:214 src/view/client_view.rs:248
-#: src/view/container_create_opts_dialog.blp:224
+#: src/view/client_view.blp:202
+#, fuzzy
+msgid "Used Images"
+msgstr "பயன்படுத்தப்படாத படங்களை கத்தரிக்கவும்"
+
+#: src/view/client_view.blp:213
+#, fuzzy
+msgid "Untagged Images"
+msgstr "குறிக்கப்பட்ட படங்களை மட்டும் காட்டு"
+
+#: src/view/client_view.blp:222 src/view/client_view.rs:245
+#: src/view/container_create_opts_dialog.blp:221
 #: src/view/container_details_page.blp:251 src/view/search_panel.blp:80
-#: src/view/volumes_panel.blp:80 src/view/volumes_panel.blp:126
-#: src/view/volumes_panel.blp:273
+#: src/view/volumes_panel.blp:82 src/view/volumes_panel.blp:128
+#: src/view/volumes_panel.blp:275
 msgid "Volumes"
 msgstr "தொகுதிகள்"
 
-#: src/view/client_view.blp:263
+#: src/view/client_view.blp:234
+#, fuzzy
+msgid "Used Volumes"
+msgstr "பயன்படுத்தப்படாத தொகுதிகளை கத்தரிக்கவும்"
+
+#: src/view/client_view.blp:245
+#, fuzzy
+msgid "Unused Volumes"
+msgstr "பயன்படுத்தப்படாத தொகுதிகளை கத்தரிக்கவும்"
+
+#: src/view/client_view.blp:273
 #, fuzzy
 msgid "Loading"
 msgstr "பதிவுகளைச் சேமிப்பதில் பிழை"
 
-#: src/view/client_view.blp:303
+#: src/view/client_view.blp:313
 msgid "Content"
 msgstr "உள்ளடக்கம்"
 
-#: src/view/client_view.rs:249
+#: src/view/client_view.rs:246
 msgid "Info"
 msgstr "தகவல்"
 
 #: src/view/connection.rs:22
 msgid "There are ongoing actions whose progress will be irretrievably lost"
 msgstr "தொடர்ந்து நடவடிக்கைகள் உள்ளன, அதன் முன்னேற்றம் மீளமுடியாமல் இழக்கப்படும்"
-
-#: src/view/connection.rs:29 src/view/container.rs:147
-msgid "_Confirm"
-msgstr "_உறுதி"
 
 #: src/view/connection_chooser_page.blp:19
 #: src/view/connection_chooser_page.blp:22
@@ -729,61 +772,64 @@ msgid "Choose an existing connection or create a new one"
 msgstr "ஏற்கனவே உள்ள இணைப்பைத் தேர்வுசெய்க அல்லது புதிய ஒன்றை உருவாக்கவும்"
 
 #: src/view/connection_chooser_page.blp:86
-#: src/view/connection_creation_page.blp:19
-#: src/view/connection_creation_page.blp:36
+#: src/view/connection_creation_dialog.blp:22
+#: src/view/connection_creation_dialog.blp:39
+#: src/view/connections_sidebar.blp:24
 msgid "New Connection"
 msgstr "புதிய இணைப்பு"
 
 #: src/view/connection_chooser_page.rs:173
-msgid "Error on establishing connection"
+#, fuzzy
+msgid "Could not establish connection"
 msgstr "இணைப்பை நிறுவுவதில் பிழை"
 
-#: src/view/connection_creation_page.blp:50
+#: src/view/connection_creation_dialog.blp:53
+#: src/view/connection_creation_dialog.rs:245
 msgid "_Connect"
 msgstr "_CONNECT"
 
-#: src/view/connection_creation_page.blp:75
+#: src/view/connection_creation_dialog.blp:78
 msgid "_Abort"
 msgstr "_போர்ட்"
 
-#: src/view/connection_creation_page.blp:89
-#: src/view/container_create_opts_dialog.blp:58
+#: src/view/connection_creation_dialog.blp:92
+#: src/view/container_create_opts_dialog.blp:59
 #: src/view/container_properties_group.blp:14 src/view/container_renamer.blp:10
 #: src/view/containers_panel.blp:9 src/view/images_panel.blp:32
-#: src/view/pod_create_opts_dialog.blp:48
+#: src/view/pod_create_opts_dialog.blp:49
 #: src/view/pod_create_opts_dialog.blp:196 src/view/pod_details_page.blp:185
-#: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:47
+#: src/view/pods_panel.blp:9 src/view/volume_create_opts_dialog.blp:48
 #: src/view/volume_details_page.blp:41 src/view/volumes_panel.blp:9
 msgid "Name"
 msgstr "பெயர்"
 
-#: src/view/connection_creation_page.blp:94
+#: src/view/connection_creation_dialog.blp:97
 msgid "URL"
 msgstr "முகவரி"
 
-#: src/view/connection_creation_page.blp:95
+#: src/view/connection_creation_dialog.blp:98
 #, fuzzy
 msgid "Choose how to connect"
 msgstr "போட்மேனுடன் எவ்வாறு இணைப்பது என்பதைத் தேர்வுசெய்க"
 
-#: src/view/connection_creation_page.blp:98
+#: src/view/connection_creation_dialog.blp:101
 #, fuzzy
 msgid "Podman Unix Socket"
 msgstr "யூனிக்ச் சாக்கெட்"
 
-#: src/view/connection_creation_page.blp:115
-#: src/view/connection_creation_page.blp:118
-#: src/view/connection_creation_page.blp:245
-#: src/view/connection_creation_page.blp:248
+#: src/view/connection_creation_dialog.blp:118
+#: src/view/connection_creation_dialog.blp:121
+#: src/view/connection_creation_dialog.blp:250
+#: src/view/connection_creation_dialog.blp:253
 #, fuzzy
 msgid "Socket Activation Info"
 msgstr "போட்மேன் சாக்கெட் செயல்படுத்தல்"
 
-#: src/view/connection_creation_page.blp:137
+#: src/view/connection_creation_dialog.blp:140
 msgid "Podman Socket Activation"
 msgstr "போட்மேன் சாக்கெட் செயல்படுத்தல்"
 
-#: src/view/connection_creation_page.blp:143
+#: src/view/connection_creation_dialog.blp:146
 msgid ""
 "To connect to the local Podman instance, the systemd socket must be enabled. "
 "You can enable it permanently by issuing the following command:"
@@ -791,29 +837,34 @@ msgstr ""
 "உள்ளக போட்மேன் நிகழ்வோடு இணைக்க, சிச்டம் டி சாக்கெட் இயக்கப்பட வேண்டும். பின்வரும் கட்டளையை "
 "வழங்குவதன் மூலம் நீங்கள் அதை நிரந்தரமாக இயக்கலாம்:"
 
-#: src/view/connection_creation_page.blp:190
-#: src/view/connection_creation_page.blp:193
-#: src/view/connection_creation_page.blp:320
-#: src/view/connection_creation_page.blp:323
-#: src/view/connection_custom_info_page.blp:122
-#: src/view/connection_custom_info_page.blp:125
-#: src/view/connection_custom_info_page.blp:166
-#: src/view/connection_custom_info_page.blp:169
-#: src/view/connection_custom_info_page.blp:261
-#: src/view/connection_custom_info_page.blp:264
-#: src/view/connection_custom_info_page.blp:309
-#: src/view/connection_custom_info_page.blp:312
+#: src/view/connection_creation_dialog.blp:193
+#: src/view/connection_creation_dialog.blp:196
+#: src/view/connection_creation_dialog.blp:325
+#: src/view/connection_creation_dialog.blp:328
+#: src/view/connection_custom_info_page.blp:120
+#: src/view/connection_custom_info_page.blp:123
+#: src/view/connection_custom_info_page.blp:164
+#: src/view/connection_custom_info_page.blp:167
+#: src/view/connection_custom_info_page.blp:259
+#: src/view/connection_custom_info_page.blp:262
+#: src/view/connection_custom_info_page.blp:307
+#: src/view/connection_custom_info_page.blp:310
+#: src/view/container_properties_group.blp:23
+#: src/view/container_properties_group.blp:65
+#: src/view/image_details_page.blp:67 src/view/pod_details_page.blp:195
+#: src/view/pod_details_page.blp:219 src/view/volume_details_page.blp:50
+#: src/view/volume_details_page.blp:109
 msgid "Copy to Clipboard"
 msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
 
-#: src/view/connection_creation_page.blp:199
-#: src/view/connection_creation_page.blp:329
+#: src/view/connection_creation_dialog.blp:203
+#: src/view/connection_creation_dialog.blp:335
 msgid ""
 "You may have to restart Pods for it to be able to connect to a newly created "
 "socket."
 msgstr ""
 
-#: src/view/connection_creation_page.blp:214
+#: src/view/connection_creation_dialog.blp:219
 msgid ""
 "To connect to the local root Podman instance, create a custom connection "
 "(read the hints there)."
@@ -821,17 +872,17 @@ msgstr ""
 "உள்ளக ரூட் போட்மேன் உதாரணத்துடன் இணைக்க, தனிப்பயன் இணைப்பை உருவாக்கவும் (அங்குள்ள "
 "குறிப்புகளைப் படியுங்கள்)."
 
-#: src/view/connection_creation_page.blp:228
+#: src/view/connection_creation_dialog.blp:233
 #, fuzzy
 msgid "Docker Unix Socket"
 msgstr "யூனிக்ச் சாக்கெட்"
 
-#: src/view/connection_creation_page.blp:267
+#: src/view/connection_creation_dialog.blp:272
 #, fuzzy
 msgid "Docker Socket Activation"
 msgstr "போட்மேன் சாக்கெட் செயல்படுத்தல்"
 
-#: src/view/connection_creation_page.blp:273
+#: src/view/connection_creation_dialog.blp:278
 #, fuzzy
 msgid ""
 "To connect to the local Docker instance, the systemd socket must be enabled. "
@@ -840,43 +891,44 @@ msgstr ""
 "உள்ளக போட்மேன் நிகழ்வோடு இணைக்க, சிச்டம் டி சாக்கெட் இயக்கப்பட வேண்டும். பின்வரும் கட்டளையை "
 "வழங்குவதன் மூலம் நீங்கள் அதை நிரந்தரமாக இயக்கலாம்:"
 
-#: src/view/connection_creation_page.blp:344
+#: src/view/connection_creation_dialog.blp:351
 msgid "Custom URL"
 msgstr "தனிப்பயன் முகவரி"
 
-#: src/view/connection_creation_page.blp:359
-#: src/view/connection_creation_page.blp:362
-#: src/view/connection_creation_page.blp:404
+#: src/view/connection_creation_dialog.blp:366
+#: src/view/connection_creation_dialog.blp:369
+#: src/view/connection_creation_dialog.blp:411
 msgid "Custom Connection Info"
 msgstr "தனிப்பயன் இணைப்பு செய்தி"
 
-#: src/view/connection_creation_page.blp:378
+#: src/view/connection_creation_dialog.blp:385
 msgid "Color"
 msgstr "நிறம்"
 
-#: src/view/connection_creation_page.blp:379
+#: src/view/connection_creation_dialog.blp:386
 msgid "Set the color of this connection"
 msgstr "இந்த இணைப்பின் நிறத்தை அமைக்கவும்"
 
-#: src/view/connection_creation_page.rs:153
+#: src/view/connection_creation_dialog.rs:154
 msgid "official documentation"
 msgstr "அதிகாரப்பூர்வ ஆவணங்கள்"
 
 #. Translators: The placeholder '{}' is replaced by 'official documentation'.
-#: src/view/connection_creation_page.rs:151
+#: src/view/connection_creation_dialog.rs:152
 #, fuzzy, rust-format
 msgid "Visit the {} for more information."
 msgstr "மேலும் தகவலுக்கு {that ஐப் பார்வையிடவும்."
 
-#: src/view/connection_creation_page.rs:268
-msgid "Confirm Connecting to New Instance"
+#: src/view/connection_creation_dialog.rs:244
+#, fuzzy
+msgid "Connect to New Instance?"
 msgstr "புதிய நிகழ்வோடு இணைப்பதை உறுதிப்படுத்தவும்"
 
-#: src/view/connection_custom_info_page.blp:12
+#: src/view/connection_custom_info_page.blp:10
 msgid "Custom Connection"
 msgstr "தனிப்பயன் இணைப்பு"
 
-#: src/view/connection_custom_info_page.blp:27
+#: src/view/connection_custom_info_page.blp:25
 msgid ""
 "You can connect to a Podman instance using <span weight=\"bold\">HTTP</"
 "span>, <span weight=\"bold\">TCP</span>, and <span weight=\"bold\">UNIX</"
@@ -886,59 +938,62 @@ msgstr ""
 "மற்றும் <span weight=\"bold\">யூனிக்ச்</span> நெறிமுறைகள். எடுத்துக்காட்டாக, இணைப்பு "
 "சரம் இப்படி தோன்றலாம்:"
 
-#: src/view/connection_custom_info_page.blp:48
+#: src/view/connection_custom_info_page.blp:46
 msgid "http://somewhere:8081"
 msgstr "http://எங்கோ:8081"
 
-#: src/view/connection_custom_info_page.blp:66
+#: src/view/connection_custom_info_page.blp:64
 msgid "Podman Root Connection"
 msgstr "போட்மேன் ரூட் இணைப்பு"
 
-#: src/view/connection_custom_info_page.blp:75
+#: src/view/connection_custom_info_page.blp:73
+#, fuzzy
 msgid ""
-"Unfortunately, it is currently not possible to connect to the Podman root "
-"instance directly, as <span weight=\"bold\">/run/podman/podman.sock</span> "
-"is not readable for normal users. However, there is a workaround using a "
-"systemd unit. Save the following snippet:"
+"You can’t connect to the Podman root instance directly, because it is "
+"currently not possible to connect to the Podman root instance directly, as "
+"<span weight=\"bold\">/run/podman/podman.sock</span> is not readable for "
+"normal users. However, there is a workaround using a systemd unit. Save the "
+"following snippet:"
 msgstr ""
 "துரதிர்ஷ்டவசமாக, Podman ரூட் நிகழ்வை நேரடியாக இணைப்பது தற்போது சாத்தியமில்லை, ஏனெனில் "
 "<span weight=\"bold\">/run/podman/podman.sock</span> சாதாரண பயனர்களால் படிக்க "
 "முடியாது. இருப்பினும், systemd யூனிட்டைப் பயன்படுத்தி ஒரு தீர்வு உள்ளது. பின்வரும் "
 "துணுக்கைச் சேமிக்கவும்:"
 
-#: src/view/connection_custom_info_page.blp:193
+#: src/view/connection_custom_info_page.blp:191
 msgid "Warning"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:199
+#: src/view/connection_custom_info_page.blp:197
 msgid ""
 "Exposing a Podman socket over TCP has security implications. <a "
 "href=\"https://docs.podman.io/en/stable/markdown/podman-system-"
 "service.1.html#security\">Check the docs for more info.</a>"
 msgstr ""
 
-#: src/view/connection_custom_info_page.blp:213
+#: src/view/connection_custom_info_page.blp:211
 msgid "Enable the service by issuing the command:"
 msgstr "கட்டளையை வழங்குவதன் மூலம் சேவையை இயக்கவும்:"
 
-#: src/view/connection_custom_info_page.blp:270
+#: src/view/connection_custom_info_page.blp:268
 msgid ""
 "Enter the following URL here into the text field and create the connection:"
 msgstr "பின்வரும் முகவரி ஐ இங்கே உரை புலத்தில் உள்ளிட்டு இணைப்பை உருவாக்கவும்:"
 
-#: src/view/connection_custom_info_page.rs:139
+#: src/view/connection_custom_info_page.rs:137
 msgid "systemd unit path copied"
 msgstr "SystemD அலகு பாதை நகலெடுக்கப்பட்டது"
 
-#: src/view/connection_custom_info_page.rs:147
+#: src/view/connection_custom_info_page.rs:145
 msgid "systemd unit content copied"
 msgstr "SystemD அலகு உள்ளடக்கம் நகலெடுக்கப்பட்டது"
 
-#: src/view/connection_custom_info_page.rs:155
-msgid "socket activation command copied"
+#: src/view/connection_custom_info_page.rs:153
+#, fuzzy
+msgid "Socket activation command copied"
 msgstr "சாக்கெட் செயல்படுத்தும் கட்டளை நகலெடுக்கப்பட்டது"
 
-#: src/view/connection_custom_info_page.rs:163
+#: src/view/connection_custom_info_page.rs:161
 msgid "URL copied"
 msgstr "முகவரி நகலெடுக்கப்பட்டது"
 
@@ -948,36 +1003,47 @@ msgid "Active Connection"
 msgstr "புதிய இணைப்பு"
 
 #: src/view/connection_row.blp:79 src/view/connection_row.blp:82
-#: src/view/container_card.blp:462 src/view/container_card.blp:465
+#: src/view/container_card.blp:470 src/view/container_card.blp:473
 #: src/view/container_details_page.blp:178
-#: src/view/container_details_page.blp:181 src/view/containers_panel.blp:353
-#: src/view/containers_panel.blp:356 src/view/image_menu_button.blp:11
-#: src/view/images_panel.blp:264 src/view/images_panel.blp:266
+#: src/view/container_details_page.blp:181 src/view/containers_panel.blp:356
+#: src/view/containers_panel.blp:359 src/view/images_panel.blp:267
 #: src/view/pod_details_page.blp:156 src/view/pod_details_page.blp:159
-#: src/view/pods_panel.blp:354 src/view/pods_panel.blp:357
-#: src/view/volumes_panel.blp:241 src/view/volumes_panel.blp:243
+#: src/view/pods_panel.blp:357 src/view/pods_panel.blp:360
+#: src/view/volumes_panel.blp:244
 msgid "Delete"
 msgstr "நீக்கு"
 
-#: src/view/connection_row.rs:96
+#: src/view/connection_row.blp:101
+#, fuzzy
+msgid "Connecting"
+msgstr "இணைப்புகள்"
+
+#: src/view/connection_row.rs:98
 msgid "Local connection"
 msgstr "உள்ளக இணைப்பு"
 
-#: src/view/connections_sidebar.blp:21 src/view/connections_sidebar.blp:24
+#: src/view/connections_sidebar.blp:21
 msgid "New Connection (Ctrl+Shift+N)"
 msgstr "புதிய இணைப்பு (CTRL+SHIFT+N)"
 
-#: src/view/connections_sidebar.rs:101
-msgid "Confirm Switching Connection"
-msgstr "மாறுதல் இணைப்பை உறுதிப்படுத்தவும்"
+#: src/view/connections_sidebar.rs:99
+#, fuzzy
+msgid "Switch Connection?"
+msgstr "புதிய இணைப்பு"
 
-#: src/view/connections_sidebar.rs:113
-msgid "Error on switching connection"
+#: src/view/connections_sidebar.rs:100
+msgid "_Switch"
+msgstr ""
+
+#: src/view/connections_sidebar.rs:112
+#, fuzzy
+msgid "Could not switch connection"
 msgstr "இணைப்பை மாற்றுவதில் பிழை"
 
-#: src/view/container.rs:77 src/view/container.rs:119
-msgid "Error renaming container"
-msgstr "கொள்கலன் மறுபெயரிடுதல்"
+#: src/view/container.rs:77 src/view/container.rs:120
+#, fuzzy
+msgid "Could not rename container"
+msgstr "கொள்கலனை உருவாக்குவதில் தோல்வி"
 
 #: src/view/container.rs:78
 msgid "Container has been deleted"
@@ -991,11 +1057,11 @@ msgstr "கொள்கலன் மறுபெயரிடுங்கள்"
 msgid "_Rename"
 msgstr "_ரினேம்"
 
-#: src/view/container.rs:138
+#: src/view/container.rs:139
 msgid "Delete Container?"
 msgstr "கொள்கலனை நீக்கவா?"
 
-#: src/view/container.rs:141
+#: src/view/container.rs:142
 msgid ""
 "All settings and all changes made within the container will be irreversibly "
 "lost"
@@ -1003,35 +1069,54 @@ msgstr ""
 "அனைத்து அமைப்புகளும், கொள்கலனுக்குள் செய்யப்பட்ட அனைத்து மாற்றங்களும் மாற்றமுடியாமல் "
 "இழக்கப்படும்"
 
-#: src/view/container.rs:179 src/view/containers_panel.rs:908
-msgid "Error on starting container"
+#: src/view/container.rs:148 src/view/container_menu_button.blp:46
+#: src/view/containers_panel.rs:962 src/view/image.rs:32
+#: src/view/image_menu_button.blp:11 src/view/images_panel.rs:670
+#: src/view/pod.rs:65 src/view/pod_menu_button.blp:45
+#: src/view/pods_panel.rs:816 src/view/volume.rs:57
+#: src/view/volumes_panel.rs:661
+msgid "_Delete"
+msgstr "_Delete"
+
+#: src/view/container.rs:181 src/view/container_log_page.rs:676
+#: src/view/containers_panel.rs:903
+#, fuzzy
+msgid "Could not start container"
 msgstr "கொள்கலனைத் தொடங்குவதில் பிழை"
 
-#: src/view/container.rs:180 src/view/containers_panel.rs:838
-msgid "Error on stopping container"
-msgstr "கொள்கலனை நிறுத்துவதில் பிழை"
+#: src/view/container.rs:182 src/view/containers_panel.rs:831
+#, fuzzy
+msgid "Could not stop container"
+msgstr "கொள்கலன் செய்யுங்கள்"
 
-#: src/view/container.rs:181 src/view/containers_panel.rs:836
-msgid "Error on killing container"
+#: src/view/container.rs:183 src/view/containers_panel.rs:829
+#, fuzzy
+msgid "Could not kill container"
 msgstr "கொள்கலனைக் கொல்வதில் பிழை"
 
-#: src/view/container.rs:182 src/view/containers_panel.rs:867
-msgid "Error on restarting container"
+#: src/view/container.rs:184 src/view/containers_panel.rs:861
+#, fuzzy
+msgid "Could not restart container"
 msgstr "கொள்கலனை மறுதொடக்கம் செய்வதில் பிழை"
 
-#: src/view/container.rs:183 src/view/containers_panel.rs:935
-msgid "Error on pausing container"
+#: src/view/container.rs:185 src/view/containers_panel.rs:931
+#, fuzzy
+msgid "Could not pause container"
 msgstr "கொள்கலனை இடைநிறுத்துவதில் பிழை"
 
-#: src/view/container.rs:184 src/view/containers_panel.rs:893
-msgid "Error on resuming container"
+#: src/view/container.rs:186 src/view/container_log_page.rs:690
+#: src/view/containers_panel.rs:888
+#, fuzzy
+msgid "Could not resume container"
 msgstr "மீண்டும் கொள்கலனில் பிழை"
 
-#: src/view/container.rs:185 src/view/containers_panel.rs:991
-msgid "Error on deleting container"
+#: src/view/container.rs:187 src/view/containers_panel.rs:988
+#, fuzzy
+msgid "Could not delete container"
 msgstr "கொள்கலனை நீக்குவதில் பிழை"
 
 #: src/view/container_card.blp:93 src/view/container_card.blp:96
+#: src/view/container_properties_group.blp:42
 msgid "Rename"
 msgstr "மறுபெயரிடுங்கள்"
 
@@ -1041,7 +1126,7 @@ msgid "CPU"
 msgstr "%CPU"
 
 #: src/view/container_card.blp:163 src/view/container_resources.blp:84
-#: src/view/info_panel.blp:98
+#: src/view/info_panel.blp:102
 msgid "Memory"
 msgstr "நினைவகம்"
 
@@ -1059,133 +1144,132 @@ msgid "No Ports"
 msgstr "துறைமுகங்கள்"
 
 #: src/view/container_card.blp:331
-#: src/view/container_create_opts_dialog.blp:113
-#: src/view/container_details_page.blp:223 src/view/pod_details_page.blp:22
+#: src/view/container_create_opts_dialog.blp:111
+#: src/view/container_details_page.blp:223 src/view/pod_details_page.blp:5
+#: src/view/pod_details_page.blp:22
 msgid "Pod"
 msgstr "நெற்று"
 
 #: src/view/container_card.blp:357 src/view/container_card.blp:360
 #: src/view/container_details_page.blp:67
-#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:249
-#: src/view/containers_panel.blp:252 src/view/pod_details_page.blp:45
-#: src/view/pod_details_page.blp:48 src/view/pods_panel.blp:250
-#: src/view/pods_panel.blp:253 src/view/top_page_action_bar.blp:17
+#: src/view/container_details_page.blp:70 src/view/containers_panel.blp:252
+#: src/view/containers_panel.blp:255 src/view/pod_details_page.blp:45
+#: src/view/pod_details_page.blp:48 src/view/pods_panel.blp:253
+#: src/view/pods_panel.blp:256 src/view/top_page_action_bar.blp:17
 msgid "Kill"
 msgstr "கொலை"
 
 #: src/view/container_card.blp:378 src/view/container_card.blp:381
 #: src/view/container_details_page.blp:90
-#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:271
-#: src/view/containers_panel.blp:274 src/view/pod_details_page.blp:68
-#: src/view/pod_details_page.blp:71 src/view/pods_panel.blp:272
-#: src/view/pods_panel.blp:275
+#: src/view/container_details_page.blp:93 src/view/containers_panel.blp:274
+#: src/view/containers_panel.blp:277 src/view/pod_details_page.blp:68
+#: src/view/pod_details_page.blp:71 src/view/pods_panel.blp:275
+#: src/view/pods_panel.blp:278
 msgid "Restart"
 msgstr "மறுதொடக்கம்"
 
-#: src/view/container_card.blp:393 src/view/container_details_page.blp:107
-#: src/view/containers_panel.blp:292 src/view/pod_details_page.blp:85
-#: src/view/pods_panel.blp:293
-msgid "Start/Resume"
+#: src/view/container_card.blp:393 src/view/container_card.blp:397
+#: src/view/container_details_page.blp:107 src/view/containers_panel.blp:295
+#: src/view/pod_details_page.blp:85 src/view/pods_panel.blp:296
+#, fuzzy
+msgid "Start or Resume"
 msgstr "தொடங்க/மீண்டும் தொடங்கவும்"
 
-#: src/view/container_card.blp:408 src/view/container_details_page.blp:124
-#: src/view/containers_panel.blp:312 src/view/pod_details_page.blp:102
-#: src/view/pods_panel.blp:313
+#: src/view/container_card.blp:412 src/view/container_card.blp:416
+#: src/view/container_details_page.blp:124 src/view/containers_panel.blp:315
+#: src/view/pod_details_page.blp:102 src/view/pods_panel.blp:316
 msgid "Stop"
 msgstr "நிறுத்து"
 
-#: src/view/container_card.blp:426 src/view/container_details_page.blp:144
+#: src/view/container_card.blp:434 src/view/container_details_page.blp:144
 #: src/view/pod_details_page.blp:122
 msgid "In Progress"
 msgstr ""
 
-#: src/view/container_card.blp:444 src/view/container_card.blp:447
-#: src/view/container_commit_opts_dialog.blp:88
+#: src/view/container_card.blp:452 src/view/container_card.blp:455
+#: src/view/container_commit_opts_dialog.blp:89
 #: src/view/container_details_page.blp:158
-#: src/view/container_details_page.blp:161 src/view/containers_panel.blp:334
-#: src/view/containers_panel.blp:337 src/view/pod_details_page.blp:136
-#: src/view/pod_details_page.blp:139 src/view/pods_panel.blp:335
-#: src/view/pods_panel.blp:338
+#: src/view/container_details_page.blp:161 src/view/containers_panel.blp:337
+#: src/view/containers_panel.blp:340 src/view/pod_details_page.blp:136
+#: src/view/pod_details_page.blp:139 src/view/pods_panel.blp:338
+#: src/view/pods_panel.blp:341
 msgid "Pause"
 msgstr "இடைநிறுத்தம்"
 
-#: src/view/container_card.rs:528 src/view/container_row.rs:340
-#, rust-format
-msgid "Container {}"
-msgstr "கொள்கலன் {}"
-
 #. Translators: For example 5 MB / s.
-#: src/view/container_card.rs:601 src/view/container_resources.rs:283
+#: src/view/container_card.rs:554 src/view/container_resources.rs:263
 #, rust-format
 msgid "{} / s"
 msgstr "{} / s"
 
-#: src/view/container_commit_action_view.rs:69
-#: src/view/container_commit_opts_dialog.blp:15
-msgid "Commit Container"
-msgstr "கொள்கலன் செய்யுங்கள்"
-
 #: src/view/container_commit_action_view.rs:74
 #, fuzzy
-msgid "<Deleted>"
+msgid "<deleted>"
 msgstr "நீக்கு"
 
-#: src/view/container_commit_opts_dialog.blp:38
+#: src/view/container_commit_opts_dialog.blp:39
 msgid "_Commit"
 msgstr "_COMMIT"
 
-#: src/view/container_commit_opts_dialog.blp:45
+#: src/view/container_commit_opts_dialog.blp:46
 msgid "General Commit Options"
 msgstr "பொது கமிட் விருப்பங்கள்"
 
-#: src/view/container_commit_opts_dialog.blp:49
+#: src/view/container_commit_opts_dialog.blp:50
 msgid "Author"
 msgstr "நூலாசிரியர்"
 
-#: src/view/container_commit_opts_dialog.blp:58
-#: src/view/container_commit_opts_dialog.blp:61
+#: src/view/container_commit_opts_dialog.blp:59
+#: src/view/container_commit_opts_dialog.blp:62
 msgid "Fetch Username"
 msgstr "பயனர்பெயரைப் பெறுங்கள்"
 
-#: src/view/container_commit_opts_dialog.blp:70
-#: src/view/image_history_page.rs:170
+#: src/view/container_commit_opts_dialog.blp:71
+#: src/view/image_history_page.rs:168
 msgid "Comment"
 msgstr "கருத்து"
 
-#: src/view/container_commit_opts_dialog.blp:75
-msgid "Repo"
-msgstr "களஞ்சி"
+#: src/view/container_commit_opts_dialog.blp:76
+#, fuzzy
+msgid "Repository"
+msgstr "களஞ்சிய குறிச்சொல்"
 
-#: src/view/container_commit_opts_dialog.blp:80 src/view/images_panel.blp:38
+#: src/view/container_commit_opts_dialog.blp:81 src/view/images_panel.blp:38
 msgid "Tag"
 msgstr "குறிச்சொல்"
 
-#: src/view/container_commit_opts_dialog.blp:84
+#: src/view/container_commit_opts_dialog.blp:85
 msgid "Format"
 msgstr "வடிவம்"
 
-#: src/view/container_commit_opts_dialog.blp:89
+#: src/view/container_commit_opts_dialog.blp:90
 msgid "Pause the container before committing it"
 msgstr "கொள்கலனைச் செய்வதற்கு முன் இடைநிறுத்தவும்"
 
-#: src/view/container_commit_opts_dialog.blp:94
+#: src/view/container_commit_opts_dialog.blp:95
 msgid "Changes"
 msgstr "மாற்றங்கள்"
 
-#: src/view/container_commit_opts_dialog.blp:95
+#: src/view/container_commit_opts_dialog.blp:96
 #, fuzzy
 msgid ""
-"Instructions to apply while committing in Dockerfile format (i.e. “CMD=/bin/"
+"Instructions to apply while committing in Dockerfile format (e.g. “CMD=/bin/"
 "foo”)"
 msgstr ""
 "டோக்கர்ஃபைல் வடிவத்தில் ஈடுபடும்போது விண்ணப்பிக்க வழிமுறைகள் (அதாவது \"CMD =/bin/foo\")"
 
-#: src/view/container_commit_opts_dialog.rs:101
+#: src/view/container_commit_opts_dialog.rs:99
 msgid "Change"
 msgstr "மாற்றம்"
 
-#: src/view/container_commit_opts_dialog.rs:289
-msgid "Error on fetching user name"
+#: src/view/container_commit_opts_dialog.rs:106
+#, fuzzy
+msgid "Add Change"
+msgstr "மாற்றம்"
+
+#: src/view/container_commit_opts_dialog.rs:260
+#, fuzzy
+msgid "Could not fetch user name"
 msgstr "பயனர் பெயரைப் பெறுவதில் பிழை"
 
 #: src/view/container_copy_from_action_view.blp:13
@@ -1193,38 +1277,43 @@ msgstr "பயனர் பெயரைப் பெறுவதில் பி
 msgid "Written"
 msgstr "அளவு: {}"
 
-#: src/view/container_copy_from_action_view.rs:104
-#: src/view/container_copy_from_opts_dialog.blp:15
+#: src/view/container_copy_from_action_view.rs:105
+#: src/view/container_copy_from_opts_dialog.blp:16
 #, fuzzy
 msgid "Copy From Container"
 msgstr "கொள்கலன் செய்யுங்கள்"
 
-#: src/view/container_copy_from_opts_dialog.blp:38
-#: src/view/container_copy_to_opts_dialog.blp:47
+#: src/view/container_copy_from_opts_dialog.blp:39
+#: src/view/container_copy_to_opts_dialog.blp:48
 #: src/view/container_terminal.blp:43
 msgid "_Copy"
 msgstr "_ கோபி"
 
-#: src/view/container_copy_from_opts_dialog.blp:47
-#: src/view/container_copy_to_opts_dialog.blp:72
+#: src/view/container_copy_from_opts_dialog.blp:48
+#: src/view/container_copy_to_opts_dialog.blp:73
 #, fuzzy
-msgid "Container Path (’/’ if empty)"
+msgid "Container Path (“/” if empty)"
 msgstr "கொள்கலன் பாதை ('/' காலியாக இருந்தால்)"
 
-#: src/view/container_copy_from_opts_dialog.blp:53
-#: src/view/container_copy_from_opts_dialog.rs:143
-#: src/view/container_copy_to_opts_dialog.blp:57 src/view/device_row.blp:69
+#: src/view/container_copy_from_opts_dialog.blp:54
+#: src/view/container_copy_from_opts_dialog.rs:138
+#: src/view/container_copy_to_opts_dialog.blp:58 src/view/device_row.blp:69
 #: src/view/mount_row.blp:103
 msgid "Host Path"
 msgstr "புரவலன் பாதை"
 
-#: src/view/container_copy_from_opts_dialog.blp:54
+#: src/view/container_copy_from_opts_dialog.blp:55
 msgid "Select a destination tar archive on the host"
 msgstr "ஓச்டில் இலக்கு தார் காப்பகத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/container_copy_from_opts_dialog.blp:59
+#: src/view/container_copy_from_opts_dialog.blp:60
 msgid "Select _Path…"
 msgstr "_ பாத் என்பதைத் தேர்ந்தெடுக்கவும்…"
+
+#: src/view/container_copy_from_opts_dialog.rs:140
+#, fuzzy
+msgid "Tar Archive"
+msgstr "தார் காப்பகம் உருவாக்கப்பட்டது"
 
 #: src/view/container_copy_to_action_view.blp:9
 #, fuzzy
@@ -1242,7 +1331,6 @@ msgid "Copying bytes"
 msgstr "கோப்புகளை நகலெடுக்கும்"
 
 #: src/view/container_copy_to_action_view.rs:159
-#: src/view/container_copy_to_opts_dialog.blp:24
 #, fuzzy
 msgid "Copy To Container"
 msgstr "கொள்கலன் செய்யுங்கள்"
@@ -1251,25 +1339,24 @@ msgstr "கொள்கலன் செய்யுங்கள்"
 msgid "Select _Directory…"
 msgstr "_ அடைவு என்பதைத் தேர்ந்தெடுக்கவும்…"
 
-#: src/view/container_copy_to_opts_dialog.blp:58
+#: src/view/container_copy_to_opts_dialog.blp:59
 msgid "Select a file or a directory from the host to upload"
 msgstr "பதிவேற்ற ஓச்டிலிருந்து ஒரு கோப்பு அல்லது கோப்பகத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/container_copy_to_opts_dialog.blp:63
+#: src/view/container_copy_to_opts_dialog.blp:64
 msgid "Select _File…"
 msgstr "_ பைல் என்பதைத் தேர்ந்தெடுக்கவும்…"
 
-#: src/view/container_copy_to_opts_dialog.rs:152
+#: src/view/container_copy_to_opts_dialog.rs:147
 msgid "Select Host Directory"
 msgstr "புரவலன் கோப்பகத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/container_copy_to_opts_dialog.rs:154
+#: src/view/container_copy_to_opts_dialog.rs:149
 msgid "Select Host File"
 msgstr "புரவலன் கோப்பைத் தேர்ந்தெடுக்கவும்"
 
 #: src/view/container_create_action_view.rs:69
-#: src/view/container_create_opts_dialog.blp:24
-#: src/view/containers_group.blp:12 src/view/containers_group.blp:15
+#: src/view/container_create_opts_dialog.blp:25
 #: src/view/containers_panel.blp:44 src/view/containers_panel.blp:47
 msgid "Create Container"
 msgstr "கொள்கலனை உருவாக்கவும்"
@@ -1278,191 +1365,195 @@ msgstr "கொள்கலனை உருவாக்கவும்"
 msgid "_Create Only"
 msgstr "_ கிரேட் மட்டும்"
 
-#: src/view/container_create_opts_dialog.blp:47
+#: src/view/container_create_opts_dialog.blp:48
 msgid "_Run"
 msgstr "_ ரன்"
 
-#: src/view/container_create_opts_dialog.blp:75
-#: src/view/container_create_opts_dialog.blp:98
-#: src/view/image_build_opts_dialog.blp:65
+#: src/view/container_create_opts_dialog.blp:76
+#: src/view/container_create_opts_dialog.blp:97
+#: src/view/image_build_opts_dialog.blp:66
 #: src/view/image_build_opts_dialog.blp:82
-#: src/view/pod_create_opts_dialog.blp:65
-#: src/view/pod_create_opts_dialog.blp:88
+#: src/view/pod_create_opts_dialog.blp:66
+#: src/view/pod_create_opts_dialog.blp:87
 msgid "Details"
 msgstr "விவரங்கள்"
 
 #: src/view/container_create_opts_dialog.blp:81
-#: src/view/container_create_opts_dialog.blp:206
+#: src/view/container_create_opts_dialog.blp:204
 #: src/view/image_build_opts_dialog.blp:71
 #: src/view/image_build_opts_dialog.blp:107
 #: src/view/pod_create_opts_dialog.blp:71
-#: src/view/pod_create_opts_dialog.blp:118
+#: src/view/pod_create_opts_dialog.blp:116
 msgid "Integration"
 msgstr "ஒருங்கிணைப்பு"
 
-#: src/view/container_create_opts_dialog.blp:87
-#: src/view/container_create_opts_dialog.blp:257
-#: src/view/container_properties_group.blp:147
-msgid "Health Check"
-msgstr "சுகாதார சோதனை"
+#: src/view/container_create_opts_dialog.blp:86
+#: src/view/container_create_opts_dialog.blp:254
+#, fuzzy
+msgid "Health"
+msgstr "ஆரோக்கியமான"
 
-#: src/view/container_create_opts_dialog.blp:108
+#: src/view/container_create_opts_dialog.blp:106
 #: src/view/container_details_page.blp:208 src/view/containers_panel.blp:15
-#: src/view/image_details_page.blp:28 src/view/image_pull_opts_dialog.blp:51
+#: src/view/image_details_page.blp:12 src/view/image_details_page.blp:19
+#: src/view/image_pull_opts_dialog.blp:52
 #: src/view/pod_create_opts_dialog.blp:200
 msgid "Image"
 msgstr "படம்"
 
-#: src/view/container_create_opts_dialog.blp:122
+#: src/view/container_create_opts_dialog.blp:120
 #: src/view/pod_create_opts_dialog.blp:204
 msgid "Pull Latest Image"
 msgstr "அண்மைக் கால படத்தை இழுக்கவும்"
 
-#: src/view/container_create_opts_dialog.blp:126
+#: src/view/container_create_opts_dialog.blp:124
 #: src/view/container_details_page.blp:299
 msgid "Terminal"
 msgstr "முனையத்தில்"
 
-#: src/view/container_create_opts_dialog.blp:130
+#: src/view/container_create_opts_dialog.blp:128
 msgid "Privileged"
 msgstr "பெரிய"
 
-#: src/view/container_create_opts_dialog.blp:131
+#: src/view/container_create_opts_dialog.blp:129
 msgid "Give extended privileges to container"
 msgstr "கொள்கலனுக்கு நீட்டிக்கப்பட்ட சலுகைகளை கொடுங்கள்"
 
-#: src/view/container_create_opts_dialog.blp:135
-#: src/view/container_properties_group.blp:143
+#: src/view/container_create_opts_dialog.blp:133
+#: src/view/container_properties_group.blp:147
 #, fuzzy
 msgid "Restart Policy"
 msgstr "மறுதொடக்கம்"
 
-#: src/view/container_create_opts_dialog.blp:139
+#: src/view/container_create_opts_dialog.blp:137
 msgid "Never"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:140
-#: src/view/container_properties_group.rs:116
+#: src/view/container_create_opts_dialog.blp:138
+#: src/view/container_properties_group.rs:111
 msgid "Always"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:141
-#: src/view/container_properties_group.rs:118
-msgid "On failure"
+#: src/view/container_create_opts_dialog.blp:139
+#: src/view/container_properties_group.rs:113
+msgid "On Failure"
 msgstr ""
 
-#: src/view/container_create_opts_dialog.blp:142
-#: src/view/container_properties_group.rs:120
+#: src/view/container_create_opts_dialog.blp:140
+#: src/view/container_properties_group.rs:114
 #, fuzzy
-msgid "Unless stopped"
+msgid "Unless Stopped"
 msgstr "ப்ரூன் காய்களை நிறுத்தியது"
 
-#: src/view/container_create_opts_dialog.blp:149
+#: src/view/container_create_opts_dialog.blp:147
 msgid "Memory Limit"
 msgstr "நினைவக வரம்பு"
 
-#: src/view/container_create_opts_dialog.blp:181
+#: src/view/container_create_opts_dialog.blp:179
 msgid "KB"
 msgstr "கே.பி."
 
-#: src/view/container_create_opts_dialog.blp:182
+#: src/view/container_create_opts_dialog.blp:180
 msgid "MB"
 msgstr "எம்பி"
 
-#: src/view/container_create_opts_dialog.blp:183
+#: src/view/container_create_opts_dialog.blp:181
 msgid "GB"
 msgstr "சிபி"
 
-#: src/view/container_create_opts_dialog.blp:198
-#: src/view/container_create_opts_dialog.blp:263
+#: src/view/container_create_opts_dialog.blp:196
+#: src/view/container_create_opts_dialog.blp:259
 #: src/view/container_health_check_page.blp:34
-#: src/view/image_details_page.blp:107 src/view/pod_create_opts_dialog.blp:216
+#: src/view/image_details_page.blp:98 src/view/pod_create_opts_dialog.blp:216
+#: src/view/top_page.rs:176
 msgid "Command"
 msgstr "கட்டளை"
 
-#: src/view/container_create_opts_dialog.blp:214
-#: src/view/container_details_page.blp:239 src/view/image_details_page.blp:123
-#: src/view/pod_create_opts_dialog.blp:126 src/view/pod_details_page.blp:247
+#: src/view/container_create_opts_dialog.blp:211
+#: src/view/container_details_page.blp:239 src/view/image_details_page.blp:116
+#: src/view/pod_create_opts_dialog.blp:123 src/view/pod_details_page.blp:247
 msgid "Ports"
 msgstr "துறைமுகங்கள்"
 
-#: src/view/container_create_opts_dialog.blp:234
+#: src/view/container_create_opts_dialog.blp:231
 msgid "Environment Variables"
 msgstr "சுற்றுச்சூழல் மாறிகள்"
 
-#: src/view/container_create_opts_dialog.blp:244
+#: src/view/container_create_opts_dialog.blp:241
 #: src/view/image_build_opts_dialog.blp:110
-#: src/view/pod_create_opts_dialog.blp:162
+#: src/view/pod_create_opts_dialog.blp:163
 msgid "Labels"
 msgstr "சிட்டைகள்"
 
-#: src/view/container_create_opts_dialog.blp:267
+#: src/view/container_create_opts_dialog.blp:263
 #: src/view/container_health_check_page.blp:38
 msgid "Interval"
 msgstr "இடைவேளை"
 
-#: src/view/container_create_opts_dialog.blp:268
+#: src/view/container_create_opts_dialog.blp:264
 msgid "Health check interval in seconds"
 msgstr "நொடிகளில் சுகாதார சோதனை இடைவெளி"
 
-#: src/view/container_create_opts_dialog.blp:280
+#: src/view/container_create_opts_dialog.blp:276
 #: src/view/container_health_check_page.blp:46
 msgid "Timeout"
 msgstr "நேரம் முடிந்தது"
 
-#: src/view/container_create_opts_dialog.blp:281
+#: src/view/container_create_opts_dialog.blp:277
 msgid "Seconds allowed to complete the command before it fails"
 msgstr "கட்டளை தோல்வியடைவதற்கு முன்பு அதை முடிக்க விநாடிகள் அனுமதிக்கப்பட்டன"
 
-#: src/view/container_create_opts_dialog.blp:293
+#: src/view/container_create_opts_dialog.blp:289
 msgid "Start Period"
 msgstr "தொடக்க காலம்"
 
-#: src/view/container_create_opts_dialog.blp:294
+#: src/view/container_create_opts_dialog.blp:290
 msgid ""
 "Initial delay of the command in seconds to grant the container time to boot"
 msgstr "துவக்க கொள்கலனின் நேரத்தை வழங்க நொடிகளில் கட்டளையின் ஆரம்ப நேரந்தவறுகை"
 
-#: src/view/container_create_opts_dialog.blp:306
+#: src/view/container_create_opts_dialog.blp:302
 #: src/view/container_health_check_page.blp:42
 msgid "Retries"
 msgstr "மறுமுயற்சிகள்"
 
-#: src/view/container_create_opts_dialog.blp:307
-msgid "Number of retries allowed before a healthcheck fails"
+#: src/view/container_create_opts_dialog.blp:303
+#, fuzzy
+msgid "Number of retries allowed before a health check fails"
 msgstr "ஒரு எல்த் செக் தோல்வியடைவதற்கு முன்பு அனுமதிக்கப்பட்ட முயற்சிகளின் எண்ணிக்கை"
 
-#: src/view/container_create_opts_dialog.rs:166
+#: src/view/container_create_opts_dialog.rs:168
 #: src/view/pod_create_opts_dialog.rs:159
 #, fuzzy
 msgid "Add Port"
 msgstr "ஓச்டைச் சேர்க்கவும்"
 
-#: src/view/container_create_opts_dialog.rs:174
+#: src/view/container_create_opts_dialog.rs:176 src/view/volumes_group.blp:8
 msgid "Add Volume"
 msgstr "தொகுதி சேர்க்கவும்"
 
-#: src/view/container_create_opts_dialog.rs:184
+#: src/view/container_create_opts_dialog.rs:186
 msgid "Add Environment Variable"
 msgstr "சுற்றுச்சூழல் மாறியைச் சேர்க்கவும்"
 
-#: src/view/container_create_opts_dialog.rs:194
-#: src/view/image_build_opts_dialog.rs:107
+#: src/view/container_create_opts_dialog.rs:196
+#: src/view/image_build_opts_dialog.rs:106
 #: src/view/pod_create_opts_dialog.rs:131
 msgid "Add Label"
 msgstr "லேபிளைச் சேர்க்கவும்"
 
-#: src/view/container_details_page.blp:43 src/view/port_binding_row.blp:59
+#: src/view/container_details_page.blp:5 src/view/container_details_page.blp:43
+#: src/view/port_binding_row.blp:60
 msgid "Container"
 msgstr "சரக்குப் பெட்டகம்"
 
-#: src/view/container_details_page.blp:263 src/view/image_details_page.blp:128
-#: src/view/pod_details_page.blp:259 src/view/volume_details_page.blp:118
+#: src/view/container_details_page.blp:263 src/view/image_details_page.blp:122
+#: src/view/pod_details_page.blp:259 src/view/volume_details_page.blp:137
 msgid "Utilities"
 msgstr "பயன்பாடுகள்"
 
-#: src/view/container_details_page.blp:266 src/view/image_details_page.blp:131
-#: src/view/pod_details_page.blp:262 src/view/volume_details_page.blp:121
+#: src/view/container_details_page.blp:266 src/view/image_details_page.blp:125
+#: src/view/pod_details_page.blp:262 src/view/volume_details_page.blp:140
 msgid "Inspection"
 msgstr "ஆய்வு"
 
@@ -1499,17 +1590,19 @@ msgstr "செயல்முறைகள்"
 msgid "View and manage processes of the container"
 msgstr "கொள்கலனின் செயல்முறைகளைக் காணவும் நிர்வகிக்கவும்"
 
-#: src/view/container_details_page.rs:359
-msgid "Error on loading container details"
+#: src/view/container_details_page.rs:342
+#, fuzzy
+msgid "Could not load container details"
 msgstr "கொள்கலன் விவரங்களை ஏற்றுவதில் பிழை"
 
-#: src/view/container_details_page.rs:377
-#, rust-format
-msgid "Container '{}' has been deleted"
+#: src/view/container_details_page.rs:360
+#, fuzzy, rust-format
+msgid "Container “{}” has been deleted"
 msgstr "கொள்கலன் '{}' நீக்கப்பட்டது"
 
-#: src/view/container_details_page.rs:458 src/view/image_details_page.rs:362
-#: src/view/pod_details_page.rs:367 src/view/volume_details_page.rs:248
+#: src/view/container_details_page.rs:441 src/view/container_volume_row.rs:224
+#: src/view/image_details_page.rs:351 src/view/pod_details_page.rs:358
+#: src/view/repo_tag_row.rs:112 src/view/volume_details_page.rs:246
 #, fuzzy
 msgid "Copied to clipboard"
 msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
@@ -1525,10 +1618,11 @@ msgstr "தோல்வியுற்ற சுகாதார ரன்: {}"
 
 #. Translators: This is a date time format (https://valadoc.org/glib-2.0/GLib.DateTime.format.html)
 #: src/view/container_health_check_log_row.rs:92
-#: src/view/image_history_page.rs:111 src/widget/date_time_row.rs:146
+#: src/view/image_history_page.rs:109 src/widget/date_time_row.rs:146
 msgid "%x %X"
 msgstr "%x %X"
 
+#: src/view/container_health_check_page.blp:5
 #: src/view/container_health_check_page.blp:12
 msgid "Container Health Check"
 msgstr "கொள்கலன் சுகாதார சோதனை"
@@ -1557,39 +1651,40 @@ msgstr "வரிசைகள் கடைசி 5 சுகாதார சோ�
 msgid "_Run Health Check"
 msgstr "_ ரூன் சுகாதார சோதனை"
 
-#: src/view/container_health_check_page.rs:197
-#: src/view/container_health_check_page.rs:213
+#: src/view/container_health_check_page.rs:192
+#: src/view/container_health_check_page.rs:208
 #, fuzzy, rust-format
 msgid "{} second"
 msgid_plural "{} seconds"
 msgstr[0] "}} இரண்டாவது"
 msgstr[1] "}} விநாடிகள்"
 
-#: src/view/container_health_check_page.rs:270
-msgid "Error on running health check"
+#: src/view/container_health_check_page.rs:263
+#, fuzzy
+msgid "Could not run health check"
 msgstr "சுகாதார சோதனை இயக்குவதில் பிழை"
 
 #: src/view/container_log_page.blp:13 src/view/scalable_text_view_page.blp:13
-msgid "_Save as File"
+#, fuzzy
+msgid "_Save as File…"
 msgstr "_சேவ் கோப்பாக"
 
 #: src/view/container_log_page.blp:20
 msgid "Show _Timestamps"
 msgstr "நேர முத்திரைகளைக் காட்டு"
 
-#: src/view/container_log_page.blp:64
+#: src/view/container_log_page.blp:40 src/view/container_log_page.blp:64
 msgid "Container Logs"
 msgstr "கொள்கலன் பதிவுகள்"
 
 #: src/view/container_log_page.blp:72 src/view/container_log_page.blp:75
-#: src/view/scalable_text_view_page.blp:56
-#: src/view/scalable_text_view_page.blp:59
 #, fuzzy
-msgid "Menu"
-msgstr "பட்டியல் விளையாடுங்கள்"
+msgid "Log Options"
+msgstr "விருப்பங்கள்"
 
 #: src/view/container_log_page.blp:94
-msgid "Start/Resume Container"
+#, fuzzy
+msgid "Start or Resume Container"
 msgstr "கொள்கலனைத் தொடங்க/மீண்டும் தொடங்குங்கள்"
 
 #: src/view/container_log_page.blp:95
@@ -1630,33 +1725,27 @@ msgid ""
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/container_log_page.rs:363
-msgid "Error while following log"
-msgstr "பதிவைப் பின்தொடரும் போது பிழை"
+#: src/view/container_log_page.rs:359
+msgid "Could not follow log"
+msgstr ""
 
-#: src/view/container_log_page.rs:569
+#: src/view/container_log_page.rs:565
 msgid "Include timestamps"
 msgstr "நேர முத்திரைகள் அடங்கும்"
 
-#: src/view/container_log_page.rs:623
-msgid "Error on saving logs"
+#: src/view/container_log_page.rs:619
+#, fuzzy
+msgid "Could not save logs"
 msgstr "பதிவுகளைச் சேமிப்பதில் பிழை"
 
-#: src/view/container_log_page.rs:637
-msgid "Error on retrieving logs"
+#: src/view/container_log_page.rs:633
+#, fuzzy
+msgid "Could not retrieve logs"
 msgstr "பதிவுகளை மீட்டெடுப்பதில் பிழை"
 
-#: src/view/container_log_page.rs:650
+#: src/view/container_log_page.rs:646
 msgid "Log has been saved"
 msgstr "பதிவு சேமிக்கப்பட்டுள்ளது"
-
-#: src/view/container_log_page.rs:680
-msgid "Error starting container"
-msgstr "தொடக்க கொள்கலன்"
-
-#: src/view/container_log_page.rs:694
-msgid "Error resuming container"
-msgstr "தொடர கொள்கலன் பிழை"
 
 #: src/view/container_menu_button.blp:6 src/view/pod_menu_button.blp:13
 msgid "_Start"
@@ -1682,31 +1771,15 @@ msgstr "_PAUSS"
 msgid "Re_name…"
 msgstr "Re_name…"
 
-#: src/view/container_menu_button.blp:46 src/view/containers_panel.rs:966
-#: src/view/image.rs:33 src/view/images_panel.rs:678 src/view/pod.rs:66
-#: src/view/pod_menu_button.blp:45 src/view/pods_panel.rs:820
-#: src/view/volume.rs:31 src/view/volumes_panel.rs:661
-msgid "_Delete"
-msgstr "_Delete"
-
 #: src/view/container_menu_button.blp:59 src/view/container_menu_button.blp:62
 #, fuzzy
 msgid "Container Actions"
 msgstr "கொள்கலன் ஆய்வு"
 
-#: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:44
+#: src/view/container_properties_group.blp:5 src/view/image_details_page.blp:35
 #: src/view/pod_details_page.blp:178 src/view/volume_details_page.blp:18
 msgid "Properties"
 msgstr "பண்புகள்"
-
-#: src/view/container_properties_group.blp:23
-#: src/view/container_properties_group.blp:64
-#: src/view/image_details_page.blp:76 src/view/pod_details_page.blp:195
-#: src/view/pod_details_page.blp:219 src/view/volume_details_page.blp:50
-#: src/view/volume_details_page.blp:90
-#, fuzzy
-msgid "Copy to clipboard"
-msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
 
 #: src/view/container_properties_group.blp:26 src/view/pod_details_page.blp:198
 #: src/view/volume_details_page.blp:53
@@ -1715,42 +1788,55 @@ msgid "Copy name to clipboard"
 msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
 
 #: src/view/container_properties_group.blp:39
-#: src/view/container_properties_group.blp:42
 msgid "Rename (F2)"
 msgstr "மறுபெயரிடுங்கள் (F2)"
 
-#: src/view/container_properties_group.blp:54
-#: src/view/image_details_page.blp:67 src/view/pod_details_page.blp:210
+#: src/view/container_properties_group.blp:55
+#: src/view/image_details_page.blp:58 src/view/pod_details_page.blp:210
 #, fuzzy
 msgid "ID"
 msgstr "பிஐடி"
 
-#: src/view/container_properties_group.blp:67
-#: src/view/image_details_page.blp:79 src/view/pod_details_page.blp:222
+#: src/view/container_properties_group.blp:68
+#: src/view/image_details_page.blp:70 src/view/pod_details_page.blp:222
 #, fuzzy
 msgid "Copy ID to clipboard"
 msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
 
-#: src/view/container_properties_group.blp:80
-#: src/view/container_properties_group.blp:83
+#: src/view/container_properties_group.blp:81
 msgid "Commit (Ctrl+K)"
 msgstr "கமிட் (ctrl+k)"
 
-#: src/view/container_properties_group.blp:103
+#: src/view/container_properties_group.blp:84
+#, fuzzy
+msgid "Commit"
+msgstr "கமிட்"
+
+#: src/view/container_properties_group.blp:105
 msgid "Size"
 msgstr "அளவு"
 
-#: src/view/container_properties_group.blp:112
-#: src/view/container_properties_group.blp:115
+#: src/view/container_properties_group.blp:114
 msgid "Download Files (Ctrl+D)"
 msgstr "கோப்புகளைப் பதிவிறக்குங்கள் (Ctrl+D)"
 
-#: src/view/container_properties_group.blp:128
+#: src/view/container_properties_group.blp:117
+msgid "Download Files"
+msgstr "கோப்புகளைப் பதிவிறக்கவும்"
+
 #: src/view/container_properties_group.blp:131
 msgid "Upload Files (Ctrl+U)"
 msgstr "கோப்புகளை பதிவேற்றவும் (Ctrl+U)"
 
-#: src/view/container_properties_group.rs:117
+#: src/view/container_properties_group.blp:134
+msgid "Upload Files"
+msgstr "கோப்புகளைப் பதிவேற்றவும்"
+
+#: src/view/container_properties_group.blp:151
+msgid "Health Check"
+msgstr "சுகாதார சோதனை"
+
+#: src/view/container_properties_group.rs:112
 #, fuzzy
 msgid "None"
 msgstr "<இல்லை>"
@@ -1759,20 +1845,20 @@ msgstr "<இல்லை>"
 msgid "Resources Quick Reference"
 msgstr "வளங்கள் விரைவான குறிப்பு"
 
-#: src/view/container_resources.rs:91
+#: src/view/container_resources.rs:92
 #, rust-format
 msgid "Processor ({} CPU)"
 msgid_plural "Processor ({} CPUs)"
 msgstr[0] "செயலி ({} cpu)"
 msgstr[1] "செயலி ({} cpus)"
 
-#: src/view/container_resources.rs:93
+#: src/view/container_resources.rs:94
 msgid "Processor (? CPUs)"
 msgstr "செயலி (? CPUS)"
 
-#: src/view/container_resources.rs:105 src/view/container_resources.rs:141
-#: src/view/container_resources.rs:146 src/view/container_resources.rs:150
-#: src/view/container_resources.rs:154
+#: src/view/container_resources.rs:105 src/view/container_resources.rs:130
+#: src/view/container_resources.rs:139 src/view/container_resources.rs:144
+#: src/view/container_resources.rs:148
 msgid "?"
 msgstr "?"
 
@@ -1781,12 +1867,12 @@ msgstr "?"
 msgid "{} %"
 msgstr "{} %"
 
-#: src/view/container_resources.rs:135
+#: src/view/container_resources.rs:133
 #, rust-format
 msgid "{} / {} ({} %)"
 msgstr "{} / {} ({} %)"
 
-#: src/view/container_row.blp:26
+#: src/view/container_row.blp:27
 #, fuzzy
 msgid "Select container"
 msgstr "{} தேர்ந்தெடுக்கப்பட்ட கொள்கலன்"
@@ -1822,33 +1908,54 @@ msgid ""
 "Control+Minus, or Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/container_terminal.rs:460
+#: src/view/container_terminal.rs:459
 msgid "Terminal error"
 msgstr "முனைய பிழை"
+
+#: src/view/container_terminal_page.blp:18
+#: src/view/container_terminal_page.blp:38
+msgid "Container Terminal"
+msgstr "கொள்கலன் முனையம்"
 
 #: src/view/container_terminal_page.blp:27
 #: src/view/container_terminal_page.blp:30
 msgid "Detach Terminal"
 msgstr "முனையத்தைப் பிரிக்கவும்"
 
-#: src/view/container_terminal_page.blp:38
-msgid "Container Terminal"
-msgstr "கொள்கலன் முனையம்"
-
-#: src/view/containers_count_bar.blp:25
+#: src/view/container_terminal_page.blp:46
+#: src/view/container_terminal_page.blp:49
 #, fuzzy
-msgid "Dead Containers"
-msgstr "கொள்கலன்கள்"
+msgid "Terminal Options"
+msgstr "கத்தரிக்காய் விருப்பங்கள்"
 
-#: src/view/containers_count_bar.blp:47
-#, fuzzy
-msgid "Not Running Containers"
-msgstr "இயங்கும் கொள்கலன்களை மட்டும் காட்டு"
+#: src/view/container_volume_row.blp:6
+msgid "_Open Host Path in File Manager"
+msgstr ""
 
-#: src/view/containers_count_bar.blp:69
+#: src/view/container_volume_row.blp:14
 #, fuzzy
-msgid "Running Containers"
-msgstr "இயங்கும் கொள்கலன்களை மட்டும் காட்டு"
+msgid "Copy _Host Path"
+msgstr "புரவலன் பாதை"
+
+#: src/view/container_volume_row.blp:19
+#, fuzzy
+msgid "Copy _Container Path"
+msgstr "கொள்கலன் பாதை"
+
+#: src/view/container_volume_row.blp:78 src/view/container_volume_row.blp:82
+#, fuzzy
+msgid "Volume Actions"
+msgstr "தொகுதி ஆய்வு"
+
+#: src/view/containers_group.blp:8
+#, fuzzy
+msgid "Add Container"
+msgstr "சரக்குப் பெட்டகம்"
+
+#: src/view/containers_panel.blp:6 src/view/images_panel.blp:29
+#: src/view/pods_panel.blp:6 src/view/volumes_panel.blp:6
+msgid "Sort"
+msgstr ""
 
 #: src/view/containers_panel.blp:23 src/view/pods_panel.blp:23
 #, fuzzy
@@ -1862,7 +1969,8 @@ msgstr "_ தெரியும்"
 
 #: src/view/containers_panel.blp:36 src/view/images_panel.blp:58
 #: src/view/pods_panel.blp:36 src/view/volumes_panel.blp:35
-msgid "Select None"
+#, fuzzy
+msgid "Select _None"
 msgstr "எதுவுமில்லை என்பதைத் தேர்ந்தெடுக்கவும்"
 
 #: src/view/containers_panel.blp:54 src/view/containers_panel.blp:57
@@ -1873,56 +1981,78 @@ msgstr "ப்ரூன் நிறுத்தப்பட்ட கொள்�
 msgid "Toggle View"
 msgstr ""
 
-#: src/view/containers_panel.blp:100
+#: src/view/containers_panel.blp:70 src/view/images_panel.blp:85
+#: src/view/pods_panel.blp:62 src/view/volumes_panel.blp:61
+#, fuzzy
+msgid "Toggle Sort Direction"
+msgstr "புரவலன் கோப்பகத்தைத் தேர்ந்தெடுக்கவும்"
+
+#: src/view/containers_panel.blp:71 src/view/images_panel.blp:86
+#: src/view/pods_panel.blp:63 src/view/scalable_text_view_page.blp:56
+#: src/view/scalable_text_view_page.blp:59 src/view/volumes_panel.blp:62
+#, fuzzy
+msgid "View Options"
+msgstr "விருப்பங்கள்"
+
+#: src/view/containers_panel.blp:102
 #, fuzzy
 msgid "Loading containers"
 msgstr "கொள்கலன்களை ஏற்றுவதில் பிழை"
 
-#: src/view/containers_panel.blp:142 src/view/containers_panel.blp:145
-#: src/view/images_panel.blp:156 src/view/images_panel.blp:159
-#: src/view/pods_panel.blp:134 src/view/pods_panel.blp:137
-#: src/view/volumes_panel.blp:133 src/view/volumes_panel.blp:136
+#: src/view/containers_panel.blp:144 src/view/containers_panel.blp:147
+#: src/view/images_panel.blp:158 src/view/images_panel.blp:161
+#: src/view/pods_panel.blp:136 src/view/pods_panel.blp:139
+#: src/view/volumes_panel.blp:135 src/view/volumes_panel.blp:138
 #, fuzzy
 msgid "Start Multi-Selection"
 msgstr "பல தேர்வு"
 
-#: src/view/containers_panel.blp:171
+#: src/view/containers_panel.blp:173
 #, fuzzy
 msgid "Selected containers"
 msgstr "{} தேர்ந்தெடுக்கப்பட்ட கொள்கலன்"
 
-#: src/view/containers_panel.blp:180 src/view/containers_panel.blp:183
-#: src/view/images_panel.blp:191 src/view/images_panel.blp:194
-#: src/view/pods_panel.blp:169 src/view/pods_panel.blp:172
-#: src/view/volumes_panel.blp:168 src/view/volumes_panel.blp:171
+#: src/view/containers_panel.blp:182 src/view/containers_panel.blp:185
+#: src/view/images_panel.blp:193 src/view/images_panel.blp:196
+#: src/view/pods_panel.blp:171 src/view/pods_panel.blp:174
+#: src/view/volumes_panel.blp:170 src/view/volumes_panel.blp:173
 #, fuzzy
 msgid "Exit Multi-Selection"
 msgstr "பல தேர்வு"
 
-#: src/view/containers_panel.blp:212
+#: src/view/containers_panel.blp:214
 #, fuzzy
 msgid "No Matching Containers"
 msgstr "இயங்கும் கொள்கலன்கள் இல்லை"
 
-#: src/view/containers_panel.blp:222
+#: src/view/containers_panel.blp:215
+msgid "All containers are hidden by the current filter"
+msgstr ""
+
+#: src/view/containers_panel.blp:225
 msgid "_Show All Containers"
 msgstr "_ அனைத்து கொள்கலன்களையும் மாற்றவும்"
 
-#: src/view/containers_panel.blp:296
+#: src/view/containers_panel.blp:299
 #, fuzzy
 msgid "Start or resume selected containers"
 msgstr "கொள்கலனைத் தொடங்க/மீண்டும் தொடங்குங்கள்"
 
-#: src/view/containers_panel.blp:316
+#: src/view/containers_panel.blp:319
 #, fuzzy
 msgid "Stop selected containers"
 msgstr "{} தேர்ந்தெடுக்கப்பட்ட கொள்கலன்"
 
-#: src/view/containers_panel.blp:395
+#: src/view/containers_panel.blp:398
 msgid "No Containers Available"
 msgstr "கொள்கலன்கள் எதுவும் கிடைக்கவில்லை"
 
-#: src/view/containers_panel.blp:405
+#: src/view/containers_panel.blp:399
+#, fuzzy
+msgid "Create a container to get started"
+msgstr "தொடங்குவதற்கு போட்மேனுடன் ஒரு புதிய இணைப்பை உருவாக்கவும்"
+
+#: src/view/containers_panel.blp:409
 msgid "_Create Container"
 msgstr "_ கொள்கலன்"
 
@@ -1941,29 +2071,31 @@ msgid_plural "{} containers total, {} running"
 msgstr[0] "{} கொள்கலன் மொத்தம், {} இயங்குகிறது"
 msgstr[1] "{} கொள்கலன்கள் மொத்தம், {} இயங்கும்"
 
-#: src/view/containers_panel.rs:395
+#: src/view/containers_panel.rs:396
 #, rust-format
 msgid "{} Selected Container"
 msgid_plural "{} Selected Containers"
 msgstr[0] "{} தேர்ந்தெடுக்கப்பட்ட கொள்கலன்"
 msgstr[1] "{} தேர்ந்தெடுக்கப்பட்ட கொள்கலன்கள்"
 
-#: src/view/containers_panel.rs:520
+#: src/view/containers_panel.rs:509
 msgid "List View"
 msgstr ""
 
-#: src/view/containers_panel.rs:527
+#: src/view/containers_panel.rs:516
 msgid "Grid View"
 msgstr ""
 
-#: src/view/containers_panel.rs:957
-msgid "Confirm Forced Deletion of Multiple Containers"
-msgstr "பல கொள்கலன்களை கட்டாயமாக நீக்குவதை உறுதிப்படுத்தவும்"
+#: src/view/containers_panel.rs:953
+#, fuzzy
+msgid "Delete Selected Containers?"
+msgstr "{} தேர்ந்தெடுக்கப்பட்ட கொள்கலன்"
 
-#: src/view/containers_panel.rs:960
+#: src/view/containers_panel.rs:956
+#, fuzzy
 msgid ""
 "All the data created inside the containers will be lost and running "
-"containers will be stopped!"
+"containers will be stopped"
 msgstr ""
 "கொள்கலன்களுக்குள் உருவாக்கப்பட்ட எல்லா தரவுகளும் தொலைந்து போகும் மற்றும் இயங்கும் கொள்கலன்கள் "
 "நிறுத்தப்படும்!"
@@ -1972,23 +2104,23 @@ msgstr ""
 #: src/view/images_prune_action_view.rs:67
 #: src/view/volumes_prune_action_view.rs:67
 #, fuzzy, rust-format
-msgid "Space Reclaimed: <b>{}</b>"
+msgid "Space reclaimed: <b>{}</b>"
 msgstr "புதிய கொள்கலனைத் தொடங்கவும் <b> {} </b>"
 
-#: src/view/containers_prune_opts_dialog.blp:38
-#: src/view/images_prune_opts_dialog.blp:38
-#: src/view/pods_prune_opts_dialog.blp:38
-#: src/view/volumes_prune_opts_dialog.blp:38
+#: src/view/containers_prune_opts_dialog.blp:37
+#: src/view/images_prune_opts_dialog.blp:37
+#: src/view/pods_prune_opts_dialog.blp:37
+#: src/view/volumes_prune_opts_dialog.blp:37
 msgid "_Prune"
 msgstr "_ பிரூன்"
 
-#: src/view/containers_prune_opts_dialog.blp:45
-#: src/view/images_prune_opts_dialog.blp:45
-#: src/view/volumes_prune_opts_dialog.blp:47
+#: src/view/containers_prune_opts_dialog.blp:44
+#: src/view/images_prune_opts_dialog.blp:44
+#: src/view/volumes_prune_opts_dialog.blp:46
 msgid "Prune Options"
 msgstr "கத்தரிக்காய் விருப்பங்கள்"
 
-#: src/view/containers_prune_opts_dialog.blp:48
+#: src/view/containers_prune_opts_dialog.blp:47
 msgid "Prune containers created before this timestamp"
 msgstr "இந்த நேர முத்திரைக்கு முன் உருவாக்கப்பட்ட கத்தரிக்காய் கொள்கலன்கள்"
 
@@ -2014,35 +2146,36 @@ msgid "mknod"
 msgstr "mknod"
 
 #: src/view/image.rs:25
-msgid "Confirm Image Deletion"
-msgstr "பட நீக்குதலை உறுதிப்படுத்தவும்"
+#, fuzzy
+msgid "Delete Image?"
+msgstr "படத்தை நீக்கு"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/image.rs:28
-#, rust-format
+#: src/view/image.rs:27
+#, fuzzy, rust-format
 msgid ""
-"Image is used by container <b>{}</b>. Deleting the image will also delete "
-"all its associated containers."
+"Image is used by container “{}”. Deleting the image will also delete all its "
+"associated containers."
 msgstr ""
 "படம் கொள்கலன் <b> {} </b> ஆல் பயன்படுத்தப்படுகிறது. படத்தை நீக்குவது அதனுடன் தொடர்புடைய "
 "அனைத்து கொள்கலன்களையும் நீக்கிவிடும்."
 
 #. Translators: The "{}" is a placeholder for the image id.
-#: src/view/image.rs:72
+#: src/view/image.rs:71
 #, fuzzy, rust-format
-msgid "Error on removing image '{}'"
+msgid "Could not remove image “{}”"
 msgstr "படத்தை நீக்குவதில் பிழை '{}'"
 
 #: src/view/image_build_action_view.rs:69
-#: src/view/image_build_opts_dialog.blp:15
+#: src/view/image_build_opts_dialog.blp:16
 msgid "Build Image"
 msgstr "படத்தை உருவாக்குங்கள்"
 
-#: src/view/image_build_opts_dialog.blp:38 src/view/images_panel.blp:21
+#: src/view/image_build_opts_dialog.blp:39
 msgid "_Build"
 msgstr "கட்டு (_B)"
 
-#: src/view/image_build_opts_dialog.blp:48
+#: src/view/image_build_opts_dialog.blp:49
 msgid "Image Name"
 msgstr "படத்தின் பெயர்"
 
@@ -2058,111 +2191,111 @@ msgstr "தேர்ந்தெடுக்கவும்…"
 msgid "Containerfile Path Relative to Build Context Directory"
 msgstr "சூழல் கோப்பகத்தை உருவாக்குவதற்கு தொடர்புடைய கொள்கலன் பாதை"
 
-#: src/view/image_build_opts_dialog.rs:195
+#: src/view/image_build_opts_dialog.rs:185
 msgid "Select Build Context Directory"
 msgstr "உருவாக்க சூழல் கோப்பகத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/image_details_page.blp:7 src/view/image_details_page.blp:15
-msgid "Create Repository Tag"
-msgstr "களஞ்சிய குறிச்சொல்லை உருவாக்கவும்"
+#: src/view/image_details_page.blp:8 src/view/repo_tag_add_dialog.blp:7
+#, fuzzy
+msgid "Add Tag"
+msgstr "லேபிளைச் சேர்க்கவும்"
 
-#: src/view/image_details_page.blp:55 src/view/image_details_page.blp:58
+#: src/view/image_details_page.blp:46 src/view/image_details_page.blp:49
 msgid "Delete Image"
 msgstr "படத்தை நீக்கு"
 
-#: src/view/image_details_page.blp:99
+#: src/view/image_details_page.blp:90
 msgid "Disk Space"
 msgstr "வட்டு இடம்"
 
-#: src/view/image_details_page.blp:115
+#: src/view/image_details_page.blp:107
 msgid "Entry Point"
 msgstr "நுழைவு புள்ளி"
 
-#: src/view/image_details_page.blp:132
+#: src/view/image_details_page.blp:126
 msgid "View all image properties in a structured text form"
 msgstr "கட்டமைக்கப்பட்ட உரை வடிவத்தில் அனைத்து பட பண்புகளையும் காண்க"
 
-#: src/view/image_details_page.blp:144
+#: src/view/image_details_page.blp:138
 msgid "History"
 msgstr "வரலாறு"
 
-#: src/view/image_details_page.blp:145
+#: src/view/image_details_page.blp:139
 msgid "View parent layers of this image"
 msgstr "இந்த படத்தின் பெற்றோர் அடுக்குகளைக் காண்க"
 
-#: src/view/image_details_page.blp:158
-msgid "Repository Tags"
-msgstr "களஞ்சிய குறிச்சொற்கள்"
+#: src/view/image_details_page.blp:152 src/view/image_history_page.rs:172
+msgid "Tags"
+msgstr "குறிச்சொற்கள்"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:201
+#: src/view/image_details_page.rs:200
 #, rust-format
 msgid "{} (Virtual: {})"
 msgstr "{} (மெய்நிகர்: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:209
+#: src/view/image_details_page.rs:208
 #, rust-format
 msgid "{} (Shared: {})"
 msgstr "{} (பகிரப்பட்டது: {})"
 
 #. Translators: "{}" are placeholders for storage space.
-#: src/view/image_details_page.rs:218
+#: src/view/image_details_page.rs:217
 #, rust-format
 msgid "{} (Shared: {}, Virtual: {})"
 msgstr "{} (பகிரப்பட்டது: {}, மெய்நிகர்: {})"
 
-#: src/view/image_details_page.rs:294
-msgid "Error on loading image details"
+#: src/view/image_details_page.rs:283
+#, fuzzy
+msgid "Could not load image details"
 msgstr "பட விவரங்களை ஏற்றுவதில் பிழை"
 
-#: src/view/image_details_page.rs:313
-#, rust-format
-msgid "Image '{}' has been deleted"
+#: src/view/image_details_page.rs:302
+#, fuzzy, rust-format
+msgid "Image “{}” has been deleted"
 msgstr "படம் '{}' நீக்கப்பட்டது"
 
-#: src/view/image_history_page.blp:12
+#: src/view/image_history_page.blp:5 src/view/image_history_page.blp:12
 msgid "Image History"
 msgstr "பட வரலாறு"
 
-#: src/view/image_history_page.blp:29
+#: src/view/image_history_page.blp:24
+#, fuzzy
+msgid "Loading history"
+msgstr "படத்தைப் பதிவிறக்குகிறது"
+
+#: src/view/image_history_page.blp:33
 msgid "History List"
 msgstr "வரலாற்று பட்டியல்"
 
-#: src/view/image_history_page.rs:85
+#: src/view/image_history_page.rs:83
 #, rust-format
 msgid "{} entry"
 msgid_plural "{} entries"
 msgstr[0] "{} நுழைவு"
 msgstr[1] "{} உள்ளீடுகள்"
 
-#: src/view/image_history_page.rs:87
+#: src/view/image_history_page.rs:85
 #, rust-format
 msgid "{} in total"
 msgstr "{} மொத்தத்தில்"
 
-#: src/view/image_history_page.rs:101
-msgid "<None>"
-msgstr "<இல்லை>"
-
-#: src/view/image_history_page.rs:116
+#: src/view/image_history_page.rs:114
 msgid "Unknown Date"
 msgstr "தெரியாத தேதி"
 
-#: src/view/image_history_page.rs:127
+#: src/view/image_history_page.rs:125
 msgid "Unknown size"
 msgstr "தெரியாத அளவு"
 
-#: src/view/image_history_page.rs:144
+#: src/view/image_history_page.rs:142
 msgid "Created by"
 msgstr "உருவாக்கியது"
 
-#: src/view/image_history_page.rs:174
-msgid "Tags"
-msgstr "குறிச்சொற்கள்"
-
-#: src/view/image_history_page.rs:190
-msgid "Error on retrieving history"
+#: src/view/image_history_page.rs:188
+#, fuzzy
+msgid "Could not retrieve history"
 msgstr "வரலாற்றை மீட்டெடுப்பதில் பிழை"
 
 #: src/view/image_menu_button.blp:5 src/view/pod_menu_button.blp:6
@@ -2174,24 +2307,19 @@ msgstr "_ கிரீட் கொள்கலன்…"
 msgid "Image Actions"
 msgstr "பட ஆய்வு"
 
-#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:15
+#: src/view/image_pull_action_view.rs:69 src/view/image_pull_opts_dialog.blp:16
 #, fuzzy
 msgid "Pull Image"
 msgstr "படத்தை தள்ளுங்கள்"
 
-#: src/view/image_pull_opts_dialog.blp:38 src/view/images_panel.blp:16
+#: src/view/image_pull_opts_dialog.blp:39
 msgid "_Pull"
 msgstr ""
 
-#: src/view/image_row.blp:24
+#: src/view/image_row.blp:25
 #, fuzzy
 msgid "Select image"
 msgstr "படத்தைத் தேர்ந்தெடுக்கவும்"
-
-#: src/view/image_row.rs:211
-#, rust-format
-msgid "Image {}"
-msgstr "படம் {}"
 
 #: src/view/image_search_response_row.blp:29
 #: src/view/image_search_response_row.blp:32
@@ -2203,9 +2331,14 @@ msgstr "அதிகாரி"
 msgid "Stars"
 msgstr "தொடங்கு"
 
-#: src/view/image_suggestion_entry_row.rs:149
-msgid "Failed to search for images"
-msgstr "படங்களைத் தேடத் தவறிவிட்டது"
+#: src/view/images_panel.blp:16
+msgid "_Pull…"
+msgstr ""
+
+#: src/view/images_panel.blp:21
+#, fuzzy
+msgid "_Build…"
+msgstr "கட்டு (_B)"
 
 #: src/view/images_panel.blp:65 src/view/images_panel.blp:68
 msgid "Create Image"
@@ -2215,40 +2348,50 @@ msgstr "படத்தை உருவாக்கு"
 msgid "Prune Unused Images"
 msgstr "பயன்படுத்தப்படாத படங்களை கத்தரிக்கவும்"
 
-#: src/view/images_panel.blp:114
+#: src/view/images_panel.blp:116
 #, fuzzy
 msgid "Loading images"
 msgstr "படத்தைப் பதிவிறக்குகிறது"
 
-#: src/view/images_panel.blp:182
+#: src/view/images_panel.blp:184
 #, fuzzy
 msgid "Selected images"
 msgstr "படத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/images_panel.blp:235
+#: src/view/images_panel.blp:237
 #, fuzzy
 msgid "No Matching Images"
 msgstr "குறிக்கப்பட்ட படங்கள் இல்லை"
 
-#: src/view/images_panel.blp:245
+#: src/view/images_panel.blp:238
+msgid "All images are hidden by the current filter"
+msgstr ""
+
+#: src/view/images_panel.blp:248
 msgid "_Show All Images"
 msgstr "_ எல்லா படங்களையும் மாற்றவும்"
 
-#: src/view/images_panel.blp:270
+#: src/view/images_panel.blp:272
 #, fuzzy
 msgid "Delete selected images"
 msgstr "}} தேர்ந்தெடுக்கப்பட்ட படம்"
 
-#: src/view/images_panel.blp:302
+#: src/view/images_panel.blp:304
 msgid "No Images Available"
 msgstr "படங்கள் எதுவும் கிடைக்கவில்லை"
 
-#: src/view/images_panel.blp:330
-msgid "_Download Image"
-msgstr "படத்தைப் பதிவிறக்கவும்"
+#: src/view/images_panel.blp:305
+msgid "Pull or build an image to get started"
+msgstr ""
 
-#: src/view/images_panel.blp:342
-msgid "_Build Image"
+#: src/view/images_panel.blp:333
+#, fuzzy
+msgid "_Pull Image…"
+msgstr "படத்தை தள்ளுங்கள்"
+
+#: src/view/images_panel.blp:345
+#, fuzzy
+msgid "_Build Image…"
 msgstr "_ உருவத்தை உருவாக்குங்கள்"
 
 #: src/view/images_panel.rs:272
@@ -2273,82 +2416,98 @@ msgid_plural "{} Selected Images"
 msgstr[0] "}} தேர்ந்தெடுக்கப்பட்ட படம்"
 msgstr[1] "{} தேர்ந்தெடுக்கப்பட்ட படங்கள்"
 
-#: src/view/images_panel.rs:670
-msgid "Confirm Forced Deletion of Multiple Images"
-msgstr "பல படங்களை கட்டாயமாக நீக்குவதை உறுதிப்படுத்தவும்"
+#: src/view/images_panel.rs:662
+#, fuzzy
+msgid "Delete Selected Images?"
+msgstr "}} தேர்ந்தெடுக்கப்பட்ட படம்"
 
-#: src/view/images_panel.rs:672
+#: src/view/images_panel.rs:664
+#, fuzzy
 msgid ""
 "There may be containers associated with those images, which will also be "
-"removed!"
+"removed"
 msgstr "அந்த படங்களுடன் தொடர்புடைய கொள்கலன்கள் இருக்கலாம், அவை அகற்றப்படும்!"
 
-#: src/view/images_panel.rs:706
-#, rust-format
-msgid "Error on deleting image '{}'"
-msgstr "படத்தை நீக்குவதில் பிழை '{}'"
+#: src/view/images_panel.rs:699
+#, fuzzy, rust-format
+msgid "Could not delete image “{}”"
+msgstr "மொழியை '{}' என அமைக்க முடியவில்லை"
 
-#: src/view/images_prune_opts_dialog.blp:48
-#: src/view/volumes_prune_opts_dialog.blp:50
+#: src/view/images_prune_opts_dialog.blp:47
+#: src/view/volumes_prune_opts_dialog.blp:49
 msgid "Prune All"
 msgstr "அனைத்தையும் கத்தரிக்கவும்"
 
-#: src/view/images_prune_opts_dialog.blp:53
+#: src/view/images_prune_opts_dialog.blp:52
 msgid "Prune External"
 msgstr "வெளிப்புற கத்தரிக்காய்"
 
-#: src/view/images_prune_opts_dialog.blp:63
+#: src/view/images_prune_opts_dialog.blp:53
+#, fuzzy
+msgid ""
+"Remove images even when they are used by external containers (e.g. by build "
+"containers)"
+msgstr ""
+"வெளிப்புற கொள்கலன்களால் பயன்படுத்தப்படும்போது கூட அவற்றை அகற்றவும் (எ.கா., கொள்கலன்களை "
+"உருவாக்குவதன் மூலம்)"
+
+#: src/view/images_prune_opts_dialog.blp:62
 msgid "Prune images created before this timestamp"
 msgstr "இந்த நேர முத்திரைக்கு முன் உருவாக்கப்பட்ட படங்களை கத்தரிக்காய்"
 
-#: src/view/info_panel.blp:40 src/view/info_panel.blp:142
+#: src/view/info_panel.blp:29
+#, fuzzy
+msgid "Loading information"
+msgstr "அகச்சிவப்பு முடக்கு"
+
+#: src/view/info_panel.blp:44 src/view/info_panel.blp:146
 msgid "Version"
 msgstr "பதிப்பு"
 
-#: src/view/info_panel.blp:46
+#: src/view/info_panel.blp:50
 msgid "System"
 msgstr ""
 
-#: src/view/info_panel.blp:53
+#: src/view/info_panel.blp:57
 msgid "Operating System"
 msgstr ""
 
-#: src/view/info_panel.blp:62
+#: src/view/info_panel.blp:66
 msgid "Kernel"
 msgstr ""
 
-#: src/view/info_panel.blp:71
+#: src/view/info_panel.blp:75
 msgid "Architecture"
 msgstr ""
 
-#: src/view/info_panel.blp:80 src/view/pod_create_opts_dialog.blp:98
+#: src/view/info_panel.blp:84 src/view/pod_create_opts_dialog.blp:96
 #: src/view/pod_create_opts_dialog.rs:139 src/view/pod_details_page.blp:242
 msgid "Hostname"
 msgstr "புரவலன்பெயர்"
 
-#: src/view/info_panel.blp:89
-msgid "Cpus"
+#: src/view/info_panel.blp:93
+msgid "CPUs"
 msgstr ""
 
-#: src/view/info_panel.blp:104
+#: src/view/info_panel.blp:108
 msgid "Storage"
 msgstr "சேமிப்பு"
 
-#: src/view/info_panel.blp:111 src/view/info_panel.blp:133
-#: src/view/volume_details_page.blp:105
+#: src/view/info_panel.blp:115 src/view/info_panel.blp:137
+#: src/view/volume_details_page.blp:124
 msgid "Driver"
 msgstr "இயக்கி"
 
-#: src/view/info_panel.blp:120
+#: src/view/info_panel.blp:124
 #, fuzzy
 msgid "Root"
 msgstr "ரூட் ரன்"
 
-#: src/view/info_panel.blp:126
+#: src/view/info_panel.blp:130
 msgid "Cgroup"
 msgstr ""
 
-#: src/view/info_panel.blp:151
+#: src/view/info_panel.blp:155
 #, fuzzy
 msgid "Show Details"
 msgstr "நெற்று விவரங்கள்"
@@ -2386,7 +2545,7 @@ msgid "Bind"
 msgstr "பிணைப்பு"
 
 #: src/view/mount_row.blp:97 src/view/mount_row.blp:107
-#: src/view/volume_details_page.blp:12
+#: src/view/volume_details_page.blp:5 src/view/volume_details_page.blp:12
 msgid "Volume"
 msgstr "தொகுதி"
 
@@ -2395,7 +2554,8 @@ msgid "SELinux"
 msgstr "செலினக்ச்"
 
 #: src/view/mount_row.blp:124
-msgid "No label"
+#, fuzzy
+msgid "No Label"
 msgstr "சிட்டை இல்லை"
 
 #: src/view/mount_row.blp:125
@@ -2406,76 +2566,86 @@ msgstr "பகிரப்பட்டது"
 msgid "Private"
 msgstr "தனிப்பட்ட"
 
-#: src/view/pod.rs:42 src/view/pods_panel.rs:709
-msgid "Error on starting pod"
+#: src/view/pod.rs:42 src/view/pods_panel.rs:697
+#, fuzzy
+msgid "Could not start pod"
 msgstr "நெற்றைத் தொடங்குவதில் பிழை"
 
-#: src/view/pod.rs:43 src/view/pods_panel.rs:741 src/view/pods_panel.rs:768
-msgid "Error on stopping pod"
+#: src/view/pod.rs:43 src/view/pods_panel.rs:730 src/view/pods_panel.rs:758
+#, fuzzy
+msgid "Could not stop pod"
 msgstr "நெற்று நிறுத்துவதில் பிழை"
 
-#: src/view/pod.rs:44 src/view/pods_panel.rs:739
-msgid "Error on killing pod"
+#: src/view/pod.rs:44 src/view/pods_panel.rs:728
+#, fuzzy
+msgid "Could not kill pod"
 msgstr "நெற்றைக் கொல்வதில் பிழை"
 
-#: src/view/pod.rs:45 src/view/pods_panel.rs:795
-msgid "Error on restarting pod"
+#: src/view/pod.rs:45 src/view/pods_panel.rs:786
+#, fuzzy
+msgid "Could not restart pod"
 msgstr "நெற்று மறுதொடக்கம் செய்வதில் பிழை"
 
 #: src/view/pod.rs:46
-msgid "Error on pausing pod"
+#, fuzzy
+msgid "Could not pause pod"
 msgstr "POD ஐ இடைநிறுத்துவதில் பிழை"
 
-#: src/view/pod.rs:47 src/view/pods_panel.rs:694
-msgid "Error on resuming pod"
+#: src/view/pod.rs:47 src/view/pods_panel.rs:682
+#, fuzzy
+msgid "Could not resume pod"
 msgstr "நெற்று மீண்டும் தொடங்குவதில் பிழை"
 
-#: src/view/pod.rs:48 src/view/pods_panel.rs:846
-msgid "Error on deleting pod"
+#: src/view/pod.rs:48 src/view/pods_panel.rs:843
+#, fuzzy
+msgid "Could not delete pod"
 msgstr "நெற்று நீக்குவதில் பிழை"
 
 #: src/view/pod.rs:58
-msgid "Confirm Pod Deletion"
-msgstr "நெற்று நீக்குதலை உறுதிப்படுத்தவும்"
+#, fuzzy
+msgid "Delete Pod?"
+msgstr "நெற்று என்பதைத் தேர்ந்தெடுக்கவும்"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/pod.rs:61
-#, rust-format
+#: src/view/pod.rs:60
+#, fuzzy, rust-format
 msgid ""
-"Pod contains container <b>{}</b>. Deleting the pod will also delete all its "
+"Pod contains container “{}”. Deleting the pod will also delete all its "
 "containers."
 msgstr ""
 "நெற்று கொள்கலன் <b> {} </b> ஐக் கொண்டுள்ளது. நெற்று நீக்குவது அதன் அனைத்து கொள்கலன்களையும் "
 "நீக்கிவிடும்."
 
-#: src/view/pod_create_action_view.rs:69 src/view/pod_create_opts_dialog.blp:15
+#: src/view/pod_create_action_view.rs:69 src/view/pod_create_opts_dialog.blp:16
 #: src/view/pods_panel.blp:44 src/view/pods_panel.blp:47
 msgid "Create Pod"
 msgstr "நெற்று உருவாக்கவும்"
 
-#: src/view/pod_create_opts_dialog.blp:38
-#: src/view/volume_create_opts_dialog.blp:38
+#: src/view/pod_create_opts_dialog.blp:39
+#: src/view/volume_create_opts_dialog.blp:39
 msgid "_Create"
 msgstr "_ கிரேட்"
 
-#: src/view/pod_create_opts_dialog.blp:77
-#: src/view/pod_create_opts_dialog.blp:175
+#: src/view/pod_create_opts_dialog.blp:76
+#: src/view/pod_create_opts_dialog.blp:176
 msgid "Infra"
 msgstr "அகச்சிவப்பு"
 
-#: src/view/pod_create_opts_dialog.blp:102
-msgid "Disable /etc/resolv.conf management"
+#: src/view/pod_create_opts_dialog.blp:100
+#, fuzzy
+msgid "Disable /etc/resolv.conf Management"
 msgstr "/Etc/resolv.conf நிர்வாகத்தை முடக்கு"
 
-#: src/view/pod_create_opts_dialog.blp:110
+#: src/view/pod_create_opts_dialog.blp:108
 msgid "Pod Create Command"
 msgstr "நெற்று கட்டளை உருவாக்கு"
 
-#: src/view/pod_create_opts_dialog.blp:136
+#: src/view/pod_create_opts_dialog.blp:133
 msgid "Devices"
 msgstr "சாதனங்கள்"
 
-#: src/view/pod_create_opts_dialog.blp:146
+#: src/view/pod_create_opts_dialog.blp:143
+#: src/view/pod_create_opts_dialog.blp:147
 msgid "Hosts"
 msgstr "ஓச்ட்கள்"
 
@@ -2511,14 +2681,14 @@ msgstr "இந்த பாட் அடிப்படையில் குப
 msgid "View processes of the pod"
 msgstr "நெற்றின் செயல்முறைகளைக் காண்க"
 
-#: src/view/pod_details_page.rs:259
+#: src/view/pod_details_page.rs:250
 #, fuzzy
-msgid "Error on loading pod details"
+msgid "Could not load pod details"
 msgstr "POD தரவை ஏற்றுவதில் பிழை"
 
-#: src/view/pod_details_page.rs:297
-#, rust-format
-msgid "Pod '{}' has been deleted"
+#: src/view/pod_details_page.rs:288
+#, fuzzy, rust-format
+msgid "Pod “{}” has been deleted"
 msgstr "பாட் '{}' நீக்கப்பட்டது"
 
 #: src/view/pod_menu_button.blp:58 src/view/pod_menu_button.blp:61
@@ -2526,52 +2696,57 @@ msgstr "பாட் '{}' நீக்கப்பட்டது"
 msgid "Pod Actions"
 msgstr "செயல்கள் இல்லை"
 
-#: src/view/pod_row.blp:26
+#: src/view/pod_row.blp:27
 #, fuzzy
 msgid "Select pod"
 msgstr "நெற்று என்பதைத் தேர்ந்தெடுக்கவும்"
-
-#: src/view/pod_row.rs:240
-msgid "Pod Details"
-msgstr "நெற்று விவரங்கள்"
 
 #: src/view/pods_panel.blp:54 src/view/pods_panel.blp:57
 msgid "Prune Stopped Pods"
 msgstr "ப்ரூன் காய்களை நிறுத்தியது"
 
-#: src/view/pods_panel.blp:92
+#: src/view/pods_panel.blp:94
 #, fuzzy
 msgid "Loading pods"
 msgstr "காய்களை ஏற்றுவதில் பிழை"
 
-#: src/view/pods_panel.blp:160
+#: src/view/pods_panel.blp:162
 #, fuzzy
 msgid "Selected pods"
 msgstr "}} தேர்ந்தெடுக்கப்பட்ட பாட்"
 
-#: src/view/pods_panel.blp:213
+#: src/view/pods_panel.blp:215
 #, fuzzy
 msgid "No Matching Pods"
 msgstr "இயங்கும் காய்கள் இல்லை"
 
-#: src/view/pods_panel.blp:223
+#: src/view/pods_panel.blp:216
+msgid "All pods are hidden by the current filter"
+msgstr ""
+
+#: src/view/pods_panel.blp:226
 msgid "_Show All Pods"
 msgstr "_ அனைத்து காய்களையும் மாற்றவும்"
 
-#: src/view/pods_panel.blp:297
+#: src/view/pods_panel.blp:300
 msgid "Start or resume selected pods"
 msgstr ""
 
-#: src/view/pods_panel.blp:317
+#: src/view/pods_panel.blp:320
 #, fuzzy
 msgid "Stop selected pods"
 msgstr "}} தேர்ந்தெடுக்கப்பட்ட பாட்"
 
-#: src/view/pods_panel.blp:393
+#: src/view/pods_panel.blp:396
 msgid "No Pods Available"
 msgstr "காய்கள் எதுவும் கிடைக்கவில்லை"
 
-#: src/view/pods_panel.blp:403
+#: src/view/pods_panel.blp:397
+#, fuzzy
+msgid "Create a pod to get started"
+msgstr "தொடங்குவதற்கு போட்மேனுடன் ஒரு புதிய இணைப்பை உருவாக்கவும்"
+
+#: src/view/pods_panel.blp:407
 msgid "_Create Pod"
 msgstr "_ கிரேட் பாட்"
 
@@ -2597,12 +2772,19 @@ msgid_plural "{} Selected Pods"
 msgstr[0] "}} தேர்ந்தெடுக்கப்பட்ட பாட்"
 msgstr[1] "}} தேர்ந்தெடுக்கப்பட்ட காய்கள்"
 
-#: src/view/pods_panel.rs:813
-msgid "Confirm Forced Deletion of Multiple Pods"
-msgstr "பல காய்களை கட்டாயமாக நீக்குவதை உறுதிப்படுத்தவும்"
+#: src/view/pods_panel.rs:809
+#, fuzzy
+msgid "Delete Selected Pods?"
+msgstr "{} தேர்ந்தெடுக்கப்பட்ட தொகுதி"
 
-#: src/view/pods_panel.rs:815
-msgid "All associated containers will also be removed!"
+#: src/view/pods_panel.rs:811
+#, fuzzy
+msgid "All associated containers will also be removed"
+msgstr "தொடர்புடைய அனைத்து கொள்கலன்களும் அகற்றப்படும்!"
+
+#: src/view/pods_prune_opts_dialog.blp:48
+#, fuzzy
+msgid "All stopped pods will be removed"
 msgstr "தொடர்புடைய அனைத்து கொள்கலன்களும் அகற்றப்படும்!"
 
 #: src/view/port_binding_creation_row.blp:74
@@ -2645,27 +2827,22 @@ msgstr ""
 msgid "Target Port"
 msgstr "புரவலன் துறைமுகம்"
 
-#: src/view/port_binding_row.blp:24
+#: src/view/port_binding_row.blp:25
 #, fuzzy
 msgid "Host"
 msgstr "ஓச்ட்கள்"
 
-#: src/view/port_binding_row.blp:81
+#: src/view/port_binding_row.blp:82 src/view/port_binding_row.blp:85
 msgid "Open in Browser"
 msgstr ""
 
-#: src/view/port_binding_row.rs:184
+#: src/view/port_binding_row.rs:177
 msgid "Invalid URL"
 msgstr ""
 
-#: src/view/port_binding_row.rs:201 src/view/volume_details_page.rs:281
-#, fuzzy
-msgid "Error opening link"
-msgstr "கலைப்பொருளைத் திறப்பதில் பிழை"
-
-#: src/view/repo_tag_add_dialog.blp:7
-msgid "Add Repository Tag"
-msgstr "களஞ்சிய குறிச்சொல்லைச் சேர்க்கவும்"
+#: src/view/port_binding_row.rs:194 src/view/volume.rs:35
+msgid "Could not open link"
+msgstr ""
 
 #: src/view/repo_tag_add_dialog.blp:12
 msgid "_Add"
@@ -2680,85 +2857,102 @@ msgid "Repo tag must contain a colon “:”"
 msgstr "ரெப்போ குறிச்சொல்லில் ஒரு பெருங்குடல் இருக்க வேண்டும் “:”"
 
 #: src/view/repo_tag_push_action_view.rs:71
-#: src/view/repo_tag_push_opts_dialog.blp:33
+#: src/view/repo_tag_push_opts_dialog.blp:34
 msgid "Push Image"
 msgstr "படத்தை தள்ளுங்கள்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:43
+#: src/view/repo_tag_push_opts_dialog.blp:44
 msgid "_Push"
 msgstr "_ புச்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:50
+#: src/view/repo_tag_push_opts_dialog.blp:51
 msgid "Options"
 msgstr "விருப்பங்கள்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:54
+#: src/view/repo_tag_push_opts_dialog.blp:55
 msgid "TLS Verify"
 msgstr "Tls சரிபார்க்கவும்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:55
+#: src/view/repo_tag_push_opts_dialog.blp:56
 msgid "Require TLS verification"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:69
+#: src/view/repo_tag_push_opts_dialog.blp:70
+#: src/view/repo_tag_push_opts_dialog.blp:76
 msgid "Login"
 msgstr "புகுபதிவு"
 
-#: src/view/repo_tag_push_opts_dialog.blp:70
+#: src/view/repo_tag_push_opts_dialog.blp:71
 msgid "Some registries require authentication"
 msgstr "சில பதிவுகளுக்கு ஏற்பு தேவை"
 
-#: src/view/repo_tag_push_opts_dialog.blp:80
+#: src/view/repo_tag_push_opts_dialog.blp:85
 msgid "Authentication"
 msgstr "ஏற்பு"
 
-#: src/view/repo_tag_push_opts_dialog.blp:90
+#: src/view/repo_tag_push_opts_dialog.blp:95
 msgid "Basic"
 msgstr ""
 
-#: src/view/repo_tag_push_opts_dialog.blp:95
-#: src/view/repo_tag_push_opts_dialog.blp:115
+#: src/view/repo_tag_push_opts_dialog.blp:100
+#: src/view/repo_tag_push_opts_dialog.blp:120
 msgid "Token"
 msgstr "கிள்ளாக்கு"
 
-#: src/view/repo_tag_push_opts_dialog.blp:103
+#: src/view/repo_tag_push_opts_dialog.blp:108
 msgid "Username"
 msgstr "பயனர்பெயர்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:109
+#: src/view/repo_tag_push_opts_dialog.blp:114
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
-#: src/view/repo_tag_push_opts_dialog.blp:121
+#: src/view/repo_tag_push_opts_dialog.blp:126
 msgid "Save Credentials"
 msgstr "நற்சான்றிதழ்களைச் சேமிக்கவும்"
 
 #: src/view/repo_tag_push_opts_dialog.rs:172
-msgid "Error on accessing keyring"
+#, fuzzy
+msgid "Could not access keyring"
 msgstr "கெய்ரிங்கை அணுகுவதில் பிழை"
 
-#: src/view/repo_tag_push_opts_dialog.rs:301
-msgid "Error saving credentials"
+#: src/view/repo_tag_push_opts_dialog.rs:296
+#, fuzzy
+msgid "Could not save credentials"
 msgstr "சான்றுகளைச் சேமிக்கும் பிழை"
 
-#: src/view/repo_tag_push_opts_dialog.rs:302
+#: src/view/repo_tag_push_opts_dialog.rs:297
 msgid "Secret Service is not available"
 msgstr "இரகசிய பணி கிடைக்கவில்லை"
 
-#: src/view/repo_tag_row.blp:29 src/view/repo_tag_row.blp:32
-msgid "Pull Latest"
+#: src/view/repo_tag_row.blp:6
+#, fuzzy
+msgid "_Copy to Clipboard"
+msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
+
+#: src/view/repo_tag_row.blp:11
+#, fuzzy
+msgid "_Pull Latest"
 msgstr "அண்மைக் கால இழுத்தல்"
 
-#: src/view/repo_tag_row.blp:43 src/view/repo_tag_row.blp:46
-msgid "Push to Registry"
+#: src/view/repo_tag_row.blp:16
+#, fuzzy
+msgid "P_ush to Registry…"
 msgstr "பதிவேட்டில் தள்ளுங்கள்"
 
-#: src/view/repo_tag_row.blp:57 src/view/repo_tag_row.blp:60
-msgid "Untag"
+#: src/view/repo_tag_row.blp:23
+#, fuzzy
+msgid "_Untag"
 msgstr "அவிழ்த்து"
 
-#: src/view/repo_tag_row.rs:213
-msgid "Error on untagging image"
+#: src/view/repo_tag_row.blp:60 src/view/repo_tag_row.blp:64
+#, fuzzy
+msgid "Tag Actions"
+msgstr "பட ஆய்வு"
+
+#: src/view/repo_tag_row.rs:164
+#, fuzzy
+msgid "Could not untag image"
 msgstr "கட்டமைக்காத படத்தில் பிழை"
 
 #: src/view/scalable_text_view_page.blp:81
@@ -2776,45 +2970,45 @@ msgid ""
 "Control+Plus, Control+Minus, and Control+0 to adjust zoom."
 msgstr ""
 
-#: src/view/scalable_text_view_page.rs:276
+#: src/view/scalable_text_view_page.rs:274
 msgid "Image Inspection"
 msgstr "பட ஆய்வு"
 
-#: src/view/scalable_text_view_page.rs:283
+#: src/view/scalable_text_view_page.rs:281
 msgid "Container Inspection"
 msgstr "கொள்கலன் ஆய்வு"
 
-#: src/view/scalable_text_view_page.rs:284
+#: src/view/scalable_text_view_page.rs:282
 msgid "Container Kube Generation"
 msgstr "கொள்கலன் கியூப் தலைமுறை"
 
-#: src/view/scalable_text_view_page.rs:294
+#: src/view/scalable_text_view_page.rs:292
 msgid "Pod Inspection"
 msgstr "நெற்று ஆய்வு"
 
-#: src/view/scalable_text_view_page.rs:295
+#: src/view/scalable_text_view_page.rs:293
 msgid "Pod Kube Generation"
 msgstr "பாட் கியூப் தலைமுறை"
 
-#: src/view/scalable_text_view_page.rs:302
+#: src/view/scalable_text_view_page.rs:300
 msgid "Volume Inspection"
 msgstr "தொகுதி ஆய்வு"
 
-#: src/view/scalable_text_view_page.rs:309
+#: src/view/scalable_text_view_page.rs:307
 #, fuzzy
 msgid "Detailed Information"
 msgstr "அகச்சிவப்பு முடக்கு"
 
-#: src/view/scalable_text_view_page.rs:337
-#, rust-format
-msgid "Could not set language to '{}'"
+#: src/view/scalable_text_view_page.rs:335
+#, fuzzy, rust-format
+msgid "Could not set language to “{}”"
 msgstr "மொழியை '{}' என அமைக்க முடியவில்லை"
 
-#: src/view/scalable_text_view_page.rs:421
+#: src/view/scalable_text_view_page.rs:419
 msgid "Inspection error"
 msgstr "ஆய்வு பிழை"
 
-#: src/view/scalable_text_view_page.rs:422
+#: src/view/scalable_text_view_page.rs:420
 msgid "Kube generation error"
 msgstr "கியூப் தலைமுறை பிழை"
 
@@ -2822,13 +3016,14 @@ msgstr "கியூப் தலைமுறை பிழை"
 msgid "Start typing to look for results"
 msgstr "முடிவுகளைத் தேட தட்டச்சு செய்யத் தொடங்குங்கள்"
 
-#: src/view/search_panel.blp:32
+#: src/view/search_panel.blp:32 src/widget/suggestion_entry_row.blp:68
 msgid "No Results Found"
 msgstr "முடிவுகள் எதுவும் கிடைக்கவில்லை"
 
 #: src/view/search_panel.blp:33
-msgid "Please retry another term"
-msgstr "மற்றொரு காலத்தை மீண்டும் முயற்சிக்கவும்"
+#, fuzzy
+msgid "Try a different search term"
+msgstr "பட தேடல் காலத்தை உள்ளிடவும்"
 
 #: src/view/shortcuts.blp:6
 msgctxt "shortcut window"
@@ -2836,8 +3031,9 @@ msgid "General"
 msgstr "பொது"
 
 #: src/view/shortcuts.blp:9
+#, fuzzy
 msgctxt "shortcut window"
-msgid "Show Shortcuts"
+msgid "Show shortcuts"
 msgstr "குறுக்குவழிகளைக் காட்டு"
 
 #: src/view/shortcuts.blp:14
@@ -2906,8 +3102,9 @@ msgid "Upload files"
 msgstr "கோப்புகளைப் பதிவேற்றவும்"
 
 #: src/view/shortcuts.blp:78
+#, fuzzy
 msgctxt "shortcut window"
-msgid "Text view"
+msgid "Text View"
 msgstr "உரை பார்வை"
 
 #: src/view/shortcuts.blp:81 src/view/shortcuts.blp:100
@@ -2933,9 +3130,7 @@ msgstr "முனையத்தில்"
 #: src/view/shortcuts.blp:115
 #, fuzzy
 msgctxt "shortcut window"
-msgid ""
-"Copy selection to\n"
-"              clipboard"
+msgid "Copy selection to clipboard"
 msgstr "இடைநிலைப்பலகைக்கு தேர்வை நகலெடுக்கவும்"
 
 #: src/view/shortcuts.blp:120
@@ -2967,8 +3162,9 @@ msgid "Pod Processes"
 msgstr "நெற்று செயல்முறைகள்"
 
 #: src/view/top_page.rs:127
-msgid "USER"
-msgstr "பயனர்"
+#, fuzzy
+msgid "User"
+msgstr "பயனர்பெயர்"
 
 #: src/view/top_page.rs:134
 msgid "PID"
@@ -2983,22 +3179,19 @@ msgid "%CPU"
 msgstr "%CPU"
 
 #: src/view/top_page.rs:155
-msgid "ELAPSED"
-msgstr "கடந்தது"
+msgid "Elapsed"
+msgstr ""
 
 #: src/view/top_page.rs:162
 msgid "TTY"
 msgstr "Tty"
 
 #: src/view/top_page.rs:169
-msgid "TIME"
-msgstr "நேரம்"
+#, fuzzy
+msgid "Time"
+msgstr "நேரம் முடிந்தது"
 
-#: src/view/top_page.rs:176
-msgid "COMMAND"
-msgstr "கட்டளை"
-
-#: src/view/top_page.rs:550
+#: src/view/top_page.rs:540
 msgid "Killing pod processes is not supported"
 msgstr "நெற்று செயல்முறைகளை கொல்வது ஆதரிக்கப்படவில்லை"
 
@@ -3011,35 +3204,35 @@ msgstr "உரையாடல்"
 msgid "Remove Argument"
 msgstr "உரையாடல்"
 
-#: src/view/volume.rs:23
-msgid "Confirm Volume Deletion"
-msgstr "தொகுதி நீக்குதலை உறுதிப்படுத்தவும்"
+#: src/view/volume.rs:50
+#, fuzzy
+msgid "Delete Volume?"
+msgstr "அளவை நீக்கு"
 
 #. Translators: The "{}" is a placeholder for the container name.
-#: src/view/volume.rs:26
-#, rust-format
+#: src/view/volume.rs:52
+#, fuzzy, rust-format
 msgid ""
-"Volume is used by container <b>{}</b>. Deleting the volume will also delete "
-"these containers."
+"Volume is used by container “{}”. Deleting the volume will also delete these "
+"containers."
 msgstr ""
 "தொகுதி கொள்கலன் <b> {} </b> ஆல் பயன்படுத்தப்படுகிறது. அளவை நீக்குவது இந்த "
 "கொள்கலன்களையும் நீக்கிவிடும்."
 
 #. Translators: The "{}" is a placeholder for the volume name.
-#: src/view/volume.rs:52 src/view/volumes_panel.rs:680
-#, rust-format
-msgid "Error on deleting volume '{}'"
+#: src/view/volume.rs:78 src/view/volumes_panel.rs:680
+#, fuzzy, rust-format
+msgid "Could not delete volume “{}”"
 msgstr "'{}' அளவை நீக்குவதில் பிழை"
 
 #: src/view/volume_create_action_view.rs:69
-#: src/view/volume_create_opts_dialog.blp:15 src/view/volumes_group.blp:12
-#: src/view/volumes_group.blp:15 src/view/volumes_panel.blp:43
+#: src/view/volume_create_opts_dialog.blp:16 src/view/volumes_panel.blp:43
 #: src/view/volumes_panel.blp:46
 msgid "Create Volume"
 msgstr "தொகுதியை உருவாக்கவும்"
 
 #: src/view/volume_details_page.blp:29 src/view/volume_details_page.blp:32
-#: src/view/volume_row.blp:77 src/view/volume_row.blp:80
+#: src/view/volume_row.blp:75 src/view/volume_row.blp:78
 msgid "Delete Volume"
 msgstr "அளவை நீக்கு"
 
@@ -3047,26 +3240,26 @@ msgstr "அளவை நீக்கு"
 msgid "Mount Path"
 msgstr "மவுண்ட் பாதை"
 
-#: src/view/volume_details_page.blp:74
-msgid "Open in file manager"
+#: src/view/volume_details_page.blp:80
+msgid "Open in File Manager"
 msgstr ""
 
-#: src/view/volume_details_page.blp:77
+#: src/view/volume_details_page.blp:83
 msgid "Open mount path in file manager"
 msgstr ""
 
-#: src/view/volume_details_page.blp:93
+#: src/view/volume_details_page.blp:112
 #, fuzzy
 msgid "Copy mount path to clipboard"
 msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
 
-#: src/view/volume_details_page.blp:122
+#: src/view/volume_details_page.blp:141
 msgid "View all volume properties in a structured text form"
 msgstr "கட்டமைக்கப்பட்ட உரை வடிவத்தில் அனைத்து தொகுதி பண்புகளையும் காண்க"
 
-#: src/view/volume_details_page.rs:212
-#, rust-format
-msgid "Volume '{}' has been deleted"
+#: src/view/volume_details_page.rs:210
+#, fuzzy, rust-format
+msgid "Volume “{}” has been deleted"
 msgstr "தொகுதி '{}' நீக்கப்பட்டது"
 
 #: src/view/volume_row.blp:25
@@ -3074,15 +3267,10 @@ msgstr "தொகுதி '{}' நீக்கப்பட்டது"
 msgid "Select volume"
 msgstr "தொகுதியைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/volume_row.rs:166
+#: src/view/volume_row.rs:161
 #, rust-format
 msgid "{} old"
 msgstr "{} பழையது"
-
-#: src/view/volume_row.rs:270
-#, rust-format
-msgid "Volume {}"
-msgstr "தொகுதி {}"
 
 #: src/view/volumes_panel.blp:15
 msgid "Age"
@@ -3093,35 +3281,44 @@ msgstr ""
 msgid "Prune Unused Volumes"
 msgstr "பயன்படுத்தப்படாத தொகுதிகளை கத்தரிக்கவும்"
 
-#: src/view/volumes_panel.blp:91
+#: src/view/volumes_panel.blp:93
 #, fuzzy
 msgid "Loading volumes"
 msgstr "தொகுதிகளை ஏற்றுவதில் பிழை"
 
-#: src/view/volumes_panel.blp:159
+#: src/view/volumes_panel.blp:161
 #, fuzzy
 msgid "Selected volumes"
 msgstr "தொகுதியைத் தேர்ந்தெடுக்கவும்"
 
-#: src/view/volumes_panel.blp:212
+#: src/view/volumes_panel.blp:214
 #, fuzzy
 msgid "No Matching Volumes"
 msgstr "தொகுதியை உருவாக்குதல்"
 
-#: src/view/volumes_panel.blp:222
+#: src/view/volumes_panel.blp:215
+msgid "All volumes are hidden by the current filter"
+msgstr ""
+
+#: src/view/volumes_panel.blp:225
 msgid "_Show All Volumes"
 msgstr "_ எல்லா தொகுதிகளையும் மாற்றவும்"
 
-#: src/view/volumes_panel.blp:247
+#: src/view/volumes_panel.blp:249
 #, fuzzy
 msgid "Delete selected volumes"
 msgstr "{} தேர்ந்தெடுக்கப்பட்ட தொகுதி"
 
-#: src/view/volumes_panel.blp:279
+#: src/view/volumes_panel.blp:281
 msgid "No Volumes Available"
 msgstr "எந்த தொகுதிகளும் கிடைக்கவில்லை"
 
-#: src/view/volumes_panel.blp:289
+#: src/view/volumes_panel.blp:282
+#, fuzzy
+msgid "Create a volume to get started"
+msgstr "தொடங்குவதற்கு போட்மேனுடன் ஒரு புதிய இணைப்பை உருவாக்கவும்"
+
+#: src/view/volumes_panel.blp:292
 msgid "_Create Volume"
 msgstr "_ கிரீட் தொகுதி"
 
@@ -3140,7 +3337,7 @@ msgid_plural "{} volumes total, {} unused"
 msgstr[0] "{} தொகுதிகள் மொத்தம், {} பயன்படுத்தப்படாதது"
 msgstr[1] "{} தொகுதிகள் மொத்தம், {} பயன்படுத்தப்படாவை"
 
-#: src/view/volumes_panel.rs:302
+#: src/view/volumes_panel.rs:303
 #, rust-format
 msgid "{} Selected Volume"
 msgid_plural "{} Selected Volumes"
@@ -3148,20 +3345,22 @@ msgstr[0] "{} தேர்ந்தெடுக்கப்பட்ட தொ�
 msgstr[1] "{} தேர்ந்தெடுக்கப்பட்ட தொகுதிகள்"
 
 #: src/view/volumes_panel.rs:653
-msgid "Confirm Forced Deletion of Multiple Volumes"
-msgstr "பல தொகுதிகளை கட்டாயமாக நீக்குவதை உறுதிப்படுத்தவும்"
+#, fuzzy
+msgid "Delete Selected Volumes?"
+msgstr "{} தேர்ந்தெடுக்கப்பட்ட தொகுதி"
 
 #: src/view/volumes_panel.rs:655
+#, fuzzy
 msgid ""
 "There may be containers associated with some of the volumes, which will also "
-"be removed!"
+"be removed"
 msgstr "சில தொகுதிகளுடன் தொடர்புடைய கொள்கலன்கள் இருக்கலாம், அவை அகற்றப்படும்!"
 
-#: src/view/volumes_prune_opts_dialog.blp:51
+#: src/view/volumes_prune_opts_dialog.blp:50
 msgid "Consider all (local) volumes for pruning and not just anonymous volumes"
 msgstr ""
 
-#: src/view/volumes_prune_opts_dialog.blp:60
+#: src/view/volumes_prune_opts_dialog.blp:59
 msgid "Prune volumes created before this timestamp"
 msgstr "இந்த நேர முத்திரைக்கு முன் உருவாக்கப்பட்ட கத்தரிக்காய் தொகுதிகள்"
 
@@ -3177,9 +3376,24 @@ msgstr "தொடங்குவதற்கு போட்மேனுடன�
 msgid "_New Connection"
 msgstr "_ புதிய இணைப்பு"
 
+#: src/view/window.rs:172 src/view/window.rs:306
+#, fuzzy
+msgid "Connection lost"
+msgstr "இணைப்புகள்"
+
 #: src/view/window.rs:214
-msgid "Confirm Exiting The Application"
-msgstr "விண்ணப்பத்திலிருந்து வெளியேறுவதை உறுதிப்படுத்தவும்"
+#, fuzzy
+msgid "Quit Pods?"
+msgstr "_ விழிப்புணர்வு"
+
+#: src/view/window.rs:215
+#, fuzzy
+msgid "_Quit"
+msgstr "வெளியேறு"
+
+#: src/widget/action_state_indicator.blp:24
+msgid "In progress"
+msgstr ""
 
 #: src/widget/auto_scrolled_window.blp:20
 #: src/widget/auto_scrolled_window.blp:24
@@ -3211,21 +3425,32 @@ msgstr "விசைப்பலகை குறுக்குவழிகள�
 msgid "_About Pods"
 msgstr "_ விழிப்புணர்வு"
 
-#: src/widget/main_menu_button.blp:24
+#: src/widget/main_menu_button.blp:24 src/widget/main_menu_button.blp:27
 msgid "Main Menu"
 msgstr "பட்டியல் விளையாடுங்கள்"
 
 #: src/widget/random_name_entry_row.blp:13
+#: src/widget/random_name_entry_row.blp:17
 msgid "Generate Random Name"
 msgstr ""
 
 #: src/widget/source_view_search_widget.blp:18
-msgid "Previous (Ctrl+Shift+G)"
+#, fuzzy
+msgid "Previous Match (Ctrl+Shift+G)"
 msgstr "முந்தைய (CTRL+SHIFT+G)"
 
-#: src/widget/source_view_search_widget.blp:23
-msgid "Next (Ctrl+G)"
+#: src/widget/source_view_search_widget.blp:21
+msgid "Previous Match"
+msgstr ""
+
+#: src/widget/source_view_search_widget.blp:28
+#, fuzzy
+msgid "Next Match (Ctrl+G)"
 msgstr "அடுத்து (ctrl+g)"
+
+#: src/widget/source_view_search_widget.blp:32
+msgid "Next Match"
+msgstr ""
 
 #: src/widget/source_view_search_widget.rs:160
 #, fuzzy, rust-format
@@ -3237,15 +3462,19 @@ msgstr "{Of of இன் 0"
 msgid "{} of {}"
 msgstr "{} of}"
 
-#: src/widget/text_search_entry.blp:32
+#: src/widget/suggestion_entry_row.blp:69
+msgid "Try a different term"
+msgstr ""
+
+#: src/widget/text_search_entry.blp:32 src/widget/text_search_entry.blp:36
 msgid "Regular Expression"
 msgstr "வழக்கமான வெளிப்பாடு"
 
-#: src/widget/text_search_entry.blp:39
+#: src/widget/text_search_entry.blp:43 src/widget/text_search_entry.blp:47
 msgid "Case Sensitive"
 msgstr "வழக்கு உணர்திறன்"
 
-#: src/widget/text_search_entry.blp:46
+#: src/widget/text_search_entry.blp:54 src/widget/text_search_entry.blp:58
 msgid "Whole Word"
 msgstr "முழு சொல்"
 
@@ -3263,6 +3492,159 @@ msgstr "பெரிதாக்கு மீட்டமைக்கவும�
 #, fuzzy
 msgid "Zoom In"
 msgstr "பெரிதாக்கு"
+
+#~ msgid "Manage your Podman containers"
+#~ msgstr "உங்கள் போட்மேன் கொள்கலன்களை நிர்வகிக்கவும்"
+
+#~ msgid "Gnome;GTK;libadwaita;Podman;Containerization;"
+#~ msgstr "Gnome; gtk; லிபாட்வைதா; போட்மேன்; கொள்கலன்;"
+
+#, fuzzy
+#~ msgid ""
+#~ "Pods is a frontend for Podman/Docker. It uses libadwaita for its user "
+#~ "interface and strives to meet the design principles of GNOME."
+#~ msgstr ""
+#~ "போட்மேன் போட்மேனுக்கு ஒரு முன்புறம். இது அதன் பயனர் இடைமுகத்திற்கு லிபாட்வைட்டாவைப் "
+#~ "பயன்படுத்துகிறது மற்றும் க்னோமின் வடிவமைப்புக் கொள்கைகளை நிறைவு செய்ய முயற்சிக்கிறது."
+
+#~ msgid "Action"
+#~ msgstr "செயல்"
+
+#, fuzzy, rust-format
+#~ msgid "Commit <b>{}</b>"
+#~ msgstr "படம் <b> {} </b> ({})"
+
+#, fuzzy
+#~ msgid "Commit container"
+#~ msgstr "கொள்கலன் செய்யுங்கள்"
+
+#, fuzzy, rust-format
+#~ msgid "Create <b>{}</b>"
+#~ msgstr "பாட் <b> {} </b> ஐ உருவாக்கவும்"
+
+#, fuzzy, rust-format
+#~ msgid "Build <b>{}</b>"
+#~ msgstr "படத்தை உருவாக்கு <b> {} </b>"
+
+#, fuzzy, rust-format
+#~ msgid "Pull <b>{}</b>"
+#~ msgstr "படத்தை இழுக்க <b> {} </b>"
+
+#, fuzzy, rust-format
+#~ msgid "Push <b>{}</b>"
+#~ msgstr "படத்தை தள்ளுங்கள் <b> {} </b>"
+
+#~ msgid "_Confirm"
+#~ msgstr "_உறுதி"
+
+#~ msgid "Confirm Switching Connection"
+#~ msgstr "மாறுதல் இணைப்பை உறுதிப்படுத்தவும்"
+
+#~ msgid "Error renaming container"
+#~ msgstr "கொள்கலன் மறுபெயரிடுதல்"
+
+#~ msgid "Error on stopping container"
+#~ msgstr "கொள்கலனை நிறுத்துவதில் பிழை"
+
+#, rust-format
+#~ msgid "Container {}"
+#~ msgstr "கொள்கலன் {}"
+
+#~ msgid "Repo"
+#~ msgstr "களஞ்சி"
+
+#, fuzzy
+#~ msgid "Menu"
+#~ msgstr "பட்டியல் விளையாடுங்கள்"
+
+#~ msgid "Error while following log"
+#~ msgstr "பதிவைப் பின்தொடரும் போது பிழை"
+
+#~ msgid "Error starting container"
+#~ msgstr "தொடக்க கொள்கலன்"
+
+#~ msgid "Error resuming container"
+#~ msgstr "தொடர கொள்கலன் பிழை"
+
+#, fuzzy
+#~ msgid "Copy to clipboard"
+#~ msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
+
+#~ msgid "Confirm Forced Deletion of Multiple Containers"
+#~ msgstr "பல கொள்கலன்களை கட்டாயமாக நீக்குவதை உறுதிப்படுத்தவும்"
+
+#~ msgid "Confirm Image Deletion"
+#~ msgstr "பட நீக்குதலை உறுதிப்படுத்தவும்"
+
+#~ msgid "Create Repository Tag"
+#~ msgstr "களஞ்சிய குறிச்சொல்லை உருவாக்கவும்"
+
+#~ msgid "Repository Tags"
+#~ msgstr "களஞ்சிய குறிச்சொற்கள்"
+
+#~ msgid "<None>"
+#~ msgstr "<இல்லை>"
+
+#, rust-format
+#~ msgid "Image {}"
+#~ msgstr "படம் {}"
+
+#~ msgid "Failed to search for images"
+#~ msgstr "படங்களைத் தேடத் தவறிவிட்டது"
+
+#~ msgid "_Download Image"
+#~ msgstr "படத்தைப் பதிவிறக்கவும்"
+
+#~ msgid "Confirm Forced Deletion of Multiple Images"
+#~ msgstr "பல படங்களை கட்டாயமாக நீக்குவதை உறுதிப்படுத்தவும்"
+
+#, rust-format
+#~ msgid "Error on deleting image '{}'"
+#~ msgstr "படத்தை நீக்குவதில் பிழை '{}'"
+
+#~ msgid "Confirm Pod Deletion"
+#~ msgstr "நெற்று நீக்குதலை உறுதிப்படுத்தவும்"
+
+#~ msgid "Pod Details"
+#~ msgstr "நெற்று விவரங்கள்"
+
+#~ msgid "Confirm Forced Deletion of Multiple Pods"
+#~ msgstr "பல காய்களை கட்டாயமாக நீக்குவதை உறுதிப்படுத்தவும்"
+
+#, fuzzy
+#~ msgid "Error opening link"
+#~ msgstr "கலைப்பொருளைத் திறப்பதில் பிழை"
+
+#~ msgid "Add Repository Tag"
+#~ msgstr "களஞ்சிய குறிச்சொல்லைச் சேர்க்கவும்"
+
+#~ msgid "Please retry another term"
+#~ msgstr "மற்றொரு காலத்தை மீண்டும் முயற்சிக்கவும்"
+
+#~ msgid "USER"
+#~ msgstr "பயனர்"
+
+#~ msgid "ELAPSED"
+#~ msgstr "கடந்தது"
+
+#~ msgid "TIME"
+#~ msgstr "நேரம்"
+
+#~ msgid "COMMAND"
+#~ msgstr "கட்டளை"
+
+#~ msgid "Confirm Volume Deletion"
+#~ msgstr "தொகுதி நீக்குதலை உறுதிப்படுத்தவும்"
+
+#, rust-format
+#~ msgid "Volume {}"
+#~ msgstr "தொகுதி {}"
+
+#~ msgid "Confirm Forced Deletion of Multiple Volumes"
+#~ msgstr "பல தொகுதிகளை கட்டாயமாக நீக்குவதை உறுதிப்படுத்தவும்"
+
+#~ msgid "Confirm Exiting The Application"
+#~ msgstr "விண்ணப்பத்திலிருந்து வெளியேறுவதை உறுதிப்படுத்தவும்"
 
 #~ msgid "Container Path ('/' if empty)"
 #~ msgstr "கொள்கலன் பாதை ('/' காலியாக இருந்தால்)"
@@ -4412,9 +4794,6 @@ msgstr "பெரிதாக்கு"
 #~ msgid "Upload <b>{}</b> to <b>{}:{}</b>"
 #~ msgstr "<b> {} </b> ஐ <b> {}: {} </b> ஐப் பதிவேற்றவும்"
 
-#~ msgid "Tar archive created"
-#~ msgstr "தார் காப்பகம் உருவாக்கப்பட்டது"
-
 #~ msgid "Tar archive unwrapped"
 #~ msgstr "தார் காப்பகம் அவிழ்க்கப்படவில்லை"
 
@@ -4620,23 +4999,14 @@ msgstr "பெரிதாக்கு"
 #~ msgid "Add Argument"
 #~ msgstr "வாதத்தைச் சேர்க்கவும்"
 
-#~ msgid "Failed to create container"
-#~ msgstr "கொள்கலனை உருவாக்குவதில் தோல்வி"
-
 #~ msgid "no image selected"
 #~ msgstr "எந்த படமும் தேர்ந்தெடுக்கப்படவில்லை"
-
-#~ msgid "Download Files"
-#~ msgstr "கோப்புகளைப் பதிவிறக்கவும்"
 
 #~ msgid "_Download"
 #~ msgstr "பதிவிறக்குங்கள்"
 
 #~ msgid "Select Host Destination Path"
 #~ msgstr "புரவலன் இலக்கு பாதையைத் தேர்ந்தெடுக்கவும்"
-
-#~ msgid "Upload Files"
-#~ msgstr "கோப்புகளைப் பதிவேற்றவும்"
 
 #~ msgid "_Upload"
 #~ msgstr "_Upload"
@@ -4653,9 +5023,6 @@ msgstr "பெரிதாக்கு"
 
 #~ msgid "No Pod Available"
 #~ msgstr "நெற்று கிடைக்கவில்லை"
-
-#~ msgid "Select Pod"
-#~ msgstr "நெற்று என்பதைத் தேர்ந்தெடுக்கவும்"
 
 #, fuzzy
 #~ msgid "Filter pods"
@@ -4716,9 +5083,6 @@ msgstr "பெரிதாக்கு"
 #~ msgid "Select Tag"
 #~ msgstr "குறிச்சொல்லைத் தேர்ந்தெடுக்கவும்"
 
-#~ msgid "Enter image search term"
-#~ msgstr "பட தேடல் காலத்தை உள்ளிடவும்"
-
 #~ msgid "Next"
 #~ msgstr "அடுத்தது"
 
@@ -4733,9 +5097,6 @@ msgstr "பெரிதாக்கு"
 
 #~ msgid "_Prune Unused Images"
 #~ msgstr "_ பயன்படுத்தப்படாத படங்கள்"
-
-#~ msgid "Show Only Tagged Images"
-#~ msgstr "குறிக்கப்பட்ட படங்களை மட்டும் காட்டு"
 
 #~ msgid "{} Container"
 #~ msgid_plural "{} Containers"
