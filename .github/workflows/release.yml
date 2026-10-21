@@ -4,8 +4,46 @@ on:
   workflow_dispatch:
 
 jobs:
+  appimage:
+    name: AppImage (${{ matrix.arch }})
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        include:
+          - runs-on: ubuntu-latest
+            arch: x86_64
+            container: archlinux:base-devel
+          - runs-on: ubuntu-24.04-arm
+            arch: aarch64
+            # the official archlinux image is x86_64 only
+            container: ghcr.io/pkgforge-dev/archlinux:latest
+    container: ${{ matrix.container }}
+    steps:
+      - name: Checkout selected tag
+        uses: actions/checkout@v4
+
+      - name: Set up AppImage tools
+        uses: pkgforge-dev/anylinux-setup-action@v6
+        env:
+          QUICK_SHARUN: https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/c9079a3c4a2af6ff86262dbbd794753aa0c38768/useful-tools/quick-sharun.sh
+          DEBLOATED_PACKAGES: https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/c9079a3c4a2af6ff86262dbbd794753aa0c38768/useful-tools/get-debloated-pkgs.sh
+          MAKE_AUR_PACKAGE: https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/c9079a3c4a2af6ff86262dbbd794753aa0c38768/useful-tools/make-aur-package.sh
+
+      - name: Install dependencies
+        run: build-aux/appimage/get-dependencies.sh
+
+      - name: Build AppImage
+        run: build-aux/appimage/make-appimage.sh
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: appimage-${{ matrix.arch }}
+          path: dist/*.AppImage*
+
   release:
     name: Release
+    needs: appimage
     runs-on: ubuntu-latest
     steps:
       - name: Checkout selected tag
@@ -39,6 +77,13 @@ jobs:
           xmllint --xpath '//release[1]/description' data/com.github.marhkb.Pods.metainfo.xml.in.in | xmllint --format - >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
+      - name: Download AppImages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: appimage-*
+          merge-multiple: true
+          path: dist
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
@@ -49,3 +94,4 @@ jobs:
           files: |
             pods-${{ github.ref_name }}.tar.xz
             pods-${{ github.ref_name }}.tar.xz.sha256sum
+            dist/*
