@@ -69,8 +69,8 @@ pub(crate) enum SortDirection {
 #[enum_type(name = "PdsImagesPanelSortAttribute")]
 pub(crate) enum SortAttribute {
     #[default]
-    #[enum_value(nick = "name")]
-    Name,
+    #[enum_value(nick = "id")]
+    Id,
     #[enum_value(nick = "tag")]
     Tag,
     #[enum_value(nick = "containers")]
@@ -88,6 +88,7 @@ mod imp {
         pub(super) filter: OnceCell<gtk::Filter>,
         pub(super) sorter: OnceCell<gtk::Sorter>,
         pub(super) search_term: RefCell<String>,
+
         #[property(get, set = Self::set_image_list, nullable)]
         pub(super) image_list: glib::WeakRef<model::ImageList>,
         #[property(get, set)]
@@ -96,6 +97,7 @@ mod imp {
         pub(super) sort_direction: RefCell<SortDirection>,
         #[property(get, set, builder(SortAttribute::default()))]
         pub(super) sort_attribute: RefCell<SortAttribute>,
+
         #[template_child]
         pub(super) create_image_menu_button: TemplateChild<gtk::MenuButton>,
         #[template_child]
@@ -349,7 +351,7 @@ mod imp {
                     let image2 = item2.downcast_ref::<model::Image>().unwrap();
 
                     let ordering = match obj.sort_attribute() {
-                        SortAttribute::Name => {
+                        SortAttribute::Id => {
                             image1.id().to_lowercase().cmp(&image2.id().to_lowercase())
                         }
                         SortAttribute::Tag => image1
@@ -455,7 +457,7 @@ mod imp {
                         clone!(
                             #[weak]
                             obj,
-                            move || if obj.sort_attribute() == SortAttribute::Name {
+                            move || if obj.sort_attribute() == SortAttribute::Id {
                                 obj.imp().update_sorter();
                             }
                         ),
