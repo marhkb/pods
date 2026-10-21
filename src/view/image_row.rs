@@ -112,18 +112,12 @@ mod imp {
             .bind(&*self.id_label, "label", Some(obj));
 
             let css_classes = utils::css_classes(&*self.id_label);
-            image_expr
-                .chain_property::<model::Image>("repo-tags")
-                .chain_property::<model::RepoTagList>("len")
+            repo_tags_len_expr
                 .map(move |len: u32| {
                     css_classes
                         .iter()
                         .cloned()
-                        .chain(if len == 0 {
-                            Some(String::from("dim-label"))
-                        } else {
-                            None
-                        })
+                        .chain(Some(if len == 0 { "title" } else { "subtitle" }.to_owned()))
                         .collect::<Vec<_>>()
                 })
                 .bind(&*self.id_label, "css-classes", Some(obj));

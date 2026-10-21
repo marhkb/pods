@@ -6,7 +6,7 @@ template $PdsRepoTagSimpleRow: ListBoxRow {
   selectable: false;
 
   Box {
-    spacing: 3;
+    spacing: 5;
 
     Image {
       styles [
@@ -15,14 +15,14 @@ template $PdsRepoTagSimpleRow: ListBoxRow {
 
       accessible-role: presentation;
       icon-name: "tag-symbolic";
-      margin-top: 2;
-      pixel-size: 10;
+      margin-top: 3;
+      pixel-size: 12;
       valign: start;
     }
 
     Label {
       styles [
-        "subtitle",
+        "title",
       ]
 
       label: bind template.repo_tag as <$PdsRepoTag>.full;
