@@ -78,6 +78,8 @@ pub(crate) enum SortAttribute {
 }
 
 mod imp {
+    use std::cmp::Ordering;
+
     use super::*;
 
     #[derive(Debug, Default, Properties, CompositeTemplate)]
@@ -350,24 +352,41 @@ mod imp {
                     let image1 = item1.downcast_ref::<model::Image>().unwrap();
                     let image2 = item2.downcast_ref::<model::Image>().unwrap();
 
-                    let ordering = match obj.sort_attribute() {
-                        SortAttribute::Id => {
-                            image1.id().to_lowercase().cmp(&image2.id().to_lowercase())
-                        }
-                        SortAttribute::Tag => image1
-                            .repo_tags()
-                            .get(0)
-                            .map(|repo_tag| repo_tag.full())
-                            .cmp(&image2.repo_tags().get(0).map(|repo_tag| repo_tag.full())),
-                        SortAttribute::Containers => {
-                            image1.containers().len().cmp(&image2.containers().len())
+                    let sort_by_id = || {
+                        let id1 = image1.id();
+                        let id2 = image2.id();
+
+                        match obj.sort_direction() {
+                            SortDirection::Asc => id1.cmp(&id2),
+                            SortDirection::Desc => id2.cmp(&id1),
                         }
                     };
 
-                    match obj.sort_direction() {
-                        SortDirection::Asc => ordering,
-                        SortDirection::Desc => ordering.reverse(),
+                    match obj.sort_attribute() {
+                        SortAttribute::Id => sort_by_id(),
+                        SortAttribute::Tag => match (
+                            image1.repo_tags().min_by_full(),
+                            image2.repo_tags().min_by_full(),
+                        ) {
+                            (None, None) => Ordering::Equal,
+                            (Some(_), None) => Ordering::Less,
+                            (None, Some(_)) => Ordering::Greater,
+                            (Some(full1), Some(full2)) => match obj.sort_direction() {
+                                SortDirection::Asc => full1.cmp(&full2),
+                                SortDirection::Desc => full2.cmp(&full1),
+                            },
+                        },
+                        SortAttribute::Containers => {
+                            let len1 = image1.containers().len();
+                            let len2 = image2.containers().len();
+
+                            match obj.sort_direction() {
+                                SortDirection::Asc => len1.cmp(&len2),
+                                SortDirection::Desc => len2.cmp(&len1),
+                            }
+                        }
                     }
+                    .then_with(sort_by_id)
                     .into()
                 }
             ));

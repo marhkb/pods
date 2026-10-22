@@ -94,6 +94,15 @@ impl RepoTagList {
             .map(|(_, c)| c.clone())
     }
 
+    pub(crate) fn min_by_full(&self) -> Option<model::RepoTag> {
+        self.imp()
+            .list
+            .borrow()
+            .values()
+            .cloned()
+            .min_by_key(model::RepoTag::full)
+    }
+
     pub(crate) fn contains(&self, lowercase_term: &str) -> bool {
         self.imp()
             .list
