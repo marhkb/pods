@@ -371,10 +371,15 @@ mod imp {
                             (None, None) => Ordering::Equal,
                             (Some(_), None) => Ordering::Less,
                             (None, Some(_)) => Ordering::Greater,
-                            (Some(full1), Some(full2)) => match obj.sort_direction() {
-                                SortDirection::Asc => full1.cmp(&full2),
-                                SortDirection::Desc => full2.cmp(&full1),
-                            },
+                            (Some(repo_tag_1), Some(repo_tag_2)) => {
+                                let full1 = repo_tag_1.full();
+                                let full2 = repo_tag_2.full();
+
+                                match obj.sort_direction() {
+                                    SortDirection::Asc => full1.cmp(&full2),
+                                    SortDirection::Desc => full2.cmp(&full1),
+                                }
+                            }
                         },
                         SortAttribute::Containers => {
                             let len1 = image1.containers().len();
